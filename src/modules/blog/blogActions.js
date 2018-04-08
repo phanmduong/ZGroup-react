@@ -224,31 +224,29 @@ export function getPost(postId) {
         dispatch({
             type: types.BEGIN_LOAD_POST_BLOG,
         });
-        blogApi
-            .getPost(postId)
-            .then(res => {
-                if (res.data.status === 1) {
-                    dispatch({
-                        type: types.LOAD_POST_BLOG_SUCCESS,
-                        post: {
-                            ...res.data.data.post,
-                            category: res.data.data.post.category_id,
-                            imageUrl: res.data.data.post.url,
-                        },
-                    });
-                } else {
-                    helper.showErrorNotification(res.data.message);
-                    dispatch({
-                        type: types.LOAD_POST_BLOG_ERROR,
-                    });
-                }
-            });
-            // .catch(() => {
-            //     helper.showErrorNotification("Có lỗi xảy ra");
-            //     dispatch({
-            //         type: types.LOAD_POST_BLOG_ERROR,
-            //     });
-            // });
+        blogApi.getPost(postId).then(res => {
+            if (res.data.status === 1) {
+                dispatch({
+                    type: types.LOAD_POST_BLOG_SUCCESS,
+                    post: {
+                        ...res.data.data.post,
+                        category: res.data.data.post.category_id,
+                        imageUrl: res.data.data.post.url,
+                    },
+                });
+            } else {
+                helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.LOAD_POST_BLOG_ERROR,
+                });
+            }
+        });
+        // .catch(() => {
+        //     helper.showErrorNotification("Có lỗi xảy ra");
+        //     dispatch({
+        //         type: types.LOAD_POST_BLOG_ERROR,
+        //     });
+        // });
     };
 }
 

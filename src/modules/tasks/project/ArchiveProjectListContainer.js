@@ -64,30 +64,31 @@ class ArchiveProjectListContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Dự án</h4>
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Dự án</strong>
+                                    </h4>
+                                    <div>
+                                        <Link to="/project/list" className="btn btn-primary btn-round btn-xs button-add none-margin">
+                                            <i className="material-icons" style={{fontWeight: "bold", margin:"-1.5px -4px 0px -4px", top:"0px"}}>autorenew</i>
+                                        </Link>
+                                    </div>
+                                </div>
 
-                            <div style={{marginTop: "15px"}}>
-                                <Link to="/project/list" className="btn btn-default">
-                                    Dự án đang chạy
-                                </Link>
-                            </div>
-
-                            <Search
-                                onChange={this.projectsSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
-                            />
-
+                                <Search
+                                    onChange={this.projectsSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
+                                />
+                            </div>    
                             {this.props.isLoadingProjects ? <Loading/> :
                                 <ListProject
                                     changeProjectStatus={this.changeProjectStatus}
                                     deleteProject={this.deleteProject}
-                                    projects={this.props.projects}/>}
+                                    projects={this.props.projects}/>
+                            }
                         </div>
                         <div className="card-content">
                             <ul className="pagination pagination-primary">

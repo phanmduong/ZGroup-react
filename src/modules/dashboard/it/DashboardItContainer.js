@@ -140,201 +140,194 @@ class DashboardItContainer extends React.Component {
                     />
                     <CardDetailModalContainer isProcess={false}/>
                     <div className="card">
-                        <div className="card-header card-header-icon"
-                             style={{
-                                 zIndex: 0
-                             }}
-                             data-background-color="rose">
-                            <i className="material-icons">insert_chart</i>
-                        </div>
                         <div className="card-content">
-                            <h4 className="card-title">
-                                Số lượng điểm và công việc theo ngày
-                            </h4>
-                            {
-                                this.state.isLoading ? <Loading/> : (
-                                    <div className="row">
-                                        <div className="col-md-6 col-lg-4">
-                                            <FormInputDateTime
-                                                format={DATETIME_VN_FORMAT}
-                                                name="from"
-                                                id="from"
-                                                label="Từ ngày"
-                                                value={from}
-                                                updateFormData={this.onFromDateInputChange}/>
-                                        </div>
-                                        <div className="col-md-6 col-lg-4">
-                                            <FormInputDateTime
-                                                name="to"
-                                                format={DATETIME_VN_FORMAT}
-                                                id="to"
-                                                label="Tới ngày"
-                                                value={to}
-                                                updateFormData={this.onToDateInputChange}/>
-                                        </div>
-                                        <div className="col-md-6 col-lg-4"
-                                             style={{height: "91px", marginTop: "20px"}}>
-                                            <label>Nhân viên</label>
-                                            <Select
-                                                placeholder="Tên nhân viên "
-                                                style={{width: "100%"}}
-                                                value={this.state.selectedStaff}
-                                                name="staff"
-                                                valueComponent={MemberReactSelectValue}
-                                                optionComponent={MemberReactSelectOption}
-                                                options={this.state.staffs.map((s) => {
-                                                    return {
-                                                        value: s.id,
-                                                        label: s.name,
-                                                        avatar_url: s.avatar_url
-                                                    };
-                                                })}
-                                                onChange={this.staffSelectChange}
-                                            />
-                                        </div>
-                                        <div className="col-md-6 col-lg-4"
-                                             style={{height: "91px", marginTop: "20px"}}>
-                                            <label>Dự án</label>
-                                            <Select
-                                                placeholder="Tên dự án"
-                                                style={{width: "100%"}}
-                                                value={this.state.selectedProject}
-                                                name="project"
-                                                options={this.state.projects.map((p) => {
-                                                    return {
-                                                        value: p.id,
-                                                        label: p.title,
-                                                    };
-                                                })}
-                                                onChange={this.projectSelectChange}
-                                            />
-                                        </div>
-                                        <div className="col-md-12">
-                                            <button className="btn btn-rose" onClick={this.openCardsModal}>
-                                                Xem danh sách công việc
-                                            </button>
-                                        </div>
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Số lượng điểm và công việc theo ngày</strong>
+                                </h4>
+                                {
+                                    this.state.isLoading ? <Loading/> : (
+                                        <div className="row">
+                                            <div className="col-md-6 col-lg-4">
+                                                <FormInputDateTime
+                                                    format={DATETIME_VN_FORMAT}
+                                                    name="from"
+                                                    id="from"
+                                                    label="Từ ngày"
+                                                    value={from}
+                                                    updateFormData={this.onFromDateInputChange}/>
+                                            </div>
+                                            <div className="col-md-6 col-lg-4">
+                                                <FormInputDateTime
+                                                    name="to"
+                                                    format={DATETIME_VN_FORMAT}
+                                                    id="to"
+                                                    label="Tới ngày"
+                                                    value={to}
+                                                    updateFormData={this.onToDateInputChange}/>
+                                            </div>
+                                            <div className="col-md-6 col-lg-4"
+                                                 style={{height: "91px", marginTop: "20px"}}>
+                                                <label>Nhân viên</label>
+                                                <Select
+                                                    placeholder="Tên nhân viên "
+                                                    style={{width: "100%"}}
+                                                    value={this.state.selectedStaff}
+                                                    name="staff"
+                                                    valueComponent={MemberReactSelectValue}
+                                                    optionComponent={MemberReactSelectOption}
+                                                    options={this.state.staffs.map((s) => {
+                                                        return {
+                                                            value: s.id,
+                                                            label: s.name,
+                                                            avatar_url: s.avatar_url
+                                                        };
+                                                    })}
+                                                    onChange={this.staffSelectChange}
+                                                />
+                                            </div>
+                                            <div className="col-md-6 col-lg-4"
+                                                 style={{height: "91px", marginTop: "20px"}}>
+                                                <label>Dự án</label>
+                                                <Select
+                                                    placeholder="Tên dự án"
+                                                    style={{width: "100%"}}
+                                                    value={this.state.selectedProject}
+                                                    name="project"
+                                                    options={this.state.projects.map((p) => {
+                                                        return {
+                                                            value: p.id,
+                                                            label: p.title,
+                                                        };
+                                                    })}
+                                                    onChange={this.projectSelectChange}
+                                                />
+                                            </div>
+                                            <div className="col-md-12">
+                                                <button className="btn btn-rose" onClick={this.openCardsModal}>
+                                                    Xem danh sách công việc
+                                                </button>
+                                            </div>
 
-                                        <div className="col-sm-12">
-                                            {
-                                                isLoading ? <Loading/> : (
-                                                    <div>
-                                                        <div className="col-lg-4 col-md-4 col-sm-4">
-                                                            <div className="card card-stats">
-                                                                <div className="card-header"
-                                                                     style={{
-                                                                         zIndex: 0
-                                                                     }}
-                                                                     data-background-color="rose">
-                                                                    <i className="material-icons">fiber_manual_record</i>
+                                            <div className="col-sm-12">
+                                                {
+                                                    isLoading ? <Loading/> : (
+                                                        <div>
+                                                            <div className="col-lg-4 col-md-4 col-sm-4">
+                                                                <div className="card card-stats">
+                                                                    <div className="card-header"
+                                                                         style={{
+                                                                             zIndex: 0
+                                                                         }}
+                                                                         data-background-color="rose">
+                                                                        <i className="material-icons">fiber_manual_record</i>
+                                                                    </div>
+                                                                    <div className="card-content">
+                                                                        <p className="category">Tổng số điểm</p>
+                                                                        <h3 className="card-title">
+                                                                            {totalPoint}
+                                                                        </h3>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="card-content">
-                                                                    <p className="category">Tổng số điểm</p>
-                                                                    <h3 className="card-title">
-                                                                        {totalPoint}
-                                                                    </h3>
+                                                            </div>
+                                                            <div className="col-lg-4 col-md-4 col-sm-4">
+                                                                <div className="card card-stats">
+                                                                    <div className="card-header"
+                                                                         style={{
+                                                                             zIndex: 0
+                                                                         }}
+                                                                         data-background-color="green">
+                                                                        <i className="material-icons">credit_card</i>
+                                                                    </div>
+                                                                    <div className="card-content">
+                                                                        <p className="category">Tổng số thẻ</p>
+                                                                        <h3 className="card-title">
+                                                                            {totalCards}
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-lg-4 col-md-4 col-sm-4">
+                                                                <div className="card card-stats">
+                                                                    <div className="card-header"
+                                                                         style={{
+                                                                             zIndex: 0
+                                                                         }}
+                                                                         data-background-color="blue">
+                                                                        <i className="material-icons">gps_not_fixed</i>
+                                                                    </div>
+                                                                    <div className="card-content">
+                                                                        <p className="category">Trung bình</p>
+                                                                        <h3 className="card-title">
+                                                                            {(totalPoint / totalCards).toFixed(2)}
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <PointTaskBarchart
+                                                                label={dateArray}
+                                                                data={[pointByDate, cardsByDate]}
+                                                                id="barchar_task_and_point_by_date"/>
+                                                            <div className="col-sm-12">
+                                                                <div className="table-responsive">
+                                                                    <table className="table">
+                                                                        <thead className="text-primary">
+                                                                        <tr className="text-rose">
+                                                                            <th>Tên nhân viên</th>
+                                                                            <th>Thẻ</th>
+                                                                            <th>Điểm</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        {
+                                                                            staffs && staffs.map((staff, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>
+                                                                                        <Avatar
+                                                                                            style={{display: "inline-block"}}
+                                                                                            url={staff.avatar_url}
+                                                                                            size="20"/>
+                                                                                        <div style={{
+                                                                                            position: "relative",
+                                                                                            display: "inline-block",
+                                                                                            top: -4
+                                                                                        }}>
+                                                                                            {staff.name}
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {staff.num_cards} / {maxNumCard}
+                                                                                        <ProgressBar
+                                                                                            bsStyle="rose"
+                                                                                            now={staff.num_cards * 100 / maxNumCard}
+                                                                                            label={staff.num_cards * 100 / maxNumCard}/>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {staff.total_points} / {maxPoint}
+                                                                                        <ProgressBar
+                                                                                            bsStyle="rose"
+                                                                                            now={staff.total_points * 100 / totalPoint}
+                                                                                            label={staff.total_points * 100 / totalPoint}/>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            ))
+
+                                                                        }
+
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-lg-4 col-md-4 col-sm-4">
-                                                            <div className="card card-stats">
-                                                                <div className="card-header"
-                                                                     style={{
-                                                                         zIndex: 0
-                                                                     }}
-                                                                     data-background-color="green">
-                                                                    <i className="material-icons">credit_card</i>
-                                                                </div>
-                                                                <div className="card-content">
-                                                                    <p className="category">Tổng số thẻ</p>
-                                                                    <h3 className="card-title">
-                                                                        {totalCards}
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-lg-4 col-md-4 col-sm-4">
-                                                            <div className="card card-stats">
-                                                                <div className="card-header"
-                                                                     style={{
-                                                                         zIndex: 0
-                                                                     }}
-                                                                     data-background-color="blue">
-                                                                    <i className="material-icons">gps_not_fixed</i>
-                                                                </div>
-                                                                <div className="card-content">
-                                                                    <p className="category">Trung bình</p>
-                                                                    <h3 className="card-title">
-                                                                        {(totalPoint / totalCards).toFixed(2)}
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <PointTaskBarchart
-                                                            label={dateArray}
-                                                            data={[pointByDate, cardsByDate]}
-                                                            id="barchar_task_and_point_by_date"/>
-                                                        <div className="col-sm-12">
-                                                            <div className="table-responsive">
-                                                                <table className="table">
-                                                                    <thead className="text-primary">
-                                                                    <tr className="text-rose">
-                                                                        <th>Tên nhân viên</th>
-                                                                        <th>Thẻ</th>
-                                                                        <th>Điểm</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {
-                                                                        staffs && staffs.map((staff, index) => (
-                                                                            <tr key={index}>
-                                                                                <td>
-                                                                                    <Avatar
-                                                                                        style={{display: "inline-block"}}
-                                                                                        url={staff.avatar_url}
-                                                                                        size="20"/>
-                                                                                    <div style={{
-                                                                                        position: "relative",
-                                                                                        display: "inline-block",
-                                                                                        top: -4
-                                                                                    }}>
-                                                                                        {staff.name}
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    {staff.num_cards} / {maxNumCard}
-                                                                                    <ProgressBar
-                                                                                        bsStyle="rose"
-                                                                                        now={staff.num_cards * 100 / maxNumCard}
-                                                                                        label={staff.num_cards * 100 / maxNumCard}/>
-                                                                                </td>
-                                                                                <td>
-                                                                                    {staff.total_points} / {maxPoint}
-                                                                                    <ProgressBar
-                                                                                        bsStyle="rose"
-                                                                                        now={staff.total_points * 100 / totalPoint}
-                                                                                        label={staff.total_points * 100 / totalPoint}/>
-                                                                                </td>
-                                                                            </tr>
-                                                                        ))
+                                                    )
+                                                }
+                                            </div>
 
-                                                                    }
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }
                                         </div>
 
-                                    </div>
-
-                                )
-                            }
-
-
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

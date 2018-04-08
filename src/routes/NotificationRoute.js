@@ -1,11 +1,11 @@
-import ListNotificationTypeContainer from "../modules/notificationTypes/NotificationTypeContainer";
+import NotificationTypeContainer from "../modules/notificationTypes/NotificationTypeContainer";
 import SendNotificationContainer from "../modules/sendNotification/HistoryNotificationContainer";
 
 
 export default [
     {
         path: "/notification/notification-types",
-        component: ListNotificationTypeContainer
+        component: NotificationTypeContainer
     },
     {
         path: "/notification/send-notification",

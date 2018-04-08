@@ -12,7 +12,7 @@ import StoreImportContainer from "../modules/importGoods/importGood/StoreImportC
 import ImportContainer from "../modules/importGoods/importGood/ImportContainer";
 import InventoryGoodContainer from "../modules/inventoryGood/InventoryGoodContainer";
 import ProductListContainer from "../modules/productList/ProductListContainer";
-import OrdersContainer from "../modules/goodOrders/OrdersContainer";
+//import OrdersContainer from "../modules/goodOrders/OrdersContainer";
 import OrdersContainerV2 from "../modules/goodOrders.v2.nq/OrdersContainer";
 import OrderContainer from "../modules/goodOrders/order/OrderContainer";
 import CategoriesContainer from "../modules/categories/CategoriesContainer";
@@ -113,12 +113,12 @@ export default [
         path: "/good/goods/products",
         component: ProductListContainer
     },
+    // {
+    //     path: "/good/goods/orders",
+    //     component: OrdersContainer
+    // },
     {
         path: "/good/goods/orders",
-        component: OrdersContainer
-    },
-    {
-        path: "/good/nhatquang/goods/orders",
         component: OrdersContainerV2
     },
     {

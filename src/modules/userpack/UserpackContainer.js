@@ -117,27 +117,27 @@ class UserpackContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
-
                     <div className="card-content">
-                        <h4 className="card-title">Danh sách gói người dùng</h4>
-                        <div className="row" style={{marginBottom: 12}}>
-                            <div className="col-md-3">
-                                <a onClick={() => this.openModalAdd()}
-                                   className="btn btn-rose">Tạo gói
-                                </a>
+                        <div className="tab-content">
+                           
+                            <div className="flex-row flex">
+                                <h5 className="card-title">
+                                    <strong>Danh sách gói người dùng</strong>
+                                </h5>
+                                <div>
+                                    <button className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button" onClick={() => this.openModalAdd()}>
+                                        <strong>+</strong>
+                                    </button>
+                                </div>
                             </div>
-                            <div className="col-md-9">
-                                <Search
-                                    onChange={this.postsSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm tiêu đề"
-                                />
-                            </div>
+                            <Search
+                                onChange={this.postsSearchChange}
+                                value={this.state.query}
+                                placeholder="Tìm kiếm tiêu đề"
+                            />
                         </div>
-
+                        <br/>
 
                         {this.props.isLoadingUserpacks || this.props.isLoadingUserpacks ?
                             <Loading/>

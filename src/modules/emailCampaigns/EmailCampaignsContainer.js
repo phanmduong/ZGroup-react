@@ -189,29 +189,28 @@ class EmailCampaignsContainer extends React.Component {
                 <div className="container-fluid">
 
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">email</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Chiến dịch</h4>
-                            <div className="row">
-                                <Search
-                                    onChange={this.campaignsSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm"
-                                    className="col-md-12"
-                                />
-                            </div>
-
-                            {this.props.isLoading ? <Loading/> :
-                                <ListCampaign
-                                    openModal={this.openModalStoreCampaign}
-                                    deleteCampaign={this.deleteCampaign}
-                                    campaigns={this.props.campaigns}
-                                />
-                            }
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Chiến dịch</strong>
+                                </h4>
+                                <div className="row">
+                                    <Search
+                                        onChange={this.campaignsSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm"
+                                        className="col-md-12"
+                                    />
+                                </div>
+                                <br/>
+                                {this.props.isLoading ? <Loading/> :
+                                    <ListCampaign
+                                        openModal={this.openModalStoreCampaign}
+                                        deleteCampaign={this.deleteCampaign}
+                                        campaigns={this.props.campaigns}
+                                    />
+                                }
+                            </div>    
                         </div>
                     </div>
 

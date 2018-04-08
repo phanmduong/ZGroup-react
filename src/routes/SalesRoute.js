@@ -24,6 +24,16 @@ export default [
         component: RegisterListContainer
     },
     {
+        path: "/sales/waitlist",
+        // path: "/manage/waitlist",
+        component: RegisterListContainer
+    },
+    {
+        path: "/sales/registerlist/:campaignId/:genId",
+        // path: "/registerlist/:campaignId/:genId",
+        component: RegisterListContainer
+    },
+    {
         path: "/sales/sales",
         component: SummarySalesContainer,
         children: [

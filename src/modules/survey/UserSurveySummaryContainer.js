@@ -107,8 +107,8 @@ class UserSurveySummaryContainer extends React.Component {
 
                                     </tbody>
                                 </table>
-                                <Pagination currentPage={this.state.paginator.current_page || 0}
-                                            totalPages={this.state.paginator.total_pages || 0}
+                                <Pagination currentPage={this.state.paginator && this.state.paginator.current_page || 0}
+                                            totalPages={this.state.paginator && this.state.paginator.total_pages || 0}
                                             loadDataPage={this.loadData}/>
                             </div>
                         )

@@ -158,128 +158,130 @@ class ListLessonContainer extends React.Component {
                         <Loading/>
                         :
                         <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">assignment</i>
-                            </div>
                             <div className="card-content">
-                                <h4 className="card-title">{"Danh sách buổi học lớp " + this.props.selectedClass.name}</h4>
-                                <div className="row"><br/></div>
-                                <div className="row">
-                                    <div className="col-sm-3">{
-                                        this.props.selectedClass.teacher ?
-                                            (
-                                                <TooltipButton text="Giảng viên"
-                                                               placement="top"
-                                                >
-                                                    <button className="btn btn-sm"
-                                                            style={{
-                                                                backgroundColor: '#' + this.props.selectedClass.teacher.color,
-                                                                inlineSize: "-webkit-fill-available"
-                                                            }}>
-                                                        {helper.getShortName(this.props.selectedClass.teacher.name)}
-                                                        <div className="ripple-container"/>
-                                                    </button>
-                                                </TooltipButton>
-                                            )
-                                            :
-                                            (
-                                                <div className="btn btn-sm"
-                                                     style={{inlineSize: "-webkit-fill-available"}}>
-                                                    Không có giảng viên
-                                                </div>
-                                            )
+                                <div className="tab-content">
+                                    <h4 className="card-title">
+                                        <strong>{"Danh sách buổi học lớp " + this.props.selectedClass.name}</strong>
+                                    </h4>
+                                    <br/>
+                                    <div className="row"><br/></div>
+                                    <div className="row">
+                                        <div className="col-sm-3">{
+                                            this.props.selectedClass.teacher ?
+                                                (
+                                                    <TooltipButton text="Giảng viên"
+                                                                   placement="top"
+                                                    >
+                                                        <button className="btn btn-sm"
+                                                                style={{
+                                                                    backgroundColor: '#' + this.props.selectedClass.teacher.color,
+                                                                    inlineSize: "-webkit-fill-available"
+                                                                }}>
+                                                            {helper.getShortName(this.props.selectedClass.teacher.name)}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+                                                )
+                                                :
+                                                (
+                                                    <div className="btn btn-sm"
+                                                         style={{inlineSize: "-webkit-fill-available"}}>
+                                                        Không có giảng viên
+                                                    </div>
+                                                )
 
-                                    }</div>
+                                        }</div>
 
-                                    <div className="col-sm-3">{
-                                        this.props.selectedClass.teacher_assistant ?
-                                            (
-                                                <TooltipButton text="Trợ giảng"
-                                                               placement="top">
-                                                    <button className="btn btn-sm"
-                                                            style={{
-                                                                backgroundColor: '#' + this.props.selectedClass.teacher_assistant.color,
-                                                                inlineSize: "-webkit-fill-available"
-                                                            }}>
-                                                        {helper.getShortName(this.props.selectedClass.teacher_assistant.name)}
-                                                        <div className="ripple-container"/>
-                                                    </button>
-                                                </TooltipButton>
-                                            )
-                                            :
-                                            (
-                                                <div className="btn btn-sm"
-                                                     style={{inlineSize: "-webkit-fill-available"}}>
-                                                    Không có trợ giảng
-                                                </div>
-                                            )
+                                        <div className="col-sm-3">{
+                                            this.props.selectedClass.teacher_assistant ?
+                                                (
+                                                    <TooltipButton text="Trợ giảng"
+                                                                   placement="top">
+                                                        <button className="btn btn-sm"
+                                                                style={{
+                                                                    backgroundColor: '#' + this.props.selectedClass.teacher_assistant.color,
+                                                                    inlineSize: "-webkit-fill-available"
+                                                                }}>
+                                                            {helper.getShortName(this.props.selectedClass.teacher_assistant.name)}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+                                                )
+                                                :
+                                                (
+                                                    <div className="btn btn-sm"
+                                                         style={{inlineSize: "-webkit-fill-available"}}>
+                                                        Không có trợ giảng
+                                                    </div>
+                                                )
 
-                                    }</div>
+                                        }</div>
 
-                                    <div className="col-sm-4" style={{float: 'right'}}>
-                                        <button
-                                            onClick={this.props.isLoadingLessonClassModal ? ()=>{} :  this.reloadAndExport}
-                                            className="btn btn-info btn-rose"
-                                            disabled={this.props.isLoadingLessonClassModal || this.props.isLoading}
-                                        >
-                                            Xuất danh sách điểm danh
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {
-                                    this.props.isLoadingLessonClassModal ?
-                                        <Loading/>
-                                        :
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead className="text-rose">
-                                                <tr>
-                                                    <th>Thứ tự</th>
-                                                    <th style={{textAlign: "center"}}>Tình trạng điểm danh</th>
-                                                    <th/>
-                                                    <th/>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {this.props.class.map((item, index) => {
-                                                    return (
-                                                        <tr key={item.order}>
-                                                            <td><h6>
-                                                                <strong>Buổi {item.order} </strong>
-                                                            </h6></td>
-                                                            <td width="65%" style={{textAlign: "center"}}>
-                                                                <h6>{item['attended_students'] + "/" + item['total_students']}</h6>
-                                                                <div
-                                                                    className="progress progress-line-success progress-bar-table"
-                                                                    style={{width: "100%"}}>
-                                                                    <div className="progress-bar progress-bar-success"
-                                                                         role="progressbar"
-                                                                         aria-valuenow="60"
-                                                                         aria-valuemin="0"
-                                                                         aria-valuemax="100"
-                                                                         style={{width: item['attended_students'] * 100 / item['total_students'] + '%'}}>
-                                                                        <span
-                                                                            className="sr-only">{item['attended_students'] * 100 / item['total_students']}%</span>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td style={{textAlign: "center"}}>
-                                                                <button className="btn btn-fill btn-rose"
-                                                                        type="button"
-                                                                        onClick={() => {
-                                                                            return this.openModalDetailLesson(index + 1);
-                                                                        }}
-                                                                >Điểm danh
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                                </tbody>
-                                            </table>
+                                        <div className="col-sm-4" style={{float: 'right'}}>
+                                            <button
+                                                onClick={this.props.isLoadingLessonClassModal ? ()=>{} :  this.reloadAndExport}
+                                                className="btn btn-info btn-rose"
+                                                disabled={this.props.isLoadingLessonClassModal || this.props.isLoading}
+                                            >
+                                                Xuất danh sách điểm danh
+                                            </button>
                                         </div>
-                                }
+                                    </div>
+
+                                    {
+                                        this.props.isLoadingLessonClassModal ?
+                                            <Loading/>
+                                            :
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <thead className="text-rose">
+                                                    <tr>
+                                                        <th>Thứ tự</th>
+                                                        <th style={{textAlign: "center"}}>Tình trạng điểm danh</th>
+                                                        <th/>
+                                                        <th/>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {this.props.class.map((item, index) => {
+                                                        return (
+                                                            <tr key={item.order}>
+                                                                <td><h6>
+                                                                    <strong>Buổi {item.order} </strong>
+                                                                </h6></td>
+                                                                <td width="65%" style={{textAlign: "center"}}>
+                                                                    <h6>{item['attended_students'] + "/" + item['total_students']}</h6>
+                                                                    <div
+                                                                        className="progress progress-line-success progress-bar-table"
+                                                                        style={{width: "100%"}}>
+                                                                        <div className="progress-bar progress-bar-success"
+                                                                             role="progressbar"
+                                                                             aria-valuenow="60"
+                                                                             aria-valuemin="0"
+                                                                             aria-valuemax="100"
+                                                                             style={{width: item['attended_students'] * 100 / item['total_students'] + '%'}}>
+                                                                            <span
+                                                                                className="sr-only">{item['attended_students'] * 100 / item['total_students']}%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td style={{textAlign: "center"}}>
+                                                                    <button className="btn btn-fill btn-rose"
+                                                                            type="button"
+                                                                            onClick={() => {
+                                                                                return this.openModalDetailLesson(index + 1);
+                                                                            }}
+                                                                    >Điểm danh
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    }
+                                </div>    
                             </div>
                         </div>
                     }

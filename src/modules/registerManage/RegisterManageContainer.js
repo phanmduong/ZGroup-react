@@ -383,7 +383,7 @@ class RegisterManageContainer extends React.Component {
                                 <SelectCommon
                                     defaultMessage={"Chọn cơ sở"}
                                     options={this.state.bases}
-                                    disableRound
+                                    // disableRound
                                     value={this.state.selectBaseId}
                                     onChange={this.onChangeBase}
                                 />
@@ -392,7 +392,7 @@ class RegisterManageContainer extends React.Component {
                                 <button
                                     style={{ width: "100%" }}
                                     onClick={this.openFilterPanel}
-                                    className="btn btn-info btn-rose "
+                                    className="btn btn-info btn-rose btn-round"
                                 >
                                     <i className="material-icons">
                                         filter_list
@@ -403,7 +403,7 @@ class RegisterManageContainer extends React.Component {
                             <div className="col-sm-4 col-xs-5">
                                 <button
                                     onClick={this.exportRegistersResultExcel}
-                                    className="btn btn-info btn-rose"
+                                    className="btn btn-info btn-rose btn-round"
                                     style={{ float: "right" }}
                                 >
                                     <i className="material-icons">
@@ -421,72 +421,56 @@ class RegisterManageContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
-                                        <div
-                                            className="card-header card-header-icon"
-                                            data-background-color="rose"
-                                        >
-                                            <i className="material-icons">
-                                                filter_list
-                                            </i>
-                                        </div>
                                         <div className="card-content">
-                                            <h4 className="card-title">
-                                                Bộ lọc
-                                            </h4>
-                                            <div className="row">
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">
-                                                        Tìm theo saler
-                                                    </label>
-                                                    <Select
-                                                        value={
-                                                            this.state.saler_id
-                                                        }
-                                                        options={SALER}
-                                                        onChange={
-                                                            this
-                                                                .salersSearchChange
-                                                        }
-                                                    />
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong>Bộ lọc</strong>
+                                                </h4>
+                                                <div className="row">
+                                                    <div className="form-group col-md-4">
+                                                        <label className="label-control">
+                                                            Tìm theo saler
+                                                        </label>
+                                                        <Select
+                                                            value={
+                                                                this.state.saler_id
+                                                            }
+                                                            options={SALER}
+                                                            onChange={
+                                                                this
+                                                                    .salersSearchChange
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="label-control">
+                                                            Tìm theo trạng thái
+                                                        </label>
+                                                        <Select
+                                                            value={
+                                                                this.state.status
+                                                            }
+                                                            options={
+                                                                REGISTER_STATUS
+                                                            }
+                                                            onChange={
+                                                                this.filterByStatus
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">
-                                                        Tìm theo trạng thái
-                                                    </label>
-                                                    <Select
-                                                        value={
-                                                            this.state.status
-                                                        }
-                                                        options={
-                                                            REGISTER_STATUS
-                                                        }
-                                                        onChange={
-                                                            this.filterByStatus
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
+                                            </div>    
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </Panel>
-
-
-
                         <div className="card">
-                            <div
-                                className="card-header card-header-icon"
-                                data-background-color="rose"
-                                style={{ zIndex: 0 }}
-                            >
-                                <i className="material-icons">assignment</i>
-                            </div>
                             <div className="card-content">
-                                <h4 className="card-title">
-                                    Danh sách đơn hàng
-                                </h4>
-                                <div>
+                                <div className="tab-content">
+                                    <h4 className="card-title">
+                                        <strong>Danh sách đơn hàng</strong>
+                                    </h4>
                                     <Search
                                         onChange={this.registersSearchChange}
                                         value={this.state.query}

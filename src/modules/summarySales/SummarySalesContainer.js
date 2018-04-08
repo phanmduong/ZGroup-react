@@ -165,7 +165,7 @@ class SummarySalesContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -174,7 +174,7 @@ class SummarySalesContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
@@ -183,7 +183,7 @@ class SummarySalesContainer extends React.Component {
                                     <button
                                         style={{width: '100%'}}
                                         onClick={this.openFilterPanel}
-                                        className="btn btn-info btn-rose"
+                                        className="btn btn-info btn-rose btn-round"
                                     >
                                         <i className="material-icons">filter_list</i>
                                         Lọc
@@ -192,7 +192,7 @@ class SummarySalesContainer extends React.Component {
                                 <div className="col-sm-2 col-xs-5">
                                     <button
                                         onClick={this.props.isLoading ? ()=>{} :  this.exportExcel}
-                                        className="btn btn-info btn-rose"
+                                        className="btn btn-info btn-rose btn-round"
                                         disabled={this.props.isLoading}
                                     >
                                         Xuất ra excel
@@ -203,36 +203,35 @@ class SummarySalesContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon"  data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
-                                                <div className="row">
-                                                    <div className="col-md-3 col-xs-5">
-                                                        <FormInputDate
-                                                            label="Từ ngày"
-                                                            name="startTime"
-                                                            updateFormData={this.updateFormDate}
-                                                            id="form-start-time"
-                                                            value={this.state.time.startTime}
-                                                            maxDate={this.state.time.endTime}
-                                                        />
+                                                <div className="tab-content">
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                    <br/>
+                                                    <div className="row">
+                                                        <div className="col-md-3 col-xs-5">
+                                                            <FormInputDate
+                                                                label="Từ ngày"
+                                                                name="startTime"
+                                                                updateFormData={this.updateFormDate}
+                                                                id="form-start-time"
+                                                                value={this.state.time.startTime}
+                                                                maxDate={this.state.time.endTime}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3 col-xs-5">
+                                                            <FormInputDate
+                                                                label="Đến ngày"
+                                                                name="endTime"
+                                                                updateFormData={this.updateFormDate}
+                                                                id="form-end-time"
+                                                                value={this.state.time.endTime}
+                                                                minDate={this.state.time.startTime}
+                                                            />
+                                                        </div>
                                                     </div>
-                                                    <div className="col-md-3 col-xs-5">
-                                                        <FormInputDate
-                                                            label="Đến ngày"
-                                                            name="endTime"
-                                                            updateFormData={this.updateFormDate}
-                                                            id="form-end-time"
-                                                            value={this.state.time.endTime}
-                                                            minDate={this.state.time.startTime}
-
-                                                        />
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>

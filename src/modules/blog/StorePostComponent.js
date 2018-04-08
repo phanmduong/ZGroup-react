@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import TooltipButton from "../../components/common/TooltipButton";
 import AddCategoryModal from "./AddCategoryModal";
 import { Modal } from "react-bootstrap";
+import Buttons from "../event/components/Buttons";
 
 import ReactSelect from "react-select";
 
@@ -35,15 +36,6 @@ class StorePostComponent extends React.Component {
     componentDidMount() {
         helper.setFormValidation("#form-post");
         helper.setFormValidation("#form-category");
-        // $("#mini-editor").mini_editor();
-        const scrollerId = "#store-post-modal";
-        $(scrollerId).scroll(() => {
-            const scroll = $(scrollerId).scrollTop();
-            $(".blog-buttons").css(
-                "transform",
-                "translate(0px, " + scroll + "px)",
-            );
-        });
     }
 
     componentDidUpdate() {
@@ -51,8 +43,13 @@ class StorePostComponent extends React.Component {
     }
 
     generateFromTitle() {
-        const slug = helper.changeToSlug(this.props.post.title);
-        this.props.updateFormData("slug", slug);
+        if (this.props.post.title === "") {
+            helper.showErrorMessage("Lỗi", "Bài viết này chưa có Tiêu Đề");
+        } else{
+            const slug = helper.changeToSlug(this.props.post.title);
+            this.props.updateFormData("slug", slug);
+        }
+        
     }
 
     openAddCategoryModal() {
@@ -78,13 +75,12 @@ class StorePostComponent extends React.Component {
             tags,
             category,
             isUpdatingImage,
-            isSaving,
             slug,
             meta_title,
             keyword,
             meta_description,
-            isPreSaving,
         } = this.props.post;
+
         return (
             <div>
                 <form role="form" id="form-post">
@@ -187,9 +183,66 @@ class StorePostComponent extends React.Component {
                                                 style={{ color: "blue" }}
                                                 onClick={this.generateFromTitle}
                                             >
-                                                Tự động sinh
+                                                Tự động tạo từ tiêu đề
                                             </a>
                                         </FormInputText>
+
+                                        <label className="label-control">
+                                            Nhóm bài viết
+                                        </label>
+
+                                        <div>
+                                            <div className="row">
+                                                <div
+                                                    className="col-md-12"
+                                                    style={{ display: "flex" }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            width:
+                                                                "-webkit-fill-available",
+                                                            marginRight: 10,
+                                                        }}
+                                                    >
+                                                        <ReactSelect
+                                                            value={category}
+                                                            options={addSelect(
+                                                                this.props
+                                                                    .categories,
+                                                            )}
+                                                            onChange={
+                                                                this.props
+                                                                    .updateFormSelect
+                                                            }
+                                                            placeholder="Chọn nhóm"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            marginTop: -6,
+                                                        }}
+                                                    >
+                                                        <TooltipButton
+                                                            placement="top"
+                                                            text="Thêm nhóm bài viết"
+                                                        >
+                                                            <a
+                                                                className="btn btn-rose btn-sm"
+                                                                onClick={() => {
+                                                                    this.openAddCategoryModal(
+                                                                        {},
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <i className="material-icons">
+                                                                    control_point
+                                                                </i>
+                                                            </a>
+                                                        </TooltipButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div className="form-group">
                                             <label className="control-label">
@@ -254,62 +307,7 @@ class StorePostComponent extends React.Component {
                                             />
                                         </div>
 
-                                        <label className="label-control">
-                                            Nhóm bài viết
-                                        </label>
-
-                                        <div>
-                                            <div className="row">
-                                                <div
-                                                    className="col-md-12"
-                                                    style={{ display: "flex" }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            width:
-                                                                "-webkit-fill-available",
-                                                            marginRight: 10,
-                                                        }}
-                                                    >
-                                                        <ReactSelect
-                                                            value={category}
-                                                            options={addSelect(
-                                                                this.props
-                                                                    .categories,
-                                                            )}
-                                                            onChange={
-                                                                this.props
-                                                                    .updateFormSelect
-                                                            }
-                                                            placeholder="Chọn nhóm"
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            marginTop: -6,
-                                                        }}
-                                                    >
-                                                        <TooltipButton
-                                                            placement="top"
-                                                            text="Thêm nhóm bài viết"
-                                                        >
-                                                            <a
-                                                                className="btn btn-rose btn-sm"
-                                                                onClick={() => {
-                                                                    this.openAddCategoryModal(
-                                                                        {},
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <i className="material-icons">
-                                                                    control_point
-                                                                </i>
-                                                            </a>
-                                                        </TooltipButton>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 
                                         <input
                                             type="text"
@@ -343,93 +341,41 @@ class StorePostComponent extends React.Component {
                                                 value={content}
                                             />
 
-                                            {/*<div id = "mini-editor"/>*/}
-                                            <div className="blog-buttons">
-                                                <button
-                                                    onClick={
+                                            <div className="row">
+                                                <Buttons
+                                                    isSaving={
+                                                        this.props.post
+                                                            .isSaving ||
+                                                        this.props.post
+                                                            .isPreSaving
+                                                    }
+                                                    save={() =>
+                                                        this.props.preSavePost(
+                                                            false,
+                                                        )
+                                                    }
+                                                    preSave={() =>
+                                                        this.props.preSavePost(
+                                                            true,
+                                                        )
+                                                    }
+                                                    publish={
+                                                        this.props.savePost
+                                                    }
+                                                    style={{
+                                                        width:
+                                                            "calc(100% + 48px)",
+                                                        marginLeft: "-9px",
+                                                    }}
+                                                    height={235}
+                                                    close={
                                                         this.props.closeModal
                                                     }
-                                                    className="btn btn-fill btn-danger"
-                                                >
-                                                    Đóng
-                                                </button>
-                                                {isPreSaving ? (
-                                                    <button
-                                                        className="btn btn-fill btn-success"
-                                                        type="button"
-                                                        disabled={true}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang xử lý
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-fill btn-success"
-                                                        type="button"
-                                                        disabled={
-                                                            this.invalid() ||
-                                                            isSaving
-                                                        }
-                                                        onClick={() =>
-                                                            this.props.preSavePost(
-                                                                false,
-                                                            )
-                                                        }
-                                                    >
-                                                        Lưu
-                                                    </button>
-                                                )}
-                                                {isPreSaving ? (
-                                                    <button
-                                                        className="btn btn-fill btn-default"
-                                                        type="button"
-                                                        disabled={true}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang xử lý
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-fill btn-default"
-                                                        type="button"
-                                                        disabled={
-                                                            this.invalid() ||
-                                                            isSaving
-                                                        }
-                                                        onClick={() =>
-                                                            this.props.preSavePost(
-                                                                true,
-                                                            )
-                                                        }
-                                                    >
-                                                        Lưu và xem thử
-                                                    </button>
-                                                )}
-                                                {isSaving ? (
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        disabled={true}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang đăng bài
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        disabled={
-                                                            this.invalid() ||
-                                                            isPreSaving
-                                                        }
-                                                        onClick={() => {
-                                                            this.props.savePost();
-                                                        }}
-                                                    >
-                                                        Đăng bài
-                                                    </button>
-                                                )}
+                                                    scrollerId="#store-post-modal"
+                                                    disabled={this.invalid()}
+                                                />
                                             </div>
+                                            {/*<div id = "mini-editor"/>*/}
                                         </div>
                                     )}
                                 </div>
@@ -481,6 +427,8 @@ StorePostComponent.propTypes = {
     category: PropTypes.object.isRequired,
     createCategory: PropTypes.func.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isPreSaving: PropTypes.bool.isRequired,
 };
 
 export default StorePostComponent;

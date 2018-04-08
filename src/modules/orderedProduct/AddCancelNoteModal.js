@@ -9,32 +9,28 @@ class AddCancelNoteModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            checkbox: false
+            checkbox: false,
+            note: ''
         };
         this.handleNote = this.handleNote.bind(this);
         this.handleCheckbox = this.handleCheckbox.bind(this);
     }
 
     handleNote(e) {
-        this.setState({checkbox: false});
-        let cancelNote = {
-            ...this.props.cancelNote,
-            noteCancel: e.target.value
-        };
-        this.props.orderedProductAction.handleAddCancelNoteModal(cancelNote);
+        this.setState({
+            checkbox: false,
+            note: e.target.value
+        });
     }
 
     handleCheckbox(e) {
-        this.setState({checkbox: true});
-        let cancelNote = {
-            ...this.props.cancelNote,
-            noteCancel: e.target.name
-        };
-        this.props.orderedProductAction.handleAddCancelNoteModal(cancelNote);
+        this.setState({
+            checkbox: true,
+            note: e.target.name
+        });
     }
 
     render() {
-        let cancelNote = this.props.cancelNote;
         return (
             <Modal show={this.props.addCancelNoteModal}
                    onHide={() => this.props.orderedProductAction.showAddCancelNoteModal()}>
@@ -49,7 +45,7 @@ class AddCancelNoteModal extends React.Component {
                             <label>
                                 <input type="radio"
                                        name="Hết hàng"
-                                       checked={(cancelNote.noteCancel === "Hết hàng")}
+                                       checked={(this.state.note === "Hết hàng")}
                                        onChange={this.handleCheckbox}
                                 />
                                 <span className="circle"/>
@@ -60,7 +56,7 @@ class AddCancelNoteModal extends React.Component {
                             <label>
                                 <input type="radio"
                                        name="Sai thông tin"
-                                       checked={(cancelNote.noteCancel === "Sai thông tin")}
+                                       checked={(this.state.note === "Sai thông tin")}
                                        onChange={this.handleCheckbox}
                                 />
                                 <span className="circle"/>
@@ -71,7 +67,7 @@ class AddCancelNoteModal extends React.Component {
                             <label>
                                 <input type="radio"
                                        name="Hết sale"
-                                       checked={(cancelNote.noteCancel === "Hết sale")}
+                                       checked={(this.state.note === "Hết sale")}
                                        onChange={this.handleCheckbox}
                                 />
                                 <span className="circle"/>
@@ -82,7 +78,7 @@ class AddCancelNoteModal extends React.Component {
                     <div className="form-group">
                         <label className="label-control">Lý do khác</label>
                         <textarea type="text" className="form-control"
-                                  value={cancelNote.noteCancel && !this.state.checkbox ? cancelNote.noteCancel : ''}
+                                  value={this.state.note && !this.state.checkbox ? this.state.note : ''}
                                   onChange={this.handleNote}
                                   placeholder="Nhập lý do khác vào đây"/>
                         <span className="material-input"/>
@@ -94,9 +90,8 @@ class AddCancelNoteModal extends React.Component {
                                 onClick={() =>
                                     this.props.orderedProductAction.changeStatus(
                                         "cancel",
-                                        cancelNote.id,
-                                        cancelNote.noteCancel,
-                                        null
+                                        this.props.cancelNote,
+                                        this.state.note
                                     )}>
                             <i className="material-icons">check</i> Xác nhận
                         </button>
@@ -116,7 +111,7 @@ class AddCancelNoteModal extends React.Component {
 AddCancelNoteModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
     addCancelNoteModal: PropTypes.bool,
-    cancelNote: PropTypes.object.isRequired,
+    cancelNote: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

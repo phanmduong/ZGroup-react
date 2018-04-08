@@ -188,7 +188,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -197,7 +197,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
@@ -206,7 +206,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <button
                                         style={{width: '100%'}}
                                         onClick={this.openFilterPanel}
-                                        className="btn btn-info btn-rose"
+                                        className="btn btn-info btn-rose btn-round"
                                     >
                                         <i className="material-icons">filter_list</i>
                                         Lọc
@@ -217,8 +217,9 @@ class AttendanceStaffsContainer extends React.Component {
                                     :
                                     <div className="col-sm-2 col-xs-5">
                                         <button
+                                            style={{width: '100%'}}
                                             onClick={this.exportExcel}
-                                            className="btn btn-info btn-rose"
+                                            className="btn btn-info btn-rose btn-round"
                                         >
                                             Xuất ra excel
                                         </button>
@@ -229,13 +230,13 @@ class AttendanceStaffsContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
+                                                <div className="tab-content">
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                </div>
+                                                <br/>    
                                                 <div className="row">
                                                     <div className="col-md-3 col-xs-5">
                                                         <FormInputDate

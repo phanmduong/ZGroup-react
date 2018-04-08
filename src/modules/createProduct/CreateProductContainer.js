@@ -37,7 +37,7 @@ class CreateProductContainer extends React.Component {
             this.props.createProductAction.loadProduct(this.props.params.productId);
             this.props.createProductAction.getPropertiesCreateProduct();
             this.setState({
-                type: this.props.params.type,
+                type: "edit",
                 link: `/good/product/${this.productId}/edit`
             });
         } else if (this.props.route.type === "create") {
@@ -66,7 +66,7 @@ class CreateProductContainer extends React.Component {
             });
         } else {
             this.setState({
-                type: this.props.params.type,
+                type: "import",
                 link: `/order/${this.props.params.orderId}/warehouse-import`
             });
             this.props.createProductAction.getWarehouseListCreateProduct();

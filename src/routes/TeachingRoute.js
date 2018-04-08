@@ -1,6 +1,5 @@
 import ScheduleClassContainer from "../modules/scheduleClass/ScheduleClassContainer";
 import GensContainer from "../modules/gens/GensContainer";
-import RegisterListContainer from "../modules/registerStudents/RegisterListContainer";
 import CoursesContainer from "../modules/courses/CoursesContainer";
 import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
@@ -21,6 +20,12 @@ import HistoryTeachingContainer from "../modules/classes/class/historyTeaching/H
 import RegistersClassContainer from "../modules/classes/class/registers/RegistersContainer";
 import ProgressClassContainer from "../modules/classes/class/progress/ProgressContainer";
 import CareClassContainer from "../modules/classes/class/care/CareContainer";
+import InfoStudentContainer from "../modules/infoStudent/InfoStudentContainer";
+import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
+import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
+import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
+import CareContainer from "../modules/infoStudent/care/CareContainer";
+import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
 
 /**
  * Tab Teaching
@@ -40,16 +45,6 @@ export default [
         path: "/teaching/gens",
         // path: "/manage/gens",
         component: GensContainer
-    },
-    {
-        path: "/teaching/waitlist",
-        // path: "/manage/waitlist",
-        component: RegisterListContainer
-    },
-    {
-        path: "/teaching/registerlist/:campaignId/:genId",
-        // path: "/registerlist/:campaignId/:genId",
-        component: RegisterListContainer
     },
     {
         path: "/teaching/courses",
@@ -180,4 +175,33 @@ export default [
             }
         ]
     },
+    {
+        path: "/teaching/info-student/:studentId",
+        // path: "/manage/courses/create",
+        component: InfoStudentContainer,
+        // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
+        children: [
+            {
+                path: "/",
+                component: RegistersContainer
+            },
+            {
+                path: "history-calls",
+                component: HistoryCallContainer
+            },
+            {
+                path: "progress",
+                component: ProgressContainer
+            },
+            {
+                path: "care",
+                component: CareContainer
+            },
+        ]
+    },
+    {
+        path: "/teaching/label",
+        component: LabelManageContainer
+    }
+
 ];

@@ -12,26 +12,28 @@ class AddJavCodeModal extends React.Component {
     }
 
     handleJavCode(e) {
-        let attach_info = {
-            ...JSON.parse(this.props.orderJavCode.attach_info),
-            code: e.target.value
-        };
-        let order = {
-            ...this.props.orderJavCode,
-            attach_info: JSON.stringify(attach_info)
-        };
-        this.props.orderedProductAction.handleAddJavCodeModal(order);
+        let orders = this.props.orderJavCode.map(order => {
+            let attach_info = {
+                ...JSON.parse(order.attach_info),
+                code: e.target.value
+            };
+            return {
+                ...order,
+                attach_info: JSON.stringify(attach_info)
+            };
+        });
+        this.props.orderedProductAction.handleAddJavCodeModal(orders);
     }
 
     render() {
-        let order = this.props.orderJavCode;
+        let order = this.props.orderJavCode[0];
         return (
             <Modal show={this.props.addJavCodeModal}
                    onHide={() => this.props.orderedProductAction.showAddJavCodeModal()}>
                 <a onClick={() => this.props.orderedProductAction.showAddJavCodeModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title">Mã hàng Nhật</Modal.Title>
+                    <Modal.Title id="contained-modal-title">Bổ sung thông tin</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -51,7 +53,7 @@ class AddJavCodeModal extends React.Component {
                                 data-original-title="Remove item" type="button"
                                 className="btn btn-success btn-round" data-dismiss="modal"
                                 onClick={() => this.props.orderedProductAction.changeStatus(
-                                    "ordered", order.id, null, order.attach_info
+                                    "ordered", this.props.orderJavCode, null
                                 )}>
                             <i className="material-icons">check</i> Xác nhận
                         </button>
@@ -71,7 +73,7 @@ class AddJavCodeModal extends React.Component {
 AddJavCodeModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
     addJavCodeModal: PropTypes.bool,
-    orderJavCode: PropTypes.object.isRequired,
+    orderJavCode: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

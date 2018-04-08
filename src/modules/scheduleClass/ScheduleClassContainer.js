@@ -151,22 +151,17 @@ class ScheduleClassContainer extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
-                    <div className="card">
-                        <div className="card-header card-header-tabs" data-background-color="rose">
-                            <TabStudy url="teaching/scheduleclass"/>
-                        </div>
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose">
-                                                <i className="material-icons">perm_identity</i>
-                                            </div>
-                                            <div className="card-content">
-                                                <h4 className="card-title">Danh sách lịch học
+                    <TabStudy url="teaching/scheduleclass"/>
+                    <div className="card-content">
+                        <div className="tab-content">
+                            <div className="row">
+                                <div className="col-md-8">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title"><strong style={{marginLeft: 6}}>Danh sách lịch học</strong>
                                                 </h4>
+                                                <br/>
                                                 {this.props.isLoading ? <Loading/> :
                                                     <ListScheduleClass
                                                         scheduleClasses={this.props.scheduleClasses}
@@ -174,18 +169,16 @@ class ScheduleClassContainer extends React.Component {
                                                         onClickEdit={this.onClickEdit}
                                                     />
                                                 }
-
-                                            </div>
+                                            </div>    
                                         </div>
                                     </div>
-                                    <div className="col-md-4">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose">
-                                                <i className="material-icons">perm_identity</i>
-                                            </div>
-                                            <div className="card-content">
-                                                <h4 className="card-title">Tạo lịch học
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong>Tạo lịch học</strong>
                                                 </h4>
                                                 {this.props.isLoadingStudySession ? <Loading/> :
                                                     (
@@ -235,9 +228,8 @@ class ScheduleClassContainer extends React.Component {
                                                                     </button>
                                                             }
                                                         </form>
-                                                    )}
-
-
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </div>

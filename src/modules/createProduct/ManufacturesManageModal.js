@@ -106,7 +106,7 @@ class ManufacturesManageModal extends React.Component {
                     <Search
                         onChange={this.manufacturesSearchChange}
                         value={this.state.query}
-                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
+                        placeholder="Nhập tên nhà sản xuất để tìm"
                     />
                     {
                         this.props.isLoadingManufacture ? (

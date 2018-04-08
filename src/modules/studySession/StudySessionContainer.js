@@ -125,22 +125,18 @@ class StudySessionContainer extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
-                    <div className="card">
-                        <div className="card-header card-header-tabs" data-background-color="rose">
-                            <TabStudy url="manage/studysession"/>
-                        </div>
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose">
-                                                <i className="material-icons">perm_identity</i>
-                                            </div>
-                                            <div className="card-content">
-                                                <h4 className="card-title">Danh sách ca học
+                    <TabStudy url="manage/studysession"/>
+                    <div className="card-content">
+                        <div className="tab-content">
+                            <div className="row">
+                                <div className="col-md-8">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong style={{marginLeft: 6}}>Danh sách ca học</strong>
                                                 </h4>
+                                                <br/>
                                                 {this.props.isLoading ? <Loading/> :
                                                     <ListStudySession
                                                         studySessions={this.props.studySessions}
@@ -148,18 +144,16 @@ class StudySessionContainer extends React.Component {
                                                         onClickEdit={this.onClickEdit}
                                                     />
                                                 }
-
-                                            </div>
+                                            </div>    
                                         </div>
                                     </div>
-                                    <div className="col-md-4">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose">
-                                                <i className="material-icons">perm_identity</i>
-                                            </div>
-                                            <div className="card-content">
-                                                <h4 className="card-title">Tạo ca học
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong>Tạo ca học</strong>
                                                 </h4>
                                                 <Select
                                                     options={DAY_OF_WEEK}
@@ -198,8 +192,7 @@ class StudySessionContainer extends React.Component {
                                                             Tạo
                                                         </button>
                                                 }
-
-                                            </div>
+                                            </div>    
                                         </div>
                                     </div>
                                 </div>

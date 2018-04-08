@@ -147,59 +147,58 @@ class CreateEmailFormComponent extends React.Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose"><i
-                                        className="material-icons">bookmark</i></div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Tạo form</h4>
-                                        {this.props.isLoadingEmailForm ? <Loading/> :
-                                            <form role="form"
-                                                  id="form-email-form">
-                                                <FormInputText
-                                                    label="Tên email form"
-                                                    required
-                                                    name="name"
-                                                    updateFormData={this.props.updateEmailFormData}
-                                                    value={name}
-                                                />
-                                                <FormInputText
-                                                    label="Tiêu đề"
-                                                    required
-                                                    name="title"
-                                                    updateFormData={this.props.updateEmailFormData}
-                                                    value={title}
-                                                />
-                                                <FormInputText
-                                                    label="Tiêu đề nhỏ"
-                                                    required
-                                                    name="subtitle"
-                                                    updateFormData={this.props.updateEmailFormData}
-                                                    value={subtitle}
-                                                />
-                                                <FormInputText
-                                                    label="Tiêu đề button"
-                                                    required
-                                                    name="titleButton"
-                                                    updateFormData={this.props.updateEmailFormData}
-                                                    value={titleButton}
-                                                />
-                                                <FormInputText
-                                                    label="Link button"
-                                                    required
-                                                    name="linkButton"
-                                                    updateFormData={this.props.updateEmailFormData}
-                                                    value={linkButton}
-                                                />
-                                            </form>
-                                        }
+                                        <div className="tab-content">
+                                            <h4 className="card-title"><strong>Tạo form</strong></h4>
+                                            {this.props.isLoadingEmailForm ? <Loading/> :
+                                                <form role="form"
+                                                      id="form-email-form">
+                                                    <FormInputText
+                                                        label="Tên email form"
+                                                        required
+                                                        name="name"
+                                                        updateFormData={this.props.updateEmailFormData}
+                                                        value={name}
+                                                    />
+                                                    <FormInputText
+                                                        label="Tiêu đề"
+                                                        required
+                                                        name="title"
+                                                        updateFormData={this.props.updateEmailFormData}
+                                                        value={title}
+                                                    />
+                                                    <FormInputText
+                                                        label="Tiêu đề nhỏ"
+                                                        required
+                                                        name="subtitle"
+                                                        updateFormData={this.props.updateEmailFormData}
+                                                        value={subtitle}
+                                                    />
+                                                    <FormInputText
+                                                        label="Tiêu đề button"
+                                                        required
+                                                        name="titleButton"
+                                                        updateFormData={this.props.updateEmailFormData}
+                                                        value={titleButton}
+                                                    />
+                                                    <FormInputText
+                                                        label="Link button"
+                                                        required
+                                                        name="linkButton"
+                                                        updateFormData={this.props.updateEmailFormData}
+                                                        value={linkButton}
+                                                    />
+                                                </form>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose"><i
-                                        className="material-icons">bookmark</i></div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Content</h4>
+                                        <h4 className="card-title"><strong>Content</strong></h4>
+                                        <br/>
                                         {this.props.isLoadingEmailForm ? <Loading/> :
                                             <ReactEditor
                                                 urlPost={linkUploadImageEditor()}
@@ -213,18 +212,19 @@ class CreateEmailFormComponent extends React.Component {
                             </div>
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose"><i
-                                        className="material-icons">bookmark</i></div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Footer</h4>
-                                        {this.props.isLoadingEmailForm ? <Loading/> :
-                                            <ReactEditor
-                                                urlPost={linkUploadImageEditor()}
-                                                fileField="image"
-                                                updateEditor={this.props.updateEditorFooter}
-                                                value={footer}
-                                            />
-                                        }
+                                        <div className="tab-content">
+                                            <h4 className="card-title"><strong>Footer</strong></h4>
+                                            <br/>
+                                            {this.props.isLoadingEmailForm ? <Loading/> :
+                                                <ReactEditor
+                                                    urlPost={linkUploadImageEditor()}
+                                                    fileField="image"
+                                                    updateEditor={this.props.updateEditorFooter}
+                                                    value={footer}
+                                                />
+                                            }
+                                        </div>    
                                     </div>
                                 </div>
                             </div>
@@ -233,138 +233,139 @@ class CreateEmailFormComponent extends React.Component {
                     </div>
                     <div className="col-md-4">
                         <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">announcement</i>
-                            </div>
-                            <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
-                                <img
-                                    src={helper.isEmptyInput(logoUrl) ?
-                                        NO_IMAGE : logoUrl
-                                    }/>
-                                {this.props.isUpdatingLogo ?
-                                    (
-                                        <button className="btn btn-rose btn-round disabled"
-                                                type="button">
-                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-fill btn-rose" type="button">
-                                            Chọn logo
-                                            <input type="file"
-                                                   accept=".jpg,.png,.gif"
-                                                   onChange={this.props.handleFileUpload}
-                                                   style={{
-                                                       cursor: 'pointer',
-                                                       opacity: "0.0",
-                                                       position: "absolute",
-                                                       top: 0,
-                                                       left: 0,
-                                                       bottom: 0,
-                                                       right: 0,
-                                                       width: "100%",
-                                                       height: "100%"
-                                                   }}
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <h4 className="card-title"><strong>Thông tin về form</strong></h4>
+                                    <br/>
+                                    <img
+                                        src={helper.isEmptyInput(logoUrl) ?
+                                            NO_IMAGE : logoUrl
+                                        }/>
+                                    {this.props.isUpdatingLogo ?
+                                        (
+                                            <button className="btn btn-rose btn-round disabled"
+                                                    type="button">
+                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button className="btn btn-fill btn-rose" type="button">
+                                                Chọn logo
+                                                <input type="file"
+                                                       accept=".jpg,.png,.gif"
+                                                       onChange={this.props.handleFileUpload}
+                                                       style={{
+                                                           cursor: 'pointer',
+                                                           opacity: "0.0",
+                                                           position: "absolute",
+                                                           top: 0,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0,
+                                                           width: "100%",
+                                                           height: "100%"
+                                                       }}
+                                                />
+                                            </button>
+                                        )
+                                    }
+                                    <img
+                                        src={helper.isEmptyInput(avatarUrl) ?
+                                            NO_IMAGE : avatarUrl
+                                        }/>
+                                    {this.props.isUpdatingAvatar ?
+                                        (
+                                            <button className="btn btn-rose btn-round disabled" type="button">
+                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button className="btn btn-fill btn-rose" type="button">
+                                                Chọn ảnh đại diện
+                                                <input type="file"
+                                                       accept=".jpg,.png,.gif"
+                                                       onChange={this.props.handleFileUploadAvatar}
+                                                       style={{
+                                                           cursor: 'pointer',
+                                                           opacity: "0.0",
+                                                           position: "absolute",
+                                                           top: 0,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0,
+                                                           width: "100%",
+                                                           height: "100%"
+                                                       }}
+                                                />
+                                            </button>
+                                        )
+                                    }
+                                    <div className="form-group">
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title" style={{marginLeft:16, marginBottom:16}}>
+                                                <strong>Loại template</strong>
+                                            </h4>
+                                            <div>
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button" onClick={this.openModal}>
+                                                    <strong>+</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card card-chart" id="card-email-template">
+                                        <div className="card-header" data-background-color="white">
+                                            <div id="simpleBarChart" className="ct-chart"
+                                                 style={{
+                                                     background: 'url(' + template.thumbnail_url + ')',
+                                                 }}
                                             />
-                                        </button>
-                                    )
-                                }
-                                <img
-                                    src={helper.isEmptyInput(avatarUrl) ?
-                                        NO_IMAGE : avatarUrl
-                                    }/>
-                                {this.props.isUpdatingAvatar ?
-                                    (
-                                        <button className="btn btn-rose btn-round disabled" type="button">
-                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-fill btn-rose" type="button">
-                                            Chọn ảnh đại diện
-                                            <input type="file"
-                                                   accept=".jpg,.png,.gif"
-                                                   onChange={this.props.handleFileUploadAvatar}
-                                                   style={{
-                                                       cursor: 'pointer',
-                                                       opacity: "0.0",
-                                                       position: "absolute",
-                                                       top: 0,
-                                                       left: 0,
-                                                       bottom: 0,
-                                                       right: 0,
-                                                       width: "100%",
-                                                       height: "100%"
-                                                   }}
-                                            />
-                                        </button>
-                                    )
-                                }
-                                <div className="form-group">
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between'
-                                    }}>
-                                        <label>Loại template</label>
-                                        <button type="button" className="btn btn-rose btn-sm"
-                                                onClick={this.openModal}
-                                        >
-                                            <i className="material-icons">control_point</i>
-                                        </button>
+                                        </div>
+                                        <div className="card-content">
+                                            <h4 className="card-title">{template.name}</h4>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="card card-chart" id="card-email-template">
-                                    <div className="card-header" data-background-color="white">
-                                        <div id="simpleBarChart" className="ct-chart"
-                                             style={{
-                                                 background: 'url(' + template.thumbnail_url + ')',
-                                             }}
-                                        />
-                                    </div>
-                                    <div className="card-content">
-                                        <h4 className="card-title">{template.name}</h4>
-                                    </div>
-                                </div>
 
-                                <button
-                                    className="btn btn-fill btn-default"
-                                    type="button"
-                                    onClick={this.openModalSendMail}
-                                >
-                                    Gửi thử
-                                </button>
-                                {this.props.isSaving ?
-                                    (
-                                        <button className="btn btn-fill btn-rose disabled"
-                                                type="button">
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            {this.props.route.type === 'edit' ? 'Đang lưu form' : 'Đang tạo form'}
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button
-                                            className="btn btn-fill btn-rose"
-                                            type="button"
-                                            onClick={this.props.saveEmailForm}
-                                        >
-                                            {this.props.route.type === 'edit' ? 'Lưu' : 'Tạo'}
-                                        </button>
-                                    )
+                                    <button
+                                        className="btn btn-fill btn-default"
+                                        type="button"
+                                        onClick={this.openModalSendMail}
+                                    >
+                                        Gửi thử
+                                    </button>
+                                    {this.props.isSaving ?
+                                        (
+                                            <button className="btn btn-fill btn-rose disabled"
+                                                    type="button">
+                                                <i className="fa fa-spinner fa-spin"/>
+                                                {this.props.route.type === 'edit' ? 'Đang lưu form' : 'Đang tạo form'}
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button
+                                                className="btn btn-fill btn-rose"
+                                                type="button"
+                                                onClick={this.props.saveEmailForm}
+                                            >
+                                                {this.props.route.type === 'edit' ? 'Lưu' : 'Tạo'}
+                                            </button>
+                                        )
 
-                                }
-                                <button
-                                    className="btn btn-fill btn-success"
-                                    type="button"
-                                    onClick={this.openModalStoreCampaign}
-                                >
-                                    Gửi
-                                </button>
+                                    }
+                                    <button
+                                        className="btn btn-fill btn-success"
+                                        type="button"
+                                        onClick={this.openModalStoreCampaign}
+                                    >
+                                        Gửi
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </div>    
                     </div>
                 </div>
                 <Modal show={this.state.showModal} bsSize="large" onHide={this.closeModal}>

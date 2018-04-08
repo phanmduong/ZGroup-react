@@ -1,4 +1,46 @@
+
 export default {
+    blogType:{
+        isUpdatingEditModal:false,
+        isLoading:false,
+        isSaving:false,
+        totalCount: 1,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        addEditBlogTypeModal: false,
+        blogTypes:[],
+        blogTypeModal:{
+            name:'',
+        }
+    },
+    smsCampaign:{
+        allMessage:[],
+        message:{
+            name:'',
+            content:'',
+            sms_template_type_id: '',
+            send_time:'',
+        },
+        template_types:[],
+        isSavingMessage:false,
+        upMessage: false,
+        addMessageModal: false,
+        addReceiverModal: false,
+        isLoading:false,
+        limit: 20,
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 1,
+    },
+    labelManage: {
+        isLoading: false,
+        courseCategories: [],
+        editCategoryModal: false,
+        categoryEditing: {},
+        isSavingCategory: false
+    },
+
     summarySalesUp: {
         bases: [],
         isLoadingBases: false,
@@ -64,9 +106,9 @@ export default {
             note: "",
         },
         isSavingSubscription: false,
-        userpacks: [],
         isLoadingUserpack: false,
         subscriptions: [],
+        userpacks: [],
     },
 
     registerManageRoom: {
@@ -83,6 +125,23 @@ export default {
         isSavingPayment: false,
     },
 
+    weekendReport: {
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        report: [],
+        reports: [],
+        isLoading: false,
+        checkWeekendReportModal: false,
+        loadingModal: false,
+        addReport: false,
+        weekendReportModal: {
+            report: '',
+            title: ''
+        },
+    },
+
     registerManageMeetingRoom: {
         registers: [],
         salers: [],
@@ -97,9 +156,31 @@ export default {
         isSavingPayment: false,
     },
 
+    passwordAccount: {
+        passwords: [],
+        isLoading: false,
+        editPasswordModal: false,
+        isUpdatingEditModal: false,
+        passwordEditModal: { password: '' },
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
+    },
+
     bankAccount: {
         accounts: [],
-        isLoading: false
+        isLoading: false,
+        addEditBankAccountModal: false,
+        bankAccountEditModal: {
+            bank_name: '',
+            bank_account_name: '',
+            account_number: '',
+            owner_name: '',
+            branch: '',
+            display: ''
+        },
+        isUpdatingEditModal: false,
     },
 
     inventoryOrder: {
@@ -122,17 +203,18 @@ export default {
             link: '',
             color: '',
             description: '',
-            sale_off: 0,
-            weight: 0,
+            sale_off: '',
+            weight: '',
             tax: "true",
             unit: '',
-            ratio: 1,
-            money: 0,
-            fee: 0,
+            ratio: '',
+            money: '',
+            fee: '',
             code: '',
+            shipCode: '',
             endTime: '',
-            quantity: 0,
-            price: 0
+            quantity: '',
+            price: ''
         },
         customer: {
             name: '',
@@ -166,20 +248,21 @@ export default {
         currencies: [],
         isLoading: false,
         addEditCurrencyModal: false,
-        currencyEditModal: {
-            name: '',
-            notation: '',
-            ratio: ''
-        },
+        currencyEditModal: {},
         isUpdatingEditModal: false,
     },
 
     orderedProduct: {
+        isChangingStatus: false,
         currencies: [],
         addJavCodeModal: false,
-        orderJavCode: {},
+        importWeightModal: false,
+        orderImportWeight: [{}],
+        addShipFeeModal: false,
+        orderAddShipFee: [{}],
+        orderJavCode: [{}],
         cameToVNModal: false,
-        orderCameToVN: {},
+        orderCameToVN: [{}],
         chooseWalletModal: false,
         isChoosingWallet: false,
         orderWalletChosen: {},
@@ -189,7 +272,7 @@ export default {
         sendPriceModal: false,
         orderSendPriceModal: [],
         orderNote: {},
-        cancelNote: {},
+        cancelNote: [{}],
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -209,7 +292,6 @@ export default {
         manufacturesRender: [],
         manufacturesFilter: [],
         properties_list_filter: [],
-        isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
         totalCountManufactures: 1,
@@ -222,7 +304,6 @@ export default {
         manufacturesManageModal: false,
         isLoadingManufacture: false,
         child_index: 0,
-        percent: 0,
         productWorking: {
             name: '',
             code: '',
@@ -246,7 +327,6 @@ export default {
             children: []
         },
         goods_count_check: true,
-        isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
         properties_list: [],
@@ -1107,6 +1187,9 @@ export default {
     goodOrders: {
         // provinces :[],
         // isLoadingProvinces : false,
+        payOrderMoneyModal: false,
+        orderPayMoney: {},
+        isPayingOrderMoney: false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -2054,6 +2137,8 @@ export default {
             id: 0,
             description: "",
             subscriptionKind: "",  // id
+            booking_discount: 0,
+            extra_time: 0,
         },
         subscriptionKind: {
             name: "",
