@@ -25,14 +25,17 @@ export function loadTypeOfMessageApi() {
 
 // /sms/campaign-detail/1?token=
 // get all tin nhan
-export function loadAllMessageApi(page) {
-    let url = env.MANAGE_API_URL + "/sms/campaign-detail/1";
+export function loadAllMessageApi(campaignId, page, search) {
+    let url = env.MANAGE_API_URL + "/sms/campaign-detail/" + campaignId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     if (page) {
         url += "&page=" + page;
+    }
+    if (search) {
+        url += "&search=" + search;
     }
     return axios.get(url);
 }

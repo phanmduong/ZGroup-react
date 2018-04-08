@@ -39,7 +39,7 @@ export default function currencyReducer(state = initialState.currency, action) {
                 ...state,
                 isUpdatingEditModal: false,
                 addEditCurrencyModal: false,
-                currencies: [...state.currencies, action.currency]
+                currencies: [action.currency, ...state.currencies]
             };
         case types.EDIT_CURRENCY_SUCCESS: {
             let currencies = state.currencies.map((currency) => {

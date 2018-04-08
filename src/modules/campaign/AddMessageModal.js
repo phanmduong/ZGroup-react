@@ -34,11 +34,13 @@ class AddMessageModal extends React.Component{
             }
             else this.props.campaignAction.editMessage(message);
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
-            this.props.campaignAction.loadAllMessage(1);
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
+    //         this.props.campaignAction.loadAllMessage(1);
+    //     }
+    // }
+    // Không để componentWillReceiveProps trong Modal như thế này
+
     upMessage(e){
         const field = e.target.name;
         let message = {
@@ -108,7 +110,7 @@ class AddMessageModal extends React.Component{
                             </div><br/>
 
                             {
-                                this.props.upMessage ? (
+                                this.props.upMessage ? ( //upMessage với isSavingMessage thì khác gì nhau mà lại chia thành 2 cái như vậy
                                     <Loading/>
                                 ) :
                                     (
