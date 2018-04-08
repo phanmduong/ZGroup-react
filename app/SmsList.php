@@ -23,6 +23,11 @@ class SmsList extends Model
         return $this->hasMany(SmsTemplate::class, "sms_list_id");
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class, "group_id");
+    }
+
     public function getData()
     {
         return [
