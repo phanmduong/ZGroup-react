@@ -107,12 +107,21 @@ class AdministrationController extends ManageApiController
                 })
             ]);
         } else {
-            $datas = AdvancePayment::orderBy('created_at','desc')->paginate($limit);
-            return $this->respondWithPagination($datas,[
-                "data" => $datas->map(function($data){
-                    return $data->transform();
-                })
-            ]);
+            if($this->user->role == 2) {
+                $datas = AdvancePayment::orderBy('created_at', 'desc')->paginate($limit);
+                return $this->respondWithPagination($datas, [
+                    "data" => $datas->map(function ($data) {
+                        return $data->transform();
+                    })
+                ]);
+            } else {
+                $datas = AdvancePayment::where("staff_id",$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+                return $this->respondWithPagination($datas, [
+                    "data" => $datas->map(function ($data) {
+                        return $data->transform();
+                    })
+                ]);
+            }
         }
 
     }
@@ -227,12 +236,21 @@ class AdministrationController extends ManageApiController
     public function showReports(Request $request)
     {
         $limit = $request->limit ? $request->limit :20;
-        $reports= Report::orderBy('created_at','desc')->paginate($limit);
-        return $this->respondWithPagination($reports,[
-            "reports"=> $reports->map(function($report){
-                return $report->transform();
-            })
-        ]);
+        if($this->user->role == 2) {
+            $reports = Report::orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($reports, [
+                "reports" => $reports->map(function ($report) {
+                    return $report->transform();
+                })
+            ]);
+        } else {
+            $reports = Report::where('staff_id',$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($reports, [
+                "reports" => $reports->map(function ($report) {
+                    return $report->transform();
+                })
+            ]);
+        }
     }
 
     public function deleteReport(Request $request, $id)
