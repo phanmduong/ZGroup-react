@@ -18,14 +18,23 @@
         "remove-dist": "rimraf ./dist",
         "prebuild": "npm run clean-dist && npm run lint && npm run test",
         "start": "npm-run-all --parallel open:src lint:watch",
-        "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
-        "build:email": "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
-        "start:teaching": "MODULE=teaching npm-run-all --parallel open:src lint:watch",
-        "build:teaching": "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
-        "start:order": "MODULE=order npm-run-all --parallel open:src lint:watch",
-        "build:order": "npm run lint && rimraf ./dist/order && mkdir dist/order && MODULE=order babel-node tools/build/module.js",
-        "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
-        "build:manufacture": "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+        "start:email":
+            "MODULE=email npm-run-all --parallel open:src lint:watch",
+        "build:email":
+            "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
+        "start:teaching":
+            "MODULE=teaching npm-run-all --parallel open:src lint:watch",
+        "build:teaching":
+            "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
+        "start:order":
+            "MODULE=order npm-run-all --parallel open:src lint:watch",
+        "build:order":
+            "npm run lint && rimraf ./dist/order && mkdir dist/order && MODULE=order babel-node tools/build/module.js",
+        "start:manufacture":
+            "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
+        "build:manufacture":
+            "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+
         "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
         "build:base": "npm run lint && rimraf ./dist/base && mkdir dist/base && MODULE=base babel-node tools/build/module.js",
         "start:sms": "MODULE=sms npm-run-all --parallel open:src lint:watch",

@@ -79,12 +79,14 @@ import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
 import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
-
+import blogTypeReducer from "../modules/blogType/blogTypeReducer";
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 import labelManageReducer from "../modules/labelManage/labelManageReducer";
-
+import smsCampaignReducer from "../modules/campaign/campaignReducer";
 
 const appReducer = combineReducers({
+    blogType:blogTypeReducer,
+    smsCampaign: smsCampaignReducer,
     labelManage: labelManageReducer,
     weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,

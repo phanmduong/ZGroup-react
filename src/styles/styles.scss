@@ -875,7 +875,7 @@ a.btn-seat.active {
 }
 
 .sms-paid-icon {
-    width: 15px;
+  width: 20px
 }
 
 .sms-paid-icon img {
@@ -923,7 +923,6 @@ a.btn-seat.active {
 }
 
 
-
 .nav-pills-rose > .active > a {
     background-color: rgba(197, 0, 0, 1) !important;
 }
@@ -934,6 +933,34 @@ a.btn-seat.active {
     padding: 0px 5px 1px 0px
 }
 
+
+
+.campaign-content{
+  background-color: white;
+  padding: 30px 30px 90px 30px;
+  margin-bottom: 30px;
+}
 .modal-title {
     font-weight: bold
+}
+
+.fileinput {
+    width: 100%
+}
+
+.fileinput div {
+    max-width: 100%!important;
+    width: 100%;
+}
+
+.fileinput img {
+    width :100%
+}
+
+.fileinput-preview {
+    width: 100%
+}
+
+.modal-content .modal-footer button {
+    padding : 12px 30px
 }
