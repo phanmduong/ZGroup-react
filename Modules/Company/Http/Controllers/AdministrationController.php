@@ -55,7 +55,6 @@ class AdministrationController extends ManageApiController
 
         $requestVacation->save();
 
-        //$ppp = DateTime::createFromFormat('Y-m-d', $requestVacation->created_at);
         $ppp = $requestVacation->created_at;
         $day = date_format($ppp, 'd');
         $month = date_format($ppp, 'm');
@@ -64,7 +63,7 @@ class AdministrationController extends ManageApiController
         while (strlen($id) < 4) $id = '0' . $id;
         $requestVacation->command_code = "NGHIPHEP" . $day . $month . $year . $id;
 
-        $request->save();
+        $requestVacation->save();
 
         return $this->respondSuccessWithStatus([
             "message" => "Tạo thành công"
