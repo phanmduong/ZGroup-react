@@ -29,12 +29,13 @@ class SmsTemplate extends Model
             "template_id" => $this->id,
             "name" => $this->name,
             "content" => $this->content,
-            "send_time" => $this->send_time,
+            "send_time" => format_vn_short_datetime(strtotime($this->send_time)),
             "status" => $this->status,
             "order" => $this->order,
             "sms_template_type" => [
                 "id" => $this->smsTemplateType->id,
-                "name" => $this->smsTemplateType->name
+                "name" => $this->smsTemplateType->name,
+                "color" => $this->smsTemplateType->color
             ],
             "sent_quantity" => $this->sent_quantity,
             "needed_quantity" => $this->smsList->needed_quantity
