@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: phanmduong
@@ -13,6 +14,7 @@ use App\Category;
 use App\CategoryProduct;
 use Illuminate\Http\Request;
 use Symfony\Component\CssSelector\Parser\Reader;
+
 class ManageBlogController extends ManageApiController
 {
     public function __construct()
@@ -34,14 +36,14 @@ class ManageBlogController extends ManageApiController
             'message' => 'Tạo category thành công'
         ]);
     }
-   
+
     public function editCategory($id, Request $request)
     {
         $name = $request->name;
 
         $category = CategoryProduct::find($id);
 
-        if($category == null)
+        if ($category == null)
             return $this->respondErrorWithStatus('Không tồn tại loại blog');
 
         $category->name = $name;
@@ -57,9 +59,9 @@ class ManageBlogController extends ManageApiController
     {
         $category = CategoryProduct::find($id);
 
-        if($category == null)
+        if ($category == null)
             return $this->respondErrorWithStatus('Không tồn tại category');
-        if($category->products()->count() > 0)
+        if ($category->products()->count() > 0)
             return $this->respondErrorWithStatus('Tồn tại bài viết sử dụng category này');
         $category->delete();
 
@@ -125,13 +127,15 @@ class ManageBlogController extends ManageApiController
         $q = trim($request->search);
         $category_id = $request->category_id;
         $limit = 20;
-        $posts = Product::query();
+        $posts = Product::leftJoin('product_category_product', 'product_category_product.product_id', '=', 'products.id')
+        ->where('products.type', 2);
         if ($category_id) {
-            $posts = $posts->where('category_id', $category_id);
+            $posts = $posts->where('product_category_product.category_product_id', $category_id);
         }
         if ($q) {
-            $posts = $posts->where('title', 'like', '%' . $q . '%');
+            $posts = $posts->where('products.title', 'like', '%' . $q . '%');
         }
+        $posts = $posts->select('products.*')->groupBy('products.id');
         $posts = $posts->orderBy('created_at', 'desc')->paginate($limit);
         $data = [
             'posts' => $posts->map(function ($post) {
@@ -143,9 +147,9 @@ class ManageBlogController extends ManageApiController
                     'thumb_url' => $post->thumb_url,
                     'description' => $post->description,
                     'author' => [
-                       'id' => $post->author->id,
-                       'name' => $post->author->name,
-                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : 'http://colorme.vn/img/user.png',
+                        'id' => $post->author->id,
+                        'name' => $post->author->name,
+                        'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : 'http://colorme.vn/img/user.png',
                     ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
@@ -168,8 +172,8 @@ class ManageBlogController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'categories' => $categories->map(function ($category) {
                 return [
-                   'id' => $category->id,
-                   'name' => $category->name,
+                    'id' => $category->id,
+                    'name' => $category->name,
                 ];
             })
         ]);
@@ -184,7 +188,7 @@ class ManageBlogController extends ManageApiController
         $post->status = 1 - $post->status;
         $post->save();
         return $this->respondSuccessWithStatus([
-           'message' => 'Thành công'
+            'message' => 'Thành công'
         ]);
     }
 

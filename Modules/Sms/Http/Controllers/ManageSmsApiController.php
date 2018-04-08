@@ -152,6 +152,7 @@ class ManageSmsApiController extends ManageApiController
             $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
         }
         return $this->respondWithPagination($templates, [
+            "campaign" => $campaign->getData(),
             'templates' => $templates->map(function ($template) {
                 return $template->transform();
             })
