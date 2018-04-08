@@ -46,6 +46,7 @@ class NhatQuangShopController extends Controller
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
         $this->data["categoryGoods"] = $categoryGoods;
+
         return view('nhatquangshop::index', $this->data);
     }
 
