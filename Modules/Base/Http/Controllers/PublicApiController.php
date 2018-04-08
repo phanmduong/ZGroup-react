@@ -9,6 +9,7 @@ use App\Product;
 use App\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Room;
 
 class PublicApiController extends NoAuthApiController
 {
