@@ -77,7 +77,8 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                         needed_quantity: 0,
                         sms_template_type: {
                             id: action.message.sms_template_type_id,
-                            name: state.template_types[action.message.sms_template_type_id - 1].name
+                            name: state.template_types[action.message.sms_template_type_id - 1].name,
+                            color: state.template_types[action.message.sms_template_type_id - 1].color,
                         }
                     };
                 return message;

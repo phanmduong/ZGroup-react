@@ -937,7 +937,7 @@ a.btn-seat.active {
 .nav-pills > li > a > i {
     display: inline-block;
     font-size: 24px;
-    padding: 0px 5px 1px 0px
+    padding: 0px 5px 1px 0px;
 }
 
 .campaign-content{
@@ -947,4 +947,17 @@ a.btn-seat.active {
 }
 .modal-title {
     font-weight: bold
+}
+.campaign-message-type {
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    cursor: auto;
+}
+.campaign-message-type > span {
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size:12px;
 }

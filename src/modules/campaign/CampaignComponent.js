@@ -152,14 +152,16 @@ class CampaignComponent extends React.Component {
                                                         </TooltipButton>
                                                     </td>
                                                     <td>
-                                                        {message.sms_template_type.name}
+                                                        <a className="campaign-message-type"  style={{backgroundColor:message.sms_template_type.color}}
+                                                        >
+                                                            <span>{message.sms_template_type.name.toUpperCase()}</span></a>
                                                     </td>
                                                     <td>
                                                         <div className="btn-group-action">
                                                             <div style={{display: "inline-block"}}>
                                                                 <TooltipButton placement="top"
                                                                                text={`Sửa`}><a
-                                                                    onClick={() => this.showAddMessageModal2(message)}
+                                                                    onClick={() => this.showAddMessageModal2({...message,sms_template_type_id: message.sms_template_type.id})}
                                                                 >
                                                                     <i className="material-icons">edit</i>
                                                                 </a></TooltipButton>
