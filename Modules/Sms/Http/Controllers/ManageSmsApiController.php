@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: batman
@@ -135,13 +136,15 @@ class ManageSmsApiController extends ManageApiController
     {
         $campaign = SmsList::find($campaignId);
         $limit = $request->limit ? $request->limit : 20;
-        $query = trim($request->search);
+        $search = trim($request->search);
 
         if ($campaign == null) {
             return $this->respondErrorWithStatus('Không có chiến dịch này');
         }
-        $templates = $campaign->templates()->where('name', 'like', "%$query%")
-            ->orWhere('content', 'like', "%$query%");
+        $templates = $campaign->templates()->where(function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('content', 'like', "%$search%");
+        });
 
         if ($limit == -1) {
             $templates = $templates->orderBy('created_at', 'desc')->get();
@@ -151,7 +154,8 @@ class ManageSmsApiController extends ManageApiController
         return $this->respondWithPagination($templates, [
             'templates' => $templates->map(function ($template) {
                 return $template->transform();
-            })]);
+            })
+        ]);
     }
 
     public function getTemplateTypes()
