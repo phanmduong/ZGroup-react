@@ -55,7 +55,8 @@ class AdministrationController extends ManageApiController
 
         $requestVacation->save();
 
-        $ppp = DateTime::createFromFormat('Y-m-d', $requestVacation->created_at);
+        //$ppp = DateTime::createFromFormat('Y-m-d', $requestVacation->created_at);
+        $ppp = $requestVacation->created_at;
         $day = date_format($ppp, 'd');
         $month = date_format($ppp, 'm');
         $year = date_format($ppp, 'y');
