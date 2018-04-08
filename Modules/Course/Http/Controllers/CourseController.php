@@ -333,7 +333,6 @@ class CourseController extends ManageApiController
                 
             }
         }
-
         
         $data['attendances'] = $attendances;
         $data['classLesson'] = [
