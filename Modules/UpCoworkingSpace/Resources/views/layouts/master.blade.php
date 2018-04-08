@@ -175,272 +175,36 @@
 </head>
 
 <?php
-//    function getUserIpAddress(){
-//        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-//            //ip from share internet
-//            $ip = $_SERVER['HTTP_CLIENT_IP'];
-//        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-//            //ip pass from proxy
-//            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-//        }else{
-//            $ip = $_SERVER['REMOTE_ADDR'];
-//        }
-//        return $ip;
-//    }
-//    $ip = getUserIPAddress();
-////    dd($ip);
-//    $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
+   function getUserIpAddress(){
+       if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+           //ip from share internet
+           $ip = $_SERVER['HTTP_CLIENT_IP'];
+       }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+           //ip pass from proxy
+           $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+       }else{
+           $ip = $_SERVER['REMOTE_ADDR'];
+       }
+       return $ip;
+   }
+   $ip = getUserIPAddress();
+//    dd($ip);
+   $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
 //    dd($dataArray);
 ?>
 
-{{--@if($dataArray->geoplugin_countryName === "Vietnam")--}}
-<body style="background-color: #f9f9f9">
-<nav class="navbar navbar-toggleable-md fixed-top">
-    <div class="container">
-        <div class="navbar-translate">
-            <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse"
-                    data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar"></span>
-                <span class="navbar-toggler-bar"></span>
-                <span class="navbar-toggler-bar"></span>
-            </button>
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/" style="padding:0!important">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"
-                         style="margin:10px 0"/>
-                </a>
-            </div>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="dropdown nav-item">
-                    <a class="nav-link hover-change dropdown-toggle" data-scroll="true" data-toggle="dropdown">VỀ
-                        UP</a>
-                    <div class="dropdown-menu">
-                        <a href="/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space" class="dropdown-item">Tầm nhìn - sứ mệnh</a>
-                        <a href="/doi-tac-chien-luoc-cua-up" class="dropdown-item">Đối tác</a>
-                        <a href="/doi-tac-truyen-thong-cua-up" class="dropdown-item">Truyền thông</a>
-                        <a href="/nhung-cau-hoi-thuong-gap" class="dropdown-item">Những câu hỏi thường gặp</a>
-                        <a href="/thong-tin-tuyen-dung" class="dropdown-item">Tuyển dụng</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/goi-thanh-vien-up-coworking-space" data-scroll="true">GÓI THÀNH
-                        VIÊN</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/su-kien" data-scroll="true">SỰ
-                        KIỆN</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/phong-hop" data-scroll="true">Phòng họp</a>
-                </li>
-                <li class="dropdown nav-item">
-                    <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true">Cộng đồng up</a>
-                    <div class="dropdown-menu">
-                        <a href="/up-founders/" class="dropdown-item">Đội ngũ sáng lập</a>
-                        <a href="/up-s-mentors/" class="dropdown-item">UP Mentor</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">Tin tức</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/lien-he-voi-up-co-working-space/" data-scroll="true">Liên hệ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-round btn-danger"
-                       style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
-                       href="/dang-ky-trai-nghiem/">TRẢI NGHIỆM</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+@if($dataArray->geoplugin_countryName === "Vietnam")
+    @include('upcoworkingspace::vi.vi-nav')
+    @yield('vi-content')
+    @include('upcoworkingspace::vi.vi-nav')
+@else
+    @include('upcoworkingspace::en.en-nav')
+    @yield('en-content')
+    @include('upcoworkingspace::en.en-footer')
+@endif
 
 
-    @yield('content')
-
-
-<footer class="footer footer-big">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"/>
-            </div>
-            <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="uppercase-links stacked-links">
-                                <li>
-                                    <a href="/blog">
-                                        Trang chủ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Báo giá
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Bảo hành
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="uppercase-links stacked-links">
-                                <li>
-                                    <a href="/blog">
-                                        Liên hệ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Tuyển dụng
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Về chúng tôi
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="uppercase-links stacked-links">
-                                <li>
-                                    <a href="/blog">
-                                        Tin tức
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Dùng thử
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Phản hồi
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-6">
-                        <div class="social-area">
-                            <a class="btn btn-just-icon btn-round btn-default"
-                               href="https://www.facebook.com/up.coworkingspace/">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                            <a class="btn btn-just-icon btn-round btn-default"
-                               href="https://www.linkedin.com/company/up-co-working-space">
-                                <i class="fa fa-linkedin" aria-hidden="true"></i>
-                            </a>
-                            <a class="btn btn-just-icon btn-round btn-default"
-                               href="https://www.instagram.com/up.coworkingspace/">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="copyright">
-                    <div class="pull-left">
-                        ©
-                        <script>document.write(new Date().getFullYear())</script>
-                        KEETOOL
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="/blog">
-                                    Company Policy
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="/blog">
-                                    Terms
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="/blog">
-                                    Privacy
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<div id="submitModal2" class="modal fade show">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h3 class="medium-title">Đăng kí </h3></div>
-            <div id="modal-body" class="modal-body">
-                <div class="container">
-                    <form class="register-form ">
-                        <h6>Họ và tên</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Họ và tên"><br>
-                        <h6>Số điện thoại</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Số điện thoại"><br>
-                        <h6>Email</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Địa chỉ email"><br>
-                        <h6>Địa chỉ</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Địa chỉ"><br>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="btn-purchase" class="btn btn-sm btn-main"
-                        v-on:click="submit"
-                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f">
-                    Xác nhận
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="fb-livechat">
-    <div class="ctrlq fb-overlay"></div>
-    <div class="fb-widget">
-        <div class="ctrlq fb-close"></div>
-        <div class="fb-page" data-href="https://www.facebook.com/up.coworkingspace" data-tabs="messages"
-             data-width="360" data-height="400" data-small-header="true" data-hide-cover="true"
-             data-show-facepile="false"></div>
-        <div id="fb-root"></div>
-    </div>
-    <a href="https://m.me/up.coworkingspace" title="Gửi tin nhắn cho chúng tôi qua Facebook"
-       class="ctrlq fb-button">
-        <div class="bubble">1</div>
-        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
-    </a></div>
-<script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
-<!--  Plugins -->
-<!-- Core JS Files -->
-<script
-        src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-        crossorigin="anonymous"></script>
-{{--<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"--}}
-{{--type="text/javascript"></script>--}}
+<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script>$(document).ready(function () {
         function detectmob() {
             if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
