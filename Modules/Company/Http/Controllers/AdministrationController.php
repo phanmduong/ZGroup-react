@@ -32,13 +32,21 @@ class AdministrationController extends ManageApiController
                 }),
             ]);
         } else {
-            $requestVacations = RequestVacation::orderBy('created_at', 'desc')->paginate($limit);
-
-            return $this->respondWithPagination($requestVacations, [
-                "requestVacation" => $requestVacations->map(function ($requestVacation) {
-                    return $requestVacation->transform();
-                }),
-            ]);
+            if($this->user->role == 2) {
+                $requestVacations = RequestVacation::orderBy('created_at', 'desc')->paginate($limit);
+                return $this->respondWithPagination($requestVacations, [
+                    "requestVacation" => $requestVacations->map(function ($requestVacation) {
+                        return $requestVacation->transform();
+                    }),
+                ]);
+            } else {
+                $requestVacations = RequestVacation::where("staff_id",$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+                return $this->respondWithPagination($requestVacations, [
+                    "requestVacation" => $requestVacations->map(function ($requestVacation) {
+                        return $requestVacation->transform();
+                    }),
+                ]);
+            }
         }
     }
 
