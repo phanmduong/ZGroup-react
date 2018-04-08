@@ -13,8 +13,7 @@ class AddSendTimeColumnIntoSmsTemplatesTable extends Migration
     public function up()
     {
         Schema::table('sms_template', function (Blueprint $table) {
-            $table->dateTime('send_time')->nullable();
-            $table->dropColumn("send_time");
+            $table->dateTime('send_time')->nullable()->change();
         });
     }
 
