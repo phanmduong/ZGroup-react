@@ -192,7 +192,7 @@ class ManageEmailApiController extends ManageApiController
                 });
             });
 
-        if($request->send_status)
+        if($request->send_status != null)
             $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
 
         if ($request->owner_id) {
