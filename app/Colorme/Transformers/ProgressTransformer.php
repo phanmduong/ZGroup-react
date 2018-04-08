@@ -52,7 +52,7 @@ class ProgressTransformer extends Transformer
             'id' => $register->id,
             'code' => $register->code,
             'name' => "Lớp " . $register->studyClass->name,
-            'class_id' => "Lớp " . $register->studyClass->id,
+            'class_id' => $register->studyClass->id,
             'description' => $register->studyClass->description,
             'study_time' => $register->studyClass->study_time,
             'icon_url' => $register->studyClass->course->icon_url,
