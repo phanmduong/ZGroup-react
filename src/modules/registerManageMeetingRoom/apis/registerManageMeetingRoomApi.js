@@ -1,7 +1,7 @@
 import axios from 'axios';
-import * as env from '../../constants/env';
+import * as env from '../../../constants/env';
 
-export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, campaign_id,base_id,startTime,endTime) {
+export function loadAllRegistersApi(limit, page = 1, search, saler_id, base_id, startTime, endTime) {
     let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
     if (search) {
         url += "&search=" + search;
@@ -16,12 +16,6 @@ export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, c
     if (limit) {
         url += "&limit=" + limit;
     }
-    if (status) {
-        url += "&status=" + status;
-    }
-    if (campaign_id) {
-        url += "&campaign_id=" + campaign_id;
-    }
     if (startTime) {
         url += "&start_time=" + startTime;
     }
@@ -34,7 +28,17 @@ export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, c
     return axios.get(url);
 }
 
-export function getAllSalerApi() {
+export function loadAllBasesApi() {
+    let url = env.MANAGE_API_URL + "/base/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadAllSalersApi() {
     let url = env.MANAGE_API_URL + '/coworking-space/saler?';
     let token = localStorage.getItem('token');
     if (token) {
@@ -57,7 +61,7 @@ export function changeCallStatusApi(status, note, register_id, user_id) {
     });
 }
 
-export function savePaymentApi(money,note , register_id, user_id) {
+export function savePaymentApi(money, note, register_id, user_id) {
     let url = env.MANAGE_API_URL + '/company/payment/create?';
     let token = localStorage.getItem('token');
     if (token) {
@@ -67,16 +71,19 @@ export function savePaymentApi(money,note , register_id, user_id) {
         "register_id": register_id,
         "user_id": user_id,
         "money_value": money,
-        "description" : note,
+        "description": note,
     });
 }
 
-export function loadBases() {
-    let url = env.MANAGE_API_URL + "/base/all";
+export function updateOfficialTimeApi(register) {
+    let url = env.MANAGE_API_URL + '/coworking-space/room-booking/' + register.id + '/assign-time?';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
-
-    return axios.get(url);
+    return axios.put(url, {
+        "start_time": register.official_start_time,
+        "end_time": register.official_end_time,
+    });
 }
+

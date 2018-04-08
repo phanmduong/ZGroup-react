@@ -44,9 +44,12 @@ class StorePostModal extends React.Component {
     }
 
     updateFormSelect(e) {
-        const field = "category";
+        console.log(e,"ssllllllllllllllllllll");
+        // const field = "category";
+        const field = "categories";
         let data = { ...this.props.post };
-        data[field] = e.value;
+        data[field] = e;
+        // data[field] = e.value;
         this.props.blogActions.updateFormPost(data);
     }
     updateFormPostData(event) {
@@ -130,7 +133,7 @@ class StorePostModal extends React.Component {
 
     render() {
         let categories =
-            this.props.categories !== undefined ? this.props.categories : [];
+            this.props.categories ? this.props.categories : [];
         
         return (
             <StorePostComponent
@@ -144,10 +147,7 @@ class StorePostModal extends React.Component {
                 openModal={this.openModal}
                 updateFormData={this.updateFormData}
                 preSavePost={this.preSavePost}
-                categories={[
-                    { value: 0, text: "Chọn nhóm bài viết" },
-                    ...categories,
-                ]}
+                categories={categories}
                 closeModal={this.props.closeModal}
                 updateFormSelect={this.updateFormSelect}
                 // resetCategory={this.resetCategory}
@@ -161,6 +161,7 @@ StorePostModal.propTypes = {
     category: PropTypes.object.isRequired,
     blogActions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
+    categoriesList: PropTypes.array.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
     isEdit: PropTypes.bool.isRequired,
     postId: PropTypes.number,
@@ -172,6 +173,7 @@ function mapStateToProps(state) {
         post: state.blog.post,
         categories: state.blog.categories.categories,
         category: state.blog.category,
+        categoriesList: state.blog.categoriesList,
         isLoadingPost: state.blog.isLoadingPost,
     };
 }

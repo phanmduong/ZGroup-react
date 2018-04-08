@@ -12,16 +12,16 @@ import { Modal } from "react-bootstrap";
 import Buttons from "../event/components/Buttons";
 
 import ReactSelect from "react-select";
+import MemberReactSelectValue from "./MemberReactSelectValue";
+import MemberReactSelectOption from "./MemberReactSelectOption";
 
-let tmpCategories;
 
 function addSelect(categories) {
-    tmpCategories = categories.map(item => {
-        return { value: item.value, label: item.text };
-        // subscriptionKinds = [...tmpSubscriptionKinds , ...{value : item.id,label : item.name}];
+    return categories.map(item => {
+        return {value: item.value, label: item.text};
     });
-    return tmpCategories;
 }
+
 
 class StorePostComponent extends React.Component {
     constructor(props, context) {
@@ -67,13 +67,15 @@ class StorePostComponent extends React.Component {
     }
 
     render() {
+        console.log(this.props.post,"qqqqqqqqqq");
         let {
             title,
             description,
             content,
             imageUrl,
             tags,
-            category,
+            // category,
+            categories,
             isUpdatingImage,
             slug,
             meta_title,
@@ -205,15 +207,13 @@ class StorePostComponent extends React.Component {
                                                         }}
                                                     >
                                                         <ReactSelect
-                                                            value={category}
-                                                            options={addSelect(
-                                                                this.props
-                                                                    .categories,
-                                                            )}
-                                                            onChange={
-                                                                this.props
-                                                                    .updateFormSelect
-                                                            }
+                                                            multi={true}
+                                                            value={categories}
+                                                            // value={category}
+                                                            valueComponent={MemberReactSelectValue}
+                                                            optionComponent={MemberReactSelectOption}
+                                                            options={addSelect(this.props.categories)}
+                                                            onChange={this.props.updateFormSelect}
                                                             placeholder="Chọn nhóm"
                                                         />
                                                     </div>

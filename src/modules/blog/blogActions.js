@@ -230,7 +230,8 @@ export function getPost(postId) {
                     type: types.LOAD_POST_BLOG_SUCCESS,
                     post: {
                         ...res.data.data.post,
-                        category: res.data.data.post.category_id,
+                        // category: res.data.data.post.category_id,
+
                         imageUrl: res.data.data.post.url,
                     },
                 });
