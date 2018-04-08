@@ -11,7 +11,7 @@ import { DATE_FORMAT } from "../../../../constants/constants";
 import moment from "moment";
 import {browserHistory} from 'react-router';
 import * as helper from "../../../../helpers/helper";
-import {DATETIME_FORMAT} from "../../../../constants/constants";
+
 
 
 class CreateRequestVacationContainer extends React.Component {
@@ -54,9 +54,8 @@ class CreateRequestVacationContainer extends React.Component {
 
     submitData() {
         let { data } = this.state;
-        data.request_date = moment(moment.now()).format(DATETIME_FORMAT);
+        data.request_date = moment(moment.now()).format(DATE_FORMAT);
         
-        console.log(data);
         
         if(helper.isEmptyInput(data.start_time) || helper.isEmptyInput(data.end_time)){
             helper.showErrorNotification("Vui lòng chọn ngày bắt đầu và kết thúc");
@@ -228,3 +227,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRequestVacationContainer);
+
