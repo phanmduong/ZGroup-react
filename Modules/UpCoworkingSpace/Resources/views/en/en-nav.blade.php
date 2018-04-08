@@ -175,7 +175,6 @@
 </head>
 <body style="background-color: #f9f9f9">
 <nav class="navbar navbar-toggleable-md fixed-top">
-    <div class="container">
         <div class="navbar-translate">
             <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse"
                     data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
@@ -227,7 +226,14 @@
                        style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
                        href="/en/book-a-tour/">Book a tour</a>
                 </li>
+                <li class="dropdown nav-item">
+                    <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/en.png" width="18" height="12" alt=""></a>
+                    <div class="dropdown-menu">
+                        <a href="?lang=vi" class="dropdown-item"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/vi.png" width="18" height="12" alt=""></a>
+                        <a href="?lang=en" class="dropdown-item"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/en.png" width="18" height="12" alt=""></a>
+                    </div>
+                </li>
             </ul>
         </div>
-    </div>
+    
 </nav>

@@ -1,32 +1,7 @@
 
-<?php
-   function getUserIpAddress(){
-       if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-           //ip from share internet
-           $ip = $_SERVER['HTTP_CLIENT_IP'];
-       }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-           //ip pass from proxy
-           $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-       }else{
-           $ip = $_SERVER['REMOTE_ADDR'];
-       }
-       return $ip;
-   }
-   $ip = getUserIPAddress();
-//    dd($ip);
-   $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
-//    dd($dataArray);
-?>
-
-@if($dataArray->geoplugin_countryName === "Vietnam")
     @include('upcoworkingspace::vi.vi-nav')
     @yield('vi-content')
     @include('upcoworkingspace::vi.vi-nav')
-@else
-    @include('upcoworkingspace::en.en-nav')
-    @yield('en-content')
-    @include('upcoworkingspace::en.en-footer')
-@endif
 
 
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
