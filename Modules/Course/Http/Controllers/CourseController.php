@@ -301,33 +301,43 @@ class CourseController extends ManageApiController
         ]);
     }
 
-    public function getAttendance($classId, $lessonId, Request $request)
+    public function getAttendance($classId, $classLessonId, Request $request)
     {
-        $classLesson = ClassLesson::query();
-        $check = $classLesson->where('class_id', $classId)->count();
-        if ($check < $lessonId || $lessonId == 0) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
-        $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
-        $classLesson = $classLesson_pre[$lessonId - 1];
-        $resgister_ids = $classLesson->attendances->map(function ($data) {
-            if ($data->register->status === 1) return $data->register->id;
-            else return 0;
-        });
-        $attendance_list = $classLesson->attendances()->whereIn('register_id', $resgister_ids)->get();
+        // $classLesson = ClassLesson::query();
+        // $check = $classLesson->where('class_id', $classId)->count();
+        // if ($check < $lessonId || $lessonId == 0) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
+        // $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
+        // $classLesson = $classLesson_pre[$lessonId - 1];
+        // $resgister_ids = $classLesson->attendances->map(function ($data) {
+        //     if ($data->register->status === 1) return $data->register->id; else return 0;
+        // });
+        
+        $classLesson = ClassLesson::find($classLessonId);
 
-        $data['attendances'] = $attendance_list->map(function ($attendance) {
-            return [
-                'student_id' => $attendance->register->user->id,
-                'name' => $attendance->register->user->name,
-                'email' => $attendance->register->user->email,
-                'attendance_id' => $attendance->id,
-                'study_class' => $attendance->register->studyClass->name,
-                'device' => $attendance->device,
-                'note' => $attendance->note,
-                'attendance_lesson_status' => $attendance->status,
-                'attendance_homework_status' => $attendance->hw_status
+        if ($classLesson == null){
+            return $this->respondErrorWithStatus("Buoi hoc khong ton tai");
+        }
 
-            ];
-        });
+        $attendances = [];
+        
+        foreach ($classLesson->attendances as $attendance){
+            if ($attendance->register != null && $attendance->register->status == 1){
+                $attendances[] = [
+                    'name' => $attendance->register->user->name,
+                    'email' => $attendance->register->user->email,
+                    'attendance_id' => $attendance->id,
+                    'study_class' => $attendance->register->studyClass->name,
+                    'device' => $attendance->device,
+                    'note' => $attendance->note,
+                    'attendance_lesson_status' => $attendance->status,
+                    'attendance_homework_status' => $attendance->hw_status
+    
+                ];
+                
+            }
+        }
+        
+        $data['attendances'] = $attendances;
         $data['classLesson'] = [
             'name' => $classLesson->studyClass->name,
             'attendance_count' => $classLesson->attendances->count(),

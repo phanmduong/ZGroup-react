@@ -91,7 +91,7 @@ class ClientController extends Controller
 
     public function workShift()
     {
-        return view('client.workshift');
+        return view('client.work_shift');
     }
 
     public function landingPage()
@@ -101,7 +101,7 @@ class ClientController extends Controller
 
     public function survey()
     {
-        return view('client.survey');
+        return view('client.surveyv2');
     }
 
     public function order()
