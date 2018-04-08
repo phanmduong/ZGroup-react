@@ -44,7 +44,7 @@ class StorePostModal extends React.Component {
     }
 
     updateFormSelect(e) {
-        console.log(e,"ssllllllllllllllllllll");
+        //console.log(e,"ssllllllllllllllllllll");
         // const field = "category";
         const field = "categories";
         let data = { ...this.props.post };
@@ -134,7 +134,6 @@ class StorePostModal extends React.Component {
     render() {
         let categories =
             this.props.categories ? this.props.categories : [];
-        
         return (
             <StorePostComponent
                 {...this.props}

@@ -67,7 +67,8 @@ class StorePostComponent extends React.Component {
     }
 
     render() {
-        console.log(this.props.post,"qqqqqqqqqq");
+        //console.log(this.props.post,"qqqqqqqqqq");
+        //console.log(this.props);
         let {
             title,
             description,
@@ -82,7 +83,6 @@ class StorePostComponent extends React.Component {
             keyword,
             meta_description,
         } = this.props.post;
-
         return (
             <div>
                 <form role="form" id="form-post">
