@@ -129,9 +129,10 @@ class CourseController extends ManageApiController
 
         if ($request->order_number == null)
             return $this->respondErrorWithStatus("Thiếu thứ tự môn học");
-
-        $this->pushOrder($request->order_number);
-        $course->order_number = $request->order_number;
+        if ($course->order_number != $request->order_number) {
+            $this->pushOrder($request->order_number);
+            $course->order_number = $request->order_number;
+        }
 
         $course->save();
 

@@ -53,6 +53,8 @@ $companyRoutes = function () {
         Route::post('/administration/request-vacation','AdministrationController@createRequestVacation');
         Route::put('/administration/request-vacation/{requestId}','AdministrationController@editRequestVacation');
         Route::post('/administration/request-vacation/{requestId}/change-status','AdministrationController@changeStatusRequestVacation');
+        
+        
 
 
         Route::get('/administration/advance-payment/all','AdministrationController@getAllAdvancePayment');

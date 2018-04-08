@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Product;
 use App\StudyClass;
 use App\Event;
+use App\RoomServiceRegisterRoom;
 
 class BookingController extends ApiPublicController
 {
@@ -90,7 +91,6 @@ class BookingController extends ApiPublicController
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
-        // $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
         $register->campaign_id = $campaignId;
         $register->type = 'member';
@@ -142,6 +142,14 @@ class BookingController extends ApiPublicController
         $register->type = 'room';
         $register->save();
 
+
+        $registerRoom = new RoomServiceRegisterRoom;
+        $registerRoom->room_id = $request->room_id;
+        $registerRoom->room_service_register_id = $request->id;
+        $registerRoom->start_time = $request->start_time;
+        $registerRoom->end_time = $request->end_time;
+        $registerRoom->save();
+        
         $subject = "Xác nhận đặt phòng thành công";
         $data = ["user" => $user];
         $emailcc = ["graphics@colorme.vn"];

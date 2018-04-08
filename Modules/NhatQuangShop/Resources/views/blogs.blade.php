@@ -1,6 +1,15 @@
 @extends('nhatquangshop::layouts.master')
 
 @section('content')
+    <style>
+        .dropdown-item:hover{
+            background: #138edc!important;
+            border-color: #138edc!important;
+        }
+        input[type=text]{
+            box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+        }
+    </style>
     <div class="page-header page-header-xs"
          style="background-image: url('http://trongdongpalace.com/ckfinder/userfiles/images/hannah-and-matt-1401(1).jpg'); height: 350px">
         <div class="filter"></div>
@@ -22,6 +31,46 @@
 
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
+            <div class="description">
+                <div style="display: flex; flex-direction: row; align-items: center" id="search-blogs">
+                    <input placeholder="Tìm kiếm" id="search-blog"
+                           style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                           type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                style="height: 62px;
+                                background-color: #138edc!important;
+                                color: white;
+                                border-color: #138edc!important;
+                                text-align: right;
+                                border-radius: 0px;
+                            ">
+                            @if($category_id)
+                                {{\App\CategoryProduct::find($category_id)->name}}
+                            @else
+                                Loại
+                            @endif
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right"
+                            style="background: white; overflow: scroll; height: 200px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);border-radius: 0px!important;">
+                            <a class="dropdown-item"
+                               href="/blog"
+                               style="padding: 10px 15px!important; border-radius: 0px!important;">
+                                Tất cả
+                            </a>
+                            @foreach($categories as $category)
+                                <a class="dropdown-item"
+                                   href="{{'/blog?page=1&search=' . $search . '&category_id=' . $category->id}}"
+                                   style="padding: 10px 15px!important; border-radius: 0px!important;">
+                                    {{$category->name}}
+                                </a>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <br>
             <br>
             <div class="row">
@@ -80,7 +129,18 @@
 
 @push('scripts')
     <script>
+        var search = new Vue({
+            el: '#search-blog',
+            data: {
+                search: '{!! $search !!}'
+            },
+            methods: {
+                searchBlog: function () {
+                    window.open('/blog?page=1&search=' + this.search + '&type={!! $category_id !!}', '_self');
+                }
+            }
 
+        })
 
         var pagination = new Vue({
             el: '#pagination-blogs',

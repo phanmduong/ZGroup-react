@@ -34,7 +34,8 @@ class SmsTemplate extends Model
             "order" => $this->order,
             "sms_template_type" => [
                 "id" => $this->smsTemplateType->id,
-                "name" => $this->smsTemplateType->name
+                "name" => $this->smsTemplateType->name,
+                "color" => $this->smsTemplateType->color
             ],
             "sent_quantity" => $this->sent_quantity,
             "needed_quantity" => $this->smsList->needed_quantity

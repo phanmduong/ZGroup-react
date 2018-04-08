@@ -263,6 +263,4 @@ class UpCoworkingSpaceController extends Controller
     {
         return view('upcoworkingspace::tour');
     }
-
-
 }
