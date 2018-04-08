@@ -2331,5 +2331,26 @@ export default {
         totalCount: 0,
         isDistributing: false,
         errorDistribution: false,
-    }
+    },
+    zWarehouse: {
+        isLoading : false,
+        isLoadingHisotry :false,
+        goods: [],
+        historyGood: [],
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        historyPaginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+
+
+
+    },
 };
