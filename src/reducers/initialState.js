@@ -2271,6 +2271,7 @@ export default {
     request: {
         isLoading: false,
         paginator: {},
+        isCommitting: false,
     },
     lead: {
         leads: [],
