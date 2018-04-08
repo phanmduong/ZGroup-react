@@ -10,13 +10,26 @@ class CampaignContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.path = '';
+        this.campaignId = this.props.params.campaignId;
         this.state = {
-            type: "create",
-            link: `/sms/campaign`
+            type: "edit",
+            link: ""
         };
     }
+
     componentWillMount() {
         this.props.campaignAction.loadTypeOfMessage();
+        this.props.campaignAction.loadAllMessage(this.props.params.campaignId, 1, '');
+        this.setState({
+            type: "edit",
+            link: `/sms/campaign-detail/${this.campaignId}`
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
+            this.props.campaignAction.loadAllMessage(this.campaignId, 1, '');
+        }
     }
 
     render() {
@@ -33,7 +46,7 @@ class CampaignContainer extends React.Component {
                 </IndexLink>&emsp;
                 <Link to={`${this.state.link}/receivers`} style={{color: "white"}}>
                     <button type="button"
-                            className={this.path ===`${this.state.link}/receivers`?'btn-primary btn btn-round':'btn btn-round'}
+                            className={this.path === `${this.state.link}/receivers` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
                         NGƯỜI NHẬN
                         <div className="ripple-container"/>
@@ -41,7 +54,7 @@ class CampaignContainer extends React.Component {
                 </Link>&emsp;
                 <Link to={`${this.state.link}/history`} style={{color: "white"}}>
                     <button type="button"
-                            className={this.path ===`${this.state.link}/history`?'btn-primary btn btn-round':'btn btn-round'}
+                            className={this.path === `${this.state.link}/history` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
                         LỊCH SỬ
                     </button>
@@ -60,10 +73,15 @@ CampaignContainer.propTypes = {
     children: PropTypes.element,
     location: PropTypes.object.isRequired,
     pathname: PropTypes.string,
-    campaignAction: PropTypes.object.isRequired
+    campaignAction: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    isSavingMessage: PropTypes.bool.isRequired,
 };
-function mapStateToProps() {
+
+function mapStateToProps(state) {
     return {
+        isSavingMessage: state.smsCampaign.isSavingMessage,
+
     };
 }
 

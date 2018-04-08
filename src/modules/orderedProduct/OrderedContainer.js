@@ -232,7 +232,10 @@ class OrderedContainer extends React.Component {
     }
 
     loadOrders(page = 1) {
-        this.setState({page: page});
+        this.setState({
+            page,
+            checkAll: false
+        });
         this.props.orderedProductAction.loadAllOrders(
             page,
             this.state.searches,
@@ -436,7 +439,7 @@ class OrderedContainer extends React.Component {
                         {
                             this.props.isLoading ? (
                                 <Loading/>
-                            ):(
+                            ) : (
                                 <div className="row">
                                     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <Link

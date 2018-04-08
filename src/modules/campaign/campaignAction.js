@@ -9,8 +9,8 @@ export function showAddMessageModal() {
 }
 
 export function showAddReceiverModal() {
-    return({
-       type: types.TOGGLE_ADD_RECEIVER_MODAL
+    return ({
+        type: types.TOGGLE_ADD_RECEIVER_MODAL
     });
 }
 
@@ -37,10 +37,10 @@ export function saveMessage(message) {
                     });
                 } else
                     helper.showNotification(res.data.message);
-
             });
     };
 }
+
 export function loadTypeOfMessage() {
     return function (dispatch) {
         campaignApi.loadTypeOfMessageApi()
@@ -53,12 +53,12 @@ export function loadTypeOfMessage() {
     };
 }
 
-export function loadAllMessage(page) {
+export function loadAllMessage(campaignId, page, search) {
     return function (dispatch) {
         dispatch({
-           type: types.BEGIN_LOAD_ALL_MESSAGE
+            type: types.BEGIN_LOAD_ALL_MESSAGE
         });
-        campaignApi.loadAllMessageApi(page)
+        campaignApi.loadAllMessageApi(campaignId, page, search)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_MESSAGE_SUCCESS,
