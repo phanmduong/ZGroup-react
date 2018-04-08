@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {avatarEmpty, getShortName} from "../../helpers/helper";
-import {NO_AVATAR} from "../../constants/env";
+import {
+    avatarEmpty,
+    getShortName
+} from "../../helpers/helper";
+import {
+    NO_AVATAR
+} from "../../constants/env";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import Star from "../../components/common/Star";
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import {Modal} from "react-bootstrap";
+import {
+    Modal
+} from "react-bootstrap";
 import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class ListLead extends React.Component {
     constructor(props, context) {
@@ -22,11 +30,16 @@ class ListLead extends React.Component {
     }
 
     openEditModal(lead) {
-        this.setState({isOpenModalEdit: true, lead: lead});
+        this.setState({
+            isOpenModalEdit: true,
+            lead: lead
+        });
     }
 
     closeEditModal() {
-        this.setState({isOpenModalEdit: false});
+        this.setState({
+            isOpenModalEdit: false
+        });
     }
 
     isCheckedLead(leadId) {
@@ -55,7 +68,9 @@ class ListLead extends React.Component {
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
+                                <th>Đã đóng tiền</th>
                                 <th>Đánh giá</th>
+                                
                                 {
                                     !this.props.showSelectedLead && <th>Nhân viên</th>
                                 }
@@ -113,6 +128,29 @@ class ListLead extends React.Component {
                                             </td>
                                             <td>{lead.phone}</td>
                                             <td>
+                                                {
+                                                    lead.courses && lead.courses.map((course) => {
+                                                        return (
+                                                            <TooltipButton
+                                                                placement="top"
+                                                                text={course.name}
+                                                            >
+                                                                <div className="avatar-list-staff"
+                                                                style={{
+                                                                    background: 'url(' + course.icon_url + ') center center / cover',
+                                                                    display: 'inline-block',
+                                                                    borderColor: 'white',
+                                                                    borderStyle: 'solid',
+                                                                    marginLeft: '-10px'
+                                                                }}
+                                                            />  
+                                                            </TooltipButton>
+                                                           
+                                                        );
+                                                    })
+                                                 }
+                                            </td>
+                                            <td>
                                                 <Star
                                                     maxStar={5}
                                                     value={lead.rate}
@@ -168,7 +206,7 @@ class ListLead extends React.Component {
                         <Modal.Title>
                             <h4 className="card-title">Sửa thông tin lead</h4>
                         </Modal.Title>
-                    </Modal.Header>
+                    </Modal.Header>±±±==
                     <Modal.Body>
                         {this.state.isOpenModalEdit && <EditLead
                             lead={this.state.lead}
