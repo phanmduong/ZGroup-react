@@ -21,12 +21,12 @@ export function upMessage(message) {
     });
 }
 
-export function saveMessage(message) {
+export function saveMessage(campaignId, message) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_MESSAGE
         });
-        campaignApi.saveMessageApi(message)
+        campaignApi.saveMessageApi(campaignId, message)
             .then((res) => {
                 if (res.data.status) {
                     helper.showNotification("Thêm tin nhắn thành công");

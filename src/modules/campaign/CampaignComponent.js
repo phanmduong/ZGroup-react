@@ -80,13 +80,11 @@ class CampaignComponent extends React.Component {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <Search
-                            onChange={this.templatesSearchChange}
-                            value={this.state.query}
-                            placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
-                        />
-                    </div>
+                    <Search
+                        onChange={this.templatesSearchChange}
+                        value={this.state.query}
+                        placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                    />
                 </div>
                 <br/><br/><br/>
                 {
@@ -183,7 +181,8 @@ class CampaignComponent extends React.Component {
                         )
                 }
                 <AddReceiverModal/>
-                <AddMessageModal/>
+                <AddMessageModal
+                    campaignId={this.props.params.campaignId}/>
                 <div className="row float-right">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style={{textAlign: 'right'}}>
@@ -195,7 +194,6 @@ class CampaignComponent extends React.Component {
                             currentPage={this.props.currentPage}
                             loadDataPage={this.loadOrders}
                         />
-
                     </div>
                 </div>
             </div>
@@ -211,8 +209,7 @@ CampaignComponent.propTypes = {
     totalCount: PropTypes.number.isRequired,
     campaignAction: PropTypes.object.isRequired,
     allMessage: PropTypes.array.isRequired,
-    params: PropTypes.object.isRequired,
-
+    params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
