@@ -298,7 +298,7 @@ class CourseController extends ManageApiController
         ]);
     }
 
-    public function getAttendance($classId, $lessonId, Request $request)
+    public function getAttendance($classId, $classLessonId, Request $request)
     {
         // $classLesson = ClassLesson::query();
         // $check = $classLesson->where('class_id', $classId)->count();
@@ -309,28 +309,33 @@ class CourseController extends ManageApiController
         //     if ($data->register->status === 1) return $data->register->id; else return 0;
         // });
         
-        $classLesson = ClassLesson::where("lesson_id", $lessonId)->where('class_id', $classId)->first();
+        $classLesson = ClassLesson::find($classLessonId);
 
         if ($classLesson == null){
             return $this->respondErrorWithStatus("Buoi hoc khong ton tai");
         }
 
-        $attendance_list = $classLesson->attendances;
+        $attendances = [];
         
-        $data['attendances'] = $attendance_list->map(function ($attendance) {
-            return [
-                'student_id' => $attendance->register->user->id,
-                'name' => $attendance->register->user->name,
-                'email' => $attendance->register->user->email,
-                'attendance_id' => $attendance->id,
-                'study_class' => $attendance->register->studyClass->name,
-                'device' => $attendance->device,
-                'note' => $attendance->note,
-                'attendance_lesson_status' => $attendance->status,
-                'attendance_homework_status' => $attendance->hw_status
+        foreach ($classLesson->attendances as $attendance){
+            if ($attendance->register != null && $attendance->register->status == 1){
+                $attendances[] = [
+                    'name' => $attendance->register->user->name,
+                    'email' => $attendance->register->user->email,
+                    'attendance_id' => $attendance->id,
+                    'study_class' => $attendance->register->studyClass->name,
+                    'device' => $attendance->device,
+                    'note' => $attendance->note,
+                    'attendance_lesson_status' => $attendance->status,
+                    'attendance_homework_status' => $attendance->hw_status
+    
+                ];
+                
+            }
+        }
 
-            ];
-        });
+        
+        $data['attendances'] = $attendances;
         $data['classLesson'] = [
             'name' => $classLesson->studyClass->name,
             'attendance_count' => $classLesson->attendances->count(),
