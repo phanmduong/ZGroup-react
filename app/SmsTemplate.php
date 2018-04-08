@@ -29,7 +29,7 @@ class SmsTemplate extends Model
             "template_id" => $this->id,
             "name" => $this->name,
             "content" => $this->content,
-            "send_time" => format_date_to_mysql($this->send_time),
+            "send_time" => $this->send_time,
             "status" => $this->status,
             "order" => $this->order,
             "sms_template_type" => [
