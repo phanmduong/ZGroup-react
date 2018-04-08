@@ -17,11 +17,11 @@ branch_name=$(git symbolic-ref -q HEAD)
 branch_name=${branch_name##refs/heads/}
 branch_name=${branch_name:-HEAD}
 
-if [ $branch_name != $branch ]; then
-    echo "Current git branch not match"
-    echo "You cannot push to $branch_name from $branch"
-    exit 1
-fi
+# if [ $branch_name != $branch ]; then
+#     echo "Current git branch not match"
+#     echo "You cannot push to $branch_name from $branch"
+#     exit 1
+# fi
 
 
 project_folder=~/code/keetool-client-server
@@ -70,10 +70,10 @@ echo "write blade: $blade_file"
 echo $template > $blade_file
 echo "Build successfully"
 
-echo "Push to branch: $branch"
-cd $project_folder
-git add .
-git commit -m "Build module $module_name"
-git pull origin $branch
-git push origin $branch
-echo "Push successfully"
+# echo "Push to branch: $branch"
+# cd $project_folder
+# git add .
+# git commit -m "Build module $module_name"
+# git pull origin $branch
+# git push origin $branch
+# echo "Push successfully"
