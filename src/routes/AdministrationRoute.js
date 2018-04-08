@@ -12,7 +12,7 @@ export default [
         component: CreateRequestVacationContainer,
     },
     {
-        path: "/administration/manage",
+        path: "/administration/request/manage",
         component: ManageRequestContainer,
     },
     {

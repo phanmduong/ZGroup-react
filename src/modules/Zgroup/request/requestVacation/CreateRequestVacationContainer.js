@@ -228,14 +228,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRequestVacationContainer);
-
-
-const defaultData =  {
-    command_code: "",
-    staff: {},
-    request_date: "",
-    start_time: "",
-    end_time: "",
-    type: "nopay",
-    reason: "",
-};

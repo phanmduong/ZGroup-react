@@ -15,15 +15,15 @@ export function createRequestVacation(data) {
                         type: types.CREATE_REQUEST_VACATION_SUCCESS,
                     });
                     helper.showNotification("Thêm thành công!");
-                    browserHistory.push("/administration/request/vacation");
+                    browserHistory.push("/administration/request/manage");
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
                 }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
             });
-            // .catch(() => {
-            //     helper.showErrorNotification("Có lỗi xảy ra.");
-            //     dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
-            // });
     };
 }
