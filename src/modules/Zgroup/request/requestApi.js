@@ -3,7 +3,7 @@ import * as env from '../../../constants/env';
 
 export function createRequestVacation(data) {
     //http://manageapi.keetool.xyz/good/all/no-paging?token=
-    let url     = env.MANAGE_API_URL +"/administration/request-vacation";
+    let url     = env.MANAGE_API_URL +"/company/administration/request-vacation";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
@@ -16,5 +16,6 @@ export function createRequestVacation(data) {
         type: data.type,
         reason: data.reason,
     };
+    console.log(res);
     return axios.post(url, res);
 }

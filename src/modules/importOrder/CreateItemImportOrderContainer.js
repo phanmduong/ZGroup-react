@@ -163,7 +163,6 @@ class CreateItemImportOrderContainer extends React.Component {
         for(let i=data.goods.length-1 ; i>data.goods.length -1- n;i--){
             arr = [data.goods[i],...arr];
         }
-        console.log(arr);
         this.props.importOrderActions.createImportOrder(
             {
                 ...data,
