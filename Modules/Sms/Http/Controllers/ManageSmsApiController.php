@@ -39,7 +39,7 @@ class ManageSmsApiController extends ManageApiController
         $template->content = $request->content;
         $template->user_id = $user_id;
         $template->sms_template_type_id = $request->sms_template_type_id;
-        $template->send_time = $request->send_time;
+        $template->send_time = date('Y-m-d H:i:s', $request->send_time);
         $template->sms_list_id = $campaignId;
     }
 
