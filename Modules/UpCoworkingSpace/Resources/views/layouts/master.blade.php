@@ -1,7 +1,7 @@
 
     @include('upcoworkingspace::vi.vi-nav')
     @yield('vi-content')
-    @include('upcoworkingspace::vi.vi-nav')
+    @include('upcoworkingspace::vi.vi-footer')
 
 
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>

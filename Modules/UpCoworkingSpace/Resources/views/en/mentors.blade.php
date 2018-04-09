@@ -127,7 +127,7 @@
             </h3>
             <br/>
             <p class="text-center">
-                    It is our pleasure to welcome honorable members to UP co-working space. Come to UP to listen, to learn and to share stories with them.ật
+                    It is our pleasure to welcome honorable members to UP co-working space. Come to UP to listen, to learn and to share stories with them.
             </p>
             <br/><br/>
             <div class="row">

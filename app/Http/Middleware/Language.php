@@ -19,7 +19,7 @@ class Language
     {
         // dd(Session::all());
         // dd($request->lang);
-        if($request->lang != null) Session::flash('lang',$request->lang);
+        if($request->lang) Session::put('lang',$request->lang);
         // dd($request->session());
         if(Session::has('lang')){
             $lang = Session::get('lang');
@@ -35,6 +35,8 @@ class Language
         // dd($url);
         // dd($url); 
         // dd($lang);
+        $request->attributes->add(['lang' => $lang]);
+        // dd($request->merge(array("lang" => $lang)));
         if($lang == 'vi'){
             // if($url == "/") return $next($request);
             // dd($url == "/" || substr($url,0,3) != "/en");
