@@ -61,7 +61,7 @@ class AdministrationController extends ManageApiController
         $requestVacation->type = $request->type;
         $requestVacation->reason = $request->reason;
 
-        $requestVacation->save();
+        //$requestVacation->save();
 
         $ppp = $requestVacation->created_at;
         $day = date_format($ppp, 'd');
@@ -159,7 +159,7 @@ class AdministrationController extends ManageApiController
         $data->reason = $request->reason;
         $data->money_payment = $request->money_payment;
         $data->type = $request->type;
-        $data->save();
+        //$data->save();
         $ppp =  $data->created_at;
         $day = date_format($ppp, 'd');
         $month = date_format($ppp, 'm');
@@ -168,7 +168,7 @@ class AdministrationController extends ManageApiController
         while (strlen($id) < 4) $id = '0' . $id;
         $data->command_code = "TAMUNG" . $day . $month . $year . $id;
 
-        $request->save();
+        $data->save();
         return $this->respondSuccessWithStatus([
             "message" => "Tạo đơn thành công"
         ]);
