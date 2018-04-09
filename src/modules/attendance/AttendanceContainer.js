@@ -165,8 +165,7 @@ class AttendanceContainer extends React.Component {
     render(){
         return(
 
-            <div className="row">
-                {this.props.isLoading ? <Loading/> :
+            <div className="container-fluid">
                     <div>
                         {this.props.isLoadingBases || this.props.isLoadingGens
                             ?
@@ -180,7 +179,9 @@ class AttendanceContainer extends React.Component {
                                         // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
-                                    /></div>
+                                        name="gens"
+                                    />
+                                </div>
                                 <div className="col-sm-3 col-xs-5">
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
@@ -188,9 +189,11 @@ class AttendanceContainer extends React.Component {
                                         // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                         }
+                        
                         <div className="col-xs-12">
                             <div className="card" style={{marginTop: 15}}>
                                 <div className="card-content">
@@ -203,40 +206,45 @@ class AttendanceContainer extends React.Component {
                                             value={this.state.query}
                                             placeholder="Tìm kiếm lớp"
                                         />
-                                        <ListClassComponent
-                                            classes={this.props.data.classes}
-                                            isLoading={this.props.isLoading}
-                                            searchByTeacher={this.loadClasses}
-                                            openModalLesson={this.openModalLesson}
-                                        />
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                                {page}
-                                                            </a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                                {page}
-                                                            </a>
-                                                        </li>
-                                                    );
-                                                }
+                                        <br/>
+                                        {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
+                                            <div>    
+                                                <ListClassComponent
+                                                    classes={this.props.data.classes}
+                                                    isLoading={this.props.isLoading}
+                                                    searchByTeacher={this.loadClasses}
+                                                    openModalLesson={this.openModalLesson}
+                                                />
+                                                <ul className="pagination pagination-primary">
+                                                    {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
+                                                        if (Number(this.state.page) === page) {
+                                                            return (
+                                                                <li key={page} className="active">
+                                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                        {page}
+                                                                    </a>
+                                                                </li>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <li key={page}>
+                                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                        {page}
+                                                                    </a>
+                                                                </li>
+                                                            );
+                                                        }
 
-                                            })}
-                                        </ul>
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        }        
                                     </div>    
                                 </div>
                             </div>
                         </div>    
                     </div>
-                }
+                
             </div>
 
 

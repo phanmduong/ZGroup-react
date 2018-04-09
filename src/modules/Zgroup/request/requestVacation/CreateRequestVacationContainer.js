@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
-import FormInputDate from "../../../../components/common/FormInputDate";
+import FormInputDateTime from "../../../../components/common/FormInputDateTime";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 import Avatar from "../../../../components/common/Avatar";
-import { DATE_FORMAT } from "../../../../constants/constants";
+import { DATETIME_FORMAT,DATETIME_FORMAT_SQL } from "../../../../constants/constants";
 import moment from "moment";
 import { browserHistory } from 'react-router';
 import * as helper from "../../../../helpers/helper";
@@ -34,7 +34,18 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     componentWillMount() {
-
+        console.log(this.props);
+        if(this.props.routeParams.requestId){
+            this.props.requestActions.getRequestVacation(
+                this.props.routeParams.requestId, 
+                (data)=>{
+                    data.start_time = moment(data.start_time).format( DATETIME_FORMAT);
+                    data.end_time = moment(data.end_time).format( DATETIME_FORMAT);
+                    data.request_date = moment(data.request_date).format( DATETIME_FORMAT);
+                    return this.setState({data});
+                }
+            );
+        }
     }
 
     // componentWillReceiveProps(next){
@@ -54,7 +65,9 @@ class CreateRequestVacationContainer extends React.Component {
 
     submitData() {
         let { data } = this.state;
-        data.request_date = moment(moment.now()).format(DATE_FORMAT);
+        data.request_date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
+        data.start_time = moment(data.start_time).format(DATETIME_FORMAT_SQL);
+        data.end_time = moment(data.end_time).format(DATETIME_FORMAT_SQL);
 
 
         if ( helper.isEmptyInput(data.end_time)) {
@@ -65,7 +78,12 @@ class CreateRequestVacationContainer extends React.Component {
             helper.showErrorNotification("Vui lòng chọn ngày bắt đầu");
             return;
         }
-        this.props.requestActions.createRequestVacation(data);
+        
+        if(this.props.routeParams.requestId){
+            this.props.requestActions.editRequestVacation(this.props.routeParams.requestId,data);
+        }else{
+            this.props.requestActions.createRequestVacation(data);
+        }
     }
 
     exit() {
@@ -80,7 +98,7 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     render() {
-        //console.log(this.props);
+        console.log("state",this.state.data);
         let { isLoading, isCommitting } = this.props;
         let { data } = this.state;
 
@@ -103,28 +121,28 @@ class CreateRequestVacationContainer extends React.Component {
                                                         <div className="col-md-6">
 
                                                             <div className="col-md-12">
-                                                                <FormInputDate
+                                                                <FormInputDateTime
                                                                     name="start_time"
                                                                     id="start-time"
                                                                     label="Nghỉ phép từ ngày:"
                                                                     value={data.start_time}
                                                                     updateFormData={this.updateFormData}
-                                                                    format={DATE_FORMAT}
-                                                                    placeholder={DATE_FORMAT}
+                                                                    format={DATETIME_FORMAT}
+                                                                    placeholder={DATETIME_FORMAT}
                                                                     required={true}
                                                                     maxDate={data.end_time}
                                                                     disabled={isLoading}
                                                                 />
                                                             </div>
                                                             <div className="col-md-12">
-                                                                <FormInputDate
+                                                                <FormInputDateTime
                                                                     name="end_time"
                                                                     id="end-time"
                                                                     label="Đến ngày:"
                                                                     value={data.end_time}
                                                                     updateFormData={this.updateFormData}
-                                                                    format={DATE_FORMAT}
-                                                                    placeholder={DATE_FORMAT}
+                                                                    format={DATETIME_FORMAT}
+                                                                    placeholder={DATETIME_FORMAT}
                                                                     required={true}
                                                                     minDate={data.start_time}
                                                                     disabled={isLoading}
@@ -222,6 +240,7 @@ CreateRequestVacationContainer.propTypes = {
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
     user: PropTypes.object,
+    routeParams: PropTypes.object,
 };
 
 function mapStateToProps(state) {
