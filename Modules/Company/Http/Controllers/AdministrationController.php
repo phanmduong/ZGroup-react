@@ -95,6 +95,16 @@ class AdministrationController extends ManageApiController
 
     }
 
+
+    public function getRequestVacation($requestVacationId, Request $request)
+    {
+        $requestVacation = RequestVacation::find($requestVacationId);
+        if (!$requestVacation) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+            "request" => $requestVacation->transform()
+        ]);
+    }
+
     public function changeStatusRequestVacation($requestId, Request $request)
     {
         $requestVacation = RequestVacation::find($requestId);
@@ -176,6 +186,15 @@ class AdministrationController extends ManageApiController
         $data->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa đơn thành công"
+        ]);
+    }
+
+    public function getAdvancePayment($advancePaymentId, Request $request)
+    {
+        $advancePayment = AdvancePayment::find($advancePaymentId);
+        if (!$advancePayment) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+            "request" => $advancePayment->transform()
         ]);
     }
 
