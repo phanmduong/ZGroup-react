@@ -20,6 +20,7 @@ class UserManageApiController extends ManageApiController
     {
         $gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
         $user = $this->user;
+        // dd($user->id);
         $data = [
             'id' => $user->id,
             'name' => $user->name,
@@ -56,6 +57,7 @@ class UserManageApiController extends ManageApiController
         $data['registers'] = $registers->orderBy('created_at', 'desc')->get();
         
         $data['campaigns'] = MarketingCampaign::join('registers', 'marketing_campaign.id', '=', 'registers.campaign_id')
+            ->where('deleted_at', null)
             ->where('registers.gen_id', $gen_id)
             ->where('registers.saler_id', $user->id)
             ->select('marketing_campaign.*', DB::raw('count(*) as register_count'), DB::raw('sum(registers.status) as paid_register_count'), DB::raw('sum(money) as total_money'))
