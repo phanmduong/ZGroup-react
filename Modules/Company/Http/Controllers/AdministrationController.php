@@ -163,9 +163,9 @@ class AdministrationController extends ManageApiController
         $data->save();
         
         $ppp =  strtotime($data->created_at);
-        $day = date_format($ppp, 'd');
-        $month = date_format($ppp, 'm');
-        $year = date_format($ppp, 'y');
+        $day = date('d', $ppp);
+        $month = date('m', $ppp);
+        $year = date('Y', $ppp);
         $id = (string)$data->id;
         while (strlen($id) < 4) $id = '0' . $id;
         $data->command_code = "TAMUNG" . $day . $month . $year . $id;
