@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
-import FormInputDate from "../../../../components/common/FormInputDate";
+import FormInputText from "../../../../components/common/FormInputText";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 import Avatar from "../../../../components/common/Avatar";
 import { DATE_FORMAT } from "../../../../constants/constants";
@@ -14,7 +14,7 @@ import * as helper from "../../../../helpers/helper";
 
 
 
-class CreateRequestVacationContainer extends React.Component {
+class CreateRequestMoneyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -22,10 +22,10 @@ class CreateRequestVacationContainer extends React.Component {
                 command_code: "",
                 staff: props.user,
                 request_date: "",
-                start_time: "",
-                end_time: "",
-                type: "nopay",
+                type: "cash",
+                money_payment: 0,
                 reason: "",
+
             },
         };
         this.updateFormData = this.updateFormData.bind(this);
@@ -46,7 +46,20 @@ class CreateRequestVacationContainer extends React.Component {
 
         let field = e.target.name;
         let value = e.target.value;
-        if (field == "type") value = (this.state.data.type == "nopay") ? "pay" : "nopay";
+        console.log(field,value);
+        switch(field){
+            case "type_cash":{
+                field = "type";
+                value = "cash";
+                break;
+            }
+            
+            case "type_atm":{
+                field = "type";
+                value = "atm";
+                break;
+            }
+        }
         let data = { ...this.state.data };
         data[field] = value;
         this.setState({ data });
@@ -57,12 +70,8 @@ class CreateRequestVacationContainer extends React.Component {
         data.request_date = moment(moment.now()).format(DATE_FORMAT);
 
 
-        if ( helper.isEmptyInput(data.end_time)) {
-            helper.showErrorNotification("Vui lòng chọn ngày kết thúc");
-            return;
-        }
-        if (helper.isEmptyInput(data.start_time) ) {
-            helper.showErrorNotification("Vui lòng chọn ngày bắt đầu");
+        if (helper.isEmptyInput(data.start_time) || helper.isEmptyInput(data.end_time)) {
+            helper.showErrorNotification("Vui lòng chọn ngày bắt đầu và kết thúc");
             return;
         }
         this.props.requestActions.createRequestVacation(data);
@@ -80,10 +89,10 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     render() {
-        //console.log(this.props);
-        let { isLoading, isCommitting } = this.props;
+        console.log(this.state);
+        let { isLoading,isCommitting } = this.props;
         let { data } = this.state;
-
+        const disableField = isCommitting || isCommitting;
         return (
             <div>
                 {
@@ -101,44 +110,38 @@ class CreateRequestVacationContainer extends React.Component {
                                                     <h4 className="card-title">Xin nghỉ phép</h4>
                                                     <div className="row">
                                                         <div className="col-md-6">
-
                                                             <div className="col-md-12">
-                                                                <FormInputDate
-                                                                    name="start_time"
-                                                                    id="start-time"
-                                                                    label="Nghỉ phép từ ngày:"
-                                                                    value={data.start_time}
+                                                                <FormInputText 
+                                                                    name="money_payment"
+                                                                    label="Số tiền"
+                                                                    type="number"
+                                                                    minValue="0"
                                                                     updateFormData={this.updateFormData}
-                                                                    format={DATE_FORMAT}
-                                                                    placeholder={DATE_FORMAT}
-                                                                    required={true}
-                                                                    maxDate={data.end_time}
-                                                                    disabled={isLoading}
+                                                                    disabled={disableField}
+                                                                    value={data.money_payment}
                                                                 />
                                                             </div>
-                                                            <div className="col-md-12">
-                                                                <FormInputDate
-                                                                    name="end_time"
-                                                                    id="end-time"
-                                                                    label="Đến ngày:"
-                                                                    value={data.end_time}
-                                                                    updateFormData={this.updateFormData}
-                                                                    format={DATE_FORMAT}
-                                                                    placeholder={DATE_FORMAT}
-                                                                    required={true}
-                                                                    minDate={data.start_time}
-                                                                    disabled={isLoading}
-                                                                />
-                                                            </div>
-                                                            <div className="col-md-12">
+                                                            <div className="col-md-12">Hình thức</div>
+                                                            <div className="col-md-6">
                                                                 <CheckBoxMaterial
-                                                                    label="Nghỉ có lương"
-                                                                    name="type"
-                                                                    checked={data.type == "pay"}
+                                                                    label="Chuyển khoản"
+                                                                    name="type_atm"
+                                                                    checked={data.type == "atm"}
                                                                     onChange={this.updateFormData}
-                                                                    disabled={isLoading}
+                                                                    disabled={disableField}
                                                                 />
                                                             </div>
+
+                                                            <div className="col-md-6">
+                                                                <CheckBoxMaterial
+                                                                    label="Tiền mặt"
+                                                                    name="type_cash"
+                                                                    checked={data.type == "cash"}
+                                                                    onChange={this.updateFormData}
+                                                                    disabled={disableField}
+                                                                />
+                                                            </div>
+                                                            
                                                         </div>
                                                         <div className="col-md-6">
                                                             <label className="control-label">Ghi chú</label>
@@ -149,29 +152,32 @@ class CreateRequestVacationContainer extends React.Component {
                                                                     onChange={this.updateFormData}
                                                                     value={data.reason}
                                                                     onKeyUp={() => { }}
-                                                                    placeholder="Lý do xin nghỉ"
+                                                                    placeholder="Nhập tại đây"
                                                                     className="comment-input"
                                                                     required
                                                                     style={{ width: "100%", margin: "10px", height: "165px", }}
-                                                                    disabled={isLoading}
+                                                                    disabled={disableField}
                                                                 />
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
+
+
                                                         {isCommitting ?
                                                             <button className="btn btn-fill btn-rose  disabled" type="button">
                                                                 <i className="fa fa-spinner fa-spin" /> Đang yêu cầu</button>
                                                             :
                                                             <button className="btn btn-fill btn-rose" type="button"
-                                                                onClick={this.submitData} disabled={isLoading}
+                                                                onClick={this.submitData} disabled={disableField}
                                                             ><i className="material-icons">add</i>Yêu cầu</button>}
 
                                                         <button className="btn btn-fill" type="button" disabled={isCommitting}
                                                             onClick={this.exit}
-                                                        ><i className="material-icons">cancel</i> Hủy</button>
-                                                    </div>
+                                                        ><i className="material-icons">cancel</i> Hủy
+                                                                </button>
+                                                    </div> 
 
                                                 </div>
                                             </div>
@@ -216,7 +222,7 @@ class CreateRequestVacationContainer extends React.Component {
     }
 }
 
-CreateRequestVacationContainer.propTypes = {
+CreateRequestMoneyContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isCommitting: PropTypes.bool.isRequired,
     requestActions: PropTypes.object,
@@ -239,5 +245,5 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateRequestVacationContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRequestMoneyContainer);
 
