@@ -84,7 +84,7 @@
         <div class="" style="display: flex;justify-content: space-between; align-items: stretch;">
             <div style="display:flex;flex-grow:12; align-items: stretch">
                 <div class="flex-center search-icon" ; style="margin-top:0; margin-bottom:0">
-                    <i class="fa fa-search" style="font-size: 32px" aria-hidden="true"></i>
+                    <i class="fa fa-search" style="font-size: 20px" aria-hidden="true"></i>
                 </div>
                 <div style="flex-grow: 12" class="flex-center">
                     <input placeholder="Tìm kiếm"
@@ -119,54 +119,27 @@
             {{--category--}}
             <div class="col-md-3 background-white" style="margin-top: 50px">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Collapsible Group Item #1
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body" style="display: flex; flex-direction: column">
-                                <div style="padding:8px">1</div>
-                                <div style="padding:8px">2</div>
-                                <div style="padding:8px">3</div>
+                    @foreach($goodCategories as $goodCategory)
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                       aria-expanded="true" aria-controls="collapseOne">
+                                        {{$goodCategory->name}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingOne">
+                                <div class="panel-body" style="display: flex; flex-direction: column">
+                                    <div style="padding:8px">1</div>
+                                    <div style="padding:8px">2</div>
+                                    <div style="padding:8px">3</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Collapsible Group Item #2
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body" style="display: flex; flex-direction: column">
-                                <div style="padding:8px">1</div>
-                                <div style="padding:8px">2</div>
-                                <div style="padding:8px">3</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Collapsible Group Item #3
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body" style="display: flex; flex-direction: column">
-                                <div style="padding:8px">1</div>
-                                <div style="padding:8px">2</div>
-                                <div style="padding:8px">3</div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
 
@@ -241,14 +214,14 @@
                     <br>
                 </div>
                 <?php $numbers = array("first");?>
-                @foreach($categoryGoods as $categoryGood)
+                @foreach($goodCategories as $goodCategory)
                     <?php
-                    if ($categoryGood == $numbers[count($numbers) - 1]) {
+                    if ($goodCategory->id == $numbers[count($numbers) - 1]) {
                         continue;
                     }
-                    array_push($numbers, $categoryGood);
-                    $relateGoods = Good::where("good_category_id", "=", $categoryGood)->take(6)->get(); ?>
-                    <?php $categoryName = \App\GoodCategory::find($categoryGood)->name?>
+                    array_push($numbers, $goodCategory->id);
+                    $relateGoods = Good::where("good_category_id", "=", $goodCategory->id)->take(6)->get(); ?>
+                    <?php $categoryName = $goodCategory->name?>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
@@ -289,6 +262,7 @@
     .background-white {
         background-color: white;
     }
+
     .carousel-item > img {
         width: 100%;
     }
@@ -383,9 +357,9 @@
     {{--<script src="jquery-3.3.1.min.js"></script>--}}
     <script>
         $(".panel-heading").parent('.panel').hover(
-            function() {
+            function () {
                 $(this).children('.collapse').collapse('show');
-            }, function() {
+            }, function () {
                 $(this).children('.collapse').collapse('hide');
             }
         );

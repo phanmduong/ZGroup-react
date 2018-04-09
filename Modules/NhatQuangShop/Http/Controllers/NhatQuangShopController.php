@@ -3,6 +3,7 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 use App\Good;
+use App\GoodCategory;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
@@ -38,14 +39,14 @@ class NhatQuangShopController extends Controller
         $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
         $generalGoods = $goodQuery->take(8)->get();
         $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
-        $categoryGoods = Good::orderBy("good_category_id")->pluck('good_category_id');
+        $goodCategories = GoodCategory::orderBy("created_at","desc")->get();
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
-        $this->data["categoryGoods"] = $categoryGoods;
+        $this->data["goodCategories"] = $goodCategories;
 
         return view('nhatquangshop::index', $this->data);
     }
