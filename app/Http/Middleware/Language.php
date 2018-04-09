@@ -17,11 +17,13 @@ class Language
      */
     public function handle($request, Closure $next)
     {
+        // dd(Session::all());
         // dd($request->lang);
-        if($request->lang) $request->session()->put('lang',$request->lang);
-        
-        if($request->session()->has('lang')){
-            $lang = $request->session()->get('lang');
+        if($request->lang != null) Session::flash('lang',$request->lang);
+        // dd($request->session());
+        if(Session::has('lang')){
+            $lang = Session::get('lang');
+            // dd($lang);
             // dd($request->session());
             // dd($request->session());
         }else{
@@ -32,17 +34,20 @@ class Language
         $url = Request::server('REQUEST_URI');
         // dd($url);
         // dd($url); 
+        // dd($lang);
         if($lang == 'vi'){
             // if($url == "/") return $next($request);
             // dd($url == "/" || substr($url,0,3) != "/en");
+            // $request->session()->forget('lang');
             return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect('/');
         }else{
             // dd($url);
             // dd(substr($url,0,3));
+            // $request->session()->forget('lang');
             return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect('/en');
             // if($url == "/en/") return $next($request);
-            
         }
         // return $next($request);
+        
     }
 }
