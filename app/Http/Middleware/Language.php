@@ -54,34 +54,45 @@ class Language
 
         // dd($segments['en']['faqs']);
 
-        $url = Request::server('REQUEST_URI');
-        $previousLang = Session::get('lang');
-        if($request->lang){
-            if(Session::get('lang') != $request->lang) Session::put('lang',$request->lang);
-            $url = substr($url, 0, strpos($url, "?lang="));
-        }    
-        dd($url);
+        $url = Request::server('REQUEST_URI'); 
+        // dd($url);
         $segment = "";
-        if(Session::has('lang')){
+        if($request->lang){
             // dd(Session::all());
-            $lang = Session::get('lang');
-            $segments = $langs[$previousLang];
+            $lang = $request->lang;
+            $segments = $langs[$lang];
+            $url = substr($url, 0, strpos($url, "?lang="));
             // dd($segments); 
             // echo $url;  
             foreach($segments as $key => $value){
-                // echo $key . "=>";
-                // echo $value . "\n";
+                echo $key . "=>";
+                echo $value . "\n";
 
                 if($value == $url){
                     $segment = $key;
                     break;
                 }
             }
-            // dd(1);
+            dd($segments);
+            $request->attributes->add(['lang' => $lang]);
+            if($lang == 'vi'){
+                return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect($langs[$lang][$segment]);
+            }else{
+                return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect($langs[$lang][$segment]);
+            }
         }else{
-            $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            
+            // dd(1);
+            // $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            $lang = isset($_SERVER["HTTP_ACCEPT_LANGUAGE"]) ? substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2) : '';
+            $request->attributes->add(['lang' => $lang]);
+            if($lang == 'vi'){
+                return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect('/');
+            }else{
+                return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect('/en/');
+            }
         }
-        
+    
         
         // dd(gettype($url));
         // dd($lang);
@@ -90,13 +101,9 @@ class Language
         
         // dd($request->segment(1));
         // dd($url);
-        $request->attributes->add(['lang' => $lang]);
-        dd($segment);
-        if($lang == 'vi'){
-            return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect($langs[$lang][$segment]);
-        }else{
-            return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect($langs[$lang][$segment]);
-        }
+        
+        // dd($segment);
+        
         
     }
 }
