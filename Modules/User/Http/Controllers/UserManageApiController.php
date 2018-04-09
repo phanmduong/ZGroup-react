@@ -4,6 +4,10 @@ namespace Modules\User\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\ManageApiController;
+use App\Gen;
+use App\MarketingCampaign;
+use Illuminate\Support\Facades\DB;
 
 class UserManageApiController extends ManageApiController
 {
@@ -12,8 +16,9 @@ class UserManageApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function getDetailProfile()
+    public function getDetailProfile(Request $request)
     {
+        $gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
         $user = $this->user;
         $data = [
             'id' => $user->id,
@@ -37,6 +42,25 @@ class UserManageApiController extends ManageApiController
                 'role_title' => $user->current_role->role_title
             ]
         ];
+
+        $registers = $user->sale_registers()->where('gen_id', $gen_id);
+
+        $cloneRegisters = clone $registers;
+        
+        $data['total_registers_count'] = $cloneRegisters->count();
+
+        $data['paid_registers_count'] = $cloneRegisters->select(DB::raw('sum(status) as paid_registers_count'))->first()->paid_registers_count;
+
+        $data['total_money'] = $cloneRegisters->select(DB::raw('sum(money) as total_money'))->first()->total_money;
+
+        $data['registers'] = $registers->orderBy('created_at', 'desc')->get();
+        
+        $data['campaigns'] = MarketingCampaign::join('registers', 'marketing_campaign.id', '=', 'registers.campaign_id')
+            ->where('registers.gen_id', $gen_id)
+            ->where('registers.saler_id', $user->id)
+            ->select('marketing_campaign.*', DB::raw('count(*) as register_count'), DB::raw('sum(registers.status) as paid_register_count'), DB::raw('sum(money) as total_money'))
+            ->groupBy('marketing_campaign.id')->get();
+            
         return $this->respondSuccessWithStatus(['user' => $data]);
     }
 }
