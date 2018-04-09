@@ -422,7 +422,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('/sign-in', 'PublicController@beta');
         Route::get('/upload-post', 'PublicController@beta');
         Route::get('/course/{LinkId}', 'PublicController@beta');
-        Route::get('/profile/{username}', 'PublicController@beta');
+        Route::get('/profile/{username}', 'PublicController@beta`');
         Route::get('/profile/{username}/progress', 'PublicController@beta');
         Route::get('/profile/{username}/info', 'PublicController@beta');
         Route::get('resource/linkId}/lesson/{lessonId}', 'PublicController@beta');
