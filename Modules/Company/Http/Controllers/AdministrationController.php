@@ -61,12 +61,13 @@ class AdministrationController extends ManageApiController
         $requestVacation->type = $request->type;
         $requestVacation->reason = $request->reason;
 
-        //$requestVacation->save();
+        $requestVacation->save();
 
-        $ppp = $requestVacation->created_at;
-        $day = date_format($ppp, 'd');
-        $month = date_format($ppp, 'm');
-        $year = date_format($ppp, 'y');
+        $ppp = strtotime($requestVacation->created_at);
+        
+        $day = date('d', $ppp);
+        $month = date('m', $ppp);
+        $year = date('Y', $ppp);
         $id = (string)$requestVacation->id;
         while (strlen($id) < 4) $id = '0' . $id;
         $requestVacation->command_code = "NGHIPHEP" . $day . $month . $year . $id;
@@ -159,11 +160,12 @@ class AdministrationController extends ManageApiController
         $data->reason = $request->reason;
         $data->money_payment = $request->money_payment;
         $data->type = $request->type;
-        //$data->save();
-        $ppp =  $data->created_at;
-        $day = date_format($ppp, 'd');
-        $month = date_format($ppp, 'm');
-        $year = date_format($ppp, 'y');
+        $data->save();
+        
+        $ppp =  strtotime($data->created_at);
+        $day = date('d', $ppp);
+        $month = date('m', $ppp);
+        $year = date('Y', $ppp);
         $id = (string)$data->id;
         while (strlen($id) < 4) $id = '0' . $id;
         $data->command_code = "TAMUNG" . $day . $month . $year . $id;
