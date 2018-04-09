@@ -17,7 +17,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \App\Http\Middleware\HttpsProtocol::class,
-        \App\Http\Middleware\Language::class
     ];
 
 
@@ -40,6 +39,9 @@ class Kernel extends HttpKernel
         ],
         'manageapi' => [
             'throttle:60,1',
+        ],
+        'up' => [
+            \App\Http\Middleware\Language::class
         ]
     ];
 
