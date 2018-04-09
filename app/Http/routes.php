@@ -196,7 +196,7 @@ $manageApiRoutes = function () {
 
     //Begin user api
     Route::get('/profile', 'ManageUserApiController@get_profile');
-    Route::get('/detail-profile', 'ManageUserApiController@getDetailProfile');
+    // Route::get('/detail-profile', 'ManageUserApiController@getDetailProfile');
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
     Route::post('/change-password', 'ManageUserApiController@change_password');
