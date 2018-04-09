@@ -150,7 +150,7 @@ class AdministrationController extends ManageApiController
         $data->money_payment = $request->money_payment;
         $data->type = $request->type;
         $data->save();
-        $ppp = DateTime::createFromFormat('Y-m-d', $data->created_at);
+        $ppp =  $data->created_at;
         $day = date_format($ppp, 'd');
         $month = date_format($ppp, 'm');
         $year = date_format($ppp, 'y');
