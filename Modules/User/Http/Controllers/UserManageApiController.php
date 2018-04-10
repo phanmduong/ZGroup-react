@@ -122,8 +122,8 @@ class UserManageApiController extends ManageApiController
 
         });
 
-        if ($shifts->count() != 0)
-            $data['shifts'] = $shifts;
+        $data['shifts'] = $shifts;
+
         //work shifts
 
         $workShifts = WorkShiftUser::join('work_shifts', 'work_shift_user.work_shift_id', '=', 'work_shifts.id')
@@ -178,10 +178,8 @@ class UserManageApiController extends ManageApiController
             $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             return $dataClass;
         });
-
-        if ($now_classes->count() > 0) {
-            $data['classes'] = $now_classes;
-        }
+    
+        $data['classes'] = $now_classes;
 
         return $this->respondSuccessWithStatus(['user' => $data]);
     }
