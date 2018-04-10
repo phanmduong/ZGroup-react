@@ -17,39 +17,86 @@ class Language
      */
     public function handle($request, Closure $next)
     {
-        // dd(Session::all());
-        // dd($request->lang);
-        if($request->lang) Session::put('lang',$request->lang);
-        // dd($request->session());
-        if(Session::has('lang')){
+        $langs = [
+            'en' => [
+              "homepage" => "/en",
+              "mission-vision" => "/en/mission-and-vision",
+              "media-partner" => "/en/media-partner",
+              "faqs" => "/en/faqs",
+              "jobs" => "/en/jobs-vacancies",
+              "membership" => "/en/membership",
+              "events" => "/en/event",
+              "meeting-room" => "/en/meeting-room",
+              "founders" => "/en/up-founders",
+              "mentors" => "/en/up-s-mentors",
+              "contact" => "/en/contact-us",
+              "tour" => "/en/book-a-tour"
+            ],
+            'vi' => [
+              "homepage" => "/",
+              "mission-vision" => "/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space",
+              "strategy-partner" => "/doi-tac-chien-luoc-cua-up",
+              "media-partner" => "/doi-tac-truyen-thong-cua-up",
+              "faqs" => "/nhung-cau-hoi-thuong-gap",
+              "jobs" => "/thong-tin-tuyen-dung",
+              "membership" => "/goi-thanh-vien-up-coworking-space",
+              "events" => "/su-kien",
+              "meeting-room" => "/phong-hop",
+              "founders" => "/up-founders",
+              "mentors" => "/up-s-mentors",
+              "blogs" => "/tin-tuc-startup",
+              "contact" => "/lien-he-voi-up-co-working-space",
+              "tour" => "/dang-ky-trai-nghiem"
+            ]  
+        ];
+        $segment;
+
+        $url = Request::server('REQUEST_URI');
+        if($request->lang){
+            if($request->lang) Session::put('lang',$request->lang);
+            if(substr($url,0,3) != "/en") $previousLang = "vi";
+            else $previousLang = "en";
+            $segments = $langs[$previousLang];
+            $url = substr($url, 0, strpos($url, "?lang="));
+            // dd($segments); 
+            // echo $url;  
+            foreach($segments as $key => $value){
+                // echo $key . "=>";
+                // echo $value . "\n";
+                if($value == $url){
+                    $segment = $key;
+                    break;
+                }
+            }
+            $lang = ($request->lang) ? Session::get('lang') : substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        }else if(Session::has('lang')){
             $lang = Session::get('lang');
-            // dd($lang);
-            // dd($request->session());
-            // dd($request->session());
         }else{
             $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         }
-        // dd($lang);
-        // dd($request->session());
-        $url = Request::server('REQUEST_URI');
-        // dd($url);
-        // dd($url); 
-        // dd($lang);
         $request->attributes->add(['lang' => $lang]);
-        // dd($request->merge(array("lang" => $lang)));
-        if($lang == 'vi'){
-            // if($url == "/") return $next($request);
-            // dd($url == "/" || substr($url,0,3) != "/en");
-            // $request->session()->forget('lang');
-            return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect('/');
+        // echo $previousLang;
+        // dd(Session::all());
+        // dd($segment);
+        // dd($langs[$lang][$segment]);
+        // dd(Session::has('lang'));
+        // dd($url);
+        if(Session::has('lang')){
+            if($lang == 'vi'){            
+                return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect($langs[$lang][$segment]);
+            }else{
+                if($url == '/') return redirect('/en/');
+                // dd(1);
+                // dd($next($request));
+                return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect($langs[$lang][$segment]);
+            }
         }else{
-            // dd($url);
-            // dd(substr($url,0,3));
-            // $request->session()->forget('lang');
-            return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect('/en');
-            // if($url == "/en/") return $next($request);
+            if($lang == 'vi'){            
+                return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect('/');
+            }else{
+                // dd(1);
+                return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect('/en/');
+            }
         }
-        // return $next($request);
-        
     }
 }

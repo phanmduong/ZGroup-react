@@ -196,35 +196,35 @@
                     <a class="nav-link hover-change dropdown-toggle" data-scroll="true" data-toggle="dropdown">About
                         UP</a>
                     <div class="dropdown-menu">
-                        <a href="/en/mission-and-vision/" class="dropdown-item">Mission and Vision</a>
-                        <a href="/en/media-partner/" class="dropdown-item">Media Partner</a>
+                        <a href="/en/mission-and-vision" class="dropdown-item">Mission and Vision</a>
+                        <a href="/en/media-partner" class="dropdown-item">Media Partner</a>
                         <a href="/en/faqs" class="dropdown-item">FAQs/</a>
-                        <a href="/en/jobs-vacancies/" class="dropdown-item">JOBS & Vacancies</a>
+                        <a href="/en/jobs-vacancies" class="dropdown-item">JOBS & Vacancies</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/en/membership/" data-scroll="true">Membership</a>
+                    <a class="nav-link hover-change" href="/en/membership" data-scroll="true">Membership</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/en/event/" data-scroll="true">Events</a>
+                    <a class="nav-link hover-change" href="/en/event" data-scroll="true">Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/en/meeting-room/" data-scroll="true">Meeting room</a>
+                    <a class="nav-link hover-change" href="/en/meeting-room" data-scroll="true">Meeting room</a>
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true">UP's Community</a>
                     <div class="dropdown-menu">
-                        <a href="/en/up-founder/" class="dropdown-item">Founders</a>
-                        <a href="/en/up-s-mentors/" class="dropdown-item">UP Mentor</a>
+                        <a href="/en/up-founder" class="dropdown-item">Founders</a>
+                        <a href="/en/up-s-mentors" class="dropdown-item">UP Mentor</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/en/contact-us/" data-scroll="true">Contact us</a>
+                    <a class="nav-link hover-change" href="/en/contact-us" data-scroll="true">Contact us</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-round btn-danger"
                        style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
-                       href="/en/book-a-tour/">Book a tour</a>
+                       href="/en/book-a-tour">Book a tour</a>
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/en.png" width="18" height="12" alt=""></a>
