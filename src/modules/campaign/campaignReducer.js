@@ -30,13 +30,20 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 upMessage: true
             };
         case types.SAVE_MESSAGE_SUCCESS: {
+            // let a = state.template_types.map((type)=>{
+            //     if(type.id === action.message.sms_template_type_id){
+            //         return{
+            //             name:type.name,
+            //             color:type.color
+            //         };
+            //     }
+            //     return type;
+            // });
             let message = {
                 ...action.message,
-                sent_quantity: 0,
-                needed_quantity: 0,
                 sms_template_type: {
                     id: action.message.sms_template_type_id,
-                    name: state.template_types[action.message.sms_template_type_id - 1].name
+                    name: state.template_types[action.message.sms_template_type_id - 1].name,
                 },
             };
             return {
@@ -73,11 +80,10 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                         content:action.message.content,
                         sms_template_type_id: action.message.sms_template_type_id,
                         send_time:action.message.send_time,
-                        sent_quantity: 0,
-                        needed_quantity: 0,
                         sms_template_type: {
                             id: action.message.sms_template_type_id,
-                            name: state.template_types[action.message.sms_template_type_id - 1].name
+                            name: state.template_types[action.message.sms_template_type_id - 1].name,
+                            color: state.template_types[action.message.sms_template_type_id - 1].color,
                         }
                     };
                 return message;

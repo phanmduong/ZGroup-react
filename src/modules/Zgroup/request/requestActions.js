@@ -153,10 +153,10 @@ export function getAllRequestVacation(info) {
 export function getAllRequestMoney(info) {
     return function(dispatch) {
         dispatch({ type: types.BEGIN_GET_ALL_REQUEST_MONEY });
-        helper.showWarningNotification("BEGIN_GET_ALL_REQUEST_MONEY");
+        //helper.showWarningNotification("BEGIN_GET_ALL_REQUEST_MONEY");
         requestApi.getAllRequestMoney(info)
             .then(res => {
-                helper.showNotification("GET_ALL_REQUEST_MONEY_SUCCESS");
+                //helper.showNotification("GET_ALL_REQUEST_MONEY_SUCCESS");
                 //if (res.data.status == 1) {
                     dispatch({
                         type: types.GET_ALL_REQUEST_MONEY_SUCCESS,
