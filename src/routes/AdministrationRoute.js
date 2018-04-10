@@ -16,7 +16,12 @@ export default [
         component: WeekendReportContainer,
     },
     {
-        path: "/administration/weekend-report/add-report",
+        path: "/administration/weekend-report/create",
+        component: AddReportContainer,
+    },
+    {
+        path: "/administration/weekend-report/edit/:reportId",
         component: AddReportContainer,
     },
 ];
+//path: "/sms/campaign-detail/:campaignId",
