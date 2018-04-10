@@ -85,7 +85,7 @@ class Language
             if($lang == 'vi'){            
                 return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect($langs[$lang][$segment]);
             }else{
-                if($url == '/') return redirect('/en/');
+                if($url == '/' || $segment == "") return redirect('/en/');
                 // dd(1);
                 // dd($next($request));
                 return ($url == "/en" || substr($url,0,3) == "/en") ? $next($request) : redirect($langs[$lang][$segment]);
