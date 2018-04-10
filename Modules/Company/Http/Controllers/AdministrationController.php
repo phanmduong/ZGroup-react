@@ -89,7 +89,7 @@ class AdministrationController extends ManageApiController
         $requestVacation->type = $request->type;
         $requestVacation->reason = $request->reason;
 
-        $request->save();
+        $requestVacation->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công"
         ]);
