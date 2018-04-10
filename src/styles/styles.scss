@@ -926,13 +926,6 @@ a.btn-seat.active {
 
 
 
-.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
-    background-color: rgba(197, 0, 0, 1)!important;
-}
-
-.nav-pills-rose > .active > a {
-    background-color: rgba(197, 0, 0, 1) !important;
-}
 
 .nav-pills > li > a > i {
     display: inline-block;
@@ -948,16 +941,24 @@ a.btn-seat.active {
 .modal-title {
     font-weight: bold
 }
-.campaign-message-type {
-    width: 150px;
-    height: 40px;
-    border-radius: 5px;
-    display: flex;
-    cursor: auto;
+
+.fileinput {
+    width: 100%
 }
-.campaign-message-type > span {
-    margin: auto;
-    font-weight: 600;
-    color: white;
-    font-size:12px;
+
+.fileinput div {
+    max-width: 100%!important;
+    width: 100%;
+}
+
+.fileinput img {
+    width :100%
+}
+
+.fileinput-preview {
+    width: 100%
+}
+
+.modal-content .modal-footer button {
+    padding : 12px 30px
 }
