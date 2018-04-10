@@ -20,6 +20,9 @@ class WeekendReportContainer extends React.Component {
         this.loadOrders = this.loadOrders.bind(this);
         this.templatesSearchChange = this.templatesSearchChange.bind(this);
     }
+    componentWillMount() {
+        this.props.weekendReportAction.loadAllReports();
+    }
     templatesSearchChange(value) {
         this.setState({
             query: value,
@@ -35,9 +38,7 @@ class WeekendReportContainer extends React.Component {
             );
         }.bind(this), 500);
     }
-    componentWillMount() {
-        this.props.weekendReportAction.loadAllReports();
-    }
+
 
     loadOrders(page = 1) {
         this.setState({page: page});
