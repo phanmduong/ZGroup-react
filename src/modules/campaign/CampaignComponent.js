@@ -69,7 +69,7 @@ class CampaignComponent extends React.Component {
                             </button>
                             <ul className="dropdown-menu dropdown-primary">
                                 <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 2})}>
+                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>
                                         Thêm tin</a>
                                 </li>
                                 <li>
@@ -155,6 +155,7 @@ class CampaignComponent extends React.Component {
                                                         <a className="campaign-message-type"  style={{backgroundColor:message.sms_template_type.color}}
                                                         >
                                                             <span>{message.sms_template_type.name.toUpperCase()}</span></a>
+
                                                     </td>
                                                     <td>
                                                         <div className="btn-group-action">

@@ -962,3 +962,15 @@ a.btn-seat.active {
 .modal-content .modal-footer button {
     padding : 12px 30px
 }
+.campaign-message-type, .campaign-message-type:hover {
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+}
+.campaign-message-type > span {
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+}
