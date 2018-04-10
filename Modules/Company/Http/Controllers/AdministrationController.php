@@ -144,11 +144,22 @@ class AdministrationController extends ManageApiController
         }
 
     }
+
     public function changeStatusAdvancePayment($advancePaymentId,Request $request){
         $data = AdvancePayment::find($advancePaymentId);
         $data->status = $request->status;
-        $data->money_received = $request->money_received;
+
+        if($request->status == 1){
+            $data->money_received = $request->money_received;
+        }
+        if($request->status == 2){
+            
+            $data->money_used = $request->money_used;            
+
+        }
+
         $data->save();
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
         ]);
