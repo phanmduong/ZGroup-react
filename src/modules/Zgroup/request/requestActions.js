@@ -20,11 +20,8 @@ export function createRequestVacation(data) {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
                 }
-            })
-            .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra.");
-                dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
             });
+            
     };
 }
 
@@ -45,10 +42,7 @@ export function editRequestVacation(id,data) {
                     dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
                 }
             });
-            // .catch(() => {
-            //     helper.showErrorNotification("Có lỗi xảy ra.");
-            //     dispatch({ type: types.CREATE_REQUEST_VACATION_ERROR });
-            // });
+            
     };
 }
 
@@ -69,19 +63,16 @@ export function createRequestMoney(data) {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({ type: types.CREATE_REQUEST_MONEY_ERROR });
                 }
-            })
-            .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra.");
-                dispatch({ type: types.CREATE_REQUEST_MONEY_ERROR });
             });
+            
     };
 }
 
-export function editRequestMoney(data) {
+export function editRequestMoney(id,data) {
     return function(dispatch) {
         dispatch({ type: types.BEGIN_CREATE_REQUEST_MONEY });
         helper.showWarningNotification("Đang yêu cầu...");
-        requestApi.editRequestMoney(data)
+        requestApi.editRequestMoney(id,data)
             .then(res => {
                 if (res.data.status == 1) {
                     dispatch({
@@ -94,10 +85,7 @@ export function editRequestMoney(data) {
                     dispatch({ type: types.CREATE_REQUEST_MONEY_ERROR });
                 }
             });
-            // .catch(() => {
-            //     helper.showErrorNotification("Có lỗi xảy ra.");
-            //     dispatch({ type: types.CREATE_REQUEST_MONEY_ERROR });
-            // });
+            
     };
 }
 
@@ -118,11 +106,7 @@ export function getRequestVacation(id, success) {
                     browserHistory.push("/administration/request/vacation");
                 }
             });
-            // .catch(() => {
-            //     helper.showErrorNotification("Có lỗi xảy ra.");
-            //     dispatch({ type: types.GET_DETAIL_REQUEST_VACATION_ERROR });
-            //     browserHistory.push("/administration/request/vacation");
-            // });
+            
     };
 }
 
@@ -143,10 +127,6 @@ export function getRequestMoney(id, success) {
                     browserHistory.push("/administration/request/money");
                 }
             });
-            // .catch(() => {
-            //     helper.showErrorNotification("Có lỗi xảy ra.");
-            //     dispatch({ type: types.GET_DETAIL_REQUEST_MONEY_ERROR });
-            //     browserHistory.push("/administration/request/money");
-            // });
+            
     };
 }

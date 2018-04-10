@@ -34,7 +34,6 @@ class CreateRequestMoneyContainer extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
         if(this.props.routeParams.requestId){
             this.props.requestActions.getRequestMoney(
                 this.props.routeParams.requestId, 
@@ -99,7 +98,7 @@ class CreateRequestMoneyContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state);
+        
         let { isLoading,isCommitting } = this.props;
         let { data } = this.state;
         const disableField = isCommitting || isCommitting;

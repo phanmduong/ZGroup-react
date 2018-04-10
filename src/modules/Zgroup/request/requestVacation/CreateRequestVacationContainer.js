@@ -34,7 +34,6 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
         if(this.props.routeParams.requestId){
             this.props.requestActions.getRequestVacation(
                 this.props.routeParams.requestId, 
@@ -64,7 +63,8 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     submitData() {
-        let { data } = this.state;
+        let  data  = {...this.state.data};
+
         data.request_date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
         data.start_time = moment(data.start_time).format(DATETIME_FORMAT_SQL);
         data.end_time = moment(data.end_time).format(DATETIME_FORMAT_SQL);
@@ -98,9 +98,11 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     render() {
-        console.log("state",this.state.data);
+        
         let { isLoading, isCommitting } = this.props;
         let { data } = this.state;
+        let date1 = moment(data.start_time).isValid() ?  moment(data.start_time).format("DD/mm/yyyy") : "";
+        let date2 = moment(data.end_time).isValid() ?  moment(data.end_time).format("DD/mm/yyyy") : "";
 
         return (
             <div>
@@ -130,7 +132,7 @@ class CreateRequestVacationContainer extends React.Component {
                                                                     format={DATETIME_FORMAT}
                                                                     placeholder={DATETIME_FORMAT}
                                                                     required={true}
-                                                                    maxDate={data.end_time}
+                                                                    maxDate={date2}
                                                                     disabled={isLoading}
                                                                 />
                                                             </div>
@@ -144,7 +146,7 @@ class CreateRequestVacationContainer extends React.Component {
                                                                     format={DATETIME_FORMAT}
                                                                     placeholder={DATETIME_FORMAT}
                                                                     required={true}
-                                                                    minDate={data.start_time}
+                                                                    minDate={date1}
                                                                     disabled={isLoading}
                                                                 />
                                                             </div>

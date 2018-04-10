@@ -48,7 +48,6 @@ export default function requestReducer(state = initialState.request, action) {
                 isLoading: true,
             };
         case types.GET_DETAIL_REQUEST_VACATION_SUCCESS: {
-            console.log("data",action.data.data.request);
             return {
                 ...state,
                 isLoading: false,

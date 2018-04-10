@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as requestActions from "./requestActions";
+import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
-import Loading from "../../../components/common/Loading";
+import Loading from "../../../../components/common/Loading";
 
 
 
-class ManageRequestContainer extends React.Component {
+class RequestMoneyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -51,7 +51,7 @@ class ManageRequestContainer extends React.Component {
     }
 }
 
-ManageRequestContainer.propTypes = {
+RequestMoneyContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
@@ -70,4 +70,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageRequestContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RequestMoneyContainer);

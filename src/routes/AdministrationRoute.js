@@ -1,4 +1,5 @@
-import ManageRequestContainer from "../modules/Zgroup/request/ManageRequestContainer";
+import RequestMoneyContainer from "../modules/Zgroup/request/requestMoney/RequestMoneyContainer";
+import RequestVacationContainer from "../modules/Zgroup/request/requestVacation/RequestVacationContainer";
 import CreateRequestVacationContainer from "../modules/Zgroup/request/requestVacation/CreateRequestVacationContainer";
 import CreateRequestMoneyContainer from "../modules/Zgroup/request/requestMoney/CreateRequestMoneyContainer";
 import WeekendReportContainer from "../modules/Zgroup/weekendReport/WeekendReportContainer";
@@ -25,8 +26,12 @@ export default [
         component: CreateRequestVacationContainer,
     },
     {
-        path: "/administration/request/manage",
-        component: ManageRequestContainer,
+        path: "/administration/request/money",
+        component: RequestMoneyContainer,
+    },
+    {
+        path: "/administration/request/vacation",
+        component: RequestVacationContainer,
     },
     {
         path: "/administration/weekend-report",
