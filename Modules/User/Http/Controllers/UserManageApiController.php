@@ -132,10 +132,10 @@ class UserManageApiController extends ManageApiController
 
         $week = WorkShift::where('gen_id', $gen_id)->max('week');
 
-        if ($gen_id) 
+        if ($gen_id)
             $workShifts = $workShifts->where('work_shifts.gen_id', $gen_id);
 
-        if ($week) 
+        if ($week)
             $workShifts = $workShifts->where('work_shifts.week', $week);
 
         $workShifts = $workShifts->where('work_shift_user.user_id', $user->id)->get();
@@ -147,9 +147,9 @@ class UserManageApiController extends ManageApiController
                 'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
                 'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
             ];
-            if ($shift->check_in) 
+            if ($shift->check_in)
                 $data['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
-            if ($shift->check_out) 
+            if ($shift->check_out)
                 $data['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
             return $data;
         });
@@ -158,12 +158,13 @@ class UserManageApiController extends ManageApiController
 
         //lecturer
         $time = date('Y-m-d');
-    
+        $time = "2018-5-12";
         $now_classes = StudyClass::orderBy('id');
-    
-        $data = [];
 
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
+            ->where(function ($query) use ($user) {
+                $query->where('classes.teacher_id', $user->id)->orWhere('classes.teaching_assistant_id', $user->id);
+            })
             ->whereRaw('time = "' . $time . '"')
             ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
 
