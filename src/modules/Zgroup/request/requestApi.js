@@ -96,12 +96,48 @@ export function getRequestMoney(id) {
     return axios.get(url);
 }
 
-export function getAllRequestMoney(id) {
-    //http://manageapi.keetool.xyz/good/all/no-paging?token=
-    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all" + id;
+export function getAllRequestMoney(info = {}) {
+    info = {
+        ...info,
+        page: info.page || 1,
+        query: info.query || "",
+    };
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?page=" + info.page + "&query=" + info.query;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    } 
+    return axios.get(url);
+}
+
+export function getAllRequestVacation(info = {}) {
+    info = {
+        ...info,
+        page: info.page || 1,
+        query: info.query || "",
+    };
+    let url     = env.MANAGE_API_URL +"/company/administration/request-vacation/all?page=" + info.page + "&query=" + info.query;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    } 
+    return axios.get(url);
+}
+
+export function confirmPayRequest(id, money_received) {
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     } 
-    return axios.get(url);
+    return axios.post(url, {money_received, status: 1});
+}
+
+export function confirmReceiveRequest(id, money_used) {
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    } 
+    return axios.post(url, {money_used, status: 2});
 }

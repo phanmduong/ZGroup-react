@@ -16,6 +16,8 @@ class RequestVacationContainer extends React.Component {
     }
 
     componentWillMount() {
+        let {requestActions} = this.props;
+        requestActions.getAllRequestVacation();
     }
 
     // componentWillReceiveProps(next){
@@ -33,11 +35,11 @@ class RequestVacationContainer extends React.Component {
 
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">event_note</i>
+                                <i className="material-icons">local_hotel</i>
                                 </div>
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Name</h4>
+                                    <h4 className="card-title">Danh sách xin nghỉ phép</h4>
                                     <Loading/>
                                     
                                 </div>
@@ -55,12 +57,14 @@ RequestVacationContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
+    requestVacations: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.request.isLoading,
         paginator: state.request.paginator,
+        requestVacations: state.request.requestVacations,
     };
 }
 

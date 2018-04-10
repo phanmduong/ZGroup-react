@@ -76,6 +76,45 @@ export default function requestReducer(state = initialState.request, action) {
                 isLoading: false,
             };
 
+        case types.BEGIN_GET_ALL_REQUEST_VACATION:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.GET_ALL_REQUEST_VACATION_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                requestVacations: action.data.requestVacation,
+                paginator: action.data.paginator,
+
+            };
+        }
+        case types.GET_ALL_REQUEST_VACATION_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+            };
+            
+        case types.BEGIN_GET_ALL_REQUEST_MONEY:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.GET_ALL_REQUEST_MONEY_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                requestMoneys: action.data.data,
+                paginator: action.data.paginator,
+            };
+        }
+        case types.GET_ALL_REQUEST_MONEY_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+            };
+
         default:
             return state;
     }

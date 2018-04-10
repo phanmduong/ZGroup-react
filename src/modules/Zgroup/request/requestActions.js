@@ -130,3 +130,84 @@ export function getRequestMoney(id, success) {
             
     };
 }
+
+export function getAllRequestVacation(info) {
+    return function(dispatch) {
+        dispatch({ type: types.BEGIN_GET_ALL_REQUEST_VACATION });
+        requestApi.getAllRequestVacation(info)
+            .then(res => {
+                // if (res.data.status == 1) {
+                    dispatch({
+                        type: types.GET_ALL_REQUEST_VACATION_SUCCESS,
+                        data: res.data,
+                    });
+                // } else {
+                //     helper.showErrorNotification("Có lỗi xảy ra.");
+                //     dispatch({ type: types.GET_ALL_REQUEST_VACATION_ERROR });
+                // }
+            });
+            
+    };
+}
+
+export function getAllRequestMoney(info) {
+    return function(dispatch) {
+        dispatch({ type: types.BEGIN_GET_ALL_REQUEST_MONEY });
+        helper.showWarningNotification("BEGIN_GET_ALL_REQUEST_MONEY");
+        requestApi.getAllRequestMoney(info)
+            .then(res => {
+                helper.showNotification("GET_ALL_REQUEST_MONEY_SUCCESS");
+                //if (res.data.status == 1) {
+                    dispatch({
+                        type: types.GET_ALL_REQUEST_MONEY_SUCCESS,
+                        data: res.data,
+                    });
+                // } else {
+                //     helper.showErrorNotification("Có lỗi xảy ra.");
+                //     dispatch({ type: types.GET_ALL_REQUEST_MONEY_ERROR });
+                // }
+            });
+            
+    };
+}
+
+
+export function confirmPayRequest(id, money, success) {
+    return function(dispatch) {
+        dispatch({ type: "" });
+        helper.showWarningNotification("Đang duyệt...");
+        requestApi.confirmPayRequest(id,money)
+            .then(res => {
+                if (res.data.status == 1) {
+                    
+                    helper.showNotification("Duyệt thành công!");
+//                    getAllRequestMoney();
+                    success();
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    
+                }
+            });
+            
+    };
+}
+
+export function confirmReceiveRequest(id, money, success) {
+    return function(dispatch) {
+        dispatch({ type: "" });
+        helper.showWarningNotification("Đang duyệt...");
+        requestApi.confirmReceiveRequest(id,money)
+            .then(res => {
+                if (res.data.status == 1) {
+                    
+                    helper.showNotification("Duyệt thành công!");
+                    //getAllRequestMoney();
+                    success();
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    
+                }
+            });
+            
+    };
+}
