@@ -185,14 +185,25 @@ class ClassesContainer extends React.Component {
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
+
+
                 <div className="container-fluid">
-                    <Select
-                        options={this.state.gens}
-                        onChange={this.changeGens}
-                        value={this.state.selectGenId}
-                        defaultMessage="Chọn khóa học"
-                        name="gens"
-                    />
+                    {
+                        this.props.isLoadingGens
+                            ?
+                            <Loading/>
+                            :
+                            <div>
+                                <Select
+                                    options={this.state.gens}
+                                    onChange={this.changeGens}
+                                    value={this.state.selectGenId}
+                                    defaultMessage="Chọn khóa học"
+                                    name="gens"
+                                />
+                            </div>
+
+                    }
                     <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
