@@ -1,6 +1,8 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'filmzgroup', 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], function()
+$webRoutes = function()
 {
     Route::get('/', 'FilmZgroupController@index');
-});
+};
+
+Route::group(['middleware' => 'web', 'domain' => "filmgroup.test", 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], $webRoutes);

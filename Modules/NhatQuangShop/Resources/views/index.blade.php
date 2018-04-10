@@ -119,7 +119,17 @@
             {{--category--}}
             <div class="col-md-3 background-white" style="margin-top: 50px">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <?php
+                    $childs = array();
+                    function get_all_childs($parentId)
+                    {
+                        $childs = \App\GoodCategory::where('parent_id', $parentId)->get();
+                        return $childs;
+                    }
+                    ?>
+
                     @foreach($goodCategories as $goodCategory)
+                        <?php dd($goodCategory); ?>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
                                 <h4 class="panel-title">
@@ -129,14 +139,24 @@
                                     </a>
                                 </h4>
                             </div>
+
+                            <?php get_all_childs($goodCategory->id);
+                            ?>
+
                             <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingOne">
                                 <div class="panel-body" style="display: flex; flex-direction: column">
-                                    <div style="padding:8px">1</div>
+                                    @if(!$childs)
+                                    {{--@foreach($childs as $child)--}}
+                                        {{--<div style="padding:8px">{{$child->name}}</div>--}}
+                                    {{--@endforeach--}}
                                     <div style="padding:8px">2</div>
-                                    <div style="padding:8px">3</div>
+
+                                    @endif
+
                                 </div>
                             </div>
+
                         </div>
                     @endforeach
 
