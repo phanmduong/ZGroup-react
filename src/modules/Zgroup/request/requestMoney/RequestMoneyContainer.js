@@ -5,10 +5,12 @@ import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
 import ButtonGroupAction from "../../../../components/common/ButtonGroupAction";
+import Pagination from "../../../../components/common/Pagination";
 import moment from "moment";
 import * as helper from "../../../../helpers/helper";
 import PayConfirmModal from "./PayConfirmModal";
 import ReceiveConfirmModal from "./ReceiveConfirmModal";
+import { Link } from "react-router";
 
 class RequestMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -37,48 +39,48 @@ class RequestMoneyContainer extends React.Component {
     //     console.log(next);
     // }
 
-    openPayConfirmModal(obj){
-        this.setState({showPayConfirmModal: true, idPay: obj.id, currentRequest: obj});
+    openPayConfirmModal(obj) {
+        this.setState({ showPayConfirmModal: true, idPay: obj.id, currentRequest: obj });
     }
 
-    closePayConfirmModal(){
-        this.setState({showPayConfirmModal: false});
+    closePayConfirmModal() {
+        this.setState({ showPayConfirmModal: false });
     }
 
-    submitPayConfirmModal(money){
+    submitPayConfirmModal(money) {
         this.closePayConfirmModal();
         this.props.requestActions.confirmPayRequest(this.state.idPay, money,
             this.props.requestActions.getAllRequestMoney
         );
     }
 
-    openReceiveConfirmModal(obj){
-        this.setState({showReceiveConfirmModal: true, idReceive:obj.id, currentRequest: obj});
+    openReceiveConfirmModal(obj) {
+        this.setState({ showReceiveConfirmModal: true, idReceive: obj.id, currentRequest: obj });
     }
 
-    closeReceiveConfirmModal(){
-        this.setState({showReceiveConfirmModal: false});
+    closeReceiveConfirmModal() {
+        this.setState({ showReceiveConfirmModal: false });
     }
 
-    submitReceiveConfirmModal(money){
+    submitReceiveConfirmModal(money) {
         this.closeReceiveConfirmModal();
         this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,
             this.props.requestActions.getAllRequestMoney);
     }
 
     render() {
-        //console.log(this.props);
-        let { isLoading, requestMoneys } = this.props;
-        let {showPayConfirmModal, showReceiveConfirmModal, currentRequest} = this.state;
+        console.log(this.props);
+        let { isLoading, requestMoneys, paginator, requestActions, user } = this.props;
+        let { showPayConfirmModal, showReceiveConfirmModal, currentRequest } = this.state;
         return (
             <div className="content">
-                <PayConfirmModal 
+                <PayConfirmModal
                     show={showPayConfirmModal}
                     onHide={this.closePayConfirmModal}
                     submit={this.submitPayConfirmModal}
                     data={currentRequest}
                 />
-                <ReceiveConfirmModal 
+                <ReceiveConfirmModal
                     show={showReceiveConfirmModal}
                     onHide={this.closeReceiveConfirmModal}
                     submit={this.submitReceiveConfirmModal}
@@ -95,6 +97,12 @@ class RequestMoneyContainer extends React.Component {
 
                                 <div className="card-content">
                                     <h4 className="card-title">Danh sách xin tạm ứng</h4>
+                                    <div className="row">
+                                        <div className="col-md-3">
+                                            <Link className="btn btn-rose" to="/administration/request/money/create">
+                                                <i className="material-icons">add</i>Xin tạm ứng</Link>
+                                        </div>
+                                    </div>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="col-md-12">
@@ -112,11 +120,12 @@ class RequestMoneyContainer extends React.Component {
                                                                         <th>Thực nhận</th>
                                                                         <th>Số tiền sử dụng</th>
                                                                         <th>Số tiền hoàn trả</th>
+                                                                        <th>Lý do</th>
                                                                         <th>Hình thức</th>
                                                                         <th>Người ứng tiền</th>
                                                                         <th>Ngày ứng tiền</th>
                                                                         <th>Ngày hoàn trả</th>
-                                                                        <th/>
+                                                                        <th />
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -124,12 +133,12 @@ class RequestMoneyContainer extends React.Component {
                                                                         //<td>{date.format("D-M-YYYY")}</td>
                                                                         //<td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
                                                                         let type = "Không có";
-                                                                        switch(obj.type){
-                                                                            case "atm":{
+                                                                        switch (obj.type) {
+                                                                            case "atm": {
                                                                                 type = "Chuyển khoản";
                                                                                 break;
                                                                             }
-                                                                            case "cash":{
+                                                                            case "cash": {
                                                                                 type = "Tiền mặt";
                                                                                 break;
                                                                             }
@@ -142,6 +151,7 @@ class RequestMoneyContainer extends React.Component {
                                                                                 <td>{helper.dotNumber(obj.money_received)}</td>
                                                                                 <td>{helper.dotNumber(obj.money_used)}</td>
                                                                                 <td>{helper.dotNumber(obj.money_received - obj.money_used)}</td>
+                                                                                <td>{obj.reason}</td>
                                                                                 <td>{type}</td>
                                                                                 <td>{obj.staff.name}</td>
                                                                                 <td>{moment(obj.created_at.date).format("D/M/YYYY")}</td>
@@ -149,22 +159,22 @@ class RequestMoneyContainer extends React.Component {
                                                                                 <td><ButtonGroupAction
                                                                                     editUrl={"/administration/request/money/edit/" + obj.id}
                                                                                     disabledDelete={true}
-                                                                                    disabledEdit={obj.status > 0}
+                                                                                    disabledEdit={obj.status > 0 || user.id != obj.staff.id}
                                                                                     children={
                                                                                         [
-                                                                                            obj.status == 0  ?
-                                                                                            <a key="1" data-toggle="tooltip" title="Chi Tiền" type="button" rel="tooltip"
-                                                                                                onClick={()=>{this.openPayConfirmModal(obj);}}>
-                                                                                                <i className="material-icons">vertical_align_top</i></a>
-                                                                                            : <div/>
+                                                                                            (obj.status == 0 && user.role == 2) ?
+                                                                                                <a key="1" data-toggle="tooltip" title="Chi Tiền" type="button" rel="tooltip"
+                                                                                                    onClick={() => { this.openPayConfirmModal(obj); }}>
+                                                                                                    <i className="material-icons">vertical_align_top</i></a>
+                                                                                                : <div />
                                                                                             ,
-                                                                                            obj.status == 1 ?
-                                                                                            <a key="2" data-toggle="tooltip" title="Hoàn Trả" type="button" rel="tooltip"
-                                                                                                onClick={()=>{this.openReceiveConfirmModal(obj);}}>
-                                                                                                <i className="material-icons">vertical_align_bottom</i></a>
-                                                                                            : <div/>
+                                                                                            (obj.status == 1  && user.role == 2)?
+                                                                                                <a key="2" data-toggle="tooltip" title="Hoàn Trả" type="button" rel="tooltip"
+                                                                                                    onClick={() => { this.openReceiveConfirmModal(obj); }}>
+                                                                                                    <i className="material-icons">vertical_align_bottom</i></a>
+                                                                                                : <div />
                                                                                         ]
-                                                                                            
+
                                                                                     }
                                                                                 /></td>
                                                                             </tr>
@@ -172,6 +182,11 @@ class RequestMoneyContainer extends React.Component {
                                                                     })}
                                                                 </tbody>
                                                             </table>
+                                                            <div style={{ display: "flex", flexDirection: "row-reverse" }}><Pagination
+                                                                currentPage={paginator.current_page}
+                                                                totalPages={paginator.total_pages}
+                                                                loadDataPage={(id) => { return requestActions.getAllRequestMoney({ page: id }); }}
+                                                            /></div>
                                                         </div>
                                                 }
                                             </div>
@@ -179,6 +194,7 @@ class RequestMoneyContainer extends React.Component {
                                     }
 
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -193,6 +209,7 @@ RequestMoneyContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
+    user: PropTypes.object,
     requestMoneys: PropTypes.array,
 };
 
@@ -201,6 +218,7 @@ function mapStateToProps(state) {
         isLoading: state.request.isLoading,
         paginator: state.request.paginator,
         requestMoneys: state.request.requestMoneys,
+        user: state.login.user,
     };
 }
 

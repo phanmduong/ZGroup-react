@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
-import FormInputDateTime from "../../../../components/common/FormInputDateTime";
+import FormInputDate from "../../../../components/common/FormInputDate";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 import Avatar from "../../../../components/common/Avatar";
-import { DATETIME_FORMAT,DATETIME_FORMAT_SQL } from "../../../../constants/constants";
+import { DATE_FORMAT,DATETIME_FORMAT_SQL } from "../../../../constants/constants";
 import moment from "moment";
 import { browserHistory } from 'react-router';
 import * as helper from "../../../../helpers/helper";
@@ -38,9 +38,9 @@ class CreateRequestVacationContainer extends React.Component {
             this.props.requestActions.getRequestVacation(
                 this.props.routeParams.requestId, 
                 (data)=>{
-                    data.start_time = moment(data.start_time).format( DATETIME_FORMAT);
-                    data.end_time = moment(data.end_time).format( DATETIME_FORMAT);
-                    data.request_date = moment(data.request_date).format( DATETIME_FORMAT);
+                    data.start_time = moment(data.start_time).format( DATE_FORMAT);
+                    data.end_time = moment(data.end_time).format( DATE_FORMAT);
+                    data.request_date = moment(data.request_date).format( DATE_FORMAT);
                     return this.setState({data});
                 }
             );
@@ -64,20 +64,20 @@ class CreateRequestVacationContainer extends React.Component {
 
     submitData() {
         let  data  = {...this.state.data};
+        
+        if ( helper.isEmptyInput(data.end_time) || !moment(data.end_time).isValid()) {
+            helper.showErrorNotification("Vui lòng chọn ngày kết thúc");
+            return;
+        }
+        if (helper.isEmptyInput(data.start_time) || !moment(data.start_time).isValid()) {
+            helper.showErrorNotification("Vui lòng chọn ngày bắt đầu");
+            return;
+        }
 
         data.request_date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
         data.start_time = moment(data.start_time).format(DATETIME_FORMAT_SQL);
         data.end_time = moment(data.end_time).format(DATETIME_FORMAT_SQL);
 
-
-        if ( helper.isEmptyInput(data.end_time)) {
-            helper.showErrorNotification("Vui lòng chọn ngày kết thúc");
-            return;
-        }
-        if (helper.isEmptyInput(data.start_time) ) {
-            helper.showErrorNotification("Vui lòng chọn ngày bắt đầu");
-            return;
-        }
         
         if(this.props.routeParams.requestId){
             this.props.requestActions.editRequestVacation(this.props.routeParams.requestId,data);
@@ -101,8 +101,10 @@ class CreateRequestVacationContainer extends React.Component {
         
         let { isLoading, isCommitting } = this.props;
         let { data } = this.state;
-        let date1 = moment(data.start_time).isValid() ?  moment(data.start_time).format("DD/mm/yyyy") : "";
-        let date2 = moment(data.end_time).isValid() ?  moment(data.end_time).format("DD/mm/yyyy") : "";
+        let date1 = data.start_time;
+        let date2 = data.end_time;
+
+        console.log("data test",data);
 
         return (
             <div>
@@ -123,30 +125,30 @@ class CreateRequestVacationContainer extends React.Component {
                                                         <div className="col-md-6">
 
                                                             <div className="col-md-12">
-                                                                <FormInputDateTime
+                                                                <FormInputDate
                                                                     name="start_time"
                                                                     id="start-time"
                                                                     label="Nghỉ phép từ ngày:"
-                                                                    value={data.start_time}
+                                                                    value={date1}
                                                                     updateFormData={this.updateFormData}
-                                                                    format={DATETIME_FORMAT}
-                                                                    placeholder={DATETIME_FORMAT}
+                                                                    format={DATE_FORMAT}
+                                                                    placeholder={DATE_FORMAT}
                                                                     required={true}
-                                                                    maxDate={date2}
+                                                                    //maxDate={date2}
                                                                     disabled={isLoading}
                                                                 />
                                                             </div>
                                                             <div className="col-md-12">
-                                                                <FormInputDateTime
+                                                                <FormInputDate
                                                                     name="end_time"
                                                                     id="end-time"
                                                                     label="Đến ngày:"
-                                                                    value={data.end_time}
+                                                                    value={date2}
                                                                     updateFormData={this.updateFormData}
-                                                                    format={DATETIME_FORMAT}
-                                                                    placeholder={DATETIME_FORMAT}
+                                                                    format={DATE_FORMAT}
+                                                                    placeholder={DATE_FORMAT}
                                                                     required={true}
-                                                                    minDate={date1}
+                                                                    //minDate={date1}
                                                                     disabled={isLoading}
                                                                 />
                                                             </div>

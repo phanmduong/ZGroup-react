@@ -141,3 +141,12 @@ export function confirmReceiveRequest(id, money_used) {
     } 
     return axios.post(url, {money_used, status: 2});
 }
+
+export function confirmRequestVacation(id) {
+    let url     = env.MANAGE_API_URL +"/company/administration/request-vacation/" + id + "/change-status";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    } 
+    return axios.post(url, { status: 1});
+}
