@@ -50,13 +50,17 @@ $companyRoutes = function () {
         Route::get('/history-debt/{company_id}','CompanyController@getHistoryDebt');
 
         Route::get('/administration/request-vacation/all','AdministrationController@getAllRequestVacation');
-        Route::post('/administration/request-vacation','AdministrationController@createRequestVacation');
+        Route::get('/administration/request-vacation/{requestId}','AdministrationController@getRequestVacation');
+        Route::post('/administration/request-vacation/create','AdministrationController@createRequestVacation');
         Route::put('/administration/request-vacation/{requestId}','AdministrationController@editRequestVacation');
         Route::post('/administration/request-vacation/{requestId}/change-status','AdministrationController@changeStatusRequestVacation');
+        
+        
 
 
         Route::get('/administration/advance-payment/all','AdministrationController@getAllAdvancePayment');
-        Route::post('/administration/advance-payment','AdministrationController@createAdvancePayment');
+        Route::get('/administration/advance-payment/{advancePaymentId}','AdministrationController@getAdvancePayment');
+        Route::post('/administration/advance-payment/create','AdministrationController@createAdvancePayment');
         Route::put('/administration/advance-payment/{advancePaymentId}','AdministrationController@editAdvancePayment');
         Route::post('/administration/advance-payment/{advancePaymentId}/change-status','AdministrationController@changeStatusAdvancePayment');
         Route::post('/administration/advance-payment/{advancePaymentId}/payment','AdministrationController@PaymentAdvance');

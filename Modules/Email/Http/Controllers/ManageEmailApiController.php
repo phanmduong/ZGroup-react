@@ -192,6 +192,9 @@ class ManageEmailApiController extends ManageApiController
                 });
             });
 
+        if($request->send_status != null)
+            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
+
         if ($request->owner_id) {
             $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
                 ->where('owner_id', $request->owner_id)->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);

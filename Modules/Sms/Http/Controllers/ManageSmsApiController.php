@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: batman
@@ -89,6 +90,21 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function changeCampaignStatus($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chiến dịch này'
+            ]);
+        }
+        $campaign->status = $request->status;
+        $campaign->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thay đổi trạng thái thành công'
+        ]);
+    }
+
     public function createTemplate($campaignId, Request $request)
     {
         $template = new SmsTemplate;
@@ -120,13 +136,15 @@ class ManageSmsApiController extends ManageApiController
     {
         $campaign = SmsList::find($campaignId);
         $limit = $request->limit ? $request->limit : 20;
-        $query = trim($request->search);
+        $search = trim($request->search);
 
         if ($campaign == null) {
             return $this->respondErrorWithStatus('Không có chiến dịch này');
         }
-        $templates = $campaign->templates()->where('name', 'like', "%$query%")
-            ->orWhere('content', 'like', "%$query%");
+        $templates = $campaign->templates()->where(function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('content', 'like', "%$search%");
+        });
 
         if ($limit == -1) {
             $templates = $templates->orderBy('created_at', 'desc')->get();
@@ -134,9 +152,11 @@ class ManageSmsApiController extends ManageApiController
             $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
         }
         return $this->respondWithPagination($templates, [
+            "campaign" => $campaign->getData(),
             'templates' => $templates->map(function ($template) {
                 return $template->transform();
-            })]);
+            })
+        ]);
     }
 
     public function getTemplateTypes()
