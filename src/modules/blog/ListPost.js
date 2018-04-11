@@ -44,19 +44,19 @@ class ListPost extends React.Component {
                                                  }}
                                             >
 
-                                                <div style={{position: "absolute"}}>
-                                                    {post.category ?
-                                                        <button className="tag btn btn-xs btn-danger"
-                                                                style={{marginLeft: 15, borderRadius: 10}}
-                                                                onClick={(e) => {
-                                                                    this.props.loadByCategories(post.category.id);
-                                                                    e.stopPropagation();
-                                                                }}
-                                                        >
-                                                            {post.category ? post.category.name : 'Không có'}</button>
-                                                        : null
-                                                    }
-                                                </div>
+                                                {/*<div style={{position: "absolute"}}>*/}
+                                                    {/*{post.category ?*/}
+                                                        {/*<button className="tag btn btn-xs btn-danger"*/}
+                                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
+                                                                {/*onClick={(e) => {*/}
+                                                                    {/*this.props.loadByCategories(post.category.id);*/}
+                                                                    {/*e.stopPropagation();*/}
+                                                                {/*}}*/}
+                                                        {/*>*/}
+                                                            {/*{post.category ? post.category.name : 'Không có'}</button>*/}
+                                                        {/*: null*/}
+                                                    {/*}*/}
+                                                {/*</div>*/}
                                             </div>
                                         </a>
                                     </div>
@@ -120,7 +120,7 @@ ListPost.propTypes = {
     deletePost: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     handleSwitch: PropTypes.func.isRequired,
-    loadByCategories: PropTypes.func.isRequired,
+    // loadByCategories: PropTypes.func.isRequired,
     loadPosts: PropTypes.func,
 };
 

@@ -32,7 +32,7 @@ class GoodList extends React.Component {
                             this.props.data && this.props.data.map((pp,index) =>{
                                 let sum =0;
                                 return(
-                                        <tr key={index}>
+                                        <tr key={index} style={checkSumQuantity(pp)}>
                                             <td/>
                                             <td> {index+1} </td>
                                             <td><a onClick={() => this.props.openModal(pp.id)}> {pp.name} </a>
@@ -63,3 +63,12 @@ GoodList.propTypes = {
     openModal: PropTypes.func,
 };
 export default GoodList;
+
+const warningStyle = {
+  backgroundColor: "#ff3333"
+};
+
+function checkSumQuantity(arr) {
+    let check = arr.summary_warehouse[0].sum_quantity < 100 || arr.summary_warehouse[1].sum_quantity < 100;
+    return check ? warningStyle : {};
+}

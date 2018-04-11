@@ -2,9 +2,9 @@
  * Created by phanmduong on 11/1/17.
  */
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
+import {bindActionCreators} from "redux";
 import * as blogActions from "./blogActions";
 import ListPost from "./ListPost";
 import * as helper from "../../helpers/helper";
@@ -15,14 +15,14 @@ import Select from "./Select";
 
 // import Select from '../../components/common/Select';
 
-import { Modal } from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 
 import StorePostModal from "./StorePostModal";
 
 class BlogsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.postsSearchChange = this.postsSearchChange.bind(this);
+        this.loadByText = this.loadByText.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
@@ -47,7 +47,7 @@ class BlogsContainer extends React.Component {
     }
 
     openModal(isEdit, postId) {
-        this.setState({ isOpenModal: true, postId: postId, isEdit: isEdit });
+        this.setState({isOpenModal: true, postId: postId, isEdit: isEdit});
     }
 
     closeModal() {
@@ -56,7 +56,7 @@ class BlogsContainer extends React.Component {
             "Cảnh báo",
             "Bạn có chắc muốn đóng editor? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
             () => {
-                this.setState({ isOpenModal: false });
+                this.setState({isOpenModal: false});
             },
         );
     }
@@ -66,13 +66,13 @@ class BlogsContainer extends React.Component {
             "error",
             "Xoá",
             "Bạn có chắc chắn muốn xoá bài viết này",
-            function() {
+            function () {
                 this.props.blogActions.deletePost(post.id);
             }.bind(this),
         );
     }
 
-    postsSearchChange(value) {
+    loadByText(value) {
         this.setState({
             page: 1,
             query: value,
@@ -81,7 +81,7 @@ class BlogsContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 this.props.blogActions.getPosts(
                     this.state.page,
                     this.state.query,
@@ -93,7 +93,7 @@ class BlogsContainer extends React.Component {
     }
 
     loadPosts(page, category_id) {
-        this.setState({ page });
+        this.setState({page});
         if (category_id === 0) {
             this.props.blogActions.getPosts(page, this.state.query);
         } else {
@@ -110,12 +110,12 @@ class BlogsContainer extends React.Component {
     }
 
     loadByCategories(category_id) {
-        this.setState({ category_id });
+        this.setState({category_id});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 this.props.blogActions.getPosts(
                     this.state.page,
                     this.state.query,
@@ -130,20 +130,20 @@ class BlogsContainer extends React.Component {
         return (
             <div className="container-fluid">
                 {this.props.isLoadingCategories || this.props.isLoading ? (
-                    <Loading />
+                    <Loading/>
                 ) : (
                     <div>
                         <div className="row">
                             <div className="col-md-2">
                                 <Select className="btn-round"
-                                    category_id={this.state.category_id}
-                                    loadByCategory={this.loadByCategories}
-                                    catetrugoriesList={
-                                        this.props.categoriesList
-                                    }
+                                        category_id={this.state.category_id}
+                                        loadByCategory={this.loadByCategories}
+                                        catetrugoriesList={
+                                            this.props.categoriesList
+                                        }
                                 />
                             </div>
-                        </div>        
+                        </div>
                         <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
@@ -160,54 +160,56 @@ class BlogsContainer extends React.Component {
                                         </div>
                                     </div>
                                     <Search
-                                        onChange={this.postsSearchChange}
+                                        onChange={this.loadByText}
                                         value={this.state.query}
                                         placeholder="Tìm kiếm tiêu đề"
                                     />
                                 </div>
+
                                 <ListPost
                                     openModal={this.openModal}
                                     handleSwitch={this.handleSwitch}
                                     deletePost={this.deletePost}
                                     posts={this.props.posts}
                                     loadPosts={this.loadPosts}
-                                    loadByCategories={this.loadByCategories}
+                                    // loadByCategories={this.loadByCategories}
                                 />
                             </div>
 
-                            <div className="card-content">
-                                <Pagination
-                                    totalPages={this.props.totalPages}
-                                    currentPage={this.state.page}
-                                    loadDataPage={this.loadPosts}
-                                />
-                            </div>
                         </div>
-                    </div>    
-                    )}
 
-                    <Modal
-                        id="store-post-modal"
-                        show={this.state.isOpenModal}
-                        bsStyle="primary"
-                        closeButton
-                        onHide={this.closeModal}
-                        animation={false}
-                    >
-                        <Modal.Header>
-                            <Modal.Title>
-                                <strong>Bài viết</strong>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <StorePostModal
-                                postId={this.state.postId}
-                                isEdit={this.state.isEdit}
-                                closeModal={this.closeModal}
+                        <div className="card-content">
+                            <Pagination
+                                totalPages={this.props.totalPages}
+                                currentPage={this.state.page}
+                                loadDataPage={this.loadPosts}
                             />
-                        </Modal.Body>
-                    </Modal>
-                </div>
+                        </div>
+                    </div>
+                )}
+
+                <Modal
+                    id="store-post-modal"
+                    show={this.state.isOpenModal}
+                    bsStyle="primary"
+                    closeButton
+                    onHide={this.closeModal}
+                    animation={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title>
+                            <strong>Bài viết</strong>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <StorePostModal
+                            postId={this.state.postId}
+                            isEdit={this.state.isEdit}
+                            closeModal={this.closeModal}
+                        />
+                    </Modal.Body>
+                </Modal>
+            </div>
         );
     }
 }

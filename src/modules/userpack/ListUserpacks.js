@@ -32,8 +32,7 @@ class ListUserpacks extends React.Component {
                                                      height: '200px',
                                                      borderRadius: '10px',
                                                      position: "relative"
-                                                 }}>
-                                            </div>
+                                                 }}/>
                                         </a>
                                     </div>
 

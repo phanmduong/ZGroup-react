@@ -56,7 +56,8 @@ export default function labelManageReducer(state = initialState.blogType, action
                 ...state,
                 isUpdatingEditModal:false,
                 addEditBlogTypeModal: false,
-                blogTypes: blogs
+                blogTypes: blogs,
+                isUpdatingEditModal:false,
             };
         }
         case types.DELETE_BLOG_TYPE_SUCCESS:
