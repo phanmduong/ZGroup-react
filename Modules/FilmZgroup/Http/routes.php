@@ -11,7 +11,7 @@ $manageApiRoutes = function()
     Route::get('/films','FilmZgroupManageApiController@getAllFilms');
     Route::post('/film','FilmZgroupManageApiController@addFilm');
     Route::get('/film/{id}','FilmZgroupManageApiController@getFilmById');
-    Route::put('/film/{id}','FilmZgroupManageApiController@updateFilm');
+    Route::post('/film/update/{id}','FilmZgroupManageApiController@updateFilm');
     Route::post('/film/{id}','FilmZgroupManageApiController@deleteFilm');
     Route::post('/film/search_name','FilmZgroupManageApiController@searchFilmByName');
     Route::post('/films/date','FilmZgroupManageApiController@getFilmByDate');
@@ -19,6 +19,8 @@ $manageApiRoutes = function()
 
     Route::get('/films/showing','FilmZgroupManageApiController@getFilmsNowShowing');
     Route::get('/films/comming','FilmZgroupManageApiController@getFilmsCommingSoon');
+
+    Route::post('/{session_id}/seat','FilmZgroupManageApiController@changeSeatStatus');
 
 
 

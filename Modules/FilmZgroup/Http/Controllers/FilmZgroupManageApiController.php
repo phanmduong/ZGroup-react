@@ -5,6 +5,7 @@ namespace Modules\FilmZgroup\Http\Controllers;
 use App\Film;
 use App\FilmSession;
 use App\Http\Controllers\ManageApiController;
+use App\SessionSeat;
 use DateInterval;
 
 use DateTime;
@@ -157,5 +158,13 @@ class FilmZgroupManageApiController extends ManageApiController
         return ["status"=>1, $data];
     }
 
+    public function changeSeatStatus(Request $request, $session_id)
+    {
+        $seat = SessionSeat::where([['session_id','=',$session_id],['seat_id','=',$request->seat_id]])->first();
+        $seat->seat_status = $request->seat_status;
+        $seat->save();
+
+        return ["status"=>1];
+    }
 
 }

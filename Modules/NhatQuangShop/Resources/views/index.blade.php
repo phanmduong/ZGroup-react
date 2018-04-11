@@ -119,17 +119,22 @@
             {{--category--}}
             <div class="col-md-3 background-white" style="margin-top: 50px">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
                     <?php
-                    $childs = array();
                     function get_all_childs($parentId)
                     {
+                        $results = array("-1");
                         $childs = \App\GoodCategory::where('parent_id', $parentId)->get();
-                        return $childs;
+                        foreach ($childs as $child) {
+                            array_push($results, $child->id);
+                        }
+
+                        return $results;
                     }
                     ?>
 
                     @foreach($goodCategories as $goodCategory)
-                        <?php dd($goodCategory); ?>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
                                 <h4 class="panel-title">
@@ -140,20 +145,37 @@
                                 </h4>
                             </div>
 
-                            <?php get_all_childs($goodCategory->id);
+                            <?php
+                            $childsId = get_all_childs($goodCategory->id);
+
                             ?>
 
                             <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingOne">
                                 <div class="panel-body" style="display: flex; flex-direction: column">
-                                    @if(!$childs)
-                                    {{--@foreach($childs as $child)--}}
-                                        {{--<div style="padding:8px">{{$child->name}}</div>--}}
-                                    {{--@endforeach--}}
-                                    <div style="padding:8px">2</div>
-
-                                    @endif
-
+                                    @foreach($childsId as $childId)
+                                        @if($childId != "-1")
+                                            <?php
+                                            $child = \App\GoodCategory::find($childId);
+                                            ?>
+                                            <div>
+                                                <p style="padding-left:15px; font-size:16px">{{$child->name}}</p>
+                                                <?php
+                                                $childchildsId = get_all_childs($childId);
+                                                ?>
+                                                @foreach($childchildsId as $childchildId)
+                                                    @if($childchildId != "-1")
+                                                        <?php
+                                                        $childchild = \App\GoodCategory::find($childchildId);
+                                                        ?>
+                                                        <div style="padding-left:25px;">
+                                                            {{$childchild->name}}
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
 

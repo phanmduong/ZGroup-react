@@ -40,16 +40,22 @@ class NhatQuangShopController extends Controller
         $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
         $generalGoods = $goodQuery->take(8)->get();
         $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
-        $goodCategories = GoodCategory::orderBy("created_at","desc")->get();
+        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
+
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
         $this->data["goodCategories"] = $goodCategories;
 
         return view('nhatquangshop::index', $this->data);
+    }
+
+    public function goodsByCategory ($categoryId)
+    {
+        return view('nhatquangshop::goods_by_category', $categoryId);
     }
 
     public function productNew(Request $request)
@@ -101,7 +107,7 @@ class NhatQuangShopController extends Controller
             ->first();
         $size = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "size"]])->first();
         $this->data['size'] = $size['value'];
-        $this->data['good']= $good;
+        $this->data['good'] = $good;
         $this->data['color'] = $color['value'];
         $this->data['relateGoods'] = $relateGoods;
         return view('nhatquangshop::product_detail', $this->data);
@@ -183,8 +189,8 @@ class NhatQuangShopController extends Controller
             $blogs = $blogs->where('title', 'like', '%' . $search . '%');
         }
 
-        if($type){
-            $blogs = $blogs->where('category_id',$type);
+        if ($type) {
+            $blogs = $blogs->where('category_id', $type);
         }
 
 
@@ -214,9 +220,6 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::blogs', $this->data);
     }
 
-    
-
-   
 
     public function saveOrder(Request $request)
     {
