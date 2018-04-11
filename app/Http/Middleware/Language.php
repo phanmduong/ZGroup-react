@@ -27,7 +27,7 @@ class Language
               "membership" => "/en/membership",
               "events" => "/en/event",
               "meeting-room" => "/en/meeting-room",
-              "founders" => "/en/up-founders",
+              "founders" => "/en/up-founder",
               "mentors" => "/en/up-s-mentors",
               "contact" => "/en/contact-us",
               "tour" => "/en/book-a-tour"
@@ -49,6 +49,7 @@ class Language
               "tour" => "/dang-ky-trai-nghiem"
             ]  
         ];
+
         $segment;
 
         $url = Request::server('REQUEST_URI');
@@ -56,10 +57,12 @@ class Language
             if($request->lang) Session::put('lang',$request->lang);
             if(substr($url,0,3) != "/en") $previousLang = "vi";
             else $previousLang = "en";
+            // dd($previousLang);
             $segments = $langs[$previousLang];
+            // dd($segments);
             $url = substr($url, 0, strpos($url, "?lang="));
             // dd($segments); 
-            // echo $url;  
+            // dd($url);  
             foreach($segments as $key => $value){
                 // echo $key . "=>";
                 // echo $value . "\n";
@@ -68,7 +71,13 @@ class Language
                     break;
                 }
             }
+            
+            // dd($segment);
             $lang = ($request->lang) ? Session::get('lang') : substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            // dd($langs[$lang]);
+            // dd($lang);
+            if(!array_key_exists($segment,$langs[$lang])) $segment = "";
+            
         }else if(Session::has('lang')){
             $lang = Session::get('lang');
         }else{
@@ -85,6 +94,7 @@ class Language
             if($lang == 'vi'){            
                 return ($url == "/" || substr($url,0,3) != "/en") ? $next($request) : redirect($langs[$lang][$segment]);
             }else{
+                if(isset($segment) && $segment == "") return redirect('/en/');
                 if($url == '/') return redirect('/en/');
                 // dd(1);
                 // dd($next($request));

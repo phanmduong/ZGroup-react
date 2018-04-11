@@ -245,14 +245,10 @@ class AdministrationController extends ManageApiController
     public function editReport(Request $request,$staff_id,$id)
     {
         $report = Report::find($id);
-        if($report->report != $request->report){
-            if($report->staff_id == $staff_id) {
-                $report->report = $request->report;
-                $report->title = $request->title;
-                $report->save();
-            }else{
-                return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
-            }
+        if($report->staff_id == $staff_id) {
+            $report->report = $request->report;
+            $report->title = $request->title;
+            $report->save();
         }else{
             return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
         }
