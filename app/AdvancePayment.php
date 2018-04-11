@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdvancePayment extends Model
 {
     //
-    protected $table='advance_payments';
+    protected $table='advanced_payments';
     public function staff(){
         return $this->belongsTo(User::class,'staff_id');
     }

@@ -25,5 +25,6 @@ socketEnv.js
 !/public/landingpage-libs/elements/images/uploads/pad.png
 !/public/landingpage-libs/elements/images/uploads/tablet-cover.png
 !/public/landingpage-libs/elements/images/uploads/tablet-new.png
+/docker/php/sync.sh
 
 
