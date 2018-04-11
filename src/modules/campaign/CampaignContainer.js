@@ -63,7 +63,6 @@ class CampaignContainer extends React.Component {
                 <div className="tab-content">
                     {this.props.children}
                 </div>
-
             </div>
         );
     }

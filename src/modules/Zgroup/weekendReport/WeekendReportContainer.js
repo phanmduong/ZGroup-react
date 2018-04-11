@@ -7,15 +7,33 @@ import *as weekendReportAction from "./weekendReportAction";
 import CheckWeekendReportModal from "./CheckWeekendReportModal";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
-
+import {Link} from "react-router";
+import Search from "../../../components/common/Search";
 
 class WeekendReportContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            page: 1
+            page: 1,
+            query: ''
         };
         this.loadOrders = this.loadOrders.bind(this);
+        this.templatesSearchChange = this.templatesSearchChange.bind(this);
+    }
+    templatesSearchChange(value) {
+        this.setState({
+            query: value,
+            page: 1
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.weekendReportAction.loadAllReports(
+                1,
+                value
+            );
+        }.bind(this), 500);
     }
     componentWillMount() {
         this.props.weekendReportAction.loadAllReports();
@@ -23,8 +41,9 @@ class WeekendReportContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.weekendReportAction.loadAllReports(page);
+        this.props.weekendReportAction.loadAllReports(page, this.state.query);
     }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
@@ -35,23 +54,7 @@ class WeekendReportContainer extends React.Component {
                         <div className="container-fluid">
                             <div>
                                 <div className="row">
-                                    <div className="col-md-12">
-                                        <div style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            justifyContent: "space-between"
-                                        }}>
-                                            <div>
-                                                <a href={"/administration/weekend-report/add-report"}>
-                                                    <button
-                                                        rel="tooltip" data-placement="top" title=""
-                                                        className="btn btn-rose">
-                                                        Thêm Báo Cáo
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div className="col-md-12">
                                         <div className="card">
                                             <div className="card-header card-header-icon"
@@ -60,14 +63,33 @@ class WeekendReportContainer extends React.Component {
                                             </div>
                                             <div className="card-content"><h4 className="card-title">Danh sách
                                                 bài báo cáo</h4>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <Link
+                                                            onClick={() => this.weekendReportAction.handleReport({})}
+                                                            className="btn btn-rose"
+                                                            to="/administration/weekend-report/create"
+
+                                                        >
+                                                            Thêm Báo Cáo
+                                                        </Link>
+                                                    </div>
+                                                    <div className="col-md-8" >
+                                                        <Search
+                                                            onChange={this.templatesSearchChange}
+                                                            value={this.state.query}
+                                                            placeholder="Nhập tiêu đề hoặc nội dung tin nhắn để tìm"
+                                                        />
+                                                    </div>
+                                                </div>
                                                 <br/>
                                                 {
                                                     this.props.isLoading ? <Loading/> :
-                                                    (
-                                                        <WeekendReportComponent
-                                                            reports={this.props.reports}
-                                                        />
-                                                    )
+                                                        (
+                                                            <WeekendReportComponent
+                                                                reports={this.props.reports}
+                                                            />
+                                                        )
                                                 }
                                             </div>
                                         </div>
@@ -90,34 +112,7 @@ class WeekendReportContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <footer className="footer">
-                    <div className="container-fluid">
-                        <nav className="pull-left">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Company
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Portfolio
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Blog
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </footer>
+
                 <CheckWeekendReportModal/>
             </div>
         );

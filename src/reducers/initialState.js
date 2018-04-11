@@ -2317,6 +2317,9 @@ export default {
         isLoading: false,
         paginator: {},
         isCommitting: false,
+        requestVacations: [],
+        requestMoneys: [],
+
     },
     lead: {
         leads: [],

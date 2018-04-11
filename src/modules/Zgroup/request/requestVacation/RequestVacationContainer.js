@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as requestActions from "./requestActions";
+import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
-import Loading from "../../../components/common/Loading";
+import Loading from "../../../../components/common/Loading";
 
 
 
-class ManageRequestContainer extends React.Component {
+class RequestVacationContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -16,6 +16,8 @@ class ManageRequestContainer extends React.Component {
     }
 
     componentWillMount() {
+        let {requestActions} = this.props;
+        requestActions.getAllRequestVacation();
     }
 
     // componentWillReceiveProps(next){
@@ -33,11 +35,11 @@ class ManageRequestContainer extends React.Component {
 
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">event_note</i>
+                                <i className="material-icons">local_hotel</i>
                                 </div>
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Name</h4>
+                                    <h4 className="card-title">Danh sách xin nghỉ phép</h4>
                                     <Loading/>
                                     
                                 </div>
@@ -51,16 +53,18 @@ class ManageRequestContainer extends React.Component {
     }
 }
 
-ManageRequestContainer.propTypes = {
+RequestVacationContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
+    requestVacations: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.request.isLoading,
         paginator: state.request.paginator,
+        requestVacations: state.request.requestVacations,
     };
 }
 
@@ -70,4 +74,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageRequestContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RequestVacationContainer);

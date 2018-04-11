@@ -80,13 +80,11 @@ class CampaignComponent extends React.Component {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <Search
-                            onChange={this.templatesSearchChange}
-                            value={this.state.query}
-                            placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
-                        />
-                    </div>
+                    <Search
+                        onChange={this.templatesSearchChange}
+                        value={this.state.query}
+                        placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                    />
                 </div>
                 <br/><br/><br/>
                 {
@@ -154,14 +152,16 @@ class CampaignComponent extends React.Component {
                                                         </TooltipButton>
                                                     </td>
                                                     <td>
-                                                        {message.sms_template_type.name}
+                                                        <a className="campaign-message-type"  style={{backgroundColor:message.sms_template_type.color}}
+                                                        >
+                                                            <span>{message.sms_template_type.name.toUpperCase()}</span></a>
                                                     </td>
                                                     <td>
                                                         <div className="btn-group-action">
                                                             <div style={{display: "inline-block"}}>
                                                                 <TooltipButton placement="top"
                                                                                text={`Sửa`}><a
-                                                                    onClick={() => this.showAddMessageModal2(message)}
+                                                                    onClick={() => this.showAddMessageModal2({...message,sms_template_type_id: message.sms_template_type.id})}
                                                                 >
                                                                     <i className="material-icons">edit</i>
                                                                 </a></TooltipButton>
@@ -183,7 +183,8 @@ class CampaignComponent extends React.Component {
                         )
                 }
                 <AddReceiverModal/>
-                <AddMessageModal/>
+                <AddMessageModal
+                    campaignId={this.props.params.campaignId}/>
                 <div className="row float-right">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style={{textAlign: 'right'}}>
@@ -195,7 +196,6 @@ class CampaignComponent extends React.Component {
                             currentPage={this.props.currentPage}
                             loadDataPage={this.loadOrders}
                         />
-
                     </div>
                 </div>
             </div>
@@ -211,8 +211,7 @@ CampaignComponent.propTypes = {
     totalCount: PropTypes.number.isRequired,
     campaignAction: PropTypes.object.isRequired,
     allMessage: PropTypes.array.isRequired,
-    params: PropTypes.object.isRequired,
-
+    params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
