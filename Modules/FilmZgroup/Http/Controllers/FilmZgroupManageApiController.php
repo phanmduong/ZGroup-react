@@ -3,7 +3,11 @@
 namespace Modules\FilmZgroup\Http\Controllers;
 
 use App\Film;
+use App\FilmSession;
 use App\Http\Controllers\ManageApiController;
+use DateInterval;
+
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -18,7 +22,7 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllFilms()
     {
-        $films = Film::orderBy("release_date","desc")->get();
+        $films = Film::orderBy("release_date", "desc")->get();
         $this->data["films"] = $films;
 
         return ["status" => 1, $this->data];
@@ -26,7 +30,7 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function addFilm(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
 
         ]);
@@ -41,22 +45,22 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->avatar_url = $request->avatar_url;
         $film->trailer_url = $request->trailer_url;
         $film->director = $request->director;
-        $film->cast= $request->cast;
+        $film->cast = $request->cast;
         $film->running_time = $request->running_time;
         $film->release_date = $request->release_date;
         $film->country = $request->country;
         $film->language = $request->language;
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
-        $film ->save();
+        $film->save();
 
-        return ["status"=>1];
+        return ["status" => 1];
     }
 
 
-    public function updateFilm (Request $request, $id)
+    public function updateFilm(Request $request, $id)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
 
         ]);
@@ -71,25 +75,25 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->avatar_url = $request->avatar_url;
         $film->trailer_url = $request->trailer_url;
         $film->director = $request->director;
-        $film->cast= $request->cast;
+        $film->cast = $request->cast;
         $film->running_time = $request->running_time;
         $film->release_date = $request->release_date;
         $film->country = $request->country;
         $film->language = $request->language;
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
-        $film ->save();
+        $film->save();
 
-        return ["status"=>1];
+        return ["status" => 1];
     }
 
     public function searchFilmByName(Request $request)
     {
-        $results = Film::where('name','LIKE','%'.$request->film_name.'%')->get();
+        $results = Film::where('name', 'LIKE', '%' . $request->film_name . '%')->get();
         $data = [
-            'results'=>$results,
+            'results' => $results,
         ];
-        return ["status"=>1, $data];
+        return ["status" => 1, $data];
     }
 
     public function getFilmById($id)
@@ -101,23 +105,56 @@ class FilmZgroupManageApiController extends ManageApiController
         return ["status" => 1, $data];
     }
 
-    public function deleteFilm(Request $request, $id) {
+    public function deleteFilm(Request $request, $id)
+    {
         $film = Film::find($id);
         $film->delete();
 
-        return ["status"=>1];
+        return ["status" => 1];
     }
 
 
-
-    public function hideFilm()
+    public function getFilmsCommingSoon()
     {
+        $sessions = FilmSession::where('start_date', '=', null)->get();
+        $data = [
+            "sessions" => $sessions,
+        ];
 
+        return ["status"=>1, $data];
     }
 
-    public function hideOrShowFilm()
+    public function getFilmsNowShowing()
     {
+        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d').' 00:00:00')->get();
+        $data = [
+            "sessions" => $sessions,
+        ];
 
+        return ["status"=>1, $data];
+    }
+
+
+    public function getFilmByRoom(Request $request)
+    {
+        $room_id = $request->room_id;
+        $sessions = FilmSession::where('room_id',$room_id)->where('start_date', '>=', date('Y-m-d').' 00:00:00')->get();
+        $data = [
+            "sessions" => $sessions,
+        ];
+
+        return ["status"=>1, $data];
+    }
+
+    public function getFilmByDate(Request $request)
+    {
+        $start_date = $request->start_date;
+        $sessions = FilmSession::where('start_date',$start_date)->get();
+        $data = [
+            "sessions" => $sessions,
+        ];
+
+        return ["status"=>1, $data];
     }
 
 

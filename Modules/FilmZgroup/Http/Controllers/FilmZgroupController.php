@@ -19,15 +19,17 @@ class FilmZgroupController extends Controller
     {
         $films = Film::orderBy("release_date", "desc")->get();
 
-        foreach ($films as $film) {
-            $sessions = $film->film_sessions();
-            $this->data["sessions"] = $sessions;
-            foreach ($sessions as $session) {
-                echo $session->id;
-            }
-
-        }
-        $this->data["films"] = $films;
+//        foreach ($films as $film) {
+//            $sessions = $film->film_sessions();
+//            $this->data["sessions"] = $sessions;
+//            foreach ($sessions as $session) {
+//                echo $session->id;
+//            }
+//
+//        }
+        $session = FilmSession::find(1);
+        $film = $session->film;
+        $this->data["film"] = $film;
 
 
         return view('filmzgroup::index', $this->data);

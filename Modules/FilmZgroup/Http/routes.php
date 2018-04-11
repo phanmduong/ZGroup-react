@@ -13,14 +13,15 @@ $manageApiRoutes = function()
     Route::get('/film/{id}','FilmZgroupManageApiController@getFilmById');
     Route::put('/film/{id}','FilmZgroupManageApiController@updateFilm');
     Route::post('/film/{id}','FilmZgroupManageApiController@deleteFilm');
-    Route::post('/film/search','FilmZgroupManageApiController@searchFilmByName');
-    Route::post('/film/status/{id}','FilmZgroupManageApiController@hideOrShowFilm');
+    Route::post('/film/search_name','FilmZgroupManageApiController@searchFilmByName');
+    Route::post('/films/date','FilmZgroupManageApiController@getFilmByDate');
+    Route::post('/films/room','FilmZgroupManageApiController@getFilmByRoom');
+
     Route::get('/films/showing','FilmZgroupManageApiController@getFilmsNowShowing');
     Route::get('/films/comming','FilmZgroupManageApiController@getFilmsCommingSoon');
 
-    #sessions
-    Route::get('/sessions/cinema/{cinemaId}','FilmZgroupManageApiController@getSessionsWithCinema');
-    Route::get('/sessions/date','FilmZgroupManageApiController@getSessionsWithDate');
+
+
 };
 
 Route::group(['middleware' => 'web', 'domain' => "filmzgroup.test"  , 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], $webRoutes);

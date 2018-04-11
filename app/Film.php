@@ -13,4 +13,6 @@ class Film extends Model
     {
         return $this->hasMany('App\FilmSession','film_id');
     }
+
+
 }
