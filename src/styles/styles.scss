@@ -974,3 +974,18 @@ a.btn-seat.active {
     color: white;
     font-size: 12px;
 }
+.circle-avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+.sent-message{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    color: white;
+    border: none;
+    margin-top: 5px;
+    background-color: #74D512;
+    cursor: auto;
+}
