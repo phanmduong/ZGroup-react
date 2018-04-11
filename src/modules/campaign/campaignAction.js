@@ -7,20 +7,49 @@ export function showAddMessageModal() {
         type: types.TOGGLE_ADD_MESSAGE_MODAL
     });
 }
-
 export function showAddReceiverModal() {
     return ({
         type: types.TOGGLE_ADD_RECEIVER_MODAL
     });
 }
 
+
+export function loadAllMessage(campaignId, page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_MESSAGE
+        });
+        campaignApi.loadAllMessageApi(campaignId, page, search)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_MESSAGE_SUCCESS,
+                    allMessage: res.data.templates,
+                    currentPageMessage: res.data.paginator.current_page,
+                    limitMessage: res.data.paginator.limit,
+                    totalCountMessage: res.data.paginator.total_count,
+                    totalPagesMessage: res.data.paginator.total_pages,
+                    campaignName: res.data.campaign.name
+                });
+            });
+    };
+}
+export function loadTypeOfMessage() {
+    return function (dispatch) {
+        campaignApi.loadTypeOfMessageApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TEMPLATE_SUCCESS,
+                    template_types: res.data.data.template_types
+                });
+            });
+    };
+}
 export function upMessage(message) {
     return ({
         type: types.UPLOAD_MESSAGE,
         message
     });
 }
-
 export function saveMessage(campaignId, message) {
     return function (dispatch) {
         dispatch({
@@ -40,38 +69,6 @@ export function saveMessage(campaignId, message) {
             });
     };
 }
-
-export function loadTypeOfMessage() {
-    return function (dispatch) {
-        campaignApi.loadTypeOfMessageApi()
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_TEMPLATE_SUCCESS,
-                    template_types: res.data.data.template_types
-                });
-            });
-    };
-}
-
-export function loadAllMessage(campaignId, page, search) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_ALL_MESSAGE
-        });
-        campaignApi.loadAllMessageApi(campaignId, page, search)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_ALL_MESSAGE_SUCCESS,
-                    allMessage: res.data.templates,
-                    currentPage: res.data.paginator.current_page,
-                    limit: res.data.paginator.limit,
-                    totalCount: res.data.paginator.total_count,
-                    totalPages: res.data.paginator.total_pages
-                });
-            });
-    };
-}
-
 export function editMessage(message) {
     return function (dispatch) {
         dispatch({
@@ -91,3 +88,25 @@ export function editMessage(message) {
             });
     };
 }
+
+
+export function loadAllReceiver(campaignId, page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_RECEIVER
+        });
+        campaignApi.loadAllReceiverApi(campaignId, page, search)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_RECEIVER_SUCCESS,
+                    allReceiver: res.data.receiver,
+                    currentPageReceiver: res.data.paginator.current_page,
+                    limitReceiver: res.data.paginator.limit,
+                    totalCountReceiver: res.data.paginator.total_count,
+                    totalPagesReceiver: res.data.paginator.total_pages,
+                    //receiverName: res.data
+                });
+            });
+    };
+}
+

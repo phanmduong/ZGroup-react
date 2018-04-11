@@ -3,26 +3,45 @@ import initialState from "../../reducers/initialState";
 
 export default function smsCampaignReducer(state = initialState.smsCampaign, action) {
     switch (action.type) {
-        case  types.BEGIN_LOAD_ALL_MESSAGE:
-            return {
-                ...state,
-                isLoading: true,
-            };
         case types.TOGGLE_ADD_MESSAGE_MODAL:
             return {
                 ...state,
                 addMessageModal: !state.addMessageModal,
-            };
-        case types.UPLOAD_MESSAGE:
-            return {
-                ...state,
-                message: action.message
             };
         case types.TOGGLE_ADD_RECEIVER_MODAL:
             return {
                 ...state,
                 addReceiverModal: !state.addReceiverModal,
             };
+
+
+        case  types.BEGIN_LOAD_ALL_MESSAGE:
+            return {
+                ...state,
+                isLoadingMessage: true,
+            };
+        case types.LOAD_ALL_MESSAGE_SUCCESS:
+            return {
+                ...state,
+                allMessage: action.allMessage,
+                currentPageMessage: action.currentPageMessage,
+                limitMessage: action.limitMessage,
+                totalCountMessage: action.totalCountMessage,
+                totalPagesMessage: action.totalPagesMessage,
+                isLoadingMessage: false,
+                campaignName: action.campaignName,
+            };
+        case types.LOAD_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                template_types: action.template_types
+            };
+        case types.UPLOAD_MESSAGE:
+            return {
+                ...state,
+                message: action.message
+            };
+
         case types.BEGIN_SAVE_MESSAGE:
             return {
                 ...state,
@@ -47,22 +66,6 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 allMessage: [message, ...state.allMessage]
             };
         }
-
-        case types.LOAD_TEMPLATE_SUCCESS:
-            return {
-                ...state,
-                template_types: action.template_types
-            };
-        case types.LOAD_ALL_MESSAGE_SUCCESS:
-            return {
-                ...state,
-                allMessage: action.allMessage,
-                currentPage: action.currentPage,
-                limit: action.limit,
-                totalCount: action.totalCount,
-                totalPages: action.totalPages,
-                isLoading: false
-            };
         case types.EDIT_MESSAGE_SUCCESS:
         {
             let messages = state.allMessage.map((message) => {
@@ -91,6 +94,24 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 allMessage: messages
             };
         }
+
+
+        case  types.BEGIN_LOAD_ALL_RECEIVER:
+            return {
+                ...state,
+                isLoadingReceiver: true,
+            };
+        case types.LOAD_ALL_RECEIVER_SUCCESS:
+            return {
+                ...state,
+                allReceiver: action.allReceiver,
+                currentPageReceiver: action.currentPageReceiver,
+                limitReceiver: action.limitReceiver,
+                totalCountReceiver: action.totalCountReceiver,
+                totalPagesReceiver: action.totalPagesReceiver,
+                receiverName: action.receiverName,
+                isLoadingReceiver: false
+            };
         default:
             return state;
     }
