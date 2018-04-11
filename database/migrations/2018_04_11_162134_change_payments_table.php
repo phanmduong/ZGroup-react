@@ -13,7 +13,7 @@ class ChangePaymentsTable extends Migration
     public function up()
     {
         Schema::table('payments', function(Blueprint $table){
-            $table->float('time')->default(0);
+            $table->integer('time')->default(0);
         });
     }
 
