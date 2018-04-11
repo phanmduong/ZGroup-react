@@ -6,4 +6,11 @@
     <p>
         This view is loaded from module: {!! config('filmzgroup.name') !!}
     </p>
-@stop
+    @foreach($films as $film)
+        {{$film->name}}
+        <div>
+
+        </div>
+
+    @endforeach
+@endsection
