@@ -21,7 +21,7 @@ class RequestVacation extends Model
                 "name" => $this->staff->name,
                 "avatar_url" => $this->staff->avatar_url,
             ] : [],
-            'commnad_code' => $this->command_code,
+            'command_code' => $this->command_code,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'reason' => $this->reason,
