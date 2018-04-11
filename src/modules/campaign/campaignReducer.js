@@ -30,20 +30,13 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 upMessage: true
             };
         case types.SAVE_MESSAGE_SUCCESS: {
-            // let a = state.template_types.map((type)=>{
-            //     if(type.id === action.message.sms_template_type_id){
-            //         return{
-            //             name:type.name,
-            //             color:type.color
-            //         };
-            //     }
-            //     return type;
-            // });
+            let a = state.template_types.filter(type=>
+                (type.id == action.message.sms_template_type_id));
             let message = {
                 ...action.message,
                 sms_template_type: {
                     id: action.message.sms_template_type_id,
-                    name: state.template_types[action.message.sms_template_type_id - 1].name,
+                    name: a[0].name,
                 },
             };
             return {
@@ -73,7 +66,9 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
         case types.EDIT_MESSAGE_SUCCESS:
         {
             let messages = state.allMessage.map((message) => {
-                if (message.template_id === action.message.template_id)
+                if (message.template_id === action.message.template_id){
+                    let a = state.template_types.filter(type=>
+                        (type.id == action.message.sms_template_type_id));
                     return {
                         ...message,
                         name:action.message.name,
@@ -82,10 +77,11 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                         send_time:action.message.send_time,
                         sms_template_type: {
                             id: action.message.sms_template_type_id,
-                            name: state.template_types[action.message.sms_template_type_id - 1].name,
-                            color: state.template_types[action.message.sms_template_type_id - 1].color,
+                            name: a[0].name,
+                            color: a[0].color,
                         }
                     };
+                }
                 return message;
             });
             return {

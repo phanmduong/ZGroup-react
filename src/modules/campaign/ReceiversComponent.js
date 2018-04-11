@@ -43,7 +43,7 @@ class ReceiversComponent extends React.Component {
                             </button>
                             <ul className="dropdown-menu dropdown-primary">
                                 <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 2})}>Thêm tin</a>
+                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>Thêm tin</a>
                                 </li>
                                 <li>
                                     <a onClick={()=>{
@@ -75,7 +75,7 @@ class ReceiversComponent extends React.Component {
                         <tr>
                             <td>
                                 <div>
-                                    <img style={{height: "35px", width: "35px", borderRadius: "50%"}}
+                                    <img className="circle-avatar"
                                          src="https://i.quantrimang.com/photos/image/2016/11/30/fb-size-vuong.png"/>
                                 </div>
                             </td>
