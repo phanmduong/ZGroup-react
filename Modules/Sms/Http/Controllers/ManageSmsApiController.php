@@ -159,7 +159,7 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getCampaignReceivers($campaignId, Request $request) //chua xong
+    public function getCampaignReceivers($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
         $limit = $request->limit ? $request->limit : 20;
