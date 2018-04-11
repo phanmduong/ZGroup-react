@@ -110,7 +110,7 @@ class AdministrationController extends ManageApiController
     {
         $requestVacation = RequestVacation::find($requestId);
         $requestVacation->status = $request->status;
-        $request->save();
+        $requestVacation->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi status thành công"
         ]);
