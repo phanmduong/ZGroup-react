@@ -1,0 +1,33 @@
+<div class="row">
+	<div class="col s12">
+		<h5>Thêm nhân viên</h5>
+	</div>
+	<div class="col s12 m6">
+		<input type="text" placeholder="Tên hoặc Email" ng-model='search' />
+	</div>
+	<div class="col s12 m4">
+		<button ng-click="searchUser()" class="btn red darken-4 white-text">Search</button>
+
+	</div>
+	<div class="blue-text col s12 darken-3" ng-show='message'>[[message]]</div>
+	<div class="red-text col s12 darken-3" ng-show='error'>[[error]]</div>
+	
+	<div class="col s12">
+		<table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Chức vụ</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr staff-row ng-repeat="staff in staffs">
+        </tr>
+        </tbody>
+    </table>
+	</div>
+</div>

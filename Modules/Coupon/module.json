@@ -1,0 +1,16 @@
+{
+    "name": "Coupon",
+    "alias": "coupon",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Coupon\\Providers\\CouponServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

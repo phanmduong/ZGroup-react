@@ -1,0 +1,63 @@
+<li class="product-item" style="opacity: 1">
+    <div>
+        <div class="card">
+            <a ng-click="showModal()">
+                <div style="cursor: pointer;position:relative" class="card-image">
+                    <img ng-show="product.thumb_url" src="[[::product.thumb_url]]">
+
+                    <video ng-hide="product.thumb_url"
+                           full="[[product.url]]" class="responsive-video"
+                           onloadedmetadata="initGallery()"
+                           id="video-tag[[product.id]]"
+                           controls preload='metadata'>
+
+                        <source src="[[product.url | trustUrl]]" type="video/mp4">
+                    </video>
+
+                    <div class="newsfeed-item-blog-title">[[::product.description]]</div>
+                </div>
+            </a>
+            <div class="card-content" style="padding: 10px;border-top:1px solid #d9d9d9">
+                <p>
+
+                    <a id="btn-like-[[product.id]]"
+                       ng-click="like()"
+                       ng-class="{liked: product.liked}"
+                       class="hvr-bounce-in btn-like ">
+                        <i class="fa fa-heart"></i>
+                    </a>
+                    <span class="btn-liked-user-trigger"
+                          id="total_likes[[product.id]]">[[::product.count_likes]]</span>
+
+                    <a style="color: #888;margin-left:7px">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                    <span>[[::product.count_comments]]</span>
+
+                    <a style="color: #888;margin-left:7px">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                    <span>[[::product.views]]</span>
+                </p>
+            </div>
+            <div style="padding:10px 10px 5px 10px;border-top:1px solid #d9d9d9;overflow: hidden"
+                 class="black-text">
+                <div style="float:left;height:50px;width: 42px;padding-top:2px">
+                    <img class="circle"
+                         src="[[::product.author.avatar_url]]"
+                         width="37" height="37">
+                </div>
+                <div style="float:left;height: 40px;font-size:14px">
+                    <a class="username" target="_blank"
+                       href="[[::product.author.url]]"
+                       style="display: block">[[::product.author.name]]</a>
+
+                    <a class="newsfeed-item-time"
+                       href="[[::product.link]]"
+                       style="display: block">[[::product.created_at]]</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

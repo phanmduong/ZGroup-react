@@ -1,0 +1,16 @@
+{
+    "name": "GHTK",
+    "alias": "ghtk",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\GHTK\\Providers\\GHTKServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
