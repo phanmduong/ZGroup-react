@@ -1,9 +1,5 @@
-@extends("client.layout.master")
-
-@section("css")
-    <link href="manage/hr/main.7a977b9eeb9c00b9854f88ce88ff1b79.css" rel="stylesheet">
-@endsection
-
-@section("js")
-    <script type="text/javascript" src="manage/hr/main.30523305a811c508da5e.js"></script>
-@endsection
+@extends("client.layout.master") @section("css")
+ <link href="manage/hr/main.4fa83d84fd8e6badb61a807373704a28.css" rel="stylesheet">
+  @endsection @section("js") 
+  <script type="text/javascript" src="manage/hr/main.63b4d57936d7329f2a5a.js"></script>
+   @endsection

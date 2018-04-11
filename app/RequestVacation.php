@@ -28,6 +28,7 @@ class RequestVacation extends Model
             "request_date" => $this->request_date,
             "status" => $this->status,
             "type" => $this->type,
+            'created_at' => $this->created_at,
         ];
     }
 }

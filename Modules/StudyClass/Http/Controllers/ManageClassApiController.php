@@ -312,9 +312,6 @@ class ManageClassApiController extends ManageApiController
             $group->avatar_url = $class->course->icon_url;
             $group->link = extract_class_name($class->name);
             $group->save();
-
-            $this->classRepository->generateClassLesson($class);
-
         }
 
         if ($request->schedule_id) {
@@ -331,6 +328,20 @@ class ManageClassApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'class' => $data
         ]);
+    }
+
+    public function generateClassLesson($class_id){
+        if ($class_id) {
+            $class = StudyClass::find($class_id);
+        } 
+
+        if ($class == null){
+            return $this->respondErrorWithStatus("Lớp không tồn tại"); 
+        }
+
+        $this->classRepository->generateClassLesson($class);
+
+        return $this->respondSuccess("success");
     }
 
     public function change_class_lesson(Request $request)
