@@ -57,17 +57,19 @@ class PublicApiController extends NoAuthApiController
         $base = Base::find($baseId);
 
         // $rooms = $base->rooms;
-
         $rooms = Room::leftJoin('room_service_register_room', 'room_service_register_room.room_id', '=', 'rooms.id')
             ->where('rooms.base_id', '=', $base->id)
             ->where(function($query) use ($request){
                 $query->where('room_service_register_room.start_time', '>', $request->end_time)
-                    ->orWhere('room_service_register_room.end_time', '<', $request->start_time);
+                    ->orWhere('room_service_register_room.end_time', '<', $request->start_time)
+                    ->orWhere('room_service_register_room.end_time', '=', null);
             })->groupBy('rooms.id')->get();
+
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
                 return $room->getData();
-            })
+            }),
+            'count' => $rooms->count()
         ]);
     }
 

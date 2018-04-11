@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Session\Middleware\StartSession::class,
         \App\Http\Middleware\HttpsProtocol::class,
     ];
 
@@ -38,6 +39,9 @@ class Kernel extends HttpKernel
         ],
         'manageapi' => [
             'throttle:60,1',
+        ],
+        'up' => [
+            \App\Http\Middleware\Language::class
         ]
     ];
 

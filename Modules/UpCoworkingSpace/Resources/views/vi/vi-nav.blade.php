@@ -175,7 +175,6 @@
 </head>
 <body style="background-color: #f9f9f9">
     <nav class="navbar navbar-toggleable-md fixed-top">
-        <div class="container">
             <div class="navbar-translate">
                 <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse"
                         data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
@@ -218,22 +217,28 @@
                     <li class="dropdown nav-item">
                         <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true">Cộng đồng up</a>
                         <div class="dropdown-menu">
-                            <a href="/up-founders/" class="dropdown-item">Đội ngũ sáng lập</a>
-                            <a href="/up-s-mentors/" class="dropdown-item">UP Mentor</a>
+                            <a href="/up-founders" class="dropdown-item">Đội ngũ sáng lập</a>
+                            <a href="/up-s-mentors" class="dropdown-item">UP Mentor</a>
                         </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">Tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link hover-change" href="/lien-he-voi-up-co-working-space/" data-scroll="true">Liên hệ</a>
+                        <a class="nav-link hover-change" href="/lien-he-voi-up-co-working-space" data-scroll="true">Liên hệ</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-round btn-danger"
                            style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
-                           href="/dang-ky-trai-nghiem/">TRẢI NGHIỆM</a>
+                           href="/dang-ky-trai-nghiem">TRẢI NGHIỆM</a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/vi.png" width="18" height="12" alt=""></a>
+                        <div class="dropdown-menu">
+                            <a href="?lang=vi" class="dropdown-item"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/vi.png" width="18" height="12" alt=""></a>
+                            <a href="?lang=en" class="dropdown-item"><img src="http://up-co.vn/wp-content/plugins/sitepress-multilingual-cms/res/flags/en.png" width="18" height="12" alt=""></a>
+                        </div>
                     </li>
                 </ul>
             </div>
-        </div>
     </nav>

@@ -63,10 +63,11 @@ class AdministrationController extends ManageApiController
 
         $requestVacation->save();
 
-        $ppp = $requestVacation->created_at;
-        $day = date_format($ppp, 'd');
-        $month = date_format($ppp, 'm');
-        $year = date_format($ppp, 'y');
+        $ppp = strtotime($requestVacation->created_at);
+        
+        $day = date('d', $ppp);
+        $month = date('m', $ppp);
+        $year = date('Y', $ppp);
         $id = (string)$requestVacation->id;
         while (strlen($id) < 4) $id = '0' . $id;
         $requestVacation->command_code = "NGHIPHEP" . $day . $month . $year . $id;
@@ -88,18 +89,28 @@ class AdministrationController extends ManageApiController
         $requestVacation->type = $request->type;
         $requestVacation->reason = $request->reason;
 
-        $request->save();
+        $requestVacation->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công"
         ]);
 
     }
 
+
+    public function getRequestVacation($requestVacationId, Request $request)
+    {
+        $requestVacation = RequestVacation::find($requestVacationId);
+        if (!$requestVacation) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+            "request" => $requestVacation->transform()
+        ]);
+    }
+
     public function changeStatusRequestVacation($requestId, Request $request)
     {
         $requestVacation = RequestVacation::find($requestId);
         $requestVacation->status = $request->status;
-        $request->save();
+        $requestVacation->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi status thành công"
         ]);
@@ -133,11 +144,22 @@ class AdministrationController extends ManageApiController
         }
 
     }
+
     public function changeStatusAdvancePayment($advancePaymentId,Request $request){
         $data = AdvancePayment::find($advancePaymentId);
         $data->status = $request->status;
-        $data->money_received = $request->money_received;
+
+        if($request->status == 1){
+            $data->money_received = $request->money_received;
+        }
+        if($request->status == 2){
+            
+            $data->money_used = $request->money_used;            
+
+        }
+
         $data->save();
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
         ]);
@@ -150,15 +172,16 @@ class AdministrationController extends ManageApiController
         $data->money_payment = $request->money_payment;
         $data->type = $request->type;
         $data->save();
-        $ppp = DateTime::createFromFormat('Y-m-d', $data->created_at);
-        $day = date_format($ppp, 'd');
-        $month = date_format($ppp, 'm');
-        $year = date_format($ppp, 'y');
+        
+        $ppp =  strtotime($data->created_at);
+        $day = date('d', $ppp);
+        $month = date('m', $ppp);
+        $year = date('Y', $ppp);
         $id = (string)$data->id;
         while (strlen($id) < 4) $id = '0' . $id;
         $data->command_code = "TAMUNG" . $day . $month . $year . $id;
 
-        $request->save();
+        $data->save();
         return $this->respondSuccessWithStatus([
             "message" => "Tạo đơn thành công"
         ]);
@@ -176,6 +199,15 @@ class AdministrationController extends ManageApiController
         $data->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa đơn thành công"
+        ]);
+    }
+
+    public function getAdvancePayment($advancePaymentId, Request $request)
+    {
+        $advancePayment = AdvancePayment::find($advancePaymentId);
+        if (!$advancePayment) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+            "request" => $advancePayment->transform()
         ]);
     }
 
@@ -213,14 +245,10 @@ class AdministrationController extends ManageApiController
     public function editReport(Request $request,$staff_id,$id)
     {
         $report = Report::find($id);
-        if($report->report != $request->report){
-            if($report->staff_id == $staff_id) {
-                $report->report = $request->report;
-                $report->title = $request->title;
-                $report->save();
-            }else{
-                return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
-            }
+        if($report->staff_id == $staff_id) {
+            $report->report = $request->report;
+            $report->title = $request->title;
+            $report->save();
         }else{
             return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
         }
