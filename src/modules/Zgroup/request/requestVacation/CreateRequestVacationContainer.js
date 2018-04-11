@@ -104,7 +104,7 @@ class CreateRequestVacationContainer extends React.Component {
         let date1 = data.start_time;
         let date2 = data.end_time;
 
-        console.log("data test",data);
+        //console.log("data test",data);
 
         return (
             <div>

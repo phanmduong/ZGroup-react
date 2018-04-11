@@ -69,7 +69,7 @@ class RequestMoneyContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props);
+        //console.log(this.props);
         let { isLoading, requestMoneys, paginator, requestActions, user } = this.props;
         let { showPayConfirmModal, showReceiveConfirmModal, currentRequest } = this.state;
         return (
