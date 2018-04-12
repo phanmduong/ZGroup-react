@@ -1,7 +1,7 @@
 @extends('nhatquangshop::layouts.master')
 
 @section('content')
-    <?php
+    {{--    <?php
     function get_all_childs($parentId)
     {
         $results = array("-1");
@@ -36,8 +36,8 @@
     }
     ?>
     <?php
-        $gen_ids = get_all_childs(12);
-        dd($gen_ids);
+    $gen_ids = get_all_childs(12);
+    dd($gen_ids);
     ?>
     @foreach($gen_ids as $gen_id)
         <?php $goods = \App\Good::where("good_category_id", $gen_id)->get();?>
@@ -74,5 +74,6 @@
             <br>
             <br>
         </div>
-    @endforeach
-@endsection
+    @endforeach--}}
+    <p>hello</p>
+@stop

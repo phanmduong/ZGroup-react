@@ -140,9 +140,9 @@
                                 <h4 class="panel-title">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"
                                        aria-expanded="true" aria-controls="collapseOne" style="padding:0">
-                                            <a href="{{'/category/'.$goodCategory->id}}">
-                                                {{$goodCategory->name}}
-                                            </a>
+                                        <a href="{{'/category/'.$goodCategory->id}}">
+                                            {{$goodCategory->name}}
+                                        </a>
                                     </a>
                                 </h4>
                             </div>
@@ -173,11 +173,11 @@
                                                         <?php
                                                         $childchild = \App\GoodCategory::find($childchildId);
                                                         ?>
-                                                    <a href="{{'/category/'.$childchildId}}">
-                                                        <div style="padding-left:25px;">
-                                                            {{$childchild->name}}
-                                                        </div>
-                                                    </a>
+                                                        <a href="{{'/category/'.$childchildId}}">
+                                                            <div style="padding-left:25px;">
+                                                                {{$childchild->name}}
+                                                            </div>
+                                                        </a>
                                                     @endif
                                                 @endforeach
                                             </div>
