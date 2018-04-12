@@ -28,6 +28,7 @@ class AdvancePayment extends Model
             'type' => $this->type,
             'status' => $this->status,
             'date_complete' => $this->date_complete,
+            'created_at' => $this->created_at,
         ];
     }
 }
