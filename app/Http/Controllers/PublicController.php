@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Base;
 use App\Category;
 use App\CategoryProduct;
-use App\Console\Commands\SendSurvey;
 use App\Console\Commands\WorkShiftsCheckInCheckOutNoti;
 use App\Course;
 use App\Email;
@@ -26,10 +25,10 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\TestJob;
 
 class PublicController extends Controller
 {
@@ -39,9 +38,8 @@ class PublicController extends Controller
 
     public function __construct(
         EmailService $emailService
-    )
-    {
-        $this->data = array();
+    ) {
+        $this->data = [];
         $this->data['rating'] = false;
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
@@ -60,7 +58,7 @@ class PublicController extends Controller
 
     public function redirect()
     {
-        return redirect(config('app.protocol') . config("app.domain"));
+        return redirect(config('app.protocol') . config('app.domain'));
     }
 
     public function elightMail(Request $request)
@@ -68,12 +66,10 @@ class PublicController extends Controller
         $email = $request->email;
         $msg = "First line of text\nSecond line of text";
 
-
         $msg = wordwrap($msg, 70);
 
-
-        mail($email, "My subject", $msg);
-        return "done";
+        mail($email, 'My subject', $msg);
+        return 'done';
     }
 
     public function store_images($topicId, Request $request)
@@ -87,11 +83,10 @@ class PublicController extends Controller
         }
         $image->save();
         $msg = [
-            'message' => "Tải lên thành công"
+            'message' => 'Tải lên thành công'
         ];
         return response()->json($msg, 200);
     }
-
 
     public function access_forbidden()
     {
@@ -107,9 +102,7 @@ class PublicController extends Controller
         $this->data['gen'] = Gen::getCurrentGen();
         $this->data['products'] = $products;
         return view('student.newsfeed', $this->data);
-
     }
-
 
     public function products(Request $request)
     {
@@ -126,15 +119,12 @@ class PublicController extends Controller
         return view('student.newsfeed', $this->data);
     }
 
-
     public function courses($user_id, $campaign_id)
     {
-
         //get all course categories
         $filter = false;
 
         if ($filter) {
-
         } else {
             $couses = Course::all();
         }
@@ -152,7 +142,8 @@ class PublicController extends Controller
 
     public function classes($course_id = null, $saler_id = null, $campaign_id = null)
     {
-        $course = Course::find($course_id);;
+        $course = Course::find($course_id);
+        ;
         $course_id = $course->id;
         $current_gen = Gen::getCurrentGen();
         $this->data['current_gen_id'] = $current_gen->id;
@@ -174,8 +165,9 @@ class PublicController extends Controller
         if ($course == null) {
             $courses = Course::all();
             foreach ($courses as $key) {
-                if (convert_vi_to_en($key->name) === $course_id)
+                if (convert_vi_to_en($key->name) === $course_id) {
                     $course = $key;
+                }
             }
         }
         $course_id = $course->id;
@@ -195,7 +187,6 @@ class PublicController extends Controller
 
     public function register_class($class_id = null, $saler_id = null, $campaign_id = null)
     {
-
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
         $class = StudyClass::find($class_id);
@@ -211,7 +202,6 @@ class PublicController extends Controller
     {
         return view('public.confirm_regis', $this->data);
     }
-
 
     public function register_store(RegisterFormRequest $request)
     {
@@ -238,7 +228,6 @@ class PublicController extends Controller
             }
 
             $user->save();
-
         } else {
             $user->university = $request->university;
             $user->work = $request->work;
@@ -247,9 +236,14 @@ class PublicController extends Controller
             $user->gender = $request->gender;
             $user->dob = date('Y-m-d', strtotime($request->dob));
             $user->facebook = $request->facebook;
-
-            $user->save();
         }
+
+        if ($user->password == null) {
+            $user->password = bcrypt($phone);
+        }
+        $user->rate = 5;
+        $user->save();
+
         $register = new Register;
         $register->user_id = $user->id;
         $register->gen_id = Gen::getCurrentGen()->id;
@@ -259,7 +253,7 @@ class PublicController extends Controller
         $register->campaign_id = $request->campaign_id;
         $register->leader_phone = $request->leader_phone;
         $register->coupon = $request->coupon;
-        $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
+        $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
 
         $register->save();
 
@@ -281,14 +275,15 @@ class PublicController extends Controller
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        if ($user == null)
+        if ($user == null) {
             $user = new User;
-
+            $user->password = bcrypt($phone);
+            $user->username = $request->email;
+            $user->email = $request->email;
+        }
+        $user->rate = 5;
         $user->name = $request->name;
         $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
-        $user->password = Hash::make($phone);
         $user->save();
 
         $register = new Register;
@@ -298,7 +293,7 @@ class PublicController extends Controller
         $register->status = 0;
         $register->saler_id = $request->saler_id;
         $register->campaign_id = $request->campaign_id;
-        $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
+        $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
 
         $register->save();
 
@@ -317,7 +312,7 @@ class PublicController extends Controller
 
     public function send_mail()
     {
-        $user = array(
+        $user = [
             'name' => 'Quan Cao Anh',
             'email' => 'aquancva@gmail.com',
             'password' => 'password',
@@ -326,10 +321,10 @@ class PublicController extends Controller
             'phone' => '0969032275',
             'address' => 'Ba Trieu',
             'created_at' => '2-1-2016'
-        );
-        $register = array(
+        ];
+        $register = [
             'class_id' => 5
-        );
+        ];
         $class = StudyClass::find($register['class_id']);
 
         $course = Course::find($class->course_id);
@@ -338,7 +333,7 @@ class PublicController extends Controller
         $data['course'] = $course;
         $data['user'] = $user;
 
-        $subject = "Xác nhận đăng kí khoá học " . $course->name;
+        $subject = 'Xác nhận đăng kí khoá học ' . $course->name;
 
         Mail::send('emails.confirm_email_2', $data, function ($m) use ($user, $subject) {
             $m->from(AppServiceProvider::$config['email'], 'Color Me');
@@ -402,10 +397,8 @@ class PublicController extends Controller
         return view('student.index', $this->data);
     }
 
-
     public function product_detail(Request $request)
     {
-
         //random select course
         $course = DB::select('SELECT * FROM courses ORDER BY RAND() LIMIT 1')[0];
 
@@ -429,7 +422,6 @@ class PublicController extends Controller
         $product_id = $request->product_id;
         $product = Product::find($product_id);
 
-
         $obj = $product;
         $obj->total_likes = $product->likes()->count();
         if (isset($this->user)) {
@@ -437,7 +429,6 @@ class PublicController extends Controller
         }
         return json_encode($obj);
     }
-
 
     public function get_comment_new(Request $request)
     {
@@ -466,7 +457,7 @@ class PublicController extends Controller
         $product->views += 1;
         $product->save();
         $product->author;
-        $classes = array();
+        $classes = [];
         foreach ($product->author->registers as $register) {
             $register->studyClass->course;
             $classes[] = $register->studyClass;
@@ -498,20 +489,18 @@ class PublicController extends Controller
                     </video>
                     ";
                 }
-
             }
         }
         return $product;
     }
-
 
     public function get_user_info($id)
     {
         $user = User::find($id);
 
         //Get icon for current learning course for profile page
-        $course_learning = array();
-        $course_learning_icon_id = array();
+        $course_learning = [];
+        $course_learning_icon_id = [];
         foreach ($user->registers as $register) {
             array_push($course_learning, $register->studyclass->course_id);
         }
@@ -612,7 +601,6 @@ class PublicController extends Controller
         $this->data['courses'] = $courses;
         $this->data['products'] = $products;
         return view('components.search_items', $this->data);
-
     }
 
     public function landing(Request $request)
@@ -634,7 +622,7 @@ class PublicController extends Controller
         $feedbacks = json_decode($landing->feedbacks, true);
         $reasons = json_decode($landing->reasons, true);
 
-        $demo_contents = array();
+        $demo_contents = [];
 
         for ($i = 1; $i <= 6; $i++) {
             if ($demos['demo' . $i]) {
@@ -677,13 +665,12 @@ class PublicController extends Controller
 
         if ($type == 3) {
             $products = Product::orderBy('created_at', 'desc')->where('type', '=', 2)->take($limit)->get();
-        } else if ($type == 2) {
+        } elseif ($type == 2) {
             $products = Product::orderBy('rating', 'desc')->take($limit)->get();
         } else {
             //            $class = DB::select("select * from classes where replace(name,' ','') like ?", [$class_name])[0];
             //            $usersIdOfThisClass = StudyClass::find($class->id)->registers()->select(DB::raw('user_id'))->get()->pluck('user_id');
             //            $products = Product::whereIn('author_id', $usersIdOfThisClass)->orderBy('created_at', 'desc')->take($limit)->get();
-
 
             $products = Product::orderBy('created_at', 'desc')->take($limit)->get();
         }
@@ -699,7 +686,6 @@ class PublicController extends Controller
         $limit = 15;
         $page = $request->page;
 
-
         $class_name = $request->class_name;
         $category_id = $request->category_id;
 
@@ -707,23 +693,20 @@ class PublicController extends Controller
             $class = DB::select("select * from classes where replace(name,' ','') like ?", [$class_name])[0];
             $usersIdOfThisClass = StudyClass::find($class->id)->registers()->select(DB::raw('user_id'))->get()->pluck('user_id');
             $products = Product::whereIn('author_id', $usersIdOfThisClass)->orderBy('created_at', 'desc')->skip($page * $limit)->take($limit)->get();
-
-        } else if ($category_id != null) {
+        } elseif ($category_id != null) {
             $category = CategoryProduct::find($category_id);
             $products = $category->products()->orderBy('created_at', 'desc')->skip($page * $limit)->take($limit)->get();
         } else {
-
             $type = $request->type;
 
             if ($type == 3) {
                 $products = Product::orderBy('created_at', 'desc')->where('type', '=', 2)->skip($page * $limit)->take($limit)->get();
-            } else if ($type == 2) {
+            } elseif ($type == 2) {
                 $products = Product::orderBy('rating', 'desc')->skip($page * $limit)->take($limit)->get();
             } else {
                 //            $class = DB::select("select * from classes where replace(name,' ','') like ?", [$class_name])[0];
                 //            $usersIdOfThisClass = StudyClass::find($class->id)->registers()->select(DB::raw('user_id'))->get()->pluck('user_id');
                 //            $products = Product::whereIn('author_id', $usersIdOfThisClass)->orderBy('created_at', 'desc')->take($limit)->get();
-
 
                 $products = Product::orderBy('created_at', 'desc')->skip($page * $limit)->take($limit)->get();
             }
@@ -754,7 +737,6 @@ class PublicController extends Controller
             $user->dob = strtotime($request->dob);
             $user->password = bcrypt($phone);
             $user->save();
-
         } else {
             $user->university = $request->university;
             $user->work = $request->work;
@@ -781,14 +763,13 @@ class PublicController extends Controller
 
     public function test_push()
     {
-        $data = json_encode(['message' => "ajsdlksamkdmsalk:))"]);
+        $data = json_encode(['message' => 'ajsdlksamkdmsalk:))']);
         return send_push_notification($data);
     }
 
     public function receive_video_convert_notifications()
     {
         $post = file_get_contents('php://input');
-
 
         $test = new Test;
         $test->content = $post;
@@ -801,22 +782,22 @@ class PublicController extends Controller
         $video_name = '/videos/' . $message->outputs[0]->key;
         $video_url = config('app.s3_url') . $video_name;
 
-        $publish_data = array(
-            "event" => "transcode-video",
-            "data" => [
-                "video_url" => $video_url,
+        $publish_data = [
+            'event' => 'transcode-video',
+            'data' => [
+                'video_url' => $video_url,
                 'video_name' => $video_name,
                 'jobId' => $jobId,
                 'thumb_url' => $video_url
             ]
-        );
+        ];
         Redis::publish(config('app.channel'), json_encode($publish_data));
 
-        $tmp_file_name = "/" . $message->input->key;
+        $tmp_file_name = '/' . $message->input->key;
         $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
         $s3->delete($tmp_file_name);
 
-        return "done";
+        return 'done';
     }
 
     public function receive_notifications()
@@ -856,7 +837,6 @@ class PublicController extends Controller
         return null;
     }
 
-
     public function load_more_product_profile($user_id, $offset, $limit)
     {
         $user = User::find($user_id);
@@ -872,7 +852,7 @@ class PublicController extends Controller
     {
         $obj = new WorkShiftsCheckInCheckOutNoti();
         $obj->handle();
-        return "done";
+        return 'done';
     }
 
     public function beta()
@@ -903,7 +883,6 @@ class PublicController extends Controller
         return view('emails.view_email', ['data' => $data]);
     }
 
-
     public function notificationRedirect($id)
     {
         $notification = Notification::find($id);
@@ -912,11 +891,57 @@ class PublicController extends Controller
         return redirect($notification->url);
     }
 
-    public function send_noti_test()
+    public function send_noti_test(Request $request)
     {
-        $a = new SendSurvey();
-        $a->handle();
-        return "test";
+        $this->dispatch(new TestJob());
+        // $registers34 = Register::where('gen_id', 29)->pluck('user_id');
+        // $phones = Register::join('users', 'users.id', '=', 'registers.user_id')
+        //     ->join('classes', 'classes.id', '=', 'registers.class_id')
+        //     ->where('classes.base_id', '<>', 6)
+        //     ->whereIn('registers.gen_id', [15, 16, 17, 18, 19, 20, 21, 22, 23])
+        //     ->where('registers.status', 1)
+        //     ->orderBy('registers.created_at', 'desc')
+        //     ->whereNotIn('user_id', $registers34)
+        //     ->select('users.phone as phone')->distinct()
+        //     ->pluck('phone');
+        // $phones[] = '0969785925';
+
+        // $content = 'Mung sinh nhat 3 tuoi, COLORME giam 30% tat ca khoa hoc cho hoc vien cu cua COLORME voi ma uu dai CMALUMNI, ap dung den het ngay 3/4/2018. Dang ki ngay tai http://colorme.vn';
+        // $client = new \GuzzleHttp\Client(['base_uri' => 'http://api-02.worldsms.vn']);
+        // $headers = [
+        //     'Content-Type' => 'application/json',
+        //     'Accept' => 'application/json',
+        //     'Authorization' => 'Basic ' . config('app.sms_key')
+        // ];
+
+        // $start = $request->start;
+        // $end = $request->end;
+        // for ($i = $start; $i <= $end; $i++) {
+        //     $phone = preg_replace('/[^0-9]+/', '', $phones[$i]);
+        //     $body = json_encode([
+        //         'from' => config('app.brand_sms'),
+        //         'to' => $phone,
+        //         'text' => convert_vi_to_en_not_url($content)
+        //     ]);
+
+        //     $request = new \GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
+        //     $response = $client->send($request);
+        //     $status = json_decode($response->getBody())->status;
+
+        //     $sms = new \App\Sms();
+        //     $sms->content = convert_vi_to_en_not_url($content);
+        //     // $sms->user_id = $register->user_id;
+        //     $sms->user_id = 1;
+        //     $sms->purpose = 'marketing';
+        //     if ($status == 1) {
+        //         $sms->status = 'success';
+        //     } else {
+        //         $sms->status = 'failed';
+        //     }
+        //     $sms->save();
+        // }
+
+        return 'test';
     }
 
     public function codeForm()
@@ -936,11 +961,12 @@ class PublicController extends Controller
                 ->withInput();
         }
         $register_count = Register::where('code', $request->code)->count();
-        if ($register_count == 0)
+        if ($register_count == 0) {
             return redirect('/code-form')
                 ->withErrors([
                     'register' => 'not found'
                 ])->withInput();
+        }
         $register = Register::where('code', $request->code)->first();
         $this->data['register'] = $register;
         $this->data['user'] = $register->user;

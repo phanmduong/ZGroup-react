@@ -1,10 +1,18 @@
+function formatPrice(price) {
+    return (
+        price
+            .toString()
+            .replace(/\./g, "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ"
+    );
+}
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
         isLoading: false,
         goods: [],
         total_price: 0,
-        price_vnd: '',
     },
     methods: {
         getGoodsFromSesson: function () {
@@ -12,7 +20,6 @@ var modalBuy = new Vue({
                 .then(function (response) {
                     this.goods = response.data.goods;
                     this.total_price = response.data.total_price;
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
                     this.isLoading = false;
                     openWithoutAdd.countBooksFromSession();
                 }.bind(this))
@@ -37,8 +44,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number -= 1;
-                    this.total_price -= good.price * (1 - good.coupon_value);
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_price -= good.price;
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
@@ -60,8 +66,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number += 1;
-                    this.total_price += good.price * (1 - good.coupon_value);
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_price += good.price;
                 }
                 newGoods.push(good);
             }
@@ -77,7 +82,9 @@ var modalBuy = new Vue({
         openPurchaseModal: function () {
             $('#modalBuy').modal('hide');
             $('#modalPurchase').modal("show");
-            $("body").css("overflow", "hidden");
+            setTimeout(function() {
+                $("body").attr("class", "profile modal-open");
+            }, 200);          
             modalPurchase.loadingProvince = true;
             modalPurchase.showProvince = false;
             modalPurchase.openModal();
@@ -153,47 +160,9 @@ var modalPurchase = new Vue({
         phone: '',
         email: '',
         address: '',
-        payment: '',
-        provinceid: '',
-        districtid: '',
-        wardid: '',
-        loadingProvince: false,
-        showProvince: false,
-        loadingDistrict: false,
-        showDistrict: false,
-        provinces: [],
-        districts: [],
+        payment: 'Thanh toán trực tiếp khi nhận hàng(COD)',
     },
     methods: {
-        getProvinces: function () {
-            axios.get(window.url + '/province')
-                .then(function (response) {
-                    this.provinces = response.data.provinces;
-                    this.loadingProvince = false;
-                    this.showProvince = true;
-                }.bind(this))
-                .catch(function (error) {
-
-                });
-        },
-        getDistricts: function () {
-            axios.get(window.url + '/district/' + this.provinceid)
-                .then(function (response) {
-                    this.districts = response.data.districts;
-                    this.loadingDistrict = false;
-                    this.showDistrict = true;
-                }.bind(this))
-                .catch(function (error) {
-
-                });
-        },
-        openModal: function () {
-            this.getProvinces();
-        },
-        changeProvince: function () {
-            this.loadingDistrict = true;
-            this.getDistricts();
-        },
         submitOrder: function () {
             $("#purchase-error").css("display", "none");
             $("#btn-purchase-group").css("display", "none");
@@ -209,8 +178,6 @@ var modalPurchase = new Vue({
                 name: this.name,
                 phone: this.phone,
                 email: this.email,
-                provinceid: this.provinceid ? this.provinceid : '01',
-                districtid: this.districtid ? this.districtid : '001',
                 address: this.address,
                 payment: this.payment,
                 _token: window.token,
@@ -220,15 +187,14 @@ var modalPurchase = new Vue({
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
-                    name = "";
-                    phone = "";
-                    email = "";
-                    address = "";
-                    payment = "";
+                    this.name = "";
+                    this.phone = "";
+                    this.email = "";
+                    this.address = "";
+                    this.payment = "";
                 })
 
                 .catch(function (error) {
-                    console.log(error);
                 });
         },
     }

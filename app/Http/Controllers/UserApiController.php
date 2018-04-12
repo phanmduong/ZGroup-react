@@ -350,6 +350,7 @@ class UserApiController extends ApiController
             })
         ]);
     }
+    
     public function getAllSaler(Request $request){
         $saler_ids = DB::table('registers')->select('saler_id')->distinct()->get();
 

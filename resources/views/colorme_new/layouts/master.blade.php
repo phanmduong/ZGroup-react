@@ -5,6 +5,12 @@
     <meta name="fragment" content="!">
     <meta name="google-site-verification" content="xtTa2p_KrROT2c7_IyShaw1KDt3iIvZ9c_bufAvYhvs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:type" content="website"/>
+    {{--  <meta property="og:image" content="http://d1j8r0kxyu9tj8.cloudfront.net/images/1520759546UIE1j3pqg3PzX5r.jpg"/>  --}}
+
+    @yield("meta")
+
     <title>Color ME - Trường học thiết kế Color ME</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
@@ -256,7 +262,7 @@
                     <h2 style="font-weight: 600">Tạo tài khoản</h2>
                     <p>Chào mừng bạn đến với colorME.</p>
                     <br>
-                    <form style="width: 100%">
+                    <form v-if="showRegisterForm" style="width: 100%">
                         <div class="form-group" style="width: 100%;">
                             <input class="form-control" style="height: 50px" width="100%"
                                    v-model="user.name"
@@ -295,6 +301,11 @@
                                    placeholder="Số điện thoại" required/>
                         </div>
                     </form>
+
+                    <div v-if="!!message" style="width:100%" class="alert alert-success">
+                        @{{message}}
+                    </div>
+
                     <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
                             :disabled="isLoading"
                             v-if="!isLoading"
@@ -319,16 +330,21 @@
     <div class="ctrlq fb-overlay"></div>
     <div class="fb-widget">
         <div class="ctrlq fb-close"></div>
-        <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages"
+        <div class="fb-page"
+             data-href="{{isset($saler) && $saler->base_id == 6 ? 'https://www.facebook.com/colorme.saigon': 'https://www.facebook.com/colorme.hanoi'}}"
+             data-tabs="messages"
              data-width="360"
              data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
         <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
-       href="tel:0982351051" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+       href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '01627175613'}}"
+       title="Gửi tin nhắn cho chúng tôi qua Facebook"
+       class="ctrlq fb-button">
         <div class="bubble-msg">Gọi colorME</div>
     </a>
-    <a href="https://m.me/colorme.hanoi" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+    <a href="{{isset($saler) && $saler->base_id == 6 ? 'https://www.facebook.com/colorme.saigon':'https://m.me/colorme.hanoi'}}"
+       title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
         <div class="bubble">1</div>
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
     </a></div>
@@ -344,7 +360,8 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/jquery.animateNumber.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
-<script src="/colorme/js/vue.js"></script>
+<script src="/colorme/js/vue.js?1234"></script>
+
 <div id="fb-root"></div>
 <script>
     var socket = io('http://colorme.vn:3000/');

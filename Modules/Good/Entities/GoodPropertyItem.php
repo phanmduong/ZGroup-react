@@ -27,17 +27,19 @@ class GoodPropertyItem extends Model
 
     public function transform()
     {
-        return [
+        $data = [
             "id" => $this->id,
             "name" => $this->name,
             "prevalue" => $this->prevalue,
             "preunit" => $this->preunit,
             "type" => $this->type,
-            "creator" => [
+        ];
+        if($this->creator)
+            $data['creator'] = [
                 "id" => $this->creator->id,
                 "name" => $this->creator->name,
                 "email" => $this->creator->email
-            ]
-        ];
+            ];
+        return $data;
     }
 }

@@ -2,6 +2,7 @@ function formatPrice(price) {
     return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
 }
 
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
@@ -261,13 +262,12 @@ var modalPurchase = new Vue({
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
-                    name = "";
-                    phone = "";
-                    email = "";
-                    address = "";
-                    payment = "";
-                })
-
+                    this.name = "";
+                    this.phone = "";
+                    this.email = "";
+                    this.address = "";
+                    this.payment = "";
+                }.bind(this))
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -288,9 +288,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
-                currency: {},
+                tax:false,
+                description: "",
                 currencyId: 0
             },
         ],
@@ -300,7 +299,8 @@ var fastOrder = new Vue({
         showSuccessMessage: false,
         failMessage: "",
         message: "",
-        currencies: [],
+        currencies: [
+        ],
         isLoadingCurrency: false,
         isOrdering: true,
     },
@@ -325,14 +325,10 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
-                currency: {},
+                tax: false,
+                description: "",
                 currencyId: 0,
             });
-        },
-        changeCurrency: function (index) {
-            this.fastOrders[index].currency = this.currencies[this.fastOrders[index].currencyId];
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
@@ -341,7 +337,7 @@ var fastOrder = new Vue({
             this.isLoading = true;
             this.showSuccessMessage = false;
             this.showFailMessage = false;
-            axios.post(window.url + '/manage/save-fast-order', {
+            axios.post(window.url + '/manage/save-delivery-order', {
                 fastOrders: JSON.stringify(this.fastOrders)
             }).then(function (response) {
                 this.isLoading = false;
@@ -373,9 +369,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
-                currency: {},
+                tax: false,
+                description: "",
                 currencyId: 0,
             });
         }
@@ -385,26 +380,15 @@ var fastOrder = new Vue({
     }
 });
 
-// var listFastOrders = new Vue({
-//     el : '#listFastOrder',
-//     data : {
-//         isLoading : false,
-//         listFastOrders : [],
-//     },
-//     method : {
-//         getListFastOrders : function(){
-//             this.isLoading = true;
-//             axios.get(window.url + '/manage/fast_orders')
-//                 .then(function (res){
-//                     this.isLoading = false;
-//                     this.listFastOrders = res.data.fastOrders;
-//                 })
-//                 .catch(function(error){
-//                     console.log(error)
-//                 })
-//         }
-//     },
-//     mounted : function() {
-//         this.getListFastOrders();
-//     }
-// })
+var productInfo = new Vue({
+    el : "#product_info",
+    data : {
+        good : 1
+    },
+    methods : {
+        openBuyModal: function (goodId) {
+            $('#modalBuy').modal('show');
+            modalBuy.addGoodToCart(goodId);
+        },
+       },
+});

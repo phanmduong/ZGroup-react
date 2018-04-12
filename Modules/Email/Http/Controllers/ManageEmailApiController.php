@@ -9,8 +9,6 @@ use App\Repositories\EmailRepository;
 use App\Subscriber;
 use App\SubscribersList;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageEmailApiController extends ManageApiController
@@ -25,7 +23,6 @@ class ManageEmailApiController extends ManageApiController
 
     public function subscribers_list(Request $request)
     {
-
         $query = $request->search;
         $limit = 20;
         if ($query) {
@@ -55,7 +52,7 @@ class ManageEmailApiController extends ManageApiController
         $subscribers_list = SubscribersList::find($subscribers_list_id);
         $subscribers_list->delete();
 
-        return $this->respondSuccess("Xóa subscribers list thành công");
+        return $this->respondSuccess('Xóa subscribers list thành công');
     }
 
     public function store_subscribers_list(Request $request)
@@ -72,7 +69,6 @@ class ManageEmailApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'subscribers_list' => $this->emailRepository->subscribers_list_item($sub_list)
         ]);
-
     }
 
     public function subscribers(Request $request)
@@ -80,23 +76,42 @@ class ManageEmailApiController extends ManageApiController
         $list_id = $request->list_id;
         $search = $request->search;
 
-        $limit = 20;
+        if ($list_id == null) {
+            return $this->respondErrorWithStatus('Thiếu subscribers list id');
+        }
+
+        if ($request->limit) {
+            $limit = $request->limit;
+        } else {
+            $limit = 20;
+        }
+
         if ($search != null) {
             $subscribers = SubscribersList::find($list_id)->subscribers()->where('email', 'like', '%' . $search . '%');
         } else {
             $subscribers = SubscribersList::find($list_id)->subscribers();
         }
 
-        $subscribers = $subscribers->orderBy('created_at', 'desc')->paginate($limit);
+        if ($limit == -1) {
+            $subscribers = $subscribers->orderBy('created_at', 'desc')->get();
+            $data = [
+                'subscribers' => $subscribers->map(function ($subscriber) {
+                    return $this->emailRepository->subscriber($subscriber);
+                }),
+                'status' => 1
+            ];
 
-        $data = [
-            'subscribers' => $subscribers->map(function ($subscriber) {
-                return $this->emailRepository->subscriber($subscriber);
-            }),
-        ];
+            return $this->respond($data);
+        } else {
+            $subscribers = $subscribers->orderBy('created_at', 'desc')->paginate($limit);
+            $data = [
+                'subscribers' => $subscribers->map(function ($subscriber) {
+                    return $this->emailRepository->subscriber($subscriber);
+                }),
+            ];
 
-        return $this->respondWithPagination($subscribers, $data);
-
+            return $this->respondWithPagination($subscribers, $data);
+        }
     }
 
     public function add_subscriber(Request $request)
@@ -107,7 +122,7 @@ class ManageEmailApiController extends ManageApiController
 
         $this->emailRepository->add_subscriber($list_id, $email, $name);
 
-        return $this->respondSuccess("Thêm thành công");
+        return $this->respondSuccess('Thêm thành công');
     }
 
     public function edit_subscriber(Request $request)
@@ -126,9 +141,14 @@ class ManageEmailApiController extends ManageApiController
     public function upfile_add_subscribers(Request $request)
     {
         $list_id = $request->list_id;
+
+        if ($list_id == null) {
+            return $this->respondErrorWithStatus('Thiếu subscribers list id');
+        }
+
         $file = $request->file('csv');
 
-        $emails = Email::where('campaign_id' , 134)->orWhere('campaign_id', 138)->orWhere('campaign_id', 137)->orWhere('campaign_id', 136)->get()->pluck('to')->toArray();
+        $emails = Email::where('campaign_id', 134)->orWhere('campaign_id', 138)->orWhere('campaign_id', 137)->orWhere('campaign_id', 136)->get()->pluck('to')->toArray();
 
         Excel::load($file->getRealPath(), function ($reader) use ($emails, &$duplicated, &$imported, $list_id) {
             // Getting all results
@@ -141,7 +161,7 @@ class ManageEmailApiController extends ManageApiController
             }
         })->get();
 
-        return $this->respondSuccess("Thêm thành công");
+        return $this->respondSuccess('Thêm thành công');
     }
 
     public function delete_subscriber(Request $request)
@@ -152,11 +172,11 @@ class ManageEmailApiController extends ManageApiController
         if ($subscriber) {
             $subscriber->subscribers_lists()->detach($list_id);
             return $this->respondSuccessWithStatus([
-                'message' => "Xóa email thành công"
+                'message' => 'Xóa email thành công'
             ]);
         }
 
-        return $this->respondErrorWithStatus("Subscriber không tồn tại");
+        return $this->respondErrorWithStatus('Subscriber không tồn tại');
     }
 
     public function get_campaigns(Request $request)
@@ -164,14 +184,16 @@ class ManageEmailApiController extends ManageApiController
         $query = $request->search;
         $limit = 20;
 
-
         $campaigns = EmailCampaign::leftJoin('email_forms', 'email_campaigns.form_id', '=', 'email_forms.id')
             ->select('email_campaigns.*', 'email_forms.hide')
             ->where(function ($q) {
-                $q->whereNull("email_forms.hide")->orWhere('email_forms.hide', 0)->orWhere(function ($q) {
+                $q->whereNull('email_forms.hide')->orWhere('email_forms.hide', 0)->orWhere(function ($q) {
                     $q->where('email_forms.hide', 1)->where('email_forms.creator', $this->user->id);
                 });
             });
+
+        if($request->send_status != null)
+            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
 
         if ($request->owner_id) {
             $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
@@ -189,13 +211,11 @@ class ManageEmailApiController extends ManageApiController
             'campaigns' => $this->emailRepository->campaingns($campaigns)
         ];
 
-
         return $this->respondWithPagination($campaigns, $data);
     }
 
     public function store_campaign(Request $request)
     {
-
         if ($request->id) {
             $campaign = EmailCampaign::find($request->id);
         } else {
@@ -210,7 +230,6 @@ class ManageEmailApiController extends ManageApiController
         $campaign->timer = $request->timer;
 
         $subscribers_list_ids = $request->subscribers_list;
-
 
         $campaign->save();
 
@@ -237,10 +256,10 @@ class ManageEmailApiController extends ManageApiController
 
         if ($campaign->sended == 0) {
             $campaign->delete();
-            return $this->respondSuccessWithStatus(['message' => "Xóa chiến dịch thành công"]);
+            return $this->respondSuccessWithStatus(['message' => 'Xóa chiến dịch thành công']);
         }
 
-        return $this->respondErrorWithStatus("Không thể xóa chiến dịch này");
+        return $this->respondErrorWithStatus('Không thể xóa chiến dịch này');
     }
 
     public function subscribers_list_item($subscribers_list_id)
@@ -252,6 +271,38 @@ class ManageEmailApiController extends ManageApiController
             ]);
         }
 
-        return $this->respondErrorWithStatus("Có lỗi xảy ra");
+        return $this->respondErrorWithStatus('Có lỗi xảy ra');
+    }
+
+    public function get_gmails_post_facebook(Request $request)
+    {
+        if ($request->token == null) {
+            return $this->respondErrorWithStatus("Thiếu token");
+        }
+
+        if ($request->post_id == null) {
+            return $this->respondErrorWithStatus("Thiếu post_id");
+        }
+
+        $this->user->code = $request->token;
+        $this->user->save();
+
+        $comments = getAllCommentFacebook($request->post_id, $request->token);
+
+        $emails = array();
+
+        foreach ($comments as $comment) {
+            $email = getEmailFromText($comment->message);
+            if (!empty($email)) {
+                $emails[] = [
+                    'email' => $email,
+                    'name' => $comment->from->name,
+                ];
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'emails' => $emails
+        ]);
     }
 }

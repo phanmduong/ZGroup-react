@@ -126,7 +126,7 @@
             }
 
 
-        });
+        }); 
     });
 </script>
 @endsection

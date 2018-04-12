@@ -35,7 +35,6 @@ class GoodController extends ManageApiController
         $property->value = $value;
         $property->good_id = $goodId;
         $property->editor_id = $this->user->id;
-        $property->good_id = $goodId;
         $property->save();
     }
 
@@ -255,7 +254,7 @@ class GoodController extends ManageApiController
             foreach ($children as $child) {
                 $good = $child->id ? Good::find($child->id) : new Good;
                 $this->assignGoodInfor($good, $request);
-                $good->barcode = $child->Øbarcode;
+                $good->barcode = $child->barcode;
                 $good->price = $child->price ? $child->price : $request->price;
                 $good->save();
 
@@ -719,6 +718,8 @@ class GoodController extends ManageApiController
             "card" => $card->transform()
         ]);
     }
+
+
 }
 
 

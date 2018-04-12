@@ -36,6 +36,86 @@ class SurveyController extends ManageApiController
         ]);
     }
 
+    public function summarySurvey($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+        $result = $survey->userLessonSurveys()
+            ->join("users", "users.id", "=", "user_lesson_survey.user_id")
+            ->groupBy("user_lesson_survey.user_id")->select(DB::raw("users.*, count(1) as num"))
+            ->orderBy("num", "desc")
+            ->paginate(20);
+        $maxNum = $survey->userLessonSurveys()->select(DB::raw("max(`take`) as max_num"))->first()->max_num;
+        return $this->respondWithPagination($result, [
+            "max_num" => $maxNum,
+            "summary" => $result->map(function ($item) {
+                return [
+                    "avatar_url" => generate_protocol_url($item->avatar_url),
+                    "name" => $item->name,
+                    "email" => $item->email,
+                    "username" => $item->username,
+                    "num" => $item->num
+                ];
+            })
+        ]);
+    }
+
+    public function surveyResult($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+        $result = ["Tên", "Email", "Số điện thoại"];
+
+        $questions = $survey->questions()->orderBy("order")->get()->map(function ($question) {
+            return trim($question->content);
+        });
+
+
+        $result = [array_merge($result, $questions->toArray())];
+
+
+        $numQuestions = $questions->count();
+
+        $userLessonSurveys = $survey->userLessonSurveys;
+
+        foreach ($userLessonSurveys as $userLessonSurvey) {
+            $data = [];
+            $index = 0;
+            $userLessonSurvey->userLessonSurveyQuestions()
+                ->join("questions", "questions.id", "=", "user_lesson_survey_question.question_id")
+                ->orderBy("order")
+                ->select(DB::raw("questions.order as `order`, user_lesson_survey_question.answer as answer, user_lesson_survey_question.answer_id as answer_id"))
+                ->get()
+                ->each(function ($userLessonSurveyQuestion) use (&$data, &$index) {
+                    $data[$index] = $userLessonSurveyQuestion->answer ? $userLessonSurveyQuestion->answer : "";
+                    $index += 1;
+                })->toArray();
+
+            $user = $userLessonSurvey->user;
+
+            $answers = [$user->name, $user->email, $user->phone];
+
+            for ($i = 3; $i < $numQuestions + 3; $i += 1) {
+
+                if (array_key_exists($i - 3, $data)) {
+                    $answers[$i] = $data[$i - 3];
+                } else {
+                    $answers[$i] = "";
+                }
+
+            }
+            $result[] = $answers;
+        }
+
+        return $this->respondSuccessWithStatus([
+            "result" => $result
+        ]);
+    }
+
     public function endUserLessonSurvey($userLessonSurveyId, Request $request)
     {
         $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
@@ -218,12 +298,19 @@ class SurveyController extends ManageApiController
     public function assignSurveyInfo(&$survey, $request)
     {
         $survey->name = $request->name;
-        $survey->user_id = $this->user->id;
+//        $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
         $survey->description = $request->description;
+        $survey->active = $request->active;
         $survey->target = $request->target;
-        $survey->image_name = uploadFileToS3($request, "image_url", 1000, $survey->image_name);
-        $survey->image_url = config("app.s3_url") . $survey->image_name;
+        if ($request->image) {
+            $survey->image_name = uploadFileToS3($request, "image", 1000, $survey->image_name);
+            $survey->image_url = config("app.s3_url") . $survey->image_name;
+        } else {
+            if (!$survey->id)
+                $survey->image_url = emptyImageUrl();
+        }
+
         $survey->save();
         if ($request->questions) {
             $questions = json_decode($request->questions);
@@ -247,6 +334,7 @@ class SurveyController extends ManageApiController
                 }
             }
         }
+        return $survey;
     }
 
     public function getSurveys(Request $request)
@@ -284,9 +372,9 @@ class SurveyController extends ManageApiController
 
     public function createSurvey(Request $request)
     {
-        $survey = new Survey;
+        $survey = new Survey();
+        $survey->user_id = $this->user->id;
         //validate
-
         $survey = $this->assignSurveyInfo($survey, $request);
 
         return $this->respondSuccessWithStatus([
@@ -294,18 +382,18 @@ class SurveyController extends ManageApiController
         ]);
     }
 
+
     public function editSurvey($surveyId, Request $request)
     {
         $survey = Survey::find($surveyId);
         if ($survey == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại đề'
-            ]);
+            return $this->respondErrorWithStatus('Không tồn tại đề');
         //validate
 
-        $this->assignSurveyInfo($survey, $request);
+        $survey = $this->assignSurveyInfo($survey, $request);
+
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'survey' => $survey->shortData()
         ]);
     }
 

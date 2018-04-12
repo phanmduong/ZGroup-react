@@ -21,12 +21,18 @@
 
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/chartist/chartist-plugin-tooltip.css" rel="stylesheet"/>
 
+    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/nouislider.min.css" rel="stylesheet"/>
+
+    <!-- cSliders Plugin -->
+    <!-- <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/nouislider.min.js"></script> -->
+
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
     {{--<link href="manage/email/main.8beb53522833d876fdbefef05a414858.css" rel="stylesheet">--}}
+
     @yield("css")
 
     <link href="{{url('config.css')}}" rel="stylesheet">
@@ -63,8 +69,7 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-notify.js"></script>
 <!-- Vector Map plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-jvectormap.js"></script>
-<!-- Sliders Plugin -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/nouislider.min.js"></script>
+
 <!-- Select Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.select-bootstrap.js"></script>
 <!--  DataTables.net Plugin    -->

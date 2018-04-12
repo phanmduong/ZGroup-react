@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Modules\Order\Repositories\OrderService;
 
 class NhatQuangShopManageController extends Controller
 {
@@ -23,10 +24,11 @@ class NhatQuangShopManageController extends Controller
     protected $data;
     protected $user;
 
-    public function __construct(BookRepository $bookRepository)
+    public function __construct(BookRepository $bookRepository, OrderService $orderService)
     {
         $this->middleware('auth');
         $this->bookRepository = $bookRepository;
+        $this->orderService = $orderService;
         $this->data = array();
 
         if (!empty(Auth::user())) {
@@ -38,7 +40,7 @@ class NhatQuangShopManageController extends Controller
     public function userOrder()
     {
         $user = Auth::user();
-        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(15);
+        $orders = Order::where([['user_id', '=', $user->id], ['type', '=', 'order']])->orderBy('created_at', 'desc')->paginate(15);
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
@@ -137,7 +139,7 @@ class NhatQuangShopManageController extends Controller
     public function filterOrders(Request $request)
     {
         $user = Auth::user();
-        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc');
+        $orders = Order::where([['user_id', '=', $user->id],['type', '=', 'order']])->orderBy('created_at', 'desc');
         $code = $request->code;
         $status = $request->status;
         $start_day = $request->start_day;
@@ -145,8 +147,8 @@ class NhatQuangShopManageController extends Controller
 
         if ($start_day)
             $orders = $orders->whereBetween('created_at', array($start_day, $end_day));
-//        if ($status)
-//            $orders = $orders->where('status', $status);
+        if ($status)
+            $orders = $orders->where('status', $status);
         if ($code)
             $orders = $orders->where('code', 'like', '%' . $code . '%');
         $orders = $orders->orderBy('created_at', 'desc')->paginate(15);
@@ -154,48 +156,71 @@ class NhatQuangShopManageController extends Controller
         return view("nhatquangshop::orders", $this->data);
     }
 
-    public function userFastOrders()
+    public function userDeliveryOrders()
     {
         $user = Auth::user();
-        $fastOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['fastOrders'] = $fastOrders;
+        $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
+        $this->data['deliveryOrders'] = $deliveryOrders;
 //        dd($user->id);
-        return view('nhatquangshop::fast_orders', $this->data);
+        return view('nhatquangshop::delivery_orders', $this->data);
     }
 
-    public function filterFastOrders(Request $request)
+    public function filterDeliveryOrders(Request $request)
     {
         $user = Auth::user();
-        $fastOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc');
+        $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc');
         $code = $request->code;
         $status = $request->status;
         $start_day = $request->start_day;
         $end_day = $request->end_day;
         if ($start_day)
-            $fastOrders = $fastOrders->whereBetween('created_at', array($start_day, $end_day));
-//        if ($status)
-//            $orders = $orders->where('status', $status);
+            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($start_day, $end_day));
+        if ($status)
+            $deliveryOrders = $deliveryOrders->where('status', $status);
         if ($code)
-            $fastOrders = $fastOrders->where('code', 'like', '%' . $code . '%');
-        $fastOrders = $fastOrders->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['fastOrders'] = $fastOrders;
-        return view("nhatquangshop::fast_orders", $this->data);
+            $deliveryOrders = $deliveryOrders->where('code', 'like', '%' . $code . '%');
+        $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
+        $this->data['deliveryOrders'] = $deliveryOrders;
+        return view("nhatquangshop::delivery_orders", $this->data);
     }
 
-    public function editFastOrder($order_id, Request $request)
+    public function editDeliveryOrder($order_id, Request $request)
     {
         $user = Auth::user();
         $order = Order::find($order_id);
-//          $order->link = $request->link;
-//          $object = json_decode($order->attach_info);
-//          $object->color = $request->color;
-//          $object->size = $request->size;
-//          $order->attach_info = json_decode($object);
+        $order = Order::find($order_id);
+        $object = json_decode($order->attach_info);
+        $object->color = $request->color;
+        $object->size = $request->size;
+        $order->attach_info = json_encode($object);
         $order->price = $order->price / $order->quantity * $request->quantity;
         $order->quantity = $request->quantity;
         $order->save();
         return [
             'message' => "Cập nhật đơn hàng thành công"
+        ];
+    }
+
+    public function saveDeliveryOrder(Request $request)
+    {
+        $user = Auth::user();
+        $email = $user->email;
+        $user_id = $user->id;
+        $address = $user->address ? $user->address : "Người dùng chưa có địa chỉ";
+
+        $delivery_orders = json_decode($request->fastOrders);
+        // dd($delivery_orders);
+        $response = $this->bookRepository->saveDeliveryOrder($email, $address, $user_id, $delivery_orders, $this->orderService->getTodayOrderId('delivery'));
+        if ($response['status'] === 1) {
+            return [
+                "delivery_order" => $delivery_orders,
+                "status" => 1,
+                "message" => $response['message'],
+            ];
+        }
+        return [
+            "status" => 0,
+            "message" => $response['message'],
         ];
     }
 }

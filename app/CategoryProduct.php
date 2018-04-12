@@ -12,4 +12,10 @@ class CategoryProduct extends Model
     {
         return $this->hasMany('App\Product', 'category_id');
     }
+
+    public function mulCatProducts()
+    {
+        //multi category product
+        return $this->belongsToMany(Product::class, 'product_category_product', 'category_product_id', 'product_id');
+    }
 }

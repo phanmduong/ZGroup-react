@@ -80,42 +80,42 @@
             opacity: 0.2;
         }
     </style>
-    <div class="container" id="bookinfo">
+    <div class="container" >
         <br><br><br><br><br>
         <br><br>
         <div class="col-md-12 row">
             <div class="col-md-4">
+
                 <div class="container">
                     <div id="js-gallery" class="gallery">
                         <div class="gallery__hero">
-                            <img src="https://public-619e3.firebaseapp.com/Product-Gallery/products/normal/product-01_view-01.jpg">
+                            <img id="zoom" src="{{$good->avatar_url}}" data-zoom-image="{{$good->avatar_url}}">
                         </div>
                         <div class="gallery__thumbs">
-                            <a href="https://public-619e3.firebaseapp.com/Product-Gallery/products/normal/product-01_view-01.jpg"
+                            <a href="{{$good->avatar_url}}"
                                data-gallery="thumb" class="is-active">
-                                <img src="https://public-619e3.firebaseapp.com/Product-Gallery/products/thumb/product-01_view-01.jpg">
+                                <img src="{{$good->avatar_url}}">
                             </a>
-                            <a href="https://public-619e3.firebaseapp.com/Product-Gallery/products/normal/product-01_view-02.jpg"
-                               data-gallery="thumb">
-                                <img src="https://public-619e3.firebaseapp.com/Product-Gallery/products/thumb/product-01_view-02.jpg">
+                            @if($images_good && count($images_good)>0)
+                                @foreach($images_good as $image_good)
+                            <a href="{{$image_good}}"
+                               data-gallery="thumb" class="is-active">
+                                <img src="{{$image_good}}">
                             </a>
-                            <a href="https://public-619e3.firebaseapp.com/Product-Gallery/products/normal/product-01_view-03.jpg"
-                               data-gallery="thumb">
-                                <img src="https://public-619e3.firebaseapp.com/Product-Gallery/products/thumb/product-01_view-03.jpg">
-                            </a>
+                                @endforeach
+                                @endif
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <h4 class="title">Title</h4>
-                <h6 class="category">Category</h6>
+                <h6 class="category">{{$good->goodCategory->name}}</h6>
                 <p class="description">
-                    Hey there! Welcome to your user card. As you can see, it is already looking great. But if you want
-                    to tell us more about yourself by adding details in the settings page.
+                    {{$good->name}}
                 </p>
                 <hr>
-                <h4><strong>23.000.000đ</strong></h4>
+                <h4><strong>{{number_format($good->price, 0)}}đ</strong></h4>
                 <br>
                 <hr>
                 <p class="description">Màu sắc:</p>
@@ -132,14 +132,15 @@
                     </label>
                 </div>
                 <br>
-                <p class="description">Số lượng: Còn 4 sản phẩm:</p>
+                <p class="description">Số lượng: Còn 4 sản phẩm</p>
                 <br>
-                <div class="col-md-12 row">
-                    <div class="col-md-6" style="padding: 0"><input type="number" value="1" class="form-control"></div>
+                <div class="col-md-12 row" id = "product_info">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-primary">Cho vào giỏ hàng</button>
+                        <button v-on:click="openBuyModal({{$good->id}})" type="button" class="btn btn-primary">Cho vào giỏ hàng</button>
                     </div>
+                    {{--<div>@{{good}}</div>--}}
                 </div>
+
                 <br><br>
             </div>
             <div class="col-md-2 card-block" style="background-color: #fff">
@@ -168,19 +169,27 @@
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td class="text-left">Kích thước</td>
-                            <td class="text-left" colspan="2">To lắm</td>
+                            <td class="text-left"><b>Mã sản phẩm</b></td>
+                            <td class="text-left" colspan="2">{{$good->code}}</td>
                         </tr>
                         <tr>
-                            <td class="text-left">RAM</td>
-                            <td class="text-left" colspan="2">Nhiều lắm</td>
+                            <td class="text-left"><b>Kích thước</b></td>
+                            @if($size !=null)
+                                <td class="text-left" colspan="2">{{$size}}</td>
+                            @else
+                                <td class="text-left" colspan="2">Bạn chưa chọn size</td>
+                            @endif
                         </tr>
                         <tr>
-                            <td class="text-left">Màu</td>
-                            <td class="text-left" colspan="2">Đẹp lắm</td>
+                            <td class="text-left"><b>Màu</b></td>
+                            @if($color !=null)
+                            <td class="text-left" colspan="2">{{$color}}</td>
+                                @else
+                            <td class="text-left" colspan="2">Bạn chưa chọn màu </td>
+                                @endif
                         </tr>
                         <tr>
-                            <td class="text-left">Khối lượng</td>
+                            <td class="text-left"><b>Khối lượng</b></td>
                             <td class="text-left" colspan="2">Nặng lắm</td>
                         </tr>
                         </tbody>
@@ -192,39 +201,40 @@
             <div class="col-md-2 card-block" style="background-color: #fff">
                 <p>Sản phẩm tương tự</p>
                 <br>
+                @if($relateGoods && count($relateGoods) > 0)
+                    @foreach($relateGoods as $relateGood)
                 <div>
                     <div class="img-container">
-                        <img src="https://www.w3schools.com/w3css/img_fjords.jpg" alt="Agenda">
+                        <img src="{{$relateGood->avatar_url}}" alt="Agenda">
                     </div>
                     <br>
-                    <p class="category">Sản phẩm</p>
-                    <h6>119.000đ</h6>
+                    <p class="category">{{$relateGood->name}}</p>
+                    <h6>{{ number_format($relateGood->price, 0) }}đ</h6>
                     <br>
                 </div>
-                <div>
+                    @endforeach
+                    @else
                     <div class="img-container">
-                        <img src="https://www.w3schools.com/w3css/img_fjords.jpg" alt="Agenda">
+                       <h3>Không có sản phẩm liên quan</h3>
                     </div>
-                    <br>
-                    <p class="category">Sản phẩm</p>
-                    <h6>119.000đ</h6>
-                    <br>
-                </div>
-                <div>
-                    <div class="img-container">
-                        <img src="https://www.w3schools.com/w3css/img_fjords.jpg" alt="Agenda">
-                    </div>
-                    <br>
-                    <p class="category">Sản phẩm</p>
-                    <h6>119.000đ</h6>
-                    <br>
-                </div>
+                    @endif
+
             </div>
-
-
         </div>
         <br>
         <br>
-        <script src="/js/detail-image-hover.js"></script>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $("#zoom").elevateZoom({
+            zoomType: "inner",
+            cursor: "crosshair",
+            easing : true,
+            zoomWindowFadeIn: 500,
+            zoomWindowFadeOut: 500,
+            lensFadeIn: 500,
+            lensFadeOut: 500
+        });
+    </script>
+@endpush

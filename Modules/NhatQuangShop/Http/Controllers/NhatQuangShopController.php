@@ -5,13 +5,16 @@ namespace Modules\NhatQuangShop\Http\Controllers;
 use App\Good;
 use App\Order;
 use App\Product;
+use App\CategoryProduct;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\NhatQuangShop\Repositories\BookRepository;
+use Modules\Order\Repositories\OrderService;
 
 class NhatQuangShopController extends Controller
 {
@@ -19,9 +22,10 @@ class NhatQuangShopController extends Controller
     protected $data;
     protected $user;
 
-    public function __construct(BookRepository $bookRepository)
+    public function __construct(BookRepository $bookRepository, OrderService $oderService)
     {
         $this->bookRepository = $bookRepository;
+        $this->orderService = $oderService;
         $this->data = array();
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
@@ -35,13 +39,14 @@ class NhatQuangShopController extends Controller
         $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
         $generalGoods = $goodQuery->take(8)->get();
         $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
-
+        $categoryGoods = Good::orderBy("good_category_id")->pluck('good_category_id');
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
+        $this->data["categoryGoods"] = $categoryGoods;
         return view('nhatquangshop::index', $this->data);
     }
 
@@ -49,13 +54,13 @@ class NhatQuangShopController extends Controller
     {
         $search = $request->search;
         if ($search == null) {
-            $products = Good::where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
-                ->paginate(20);
+            $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
+                ->paginate(6);
         } else {
-            $products = Good::where('name', 'like', '%' . "$search" . '%')
+            $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
-                ->paginate(20);
+                ->paginate(6);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_new', $this->data);
@@ -65,22 +70,39 @@ class NhatQuangShopController extends Controller
     {
         $search = $request->search;
         if ($search == null) {
-            $products = Good::where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
-                ->paginate(20);
+            $products = Good::groupBy('code')->where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
+                ->paginate(6);
         } else {
-            $products = Good::where('name', 'like', '%' . "$search" . '%')
+            $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
                 ->andWhere('highlight_status', '=', '1')
-                ->paginate(20);
+                ->paginate(6);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_feature', $this->data);
     }
 
-    public function productDetail()
+    public function productDetail($good_id)
     {
-        return view('nhatquangshop::product_detail');
+
+        $good = Good::find($good_id);
+        $relateGoods = Good::where("good_category_id", "=", $good->good_category_id)->get();
+        $images_good = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "images_url"]])->first();
+        $images_good = json_decode($images_good['value']);
+        $this->data['images_good'] = $images_good;
+        $color = GoodProperty:: where('good_id', '=', $good_id)
+            ->Where(function ($query) {
+                $query->where('name', '=', "màu")
+                    ->orwhere('name', '=', 'color');
+            })
+            ->first();
+        $size = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "size"]])->first();
+        $this->data['size'] = $size['value'];
+        $this->data['good']= $good;
+        $this->data['color'] = $color['value'];
+        $this->data['relateGoods'] = $relateGoods;
+        return view('nhatquangshop::product_detail', $this->data);
     }
 
     public function about_us()
@@ -88,145 +110,10 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::about_us');
     }
 
-
-    public function addGoodToCart($goodId, Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $number = $request->number;
-
-        if ($goods_str) {
-            $goods = json_decode($goods_str);
-        } else {
-            $goods = [];
-        }
-
-        $added = false;
-        foreach ($goods as &$good) {
-            if ($good->id == $goodId) {
-                if ($number) {
-                    $good->number = $number;
-                } else {
-                    $good->number += 1;
-                }
-                $added = true;
-            }
-        }
-
-        if (!$added) {
-            $temp = new \stdClass();
-            $temp->id = $goodId;
-            $temp->number = 1;
-            $goods[] = $temp;
-        }
-
-
-        $goods_str = json_encode($goods);
-        $request->session()->put('goods', $goods_str);
-        return ["status" => 1];
-    }
-
-    public function countGoodsFromSession(Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $goods = json_decode($goods_str);
-
-        $count = 0;
-        if ($goods) {
-            foreach ($goods as $good) {
-                $count += $good->number;
-            }
-        }
-
-        return $count;
-    }
-
-    public function removeBookFromCart($goodId, Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $number = $request->number;
-
-        $goods = json_decode($goods_str);
-
-        $new_goods = [];
-
-        foreach ($goods as &$good) {
-            if ($good->id == $goodId) {
-                $good->number = $number;
-            }
-            if ($good->number > 0) {
-                $temp = new \stdClass();
-                $temp->id = $good->id;
-                $temp->number = $good->number;
-                $new_goods[] = $temp;
-            }
-        }
-
-
-        $goods_str = json_encode($new_goods);
-        $request->session()->put('goods', $goods_str);
-        return ["status" => 1];
-    }
-
-    public function getGoodsFromSession(Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $goods_arr = json_decode($goods_str);
-
-        $goods = [];
-
-        if ($goods_arr) {
-            foreach ($goods_arr as $item) {
-                $good = Good::find($item->id);
-                $good->number = $item->number;
-                $properties = GoodProperty::where('good_id', $good->id)->get();
-                foreach ($properties as $property) {
-                    $good[$property->name] = $property->value;
-                }
-                $goods[] = $good;
-            }
-        }
-
-        $totalPrice = 0;
-
-        foreach ($goods as $good) {
-            $totalPrice += $good->price * $good->number;
-        }
-        $data = [
-            "books" => $goods,
-            "total_price" => $totalPrice
-        ];
-        return view("nhatquangshop::goods_cart", $data);
-    }
-
-    public function book($good_id)
-    {
-        $book = Good::find($good_id);
-        if ($book == null)
-            return view('nhatquangshop::404');
-        $properties = GoodProperty::where('good_id', $good_id)->get();
-
-        $data = [
-            'id' => $book->id,
-            'cover' => $book->cover_url,
-            'avatar' => $book->avatar_url,
-            'type' => $book->type,
-            'name' => $book->name,
-            'description' => $book->description,
-            'price' => $book->price
-        ];
-        foreach ($properties as $property) {
-            $data[$property->name] = $property->value;
-        }
-        return view('nhatquangshop::book', [
-            'properties' => $data,
-        ]);
-    }
-
     public function contact_us()
     {
         return view('nhatquangshop::contact_us');
     }
-
 
     public function contact_info($subfix, Request $request)
     {
@@ -277,16 +164,57 @@ class NhatQuangShopController extends Controller
 
     public function blog(Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
-        $display = "";
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $request->page) $display = "display:none";
-        return view('nhatquangshop::blogs', [
-            'blogs' => $blogs,
-            'page_id' => $page_id,
-            'display' => $display,
-        ]);
+//        $blogs = Product::join('category_products', 'category_products.id', '=', 'products.category_id');
+
+//        dd($blogs);
+
+        $blogs = Product::where('type', 2)->where('status', 1);
+//        dd($blogs);
+
+        $search = $request->search;
+        $type = $request->category_id;
+//        dd($type);
+        $type_name = CategoryProduct::find($type);
+        $type_name = $type_name ? $type_name->name : '';
+//        dd($search);
+        if ($search) {
+            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        }
+
+        if($type){
+            $blogs = $blogs->where('category_id',$type);
+        }
+
+
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
+
+        $categories = CategoryProduct::orderBy('name')->get();
+        $display = '';
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($blogs->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
+
+        $this->data['blogs'] = $blogs;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $blogs;
+        $this->data['search'] = $search;
+
+        $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
+        $this->data['current_page'] = $blogs->currentPage();
+        $this->data['categories'] = $categories;
+        $this->data['category_id'] = $request->category_id;
+
+        return view('nhatquangshop::blogs', $this->data);
     }
+
+    
+
+   
 
     public function saveOrder(Request $request)
     {
@@ -315,27 +243,6 @@ class NhatQuangShopController extends Controller
     }
 
     //code api dat hang nhanh
-    public function saveFastOrder(Request $request)
-    {
-        $user = Auth::user();
-        $email = $user->email;
-        $user_id = $user->id;
-        $address = $user->address;
-
-        $fast_orders = json_decode($request->fastOrders);
-        $response = $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders);
-        if ($response['status'] === 1) {
-            return [
-                "fast_order" => $fast_orders,
-                "status" => 1,
-                "message" => $response['message'],
-            ];
-        }
-        return [
-            "status" => 0,
-            "message" => $response['message'],
-        ];
-    }
 
     public function test(Request $request)
     {
@@ -355,6 +262,4 @@ class NhatQuangShopController extends Controller
         Auth::logout();
         return redirect()->intended("/");
     }
-    // code cua cuong
-
 }

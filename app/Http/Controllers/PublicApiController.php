@@ -11,9 +11,8 @@ use App\Product;
 use App\Register;
 use App\User;
 use Aws\ElasticTranscoder\ElasticTranscoderClient;
-use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -77,6 +76,24 @@ class PublicApiController extends ApiController
             $data["file_name"] = $file_name;
         }
         return $this->respond(['link' => $data['file_url']]);
+    }
+
+    public function upload_image_public(Request $request)
+    {
+        
+        $file = $request->file('image');
+        if ($file != null) {
+            $fileExtension = $file->getClientOriginalExtension();
+
+            $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
+
+            $uploadPath = public_path('upload');
+
+            $request->file('image')->move($uploadPath, $fileName);
+
+            return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload/' . $fileName]);
+        }
+        return $this->responseBadRequest("error");
     }
 
     public function delete_image_froala(Request $request)
@@ -203,9 +220,9 @@ class PublicApiController extends ApiController
         ]);
     }
 
-    public function product_categories()
+    public function product_categories(Request $request)
     {
-        $categories = CategoryProduct::all()->map(function ($c) {
+        $categories = CategoryProduct::where('name', 'like', "%$request->search%")->get()->map(function ($c) {
             return [
                 'value' => $c->id,
                 'text' => $c->name
@@ -267,5 +284,24 @@ class PublicApiController extends ApiController
     {
         $token = md5(config('app.topcv_key') . $user_id);
         return redirect("https://www.topcv.vn/partner/colorme/confirm?clmtoken=" . $token . "&uid=" . $user_id);
+    }
+
+    public function storeAdvisory(Request $request)
+    {
+        //send mail here
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt($phone);
+            $user->username = $request->email;
+            $user->email = $request->email;
+        }
+        $user->type = "advisory";
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->save();
+
+        return redirect("/");
     }
 }

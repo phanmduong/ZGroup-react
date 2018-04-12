@@ -21,17 +21,19 @@ class RegisterTransformer extends Transformer
     public function transform($register)
     {
         $class = $register->studyClass()->withTrashed()->first();
+        $teleCall = TeleCall::where('student_id', $register->user->id)->where('gen_id', $register->gen_id)->whereNotNull('appointment_payment')->orderBy('created_at')->first();
         $data = [
             "id" => $register->id,
             "gen_id" => $register->gen_id,
             "code" => $register->code,
+            "gen_name" => $register->gen->name,
             "name" => $register->user->name,
             "student_id" => $register->user->id,
             "how_know" => $register->user->how_know,
             "email" => $register->user->email,
             "university" => $register->user->university,
             "avatar_url" => $register->user->avatar_url ?
-                $register->user->avatar_url : "http://api.colorme.vn/img/user.png",
+                $register->user->avatar_url : "http://colorme.vn/img/user.png",
             "phone" => $register->user->phone,
             'paid_status' => $register->status == 1,
             'time_to_reach' => $register->time_to_reach,
@@ -40,6 +42,8 @@ class RegisterTransformer extends Transformer
             'money' => $register->money,
             'study_time' => $register->study_time,
             'note' => $register->note,
+            'appointment_payment' => $teleCall ? rebuild_date('d/m', strtotime($teleCall->appointment_payment)) : '',
+            'appointment_payment_date' => $teleCall ? format_vn_date(strtotime($teleCall->appointment_payment)) : '',
             "class" => [
                 "name" => $class->name,
                 "id" => $class->id,

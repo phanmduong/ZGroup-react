@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: caoquan
@@ -12,6 +13,7 @@ use App\HistoryGood;
 use App\ImportedGoods;
 use App\Order;
 use App\User;
+use Carbon\Carbon;
 
 class OrderService
 {
@@ -24,17 +26,20 @@ class OrderService
             case 'not_reach':
                 return 1;
                 break;
-            case 'confirm_order':
+            case 'transfering':
                 return 2;
                 break;
-            case 'ship_order':
+            case 'confirm_order':
                 return 3;
                 break;
-            case 'completed_order':
+            case 'ship_order':
                 return 4;
                 break;
-            case 'cancel':
+            case 'completed_order':
                 return 5;
+                break;
+            case 'cancel':
+                return 6;
                 break;
             default:
                 return 0;
@@ -57,7 +62,7 @@ class OrderService
             case 'ordered':
                 return 3;
                 break;
-            case 'expected_date':
+            case 'arrive_date':
                 return 4;
                 break;
             case 'arrived':
@@ -188,9 +193,9 @@ class OrderService
         $order = Order::find($orderId);
         if ($order->exported == true)
             return [
-                'status' => 0,
-                'message' => 'Đã xuất hàng'
-            ];
+            'status' => 0,
+            'message' => 'Đã xuất hàng'
+        ];
         foreach ($order->goodOrders as $goodOrder) {
             $quantity = ImportedGoods::where('status', 'completed')
                 ->where('good_id', $goodOrder->good_id)
@@ -198,9 +203,9 @@ class OrderService
                 ->sum('quantity');
             if ($goodOrder->quantity > $quantity)
                 return [
-                    'status' => 0,
-                    'message' => 'Thiếu hàng: ' . $goodOrder->good->name,
-                ];
+                'status' => 0,
+                'message' => 'Thiếu hàng: ' . $goodOrder->good->name,
+            ];
         }
         foreach ($order->goodOrders as $goodOrder)
             $this->importedGoodsExportProcess($goodOrder, $warehouseId);
@@ -216,18 +221,18 @@ class OrderService
     public function changeOrderStatus($orderId, $request, $staffId)
     {
         $order = Order::find($orderId);
-        if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2 && $this->statusToNum($request->status) != 5) {
+        if ($this->statusToNum($order->status) < 3 && $this->statusToNum($request->status) >= 3 && $this->statusToNum($request->status) != 6) {
             $response = $this->exportOrder($order->id, $request->warehouse_id);
             if ($response['status'] == 0)
                 return [
-                    'status' => 0,
-                    'message' => $response['message'],
-                ];
+                'status' => 0,
+                'message' => $response['message'],
+            ];
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
-        if (($this->statusToNum($order->status) >= 2 && $this->statusToNum($order->status) <= 4)
-            && ($this->statusToNum($request->status) < 2 || $this->statusToNum($request->status) == 5)) {
+        if (($this->statusToNum($order->status) >= 3 && $this->statusToNum($order->status) <= 5)
+            && ($this->statusToNum($request->status) < 3 || $this->statusToNum($request->status) == 6)) {
             $this->fixStatusBackWard($order->id, $staffId);
         }
         if ($order->type == 'import' && $request->status == 'completed') {
@@ -251,6 +256,8 @@ class OrderService
             }
         }
         $order->status = $request->status;
+        if($order->status == 'transfering')
+            $order->payment = 'Chuyển khoản';
         $order->staff_id = $staffId;
         if ($request->label_id) {
             $order->label_id = $request->label_id;
@@ -268,17 +275,53 @@ class OrderService
         $order = Order::find($deliveryOrderId);
         if ($order == null)
             return [
+            'status' => 0,
+            'message' => 'Không tồn tại đơn hàng'
+        ];
+        if ($this->deliveryStatusToNum($order->status) == 7)
+            return [
+            'status' => 0,
+            'message' => 'Không được phép sửa đơn hoàn thành'
+        ];
+        if ($this->deliveryStatusToNum($request->status) == 8) {
+            if ($request->note == null || trim($request->note) == '')
+                return [
                 'status' => 0,
-                'message' => 'Không tồn tại đơn hàng'
+                'message' => 'Vui lòng nhập lý do hủy đơn'
             ];
+            $order->status = $request->status;
+            $order->note = $request->note;
+            $order->staff_id = $staffId;
+            $order->save();
+            return [
+                'status' => 1,
+                'message' => 'Chuyển trạng thái thành công'
+            ];
+        }
+        if ($this->deliveryStatusToNum($request->status) - $this->deliveryStatusToNum($order->status) != 1)
+            return [
+            'status' => 0,
+            'message' => 'Vui lòng chỉ chuyển trạng thái kế tiếp'
+        ];
+        if ($this->deliveryStatusToNum($request->status) == 5)
+            $order->delivery_warehouse_status = 'arrived';
+        if ($this->deliveryStatusToNum($request->status) == 6)
+            $order->delivery_warehouse_status = 'exported';
+        if ($request->attach_info) {
+            $order->attach_info = $request->attach_info;
+        }
         $order->status = $request->status;
         $order->staff_id = $staffId;
         $order->save();
-
         return [
             'status' => 1,
             'message' => 'Chuyển trạng thái thành công'
         ];
+    }
 
+    public function getTodayOrderId($type)
+    {
+        $orders_count = Order::where('type', $type)->where('created_at', '>=', Carbon::today())->count();
+        return $orders_count;
     }
 }

@@ -24,6 +24,15 @@ class PrintOrder extends Model
         return $this->belongsTo(User::class, "staff_id");
     }
 
+    public function staffImport()
+    {
+        return $this->belongsTo(User::class, "import_staff_id");
+    }
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
+
     public function transform()
     {
         return [
@@ -32,16 +41,25 @@ class PrintOrder extends Model
             "staff" => [
                 "id" => $this->staff->id,
                 "name" => $this->staff->name,
+                "avatar_url" => $this->staff->avatar_url,
             ],
+            "import_staff" => $this->staffImport ? [
+                "id" => $this->staffImport->id,
+                "name" => $this->staffImport->name,
+                "avatar_url" => $this->staffImport->avatar_url,
+            ] : [],
             "status" => $this->status,
-            "company" => [
+            "company" => $this->company ? [
                 "id" => $this->company->id,
                 "name" => $this->company->name,
-            ],
-            "good" => [
-                "id" => $this->good->id,
-                "name" => $this->good->name,
-            ],
+            ] : [],
+            "good" => $this->good ?
+                $this->good->getData()
+             : [],
+            "warehouse" => $this->warehouse ? [
+                "id" => $this->warehouse->id,
+                "name" => $this->warehouse->name,
+            ] : [],
             "quantity" => $this->quantity,
             "core1" => $this->core1,
             "core2" => $this->core2,
@@ -56,6 +74,8 @@ class PrintOrder extends Model
             "note" => $this->note,
             "order_date" => $this->order_date,
             "receive_date" => $this->receive_date,
+            "import_quantity" => $this->import_quantity,
+            "created_at" => $this->created_at,
         ];
     }
 }

@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('sms:birthday')->everyMinute();
+        // $schedule->command('sms:birthday')->everyMinute();
         $schedule->command('emailsMarketing:send')->everyMinute();
         $schedule->command('activate:class')->dailyAt('12:00');
 
@@ -54,6 +54,5 @@ class Kernel extends ConsoleKernel
         $schedule->command('shift:create')->weekly()->fridays()->at('23:00');
         $schedule->command('create:workShifts')->weekly()->sundays()->at('9:00');
         $schedule->command('calendarEvent:remind')->everyMinute();
-
     }
 }

@@ -10,7 +10,7 @@
                 <div>{{$user_profile->university}}</div>
 
                 <div style="padding-top: 20px;">
-                    @if ($user->id == $user_profile->id)
+                    @if (isset($user) && $user->id == $user_profile->id)
                         <button class="btn btn-success" id="button-open-cv">Tạo CV</button>
                     @endif
                 </div>

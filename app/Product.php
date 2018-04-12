@@ -39,14 +39,14 @@ class Product extends Model
         return $this->hasMany('App\Notification', 'product_id');
     }
 
-    // public function views()
-    // {
-    //     return $this->hasMany('App\View', 'product_id');
-    // }
-
     public function category()
     {
         return $this->belongsTo(CategoryProduct::class, 'category_id');
+    }
+
+    public function productCategories()
+    {
+        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id');
     }
 
     public function images()
@@ -76,7 +76,13 @@ class Product extends Model
                 "name" => $this->author->name,
                 "avatar_url" => $this->author->avatar_url
             ],
-            "title" => $this->title
+            "title" => $this->title,
+            "category" => $this->category ? $this->category->name : null,
+            "thumb_url" => $this->thumb_url,
+            "slug" => $this->slug,
+            "meta_description" => $this->meta_description,
+            "meta_title" => $this->meta_title,
+            "keyword" => $this->keyword,
         ];
     }
 
@@ -92,9 +98,8 @@ class Product extends Model
             ];
         }
 
-        if ($this->category) {
-            $data["category"] = $this->category->name;
-        }
+
+        $data["categories"] = $this->productCategories;
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;

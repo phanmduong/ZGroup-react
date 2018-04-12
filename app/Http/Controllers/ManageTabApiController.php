@@ -28,7 +28,6 @@ class ManageTabApiController extends ManageApiController
             $parent_tabs_id = $this->user->current_role->tabs->pluck('parent_id');
 
             $allow_tabs = array_merge($tabs_ids->toArray(), $parent_tabs_id->toArray());
-            $allow_tabs[] = 1;
             if ($this->user->role == 2) {
                 $allow_tabs[] = 2;
             }

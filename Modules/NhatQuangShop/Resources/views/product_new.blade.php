@@ -31,31 +31,36 @@
                 </div>
             @endif
             @foreach($products as $product)
-                <div class="col-md-3">
-                    <div class="card card-profile" style="border-radius: 0px;">
-                        <div style="padding: 3%;">
-                            <div style="background-image: url({{$product->avatar_url}}); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
-                        </div>
-                        <div>
-                            <div class="container text-left" style="min-height: 130px;"><br>
-                                <p style="font-weight: 600;">{{$product->name}}</p> <h6><b
-                                            style="text-decoration: line-through;">{{$product->price}}</b>
-                                    <i class="fa fa-angle-right"></i>{{$product->price}}
-                                    <a href="#pablo" class="btn btn-danger"
-                                       style="padding: 3px; margin: 3px; font-size: 10px;"></a></h6><br></div>
-                        </div>
-                        <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
-                            <div style="text-align: right;"><a href="http://graphics.vn/book/9"
-                                                               class="btn btn-link btn-success"
-                                                               style="padding: 3px; margin: 3px; font-size: 10px;">
-                                    Xem thêm
+                    <div class="col-md-4">
+                        <div class="card card-product card-plain">
+                            <div class="card-image">
+                                <a href="/product/detail/{{$product['id']}}">
+                                    <img style="width:100%;height:350px;" src="{{ $product['avatar_url'] }}" alt="Rounded Image" class="img-rounded img-responsive">
                                 </a>
-                                <button class="btn btn-success" style="padding: 3px; margin: 3px; font-size: 10px;">
-                                    Đặt mua ngay <i class="fa fa-angle-right"></i></button>
+                                <div class="card-body" style="min-height: 150px">
+                                    <div class="card-description">
+                                        <h5 class="card-title">{{ $product['name'] }}</h5>
+                                        <p class="card-description">{{ $product['description'] }}</p>
+                                    </div>
+                                    <div class="price">
+                                        <strike>{{currency_vnd_format($product['price'])}}</strike>
+                                        <span class="text-danger">{{currency_vnd_format($product['price'])}}</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div style="text-align:right">
+                                        <a href="/product/detail/{{$product['id']}}" class="btn btn-primary btn-link" style="font-size: 12px;margin-bottom:5px;">
+                                            Xem thêm
+                                        </a>
+                                        <button v-on:click="openModalBuy({{$product['id']}})" class="btn btn-move-right btn-link btn-success" style="font-size: 12px;margin-bottom:5px">
+                                            Đặt mua ngay
+                                            <i class="nc-icon nc-minimal-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             @endforeach
         </div>
 

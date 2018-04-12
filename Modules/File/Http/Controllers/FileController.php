@@ -64,5 +64,14 @@ class FileController extends ManageApiController
             return $this->respondErrorWithStatus("Tải tệp lên không thành công");
         }
     }
+    public  function  uploadProof(Request $request){
+        $file_name = uploadFileToS3($request, 'image', 800, null);
+
+        if ($file_name != null) {
+            return  generate_protocol_url($this->s3_url . $file_name);
+        } else {
+            return $this->respondErrorWithStatus("Tải tệp lên không thành công");
+        }
+    }
 
 }

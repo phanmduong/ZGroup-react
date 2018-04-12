@@ -4,6 +4,7 @@
     @if($landingpage)
         <script>
             landingpage_id = "{{$landingpage->id}}";
+            path_landingpage = "{{$landingpage->path}}";
             var data = {!!$landingpage->content!!};
             for (var key in data) {
                 localStorage.setItem(key, data[key]);

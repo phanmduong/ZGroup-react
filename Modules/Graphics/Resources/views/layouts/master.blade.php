@@ -21,6 +21,7 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/graphics-assets/css/nucleo-icons.css" rel="stylesheet">
+    <link href="/assets/css/graphics.css" rel="stylesheet">
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
@@ -136,7 +137,7 @@
 
 @yield('content')
 
-<div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
+<div id="modalPurchase" class="modal" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
@@ -150,7 +151,7 @@
                     <h6>Số điện thoại</h6>
                     <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Email</h6>
-                    <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
                     <h6>Địa chỉ nhận sách</h6>
                     <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;">
                         @include("graphics::loading")
@@ -235,7 +236,7 @@
     </div>
 </div>
 
-<div id="modalBuy" class="modal fade">
+<div id="modalBuy" class="modal">
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
@@ -328,7 +329,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
