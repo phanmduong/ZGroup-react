@@ -50,16 +50,14 @@ class WeekendReportComponent extends React.Component {
                                     <td>
                                         {
                                             report.status === 0 ?
-                                                <div>
+                                                <div className="btn-group-action">
                                                     <div style={{display: "inline-block"}}>
                                                         <TooltipButton placement="top"
                                                                        text={`Duyệt`}>
-                                                            <a style={{color: "#4caf50"}}
-                                                               onClick={() => this.showModal(report.id)}
-                                                            >
+                                                            <a onClick={() => this.showModal(report.id)}>
                                                                 <i className="material-icons">check</i>
                                                             </a></TooltipButton>
-                                                    </div>
+                                                    </div> &ensp;
                                                     <Link
                                                         onClick={() => {
                                                             let a = {
