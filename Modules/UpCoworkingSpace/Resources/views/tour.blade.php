@@ -1,4 +1,4 @@
-git @extends('upcoworkingspace::layouts.master')
+@extends('upcoworkingspace::layouts.master')
 
 @section('content')
     <style>
