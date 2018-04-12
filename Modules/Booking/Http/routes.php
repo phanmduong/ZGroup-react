@@ -15,6 +15,7 @@ $publicRoutes = function () {
 $manageapiRoutes = function () {
     Route::get('/register', 'ManageBookingController@getRegisters');
     Route::get('/room-booking', 'ManageBookingController@getRoomBookings');
+    Route::post('/room-booking/{registerId}/money', 'ManageBookingController@');
     Route::get('/user-pack', 'ManageBookingController@getUserPacks');
     Route::get('/user-pack/{userPackId}', 'ManageBookingController@getUserPack');
     Route::get('/user-pack/{userPackId}/subscription', 'ManageBookingController@getSubscriptions');

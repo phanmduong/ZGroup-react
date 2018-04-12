@@ -40,10 +40,6 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-//Route::get('/login/secret', 'AuthenticateController@secretLogin');
-
-//Route::post('/api/topic/{topicId}/images','PublicController@_images');
-//Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
@@ -200,6 +196,7 @@ $manageApiRoutes = function () {
 
     //Begin user api
     Route::get('/profile', 'ManageUserApiController@get_profile');
+    // Route::get('/detail-profile', 'ManageUserApiController@getDetailProfile');
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
     Route::post('/change-password', 'ManageUserApiController@change_password');
