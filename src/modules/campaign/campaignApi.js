@@ -3,8 +3,8 @@ import * as env from '../../constants/env';
 
 
 //  /campaign-detail/{campaignId} api Post tin nhan theo campainId = 1
-export function saveMessageApi(message) {
-    let url = env.MANAGE_API_URL + "/sms/campaign-detail/1";
+export function saveMessageApi(campaignId, message) {
+    let url = env.MANAGE_API_URL + "/sms/campaign-detail/" + campaignId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import * as weekendReportAction from "./weekendReportAction";
 import {bindActionCreators} from 'redux';
+import TooltipButton from "../../../components/common/TooltipButton";
+import {Link} from "react-router";
 
 class WeekendReportComponent extends React.Component {
     constructor(props, context) {
@@ -34,33 +36,50 @@ class WeekendReportComponent extends React.Component {
                             return (
                                 <tr key={index}>
                                     <td>
-                                        {index+1}
+                                        {index + 1}
                                     </td>
                                     <td>
                                         {report.staff.name}
                                     </td>
-                                    <td style={{width:'50%'}}>
+                                    <td style={{width: '50%'}}>
                                         {report.title}
                                     </td>
                                     <td>
-                                        {report.created_at.date.slice(0,19)}
+                                        {report.created_at.date.slice(0, 19)}
                                     </td>
                                     <td>
                                         {
-                                        report.status === 0 ?
-                                            <div>
-                                                <a style={{color: "#4caf50"}}
-                                                   data-toggle="tooltip" title=""
-                                                   type="button" rel="tooltip"
-                                                   data-original-title="Duyệt"
-                                                   onClick={() => this.showModal(report.id)}
-                                                >
-                                                    <i className="material-icons">check</i>
-                                                </a>
-                                            </div> :
-                                            <b style={{cursor:"pointer"}}
-                                                onClick={() => this.showModal(report.id)}>
-                                                Đã Duyệt</b>
+                                            report.status === 0 ?
+                                                <div>
+                                                    <div style={{display: "inline-block"}}>
+                                                        <TooltipButton placement="top"
+                                                                       text={`Duyệt`}>
+                                                            <a style={{color: "#4caf50"}}
+                                                               onClick={() => this.showModal(report.id)}
+                                                            >
+                                                                <i className="material-icons">check</i>
+                                                            </a></TooltipButton>
+                                                    </div>
+                                                    <Link
+                                                        onClick={() => {
+                                                            let a = {
+                                                                title: report.title,
+                                                                report: report.content
+                                                            };
+
+                                                            this.props.weekendReportAction.handleReport(a);
+                                                        }}
+                                                        to={`/administration/weekend-report/edit/` + report.id}
+                                                          style={{display: "inline-block"}}>
+                                                        <TooltipButton placement="top"
+                                                                       text={`Sửa`}>
+                                                            <i className="material-icons">edit</i>
+                                                        </TooltipButton>
+                                                    </Link>
+                                                </div> :
+                                                <b style={{cursor: "pointer"}}
+                                                   onClick={() => this.showModal(report.id)}>
+                                                    Đã Duyệt</b>
                                         }
                                     </td>
                                 </tr>

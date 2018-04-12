@@ -21,13 +21,17 @@ class RoomTypeManageModal extends React.Component {
             id: null,
             editRoomTypeModal: false,
             type_name: '',
+            price: 0,
+            member_price: 0,
         };
         this.timeOut = null;
         this.handleName = this.handleName.bind(this);
         this.roomTypesSearchChange = this.roomTypesSearchChange.bind(this);
         this.handleDescription = this.handleDescription.bind(this);
         this.createRoomType = this.createRoomType.bind(this);
+        this.handlePrice = this.handlePrice.bind(this);
         this.handleTypeName = this.handleTypeName.bind(this);
+        this.handleMemPrice = this.handleMemPrice.bind(this);
         //this.showEditRoomTypeModal = this.showEditRoomTypeModal.bind(this);
     }
 
@@ -50,6 +54,18 @@ class RoomTypeManageModal extends React.Component {
     handleDescription(value) {
         this.setState({
             description: value
+        });
+    }
+
+    handlePrice(value) {
+        this.setState({
+            price: value.target.value
+        });
+    }
+
+    handleMemPrice(value) {
+        this.setState({
+            member_price: value.target.value
         });
     }
 
@@ -89,6 +105,8 @@ class RoomTypeManageModal extends React.Component {
             id: type.id,
             editRoomTypeModal: true,
             type_name: type.type_name,
+            price: type.price,
+            member_price: type.member_price,
         });
     }
 
@@ -109,13 +127,18 @@ class RoomTypeManageModal extends React.Component {
                             description: '',
                             query: '',
                             id: null,
-                            editRoomTypeModal: false
+                            type_name: "",
+                            editRoomTypeModal: false,
+                            member_price: 0,
+                            price: 0,
                         })}
                         type={this.state}
                         handleName={this.handleName}
                         handleDescription={this.handleDescription}
                         createRoomType={this.createRoomType}
                         handleTypeName={this.handleTypeName}
+                        handleMemPrice={this.handleMemPrice}
+                        handlePrice={this.handlePrice}
                     />
                     <div className="row">
                         <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
@@ -165,11 +188,22 @@ class RoomTypeManageModal extends React.Component {
                                                     </td>
                                                     <td>
                                                         {//eslint-disable-next-line
+                                                            <div dangerouslySetInnerHTML={{__html: type.description}}/>
                                                         }
-                                                        <div dangerouslySetInnerHTML={{__html: type.description}}/>
+                                                        
                                                     </td>
                                                     <td>
                                                         {(type.type_name !== null ) ? ( (type.type_name === "conference") ? "Phòng họp" : "Phòng làm việc") : null}
+                                                        <div>
+                                                            {(type.type_name === "conference") ? (
+                                                                    <div>
+                                                                        <div>{"Giá cho thành viên :" + type.member_price}</div>
+                                                                        <div>{"Giá cho khách :" + type.price}</div>
+                                                                    </div>
+                                                                )
+                                                                : null
+                                                            }
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <TooltipButton text="Sửa" placement="top">

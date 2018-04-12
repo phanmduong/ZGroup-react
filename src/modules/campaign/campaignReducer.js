@@ -30,13 +30,13 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 upMessage: true
             };
         case types.SAVE_MESSAGE_SUCCESS: {
+            let a = state.template_types.filter(type=>
+                (type.id == action.message.sms_template_type_id));
             let message = {
                 ...action.message,
-                sent_quantity: 0,
-                needed_quantity: 0,
                 sms_template_type: {
                     id: action.message.sms_template_type_id,
-                    name: state.template_types[action.message.sms_template_type_id - 1].name
+                    name: a[0].name,
                 },
             };
             return {
@@ -66,20 +66,22 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
         case types.EDIT_MESSAGE_SUCCESS:
         {
             let messages = state.allMessage.map((message) => {
-                if (message.template_id === action.message.template_id)
+                if (message.template_id === action.message.template_id){
+                    let a = state.template_types.filter(type=>
+                        (type.id == action.message.sms_template_type_id));
                     return {
                         ...message,
                         name:action.message.name,
                         content:action.message.content,
                         sms_template_type_id: action.message.sms_template_type_id,
                         send_time:action.message.send_time,
-                        sent_quantity: 0,
-                        needed_quantity: 0,
                         sms_template_type: {
                             id: action.message.sms_template_type_id,
-                            name: state.template_types[action.message.sms_template_type_id - 1].name
+                            name: a[0].name,
+                            color: a[0].color,
                         }
                     };
+                }
                 return message;
             });
             return {

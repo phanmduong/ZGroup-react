@@ -25,6 +25,23 @@ export function loadSummaryGoods(page) {
     };
 }
 
+export function loadAllSummaryGoods(success) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_SUMMARY_GOOD,
+        });
+        warehouseApi.loadAllSummaryGoods()
+            .then((res) => {
+                    dispatch({
+                        type: types.LOAD_ALL_SUMMARY_GOOD_SUCCESS,
+                    });
+                    success(res.data.data.goods);
+                }
+            
+        );
+    };
+}
+
 export function loadHistoryGood(page, id) {
     return function (dispatch) {
         dispatch({

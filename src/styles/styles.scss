@@ -757,8 +757,8 @@ img .product-image {
     margin-bottom: 10px;
     text-align: center;
     vertical-align: middle;
-    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42),
-        0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(0, 0, 0, 0.2);
     border: 0 none;
     background-size: cover;
     background-position: center center;
@@ -798,7 +798,7 @@ a.btn-seat.active {
 }
 
 .d3-point.archived {
-  fill: #dedede !important;
+    fill: #dedede !important;
 }
 
 .margin-left-20 {
@@ -868,22 +868,21 @@ a.btn-seat.active {
 }
 
 .button-add {
-  margin-left: 15px !important;
-  padding: 0px 8px !important;
-  font-size: 16px !important;
+    margin-left: 15px !important;
+    padding: 0px 8px !important;
+    font-size: 16px !important;
 }
 
-
 .Select-control {
-  border: none !important;
-  border-bottom: 1px solid #ccc !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
 }
 //////////// Nguyễn Đại Lợi
 
 .sms-paid-icon {
-  width: 20px
+    width: 20px;
 }
 
 .sms-paid-icon img {
@@ -915,61 +914,80 @@ a.btn-seat.active {
 
 // Loi them Class :
 .button-plus {
-  border-radius: 50%;
-  border:none; 
-  background-color: #0b82fb; 
-  color: white; 
-  line-height: 0; 
-  padding: 0px;
-  margin-left: 12px
-}
-
-
-
-.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
-    background-color: rgba(197, 0, 0, 1)!important;
-}
-
-.nav-pills-rose > .active > a {
-    background-color: rgba(197, 0, 0, 1) !important;
+    border-radius: 50%;
+    border: none;
+    background-color: #0b82fb;
+    color: white;
+    line-height: 0;
+    padding: 0px;
+    margin-left: 12px;
 }
 
 .nav-pills > li > a > i {
     display: inline-block;
     font-size: 24px;
-    padding: 0px 5px 1px 0px
+    padding: 0px 5px 1px 0px;
 }
 
-.campaign-content{
-  background-color: white;
-  padding: 30px 30px 90px 30px;
-  margin-bottom: 30px;
+.campaign-content {
+    background-color: white;
+    padding: 30px 30px 90px 30px;
+    margin-bottom: 30px;
 }
 .modal-title {
-    font-weight: bold
+    font-weight: bold;
 }
 
 .fileinput {
-    width: 100%
+    width: 100%;
 }
 
 .fileinput div {
-    max-width: 100%!important;
+    max-width: 100% !important;
     width: 100%;
 }
 
 .fileinput img {
-    width :100%
+    width: 100%;
 }
 
 .fileinput-preview {
-    width: 100%
+    width: 100%;
 }
 
 .modal-content .modal-footer button {
-    padding : 12px 30px
+    padding: 12px 30px;
 }
 
-.height-100{
-    height: 100%!important;
+.height-100 {
+    height: 100% !important;
+}
+
+.campaign-message-type,
+.campaign-message-type:hover {
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+}
+.campaign-message-type > span {
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+}
+.circle-avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+.sent-message {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    color: white;
+    border: none;
+    margin-top: 5px;
+    background-color: #74d512;
+    cursor: auto;
 }
