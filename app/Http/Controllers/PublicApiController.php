@@ -80,7 +80,7 @@ class PublicApiController extends ApiController
 
     public function upload_image_public(Request $request)
     {
-
+        
         $file = $request->file('image');
         if ($file != null) {
             $fileExtension = $file->getClientOriginalExtension();
