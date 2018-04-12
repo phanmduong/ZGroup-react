@@ -164,8 +164,8 @@ class BookRepository
 
         if ($user == null) {
             $user = new User;
+            $user->name = $name;
         }
-        $user->name = $name;
         $user->email = $email;
         $user->phone = $phone;
         $user->address = $address;
