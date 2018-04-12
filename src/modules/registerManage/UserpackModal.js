@@ -39,7 +39,7 @@ class UserpackModal extends React.Component {
                 start_time: register.start_time,
                 end_time: register.end_time,
                 extra_time: register.extra_time,
-                note : register.note,
+                note: register.note,
             };
             // console.log("didmount",select);
             this.props.registerManageAction.updateSelect(select);
@@ -65,12 +65,13 @@ class UserpackModal extends React.Component {
             subscription_id: value.value,
             price: subscription.price,
             hours: subscription.subcription_kind.hours,
-            extra_time : subscription.extra_time,
+            extra_time: subscription.extra_time,
         };
         this.props.registerManageAction.updateSelect(select);
     }
 
     updateFormData(event) {
+        //console.log("updateFormData",event.target.name);
         const field = event.target.name;
         let select = {...this.props.select};
         select[field] = event.target.value;
@@ -132,23 +133,16 @@ class UserpackModal extends React.Component {
 
                         </div>
 
-                        <FormInputDateTime
-                            format={DATETIME_FORMAT_SQL}
-                            name="start_time"
-                            id="start_time"
-                            label="Từ ngày"
-                            value={this.props.select.start_time}
-                            updateFormData={this.updateFormData}
-                        />
+
                         <FormInputText
                             label="Thời gian khuyến mãi"
                             name="extra_time"
                             type="number"
-                            defaul
                             value={this.props.select.extra_time}
                             updateFormData={this.updateFormData}
                             minValue="0"
                         />
+
                         <FormInputText
                             label="Ghi chú"
                             name="note"
@@ -156,16 +150,30 @@ class UserpackModal extends React.Component {
                             value={this.props.select.note}
                             updateFormData={this.updateFormData}
                         />
-                        <div className="form-group">
-                            <label className="control-label">
-                                Đến ngày
-                            </label>
-                            <div>
-                                <input
-                                    value={this.props.select.end_time}
-                                    disabled={true}
-                                    className="form-control"
+                        <div className="row">
+                            <div className="col-md-6">
+                                <FormInputDateTime
+                                    format={DATETIME_FORMAT_SQL}
+                                    name="start_time"
+                                    id="start_time"
+                                    label="Từ ngày"
+                                    value={this.props.select.start_time}
+                                    updateFormData={this.updateFormData}
                                 />
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label className="control-label">
+                                        Đến ngày
+                                    </label>
+                                    <div>
+                                        <input
+                                            value={this.props.select.end_time}
+                                            disabled={true}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="row">

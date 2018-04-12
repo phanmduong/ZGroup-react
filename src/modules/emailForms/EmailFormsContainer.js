@@ -113,11 +113,6 @@ class EmailFormsContainer extends React.Component {
                             </div>    
                         </div>
                     </div>
-
-                    <div className="card-content">
-                        
-                    </div>
-
                 </div>
             </div>
         );

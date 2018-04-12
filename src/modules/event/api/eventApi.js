@@ -32,7 +32,6 @@ export default {
             });
         }
         else {
-            console.log(event);
             return axios.put(url, {
                 ...event,
                 start_time: moment(event.start_time, TIME_FORMAT_H_M).format(

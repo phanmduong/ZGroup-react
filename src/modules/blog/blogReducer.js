@@ -283,10 +283,7 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     isLoadingPost: false,
                     errorPost: false,
-                    post: {
-                        ...state.post,
-                        ...action.post,
-                    },
+                    post: addSelectValue(action.post),
                 },
             };
         case types.LOAD_POST_BLOG_ERROR:
@@ -330,7 +327,7 @@ function changeStatus(posts, id, status) {
     tmpposts = [];
     tmpposts = posts.map(post => {
         if (post.id === id) {
-            return { ...post, status: 1 - status };
+            return {...post, status: 1 - status};
         } else {
             return post;
         }
@@ -355,10 +352,18 @@ function prefixDataPost(posts) {
         }
         return {
             ...post,
-            author: { ...post.author, avatar_url: tmpAva },
+            author: {...post.author, avatar_url: tmpAva},
             image_url: tmpImg,
             title: tmpTit.join(""),
         };
     });
     return tmpposts;
+}
+
+function addSelectValue(post) {
+    return {
+        ...post, categories: post.categories.map(item => {
+            return {value: item.id, label: item.name};
+        })
+    };
 }
