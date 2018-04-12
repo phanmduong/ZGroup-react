@@ -137,6 +137,22 @@ export function getRequestMoney(id, success) {
     };
 }
 
+export function getRequestMoneyNoPaging( success, failure) {
+    return function(dispatch) {
+        dispatch({ type: "" });
+        requestApi.getRequestMoneyNoPaging()
+            .then(res => {
+                if (res.data.status == 1) {
+                    success(res.data.data.data);
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    failure();
+                }
+            });
+            
+    };
+}
+
 export function getAllRequestVacation(info) {
     return function(dispatch) {
         dispatch({ type: types.BEGIN_GET_ALL_REQUEST_VACATION });

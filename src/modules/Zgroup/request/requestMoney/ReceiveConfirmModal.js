@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal } from "react-bootstrap";
 import FormInputText from "../../../../components/common/FormInputText";
 import * as helper from '../../../../helpers/helper';
-
+import BigCloseButtonForModal from "../../../../components/common/BigCloseButtonForModal";
 
 class ReceiveConfirmModal extends React.Component {
     constructor(props, context) {
@@ -48,8 +48,11 @@ class ReceiveConfirmModal extends React.Component {
         if(data.money_received ) money = data.money_received - this.state.money_used;
         return (
             <Modal show={this.props.show} onHide={this.props.onHide}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Duyệt hoàn trả</Modal.Title>
+                <Modal.Header>
+                    <Modal.Title>
+                        Duyệt hoàn trả
+                        <BigCloseButtonForModal onClick={this.props.onHide}/>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form role="form" id="form-confirm" onSubmit={(e) => e.preventDefault()}>

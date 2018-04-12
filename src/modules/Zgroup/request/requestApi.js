@@ -150,3 +150,14 @@ export function confirmRequestVacation(id) {
     } 
     return axios.post(url, { status: 1});
 }
+
+
+export function getRequestMoneyNoPaging() {
+    
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    } 
+    return axios.get(url);
+}
