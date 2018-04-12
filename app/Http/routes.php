@@ -985,3 +985,7 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
 
 });
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
