@@ -14,6 +14,10 @@ class ClientController extends Controller
         $this->middleware('permission_tab_react:' . $path);
     }
 
+    public function administration() {
+        return view('client.administration');
+    }
+
     public function email()
     {
         return view('client.email');

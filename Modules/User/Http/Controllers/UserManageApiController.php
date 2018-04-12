@@ -9,12 +9,25 @@ use App\Gen;
 use App\MarketingCampaign;
 use Illuminate\Support\Facades\DB;
 use App\Shift;
+use App\WorkShiftUser;
+use Modules\WorkShift\Providers\WorkShiftServiceProvider;
+use App\WorkShift;
+use App\Repositories\AttendancesRepository;
+use App\Repositories\ClassRepository;
+use App\StudyClass;
+use App\ClassLesson;
+
 
 class UserManageApiController extends ManageApiController
 {
-    public function __construct()
+    protected $attendancesRepository;
+    protected $classRepository;
+
+    public function __construct(ClassRepository $classRepository, AttendancesRepository $attendancesRepository)
     {
         parent::__construct();
+        $this->classRepository = $classRepository;
+        $this->attendancesRepository = $attendancesRepository;
     }
 
     public function getDetailProfile(Request $request)
@@ -122,11 +135,64 @@ class UserManageApiController extends ManageApiController
 
         });
 
-        if ($shifts->count() != 0)
-            $data['shifts'] = $shifts;
+        $data['shifts'] = $shifts;
+
+        //work shifts
+
+        $workShifts = WorkShiftUser::join('work_shifts', 'work_shift_user.work_shift_id', '=', 'work_shifts.id')
+            ->join('work_shift_sessions', 'work_shifts.work_shift_session_id', '=', 'work_shift_sessions.id')
+            ->orderBy('work_shifts.id');
+
+        $week = WorkShift::where('gen_id', $gen_id)->max('week');
+
+        if ($gen_id)
+            $workShifts = $workShifts->where('work_shifts.gen_id', $gen_id);
+
+        if ($week)
+            $workShifts = $workShifts->where('work_shifts.week', $week);
+
+        $workShifts = $workShifts->where('work_shift_user.user_id', $user->id)->get();
+
+        $workShifts = $workShifts->map(function ($shift) {
+            $data = [
+                'date' => date_shift(strtotime($shift->date)),
+                'name' => $shift->name,
+                'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
+            ];
+            if ($shift->check_in)
+                $data['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
+            if ($shift->check_out)
+                $data['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
+            return $data;
+        });
+
+        $data['work_shifts'] = $workShifts;
 
         //lecturer
+        $time = date('Y-m-d');
+        $time = "2018-5-12";
+        $now_classes = StudyClass::orderBy('id');
 
+        $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
+            ->where(function ($query) use ($user) {
+                $query->where('classes.teacher_id', $user->id)->orWhere('classes.teaching_assistant_id', $user->id);
+            })
+            ->whereRaw('time = "' . $time . '"')
+            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
+
+        $now_classes = $now_classes->get()->map(function ($class) {
+            $dataClass = $this->classRepository->get_class($class);
+            $dataClass['time'] = $class->time;
+            $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
+            $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
+            $classLesson = ClassLesson::find($class->class_lesson_id);
+            $dataClass['attendance_teachers'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
+            $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
+            return $dataClass;
+        });
+    
+        $data['classes'] = $now_classes;
 
         return $this->respondSuccessWithStatus(['user' => $data]);
     }
