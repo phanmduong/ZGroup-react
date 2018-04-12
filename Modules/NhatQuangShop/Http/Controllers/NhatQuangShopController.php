@@ -55,28 +55,8 @@ class NhatQuangShopController extends Controller
 
     public function goodsByCategory($categoryId)
     {
-        echo $categoryId;
-
-        return view('nhatquangshop::goods_by_category', $categoryId);
-    }
-
-    public function categoryTest()
-    {
-        $goodQuery = Good::where('display_status', 1)->groupBy('code');
-        $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
-        $generalGoods = $goodQuery->take(8)->get();
-        $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
-        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
-        $generalGoods = $generalGoods->map(function ($good) {
-            return $good->transformAllProperties();
-        });
-
-        $this->data["generalGoods"] = $generalGoods;
-        $this->data["newestGoods"] = $newestGoods;
-        $this->data["highLightGoods"] = $highLightGoods;
-        $this->data["goodCategories"] = $goodCategories;
-
-        return view('nhatquangshop::index', $this->data);
+        $this->data["id"] = $categoryId;
+        return view('nhatquangshop::goods_by_category', $this->data);
     }
 
     public function productNew(Request $request)

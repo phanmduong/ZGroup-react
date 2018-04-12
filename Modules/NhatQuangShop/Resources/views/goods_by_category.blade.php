@@ -1,7 +1,7 @@
 @extends('nhatquangshop::layouts.master')
 
 @section('content')
-    {{--    <?php
+    <?php
     function get_all_childs($parentId)
     {
         $results = array("-1");
@@ -26,54 +26,45 @@
             for ($i = 1; $i < count($temps); $i++) {
                 $tempsXX = array();
                 $tempsXX = get_all_gens($temps[$i]);
-                $tempsX = array_merge($tempsX,$tempsXX);
+                $tempsX = array_merge($tempsX, $tempsXX);
             }
             return $tempsX;
-        }
-        else {
+        } else {
             return array($id);
         }
     }
     ?>
     <?php
-    $gen_ids = get_all_childs(12);
-    dd($gen_ids);
+    $gen_ids = get_all_gens($id);
     ?>
-    @foreach($gen_ids as $gen_id)
-        <?php $goods = \App\Good::where("good_category_id", $gen_id)->get();?>
-        <div class="container" id="bookinfo1">
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <div>
-                        <div class="description">
-                            <h1 class="medium-title">
-                                Sản phẩm mới nhất
-                                <br>
-                            </h1>
-                            <br>
-                            <a href="/product/new" class="btn btn-link btn-success"
-                               style="padding:0!important; margin:0!important">Xem tất cả
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                            <br>
-                            <br>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="vuejs2" style="background-color: #ffffff;padding-top:8px">
-                <div class="container">
-                    <div class="row">
-                        @include('nhatquangshop::common.products_show', ['someGoods'=>$goods])
-                    </div>
-                </div>
-            </div>
-            <br>
+    <div class="container">
+        <div class="description" style="padding-top:100px">
+            <h1 class="medium-title">
+                <?php $goodCategory = \App\GoodCategory::find($id)?>
+                {{{$goodCategory->name}}}
+                <br>
+            </h1>
             <br>
         </div>
-    @endforeach--}}
-    <p>hello</p>
-@stop
+    </div>
+
+    <div>
+        @foreach($gen_ids as $gen_id)
+            <?php $goods = \App\Good::where("good_category_id", $gen_id)->get();?>
+            @if(count($goods)>0)
+                <div class="container" id="bookinfo1">
+                    <div class="row" id="vuejs2" style="background-color: #ffffff;padding-top:8px">
+                        <div class="container">
+                            <div class="row">
+                                @include('nhatquangshop::common.products_show', ['someGoods'=>$goods])
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            @endif
+        @endforeach
+    </div>
+
+@endsection
