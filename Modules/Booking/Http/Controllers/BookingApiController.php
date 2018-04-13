@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Product;
 use Symfony\Component\EventDispatcher\Event;
 use App\Http\Controllers\ApiController;
+use App\RoomServiceRegisterRoom;
 
 class BookingApiController extends ApiController
 {
@@ -73,21 +74,21 @@ class BookingApiController extends ApiController
 
         $registerRoom = new RoomServiceRegisterRoom;
         $registerRoom->room_id = $request->room_id;
-        $registerRoom->room_service_register_id = $request->id;
+        $registerRoom->room_service_register_id = $register->id;
         $registerRoom->start_time = $request->start_time;
         $registerRoom->end_time = $request->end_time;
         $registerRoom->save();
-        
-        $subject = "Xác nhận đặt phòng thành công";
-        $data = ["user" => $user];
-        $emailcc = ["graphics@colorme.vn"];
-        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
-            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
-        });
+
+        // $subject = "Xác nhận đặt phòng thành công";
+        // $data = ["user" => $user];
+        // $emailcc = ["graphics@colorme.vn"];
+        // Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
+        //     $m->from('no-reply@colorme.vn', 'Up Coworking Space');
+        //     $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+        // });
 
         return $this->respondSuccessWithStatus([
-            'message' => "Đặt phòng thành công thành công"
+            'message' => "Đặt phòng thành công"
         ]);
     }
 }
