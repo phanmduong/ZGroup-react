@@ -9,6 +9,7 @@ use App\ImportItemOrder;
 use App\ItemOrder;
 use App\Payment;
 use App\PrintOrder;
+use App\ZHistoryGood;
 use DateTime;
 use Google\Auth\Cache\Item;
 use Illuminate\Http\Request;
@@ -214,6 +215,7 @@ class CompanyController extends ManageApiController
             $payment->payer_id = $request->user_id;
             $payment->receiver_id = $this->user->id;
             $payment->register_id = $request->register_id;
+            $payment->time = $request->time;
             $payment->type = "done";
             $payment->save();
 
@@ -502,6 +504,13 @@ class CompanyController extends ManageApiController
             $good_new->export_quantity = $good->export_quantity;
             $good_new->warehouse_id = $good->warehouse_id;
             $good_new->save();
+            $historyGood = new ZHistoryGood;
+            $historyGood->quantity = $good->export_quantity;
+            $historyGood->good_id = $good_new->good_id;
+            $historyGood->warehouse_id = $good_new->warehouse_id;
+            $historyGood->item_order_id = $exportOrderId;
+            $historyGood->save();
+
         }
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
@@ -855,6 +864,12 @@ class CompanyController extends ManageApiController
             $good_new->price = $good->price;
             $good_new->status = 1;
             $good_new->save();
+            $historyGood = new ZHistoryGood;
+            $historyGood->quantity = $good->imported_quantity;
+            $historyGood->good_id = $good->good_id;
+            $historyGood->warehouse_id = $good_new->warehouse_id;
+            $historyGood->item_order_id = $importOrderId;
+            $historyGood->save();
         }
 
         return $this->respondSuccessWithStatus([

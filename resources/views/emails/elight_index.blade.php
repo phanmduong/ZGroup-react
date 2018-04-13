@@ -160,7 +160,7 @@
                                     </table>
                                     <!-- end BLOCK - 1 column / main -->
                                     <!-- BLOCK - block 2 columns / phone -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" style="margin:5px">
                                         <tbody>
                                             <tr>
                                                 <td>

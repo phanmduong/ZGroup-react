@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\TestJob;
 
 class PublicController extends Controller
 {
@@ -235,8 +236,6 @@ class PublicController extends Controller
             $user->gender = $request->gender;
             $user->dob = date('Y-m-d', strtotime($request->dob));
             $user->facebook = $request->facebook;
-
-
         }
 
         if ($user->password == null) {
@@ -892,20 +891,20 @@ class PublicController extends Controller
         return redirect($notification->url);
     }
 
-    public function send_noti_test()
+    public function send_noti_test(Request $request)
     {
+        $this->dispatch(new TestJob());
         // $registers34 = Register::where('gen_id', 29)->pluck('user_id');
         // $phones = Register::join('users', 'users.id', '=', 'registers.user_id')
         //     ->join('classes', 'classes.id', '=', 'registers.class_id')
         //     ->where('classes.base_id', '<>', 6)
-        //     ->whereIn('registers.gen_id', [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 14])
+        //     ->whereIn('registers.gen_id', [15, 16, 17, 18, 19, 20, 21, 22, 23])
         //     ->where('registers.status', 1)
         //     ->orderBy('registers.created_at', 'desc')
         //     ->whereNotIn('user_id', $registers34)
         //     ->select('users.phone as phone')->distinct()
         //     ->pluck('phone');
         // $phones[] = '0969785925';
-        // // dd($phones);
 
         // $content = 'Mung sinh nhat 3 tuoi, COLORME giam 30% tat ca khoa hoc cho hoc vien cu cua COLORME voi ma uu dai CMALUMNI, ap dung den het ngay 3/4/2018. Dang ki ngay tai http://colorme.vn';
         // $client = new \GuzzleHttp\Client(['base_uri' => 'http://api-02.worldsms.vn']);
@@ -915,8 +914,8 @@ class PublicController extends Controller
         //     'Authorization' => 'Basic ' . config('app.sms_key')
         // ];
 
-        // $start = 2000;
-        // $end = 3000;
+        // $start = $request->start;
+        // $end = $request->end;
         // for ($i = $start; $i <= $end; $i++) {
         //     $phone = preg_replace('/[^0-9]+/', '', $phones[$i]);
         //     $body = json_encode([

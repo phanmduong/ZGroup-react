@@ -1,5 +1,19 @@
 <?php
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'sms', 'namespace' => 'Modules\Good\Http\Sms'], function () {
-    //Route::post('', );
-});
+
+$routes = function () {
+    Route::group(['prefix' => 'sms'], function () {
+        Route::get("/campaign-list", "ManageSmsApiController@getCampaignsList");
+        Route::post("/campaign-list", "ManageSmsApiController@createCampaign");
+        Route::put("/campaign-list/{campaignId}", "ManageSmsApiController@editCampaign");
+        Route::put("/campaign-list/{campaignId}/change-status", "ManageSmsApiController@changeCampaignStatus");
+        Route::get("/campaign-detail/{campaignId}/template-list", "ManageSmsApiController@getCampaignTemplates");
+        Route::get("/campaign-detail/{campaignId}/receiver-list", "ManageSmsApiController@getCampaignReceivers");
+        Route::post("/campaign-detail/{campaignId}", "ManageSmsApiController@createTemplate");
+        Route::put("/template-list/{templateId}", "ManageSmsApiController@editTemplate");
+        Route::get("/template-types", "ManageSmsApiController@getTemplateTypes");
+        Route::post("/template-types", "ManageSmsApiController@createTemplateType");
+    });
+};
+
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi/v3', 'namespace' => 'Modules\Sms\Http\Controllers'], $routes);

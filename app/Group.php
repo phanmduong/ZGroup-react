@@ -30,4 +30,9 @@ class Group extends Model
     {
         return $this->hasMany('App\Topic', 'group_id');
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, "groups_users", "group_id", "user_id");
+    }
 }

@@ -1,26 +1,21 @@
 <?php
 
 $apiRoutes = function () {
-    Route::get('/blogs', 'BookingController@blogs');
-    Route::get('/user-packs', 'BookingController@allUserPacks');
-    Route::post('/register/{campaignId?}', 'BookingController@appRegister');
-    Route::post('/booking/{campaignId?}', 'BookingController@appBooking');
-    Route::get('/history-registers', 'BookingController@historyRegister');
+    Route::get('/user/register', 'BookingApiController@userRegister');
+    Route::post('/booking/{campaignId?}', 'BookingApiController@appBooking');
 };
 
 $publicRoutes = function () {
-    Route::get('/api/province', 'BookingController@province');
-    Route::get('/api/province/{provinceId}/base', 'BookingController@basesInProvince');
-    Route::get('/api/base', 'BookingController@allBases');
-    Route::post('/api/register', 'BookingController@register');
-    Route::get('/api/user-packs', 'BookingController@allUserPacks');
-    Route::get('/api/user-pack/{userPackId}', 'BookingController@userPack');
-    Route::get('/api/extract', 'BookingController@extract');
+    Route::get('/blogs', 'BookingController@blogs');
+    Route::get('/user-packs', 'BookingController@allUserPacks');
+    Route::post('/register/{campaignId?}', 'BookingController@appRegister');
+    Route::get('/history-registers', 'BookingController@historyRegister');
 };
 
 $manageapiRoutes = function () {
     Route::get('/register', 'ManageBookingController@getRegisters');
     Route::get('/room-booking', 'ManageBookingController@getRoomBookings');
+    Route::post('/room-booking/{registerId}/money', 'ManageBookingController@');
     Route::get('/user-pack', 'ManageBookingController@getUserPacks');
     Route::get('/user-pack/{userPackId}', 'ManageBookingController@getUserPack');
     Route::get('/user-pack/{userPackId}/subscription', 'ManageBookingController@getSubscriptions');
@@ -35,13 +30,19 @@ $manageapiRoutes = function () {
     Route::get('/saler', 'ManageBookingController@getAllSalers');
     Route::post('/booking', 'ManageBookingController@booking');
     Route::put('/register/{registerId}/assign-subscription', 'ManageBookingController@assignSubscription');
+    Route::put('/room-booking/{registerId}/assign-time', 'ManageBookingController@assignTime');
+    Route::get('/conference-rooms', 'ManageBookingController@conferenceRooms');
 };
 
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
 
-Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
-Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'],
+    function () use ($publicRoutes, $apiRoutes) {
+        Route::group([], $publicRoutes);
+        Route::group([], $apiRoutes);
+    }
+);
 
-Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
-Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);

@@ -9,6 +9,7 @@ use App\Product;
 use App\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Room;
 
 class PublicApiController extends NoAuthApiController
 {
@@ -54,12 +55,21 @@ class PublicApiController extends NoAuthApiController
     public function baseRooms($baseId, Request $request)
     {
         $base = Base::find($baseId);
-        $rooms = $base->rooms;
+
+        // $rooms = $base->rooms;
+        $rooms = Room::leftJoin('room_service_register_room', 'room_service_register_room.room_id', '=', 'rooms.id')
+            ->where('rooms.base_id', '=', $base->id)
+            ->where(function($query) use ($request){
+                $query->where('room_service_register_room.start_time', '>', $request->end_time)
+                    ->orWhere('room_service_register_room.end_time', '<', $request->start_time)
+                    ->orWhere('room_service_register_room.end_time', '=', null);
+            })->select('rooms.*')->groupBy('rooms.id')->get();
+
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
-                $data = $room->getData();
-                return $data;
-            })
+                return $room->getData();
+            }),
+            'count' => $rooms->count()
         ]);
     }
 

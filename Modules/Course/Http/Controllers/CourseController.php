@@ -34,6 +34,16 @@ class CourseController extends ManageApiController
         ]);
     }
 
+    public function pushOrder($orderNumber)
+    {
+        $course = Course::where('order_number', $orderNumber)->first();
+        if ($course != null) {
+            $this->pushOrder($orderNumber + 1);
+            $course->order_number = $orderNumber + 1;
+            $course->save();
+        }
+    }
+
     public function createOrEdit(Request $request)
     {
         if ($request->id)
@@ -57,13 +67,15 @@ class CourseController extends ManageApiController
         $course->image_url = $request->image_url;
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
-        // $course->type_id = $request->type_id;
+        if ($request->order_number == null) {
+            $course->order_number = Course::max('order_number') + 1;
+        }
         $course->type_id = 1;
         $course->save();
-        $arr_ids= json_decode($request->categories);
+        $arr_ids = json_decode($request->categories);
         $course->courseCategories()->detach();
-        foreach($arr_ids as $arr_id)
-        $course->courseCategories()->attach($arr_id->id);
+        foreach ($arr_ids as $arr_id)
+            $course->courseCategories()->attach($arr_id->id);
         return $this->respondSuccessWithStatus([
             "message" => "Tạo/sửa thành công",
             "course" => $course->detailedTransform()
@@ -99,6 +111,28 @@ class CourseController extends ManageApiController
         }
 
         $course->status = $request->status ? $request->status : 0;
+
+        $course->save();
+
+        return $this->respondSuccessWithStatus([
+            'course' => $course->transform()
+        ]);
+    }
+
+    public function changeOrderCourse($course_id, Request $request)
+    {
+        $course = Course::find($course_id);
+
+        if ($course == null) {
+            return $this->respondErrorWithStatus("Không tồn tại môn học");
+        }
+
+        if ($request->order_number == null)
+            return $this->respondErrorWithStatus("Thiếu thứ tự môn học");
+        if ($course->order_number != $request->order_number) {
+            $this->pushOrder($request->order_number);
+            $course->order_number = $request->order_number;
+        }
 
         $course->save();
 
@@ -172,36 +206,6 @@ class CourseController extends ManageApiController
         ]);
     }
 
-//    public function editLink($linkId, Request $request)
-//    {
-//        $link = Link::find($linkId);
-//        if (!$link) return $this->respondErrorWithStatus("không tồn tại link");
-//        if ($request->link_url == null || $request->link_name == null || $request->course_id == null)
-//            return $this->respondErrorWithStatus(["message" => "Thiếu course_id or link_url or link_name"]);
-//        $link->link_name = $request->link_name;
-//        $link->link_url = $request->link_url;
-//        $link->link_description = $request->link_description;
-//        $link->course_id = $request->course_id;
-//        if ($request->link_icon != null) {
-//
-//            $link_icon = uploadFileToS3($request, 'link_icon', 200, $link->link_icon);
-//            $link->link_icon = $link_icon;
-//            $link->link_icon_url = $this->s3_url . $link_icon;
-//        } else {
-//
-//            if ($link->link_icon_url === null) {
-//                $link->link_icon_url = 'https://placehold.it/800x600';
-//            }
-//
-//            $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
-//
-//        }
-//        $link->save();
-//        return $this->respondSuccessWithStatus([
-//            'link' => $link
-//        ]);
-//    }
-
     public function editLink($linkId, Request $request)
     {
         $link = Link::find($linkId);
@@ -239,12 +243,12 @@ class CourseController extends ManageApiController
     {
         if (Course::find($courseId) == null)
             return $this->respondErrorWithStatus([
-                'message' => 'non-existing course'
-            ]);
+            'message' => 'non-existing course'
+        ]);
         if ($request->name == null || $request->description == null)
             return $this->respondErrorWithStatus([
-                'message' => 'missing name || description'
-            ]);
+            'message' => 'missing name || description'
+        ]);
         $lesson = new Lesson;
         $lesson->course_id = $courseId;
         $lesson->name = $request->name;
@@ -271,12 +275,12 @@ class CourseController extends ManageApiController
     {
         if (Lesson::find($lessonId) == null)
             return $this->respondErrorWithStatus([
-                'message' => 'non-existing lesson'
-            ]);
+            'message' => 'non-existing lesson'
+        ]);
         if ($request->name == null || $request->description == null)
             return $this->respondErrorWithStatus([
-                'message' => 'missing name || description'
-            ]);
+            'message' => 'missing name || description'
+        ]);
         $lesson = Lesson::find($lessonId);
         $lesson->name = $request->name;
         $lesson->description = $request->description;
@@ -298,32 +302,43 @@ class CourseController extends ManageApiController
         ]);
     }
 
-    public function getAttendance($classId, $lessonId, Request $request)
+    public function getAttendance($classId, $classLessonId, Request $request)
     {
-        $classLesson = ClassLesson::query();
-        $check = $classLesson->where('class_id', $classId)->count();
-        if ($check < $lessonId || $lessonId == 0) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
-        $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
-        $classLesson = $classLesson_pre[$lessonId - 1];
-        $resgister_ids = $classLesson->attendances->map(function ($data) {
-            if ($data->register->status === 1) return $data->register->id; else return 0;
-        });
-        $attendance_list = $classLesson->attendances()->whereIn('register_id', $resgister_ids)->get();
+        // $classLesson = ClassLesson::query();
+        // $check = $classLesson->where('class_id', $classId)->count();
+        // if ($check < $lessonId || $lessonId == 0) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
+        // $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
+        // $classLesson = $classLesson_pre[$lessonId - 1];
+        // $resgister_ids = $classLesson->attendances->map(function ($data) {
+        //     if ($data->register->status === 1) return $data->register->id; else return 0;
+        // });
+        
+        $classLesson = ClassLesson::find($classLessonId);
 
-        $data['attendances'] = $attendance_list->map(function ($attendance) {
-            return [
-                'student_id' => $attendance->register->user->id,
-                'name' => $attendance->register->user->name,
-                'email' => $attendance->register->user->email,
-                'attendance_id' => $attendance->id,
-                'study_class' => $attendance->register->studyClass->name,
-                'device' => $attendance->device,
-                'note' => $attendance->note,
-                'attendance_lesson_status' => $attendance->status,
-                'attendance_homework_status' => $attendance->hw_status
+        if ($classLesson == null){
+            return $this->respondErrorWithStatus("Buoi hoc khong ton tai");
+        }
 
-            ];
-        });
+        $attendances = [];
+        
+        foreach ($classLesson->attendances as $attendance){
+            if ($attendance->register != null && $attendance->register->status == 1){
+                $attendances[] = [
+                    'name' => $attendance->register->user->name,
+                    'email' => $attendance->register->user->email,
+                    'attendance_id' => $attendance->id,
+                    'study_class' => $attendance->register->studyClass->name,
+                    'device' => $attendance->device,
+                    'note' => $attendance->note,
+                    'attendance_lesson_status' => $attendance->status,
+                    'attendance_homework_status' => $attendance->hw_status
+    
+                ];
+                
+            }
+        }
+        
+        $data['attendances'] = $attendances;
         $data['classLesson'] = [
             'name' => $classLesson->studyClass->name,
             'attendance_count' => $classLesson->attendances->count(),
@@ -353,9 +368,10 @@ class CourseController extends ManageApiController
         ]);
 
     }
-    public function duplicateCourse($courseId,Request $request){
+    public function duplicateCourse($courseId, Request $request)
+    {
         $course = Course::find($courseId);
-        if(!$course) return $this->respondErrorWithStatus("Không tồn tại course");
+        if (!$course) return $this->respondErrorWithStatus("Không tồn tại course");
         $course_new = new Course;
         $course_new->name = $course->name;
         $course_new->price = $course->price;
@@ -372,11 +388,11 @@ class CourseController extends ManageApiController
         $course_new->detail = $course->detail;
         $course_new->type_id = $course->type_id;
         $course_new->duration = $course->duration;
+        $course_new->order_number = Course::max('order_number') + 1;
         $course_new->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công",
         ]);
-
     }
 
 }
