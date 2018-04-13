@@ -42,7 +42,7 @@ export default [
     },
     {
         // path: "/barcodes",
-        path: "/manufacture/barcodes",
+        path: "/manufacture/good/:type/barcodes",
         component: BarcodesContainer,
     },
     {
