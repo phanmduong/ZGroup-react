@@ -114,6 +114,9 @@ class RoomServiceRegister extends Model
             $data["historyPayments"] = $historyPayments->map(function ($payment) {
                 return $payment->transform_for_up();
             });
+            $data['time_spent'] = $historyPayments->reduce(function($total, $payment){
+                return $total + $payment->time;
+            }, 0);
         }
 
         if ($this->subscription)

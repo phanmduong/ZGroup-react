@@ -45,9 +45,9 @@
 
 
             </div>
-            <div class="progress" style="height:5px">
+            <div class="progress" style="height:3px">
                 <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-                     style="width:70%">
+                     style="width:70%;">
                     <span class="sr-only">70% Complete</span>
                 </div>
             </div>
@@ -78,3 +78,8 @@
     </div>
     </div>
 @endforeach
+<style>
+    .progress-bar{
+        background-color:#DDDDDD!important;
+    }
+</style>
