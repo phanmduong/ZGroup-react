@@ -70,4 +70,12 @@ class PublicFilmApiController extends NoAuthApiController
 
         return ["status"=>1, $data];
     }
+
+    public function getSessionById($id)
+    {
+        $session = FilmSession::find($id);
+        $this->data["session"] = $session;
+
+        return $this->respondSuccessWithStatus($this->data);
+    }
 }

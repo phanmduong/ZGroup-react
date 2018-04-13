@@ -113,4 +113,63 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccess('doi trang thai ghe thanh cong');
     }
 
+    public function addSession(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'start_date' => 'required',
+            'start_time' => 'required',
+            'film_quality' => 'required',
+        ]);
+        if($validator->fails()) {
+            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
+        }
+
+       $session = new FilmSession();
+       $session->film_id = $request->film_id;
+       $session->room_id = $request->room_id;
+       $session->start_date = $request->start_date;
+       $session->start_time = $request->start_time;
+       $session->film_quality= $request->film_quality;
+       $session -> save();
+
+        return $this->respondSuccess('Tao suat chieu thanh cong');
+    }
+
+    public function updateSession(Request $request, $id)
+    {
+        $session = FilmSession::find($id);
+        $validator = Validator::make($request->all(), [
+            'start_date' => 'required',
+            'start_time' => 'required',
+            'film_quality' => 'required',
+        ]);
+        if($validator->fails()) {
+            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
+        }
+
+        $session->film_id = $request->film_id;
+        $session->room_id = $request->room_id;
+        $session->start_date = $request->start_date;
+        $session->start_time = $request->start_time;
+        $session->film_quality= $request->film_quality;
+        $session->save();
+
+        return $this->respondSuccess('Cap nhat thanh cong');
+    }
+
+    public function deleteSession(Request $request, $id)
+    {
+        $session = FilmSession::find($id);
+        $session->delete();
+
+        return $this->respondSuccess('Xoa thanh cong');
+    }
+
+    public function getAllSessions()
+    {
+        $sessions = FilmSession::orderBy('start_date', 'desc')->get();
+        $this->data["sessions"] = $sessions;
+
+        return $this->respondSuccessWithStatus($this->data);
+    }
 }
