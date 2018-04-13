@@ -16,8 +16,6 @@ use App\Repositories\AttendancesRepository;
 use App\Repositories\ClassRepository;
 use App\StudyClass;
 use App\ClassLesson;
-use Illuminate\Support\Facades\Request;
-
 
 class UserManageApiController extends ManageApiController
 {
