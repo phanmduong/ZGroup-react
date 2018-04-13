@@ -2,7 +2,7 @@
 
 $userManageApiRoutes = function () {
     Route::get('detail-profile', 'UserManageApiController@getDetailProfile');
-    Route::get('detail-profile/class-lessons', 'UserManageApiController@teacherClassLessons');
+    Route::get('detail-profile/class-lesson', 'UserManageApiController@teacherClassLessons');
 };
 
 
