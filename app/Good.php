@@ -21,7 +21,7 @@ class Good extends Model
 
     public function orders()
     {
-        return $this->hasMany('App\Order', 'good_id');
+        return $this->belongsToMany(Order::class, 'good_order', 'good_id', 'order_id');
     }
 
     public function importedGoods()
