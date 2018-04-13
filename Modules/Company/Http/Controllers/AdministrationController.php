@@ -151,11 +151,11 @@ class AdministrationController extends ManageApiController
 
         if($request->status == 1){
             $data->money_received = $request->money_received;
+            $data->company_pay_id = $request->company_pay_id;
         }
-        if($request->status == 2){
-            
+        if($request->status == 2){   
             $data->money_used = $request->money_used;            
-
+            $data->company_receive_id = $request->company_receive_id;
         }
 
         $data->save();
