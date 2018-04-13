@@ -162,12 +162,12 @@ class EditCoursesContainer extends React.Component {
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 </li>
-                                                <li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>
-                                                    <Link to={`${this.urlType}/term`}>
-                                                        <i className="material-icons">create</i> HỌC PHẦN &#160;
-                                                        <div className="ripple-container"/>
-                                                    </Link>
-                                                </li>
+                                                {/*<li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>*/}
+                                                    {/*<Link to={`${this.urlType}/term`}>*/}
+                                                        {/*<i className="material-icons">create</i> HỌC PHẦN &#160;*/}
+                                                        {/*<div className="ripple-container"/>*/}
+                                                    {/*</Link>*/}
+                                                {/*</li>*/}
                                                 {/*<li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>*/}
                                                 {/*<Link>*/}
                                                 {/*<i className="material-icons">flag</i> QUAN TÂM &#160;*/}
