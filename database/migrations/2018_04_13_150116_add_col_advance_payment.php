@@ -13,22 +13,13 @@ class AddColAdvancePayment extends Migration
     public function up()
     {
         //
-        //Schema::drop('advance_payments');
+        //Schema::dropIfExists('advance_payments');
 
-        Schema::create('advanced_payments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('command_code');
-            $table->integer('money_payment')->default(0);
-            $table->integer('staff_id');
+        Schema::table('advanced_payments', function (Blueprint $table) {
+            
             $table->integer('company_pay_id')->nullable();
             $table->integer('company_receive_id')->nullable();
-            $table->string('reason')->nullable();
-            $table->integer('money_received')->default(0);
-            $table->integer('money_used')->default(0);
-            $table->string('type')->nullable();
-            $table->integer('status')->default(0);
-            $table->dateTime('date_complete')->nullable();
-            $table->timestamps();
+            
 
         });
     }
