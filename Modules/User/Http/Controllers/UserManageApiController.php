@@ -174,28 +174,32 @@ class UserManageApiController extends ManageApiController
         ->where(function($q) use ($user){
             $q->where('classes.teacher_id', $user->id)
             ->orWhere('class_position.user_id', $user->id);
-        });
+        })->select("classes.*");
 
+        $time = date('Y-m-d');
 
-        $classes = $classes->get()->map(function ($class) {
+        $classes = $classes->get()->map(function ($class) use ($time){
             $dataClass = $this->classRepository->get_class($class);
+            $dataClass['number_learned'] = $class->classLessons()->where('time','<',$time)->count();
             return $dataClass ;
         });
 
         //lecturer
-        $time = date('Y-m-d');
+       
         $now_classes = StudyClass::orderBy('id');
 
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
+        ->join('lessons','lessons.id','=','class_lesson.lesson_id' )
             ->where(function ($query) use ($user) {
                 $query->where('classes.teacher_id', $user->id)->orWhere('classes.teaching_assistant_id', $user->id);
             })
             ->whereRaw('time = "' . $time . '"')
-            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
+            ->select('classes.*', 'lessons.order','class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
 
         $now_classes = $now_classes->get()->map(function ($class) {
             $dataClass = $this->classRepository->get_class($class);
-            $dataClass['time'] = $class->time;
+            $dataClass['time'] = date_shift(strtotime($class->time));
+            $dataClass['order'] = $class->order;
             $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
             $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
