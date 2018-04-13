@@ -20,7 +20,7 @@ class AddStaffComponent extends React.Component {
 
     render() {
 
-        let {name, email, role_id, username, color, base_id, department_id, salary_revenue,salary_allowance,salary} = this.props.staffForm;
+        let {name, email, role_id, username, color, base_id, department_id, salary_revenue, salary_allowance, salary} = this.props.staffForm;
 
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
@@ -35,13 +35,13 @@ class AddStaffComponent extends React.Component {
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            {(this.props.isLoadingStaff ) ? <Loading/> :
+                            {(this.props.isLoadingStaff) ? <Loading/> :
                                 <form id="form-add-staff" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">contacts</i>
-                                    </div>
+                                    {/*<div className="card-header card-header-icon" data-background-color="rose">*/}
+                                    {/*<i className="material-icons">contacts</i>*/}
+                                    {/*</div>*/}
                                     <div className="card-content">
                                         <h4 className="card-title">
                                             {this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}
@@ -152,17 +152,19 @@ class AddStaffComponent extends React.Component {
                                                     />
                                                 </div>
                                                 :
-                                                <div />
+                                                <div/>
                                         }
 
                                         {this.props.isLoadingAddStaff ?
                                             (
-                                                <button
-                                                    className="btn btn-fill btn-rose disabled"
-                                                >
-                                                    <i className="fa fa-spinner fa-spin"/>
-                                                    {this.props.type === 'edit' ? ' Đang cập nhật' : ' Đang thêm'}
-                                                </button>
+                                                <div className="col-md-12">
+                                                    <button
+                                                        className="btn btn-fill btn-rose disabled"
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/>
+                                                        {this.props.type === 'edit' ? ' Đang cập nhật' : ' Đang thêm'}
+                                                    </button>
+                                                </div>
                                             )
                                             :
                                             (
@@ -182,8 +184,8 @@ class AddStaffComponent extends React.Component {
                     <div className="col-md-4">
                         <div className="row">
                             <div className="col-md-12">
-                                <div className="card card-profile">
-                                    <div className="card-avatar">
+                                <div className="card card-profile" style={{marginTop: '25px'}}>
+                                    <div className="card-avatar" style={{margin: '30px auto 0'}}>
                                         <a className="content-avatar">
                                             <div className="img"
                                                  style={{
@@ -237,9 +239,9 @@ class AddStaffComponent extends React.Component {
                             </div>
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">contacts</i>
-                                    </div>
+                                    {/*<div className="card-header card-header-icon" data-background-color="rose">*/}
+                                    {/*<i className="material-icons">contacts</i>*/}
+                                    {/*</div>*/}
                                     <div className="card-content">
                                         <h4 className="card-title">Chọn màu</h4>
                                         <CirclePicker width="100%"
@@ -249,32 +251,32 @@ class AddStaffComponent extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">contacts</i>
-                                    </div>
-                                    <div className="card-content">
-                                        <h4 className="card-title">Thay đổi mật khẩu</h4>
-                                        {this.props.isResettingPassword ?
-                                            (
-                                                <button className="btn btn-rose btn-main disabled">
-                                                    <i className="fa fa-spinner fa-spin"/> Đang khôi phục mật khẩu
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-rose btn-main"
-                                                        onClick={this.props.resetPassword}
-                                                >
-                                                    Khôi phục mật khẩu
-                                                </button>
-                                            )
-                                        }
+                            {/*<div className="col-md-12">*/}
+                            {/*<div className="card">*/}
+                            {/*<div className="card-header card-header-icon" data-background-color="rose">*/}
+                            {/*<i className="material-icons">contacts</i>*/}
+                            {/*</div>*/}
+                            {/*<div className="card-content">*/}
+                            {/*<h4 className="card-title">Thay đổi mật khẩu</h4>*/}
+                            {/*{this.props.isResettingPassword ?*/}
+                            {/*(*/}
+                            {/*<button className="btn btn-rose btn-main disabled">*/}
+                            {/*<i className="fa fa-spinner fa-spin"/> Đang khôi phục mật khẩu*/}
+                            {/*</button>*/}
+                            {/*)*/}
+                            {/*:*/}
+                            {/*(*/}
+                            {/*<button className="btn btn-rose btn-main"*/}
+                            {/*onClick={this.props.resetPassword}*/}
+                            {/*>*/}
+                            {/*Khôi phục mật khẩu*/}
+                            {/*</button>*/}
+                            {/*)*/}
+                            {/*}*/}
 
-                                    </div>
-                                </div>
-                            </div>
+                            {/*</div>*/}
+                            {/*</div>*/}
+                            {/*</div>*/}
 
                         </div>
                     </div>

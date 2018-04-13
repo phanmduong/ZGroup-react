@@ -12,7 +12,7 @@ import Loading                          from "../../../components/common/Loading
 import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
 import {CirclePicker}                   from 'react-color';
-import {Link, IndexLink}                from 'react-router';
+// import {Link, IndexLink}                from 'react-router';
 
 const btn ={
   width: "100%",
@@ -134,43 +134,43 @@ class CreateEditCoursesContainer extends React.Component {
                             <div name="content">
                                 <div className="col-md-8">
                                        <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
-                                            <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
-                                                <IndexLink to={`${this.urlType}`}>
-                                                    <i className="material-icons">account_circle</i> TỔNG QUAN &#160;
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>*/}
+                                                {/*<IndexLink to={`${this.urlType}`}>*/}
+                                                    {/*<i className="material-icons">account_circle</i> TỔNG QUAN &#160;*/}
 
-                                                    <div className="ripple-container" />
-                                                </IndexLink>
-                                            </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
-                                                <Link to={`${this.urlType}/curriculum`}>
-                                                    <i className="material-icons">smartphone</i> GIÁO TRÌNH &#160;
-                                                    <div className="ripple-container" />
-                                                </Link>
-                                            </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
-                                                <Link to={`${this.urlType}/documents`}>
-                                                    <i className="material-icons">add_box</i> TÀI LIỆU NGOÀI &#160;
-                                                    <div className="ripple-container" />
-                                                </Link>
-                                            </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>
-                                                <Link to={`${this.urlType}/pixel`}>
-                                                    <i className="material-icons">code</i> PIXEL &#160;
-                                                    <div className="ripple-container" />
-                                                </Link>
-                                            </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>
-                                                <Link to={`${this.urlType}/term`}>
-                                                    <i className="material-icons">create</i> HỌC PHẦN &#160;
-                                                    <div className="ripple-container" />
-                                                </Link>
-                                            </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>
-                                                <Link>
-                                                    <i className="material-icons">flag</i> QUAN TÂM &#160;
-                                                    <div className="ripple-container" />
-                                                </Link>
-                                            </li>
+                                                    {/*<div className="ripple-container" />*/}
+                                                {/*</IndexLink>*/}
+                                            {/*</li>*/}
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>*/}
+                                                {/*<Link to={`${this.urlType}/curriculum`}>*/}
+                                                    {/*<i className="material-icons">smartphone</i> GIÁO TRÌNH &#160;*/}
+                                                    {/*<div className="ripple-container" />*/}
+                                                {/*</Link>*/}
+                                            {/*</li>*/}
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>*/}
+                                                {/*<Link to={`${this.urlType}/documents`}>*/}
+                                                    {/*<i className="material-icons">add_box</i> TÀI LIỆU NGOÀI &#160;*/}
+                                                    {/*<div className="ripple-container" />*/}
+                                                {/*</Link>*/}
+                                            {/*</li>*/}
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>*/}
+                                                {/*<Link to={`${this.urlType}/pixel`}>*/}
+                                                    {/*<i className="material-icons">code</i> PIXEL &#160;*/}
+                                                    {/*<div className="ripple-container" />*/}
+                                                {/*</Link>*/}
+                                            {/*</li>*/}
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>*/}
+                                                {/*<Link to={`${this.urlType}/term`}>*/}
+                                                    {/*<i className="material-icons">create</i> HỌC PHẦN &#160;*/}
+                                                    {/*<div className="ripple-container" />*/}
+                                                {/*</Link>*/}
+                                            {/*</li>*/}
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>*/}
+                                                {/*<Link>*/}
+                                                    {/*<i className="material-icons">flag</i> QUAN TÂM &#160;*/}
+                                                    {/*<div className="ripple-container" />*/}
+                                                {/*</Link>*/}
+                                            {/*</li>*/}
                                         </ul>
 
 
@@ -201,12 +201,12 @@ class CreateEditCoursesContainer extends React.Component {
                                 <div className="col-md-4">
                                 <div className="card">
                                 <div className="card-content">
-                                    <div className="tab-content">
-                                        <h4 className="card-title">
-                                            <strong>Thông tin về form</strong>
-                                        </h4>
-                                    </div>  
-                                    <br/>  
+                                    {/*<div className="tab-content">*/}
+                                        {/*/!*<h4 className="card-title">*!/*/}
+                                            {/*/!*<strong>Thông tin về form</strong>*!/*/}
+                                        {/*/!*</h4>*!/*/}
+                                    {/*</div>  */}
+                                    {/*<br/>  */}
                                 <img src = {helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url} />
                             {this.props.isUpdatingLogo ?
                                 (

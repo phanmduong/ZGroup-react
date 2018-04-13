@@ -289,7 +289,7 @@ CompanyContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoadingCompanies: state.companies.isLoadingCompanies,
-        data: state.companies.company,
+        data: state.companies.companyList,
         paginator: state.companies.paginator,
     };
 }
