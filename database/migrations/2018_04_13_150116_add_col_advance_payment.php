@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductCategoryProductTable extends Migration
+class AddColAdvancePayment extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,15 @@ class CreateProductCategoryProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_category_product', function(Blueprint $table){
-            $table->increments('id');
-            $table->integer('product_id')->index()->unsigned();
-            $table->integer('category_product_id')->index()->unsigned();
+        //
+        //Schema::dropIfExists('advance_payments');
+
+        Schema::table('advanced_payments', function (Blueprint $table) {
+            
+            $table->integer('company_pay_id')->nullable();
+            $table->integer('company_receive_id')->nullable();
+            
+
         });
     }
 
