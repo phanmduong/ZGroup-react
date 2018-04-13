@@ -55,13 +55,26 @@ class UserManageApiController extends ManageApiController
             'current_role' => [
                 'id' => $user->current_role->id,
                 'role_title' => $user->current_role->role_title
+            ],
+            'base' => [
+                'name' => $user->base->name
             ]
         ];
+
+        if ($user->department){
+            $data['department']=[
+                'name'=>$user->department->name,
+                'name'=>$user->department->color,
+            ];
+        }
+
         //saler
 
         $registers = $user->sale_registers()->where('gen_id', $gen_id);
 
         $cloneRegisters = clone $registers;
+
+        $is_saler = $cloneRegisters->where('saler_id', $user->id)->first() ? true : false;
 
         $data['total_registers_count'] = $cloneRegisters->count();
 

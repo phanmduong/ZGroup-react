@@ -110,7 +110,7 @@ class AdministrationController extends ManageApiController
     {
         $requestVacation = RequestVacation::find($requestId);
         $requestVacation->status = $request->status;
-        $request->save();
+        $requestVacation->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi status thành công"
         ]);
@@ -144,11 +144,22 @@ class AdministrationController extends ManageApiController
         }
 
     }
+
     public function changeStatusAdvancePayment($advancePaymentId,Request $request){
         $data = AdvancePayment::find($advancePaymentId);
         $data->status = $request->status;
-        $data->money_received = $request->money_received;
+
+        if($request->status == 1){
+            $data->money_received = $request->money_received;
+        }
+        if($request->status == 2){
+            
+            $data->money_used = $request->money_used;            
+
+        }
+
         $data->save();
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
         ]);
@@ -234,14 +245,10 @@ class AdministrationController extends ManageApiController
     public function editReport(Request $request,$staff_id,$id)
     {
         $report = Report::find($id);
-        if($report->report != $request->report){
-            if($report->staff_id == $staff_id) {
-                $report->report = $request->report;
-                $report->title = $request->title;
-                $report->save();
-            }else{
-                return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
-            }
+        if($report->staff_id == $staff_id) {
+            $report->report = $request->report;
+            $report->title = $request->title;
+            $report->save();
         }else{
             return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
         }
