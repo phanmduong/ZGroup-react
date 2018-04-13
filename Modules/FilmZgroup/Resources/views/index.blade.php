@@ -2,12 +2,8 @@
 
 @section('content')
     <h1>Komatsu</h1>
-    @foreach($films as $film)
-        {{$film->name}}
-        <div>
-
-        </div>
-
+    @foreach($sessions as $session)
+        {{$session->name}}
     @endforeach
 
 @endsection
