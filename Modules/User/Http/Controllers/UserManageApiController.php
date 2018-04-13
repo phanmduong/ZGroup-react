@@ -200,9 +200,9 @@ class UserManageApiController extends ManageApiController
     {
         $user = $this->user;
         if($request->start_time == null)
-            $request->start_time = date('Y-m-01');
+            $request->start_time = date('Y-m-d');
         if($request->end_time == null)
-            $request->end_time = date("Y-m-d", strtotime("+1 month", strtotime(date('Y-m-01'))));
+            $request->end_time = date("Y-m-d", strtotime("+1 day", strtotime(date('Y-m-d'))));
         // dd([$request->start_time, $request->end_time]);
         $now_classes = StudyClass::orderBy('id');
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
