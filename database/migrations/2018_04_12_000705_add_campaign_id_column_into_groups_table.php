@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLanguagesTable extends Migration
+class AddCampaignIdColumnIntoGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,8 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('languages', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('name');
-            $table->string('encoding');
-            $table->timestamps();
+        Schema::table('groups', function (Blueprint $table) {
+            $table->integer('campaign_id')->unsigned()->index();
         });
     }
 
