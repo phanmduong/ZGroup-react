@@ -167,9 +167,9 @@ class ManageSmsApiController extends ManageApiController
         if ($campaign == null) {
             return $this->respondErrorWithStatus('Không có chiến dịch này');
         }
-        $users = $campaign->group()->get()->user()->where(function ($query) use ($search) {
+        $users = $campaign->group->user()->where(function ($query) use ($search) {
             $query->where('name', 'like', "%$search%")
-                ->orWhere('content', 'like', "%$search%");
+                ->orWhere('email', 'like', "%$search%")->orWhere('phone','like',"%$search%");
         });
         if ($limit == -1) {
             $users = $users->orderBy('created_at', 'desc')->get();
@@ -178,7 +178,7 @@ class ManageSmsApiController extends ManageApiController
         }
         return $this->respondWithPagination($users, [
             'receivers' => $users->map(function ($user) {
-                return $user->transform();
+                return $user->getReceivers();
             })
         ]);
     }
