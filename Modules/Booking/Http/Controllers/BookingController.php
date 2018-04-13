@@ -107,6 +107,7 @@ class BookingController extends ApiPublicController
             'message' => "Đăng kí thành công"
         ]);
     }
+<<<<<<< HEAD
 
     public function appBooking($campaignId, Request $request)
     {
@@ -161,4 +162,6 @@ class BookingController extends ApiPublicController
             'message' => "Đặt phòng thành công"
         ]);
     }
+=======
+>>>>>>> f5a1543df5e258ef62d15e3305aba385c79b428f
 }
