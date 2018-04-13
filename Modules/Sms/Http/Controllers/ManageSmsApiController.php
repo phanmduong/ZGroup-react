@@ -67,6 +67,30 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function getTemplateTypes(Request $request)
+    {
+        $query = trim($request->search);
+        $limit = $request->limit ? $request->limit : 20;
+        $templateTypes = SmsTemplateType::query();
+        if ($query) {
+            $templateTypes = $templateTypes->where('name', 'like', "%$query%");
+        }
+        if ($limit == -1) {
+            $templateTypes = $templateTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'template_types' => $templateTypes->map(function ($templateType) {
+                    return $templateType->getData();
+                })
+            ]);
+        }
+        $templateTypes = $templateTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($templateTypes, [
+            'template_types' => $templateTypes->map(function ($templateType) {
+                return $templateType->getData();
+            })
+        ]);
+    }
+
     public function createCampaign(Request $request)
     {
         $campaign = new SmsList;
@@ -169,7 +193,7 @@ class ManageSmsApiController extends ManageApiController
         }
         $users = $campaign->group->user()->where(function ($query) use ($search) {
             $query->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%")->orWhere('phone','like',"%$search%");
+                ->orWhere('email', 'like', "%$search%")->orWhere('phone', 'like', "%$search%");
         });
         if ($limit == -1) {
             $users = $users->orderBy('created_at', 'desc')->get();
@@ -183,13 +207,12 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getTemplateTypes()
-    {
-        $templateTypes = SmsTemplateType::all();
-        return $this->respondSuccessWithStatus([
-            'template_types' => $templateTypes->map(function ($templateType) {
-                return $templateType->getData();
-            })
-        ]);
-    }
+
+
+//    public function getReceiversChoice()
+//    {
+//
+//    }
+
+
 }
