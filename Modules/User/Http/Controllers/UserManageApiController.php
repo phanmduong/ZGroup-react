@@ -16,6 +16,7 @@ use App\Repositories\AttendancesRepository;
 use App\Repositories\ClassRepository;
 use App\StudyClass;
 use App\ClassLesson;
+use Illuminate\Support\Facades\Request;
 
 
 class UserManageApiController extends ManageApiController
@@ -61,10 +62,10 @@ class UserManageApiController extends ManageApiController
             ]
         ];
 
-        if ($user->department){
-            $data['department']=[
-                'name'=>$user->department->name,
-                'name'=>$user->department->color,
+        if ($user->department) {
+            $data['department'] = [
+                'name' => $user->department->name,
+                'name' => $user->department->color,
             ];
         }
 
@@ -191,9 +192,38 @@ class UserManageApiController extends ManageApiController
             $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             return $dataClass;
         });
-    
+
         $data['classes'] = $now_classes;
 
         return $this->respondSuccessWithStatus(['user' => $data]);
+    }
+
+    public function teacherClassLessons(Request $request)
+    {
+        if($request->start_time == null)
+            $request->start_time = date('Y-m-01');
+        if($request->end_time == null)
+            $request->end_time = date("Y-m-d", strtotime("+1 month", strtotime(date('Y-m-01'))));
+
+        $$now_classes = StudyClass::orderBy('id');
+        $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
+            ->where(function ($query) use ($user) {
+                $query->where('classes.teacher_id', $user->id)->orWhere('classes.teaching_assistant_id', $user->id);
+            })
+            ->whereBetween('class_lesson.time', array($request->start_time, $request->end_time))
+            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
+
+        $now_classes = $now_classes->get()->map(function ($class) {
+            $dataClass = $this->classRepository->get_class($class);
+            $dataClass['time'] = $class->time;
+            $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
+            $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
+            $classLesson = ClassLesson::find($class->class_lesson_id);
+            $dataClass['attendance_teachers'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
+            $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
+            return $dataClass;
+        });
+
+        $data['classes'] = $now_classes;
     }
 }
