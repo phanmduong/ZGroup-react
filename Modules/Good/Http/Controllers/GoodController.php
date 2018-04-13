@@ -593,6 +593,8 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Sản phẩm còn trong kho không được xóa'
             ]);
+        if ($good->orders()->count() > 0)
+            return $this->respondErrorWithStatus('Tồn tại đơn hàng có sản phẩm này');
         $good->status = 'deleted';
         foreach ($good->properties as $property) {
             $property->delete();
