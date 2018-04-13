@@ -78,7 +78,7 @@ class BookingApiController extends ApiController
         $registerRoom->start_time = $request->start_time;
         $registerRoom->end_time = $request->end_time;
         $registerRoom->save();
-        
+        dd($registerRoom);
         // $subject = "Xác nhận đặt phòng thành công";
         // $data = ["user" => $user];
         // $emailcc = ["graphics@colorme.vn"];
@@ -88,7 +88,7 @@ class BookingApiController extends ApiController
         // });
 
         return $this->respondSuccessWithStatus([
-            'message' => "Đặt phòng thành công thành công"
+            'message' => "Đặt phòng thành công"
         ]);
     }
 }
