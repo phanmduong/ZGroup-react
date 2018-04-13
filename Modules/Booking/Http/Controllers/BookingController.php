@@ -142,10 +142,9 @@ class BookingController extends ApiPublicController
         $register->type = 'room';
         $register->save();
 
-
         $registerRoom = new RoomServiceRegisterRoom;
         $registerRoom->room_id = $request->room_id;
-        $registerRoom->room_service_register_id = $request->id;
+        $registerRoom->room_service_register_id = $register->id;
         $registerRoom->start_time = $request->start_time;
         $registerRoom->end_time = $request->end_time;
         $registerRoom->save();
@@ -159,7 +158,7 @@ class BookingController extends ApiPublicController
         });
 
         return $this->respondSuccessWithStatus([
-            'message' => "Đặt phòng thành công thành công"
+            'message' => "Đặt phòng thành công"
         ]);
     }
 }
