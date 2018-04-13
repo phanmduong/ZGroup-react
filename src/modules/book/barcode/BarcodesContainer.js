@@ -17,16 +17,14 @@ class BarcodesContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.barcodeActions.loadBarcodes(1);
+        this.props.barcodeActions.loadBarcodes(1, this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.type !== this.props.params.type) {
-            this.props.barcodeActions.loadBarcodes(1);
+            this.props.barcodeActions.loadBarcodes(1, nextProps.params.type);
         }
     }
-
-    
 
     openCreateBarcodeModal() {
         this.props.barcodeActions.showCreateBarcodeModal(true);
@@ -36,7 +34,10 @@ class BarcodesContainer extends React.Component {
         this.props.barcodeActions
             .deleteBarcode(barcodeId)
             .then(() =>
-                this.props.barcodeActions.loadBarcodes(this.props.currentPage),
+                this.props.barcodeActions.loadBarcodes(
+                    this.props.currentPage,
+                    this.props.params.type,
+                ),
             );
     }
 
@@ -58,7 +59,9 @@ class BarcodesContainer extends React.Component {
                         Tạo barcode
                     </Button>
                     <div className="table-responsive">
-                        <CreateBarcodeModalContainer />
+                        <CreateBarcodeModalContainer
+                            type={this.props.params.type}
+                        />
                         {this.props.isLoading ? (
                             <div style={{ width: "100%" }}>
                                 <Loading />
@@ -153,6 +156,7 @@ BarcodesContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

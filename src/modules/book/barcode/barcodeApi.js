@@ -13,8 +13,8 @@ export function createBarcode(barcode) {
     return axios.post(url, barcode);
 }
 
-export function loadBarcodes(page = 1) {
-    let url = env.MANAGE_API_URL + "/book/barcodes?page=" + page;
+export function loadBarcodes(page = 1, type = "book") {
+    let url = env.MANAGE_API_URL + `/book/barcodes?type=${type}page=` + page;
     const token = localStorage.getItem("token");
 
     if (token) {
