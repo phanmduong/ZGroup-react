@@ -77,6 +77,7 @@ class AddMessageModal extends React.Component {
                                         data={this.props.template_types}
                                         value={message.sms_template_type_id}
                                         required={true}
+                                        disabled={this.props.upMessage}
                                     />
 
                                 </div>
@@ -90,6 +91,7 @@ class AddMessageModal extends React.Component {
                                         value={message.send_time || ''}
                                         required={true}
                                         placeholder="dd/mm/yyyy"
+                                        disabled={this.props.upMessage}
                                     />
 
                                 </div>
@@ -100,6 +102,7 @@ class AddMessageModal extends React.Component {
                                        name="name"
                                        className="form-control"
                                        value={message.name || ''}
+                                       disabled={this.props.upMessage}
                                        onChange={this.upMessage}/>
                                 <span className="material-input"/>
                             </div>
@@ -110,6 +113,7 @@ class AddMessageModal extends React.Component {
                                        name="content"
                                        className="form-control"
                                        value={message.content || ''}
+                                       disabled={this.props.upMessage}
                                        onChange={this.upMessage}/>
                                 <span className="material-input"/>
                             </div>

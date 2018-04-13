@@ -23,7 +23,7 @@ export function savePost(post, status) {
         description: post.description,
         product_content: post.content,
         tags_string: post.tags,
-        categories: JSON.stringify(post.categories.map((category) => {return {"id" : category.value}} )),
+        categories: JSON.stringify(post.categories.map((category) => {return {"id" : category.value};} )),
         image_url: post.imageUrl,
         slug: post.slug,
         meta_title: post.meta_title,

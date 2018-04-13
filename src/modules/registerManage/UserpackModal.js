@@ -71,7 +71,7 @@ class UserpackModal extends React.Component {
     }
 
     updateFormData(event) {
-        console.log("updateFormData",event.target.name);
+        //console.log("updateFormData",event.target.name);
         const field = event.target.name;
         let select = {...this.props.select};
         select[field] = event.target.value;

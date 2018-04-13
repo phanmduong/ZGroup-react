@@ -65,7 +65,7 @@ GoodList.propTypes = {
 export default GoodList;
 
 const warningStyle = {
-  backgroundColor: "#ff3333"
+  backgroundColor: "darksalmon"
 };
 
 function checkSumQuantity(arr) {

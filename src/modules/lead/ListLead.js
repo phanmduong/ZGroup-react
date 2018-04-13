@@ -57,133 +57,134 @@ class ListLead extends React.Component {
         return (
             <div>
                 {this.props.isLoading ?
-                    <Loading/>
+                    <Loading />
                     :
                     <div className="table-responsive">
                         <table className="table">
                             <thead className="text-rose">
-                            <tr>
-                                {this.props.isDistribution && <th/>}
-                                <th/>
-                                <th>Họ tên</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Đã đóng tiền</th>
-                                <th>Đánh giá</th>
-                                
-                                {
-                                    !this.props.showSelectedLead && <th>Nhân viên</th>
-                                }
-                                {
-                                    !this.props.showSelectedLead && <th>Thời gian</th>
-                                }
-                                {
-                                    this.props.showSelectedLead ?
-                                        <th>
-                                            <ButtonGroupAction
-                                                disabledEdit
-                                                delete={this.props.deleteAllSelected}
-                                            />
-                                        </th>
-                                        :
-                                        <th/>
+                                <tr>
+                                    {this.props.isDistribution && <th />}
+                                    <th />
+                                    <th>Họ tên</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Đã đóng tiền</th>
+                                    <th>Đánh giá</th>
 
-                                }
-                            </tr>
+                                    {
+                                        !this.props.showSelectedLead && <th>Nhân viên</th>
+                                    }
+                                    {
+                                        !this.props.showSelectedLead && <th>Thời gian</th>
+                                    }
+                                    {
+                                        this.props.showSelectedLead ?
+                                            <th>
+                                                <ButtonGroupAction
+                                                    disabledEdit
+                                                    delete={this.props.deleteAllSelected}
+                                                />
+                                            </th>
+                                            :
+                                            <th />
+
+                                    }
+                                </tr>
                             </thead>
                             <tbody>
-                            {
-                                this.props.leads.map((lead) => {
-                                    const avatar = !avatarEmpty(lead.avatar_url) ?
-                                        lead.avatar_url : NO_AVATAR;
-                                    return (
-                                        <tr key={lead.id}>
-                                            {
-                                                this.props.isDistribution &&
+                                {
+                                    this.props.leads.map((lead) => {
+                                        const avatar = !avatarEmpty(lead.avatar_url) ?
+                                            lead.avatar_url : NO_AVATAR;
+                                        return (
+                                            <tr key={lead.id}>
+                                                {
+                                                    this.props.isDistribution &&
+                                                    <td>
+                                                        <Checkbox
+                                                            checked={this.isCheckedLead(lead.id)}
+                                                            onChange={(event) => {
+                                                                this.props.changeStatusLead(lead, event.target.checked);
+                                                            }}
+                                                        />
+                                                    </td>
+                                                }
                                                 <td>
-                                                    <Checkbox
-                                                        checked={this.isCheckedLead(lead.id)}
-                                                        onChange={(event) => {
-                                                            this.props.changeStatusLead(lead, event.target.checked);
+                                                    <div className="avatar-list-staff"
+                                                        style={{
+                                                            background: 'url(' + avatar + ') center center / cover',
+                                                            display: 'inline-block'
                                                         }}
                                                     />
                                                 </td>
-                                            }
-                                            <td>
-                                                <div className="avatar-list-staff"
-                                                     style={{
-                                                         background: 'url(' + avatar + ') center center / cover',
-                                                         display: 'inline-block'
-                                                     }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <a href={`/sales/info-student/${lead.id}`}
-                                                   className="text-name-student-register">
-                                                    {lead.name}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                {lead.email}
-                                            </td>
-                                            <td>{lead.phone}</td>
-                                            <td>
-                                                {
-                                                    lead.courses && lead.courses.map((course) => {
-                                                        return (
-                                                            <TooltipButton
-                                                                placement="top"
-                                                                text={course.name}
-                                                            >
-                                                                <div className="avatar-list-staff"
-                                                                style={{
-                                                                    background: 'url(' + course.icon_url + ') center center / cover',
-                                                                    display: 'inline-block',
-                                                                    borderColor: 'white',
-                                                                    borderStyle: 'solid',
-                                                                    marginLeft: '-10px'
-                                                                }}
-                                                            />  
-                                                            </TooltipButton>
-                                                           
-                                                        );
-                                                    })
-                                                 }
-                                            </td>
-                                            <td>
-                                                <Star
-                                                    maxStar={5}
-                                                    value={lead.rate}
-                                                    disable
-                                                />
-                                            </td>
-                                            {
-                                                !this.props.showSelectedLead && <td>
-                                                    {lead.carer &&
-                                                    <div className="btn btn-xs btn-main"
-                                                         style={{backgroundColor: '#' + lead.carer.color}}
-                                                    >
-                                                        {getShortName(lead.carer.name)}
-                                                        <div className="ripple-container"/>
-                                                    </div>
+                                                <td>
+                                                    <a href={`/sales/info-student/${lead.id}`}
+                                                        className="text-name-student-register">
+                                                        {lead.name}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {lead.email}
+                                                </td>
+                                                <td>{lead.phone}</td>
+                                                <td>
+                                                    {
+                                                        lead.courses && lead.courses.map((course,index) => {
+                                                            return (
+                                                                <div key={index}>
+                                                                    <TooltipButton
+                                                                        placement="top"
+                                                                        text={course.name}
+                                                                    >
+                                                                        <div className="avatar-list-staff"
+                                                                            style={{
+                                                                                background: 'url(' + course.icon_url + ') center center / cover',
+                                                                                display: 'inline-block',
+                                                                                borderColor: 'white',
+                                                                                borderStyle: 'solid',
+                                                                                marginLeft: '-10px'
+                                                                            }}
+                                                                        />
+                                                                    </TooltipButton>
+                                                                </div>
+                                                            );
+                                                        })
                                                     }
                                                 </td>
-                                            }
-                                            {
-                                                !this.props.showSelectedLead && <td>{lead.created_at}</td>
-                                            }
-                                            <td>
-                                                <ButtonGroupAction
-                                                    disabledDelete={!this.props.showSelectedLead}
-                                                    delete={() => this.props.deleteLeadSelected(lead)}
-                                                    edit={() => this.openEditModal(lead)}
-                                                    disabledEdit={this.props.showSelectedLead}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                })
-                            }
+                                                <td>
+                                                    <Star
+                                                        maxStar={5}
+                                                        value={lead.rate}
+                                                        disable
+                                                    />
+                                                </td>
+                                                {
+                                                    !this.props.showSelectedLead && <td>
+                                                        {lead.carer &&
+                                                            <div className="btn btn-xs btn-main"
+                                                                style={{ backgroundColor: '#' + lead.carer.color }}
+                                                            >
+                                                                {getShortName(lead.carer.name)}
+                                                                <div className="ripple-container" />
+                                                            </div>
+                                                        }
+                                                    </td>
+                                                }
+                                                {
+                                                    !this.props.showSelectedLead && <td>{lead.created_at}</td>
+                                                }
+                                                <td>
+                                                    <ButtonGroupAction
+                                                        disabledDelete={!this.props.showSelectedLead}
+                                                        delete={() => this.props.deleteLeadSelected(lead)}
+                                                        edit={() => this.openEditModal(lead)}
+                                                        disabledEdit={this.props.showSelectedLead}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
                             </tbody>
                         </table>
                     </div>

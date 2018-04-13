@@ -13,7 +13,11 @@ class AddEditBlogTypeModal extends React.Component {
         this.upBlogType = this.upBlogType.bind(this);
         this.saveBlogTypeModal = this.saveBlogTypeModal.bind(this);
     }
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
+            this.props.blogTypeAction.loadAllBlogType(1);
+        }
+    }
     upBlogType(e) {
         const field = e.target.name;
         let blogType = {
@@ -31,11 +35,6 @@ class AddEditBlogTypeModal extends React.Component {
                  this.props.blogTypeAction.saveBlogType(blogType);
              }
             else this.props.blogTypeAction.editBlogType(blogType);
-        }
-    }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
-            this.props.blogTypeAction.loadAllBlogType(1);
         }
     }
     render() {

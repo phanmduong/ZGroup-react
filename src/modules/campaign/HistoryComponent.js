@@ -43,7 +43,7 @@ class HistoryComponent extends React.Component {
                             </button>
                             <ul className="dropdown-menu dropdown-primary">
                                 <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 2})}>Thêm tin</a>
+                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>Thêm tin</a>
                                 </li>
                                 <li>
                                     <a onClick={()=>{
@@ -76,14 +76,14 @@ class HistoryComponent extends React.Component {
                             <td>
                                 <div style={{display: "flex"}}>
                                     <div style={{width:"28px"}}>
-                                        <img style={{height: "35px", width: "35px", borderRadius: "50%"}}
+                                        <img className="circle-avatar"
                                              src="https://i.quantrimang.com/photos/image/2016/11/30/fb-size-vuong.png"/>
 
                                     </div>
                                     <div>
                                         <TooltipButton placement="top"
                                                        text="Tin thứ 6">
-                                        <button className="sent">6</button>
+                                        <button className="sent-message">6</button>
                                         </TooltipButton>
                                     </div>
                                 </div>
