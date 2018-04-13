@@ -14,13 +14,13 @@ class BarcodeController extends ManageApiController
     {
         $barcode = Barcode::find($barcodeId);
         if ($barcode == null) {
-            return $this->respondErrorWithStatus("Barcode không tồn tại");
+            return $this->respondErrorWithStatus('Barcode không tồn tại');
         }
         if ($barcode->good != null) {
-            return $this->respondErrorWithStatus("Barcode này đã được gắn cho sản phẩm");
+            return $this->respondErrorWithStatus('Barcode này đã được gắn cho sản phẩm');
         }
         $barcode->delete();
-        return $this->respondSuccessWithStatus(["message" => "success"]);
+        return $this->respondSuccessWithStatus(['message' => 'success']);
     }
 
     public function saveBarcode(Request $request)
@@ -36,6 +36,7 @@ class BarcodeController extends ManageApiController
             $barcode->good_id = 0;
         }
         $barcode->value = $request->value;
+        $barcode->type = $request->type;
         $generator = new BarcodeGeneratorPNG();
         if ($request->value) {
             try {
@@ -45,23 +46,28 @@ class BarcodeController extends ManageApiController
         }
 
         $barcode->save();
-        return $this->respondSuccessWithStatus(["barcode" => $barcode]);
+        return $this->respondSuccessWithStatus(['barcode' => $barcode]);
     }
 
     public function barcode($barcodeId)
     {
         $barcode = Barcode::find($barcodeId);
         if ($barcode == null) {
-            return $this->respondErrorWithStatus("Barcode không tồn tại");
+            return $this->respondErrorWithStatus('Barcode không tồn tại');
         }
-        return $this->respondSuccessWithStatus(["barcode" => $barcode]);
+        return $this->respondSuccessWithStatus(['barcode' => $barcode]);
     }
 
-    public function barcodeExist()
+    public function barcodeExist(Request $request)
     {
-        $countEmpty = Barcode::orderBy("created_at")->where("good_id", 0)->count();
+        if ($request->type) {
+            $type = $request->type;
+        } else {
+            $type = 'book';
+        }
+        $countEmpty = Barcode::where('type', $type)->orderBy('created_at')->where('good_id', 0)->count();
         return $this->respondSuccessWithStatus([
-            "count" => $countEmpty
+            'count' => $countEmpty
         ]);
     }
 
@@ -71,13 +77,18 @@ class BarcodeController extends ManageApiController
         if ($request->limit) {
             $limit = $request->limit;
         }
-        $barcodes = Barcode::orderBy("created_at", "desc")->paginate($limit);
+
+        if ($request->type) {
+            $type = $request->type;
+        } else {
+            $type = 'book';
+        }
+
+        $barcodes = Barcode::where('type', $type)->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($barcodes, [
-            "barcodes" => $barcodes->map(function ($barcode) {
+            'barcodes' => $barcodes->map(function ($barcode) {
                 return $barcode->transform();
             })
         ]);
     }
-
-
 }
