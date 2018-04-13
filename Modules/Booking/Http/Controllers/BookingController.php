@@ -148,6 +148,7 @@ class BookingController extends ApiPublicController
         $registerRoom->room_service_register_id = $request->id;
         $registerRoom->start_time = $request->start_time;
         $registerRoom->end_time = $request->end_time;
+        $registerRoom->room_service_register_id = $register->id;
         $registerRoom->save();
         
         $subject = "Xác nhận đặt phòng thành công";
