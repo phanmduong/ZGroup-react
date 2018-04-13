@@ -169,9 +169,21 @@ class UserManageApiController extends ManageApiController
 
         $data['work_shifts'] = $workShifts;
 
+        $classes = StudyClass::leftJoin('class_position','class_position.class_id', "=" , "classes.id")
+        ->where("classes.gen_id",$gen_id)
+        ->where(function($q) use ($user){
+            $q->where('classes.teacher_id', $user->id)
+            ->orWhere('class_position.user_id', $user->id);
+        });
+
+
+        $classes = $classes->get()->map(function ($class) {
+            $dataClass = $this->classRepository->get_class($class);
+            return $dataClass ;
+        });
+
         //lecturer
         $time = date('Y-m-d');
-        $time = "2018-5-12";
         $now_classes = StudyClass::orderBy('id');
 
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
@@ -192,7 +204,8 @@ class UserManageApiController extends ManageApiController
             return $dataClass;
         });
     
-        $data['classes'] = $now_classes;
+        $data['now_classes'] = $now_classes;
+        $data['classes'] = $classes;
 
         return $this->respondSuccessWithStatus(['user' => $data]);
     }

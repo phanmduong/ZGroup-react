@@ -40,6 +40,7 @@ class ClassRepository
             'id' => $class->id,
             'name' => $class->name,
             'datestart' => format_date($class->datestart),
+            'datestart_vi' => format_vn_date(strtotime($class->datestart)),
             'datestart_en' => $class->datestart,
             'study_time' => $class->study_time,
             'description' => $class->description,
