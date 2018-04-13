@@ -204,11 +204,11 @@ export function confirmPayRequest(id, money, success) {
     };
 }
 
-export function confirmReceiveRequest(id, money, success) {
+export function confirmReceiveRequest(id, money,date, success) {
     return function(dispatch) {
         dispatch({ type: "" });
         helper.showWarningNotification("Đang duyệt...");
-        requestApi.confirmReceiveRequest(id,money)
+        requestApi.confirmReceiveRequest(id,money,date)
             .then(res => {
                 if (res.data.status == 1) {
                     helper.showNotification("Duyệt thành công!");
@@ -234,6 +234,24 @@ export function confirmRequestVacation(id, success) {
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     
+                }
+            });
+            
+    };
+}
+
+export function loadAllCompany() {
+    return function(dispatch) {
+        dispatch({ type: types.BEGIN_LOAD_ALL_COMPANY });
+        requestApi.loadAllCompany()
+            .then(res => {
+                if (res.data.status == 1) {
+                    dispatch({ type: types.LOAD_ALL_COMPANY_SUCCESS ,
+                        companies: res.data.data.company,
+                    });
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({ type: types.LOAD_ALL_COMPANY_ERROR });
                 }
             });
             

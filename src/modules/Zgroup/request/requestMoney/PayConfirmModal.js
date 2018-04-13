@@ -64,7 +64,7 @@ class PayConfirmModal extends React.Component {
                             </div>
                             <div className="col-md-12">
                                 <FormInputText
-                                    label="Số tiền đã ứng"
+                                    label="Số tiền ứng"
                                     required
                                     name="money_received"
                                     updateFormData={this.updateFormData}
@@ -73,7 +73,7 @@ class PayConfirmModal extends React.Component {
                                     minValue="0"
                                 />
                             </div>
-
+                            
                         </div></form>
                 </Modal.Body>
                 <Modal.Footer>

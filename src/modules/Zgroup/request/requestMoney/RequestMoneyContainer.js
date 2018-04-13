@@ -13,6 +13,7 @@ import ReceiveConfirmModal from "./ReceiveConfirmModal";
 import InfoRequestMoneyModal from "./InfoRequestMoneyModal";
 import { Link } from "react-router";
 import { Modal } from 'react-bootstrap';
+import { DATETIME_FORMAT_SQL } from '../../../../constants/constants';
 
 class RequestMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -43,6 +44,7 @@ class RequestMoneyContainer extends React.Component {
     componentWillMount() {
         let { requestActions } = this.props;
         requestActions.getAllRequestMoney();
+        requestActions.loadAllCompany();
     }
 
     // componentWillReceiveProps(next){
@@ -74,7 +76,8 @@ class RequestMoneyContainer extends React.Component {
 
     submitReceiveConfirmModal(money) {
         this.closeReceiveConfirmModal();
-        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,
+        let date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
+        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,date,
             this.props.requestActions.getAllRequestMoney);
     }
 
@@ -231,7 +234,7 @@ class RequestMoneyContainer extends React.Component {
 
                                                                                 <td>{obj.staff.name}</td>
                                                                                 <td>{moment(obj.created_at.date).format("D/M/YYYY")}</td>
-                                                                                <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn trả"}</td>
+                                                                                <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn ứng"}</td>
                                                                                 <td>{status}</td>
                                                                                 <td><ButtonGroupAction
                                                                                     editUrl={"/administration/request/money/edit/" + obj.id}
@@ -287,6 +290,7 @@ RequestMoneyContainer.propTypes = {
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
     user: PropTypes.object,
+    companies: PropTypes.array,
     requestMoneys: PropTypes.array,
 };
 
@@ -295,6 +299,7 @@ function mapStateToProps(state) {
         isLoading: state.request.isLoading,
         paginator: state.request.paginator,
         requestMoneys: state.request.requestMoneys,
+        companies: state.request.companies,
         user: state.login.user,
     };
 }

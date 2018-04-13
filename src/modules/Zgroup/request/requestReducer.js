@@ -109,12 +109,20 @@ export default function requestReducer(state = initialState.request, action) {
                 paginator: action.data.paginator,
             };
         }
+        
         case types.GET_ALL_REQUEST_MONEY_ERROR:
             return {
                 ...state,
                 isLoading: false,
+                
             };
-
+        case types.LOAD_ALL_COMPANY_SUCCESS: {
+            
+                return {
+                    ...state,
+                    companies: action.companies,
+                };
+            }
         default:
             return state;
     }

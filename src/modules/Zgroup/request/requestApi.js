@@ -133,13 +133,13 @@ export function confirmPayRequest(id, money_received) {
     return axios.post(url, {money_received, status: 1});
 }
 
-export function confirmReceiveRequest(id, money_used) {
+export function confirmReceiveRequest(id, money_used, date_complete) {
     let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     } 
-    return axios.post(url, {money_used, status: 2});
+    return axios.post(url, {money_used, date_complete, status: 2});
 }
 
 export function confirmRequestVacation(id) {
@@ -155,6 +155,15 @@ export function confirmRequestVacation(id) {
 export function getRequestMoneyNoPaging() {
     
     let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    } 
+    return axios.get(url);
+}
+
+export function loadAllCompany() {
+    let url     = env.MANAGE_API_URL +"/company/all?limit=-1";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;
