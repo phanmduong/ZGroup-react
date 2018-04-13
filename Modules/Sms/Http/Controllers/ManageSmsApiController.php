@@ -207,6 +207,28 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function createTemplateType(Request $request)
+    {
+        $template_type = new SmsTemplateType;
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Tạo loại tin nhắn thành công'
+        ]);
+    }
+
+    public function editTemplateType($templateTypeId, Request $request)
+    {
+        $template_type = SmsTemplateType::find($templateTypeId);
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Sửa loại tin nhắn thành công'
+        ]);
+    }
+
 
 
 //    public function getReceiversChoice()
