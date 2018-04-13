@@ -107,6 +107,9 @@ class ReceiversComponent extends React.Component {
                                     <tbody>
                                     {
                                         this.props.allReceiver && this.props.allReceiver.map((receiver, index) => {
+                                            let paid_img = receiver.paid_money.map((paid)=>{
+                                                return paid.image_url;
+                                            });
                                             return (
                                                 <tr key={index}>
                                                     <td>
@@ -134,13 +137,13 @@ class ReceiversComponent extends React.Component {
                                                         <TooltipButton placement="top"
                                                                        text={`${receiver.sent_quantity} tin nhắn đã gửi`}>
                                                             <div>
-                                                                <h6>{receiver.sent_quantity}/{receiver.sent_quantity + receiver.needed_quantity}</h6>
+                                                                <h6>{receiver.sent_quantity}/{receiver.sent_quantity + this.props.campaign_needed_quantity}</h6>
                                                                 <div className="progress progress-line-danger">
                                                                     <div className="progress-bar progress-bar-success"
                                                                          style={{
                                                                              width:
                                                                                  (receiver.sent_quantity === 0) ? 0 :
-                                                                                     receiver.sent_quantity * 100 / (receiver.sent_quantity + receiver.needed_quantity)
+                                                                                     receiver.sent_quantity * 100 / (receiver.sent_quantity + this.props.campaign_needed_quantity)
                                                                                      // 12 * 100 / 22
                                                                                      + '%'
                                                                          }}/>
@@ -150,7 +153,7 @@ class ReceiversComponent extends React.Component {
                                                     </td>
                                                     <td>
                                                         <OverlappedCircles
-                                                            circles={receiver.paid_money}
+                                                            circles={paid_img}
                                                         />
                                                     </td>
                                                     <td>
@@ -213,6 +216,7 @@ ReceiversComponent.propTypes = {
     allReceiver: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
     campaignName: PropTypes.string.isRequired,
+    campaign_needed_quantity: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -224,6 +228,7 @@ function mapStateToProps(state) {
         limitReceiver: state.smsCampaign.limitReceiver,
         isLoadingReceiver: state.smsCampaign.isLoadingReceiver,
         campaignName: state.smsCampaign.campaignName,
+        campaign_needed_quantity:state.smsCampaign.campaign_needed_quantity,
     };
 }
 

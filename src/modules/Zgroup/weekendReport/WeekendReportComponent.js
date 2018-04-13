@@ -12,6 +12,7 @@ class WeekendReportComponent extends React.Component {
     }
 
     showModal(i) {
+
         this.props.weekendReportAction.showCheckWeekendReportModal();
         this.props.weekendReportAction.loadReportById(i);
     }
@@ -51,16 +52,19 @@ class WeekendReportComponent extends React.Component {
                                         {
                                             report.status === 0 ?
                                                 <div className="btn-group-action">
-                                                    {this.props.user.role === 2?
-                                                    <div style={{display: "inline-block"}}>
-                                                        <TooltipButton placement="top"
-                                                                       text={`Duyệt`}>
-                                                            <a onClick={() => this.showModal(report.id)}>
-                                                                <i className="material-icons">check</i>
-                                                            </a></TooltipButton>&ensp;
-                                                    </div>:''
+                                                    {this.props.user.role === 2 ?
+                                                        <div style={{display: "inline-block"}}>
+                                                            <TooltipButton placement="top"
+                                                                           text={`Duyệt`}>
+                                                                <a onClick={() => {
+                                                                    this.props.weekendReportAction.handleComment({});
+                                                                    this.showModal(report.id);
+                                                                }}>
+                                                                    <i className="material-icons">check</i>
+                                                                </a></TooltipButton>&ensp;
+                                                        </div> : ''
                                                     }
-                                                    { this.props.user.id === report.staff.id ?
+                                                    {this.props.user.id === report.staff.id ?
                                                         <Link
                                                             onClick={() => {
                                                                 let a = {
@@ -75,11 +79,15 @@ class WeekendReportComponent extends React.Component {
                                                                            text={`Sửa`}>
                                                                 <i className="material-icons">edit</i>
                                                             </TooltipButton>
-                                                        </Link> :''
+                                                        </Link> : ''
                                                     }
                                                 </div> :
                                                 <b style={{cursor: "pointer"}}
-                                                   onClick={() => this.showModal(report.id)}>
+                                                   onClick={() => {
+                                                       let a = {comment: report.comment};
+                                                       this.props.weekendReportAction.handleComment(a);
+                                                       this.showModal(report.id);
+                                                   }}>
                                                     Đã Duyệt</b>
                                         }
                                     </td>

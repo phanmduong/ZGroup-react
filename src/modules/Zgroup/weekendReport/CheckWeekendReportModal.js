@@ -6,11 +6,20 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import Loading from "../../../components/common/Loading";
 
+
 class CheckWeekendReportModal extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.handleComment = this.handleComment.bind(this);
     }
-
+    handleComment(e) {
+        const field = e.target.name;
+        let comment = {
+            ...this.props.comment,
+            [field]: e.target.value
+        };
+        this.props.weekendReportAction.handleComment(comment);
+    }
     render() {
         return (
             <Modal show={this.props.checkWeekendReportModal}
@@ -31,8 +40,8 @@ class CheckWeekendReportModal extends React.Component {
                                                         <form method="#" action="#">
                                                             <div className="form-group">
                                                                 <h4><b>{report.staff.name}</b></h4>
-                                                                <span style={{color: 'tomato', fontWeight: '600'}}>Tiêu đề:</span>
-                                                                <p><b>&emsp;{report.title}</b></p>
+                                                                <span style={{color: 'tomato', fontWeight: '600'}}>Tiêu đề:</span><br/>
+                                                                <h5 style={{fontWeight: '500'}}>&emsp;{report.title}</h5>
                                                                 <span style={{color: 'tomato', fontWeight: '600'}}>Nội dung:</span>
                                                                 <div>
                                                                     &emsp;{
@@ -42,7 +51,20 @@ class CheckWeekendReportModal extends React.Component {
                                                                         dangerouslySetInnerHTML={{__html: report.content}}/>
                                                                 </div>
                                                             </div>
-                                                            <br/><br/>
+
+                                                            <div className="form-group">
+                                                                <span style={{color: 'tomato', fontWeight: '600'}}>Chú thích:</span>
+                                                                <textarea style={{cursor: "auto"}}
+                                                                       name="comment"
+                                                                       className="form-control"
+                                                                       onChange={this.handleComment}
+                                                                       value={this.props.comment.comment}
+                                                                       disabled={(report.status !== 0)}
+                                                                />
+                                                                <span className="material-input"/>
+                                                            </div>
+
+                                                            <br/>
                                                             {
                                                                 report.status === 0 ?
                                                                     <div style={{textAlign: "right"}}>
@@ -54,7 +76,7 @@ class CheckWeekendReportModal extends React.Component {
                                                                                 data-dismiss="modal"
                                                                                 onClick={() => {
                                                                                     this.props.weekendReportAction.showCheckWeekendReportModal();
-                                                                                    this.props.weekendReportAction.checkV(report);
+                                                                                    this.props.weekendReportAction.checkV(report,this.props.comment);
                                                                                 }}
                                                                         >
                                                                             <i className="material-icons">check</i> Duyệt
@@ -83,7 +105,8 @@ class CheckWeekendReportModal extends React.Component {
                                                                         >
                                                                             <i className="material-icons">check</i> Trở
                                                                             lại
-                                                                        </button>&emsp;
+                                                                        </button>
+                                                                        &emsp;
                                                                     </div>
 
                                                             }
@@ -108,7 +131,7 @@ CheckWeekendReportModal.propTypes = {
     checkWeekendReportModal: PropTypes.bool.isRequired,
     report: PropTypes.array.isRequired,
     loadingModal: PropTypes.bool.isRequired,
-
+    comment:PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -116,7 +139,7 @@ function mapStateToProps(state) {
         loadingModal: state.weekendReport.loadingModal,
         checkWeekendReportModal: state.weekendReport.checkWeekendReportModal,
         report: state.weekendReport.report,
-
+        comment: state.weekendReport.comment,
     };
 }
 

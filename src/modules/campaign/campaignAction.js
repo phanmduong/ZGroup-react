@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from './CampaignActionTypes';
 import * as helper from "../../helpers/helper";
 import * as campaignApi from "./campaignApi";
 
@@ -28,7 +28,8 @@ export function loadAllMessage(campaignId, page, search) {
                     limitMessage: res.data.paginator.limit,
                     totalCountMessage: res.data.paginator.total_count,
                     totalPagesMessage: res.data.paginator.total_pages,
-                    campaignName: res.data.campaign.name
+                    campaignName: res.data.campaign.name,
+                    campaign_needed_quantity: res.data.campaign.needed_quantity,
                 });
             });
     };

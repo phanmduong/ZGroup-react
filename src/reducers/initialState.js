@@ -25,7 +25,7 @@ export default {
 
     smsCampaign:{
         allMessage:[],template_types:[],campaignName:'',
-        allReceiver:[],
+        allReceiver:[],campaign_needed_quantity: 0,
         allHistory:[],sentMessageName:'',
         //Modal Them, sua message
         message:{
@@ -48,6 +48,7 @@ export default {
         currentPageMessage: 1,
         totalPagesMessage: 1,
         totalCountMessage: 1,
+        // phan trang cua trang Receiver
         limitReceiver: 20,
         currentPageReceiver: 1,
         totalPagesReceiver: 1,
@@ -151,6 +152,9 @@ export default {
         currentPage: 1,
         limit: 20,
         totalCount: 1,
+        comment:{
+            comment:'',
+        },
         report: [],
         reports: [],
         isLoading: false,
