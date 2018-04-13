@@ -192,6 +192,9 @@ class ManageEmailApiController extends ManageApiController
                 });
             });
 
+        if($request->send_status != null)
+            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
+
         if ($request->owner_id) {
             $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
                 ->where('owner_id', $request->owner_id)->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
@@ -289,9 +292,10 @@ class ManageEmailApiController extends ManageApiController
         $emails = array();
 
         foreach ($comments as $comment) {
-            if (filter_var($comment->message, FILTER_VALIDATE_EMAIL)) {
+            $email = getEmailFromText($comment->message);
+            if (!empty($email)) {
                 $emails[] = [
-                    'email' => $comment->message,
+                    'email' => $email,
                     'name' => $comment->from->name,
                 ];
             }

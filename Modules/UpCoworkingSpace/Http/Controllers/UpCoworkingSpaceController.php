@@ -17,13 +17,29 @@ use Illuminate\Support\Facades\DB;
 
 class UpCoworkingSpaceController extends Controller
 {
-    public function index()
+    public $lang;
+
+
+    public function __construct(Request $request)
+    {
+        // dd(1);
+        $this->lang = \Request::get('lang');
+        // dd($this->lang);
+        // dd(\Request::get('myAttribute'));
+    }
+
+    public function index(Request $request)
     {
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $data = [];
         $data['newestBlogs'] = $newestBlogs;
 
-        return view('upcoworkingspace::index', $data);
+        
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.index', $data);
+            case 'en': return view('upcoworkingspace::en.index', $data);
+            default: return view('upcoworkingspace::en.index', $data);
+        }
 //        dd($newestBlogs);
 
     }
@@ -37,11 +53,17 @@ class UpCoworkingSpaceController extends Controller
         $this->data['campaignId'] = $campaignId;
         $this->data['userId'] = $userId;
         $this->data['userBenefits'] =$userBenefits;
-        return view('upcoworkingspace::member_register', $this->data);
+        
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.member_register', $this->data);
+            case 'en': return view('upcoworkingspace::en.member_register', $this->data);
+            default: return view('upcoworkingspace::en.member_register',$this->data);
+        }
     }
 
     public function blog(Request $request)
     {
+
         $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
@@ -70,7 +92,11 @@ class UpCoworkingSpaceController extends Controller
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
 
-        return view('upcoworkingspace::blogs', $this->data);
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.blogs', $this->data);
+            case 'en': return view('upcoworkingspace::en.blogs', $this->data);
+            default: return view('upcoworkingspace::en.blogs', $this->data);
+        }
     }
 
     private function getPostData($post)
@@ -105,7 +131,11 @@ class UpCoworkingSpaceController extends Controller
             return 'Bài viết không tồn tại';
         }
         $data = $this->getPostData($post);
-        return view('upcoworkingspace::post', $data);
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.post', $data);
+            case 'en': return view('upcoworkingspace::en.post', $data);
+            default: return view('upcoworkingspace::en.post', $data);
+        }
     }
 
     public function postBySlug($slug)
@@ -115,7 +145,11 @@ class UpCoworkingSpaceController extends Controller
             return 'Bài viết không tồn tại';
         }
         $data = $this->getPostData($post);
-        return view('upcoworkingspace::post', $data);
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.post', $data);
+            case 'en': return view('upcoworkingspace::en.post', $data);
+            default: return view('upcoworkingspace::en.post', $data);
+        }
     }
 
     public function conferenceRoom(Request $request)
@@ -153,7 +187,11 @@ class UpCoworkingSpaceController extends Controller
         $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
         $this->data['current_page'] = $rooms->currentPage();
 
-        return view('upcoworkingspace::conference_room', $this->data);
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.conference_room', $this->data);
+            case 'en': return view('upcoworkingspace::en.conference_room', $this->data);
+            default: return view('upcoworkingspace::en.conference_room', $this->data);
+        }
     }
 
     //Su kien
@@ -166,7 +204,7 @@ class UpCoworkingSpaceController extends Controller
             $events = $events->where('name', 'like', '%' . $search . '%');
         }
 
-        $events = $events->orderBy('start_date', 'asc')->paginate(6);
+        $events = $events->orderBy('start_date', 'desc')->paginate(6);
         $display = '';
         if ($request->page == null) {
             $page_id = 2;
@@ -184,7 +222,11 @@ class UpCoworkingSpaceController extends Controller
         $this->data['total_pages'] = ceil($events->total() / $events->perPage());
         $this->data['current_page'] = $events->currentPage();
 
-        return view('upcoworkingspace::events', $this->data);
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.events', $this->data);
+            case 'en': return view('upcoworkingspace::en.events', $this->data);
+            default: return view('upcoworkingspace::en.events', $this->data);
+        }
     }
 
     public function getEventOfCurrentMonth(Request $request)
@@ -203,15 +245,110 @@ class UpCoworkingSpaceController extends Controller
         $event = DB::table('events')->where('slug', $slug)->first();
         $this->data['event'] = $event;
 
-        return view('upcoworkingspace::event_detail', $this->data);
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.event_detail', $this->data);
+            case 'en': return view('upcoworkingspace::en.event_detail', $this->data);
+            default: return view('upcoworkingspace::en.event_detail', $this->data);
+        }
     }
+
     // dang ky event
+    
     public function eventSignUpForm($slug,\Illuminate\Http\Request $request)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'name' => 'required|max:255',
         ]);
 
-        return view('upcoworkingspace::sign_up_form');
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.sign_up_form');
+            case 'en': return view('upcoworkingspace::en.sign_up_form');
+            default: return view('upcoworkingspace::en.sign_up_form');
+        }
+    }
+
+    public function missionAndVision()
+    {
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.mission_vision');
+            case 'en': return view('upcoworkingspace::en.mission_vision');
+            default: return view('upcoworkingspace::en.mission_vision');
+        }
+    }
+
+    public function partner()
+    {
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.partner');
+            case 'en': return view('upcoworkingspace::en.partner');
+            default: return view('upcoworkingspace::en.partner');
+        }
+        
+    }
+
+    public function media()
+    {
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.media');
+            case 'en': return view('upcoworkingspace::en.media');
+            default: return view('upcoworkingspace::en.media');
+        }
+    }
+
+    public function faqs()
+    {
+        
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.faqs');
+            case 'en': return view('upcoworkingspace::en.faqs');
+            default: return view('upcoworkingspace::en.faqs');
+        }
+    }
+
+    public function talentAcquisition()
+    {
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.talent-acquisition');
+            case 'en': return view('upcoworkingspace::en.talent-acquisition');
+            default: return view('upcoworkingspace::en.talent-acquisition');
+        }
+    }
+
+    public function contact_us()
+    {
+        
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.contact-us');
+            case 'en': return view('upcoworkingspace::en.contact-us');
+            default: return view('upcoworkingspace::en.contact-us');
+        }
+    }
+
+    public function founders()
+    {
+        
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.founders');
+            case 'en': return view('upcoworkingspace::en.founders');
+            default: return view('upcoworkingspace::en.founders');
+        }
+    }
+
+    public function mentors()
+    {
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.mentors');
+            case 'en': return view('upcoworkingspace::en.mentors');
+            default: return view('upcoworkingspace::en.mentors');
+        }
+    }
+
+    public function tour()
+    {
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.tour');
+            case 'en': return view('upcoworkingspace::en.tour');
+            default: return view('upcoworkingspace::en.tour');
+        }
     }
 }

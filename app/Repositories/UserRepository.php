@@ -45,6 +45,8 @@ class UserRepository
                 'name' => $student->name,
                 'phone' => $student->phone,
                 'email' => $student->email,
+                'rate' => $student->rate,
+                'created_at' => format_vn_short_datetime(strtotime($student->created_at)),
                 'avatar_url' => generate_protocol_url($student->avatar_url),
                 'dob' => $student->dob,
                 'facebook' => $student->facebook,

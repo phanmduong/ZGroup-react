@@ -234,7 +234,7 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
                                         <tr>
-                                            <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                            <td style="padding: 20px; color: #4D5766!important; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
                                                 <p>Chào {{$user->name}},</p>
                                                 <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
                                                     tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
