@@ -25,6 +25,7 @@ class Report extends Model
             "title" => $this->title,
             "content" => $this->report,
             "status" => $this->status,
+            "comment" => $this->comment,
             "created_at" => $this->created_at
         ];
     }
