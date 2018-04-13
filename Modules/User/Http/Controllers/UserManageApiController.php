@@ -198,12 +198,13 @@ class UserManageApiController extends ManageApiController
 
     public function teacherClassLessons(Request $request)
     {
+        $user = $this->user;
         if($request->start_time == null)
             $request->start_time = date('Y-m-01');
         if($request->end_time == null)
             $request->end_time = date("Y-m-d", strtotime("+1 month", strtotime(date('Y-m-01'))));
-
-        $$now_classes = StudyClass::orderBy('id');
+        // dd([$request->start_time, $request->end_time]);
+        $now_classes = StudyClass::orderBy('id');
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
             ->where(function ($query) use ($user) {
                 $query->where('classes.teacher_id', $user->id)->orWhere('classes.teaching_assistant_id', $user->id);
@@ -222,6 +223,8 @@ class UserManageApiController extends ManageApiController
             return $dataClass;
         });
 
-        $data['classes'] = $now_classes;
+        return $this->respondSuccessWithStatus([
+            'classes' => $now_classes
+        ]);
     }
 }
