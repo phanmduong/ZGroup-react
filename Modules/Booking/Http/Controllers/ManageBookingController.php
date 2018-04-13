@@ -105,6 +105,7 @@ class ManageBookingController extends ManageApiController
                     ->where('end_time', '<>', null)
                     ->where('end_time', '>', date('Y-m-d H:i:s'))->first();
                 $data['is_member'] = ($register != null);
+                $data['extra_time'] = $register ? $register->extra_time : 0;
                 return $data;
             })
         ]);
@@ -353,6 +354,8 @@ class ManageBookingController extends ManageApiController
 
         $registerRoom->start_time = $request->start_time;
         $registerRoom->end_time = $request->end_time;
+
+        $registerRoom->save();
         return $this->respondSuccess('Thêm thành công');
     }
 

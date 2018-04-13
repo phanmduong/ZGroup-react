@@ -132,7 +132,7 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getCampaignDetail($campaignId, Request $request)
+    public function getCampaignTemplates($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
         $limit = $request->limit ? $request->limit : 20;
@@ -155,6 +155,30 @@ class ManageSmsApiController extends ManageApiController
             "campaign" => $campaign->getData(),
             'templates' => $templates->map(function ($template) {
                 return $template->transform();
+            })
+        ]);
+    }
+
+    public function getCampaignReceivers($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        $limit = $request->limit ? $request->limit : 20;
+        $search = trim($request->search);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus('Không có chiến dịch này');
+        }
+        $users = $campaign->group->user()->where(function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%")->orWhere('phone','like',"%$search%");
+        });
+        if ($limit == -1) {
+            $users = $users->orderBy('created_at', 'desc')->get();
+        } else {
+            $users = $users->orderBy('created_at', 'desc')->paginate($limit);
+        }
+        return $this->respondWithPagination($users, [
+            'receivers' => $users->map(function ($user) {
+                return $user->getReceivers();
             })
         ]);
     }

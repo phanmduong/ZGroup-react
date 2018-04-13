@@ -53,6 +53,7 @@ class Payment extends Model
             "description" => $this->description,
             "money_value" => $this->money_value,
             "status" => $this->status,
+            'time' => $this->time,
         ];
     }
 }
