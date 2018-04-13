@@ -99,12 +99,11 @@ export function loadAllReceiver(campaignId, page, search) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_RECEIVER_SUCCESS,
-                    allReceiver: res.data.receiver,
+                    allReceiver: res.data.receivers,
                     currentPageReceiver: res.data.paginator.current_page,
                     limitReceiver: res.data.paginator.limit,
                     totalCountReceiver: res.data.paginator.total_count,
                     totalPagesReceiver: res.data.paginator.total_pages,
-                    //receiverName: res.data
                 });
             });
     };

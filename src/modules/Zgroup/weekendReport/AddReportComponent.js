@@ -19,6 +19,7 @@ class AddReportComponent extends React.Component {
     }
 
     saveReport() {
+
         const index = this.props.user;
         const report = {...this.props.weekendReportModal};
         if (
@@ -80,12 +81,12 @@ class AddReportComponent extends React.Component {
                         <form method="#" action="#">
                             <div className="form-group">
                                 <h5>Tiêu đề</h5>
-                                <input type="text"
+                                <input type="text" style={{cursor:"auto"}}
                                        name="title"
                                        className="form-control"
                                        onChange={this.handleReport}
                                        value={this.props.weekendReportModal.title}
-                                       disabled={this.props.addReport}
+                                       disabled={true}
                                 />
                                 <span className="material-input"/>
                             </div>

@@ -9,6 +9,8 @@ import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import {Link} from "react-router";
 import Search from "../../../components/common/Search";
+import moment from "moment/moment";
+
 
 class WeekendReportContainer extends React.Component {
     constructor(props, context) {
@@ -66,7 +68,12 @@ class WeekendReportContainer extends React.Component {
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <Link
-                                                            onClick={() => this.weekendReportAction.handleReport({})}
+                                                            onClick={() => {
+                                                                let report = {
+                                                                    title: "Báo cáo cuối tuần ngày " + new Date().toLocaleDateString().slice(0, 2) + ' tháng ' + moment().format('M'),
+                                                                    report: ''
+                                                                };
+                                                                this.props.weekendReportAction.handleReport(report);}}
                                                             className="btn btn-rose"
                                                             to="/administration/weekend-report/create"
 

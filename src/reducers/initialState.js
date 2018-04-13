@@ -25,7 +25,7 @@ export default {
 
     smsCampaign:{
         allMessage:[],template_types:[],campaignName:'',
-        allReceiver:[''],receiverName:'',
+        allReceiver:[],
         allHistory:[],sentMessageName:'',
         //Modal Them, sua message
         message:{

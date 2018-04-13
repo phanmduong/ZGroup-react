@@ -109,7 +109,6 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 limitReceiver: action.limitReceiver,
                 totalCountReceiver: action.totalCountReceiver,
                 totalPagesReceiver: action.totalPagesReceiver,
-                receiverName: action.receiverName,
                 isLoadingReceiver: false
             };
         default:

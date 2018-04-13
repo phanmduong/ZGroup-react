@@ -51,29 +51,32 @@ class WeekendReportComponent extends React.Component {
                                         {
                                             report.status === 0 ?
                                                 <div className="btn-group-action">
+                                                    {this.props.user.role === 2?
                                                     <div style={{display: "inline-block"}}>
                                                         <TooltipButton placement="top"
                                                                        text={`Duyệt`}>
                                                             <a onClick={() => this.showModal(report.id)}>
                                                                 <i className="material-icons">check</i>
-                                                            </a></TooltipButton>
-                                                    </div> &ensp;
-                                                    <Link
-                                                        onClick={() => {
-                                                            let a = {
-                                                                title: report.title,
-                                                                report: report.content
-                                                            };
-
-                                                            this.props.weekendReportAction.handleReport(a);
-                                                        }}
-                                                        to={`/administration/weekend-report/edit/` + report.id}
-                                                          style={{display: "inline-block"}}>
-                                                        <TooltipButton placement="top"
-                                                                       text={`Sửa`}>
-                                                            <i className="material-icons">edit</i>
-                                                        </TooltipButton>
-                                                    </Link>
+                                                            </a></TooltipButton>&ensp;
+                                                    </div>:''
+                                                    }
+                                                    { this.props.user.id === report.staff.id ?
+                                                        <Link
+                                                            onClick={() => {
+                                                                let a = {
+                                                                    title: report.title,
+                                                                    report: report.content
+                                                                };
+                                                                this.props.weekendReportAction.handleReport(a);
+                                                            }}
+                                                            to={`/administration/weekend-report/edit/` + report.id}
+                                                            style={{display: "inline-block"}}>
+                                                            <TooltipButton placement="top"
+                                                                           text={`Sửa`}>
+                                                                <i className="material-icons">edit</i>
+                                                            </TooltipButton>
+                                                        </Link> :''
+                                                    }
                                                 </div> :
                                                 <b style={{cursor: "pointer"}}
                                                    onClick={() => this.showModal(report.id)}>
@@ -96,12 +99,14 @@ WeekendReportComponent.propTypes = {
     reports: PropTypes.array.isRequired,
     weekendReportAction: PropTypes.object.isRequired,
     report: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         reports: state.weekendReport.reports,
         report: state.weekendReport.report,
+        user: state.login.user,
     };
 }
 
