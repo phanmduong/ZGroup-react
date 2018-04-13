@@ -307,6 +307,7 @@ class AdministrationController extends ManageApiController
             $report->save();
         }else if($report->status === 0){
             $report->status = 1;
+            $report->comment = $request->comment;
             $report->save();
         }else{
             return $this->respondErrorWithStatus([

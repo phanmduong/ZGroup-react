@@ -67,6 +67,30 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function getTemplateTypes(Request $request)
+    {
+        $query = trim($request->search);
+        $limit = $request->limit ? $request->limit : 20;
+        $templateTypes = SmsTemplateType::query();
+        if ($query) {
+            $templateTypes = $templateTypes->where('name', 'like', "%$query%");
+        }
+        if ($limit == -1) {
+            $templateTypes = $templateTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'template_types' => $templateTypes->map(function ($templateType) {
+                    return $templateType->getData();
+                })
+            ]);
+        }
+        $templateTypes = $templateTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($templateTypes, [
+            'template_types' => $templateTypes->map(function ($templateType) {
+                return $templateType->getData();
+            })
+        ]);
+    }
+
     public function createCampaign(Request $request)
     {
         $campaign = new SmsList;
@@ -169,7 +193,7 @@ class ManageSmsApiController extends ManageApiController
         }
         $users = $campaign->group->user()->where(function ($query) use ($search) {
             $query->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%")->orWhere('phone','like',"%$search%");
+                ->orWhere('email', 'like', "%$search%")->orWhere('phone', 'like', "%$search%");
         });
         if ($limit == -1) {
             $users = $users->orderBy('created_at', 'desc')->get();
@@ -183,13 +207,34 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getTemplateTypes()
+    public function createTemplateType(Request $request)
     {
-        $templateTypes = SmsTemplateType::all();
+        $template_type = new SmsTemplateType;
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
         return $this->respondSuccessWithStatus([
-            'template_types' => $templateTypes->map(function ($templateType) {
-                return $templateType->getData();
-            })
+            'message' => 'Tạo loại tin nhắn thành công'
         ]);
     }
+
+    public function editTemplateType($templateTypeId, Request $request)
+    {
+        $template_type = SmsTemplateType::find($templateTypeId);
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Sửa loại tin nhắn thành công'
+        ]);
+    }
+
+
+
+//    public function getReceiversChoice()
+//    {
+//
+//    }
+
+
 }
