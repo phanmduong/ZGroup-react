@@ -5,7 +5,6 @@ $languageRoutes = function () {
         Route::get('/all','LanguageController@getAllLanguage');
         Route::post('/','LanguageController@createLanguage');
         Route::put('/{languageId}','LanguageController@editLanguage');
-
     });
 };
 
