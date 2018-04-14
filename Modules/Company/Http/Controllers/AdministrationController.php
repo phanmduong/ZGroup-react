@@ -118,6 +118,13 @@ class AdministrationController extends ManageApiController
 
     public function getAllAdvancePayment(Request $request){
         $limit = $request->limit ? $request->limit : 20;
+        $staff_id = $request->staff_id;
+        $company_pay_id = $request->company_pay_id;
+        $company_receive_id = $request->company_receive_id;
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
+        $status = $request->status;
+        $command_code = $request->command_code;
         if($limit == -1){
             $datas  = AdvancePayment::all();
             return $this->respondSuccessWithStatus([
@@ -127,14 +134,52 @@ class AdministrationController extends ManageApiController
             ]);
         } else {
             if($this->user->role == 2) {
-                $datas = AdvancePayment::orderBy('created_at', 'desc')->paginate($limit);
+                $datas = AdvancePayment::query();
+                if($staff_id){
+                    $datas->where('staff_id', $staff_id);
+                }
+                if($company_pay_id){
+                    $datas->where('company_pay_id', $company_pay_id);
+                }
+                if($company_receive_id){
+                    $datas->where('company_receive_id', $company_receive_id);
+                }
+                if($status){
+                    $datas->where('status', $status);
+                }
+                if($command_code){
+                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                }
+                if ($start_time && $end_time) {
+                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                }
+                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
                     })
                 ]);
             } else {
-                $datas = AdvancePayment::where("staff_id",$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+                $datas = AdvancePayment::query();
+                if($staff_id){
+                    $datas->where('staff_id', $this->user->id);
+                }
+                if($company_pay_id){
+                    $datas->where('company_pay_id', $company_pay_id);
+                }
+                if($company_receive_id){
+                    $datas->where('company_receive_id', $company_receive_id);
+                }
+                if($status){
+                    $datas->where('status', $status);
+                }
+                if($command_code){
+                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                }
+                if ($start_time && $end_time) {
+                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                }
+                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
