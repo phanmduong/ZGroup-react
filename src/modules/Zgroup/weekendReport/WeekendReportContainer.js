@@ -64,13 +64,13 @@ class WeekendReportContainer extends React.Component {
                                                  data-background-color="rose"><i
                                                 className="material-icons">assignment</i>
                                             </div>
-                                            <div className="card-content"><h4 className="card-title">Danh sách báo cáo</h4>
+                                            <div className="card-content"><h4 className="card-title">Báo cáo cuối tuần</h4>
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <Link
                                                             onClick={() => {
                                                                 let report = {
-                                                                    title: "Báo cáo cuối tuần ngày " + new Date().toLocaleDateString().slice(0, 2) + ' tháng ' + moment().format('M'),
+                                                                    title: "Báo cáo cuối tuần ngày " + moment().format('D') + ' tháng ' + moment().format('M'),
                                                                     report: ''
                                                                 };
                                                                 this.props.weekendReportAction.handleReport(report);}}
