@@ -10,12 +10,12 @@ export function showCheckWeekendReportModal() {
     });
 }
 
-export function checkV(report) {
+export function checkV(report,comment) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_REPORT
         });
-        weekendReportApi.checkApi(report)
+        weekendReportApi.checkApi(report,comment)
             .then(() => {
                 helper.showNotification("Duyệt Thành Công");
                 dispatch({
@@ -27,7 +27,12 @@ export function checkV(report) {
 
     };
 }
-
+export function handleComment(comment) {
+    return ({
+        type: types.HANDLE_COMMENT,
+        comment
+    });
+}
 export function loadReportById(i) {
     return function (dispatch) {
         dispatch({

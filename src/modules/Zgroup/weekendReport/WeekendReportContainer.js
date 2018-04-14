@@ -9,6 +9,8 @@ import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import {Link} from "react-router";
 import Search from "../../../components/common/Search";
+import moment from "moment/moment";
+
 
 class WeekendReportContainer extends React.Component {
     constructor(props, context) {
@@ -62,12 +64,16 @@ class WeekendReportContainer extends React.Component {
                                                  data-background-color="rose"><i
                                                 className="material-icons">assignment</i>
                                             </div>
-                                            <div className="card-content"><h4 className="card-title">Danh sách
-                                                bài báo cáo</h4>
+                                            <div className="card-content"><h4 className="card-title">Báo cáo cuối tuần</h4>
                                                 <div className="row">
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-3">
                                                         <Link
-                                                            onClick={() => this.weekendReportAction.handleReport({})}
+                                                            onClick={() => {
+                                                                let report = {
+                                                                    title: "Báo cáo cuối tuần ngày " + moment().format('D') + ' tháng ' + moment().format('M'),
+                                                                    report: ''
+                                                                };
+                                                                this.props.weekendReportAction.handleReport(report);}}
                                                             className="btn btn-rose"
                                                             to="/administration/weekend-report/create"
 
@@ -75,7 +81,7 @@ class WeekendReportContainer extends React.Component {
                                                             Thêm Báo Cáo
                                                         </Link>
                                                     </div>
-                                                    <div className="col-md-8" >
+                                                    <div className="col-md-9" >
                                                         <Search
                                                             onChange={this.templatesSearchChange}
                                                             value={this.state.query}

@@ -23,10 +23,9 @@ export function loadTypeOfMessageApi() {
     return axios.get(url);
 }
 
-// /sms/campaign-detail/1?token=
-// get all tin nhan
+// get all tin nhan /sms/campaign-detail/{campaignId}/template-list
 export function loadAllMessageApi(campaignId, page, search) {
-    let url = env.MANAGE_API_URL + "/sms/campaign-detail/" + campaignId;
+    let url = env.MANAGE_API_URL + "/sms/campaign-detail/" + campaignId + "/template-list";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -48,4 +47,20 @@ export function editMessageApi(message) {
         url += "?token=" + token;
     }
     return axios.put(url, message);
+}
+
+// get all nguoi nhan /sms/campaign-detail/{campaignId}/receiver-list
+export function loadAllReceiverApi(campaignId, page, search) {
+    let url = env.MANAGE_API_URL + "/sms/campaign-detail/" + campaignId + "/receiver-list";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (search) {
+        url += "&search=" + search;
+    }
+    return axios.get(url);
 }
