@@ -46,7 +46,8 @@ class Product extends Model
 
     public function productCategories()
     {
-        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id');
+        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id')
+            ->withPivot('id');
     }
 
     public function images()
@@ -99,7 +100,7 @@ class Product extends Model
         }
 
 
-        $data["categories"] = $this->productCategories;
+        $data["categories"] = $this->productCategories()->orderBy('pivot_id')->get();
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;

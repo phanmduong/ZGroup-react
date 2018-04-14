@@ -73,7 +73,7 @@ class ElightController extends Controller
         $this->data['type_name'] = $type_name;
         $this->data['blogs'] = $blogs->map(function($blog){
             $data = $blog;
-            $category = $blog->productCategories()->first();
+            $category = $blog->productCategories()->orderBy('pivot_id')->first();
             $data['category_name'] = $category ? $category->name : '';
             return $data;
         });
@@ -105,13 +105,12 @@ class ElightController extends Controller
 
             return $comment;
         });
-
         return view(
             'elight::post',
             [
                 'post' => $post,
                 'posts_related' => $posts_related,
-                'categories' => $post->productCategories
+                'categories' => $post->productCategories()->orderBy('pivot_id')->get()
             ]
         );
     }
