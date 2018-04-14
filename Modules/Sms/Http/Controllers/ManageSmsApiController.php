@@ -14,6 +14,7 @@ use App\Http\Controllers\ManageApiController;
 use App\SmsList;
 use App\SmsTemplate;
 use App\SmsTemplateType;
+use App\Group;
 use Illuminate\Http\Request;
 
 class ManageSmsApiController extends ManageApiController
@@ -94,6 +95,9 @@ class ManageSmsApiController extends ManageApiController
     public function createCampaign(Request $request)
     {
         $campaign = new SmsList;
+        $group = new Group;
+        $group->save();
+        $campaign->group_id = $group->id;
         $this->assignCampaignInfo($campaign, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Tạo chiến dịch thành công'
