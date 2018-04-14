@@ -942,8 +942,19 @@ a.btn-seat.active {
     font-weight: bold
 }
 
-.fileinput {
-    width: 100%
+.campaign-message-type {
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    cursor: auto;
+}
+.campaign-message-type > span {
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+
 }
 
 .fileinput div {
@@ -961,6 +972,7 @@ a.btn-seat.active {
 
 .modal-content .modal-footer button {
     padding : 12px 30px
+
 }
 .campaign-message-type, .campaign-message-type:hover {
     width: 130px;

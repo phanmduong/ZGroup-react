@@ -30,6 +30,63 @@ export default function campaignListReducer(state = initialState.campaignList, a
                     return campaign;
                 })
             };
+        case types.HANDLE_CREATE_EDIT_CAMPAIGN_MODAL:
+            return {
+                ...state,
+                campaignCreateEdit: action.campaign
+            };
+        case types.TOGGLE_CREATE_EDIT_CAMPAIGN_MODAL:
+            return {
+                ...state,
+                createEditCampaignModal: !state.createEditCampaignModal
+            };
+        case types.BEGIN_SAVE_CAMPAIGN_MODAL:
+            return {
+                ...state,
+                isSavingCampaign: true
+            };
+        case types.SAVE_CAMPAIGN_SUCCESS:
+            return {
+                ...state,
+                isSavingCampaign: false,
+                createEditCampaignModal: false
+            };
+        case types.HANDLE_MANAGE_TEMPLATE_TYPES_MODAL:
+            return {
+                ...state,
+                templateType: action.templateType
+            };
+        case types.TOGGLE_MANAGE_TEMPLATE_TYPES_MODAL:
+            return {
+                ...state,
+                manageTemplateTypesModal: !state.manageTemplateTypesModal
+            };
+        case types.BEGIN_LOAD_TEMPLATE_TYPES:
+            return {
+                ...state,
+                isLoadingTemplateTypes: true
+            };
+        case types.LOAD_TEMPLATE_TYPES_SUCCESS:
+            return {
+                ...state,
+                isLoadingTemplateTypes: false,
+                templateTypesList: action.templateTypesList,
+                totalCountTemplateTypes: action.totalCountTemplateTypes,
+                totalPagesTemplateTypes: action.totalPagesTemplateTypes,
+                currentPageTemplateTypes: action.currentPageTemplateTypes,
+                limitTemplateTypes: action.limitTemplateTypes,
+                templateTypeSuccess: false
+            };
+        case types.TOGGLE_SAVE_TEMPLATE_TYPE_MODAL:
+            return {
+                ...state,
+                isSavingTemplateTypes: !state.isSavingTemplateTypes
+            };
+        case types.SAVE_TEMPLATE_TYPE_SUCCESS:
+            return {
+                ...state,
+                templateTypeSuccess: true
+            };
         default:
             return state;
     }
