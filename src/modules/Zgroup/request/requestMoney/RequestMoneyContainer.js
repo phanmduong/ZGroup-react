@@ -10,7 +10,10 @@ import moment from "moment";
 import * as helper from "../../../../helpers/helper";
 import PayConfirmModal from "./PayConfirmModal";
 import ReceiveConfirmModal from "./ReceiveConfirmModal";
+import InfoRequestMoneyModal from "./InfoRequestMoneyModal";
 import { Link } from "react-router";
+import { Modal, Panel } from 'react-bootstrap';
+import { DATETIME_FORMAT_SQL } from '../../../../constants/constants';
 
 class RequestMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -18,9 +21,14 @@ class RequestMoneyContainer extends React.Component {
         this.state = {
             showPayConfirmModal: false,
             showReceiveConfirmModal: false,
+            showInfoModal: false,
             idPay: "",
             idReceive: "",
-            currentRequest: {},
+            currentRequest: {
+                staff: {},
+            },
+            showLoadingModal: false,
+            showPanel: false,
         };
         this.openPayConfirmModal = this.openPayConfirmModal.bind(this);
         this.closePayConfirmModal = this.closePayConfirmModal.bind(this);
@@ -28,11 +36,17 @@ class RequestMoneyContainer extends React.Component {
         this.openReceiveConfirmModal = this.openReceiveConfirmModal.bind(this);
         this.closeReceiveConfirmModal = this.closeReceiveConfirmModal.bind(this);
         this.submitReceiveConfirmModal = this.submitReceiveConfirmModal.bind(this);
+        this.openInfoModal = this.openInfoModal.bind(this);
+        this.closeInfoModal = this.closeInfoModal.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
+        this.openLoadingModal = this.openLoadingModal.bind(this);
+        this.openPanel = this.openPanel.bind(this);
     }
 
     componentWillMount() {
         let { requestActions } = this.props;
         requestActions.getAllRequestMoney();
+        requestActions.loadAllCompany();
     }
 
     // componentWillReceiveProps(next){
@@ -47,9 +61,9 @@ class RequestMoneyContainer extends React.Component {
         this.setState({ showPayConfirmModal: false });
     }
 
-    submitPayConfirmModal(money) {
+    submitPayConfirmModal(money, company_pay_id) {
         this.closePayConfirmModal();
-        this.props.requestActions.confirmPayRequest(this.state.idPay, money,
+        this.props.requestActions.confirmPayRequest(this.state.idPay, money,company_pay_id,
             this.props.requestActions.getAllRequestMoney
         );
     }
@@ -62,16 +76,86 @@ class RequestMoneyContainer extends React.Component {
         this.setState({ showReceiveConfirmModal: false });
     }
 
-    submitReceiveConfirmModal(money) {
+    submitReceiveConfirmModal(money, company_receive_id) {
         this.closeReceiveConfirmModal();
-        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,
+        let date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
+        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,date,company_receive_id,
             this.props.requestActions.getAllRequestMoney);
+    }
+
+    openInfoModal(obj) {
+        this.setState({ showInfoModal: true, currentRequest: obj });
+    }
+
+    closeInfoModal() {
+        this.setState({ showInfoModal: false });
+    }
+
+
+    openLoadingModal() {
+        this.setState({ showLoadingModal: true });
+        this.props.requestActions.getRequestMoneyNoPaging(this.exportExcel, () => this.setState({ showLoadingModal: false }));
+    }
+
+    openPanel(){
+        let {showPanel} = this.state;
+        this.setState({showPanel: !showPanel});
+    }
+
+    exportExcel(input) {
+        let wb = helper.newWorkBook();
+        let data;
+        let cols = [{ "wch": 5 }, { "wch": 40 }, { "wch": 25 }, { "wch": 15 },{ "wch": 20 },{ "wch": 20 }, { "wch": 15 },{ "wch": 25 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },];//độ rộng cột  
+        
+        data = input.reverse().map((item, index) => {
+
+            /* eslint-disable */
+            let status = "Chưa duyệt";
+            switch (item.status) {
+                case 1: {
+                    status = "Đã ứng";
+                    break;
+                }
+                case 2: {
+                    status = "Đã hoàn ứng";
+                    break;
+                }
+            }
+            if(!item.company_pay) data.company_pay={};
+            if(!item.company_receive) data.company_receive={};
+            let res = {
+                'STT': index + 1,
+                'Mã tạm ứng': item.command_code,
+                'Người ứng': item.staff ? item.staff.name : "Không có",
+                'Ngày tạm ứng': moment(item.created_at.date).format("D/M/YYYY"),
+                'Nguồn ứng': item.company_pay.name,
+                'Nguồn hoàn ứng': item.company_receive.name,
+                'Ngày hoàn trả': moment(item.date_complete).isValid() ? moment(item.date_complete).format("D/M/YYYY") : "Không có",
+                'Lý do': item.reason,
+                'Số tiền yêu cầu': item.money_payment,
+                'Số tiền thực nhận': item.money_received,
+                'Số tiền đã sử dụng': item.money_used,
+                'Số tiền hòan trả': item.money_received - item.money_used,
+                'Hình thức': item.type == "atm" ? "Chuyển khoản" : "Tiền mặt",
+                'Trạng thái': status,
+
+            };
+            /* eslint-enable */
+            return res;
+        });
+        helper.appendJsonToWorkBook(data, wb, 'Danh sách ứng tiền', cols);
+        //end điểm danh
+
+        //xuất file
+        helper.saveWorkBookToExcel(wb, 'Danh sách ứng tiền Zgroup');
+
+        this.setState({ showLoadingModal: false });
     }
 
     render() {
         //console.log(this.props);
-        let { isLoading, requestMoneys, paginator, requestActions, user } = this.props;
-        let { showPayConfirmModal, showReceiveConfirmModal, currentRequest } = this.state;
+        let { isLoading, requestMoneys, paginator, companies, requestActions, user } = this.props;
+        let { showPayConfirmModal, showReceiveConfirmModal, showInfoModal,showPanel, currentRequest } = this.state;
         return (
             <div className="content">
                 <PayConfirmModal
@@ -79,13 +163,27 @@ class RequestMoneyContainer extends React.Component {
                     onHide={this.closePayConfirmModal}
                     submit={this.submitPayConfirmModal}
                     data={currentRequest}
+                    companies={companies}
                 />
                 <ReceiveConfirmModal
                     show={showReceiveConfirmModal}
                     onHide={this.closeReceiveConfirmModal}
                     submit={this.submitReceiveConfirmModal}
                     data={currentRequest}
+                    companies={companies}
                 />
+                <InfoRequestMoneyModal
+                    show={showInfoModal}
+                    onHide={this.closeInfoModal}
+                    data={currentRequest}
+                />
+                <Modal
+                    show={this.state.showLoadingModal}
+                    onHide={() => { }}
+                >
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading /></Modal.Body>
+                </Modal>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -97,12 +195,24 @@ class RequestMoneyContainer extends React.Component {
 
                                 <div className="card-content">
                                     <h4 className="card-title">Danh sách xin tạm ứng</h4>
-                                    <div className="row">
-                                        <div className="col-md-3">
+                                    <div style={{display:"flex"}}>
+                                        <div style={{marginRight:5}}>
                                             <Link className="btn btn-rose" to="/administration/request/money/create">
                                                 <i className="material-icons">add</i>Xin tạm ứng</Link>
+
+                                        </div>
+                                        <div style={{marginRight:5}}>
+                                            <button className="btn btn-rose" onClick={this.openLoadingModal} >Xuất file excel</button>
+                                        </div>
+                                        <div style={{marginRight:5}}>
+                                            <button className="btn btn-rose" onClick={this.openPanel} >
+                                                <i className="material-icons">filter_list</i>
+                                            Bộ lọc</button>
                                         </div>
                                     </div>
+                                    <Panel collapsible expanded={showPanel} bsStyle="primary">
+                                    <h1>Content</h1>
+                                    </Panel>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="col-md-12">
@@ -117,45 +227,36 @@ class RequestMoneyContainer extends React.Component {
                                                                         <th>STT</th>
                                                                         <th>Mã hành chính</th>
                                                                         <th>Số tiền ứng</th>
-                                                                        <th>Thực nhận</th>
-                                                                        <th>Số tiền sử dụng</th>
-                                                                        <th>Số tiền hoàn trả</th>
-                                                                        <th>Lý do</th>
-                                                                        <th>Hình thức</th>
                                                                         <th>Người ứng tiền</th>
                                                                         <th>Ngày ứng tiền</th>
                                                                         <th>Ngày hoàn trả</th>
+                                                                        <th>Trạng thái</th>
                                                                         <th />
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     {requestMoneys.map((obj, index) => {
-                                                                        //<td>{date.format("D-M-YYYY")}</td>
-                                                                        //<td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
-                                                                        let type = "Không có";
-                                                                        switch (obj.type) {
-                                                                            case "atm": {
-                                                                                type = "Chuyển khoản";
+                                                                        let status = "Chưa duyệt";
+                                                                        switch (obj.status) {
+                                                                            case 1: {
+                                                                                status = "Đã ứng";
                                                                                 break;
                                                                             }
-                                                                            case "cash": {
-                                                                                type = "Tiền mặt";
+                                                                            case 2: {
+                                                                                status = "Đã hoàn ứng";
                                                                                 break;
                                                                             }
                                                                         }
                                                                         return (
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
-                                                                                <td>{obj.command_code}</td>
+                                                                                <td><a onClick={() => { return this.openInfoModal(obj); }}>{obj.command_code}</a></td>
                                                                                 <td>{helper.dotNumber(obj.money_payment)}</td>
-                                                                                <td>{helper.dotNumber(obj.money_received)}</td>
-                                                                                <td>{helper.dotNumber(obj.money_used)}</td>
-                                                                                <td>{helper.dotNumber(obj.money_received - obj.money_used)}</td>
-                                                                                <td>{obj.reason}</td>
-                                                                                <td>{type}</td>
+
                                                                                 <td>{obj.staff.name}</td>
                                                                                 <td>{moment(obj.created_at.date).format("D/M/YYYY")}</td>
-                                                                                <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn trả"}</td>
+                                                                                <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn ứng"}</td>
+                                                                                <td>{status}</td>
                                                                                 <td><ButtonGroupAction
                                                                                     editUrl={"/administration/request/money/edit/" + obj.id}
                                                                                     disabledDelete={true}
@@ -168,7 +269,7 @@ class RequestMoneyContainer extends React.Component {
                                                                                                     <i className="material-icons">vertical_align_top</i></a>
                                                                                                 : <div />
                                                                                             ,
-                                                                                            (obj.status == 1  && user.role == 2)?
+                                                                                            (obj.status == 1 && user.role == 2) ?
                                                                                                 <a key="2" data-toggle="tooltip" title="Hoàn Trả" type="button" rel="tooltip"
                                                                                                     onClick={() => { this.openReceiveConfirmModal(obj); }}>
                                                                                                     <i className="material-icons">vertical_align_bottom</i></a>
@@ -210,6 +311,7 @@ RequestMoneyContainer.propTypes = {
     requestActions: PropTypes.object,
     paginator: PropTypes.object,
     user: PropTypes.object,
+    companies: PropTypes.array,
     requestMoneys: PropTypes.array,
 };
 
@@ -218,6 +320,7 @@ function mapStateToProps(state) {
         isLoading: state.request.isLoading,
         paginator: state.request.paginator,
         requestMoneys: state.request.requestMoneys,
+        companies: state.request.companies,
         user: state.login.user,
     };
 }

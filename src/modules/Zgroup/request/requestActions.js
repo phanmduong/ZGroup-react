@@ -137,6 +137,22 @@ export function getRequestMoney(id, success) {
     };
 }
 
+export function getRequestMoneyNoPaging( success, failure) {
+    return function(dispatch) {
+        dispatch({ type: "" });
+        requestApi.getRequestMoneyNoPaging()
+            .then(res => {
+                if (res.data.status == 1) {
+                    success(res.data.data.data);
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    failure();
+                }
+            });
+            
+    };
+}
+
 export function getAllRequestVacation(info) {
     return function(dispatch) {
         dispatch({ type: types.BEGIN_GET_ALL_REQUEST_VACATION });
@@ -170,11 +186,11 @@ export function getAllRequestMoney(info) {
 }
 
 
-export function confirmPayRequest(id, money, success) {
+export function confirmPayRequest(id, money,company_pay_id, success) {
     return function(dispatch) {
         dispatch({ type: "" });
         helper.showWarningNotification("Đang duyệt...");
-        requestApi.confirmPayRequest(id,money)
+        requestApi.confirmPayRequest(id,money,company_pay_id)
             .then(res => {
                 if (res.data.status == 1) {
                     helper.showNotification("Duyệt thành công!");
@@ -188,11 +204,11 @@ export function confirmPayRequest(id, money, success) {
     };
 }
 
-export function confirmReceiveRequest(id, money, success) {
+export function confirmReceiveRequest(id, money,date,company_receive_id, success) {
     return function(dispatch) {
         dispatch({ type: "" });
         helper.showWarningNotification("Đang duyệt...");
-        requestApi.confirmReceiveRequest(id,money)
+        requestApi.confirmReceiveRequest(id,money,date,company_receive_id)
             .then(res => {
                 if (res.data.status == 1) {
                     helper.showNotification("Duyệt thành công!");
@@ -218,6 +234,24 @@ export function confirmRequestVacation(id, success) {
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     
+                }
+            });
+            
+    };
+}
+
+export function loadAllCompany() {
+    return function(dispatch) {
+        dispatch({ type: types.BEGIN_LOAD_ALL_COMPANY });
+        requestApi.loadAllCompany()
+            .then(res => {
+                if (res.data.status == 1) {
+                    dispatch({ type: types.LOAD_ALL_COMPANY_SUCCESS ,
+                        companies: res.data.data.company,
+                    });
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({ type: types.LOAD_ALL_COMPANY_ERROR });
                 }
             });
             

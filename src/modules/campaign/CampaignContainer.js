@@ -20,6 +20,7 @@ class CampaignContainer extends React.Component {
     componentWillMount() {
         this.props.campaignAction.loadTypeOfMessage();
         this.props.campaignAction.loadAllMessage(this.props.params.campaignId, 1, '');
+        this.props.campaignAction.loadAllReceiver(this.props.params.campaignId, 1, '');
         this.setState({
             type: "edit",
             link: `/sms/campaign-detail/${this.campaignId}`

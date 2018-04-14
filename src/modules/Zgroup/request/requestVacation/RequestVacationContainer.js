@@ -6,18 +6,21 @@ import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
 import ButtonGroupAction from "../../../../components/common/ButtonGroupAction";
 import Pagination from "../../../../components/common/Pagination";
-import {Link} from "react-router";
+import { Link } from "react-router";
 import RequestVacationConfirmModal from "./RequestVacationConfirmModal";
 import moment from "moment";
+//import * as helper from "../../../../helpers/helper";
 
 class RequestVacationContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             showConfirmModal: false,
+            showInfoModal: false,
             currentRequest: {
-                staff:{},
+                staff: {},
             },
+
         };
         this.openConfirmModal = this.openConfirmModal.bind(this);
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
@@ -25,7 +28,7 @@ class RequestVacationContainer extends React.Component {
     }
 
     componentWillMount() {
-        let {requestActions} = this.props;
+        let { requestActions } = this.props;
         requestActions.getAllRequestVacation();
     }
 
@@ -33,34 +36,35 @@ class RequestVacationContainer extends React.Component {
     //     console.log(next);
     // }
 
-    openConfirmModal(currentRequest){
-        this.setState({showConfirmModal: true, currentRequest});
+    openConfirmModal(showInfoModal,currentRequest) {
+        this.setState({ showConfirmModal: true, currentRequest, showInfoModal });
     }
 
-    closeConfirmModal(){
-        this.setState({showConfirmModal: false});
+    closeConfirmModal() {
+        this.setState({ showConfirmModal: false });
     }
 
-    submitConfirmModal(){
-        this.props.requestActions.confirmRequestVacation(this.state.currentRequest.id, 
-            ()=>{
+    submitConfirmModal() {
+        this.props.requestActions.confirmRequestVacation(this.state.currentRequest.id,
+            () => {
                 this.closeConfirmModal();
-                this.props.requestActions.getAllRequestVacation({page: this.props.paginator.current_page});
+                this.props.requestActions.getAllRequestVacation({ page: this.props.paginator.current_page });
             }
         );
-        
+
     }
 
     render() {
         let { isLoading, requestVacations, paginator, requestActions, user } = this.props;
-        let {showConfirmModal, currentRequest} = this.state;
+        let { showConfirmModal, showInfoModal, currentRequest } = this.state;
         return (
             <div className="content">
-                <RequestVacationConfirmModal 
+                <RequestVacationConfirmModal
                     show={showConfirmModal}
                     onHide={this.closeConfirmModal}
                     data={currentRequest}
                     submit={this.submitConfirmModal}
+                    isInfoModal={showInfoModal}
                 />
                 <div className="container-fluid">
                     <div className="row">
@@ -68,7 +72,7 @@ class RequestVacationContainer extends React.Component {
 
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">local_hotel</i>
+                                    <i className="material-icons">local_hotel</i>
                                 </div>
 
                                 <div className="card-content">
@@ -79,7 +83,7 @@ class RequestVacationContainer extends React.Component {
                                                 <i className="material-icons">add</i>Xin nghỉ phép</Link>
                                         </div>
                                     </div>
-                                     {
+                                    {
                                         isLoading ? <Loading /> :
                                             <div className="col-md-12">
                                                 {
@@ -92,8 +96,6 @@ class RequestVacationContainer extends React.Component {
                                                                     <tr>
                                                                         <th>STT</th>
                                                                         <th>Mã hành chính</th>
-                                                                        <th>Ngày bắt đầu</th>
-                                                                        <th>Ngày kết thúc</th>
                                                                         <th>Ngày yêu cầu</th>
                                                                         <th>Tên nhân viên</th>
                                                                         <th>Lý do xin nghỉ</th>
@@ -117,9 +119,11 @@ class RequestVacationContainer extends React.Component {
                                                                         return (
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
-                                                                                <td>{obj.command_code}</td>
-                                                                                <td>{moment(obj.start_time).format("M/D/YYYY")}</td>
-                                                                                <td>{moment(obj.end_time).format("M/D/YYYY")}</td>
+                                                                                <td>
+                                                                                    <a onClick={()=>this.openConfirmModal(true,obj)}>
+                                                                                        {obj.command_code}
+                                                                                    </a>
+                                                                                </td>
                                                                                 <td>{moment(obj.request_date).format("D/M/YYYY")}</td>
                                                                                 <td>{obj.staff.name}</td>
                                                                                 <td>{obj.reason}</td>
@@ -129,11 +133,11 @@ class RequestVacationContainer extends React.Component {
                                                                                     disabledDelete={true}
                                                                                     disabledEdit={obj.status > 0 || user.id != obj.staff.id}
                                                                                     children={
-                                                                                            (obj.status == 0 && user.role == 2) ?
-                                                                                                <a key="1" data-toggle="tooltip" title="Duyệt" type="button" rel="tooltip"
-                                                                                                    onClick={() => { this.openConfirmModal(obj); }}>
-                                                                                                    <i className="material-icons">done</i></a>
-                                                                                                : <div/>
+                                                                                        (obj.status == 0 && user.role == 2) ?
+                                                                                            <a key="1" data-toggle="tooltip" title="Duyệt" type="button" rel="tooltip"
+                                                                                                onClick={() => { this.openConfirmModal(false,obj); }}>
+                                                                                                <i className="material-icons">done</i></a>
+                                                                                            : <div />
                                                                                     }
                                                                                 /></td>
                                                                             </tr>
