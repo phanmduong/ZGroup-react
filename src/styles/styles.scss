@@ -926,13 +926,6 @@ a.btn-seat.active {
 
 
 
-.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
-    background-color: rgba(197, 0, 0, 1)!important;
-}
-
-.nav-pills-rose > .active > a {
-    background-color: rgba(197, 0, 0, 1) !important;
-}
 
 .nav-pills > li > a > i {
     display: inline-block;
@@ -948,6 +941,7 @@ a.btn-seat.active {
 .modal-title {
     font-weight: bold
 }
+
 .campaign-message-type {
     width: 150px;
     height: 40px;
@@ -960,6 +954,7 @@ a.btn-seat.active {
     font-weight: 600;
     color: white;
     font-size: 12px;
+
 }
 
 .fileinput div {
@@ -977,4 +972,33 @@ a.btn-seat.active {
 
 .modal-content .modal-footer button {
     padding : 12px 30px
+
+}
+.campaign-message-type, .campaign-message-type:hover {
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    cursor: auto;
+}
+.campaign-message-type > span {
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+}
+.circle-avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+.sent-message{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    color: white;
+    border: none;
+    margin-top: 5px;
+    background-color: #74D512;
+    cursor: auto;
 }

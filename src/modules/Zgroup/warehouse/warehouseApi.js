@@ -18,3 +18,12 @@ export function loadHistoryGood(page,id){
     }
     return axios.get(url);
 }
+
+export function loadAllSummaryGoods() {
+    let url = env.MANAGE_API_URL + '/company/summary-good/all';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1";
+    }
+    return axios.get(url);
+}

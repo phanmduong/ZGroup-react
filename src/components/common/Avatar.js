@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {isEmptyInput} from "../../helpers/helper";
+import {NO_AVATAR} from "../../constants/env";
 
 const Avatar = ({url, size, className, distance, style}) => {
     let marginRight = 5;
     if (distance || distance ===0) {
         marginRight = distance;
+    }
+    if(isEmptyInput(url)){
+        url = NO_AVATAR;
     }
     return (
         <div className={className || ""} style={{

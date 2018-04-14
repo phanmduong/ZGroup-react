@@ -45,6 +45,8 @@ export function createRoomTypeApi(roomType) {
         name: roomType.name,
         description: roomType.description,
         type_name : roomType.type_name,
+        price : roomType.price,
+        member_price : roomType.member_price,
     };
     let url = env.MANAGE_API_URL + "/v2/base/room-type";
     if (roomType.id) {

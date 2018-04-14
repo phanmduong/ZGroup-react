@@ -5,7 +5,7 @@ import UserpackContainer from "../modules/userpack/UserpackContainer";
 import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
 import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 import RegisterManageRoomContainer from "../modules/registerManageRoom/RegisterManageRoomContainer";
-import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/RegisterManageMeetingRoomContainer";
+import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/container/RegisterManageMeetingRoomContainer";
 
 /**
  * Tab Cơ sở

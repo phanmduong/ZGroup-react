@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../../constants/env';
 
 //http://manageapi.domain.com/company/reports/all?token=
-export function loadAllReportsApi(page) {
+export function loadAllReportsApi(page, search) {
     let url = env.MANAGE_API_URL + '/company/reports/all';
     let token = localStorage.getItem('token');
     if (token) {
@@ -10,6 +10,9 @@ export function loadAllReportsApi(page) {
     }
     if (page) {
         url += "&page=" + page;
+    }
+    if (search) {
+        url += "&search=" + search;
     }
     return axios.get(url);
 }
@@ -34,12 +37,23 @@ export function saveReportApi(report, index) {
 }
 
 //http://manageapi.domain.com/company/report/{id}?token=
-//Sua status 0 -> 1
-export function checkApi(i) {
+//Sua status 0 -> 1 + them comment
+export function checkApi(i,comment) {
     let url = env.MANAGE_API_URL + "/company/report/" + i.id;
     let token = localStorage.getItem('token');
     if(token){
         url += "?token=" + token;
     }
-    return axios.put(url,1);
+    return axios.put(url,comment);
+}
+
+//http://manageapi.domain.com/company/report/{staff_id}/edit/{id}?token=
+// Api sua report
+export function editReportApi(index,id,report) {
+    let url = env.MANAGE_API_URL + "/company/report/" + index.id +"/edit/" +id;
+    let token = localStorage.getItem('token');
+    if(token){
+        url += "?token=" + token;
+    }
+    return axios.put(url,report);
 }

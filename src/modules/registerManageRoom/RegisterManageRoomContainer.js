@@ -15,7 +15,6 @@ import SelectMonthBox from "../../components/common/SelectMonthBox";
 import Loading from "../../components/common/Loading";
 import SelectCommon from "../../components/common/Select";
 import { Panel } from "react-bootstrap";
-// import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
 
 class RegisterManageRoomContainer extends React.Component {
     constructor(props, context) {
@@ -73,14 +72,6 @@ class RegisterManageRoomContainer extends React.Component {
                 bases: this.getBases(nextProps.bases),
             });
         }
-    }
-
-    openChooseSeatModal(base, register) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(
-            true,
-            base,
-            register,
-        );
     }
 
     handleClickMonthBox() {
@@ -522,7 +513,6 @@ RegisterManageRoomContainer.propTypes = {
     salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
-    chooseSeatActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -541,7 +531,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        // chooseSeatActions: bindActionCreators(chooseSeatActions, dispatch),
         registerManageRoomAction: bindActionCreators(
             registerManageRoomAction,
             dispatch,

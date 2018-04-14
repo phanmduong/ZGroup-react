@@ -23,19 +23,19 @@ export default function weekendReportReducer(state = initialState.weekendReport,
                 checkWeekendReportModal: !state.checkWeekendReportModal
             };
         case types.LOAD_A_REPORT_SUCCESS:
-            return{
+            return {
                 ...state,
-                report:action.report,
+                report: action.report,
                 loadingModal: false,
             };
         case types.LOAD_REPORT_SUCCESS:
             return {
                 ...state,
                 reports: action.reports,
-                currentPage:action.currentPage,
-                limit:action.limit,
-                totalCount:action.totalCount,
-                totalPages:action.totalPages,
+                currentPage: action.currentPage,
+                limit: action.limit,
+                totalCount: action.totalCount,
+                totalPages: action.totalPages,
                 isLoading: false
             };
         case types.HANDLE_REPORT:
@@ -43,16 +43,20 @@ export default function weekendReportReducer(state = initialState.weekendReport,
                 ...state,
                 weekendReportModal: action.report
             };
-        case types.BEGIN_SAVE_REPORT:
+        case types.HANDLE_COMMENT:
             return{
+                ...state,
+                comment : action.comment
+            };
+        case types.BEGIN_SAVE_REPORT:
+            return {
                 ...state,
                 addReport: true
             };
         case types.SAVE_REPORT_SUCCESS:
             return {
                 ...state,
-                addReport:false,
-                reports: [...state.reports, action.report]
+                addReport: false,
             };
         case types.EDIT_REPORT_SUCCESS: {
             let reports = state.reports.map((report) => {
@@ -69,7 +73,11 @@ export default function weekendReportReducer(state = initialState.weekendReport,
                 reports: reports
             };
         }
-
+        case types.OPEN_CLOSE_EDIT_LOADING:
+            return {
+                ...state,
+                addReport: false,
+            };
         default:
             return state;
     }
