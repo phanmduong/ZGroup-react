@@ -5,35 +5,48 @@ export default {
         limit: 20,
         totalPages: 0,
         currentPage: 0,
-        totalCount: 0
+        totalCount: 0,
+        createEditCampaignModal: false,
+        isSavingCampaign: false,
+        campaignCreateEdit: {},
+        manageTemplateTypesModal: false,
+        templateType: {},
+        templateTypesList: [],
+        totalCountTemplateTypes: 0,
+        totalPagesTemplateTypes: 1,
+        limitTemplateTypes: 20,
+        currentPageTemplateTypes: 1,
+        isLoadingTemplateTypes: false,
+        isSavingTemplateTypes: false,
+        templateTypeSuccess: false
     },
 
-    blogType:{
-        isUpdatingEditModal:false,
-        isLoading:false,
-        isSaving:false,
+    blogType: {
+        isUpdatingEditModal: false,
+        isLoading: false,
+        isSaving: false,
         totalCount: 1,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         addEditBlogTypeModal: false,
-        blogTypes:[],
-        blogTypeModal:{
-            name:'',
+        blogTypes: [],
+        blogTypeModal: {
+            name: '',
         }
     },
 
-    smsCampaign:{
-        allMessage:[],
-        message:{
-            name:'',
-            content:'',
+    smsCampaign: {
+        allMessage: [],
+        message: {
+            name: '',
+            content: '',
             sms_template_type_id: '',
             send_time: '',
         },
 
-        template_types:[],
-        isSavingMessage:false,
+        template_types: [],
+        isSavingMessage: false,
         upMessage: false,
         addMessageModal: false,
         addReceiverModal: false,
@@ -2333,8 +2346,8 @@ export default {
         errorDistribution: false,
     },
     zWarehouse: {
-        isLoading : false,
-        isLoadingHisotry :false,
+        isLoading: false,
+        isLoadingHisotry: false,
         goods: [],
         historyGood: [],
         paginator: {
@@ -2349,7 +2362,6 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-
 
 
     },
