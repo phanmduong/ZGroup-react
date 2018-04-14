@@ -186,11 +186,11 @@ export function getAllRequestMoney(info) {
 }
 
 
-export function confirmPayRequest(id, money, success) {
+export function confirmPayRequest(id, money,company_pay_id, success) {
     return function(dispatch) {
         dispatch({ type: "" });
         helper.showWarningNotification("Đang duyệt...");
-        requestApi.confirmPayRequest(id,money)
+        requestApi.confirmPayRequest(id,money,company_pay_id)
             .then(res => {
                 if (res.data.status == 1) {
                     helper.showNotification("Duyệt thành công!");
@@ -204,11 +204,11 @@ export function confirmPayRequest(id, money, success) {
     };
 }
 
-export function confirmReceiveRequest(id, money,date, success) {
+export function confirmReceiveRequest(id, money,date,company_receive_id, success) {
     return function(dispatch) {
         dispatch({ type: "" });
         helper.showWarningNotification("Đang duyệt...");
-        requestApi.confirmReceiveRequest(id,money,date)
+        requestApi.confirmReceiveRequest(id,money,date,company_receive_id)
             .then(res => {
                 if (res.data.status == 1) {
                     helper.showNotification("Duyệt thành công!");

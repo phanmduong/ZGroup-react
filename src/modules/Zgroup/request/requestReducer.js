@@ -120,10 +120,21 @@ export default function requestReducer(state = initialState.request, action) {
             
                 return {
                     ...state,
-                    companies: action.companies,
+                    companies: getSelectArray(action.companies),
                 };
             }
         default:
             return state;
     }
+}
+
+function getSelectArray(arr) {
+    let res = arr.map(obj => {
+        return {
+            ...obj,
+            value: obj.id,
+            label: obj.name,
+        };
+    });
+    return res;
 }

@@ -12,7 +12,7 @@ import PayConfirmModal from "./PayConfirmModal";
 import ReceiveConfirmModal from "./ReceiveConfirmModal";
 import InfoRequestMoneyModal from "./InfoRequestMoneyModal";
 import { Link } from "react-router";
-import { Modal } from 'react-bootstrap';
+import { Modal, Panel } from 'react-bootstrap';
 import { DATETIME_FORMAT_SQL } from '../../../../constants/constants';
 
 class RequestMoneyContainer extends React.Component {
@@ -28,6 +28,7 @@ class RequestMoneyContainer extends React.Component {
                 staff: {},
             },
             showLoadingModal: false,
+            showPanel: false,
         };
         this.openPayConfirmModal = this.openPayConfirmModal.bind(this);
         this.closePayConfirmModal = this.closePayConfirmModal.bind(this);
@@ -39,6 +40,7 @@ class RequestMoneyContainer extends React.Component {
         this.closeInfoModal = this.closeInfoModal.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
         this.openLoadingModal = this.openLoadingModal.bind(this);
+        this.openPanel = this.openPanel.bind(this);
     }
 
     componentWillMount() {
@@ -59,9 +61,9 @@ class RequestMoneyContainer extends React.Component {
         this.setState({ showPayConfirmModal: false });
     }
 
-    submitPayConfirmModal(money) {
+    submitPayConfirmModal(money, company_pay_id) {
         this.closePayConfirmModal();
-        this.props.requestActions.confirmPayRequest(this.state.idPay, money,
+        this.props.requestActions.confirmPayRequest(this.state.idPay, money,company_pay_id,
             this.props.requestActions.getAllRequestMoney
         );
     }
@@ -74,10 +76,10 @@ class RequestMoneyContainer extends React.Component {
         this.setState({ showReceiveConfirmModal: false });
     }
 
-    submitReceiveConfirmModal(money) {
+    submitReceiveConfirmModal(money, company_receive_id) {
         this.closeReceiveConfirmModal();
         let date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
-        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,date,
+        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,date,company_receive_id,
             this.props.requestActions.getAllRequestMoney);
     }
 
@@ -95,10 +97,15 @@ class RequestMoneyContainer extends React.Component {
         this.props.requestActions.getRequestMoneyNoPaging(this.exportExcel, () => this.setState({ showLoadingModal: false }));
     }
 
+    openPanel(){
+        let {showPanel} = this.state;
+        this.setState({showPanel: !showPanel});
+    }
+
     exportExcel(input) {
         let wb = helper.newWorkBook();
         let data;
-        let cols = [{ "wch": 5 }, { "wch": 40 }, { "wch": 25 }, { "wch": 15 }, { "wch": 15 },{ "wch": 25 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },];//độ rộng cột  
+        let cols = [{ "wch": 5 }, { "wch": 40 }, { "wch": 25 }, { "wch": 15 },{ "wch": 20 },{ "wch": 20 }, { "wch": 15 },{ "wch": 25 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },];//độ rộng cột  
         
         data = input.reverse().map((item, index) => {
 
@@ -114,11 +121,15 @@ class RequestMoneyContainer extends React.Component {
                     break;
                 }
             }
+            if(!item.company_pay) data.company_pay={};
+            if(!item.company_receive) data.company_receive={};
             let res = {
                 'STT': index + 1,
                 'Mã tạm ứng': item.command_code,
                 'Người ứng': item.staff ? item.staff.name : "Không có",
                 'Ngày tạm ứng': moment(item.created_at.date).format("D/M/YYYY"),
+                'Nguồn ứng': item.company_pay.name,
+                'Nguồn hoàn ứng': item.company_receive.name,
                 'Ngày hoàn trả': moment(item.date_complete).isValid() ? moment(item.date_complete).format("D/M/YYYY") : "Không có",
                 'Lý do': item.reason,
                 'Số tiền yêu cầu': item.money_payment,
@@ -143,8 +154,8 @@ class RequestMoneyContainer extends React.Component {
 
     render() {
         //console.log(this.props);
-        let { isLoading, requestMoneys, paginator, requestActions, user } = this.props;
-        let { showPayConfirmModal, showReceiveConfirmModal, showInfoModal, currentRequest } = this.state;
+        let { isLoading, requestMoneys, paginator, companies, requestActions, user } = this.props;
+        let { showPayConfirmModal, showReceiveConfirmModal, showInfoModal,showPanel, currentRequest } = this.state;
         return (
             <div className="content">
                 <PayConfirmModal
@@ -152,12 +163,14 @@ class RequestMoneyContainer extends React.Component {
                     onHide={this.closePayConfirmModal}
                     submit={this.submitPayConfirmModal}
                     data={currentRequest}
+                    companies={companies}
                 />
                 <ReceiveConfirmModal
                     show={showReceiveConfirmModal}
                     onHide={this.closeReceiveConfirmModal}
                     submit={this.submitReceiveConfirmModal}
                     data={currentRequest}
+                    companies={companies}
                 />
                 <InfoRequestMoneyModal
                     show={showInfoModal}
@@ -182,16 +195,24 @@ class RequestMoneyContainer extends React.Component {
 
                                 <div className="card-content">
                                     <h4 className="card-title">Danh sách xin tạm ứng</h4>
-                                    <div className="row">
-                                        <div className="col-md-2">
+                                    <div style={{display:"flex"}}>
+                                        <div style={{marginRight:5}}>
                                             <Link className="btn btn-rose" to="/administration/request/money/create">
                                                 <i className="material-icons">add</i>Xin tạm ứng</Link>
 
                                         </div>
-                                        <div className="col-md-2">
+                                        <div style={{marginRight:5}}>
                                             <button className="btn btn-rose" onClick={this.openLoadingModal} >Xuất file excel</button>
                                         </div>
+                                        <div style={{marginRight:5}}>
+                                            <button className="btn btn-rose" onClick={this.openPanel} >
+                                                <i className="material-icons">filter_list</i>
+                                            Bộ lọc</button>
+                                        </div>
                                     </div>
+                                    <Panel collapsible expanded={showPanel} bsStyle="primary">
+                                    <h1>Content</h1>
+                                    </Panel>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="col-md-12">

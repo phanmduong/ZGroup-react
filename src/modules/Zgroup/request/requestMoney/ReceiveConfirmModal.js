@@ -4,12 +4,14 @@ import { Modal } from "react-bootstrap";
 import FormInputText from "../../../../components/common/FormInputText";
 import * as helper from '../../../../helpers/helper';
 import BigCloseButtonForModal from "../../../../components/common/BigCloseButtonForModal";
+import ReactSelect from 'react-select';
 
 class ReceiveConfirmModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             money_used: 0,
+            company_receive_id: "",
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.close = this.close.bind(this);
@@ -27,23 +29,29 @@ class ReceiveConfirmModal extends React.Component {
     }
 
     updateFormData(e) {
-        let value = e.target.value;
-        this.setState({ money_used: value });
+        if(!e) return;
+        let {name, value} = e.target;
+        if(!value || !name) return;
+        this.setState({ [name]: value });
     }
 
     close() {
-        if ($("#form-confirm").valid())
+        if ($("#form-confirm").valid()){
+            if(helper.isEmptyInput(this.state.company_receive_id)){
+                helper.showWarningNotification("Vui lòng chọn nguồn hoàn ứng!");
+            }else
             helper.confirm(
                 "warning", "Cảnh báo", "Bạn có chắc chắn muốn duyệt?",
                 () => {
-                    this.props.submit(this.state.money_used);
+                    this.props.submit(this.state.money_used, this.state.company_receive_id);
                 },
             );
+        }
 
     }
 
     render() {
-        let {data} = this.props;
+        let {data, companies} = this.props;
         let money = 0;
         if(data.money_received ) money = data.money_received - this.state.money_used;
         return (
@@ -66,7 +74,15 @@ class ReceiveConfirmModal extends React.Component {
                                 <label>Số tiền thực nhận</label>
                                 <div>{data.money_received || 0}</div>
                             </div>
-                            
+                            <div className="col-md-12">
+                                <label>Chọn nguồn hoàn ứng</label>
+                                <ReactSelect
+                                    options={companies || []}
+                                    onChange={(e)=>{ return this.updateFormData({target:{name: "company_receive_id", value: e.id}});}}
+                                    value={this.state.company_receive_id}
+                                    defaultMessage="Chọn"
+                                />
+                            </div>
                             <div className="col-md-12">
                                 <FormInputText
                                     label="Số tiền đã sử dụng"
@@ -100,7 +116,7 @@ ReceiveConfirmModal.propTypes = {
     onHide: PropTypes.func,
     submit: PropTypes.func,
     data: PropTypes.object,
-
+    companies: PropTypes.array,
 };
 
 

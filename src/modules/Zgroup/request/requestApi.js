@@ -124,22 +124,22 @@ export function getAllRequestVacation(info = {}) {
     return axios.get(url);
 }
 
-export function confirmPayRequest(id, money_received) {
+export function confirmPayRequest(id, money_received, company_pay_id) {
     let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     } 
-    return axios.post(url, {money_received, status: 1});
+    return axios.post(url, {money_received,company_pay_id, status: 1});
 }
 
-export function confirmReceiveRequest(id, money_used, date_complete) {
+export function confirmReceiveRequest(id, money_used, date_complete,company_receive_id) {
     let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     } 
-    return axios.post(url, {money_used, date_complete, status: 2});
+    return axios.post(url, {money_used, date_complete,company_receive_id, status: 2});
 }
 
 export function confirmRequestVacation(id) {
