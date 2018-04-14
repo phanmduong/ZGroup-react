@@ -199,9 +199,9 @@ class UserManageApiController extends ManageApiController
     public function teacherClassLessons(Request $request)
     {
         $user = $this->user;
-        if($request->start_time == null)
+        if ($request->start_time == null)
             $request->start_time = date('Y-m-d');
-        if($request->end_time == null)
+        if ($request->end_time == null)
             $request->end_time = date("Y-m-d", strtotime("+1 day", strtotime(date('Y-m-d'))));
         // dd([$request->start_time, $request->end_time]);
         $now_classes = StudyClass::orderBy('id');
@@ -225,6 +225,47 @@ class UserManageApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'classes' => $now_classes
+        ]);
+    }
+
+    public function userShifts(Request $request)
+    {
+    }
+
+    public function userWorkShifts(Request $request)
+    {
+        $user = $this->user;
+        if ($request->start_time == null || $request->end_time == null) {
+            $start_time = date("Y-m-d", strtotime('monday this week'));
+            $end_time = date("Y-m-d", strtotime('sunday this week'));
+        } else {
+            $start_time = $request->start_time;
+            $end_time = $request->end_time;
+        }
+        $workShifts = WorkShiftUser::join('work_shifts', 'work_shift_user.work_shift_id', '=', 'work_shifts.id')
+            ->join('work_shift_sessions', 'work_shifts.work_shift_session_id', '=', 'work_shift_sessions.id')
+            ->orderBy('work_shifts.id');
+
+        $workShifts = $workShifts->whereBetween('work_shifts.date', array($start_time, $end_time));
+
+        $workShifts = $workShifts->where('work_shift_user.user_id', $user->id)->get();
+
+        $workShifts = $workShifts->map(function ($shift) {
+            $data = [
+                'date' => date_shift(strtotime($shift->date)),
+                'name' => $shift->name,
+                'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
+            ];
+            if ($shift->check_in)
+                $data['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
+            if ($shift->check_out)
+                $data['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'work_shifts' => $workShifts
         ]);
     }
 }
