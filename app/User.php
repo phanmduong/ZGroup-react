@@ -343,7 +343,8 @@ class User extends Authenticatable
             'email' => $this->email,
             "avatar_url" => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
-            'phone' => $this->phone ? $this->phone : ""
+            'phone' => $this->phone ? $this->phone : "",
+            'color' => $this->color,
         ];
     }
 

@@ -37,8 +37,7 @@ class CompanyController extends ManageApiController
             $request->bank_branch === null || trim($request->bank_branch) == '' ||
             $request->user_contact === null || trim($request->user_contact) == '' ||
             $request->user_contact_phone === null || trim($request->user_contact_phone) == '' ||
-            $request->type === null || trim($request->type) == ''
-        ) return $this->respondErrorWithStatus("Thiếu trường");
+            $request->type === null || trim($request->type) == '') return $this->respondErrorWithStatus("Thiếu trường");
         $company = new Company;
         $company->name = $request->name;
         $company->registered_business_address = $request->registered_business_address;
@@ -208,6 +207,9 @@ class CompanyController extends ManageApiController
             $register = RoomServiceRegister::find($request->register_id);
             if ($register == null)
                 return $this->respondErrorWithStatus(['Không tồn tại đăng kí']);
+            if ($register->extra_time < $request->time) {
+                return $this->respondErrorWithStatus('Vui lòng nhập thời gian nhỏ hơn thời gian còn lại');
+            }
             $payment = new Payment;
             $payment->bill_image_url = 'a';
             $payment->description = $request->description;
@@ -220,6 +222,7 @@ class CompanyController extends ManageApiController
             $payment->save();
 
             $register->money += $request->money_value;
+            $register->extra_time -= $request->time;
             $register->save();
 
             return $this->respondSuccessWithStatus([
@@ -275,7 +278,8 @@ class CompanyController extends ManageApiController
         if ($request->status == 1) {
             $n = HistoryDebt::where('company_id', $payment->receiver_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $payment->receiver_id)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+            else $pre_value = 0;
             $value = $payment->money_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
@@ -287,7 +291,8 @@ class CompanyController extends ManageApiController
 
             $n = HistoryDebt::where('company_id', $payment->payer_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $payment->payer_id)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+            else $pre_value = 0;
             $value = $payment->money_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * (-1);
@@ -556,7 +561,8 @@ class CompanyController extends ManageApiController
         if ($request->status == 3) {
             $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+            else $pre_value = 0;
             $value = $printOrder->quantity * $printOrder->price;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
@@ -570,7 +576,8 @@ class CompanyController extends ManageApiController
 
             $n = HistoryDebt::where('company_id', 1)->count();
             $historyDebts = HistoryDebt::where('company_id', 1)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+            else $pre_value = 0;
             $value = $printOrder->quantity * $printOrder->price;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * (-1);
@@ -944,7 +951,8 @@ class CompanyController extends ManageApiController
             }
             $n = HistoryDebt::where('company_id', $order->company_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $order->company_id)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+            else $pre_value = 0;
             $value = $goods_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
@@ -959,7 +967,8 @@ class CompanyController extends ManageApiController
             $p = $p * (-1);
             $n = HistoryDebt::where('company_id', 1)->count();
             $historyDebts = HistoryDebt::where('company_id', 1)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+            else $pre_value = 0;
             $value = $goods_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * $p;
