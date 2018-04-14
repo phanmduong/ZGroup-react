@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLanguagesTable extends Migration
+class CreateFilmRoomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,10 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('languages', function(Blueprint $table){
+        Schema::create('film_rooms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('encoding');
+            $table->integer('max_seats')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateLanguagesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('film_rooms');
     }
 }
