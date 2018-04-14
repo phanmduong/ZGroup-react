@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends("client.layout.master")
 
 @section("css")
