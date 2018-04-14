@@ -1,11 +1,11 @@
-import EventContainer from "../modules/event/containers/EventContainer";
+import RoomControlContainer from "../modules/roomControl/RoomControlContainer";
 
 /**
  * Tab Event
  */
 export default [
     {
-        path: "/event/list",
-        component: EventContainer,
+        path: "/film/room-control",
+        component: RoomControlContainer,
     },
 ];
