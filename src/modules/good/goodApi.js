@@ -1,12 +1,12 @@
 /**
  * Created by phanmduong on 4/6/17.
  */
-import axios from 'axios';
-import * as env from '../../constants/env';
+import axios from "axios";
+import * as env from "../../constants/env";
 
-export function loadGoods(type = null, page = '', search = '') {
+export function loadGoods(type = null, page = "", search = "") {
     let url = env.MANAGE_API_URL + "/good/all?type=" + type;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
@@ -24,12 +24,12 @@ export function loadGoods(type = null, page = '', search = '') {
 
 export function uploadAvatar(file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + "/file/upload-image";
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     let formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.upload.onprogress = progressHandler;
@@ -78,18 +78,18 @@ export function deleteGood(goodId) {
 
 export function addUrl(fileUrl) {
     let url = env.MANAGE_API_URL + "/file/url";
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        url: fileUrl
+        url: fileUrl,
     });
 }
 
 export function loadGoodPropertyItems(page = 1, query = null, type = "") {
     let url = env.MANAGE_API_URL + "/good/all-property-items?page=" + page;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (query) {
         url += "&search=" + query;
     }
@@ -106,27 +106,41 @@ export function loadGoodPropertyItems(page = 1, query = null, type = "") {
 
 export function deletePropertyItem(id) {
     let url = env.MANAGE_API_URL + `/good/delete-property-item/${id}`;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.delete(url);
 }
 
+export function duplicateGoodProperty(propertyId) {
+    let url =
+        env.MANAGE_API_URL + "/good/duplicate-property-item/" + propertyId;
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
 export function saveGoodProperty(property) {
     let url = env.MANAGE_API_URL + "/good/create-property-item";
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, property);
 }
 
-export function addPropertyItemsToTask(selectedBoards,
-                                       goodPropertyItems, taskId,
-                                       currentBoard, targetBoard) {
+export function addPropertyItemsToTask(
+    selectedBoards,
+    goodPropertyItems,
+    taskId,
+    currentBoard,
+    targetBoard,
+) {
     let url = env.MANAGE_API_URL + `/good/add-property-item-task/${taskId}`;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -134,13 +148,13 @@ export function addPropertyItemsToTask(selectedBoards,
         selected_boards: JSON.stringify(selectedBoards),
         good_property_items: JSON.stringify(goodPropertyItems),
         current_board_id: currentBoard ? currentBoard.id : 0,
-        target_board_id: targetBoard ? targetBoard.id : 0
+        target_board_id: targetBoard ? targetBoard.id : 0,
     });
 }
 
 export function loadGoodPropertyItem(id) {
     let url = env.MANAGE_API_URL + `/good/property-item/${id}`;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -148,10 +162,9 @@ export function loadGoodPropertyItem(id) {
     return axios.get(url);
 }
 
-
 export function loadAllGoodPropertyItems(type, taskId) {
     let url = env.MANAGE_API_URL + `/good/task-setting/${taskId}?type=${type}`;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
@@ -164,7 +177,7 @@ export function saveGoodProperties(goodId, goodProperties) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {good_properties: JSON.stringify(goodProperties)});
+    return axios.post(url, { good_properties: JSON.stringify(goodProperties) });
 }
 
 export function loadGoodPropertiesFilled(cardId, goodProperties) {
@@ -173,5 +186,5 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {good_properties: JSON.stringify(goodProperties)});
+    return axios.post(url, { good_properties: JSON.stringify(goodProperties) });
 }
