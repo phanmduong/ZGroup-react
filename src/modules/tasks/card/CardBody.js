@@ -119,8 +119,9 @@ const CardBody = ({
                         )}
                     </div>
                 ) : (
-                    //eslint-disable-next-line
+                    
                     <div
+                        //eslint-disable-next-line
                         dangerouslySetInnerHTML={{ __html: card.description }}
                     />
                 )}
