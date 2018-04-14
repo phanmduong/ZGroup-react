@@ -8,8 +8,17 @@ class AdvancePayment extends Model
 {
     //
     protected $table='advanced_payments';
+    
     public function staff(){
         return $this->belongsTo(User::class,'staff_id');
+    }
+    
+    public function companyPay(){
+        return $this->belongsTo(Company::class,'company_pay_id');
+    }
+    
+    public function companyReceive(){
+        return $this->belongsTo(Company::class,'company_receive_id');
     }
 
     public function transform(){
@@ -19,6 +28,14 @@ class AdvancePayment extends Model
                 'id' => $this->staff->id,
                 'name' => $this->staff->name,
                 'avatar_url' => $this->avatar_url,
+            ] : [],
+            'company_pay' => $this->companyPay ? [
+                'id' => $this->companyPay->id,
+                'name' => $this->companyPay->name,
+            ] : [],
+            'company_receive' => $this->companyReceive ? [
+                'id' => $this->companyReceive->id,
+                'name' => $this->companyReceive->name,
             ] : [],
             'command_code' => $this->command_code,
             'money_payment' => $this->money_payment,

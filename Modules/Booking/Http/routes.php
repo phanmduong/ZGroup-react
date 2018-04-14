@@ -2,13 +2,13 @@
 
 $apiRoutes = function () {
     Route::get('/user/register', 'BookingApiController@userRegister');
+    Route::post('/booking/{campaignId?}', 'BookingApiController@appBooking');
 };
 
 $publicRoutes = function () {
     Route::get('/blogs', 'BookingController@blogs');
     Route::get('/user-packs', 'BookingController@allUserPacks');
     Route::post('/register/{campaignId?}', 'BookingController@appRegister');
-    Route::post('/booking/{campaignId?}', 'BookingController@appBooking');
     Route::get('/history-registers', 'BookingController@historyRegister');
 };
 
@@ -45,5 +45,4 @@ Route::group(
     }
 );
 
-Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
 Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);

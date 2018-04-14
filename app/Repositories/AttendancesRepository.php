@@ -199,12 +199,12 @@ class AttendancesRepository
             $data_attendance['staff'] = $this->userRepository->staff($attendance->teaching_assistant);
         }
 
-        if ($attendance && $attendance->teacher_check_in) {
-            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
+        if ($attendance && $attendance->ta_check_in) {
+            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->ta_check_in->created_at));
         }
 
-        if ($attendance && $attendance->teacher_check_out) {
-            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
+        if ($attendance && $attendance->ta_check_out) {
+            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->ta_check_out->created_at));
         }
 
         $data_attendances[] = $data_attendance;
