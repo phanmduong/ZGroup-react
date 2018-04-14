@@ -80,7 +80,7 @@ class ElightSendingMailController extends Controller
 
         Mail::send('emails.elight_aboutus', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Nhà sách Elight');
-            $subject = $request->name . " - Elight THƯ CẢM ƠN và PHIẾU GIẢM GIÁ";
+            $subject = $request->name . " - Cảm ơn bạn đã liên lạc với Elight";
             $m->to($request->email, $request->name)->subject($subject);
         });
         
