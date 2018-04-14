@@ -227,7 +227,7 @@ class ManageSmsApiController extends ManageApiController
     {
         $template_type = SmsTemplateType::find($templateTypeId);
         $check = SmsTemplateType::where('name', trim($request->name))->get();
-        if(count($check)>0 || $template_type->name !== $request->name)
+        if(count($check)>0 && $template_type->name !== $request->name)
             return $this->respondErrorWithStatus([
                 'message' => 'Không thể chỉnh sửa vì bị trùng tên'
             ]);
