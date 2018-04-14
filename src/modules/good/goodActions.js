@@ -206,12 +206,12 @@ export function uploadFiles(fileWrapper) {
     };
 }
 
-export function loadGoodPropertyItems(page = 1, query = "", type = "") {
+export function loadGoodPropertyItems(page = 1, query = "", type = "", limit = 20) {
     return function(dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS,
         });
-        goodApi.loadGoodPropertyItems(page, query, type).then(res => {
+        goodApi.loadGoodPropertyItems(page, query, type, limit).then(res => {
             dispatch({
                 type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
                 propertyItems: res.data.good_property_items,
