@@ -46,7 +46,7 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignsList(Request $request)
     {
         $query = trim($request->search);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $campaigns = SmsList::query();
         if ($query) {
             $campaigns = $campaigns->where('name', 'like', "%$query%");
@@ -70,7 +70,7 @@ class ManageSmsApiController extends ManageApiController
     public function getTemplateTypes(Request $request)
     {
         $query = trim($request->search);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $templateTypes = SmsTemplateType::query();
         if ($query) {
             $templateTypes = $templateTypes->where('name', 'like', "%$query%");
@@ -159,7 +159,7 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignTemplates($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $search = trim($request->search);
 
         if ($campaign == null) {
@@ -186,7 +186,7 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignReceivers($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $search = trim($request->search);
         if ($campaign == null) {
             return $this->respondErrorWithStatus('Không có chiến dịch này');
@@ -210,6 +210,11 @@ class ManageSmsApiController extends ManageApiController
     public function createTemplateType(Request $request)
     {
         $template_type = new SmsTemplateType;
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if(count($check)>0)
+            return $this->respondErrorWithStatus([
+               'message' => 'Đã tồn tại loại tin nhăn này'
+            ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -221,6 +226,11 @@ class ManageSmsApiController extends ManageApiController
     public function editTemplateType($templateTypeId, Request $request)
     {
         $template_type = SmsTemplateType::find($templateTypeId);
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if(count($check)>0 && $template_type->name !== $request->name)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+            ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
