@@ -222,7 +222,7 @@ class BookRepository
             'user' => $user,
             'quantity' => $quantity,
             'order' => $order,
-            'time' => date('m/d/Y H:i:s')
+            'time' => date('n/d/Y H:i:s')
         ];
 
         Mail::send('emails.elight_confirm_buy_book_staff', $staff_data, function ($m) {
