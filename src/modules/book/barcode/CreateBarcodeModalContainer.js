@@ -1,9 +1,9 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import PropTypes from 'prop-types';
-import {Button, Modal} from "react-bootstrap";
-import * as barcodeActions from './barcodeActions';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import PropTypes from "prop-types";
+import { Button, Modal } from "react-bootstrap";
+import * as barcodeActions from "./barcodeActions";
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
 
@@ -19,7 +19,7 @@ class CreateBarcodeModalContainer extends React.Component {
 
     updateFormData(event) {
         const field = event.target.name;
-        let barcode = {...this.props.barcode};
+        let barcode = { ...this.props.barcode };
         barcode[field] = event.target.value;
         this.props.barcodeActions.updateBarcodeFormData(barcode);
     }
@@ -29,14 +29,19 @@ class CreateBarcodeModalContainer extends React.Component {
     }
 
     submit() {
-        this.props.barcodeActions.createBarcode(this.props.barcode);
+        this.props.barcodeActions.createBarcode({
+            ...this.props.barcode,
+            type: this.props.type,
+        });
     }
 
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.barcode.id ? "Sửa" : "Tạo"} Barcode</Modal.Title>
+                    <Modal.Title>
+                        {this.props.barcode.id ? "Sửa" : "Tạo"} Barcode
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormInputText
@@ -48,18 +53,20 @@ class CreateBarcodeModalContainer extends React.Component {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    {
-                        this.props.isSaving ? (
-                            <Loading/>
-                        ) : (
-                            <div>
-                                <Button disabled={!this.props.barcode.value} className="btn btn-rose"
-                                        onClick={this.submit}>Lưu</Button>
-                                <Button onClick={this.close}>Đóng</Button>
-                            </div>
-                        )
-                    }
-
+                    {this.props.isSaving ? (
+                        <Loading />
+                    ) : (
+                        <div>
+                            <Button
+                                disabled={!this.props.barcode.value}
+                                className="btn btn-rose"
+                                onClick={this.submit}
+                            >
+                                Lưu
+                            </Button>
+                            <Button onClick={this.close}>Đóng</Button>
+                        </div>
+                    )}
                 </Modal.Footer>
             </Modal>
         );
@@ -70,21 +77,24 @@ CreateBarcodeModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     barcodeActions: PropTypes.object.isRequired,
     barcode: PropTypes.object.isRequired,
-    isSaving: PropTypes.bool.isRequired
+    isSaving: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         showModal: state.good.barcode.createBarcode.showModal,
         barcode: state.good.barcode.createBarcode.barcode,
-        isSaving: state.good.barcode.createBarcode.isSaving
+        isSaving: state.good.barcode.createBarcode.isSaving,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        barcodeActions: bindActionCreators(barcodeActions, dispatch)
+        barcodeActions: bindActionCreators(barcodeActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateBarcodeModalContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    CreateBarcodeModalContainer,
+);

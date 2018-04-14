@@ -2347,7 +2347,7 @@ export default {
         isCommitting: false,
         requestVacations: [],
         requestMoneys: [],
-
+        companies: [],
     },
     lead: {
         leads: [],
