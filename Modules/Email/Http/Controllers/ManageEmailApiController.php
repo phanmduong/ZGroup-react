@@ -167,7 +167,8 @@ class ManageEmailApiController extends ManageApiController
     public function delete_subscriber(Request $request)
     {
         $list_id = $request->list_id;
-        $subscriber = SubscribersList::find($list_id)->subscribers()->where('id', $request->subscriber_id)->first();
+        $subscriber = SubscribersList::find($list_id)->subscribers()
+            ->where('id', $request->subscriber_id)->first();
 
         if ($subscriber) {
             $subscriber->subscribers_lists()->detach($list_id);
@@ -191,6 +192,9 @@ class ManageEmailApiController extends ManageApiController
                     $q->where('email_forms.hide', 1)->where('email_forms.creator', $this->user->id);
                 });
             });
+
+        if ($request->send_status != null)
+            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
 
         if ($request->owner_id) {
             $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')

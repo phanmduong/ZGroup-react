@@ -40,10 +40,6 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-//Route::get('/login/secret', 'AuthenticateController@secretLogin');
-
-//Route::post('/api/topic/{topicId}/images','PublicController@_images');
-//Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
@@ -132,7 +128,8 @@ Route::group(['domain' => 'keetool2.xyz'], function () {
     Route::get('/', 'PublicController@redirectKeetool');
 });
 
-Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
+
+$manageApiRoutes = function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
@@ -199,6 +196,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     //Begin user api
     Route::get('/profile', 'ManageUserApiController@get_profile');
+    // Route::get('/detail-profile', 'ManageUserApiController@getDetailProfile');
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
     Route::post('/change-password', 'ManageUserApiController@change_password');
@@ -258,7 +256,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     Route::put('/register/{registerId}', 'StudentApiController@editRegister');
 
-});
+};
+
+Route::group(['domain' => 'manageapi.' . config('app.domain')], $manageApiRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], $manageApiRoutes);
 
 Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function () {
     Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
@@ -268,7 +269,7 @@ Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function
     Route::post('change-class-status', 'ManageClassApiController@change_class_status');
 });
 
-$apiRoutes =  function () {
+$apiRoutes = function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
@@ -421,7 +422,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('/sign-in', 'PublicController@beta');
         Route::get('/upload-post', 'PublicController@beta');
         Route::get('/course/{LinkId}', 'PublicController@beta');
-        Route::get('/profile/{username}', 'PublicController@beta');
+        Route::get('/profile/{username}', 'PublicController@beta`');
         Route::get('/profile/{username}/progress', 'PublicController@beta');
         Route::get('/profile/{username}/info', 'PublicController@beta');
         Route::get('resource/linkId}/lesson/{lessonId}', 'PublicController@beta');
