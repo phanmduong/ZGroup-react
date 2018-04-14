@@ -27,10 +27,11 @@
                         <div class="row">
                             <div class="col-md-10 offset-md-1">
                                 <div class="text-center">
-                                    @if($post->category)
+                                    @foreach($categories as $category)
                                         <span class="label label-warning main-tag"
-                                              style="background: #c50000">{{$post->category->name}}</span>
-                                    @endif
+                                              style="background: #138edc">{{$category->name}}</span>
+                                        &nbsp;
+                                    @endforeach
                                     <h3 class="title">{{$post->description}}</h3>
                                     <h6 class="title-uppercase">{{format_date($post->created_at)}}</h6>
                                 </div>
