@@ -109,13 +109,32 @@ export default function requestReducer(state = initialState.request, action) {
                 paginator: action.data.paginator,
             };
         }
+        
         case types.GET_ALL_REQUEST_MONEY_ERROR:
             return {
                 ...state,
                 isLoading: false,
+                
             };
-
+        case types.LOAD_ALL_COMPANY_SUCCESS: {
+            
+                return {
+                    ...state,
+                    companies: getSelectArray(action.companies),
+                };
+            }
         default:
             return state;
     }
+}
+
+function getSelectArray(arr) {
+    let res = arr.map(obj => {
+        return {
+            ...obj,
+            value: obj.id,
+            label: obj.name,
+        };
+    });
+    return res;
 }

@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import * as helper from '../../../../helpers/helper';
 import Avatar from "../../../../components/common/Avatar";
 import moment from "moment";
+import BigCloseButtonForModal from "../../../../components/common/BigCloseButtonForModal";
 
 class PayConfirmModal extends React.Component {
     constructor(props, context) {
@@ -37,12 +38,15 @@ class PayConfirmModal extends React.Component {
     }
 
     render() {
-        let { data } = this.props;
+        let { data, isInfoModal } = this.props;
 
         return (
             <Modal show={this.props.show} onHide={this.props.onHide} bsSize="large">
-                <Modal.Header closeButton>
-                    <Modal.Title>Duyệt nghỉ phép</Modal.Title>
+                <Modal.Header>
+                    <Modal.Title>
+                        {isInfoModal ? "Nghỉ phép" : "Duyệt nghỉ phép"}
+                        <BigCloseButtonForModal onClick={this.props.onHide} />
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="content">
@@ -57,16 +61,16 @@ class PayConfirmModal extends React.Component {
                                             <div className="card-content">
                                                 <h4 className="card-title">Thời gian</h4>
                                                 <div className="row">
-                                                    <div className="col-md-6" style={{display:"flex", flexDirection:"column"}}>
+                                                    <div className="col-md-6" style={{ display: "flex", flexDirection: "column" }}>
                                                         <div className="col-md-12">
                                                             <h5>{data.type == "pay" ? "Nghỉ có lương" : "Nghỉ không lương"}</h5>
-                                                        </div><br/>
+                                                        </div><br />
                                                         <div className="col-md-12">
                                                             <div>
                                                                 <label>Nghỉ phép từ ngày:</label><br />
                                                                 {moment(data.start_time).format("M/D/YYYY")}
                                                             </div>
-                                                        </div><br/>
+                                                        </div><br />
                                                         <div className="col-md-12">
                                                             <label>Đến ngày:</label>
                                                             <br />
@@ -86,7 +90,6 @@ class PayConfirmModal extends React.Component {
                                                                 placeholder="Lý do xin nghỉ"
                                                                 className="comment-input"
                                                                 style={{ width: "100%", margin: "10px", height: "165px", }}
-                                                                disabled
                                                             />
                                                         </div>
                                                     </div>
@@ -129,10 +132,12 @@ class PayConfirmModal extends React.Component {
 
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <button style={{ width: 130 }} className="btn btn-rose" onClick={this.close}>Xác nhận</button>
-                    <button style={{ width: 130 }} className="btn" onClick={this.props.onHide}>Đóng</button>
-                </Modal.Footer>
+                {!isInfoModal &&
+                    <Modal.Footer>
+                        <button style={{ width: 130 }} className="btn btn-rose" onClick={this.close}>Xác nhận</button>
+                        <button style={{ width: 130 }} className="btn" onClick={this.props.onHide}>Đóng</button>
+                    </Modal.Footer>
+                }
             </Modal>
         );
     }
@@ -143,7 +148,7 @@ PayConfirmModal.propTypes = {
     onHide: PropTypes.func,
     submit: PropTypes.func,
     data: PropTypes.object,
-
+    isInfoModal: PropTypes.bool,
 };
 
 
