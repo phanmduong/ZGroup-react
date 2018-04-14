@@ -230,6 +230,58 @@ class UserManageApiController extends ManageApiController
 
     public function userShifts(Request $request)
     {
+        $user = $this->user;
+        if ($request->start_time == null || $request->end_time == null) {
+            $start_time = date('Y-m-d');
+            $end_time = date("Y-m-d", strtotime("+1 week"));
+        }
+        else {
+            $start_time = $request->start_time;
+            $end_time = $request->end_time;
+        }
+
+        $shifts = Shift::whereRaw('date between "' . $start_time . '" and "' . $end_time . '"')
+            ->where('user_id', $user->id)
+            ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
+            ->orderBy('shifts.shift_session_id')
+            ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
+        $shifts = $shifts->map(function ($shift) {
+            $attendanceShift = [
+                'id' => $shift->id,
+                'name' => $shift->name,
+                'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
+            ];
+
+            if ($shift->user) {
+                $attendanceShift['staff'] = [
+                    'id' => $shift->user->id,
+                    'name' => $shift->user->name,
+                    'color' => $shift->user->color,
+                ];
+            }
+
+            if ($shift->base) {
+                $attendanceShift['base'] = [
+                    'id' => $shift->base->id,
+                    'name' => $shift->base->name,
+                ];
+            }
+
+            if ($shift->check_in) {
+                $attendanceShift['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
+            }
+
+            if ($shift->check_out) {
+                $attendanceShift['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
+            }
+
+            return $attendanceShift;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'shifts' => $shifts
+        ]);
     }
 
     public function userWorkShifts(Request $request)
