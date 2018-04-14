@@ -210,6 +210,11 @@ class ManageSmsApiController extends ManageApiController
     public function createTemplateType(Request $request)
     {
         $template_type = new SmsTemplateType;
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if(count($check)>0)
+            return $this->respondErrorWithStatus([
+               'message' => 'Đã tồn tại loại tin nhăn này'
+            ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -221,6 +226,11 @@ class ManageSmsApiController extends ManageApiController
     public function editTemplateType($templateTypeId, Request $request)
     {
         $template_type = SmsTemplateType::find($templateTypeId);
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if(count($check)>0 || $template_type->name !== $request->name)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+            ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
