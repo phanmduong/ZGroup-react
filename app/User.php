@@ -449,6 +449,11 @@ class User extends Authenticatable
         return $this->belongsToMany(StudyClass::class, "registers", "user_id", "class_id");
     }
 
+    public function smsGroup()
+    {
+        return $this->belongsToMany(Group::class, "groups_users", "user_id", "group_id");
+    }
+
     public function getReceivers()
     {
         $registers = $this->registers()->where('status', 1)->get();
@@ -465,7 +470,8 @@ class User extends Authenticatable
                     'name' => $course->name,
                     'image_url' => $course->image_url,
                 ];
-            })
+            }),
+            'time' => $this->created_at,
         ];
     }
 }
