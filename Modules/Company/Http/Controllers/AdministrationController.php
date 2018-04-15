@@ -118,7 +118,7 @@ class AdministrationController extends ManageApiController
 
     public function getAllAdvancePayment(Request $request){
         $limit = $request->limit ? $request->limit : 20;
-        $staff_id = $request->staff_id;
+        $staff_name = $request->staff_name;
         $company_pay_id = $request->company_pay_id;
         $company_receive_id = $request->company_receive_id;
         $start_time = $request->start_time;
@@ -135,8 +135,8 @@ class AdministrationController extends ManageApiController
         } else {
             if($this->user->role == 2) {
                 $datas = AdvancePayment::query();
-                if($staff_id){
-                    $datas->where('staff_id', $staff_id);
+                if($staff_name){
+                    $datas->where('staff_name', 'like', '%' . $this->user->name . '%');
                 }
                 if($company_pay_id){
                     $datas->where('company_pay_id', $company_pay_id);
@@ -161,9 +161,7 @@ class AdministrationController extends ManageApiController
                 ]);
             } else {
                 $datas = AdvancePayment::query();
-                if($staff_id){
-                    $datas->where('staff_id', $this->user->id);
-                }
+                $datas->where('staff_id', $this->user->id);
                 if($company_pay_id){
                     $datas->where('company_pay_id', $company_pay_id);
                 }
