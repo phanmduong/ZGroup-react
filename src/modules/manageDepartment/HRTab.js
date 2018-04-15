@@ -29,12 +29,12 @@ class HRTab extends React.Component {
                         <div className="ripple-container"/>
                     </Link>
                 </li>
-                <li className={this.props.path == "manage-profile" ? "active nav-item" : "nav-item"}>
-                    <Link to="hr/manage-profile">
-                        Thông tin cá nhân
-                        <div className="ripple-container"/>
-                    </Link>
-                </li>
+                {/*<li className={this.props.path == "manage-profile" ? "active nav-item" : "nav-item"}>*/}
+                    {/*<Link to="hr/manage-profile">*/}
+                        {/*Thông tin cá nhân*/}
+                        {/*<div className="ripple-container"/>*/}
+                    {/*</Link>*/}
+                {/*</li>*/}
             </ul>
         );
     }
