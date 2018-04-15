@@ -87,8 +87,18 @@ export function addUrl(fileUrl) {
     });
 }
 
-export function loadGoodPropertyItems(page = 1, query = null, type = "") {
-    let url = env.MANAGE_API_URL + "/good/all-property-items?page=" + page;
+export function loadGoodPropertyItems(
+    page = 1,
+    query = null,
+    type = "",
+    limit = 20,
+) {
+    let url =
+        env.MANAGE_API_URL +
+        "/good/all-property-items?limit=" +
+        limit +
+        "&page=" +
+        page;
     let token = localStorage.getItem("token");
     if (query) {
         url += "&search=" + query;
