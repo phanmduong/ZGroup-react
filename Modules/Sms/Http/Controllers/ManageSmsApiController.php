@@ -10,6 +10,7 @@
 namespace Modules\Sms\Http\Controllers;
 
 
+use App\GroupUser;
 use App\Http\Controllers\ManageApiController;
 use App\SmsList;
 use App\SmsTemplate;
@@ -215,9 +216,9 @@ class ManageSmsApiController extends ManageApiController
     {
         $template_type = new SmsTemplateType;
         $check = SmsTemplateType::where('name', trim($request->name))->get();
-        if(count($check)>0)
+        if (count($check) > 0)
             return $this->respondErrorWithStatus([
-               'message' => 'Đã tồn tại loại tin nhăn này'
+                'message' => 'Đã tồn tại loại tin nhăn này'
             ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
@@ -231,7 +232,7 @@ class ManageSmsApiController extends ManageApiController
     {
         $template_type = SmsTemplateType::find($templateTypeId);
         $check = SmsTemplateType::where('name', trim($request->name))->get();
-        if(count($check)>0 && $template_type->name !== $request->name)
+        if (count($check) > 0 && $template_type->name !== $request->name)
             return $this->respondErrorWithStatus([
                 'message' => 'Không thể chỉnh sửa vì bị trùng tên'
             ]);
@@ -240,6 +241,27 @@ class ManageSmsApiController extends ManageApiController
         $template_type->save();
         return $this->respondSuccessWithStatus([
             'message' => 'Sửa loại tin nhắn thành công'
+        ]);
+    }
+
+    public function addUsersIntoCampaign($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chiến dịch này'
+            ]);
+        }
+        $group = $campaign->group;
+        $users = json_decode($request->users);
+        foreach ($users as $user) {
+            $groups_users = new GroupUser;
+            $groups_users->group_id = $group->id;
+            $groups_users->user_id = $user->id;
+            $groups_users->save();
+        }
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thêm người nhận vào chiến dịch thành công'
         ]);
     }
 
