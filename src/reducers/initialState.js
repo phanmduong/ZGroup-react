@@ -852,8 +852,15 @@ export default {
             saveError: false,
             isPreSaving: false,
             preSaveError: false,
-            id: ''
+            id: '',
+            language : 0,
         },
+        language:{
+            name : "",
+            encoding : "",
+        },
+        isCreatingLanguage : false,
+        languages:[],
         categories: {
             categories: [],
             isLoading: false,
@@ -871,6 +878,7 @@ export default {
         posts: [],
         categoriesList: [],
         isLoadingCategories: true,
+        isLoadingLanguages: true,
         isLoadingPost: false,
         errorPost: false,
     },
@@ -1842,6 +1850,7 @@ export default {
             email: '',
             phone: '',
             address: '',
+            customer_id:0,
         },
         infoOrder: {
             payment: "",
@@ -1855,6 +1864,8 @@ export default {
         totalGoodPages: 0,
         warehouse: 0,
         isSaving: false,
+        customers :[],
+        isLoadingCustomers : false,
     },
 
     historyExtension: {

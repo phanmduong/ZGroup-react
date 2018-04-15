@@ -108,3 +108,22 @@ export function createSaleGood(createSaleGood) {
             });
     };
 }
+export function loadCustomers() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CUSTOMERS_SALE_GOOD,
+        });
+        createSaleGoodApis.loadCustomersApi()
+            .then((res) => {
+                    dispatch({
+                        type: types.LOADED_CUSTOMERS_SALE_GOOD_SUCCESS,
+                        customers : res.data.customers,
+                    });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOADED_CUSTOMERS_SALE_GOOD_ERROR,
+                });
+            });
+    };
+}

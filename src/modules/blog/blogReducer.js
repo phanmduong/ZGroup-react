@@ -318,6 +318,51 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...state,
                 isLoadingCategories: false,
             };
+
+        case types.LOADED_LANGUAGES_SUCCESS_IN_BLOG:
+            return {
+                ...state,
+                isLoadingLanguages: false,
+                languages: action.languages,
+            };
+
+        case types.LOADED_LANGUAGES_ERROR_IN_BLOG:
+            return {
+                ...state,
+                isLoadingLanguages: false,
+            };
+        case types.BEGIN_LOAD_LANGUAGES_IN_BLOG:
+            return {
+                ...state,
+                isLoadingLanguages: true,
+            };
+
+        case types.UPDATE_FORM_CREATE_LANGUAGE:
+            return {
+                ...state,
+                language: {
+                    ...state.language,
+                    name : action.language.name,
+                    encoding : action.language.encoding,
+                },
+            };
+        case types.CREATE_LANGUAGE_SUCCESS:
+            return{
+                ...state,
+                isCreatingLanguage:true,
+                languages: [action.language,...state.languages],
+            };
+        case types.BEGIN_CREATE_LANGUAGE:
+            return{
+                ...state,
+                isCreatingLanguage:true,
+            };
+        case types.CREATE_CATEGORY_ERROR:
+            return{
+                ...state,
+                isCreatingLanguage:false,
+            };
+
         default:
             return state;
     }

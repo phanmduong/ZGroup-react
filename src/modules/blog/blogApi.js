@@ -50,6 +50,17 @@ export function createCategory(catogory) {
         name: catogory.name,
     });
 }
+export function createLanguageApi(language) {
+    let url = env.MANAGE_API_URL + "/language";
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        name: language.name,
+        encoding : language.encoding,
+    });
+}
 
 export function getPosts(page = 1, search = "", category_id) {
     let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page;
@@ -64,6 +75,15 @@ export function getPosts(page = 1, search = "", category_id) {
 }
 export function getCategoriesApi() {
     let url = env.MANAGE_API_URL + "/post/categories?";
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadLanguagesApi() {
+    let url = env.MANAGE_API_URL + "/language/all?";
     let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;

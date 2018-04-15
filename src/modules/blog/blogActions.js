@@ -1,17 +1,17 @@
 import * as types from "../../constants/actionTypes";
 import * as blogApi from "./blogApi";
 import * as helper from "../../helpers/helper";
-import { BASE_URL } from "../../constants/env";
+import {BASE_URL} from "../../constants/env";
 
 /*eslint no-console: 0 */
 export function uploadImage(file) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_UPLOAD_IMAGE_BLOG,
         });
         blogApi.uploadImage(
             file,
-            function(event) {
+            function (event) {
                 let data = JSON.parse(event.currentTarget.response);
                 dispatch(uploadImageBlogSuccess(data.link));
             },
@@ -37,7 +37,7 @@ export function uploadImageBlogFailed() {
 }
 
 export function updateFormPost(post) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.UPDATE_FORM_POST,
             post: post,
@@ -46,7 +46,7 @@ export function updateFormPost(post) {
 }
 
 export function savePostBlog(post, closeModal) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_POST_BLOG,
         });
@@ -71,7 +71,7 @@ export function savePostBlog(post, closeModal) {
 }
 
 export function preSavePostBlog(post, preview = false) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_PRE_SAVE_POST_BLOG,
         });
@@ -102,7 +102,7 @@ export function preSavePostBlog(post, preview = false) {
 }
 
 export function loadCategories() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CATEGORIES,
         });
@@ -123,7 +123,7 @@ export function loadCategories() {
 }
 
 export function createCategory(category) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CATEGORY,
         });
@@ -145,8 +145,34 @@ export function createCategory(category) {
     };
 }
 
+export function createLanguage(language,closeAddLanguageModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_LANGUAGE,
+        });
+        blogApi
+            .createLanguageApi(language)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Tạo ngôn ngữ thành công");
+                    dispatch({
+                        type: types.CREATE_LANGUAGE_SUCCESS,
+                        language: res.data.data.language,
+                    });
+                    closeAddLanguageModal();
+                }
+            })
+            .catch(() => {
+                helper.showNotification("Tạo ngôn ngữ thất bại");
+                dispatch({
+                    type: types.CREATE_CATEGORY_ERROR,
+                });
+            });
+    };
+}
+
 export function updateFormCategory(category) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.UPDATE_FORM_CREATE_CATEGORY,
             category: category,
@@ -154,8 +180,17 @@ export function updateFormCategory(category) {
     };
 }
 
+export function updateFormLanguage(language) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_FORM_CREATE_LANGUAGE,
+            language: language,
+        });
+    };
+}
+
 export function getPosts(page, search, category_id) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_POSTS_BLOG,
         });
@@ -176,8 +211,9 @@ export function getPosts(page, search, category_id) {
             });
     };
 }
+
 export function getCategories() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CATEGORIES_IN_BLOG,
         });
@@ -198,7 +234,7 @@ export function getCategories() {
 }
 
 export function deletePost(postId) {
-    return function(dispatch) {
+    return function (dispatch) {
         helper.showTypeNotification("Đang xóa bài viết", "info");
         blogApi
             .deletePost(postId)
@@ -219,8 +255,38 @@ export function deletePost(postId) {
     };
 }
 
+
+export function loadLanguages() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_LANGUAGES_IN_BLOG,
+        });
+        blogApi.loadLanguagesApi()
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.LOADED_LANGUAGES_SUCCESS_IN_BLOG,
+                        languages : res.data.data.languages,
+                    });
+                }
+                else {
+                    dispatch({
+                        type: types.LOADED_LANGUAGES_ERROR_IN_BLOG,
+                    });
+                    helper.showErrorNotification(res.data.message);
+                }
+            })
+            .catch(()=>{
+                dispatch({
+                    type: types.LOADED_LANGUAGES_ERROR_IN_BLOG,
+                });
+                helper.showErrorNotification("Lỗi đường truyền");
+            });
+    };
+}
+
 export function getPost(postId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_POST_BLOG,
         });
@@ -258,7 +324,7 @@ export function resetForm() {
 }
 
 export function changeStatus(id, status, name) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.CHANGE_STATUS_IN_BLOG,
             id,

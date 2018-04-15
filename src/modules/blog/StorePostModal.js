@@ -17,8 +17,11 @@ class StorePostModal extends React.Component {
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.savePost = this.savePost.bind(this);
         this.createCategory = this.createCategory.bind(this);
+        this.createLanguage = this.createLanguage.bind(this);
         this.updateFormCategory = this.updateFormCategory.bind(this);
         this.updateFormSelect = this.updateFormSelect.bind(this);
+        this.updateFormLanguage = this.updateFormLanguage.bind(this);
+        this.updateLanguage = this.updateLanguage.bind(this);
         this.openModal = this.openModal.bind(this);
         this.preSavePost = this.preSavePost.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
@@ -29,6 +32,7 @@ class StorePostModal extends React.Component {
         if (this.props.isEdit) {
             this.props.blogActions.getPost(this.props.postId);
         }
+        this.props.blogActions.loadLanguages();
         this.loadCategories();
     }
 
@@ -52,6 +56,13 @@ class StorePostModal extends React.Component {
         // data[field] = e.value;
         this.props.blogActions.updateFormPost(data);
     }
+    updateLanguage(e) {
+        // const field = "category";
+        const field = "language";
+        let data = { ...this.props.post };
+        data[field] = e;
+        this.props.blogActions.updateFormPost(data);
+    }
     updateFormPostData(event) {
         const field = event.target.name;
         let data = { ...this.props.post };
@@ -72,6 +83,13 @@ class StorePostModal extends React.Component {
             data[field] = event.target.value;
         }
         this.props.blogActions.updateFormCategory(data);
+    }
+
+    updateFormLanguage(event){
+        const  field = event.target.name;
+        let data = {...this.props.language};
+        data[field] = event.target.value;
+        this.props.blogActions.updateFormLanguage(data);
     }
 
     openModal() {
@@ -130,6 +148,11 @@ class StorePostModal extends React.Component {
             this.props.blogActions.createCategory(this.props.category);
         }
     }
+    createLanguage(closeAddLanguageModal) {
+        if ($("#form-language").valid()) {
+            this.props.blogActions.createLanguage(this.props.language,closeAddLanguageModal);
+        }
+    }
 
     render() {
         let categories =
@@ -144,12 +167,15 @@ class StorePostModal extends React.Component {
                 handleFileUpload={this.handleFileUpload}
                 savePost={this.savePost}
                 createCategory={this.createCategory}
+                createLanguage={this.createLanguage}
                 openModal={this.openModal}
                 updateFormData={this.updateFormData}
+                updateLanguage={this.updateLanguage}
                 preSavePost={this.preSavePost}
                 categories={categories}
                 closeModal={this.props.closeModal}
                 updateFormSelect={this.updateFormSelect}
+                updateFormLanguage = {this.updateFormLanguage}
                 // resetCategory={this.resetCategory}
             />
         );
@@ -159,10 +185,14 @@ class StorePostModal extends React.Component {
 StorePostModal.propTypes = {
     post: PropTypes.object.isRequired,
     category: PropTypes.object.isRequired,
+    language: PropTypes.object.isRequired,
     blogActions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
+    languages: PropTypes.array.isRequired,
     categoriesList: PropTypes.array.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
+    isLoadingLanguages: PropTypes.bool.isRequired,
+    isCreatingLanguage: PropTypes.bool.isRequired,
     isEdit: PropTypes.bool.isRequired,
     postId: PropTypes.number,
     closeModal: PropTypes.func.isRequired,
@@ -173,8 +203,12 @@ function mapStateToProps(state) {
         post: state.blog.post,
         categories: state.blog.categories.categories,
         category: state.blog.category,
+        language: state.blog.language,
         categoriesList: state.blog.categoriesList,
+        languages: state.blog.languages,
         isLoadingPost: state.blog.isLoadingPost,
+        isLoadingLanguages: state.blog.isLoadingLanguages,
+        isCreatingLanguage: state.blog.isCreatingLanguage,
     };
 }
 
