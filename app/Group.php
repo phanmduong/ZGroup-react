@@ -35,4 +35,9 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class, "groups_users", "group_id", "user_id");
     }
+
+    public function smsCampaign()
+    {
+        return $this->belongsTo(SmsList::class, "group_id");
+    }
 }

@@ -10,10 +10,12 @@
 namespace Modules\Sms\Http\Controllers;
 
 
+use App\GroupUser;
 use App\Http\Controllers\ManageApiController;
 use App\SmsList;
 use App\SmsTemplate;
 use App\SmsTemplateType;
+use App\Group;
 use Illuminate\Http\Request;
 
 class ManageSmsApiController extends ManageApiController
@@ -46,7 +48,7 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignsList(Request $request)
     {
         $query = trim($request->search);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $campaigns = SmsList::query();
         if ($query) {
             $campaigns = $campaigns->where('name', 'like', "%$query%");
@@ -67,9 +69,36 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function getTemplateTypes(Request $request)
+    {
+        $query = trim($request->search);
+        $limit = $request->limit ? intval($request->limit) : 20;
+        $templateTypes = SmsTemplateType::query();
+        if ($query) {
+            $templateTypes = $templateTypes->where('name', 'like', "%$query%");
+        }
+        if ($limit == -1) {
+            $templateTypes = $templateTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'template_types' => $templateTypes->map(function ($templateType) {
+                    return $templateType->getData();
+                })
+            ]);
+        }
+        $templateTypes = $templateTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($templateTypes, [
+            'template_types' => $templateTypes->map(function ($templateType) {
+                return $templateType->getData();
+            })
+        ]);
+    }
+
     public function createCampaign(Request $request)
     {
         $campaign = new SmsList;
+        $group = new Group;
+        $group->save();
+        $campaign->group_id = $group->id;
         $this->assignCampaignInfo($campaign, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Tạo chiến dịch thành công'
@@ -135,7 +164,7 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignTemplates($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $search = trim($request->search);
 
         if ($campaign == null) {
@@ -162,14 +191,14 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignReceivers($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $search = trim($request->search);
         if ($campaign == null) {
             return $this->respondErrorWithStatus('Không có chiến dịch này');
         }
-        $users = $campaign->group()->get()->user()->where(function ($query) use ($search) {
+        $users = $campaign->group->user()->where(function ($query) use ($search) {
             $query->where('name', 'like', "%$search%")
-                ->orWhere('content', 'like', "%$search%");
+                ->orWhere('email', 'like', "%$search%")->orWhere('phone', 'like', "%$search%");
         });
         if ($limit == -1) {
             $users = $users->orderBy('created_at', 'desc')->get();
@@ -178,18 +207,70 @@ class ManageSmsApiController extends ManageApiController
         }
         return $this->respondWithPagination($users, [
             'receivers' => $users->map(function ($user) {
-                return $user->transform();
+                return $user->getReceivers();
             })
         ]);
     }
 
-    public function getTemplateTypes()
+    public function createTemplateType(Request $request)
     {
-        $templateTypes = SmsTemplateType::all();
+        $template_type = new SmsTemplateType;
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if (count($check) > 0)
+            return $this->respondErrorWithStatus([
+                'message' => 'Đã tồn tại loại tin nhăn này'
+            ]);
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
         return $this->respondSuccessWithStatus([
-            'template_types' => $templateTypes->map(function ($templateType) {
-                return $templateType->getData();
-            })
+            'message' => 'Tạo loại tin nhắn thành công'
         ]);
     }
+
+    public function editTemplateType($templateTypeId, Request $request)
+    {
+        $template_type = SmsTemplateType::find($templateTypeId);
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if (count($check) > 0 && $template_type->name !== $request->name)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+            ]);
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Sửa loại tin nhắn thành công'
+        ]);
+    }
+
+    public function addUsersIntoCampaign($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chiến dịch này'
+            ]);
+        }
+        $group = $campaign->group;
+        $users = json_decode($request->users);
+        foreach ($users as $user) {
+            $groups_users = new GroupUser;
+            $groups_users->group_id = $group->id;
+            $groups_users->user_id = $user->id;
+            $groups_users->save();
+        }
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thêm người nhận vào chiến dịch thành công'
+        ]);
+    }
+
+
+
+//    public function getReceiversChoice()
+//    {
+//
+//    }
+
+
 }
