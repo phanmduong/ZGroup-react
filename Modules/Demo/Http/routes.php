@@ -1,6 +1,14 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'demo', 'namespace' => 'Modules\Demo\Http\Controllers'], function()
+$routes = function()
 {
-    Route::get('/', 'DemoController@index');
-});
+    // Route::get('/{theme}/courses', 'DemoController@theme1Courses');
+    Route::get('/{theme}/courses', 'DemoController@index');
+
+};
+
+Route::group(['domain' => 'demo.test', 'namespace' => 'Modules\Demo\Http\Controllers'], $routes);
+
+
+
+
