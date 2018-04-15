@@ -5,6 +5,7 @@ img{max-width: 100%; height: auto;}
 .home #primary{margin-top: 0}
 label{width:10%;}
 #wrapper{overflow:hidden;}
+.home .entry-header, .home .entry-footer{display:none;}
 .container{width:1225px;}
 .top-header{background:#2e303d;height:45px;border-bottom:1px solid #fff;}
 .top-header ul{list-style:none;padding:0;margin:0;}
