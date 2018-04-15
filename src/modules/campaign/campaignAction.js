@@ -40,7 +40,7 @@ export function loadTypeOfMessage() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_TEMPLATE_SUCCESS,
-                    template_types: res.data.template_types
+                    template_types: res.data.data.template_types
                 });
             });
     };
