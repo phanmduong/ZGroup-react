@@ -21,34 +21,32 @@
             </div>
             <div class="row newest-post-row slick-initialized slick-slider" id="newest-post">
                 <div aria-live="polite" class=" slick-list draggable">
-                    <div class="container mr-auto ml-auto">
-                        <div class="slick-track" role="listbox"
-                             style="opacity: 1; width: 972px; transform: translate3d(0px, 0px, 0px);">
 
-                            @foreach($blogs->take(3) as $blog)
-                                <div class="col-sm-3 newest-post-item slick-slide slick-current slick-active"
-                                     data-slick-index="0" aria-hidden="false" tabindex="-1" role="option"
-                                     aria-describedby="slick-slide00" style="min-width: 300px;">
-                                    <a href="{{'/' . $blog->slug}}"
-                                       title={{$blog->title}} tabindex="0">
-                                        <img src="{{generate_protocol_url($blog->url)}}"
-                                             class="attachment-thumbnail size-thumbnail wp-post-image"
-                                             alt="23116834_889997271175206_6860229091341215107_o"> </a>
-                                    <h4>
-                                        <a href="{{'/blog/post/'.$blog->id}}"
-                                           title={{$blog->title}} tabindex="0">{{$blog->title}}</a>
-                                    </h4>
-                                    <p></p>
-                                    <p>{{shortString($blog->description, 19)}}<a class="view-article"
-                                                                                 href="{{'/' . $blog->slug}}"
-                                                                                 tabindex="0">Xem thêm</a></p>
-                                    <p></p>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="slick-track row " role="listbox"
+                         style="opacity: 1; width: auto; transform: translate3d(0px, 0px, 0px);">
 
-
+                        @foreach($blogs->take(3) as $blog)
+                            <div class="col-sm-4 col-md-4 newest-post-item slick-slide slick-current slick-active"
+                                 data-slick-index="0" aria-hidden="false" tabindex="-1" role="option"
+                                 aria-describedby="slick-slide00" style="min-width: 300px;">
+                                <a href="{{'/' . $blog->slug}}"
+                                   title={{$blog->title}} tabindex="0">
+                                    <img src="{{generate_protocol_url($blog->url)}}"
+                                         class="attachment-thumbnail size-thumbnail wp-post-image"
+                                         alt="23116834_889997271175206_6860229091341215107_o"> </a>
+                                <h4>
+                                    <a href="{{'/blog/post/'.$blog->id}}"
+                                       title={{$blog->title}} tabindex="0">{{$blog->title}}</a>
+                                </h4>
+                                <p></p>
+                                <p>{{shortString($blog->description, 19)}}<a class="view-article"
+                                                                             href="{{'/' . $blog->slug}}"
+                                                                             tabindex="0">Xem thêm</a></p>
+                                <p></p>
+                            </div>
+                        @endforeach
                     </div>
+
 
                     {{--<div class="col-sm-4 newest-post-item slick-slide slick-active" data-slick-index="1"--}}
                     {{--aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide01"--}}
