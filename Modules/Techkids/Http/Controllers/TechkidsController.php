@@ -28,4 +28,8 @@ class TechkidsController extends Controller
         return view('techkids::blogs',$this->data);
     }
 
+    public function course()
+    {
+        return view('techkids::course');
+    }
 }
