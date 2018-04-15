@@ -2,6 +2,7 @@
 
 $routes = function () {
     Route::get('/', 'TechkidsController@index');
+    Route::get('/blogs', 'TechkidsController@blogs');
     Route::get('/khoa-hoc-lap-trinh/{id}', 'TechkidsController@course');
 };
 
