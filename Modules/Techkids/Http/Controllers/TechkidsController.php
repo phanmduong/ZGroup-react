@@ -12,6 +12,5 @@ class TechkidsController extends Controller
     {
         return view('techkids::index');
     }
-    
-    
+
 }
