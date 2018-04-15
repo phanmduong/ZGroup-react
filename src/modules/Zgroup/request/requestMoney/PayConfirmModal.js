@@ -36,6 +36,7 @@ class PayConfirmModal extends React.Component {
         if(!e) return;
         let field = e.target.name;
         let value = e.target.value;
+        
         if(!value || !field) return;
         this.setState({ [field]: value });
     }
@@ -55,7 +56,6 @@ class PayConfirmModal extends React.Component {
     }
 
     render() {
-        //console.log("pay",this.props);
         let {companies} = this.props;
         let {money_received, company_pay_id} = this.state;
         return (

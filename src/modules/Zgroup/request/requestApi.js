@@ -100,9 +100,24 @@ export function getAllRequestMoney(info = {}) {
     info = {
         ...info,
         page: info.page || 1,
-        query: info.query || "",
+        start_time: info.start_time || "",
+        end_time : info.end_time || "", 
+        staff_name : info.staff_name || "", 
+        command_code : info.command_code || "", 
+        company_pay_id : info.company_pay_id || "", 
+        company_receive_id : info.company_receive_id || "", 
+        status : (info.status || info.status==0) ? info.status : "", 
     };
-    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?page=" + info.page + "&query=" + info.query;
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?"
+    + "page=" + info.page 
+    + "&start_time=" + info.start_time
+    + "&end_time=" + info.end_time
+    + "&staff_name=" + info.staff_name
+    + "&command_code=" + info.command_code
+    + "&company_pay_id=" + info.company_pay_id
+    + "&company_receive_id=" + info.company_receive_id
+    + "&status=" + info.status
+    ;
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;
