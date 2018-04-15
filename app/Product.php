@@ -49,10 +49,10 @@ class Product extends Model
         return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id');
     }
 
-//    public function productLanguages()
-//    {
-//        return $this->belongsToMany(Language::class,'languages_products','product_id','language_id');
-//    }
+    public function language()
+    {
+        return $this->belongsTo(Language::class, 'language_id');
+    }
 
     public function images()
     {
@@ -105,7 +105,7 @@ class Product extends Model
 
 
         $data["categories"] = $this->productCategories;
-//        $data["languages"] = $this->productLanguages;
+        $data["language"] = $this->language;
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;
