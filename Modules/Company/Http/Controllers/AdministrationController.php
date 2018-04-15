@@ -144,8 +144,8 @@ class AdministrationController extends ManageApiController
                 if($company_receive_id){
                     $datas->where('company_receive_id', $company_receive_id);
                 }
-                if($status || $status == 0){
-                    $datas->where('status', $status);
+                if($status){
+                    $datas->where('status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
                     $datas->where('command_code', 'like', '%' . $command_code . '%');
@@ -168,8 +168,8 @@ class AdministrationController extends ManageApiController
                 if($company_receive_id){
                     $datas->where('company_receive_id', $company_receive_id);
                 }
-                if($status || $status == 0){
-                    $datas->where('status', $status);
+                if($status ){
+                    $datas->where('status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
                     $datas->where('command_code', 'like', '%' . $command_code . '%');
