@@ -173,7 +173,7 @@
     <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
 
 </head>
-<body style="background-color: #f9f9f9">
+<body style="background-color: #f9f9f9;">
     <nav class="navbar navbar-toggleable-md fixed-top">
             <div class="navbar-translate">
                 <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse"

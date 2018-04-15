@@ -18,7 +18,7 @@
 
 @endsection
 
-@section('content')
+@section('vi-content')
     <div class="wrapper">
         <div class="main">
             <div class="section section-white">
