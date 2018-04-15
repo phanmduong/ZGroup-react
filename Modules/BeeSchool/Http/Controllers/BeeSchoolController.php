@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Product;
+use DB;
 
 class BeeSchoolController extends Controller
 {
@@ -16,7 +17,8 @@ class BeeSchoolController extends Controller
 
     public function blogs(Request $request)
     {
-        $blogs = Product::all();
+        // $blogs = Product::all();
+        $blogs = DB::table('products')->paginate(6);
         $this->data['blogs'] = $blogs;
         return view('beeschool::blogs',$this->data);
     }
