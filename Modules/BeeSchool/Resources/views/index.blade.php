@@ -1,7 +1,7 @@
 @extends('beeschool::layouts.master')
 
 @section('content')
-    <<main id="primary">
+    <main id="primary">
         <div class="container">
             <div data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"
                  class="vc_row wpb_row vc_row-fluid vc_row-no-padding"

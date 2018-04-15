@@ -733,7 +733,7 @@
                             </li>
                             <li id="menu-item-737"
                                 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-737">
-                                <a href="#">Tin Tức</a>
+                                <a href="/blogs">Tin Tức</a>
                                 <ul class="sub-menu">
                                     <li id="menu-item-569"
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-569">

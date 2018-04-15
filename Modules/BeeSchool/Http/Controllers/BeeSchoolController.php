@@ -5,68 +5,30 @@ namespace Modules\BeeSchool\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use App\Product;
 
 class BeeSchoolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
     public function index()
     {
         return view('beeschool::index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function blogs(Request $request)
     {
-        return view('beeschool::create');
+        $blogs = Product::all();
+        $this->data['blogs'] = $blogs;
+        return view('beeschool::blogs',$this->data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function post($post_id)
     {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('beeschool::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('beeschool::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        $post = Product::find($post_id);
+        if ($post == null) {
+            return 'Bài viết không tồn tại';
+        }
+        $this->data['post'] = $post;
+        // $this->data['blogs'];
+        return view('beeschool::post',$this->data);
     }
 }
