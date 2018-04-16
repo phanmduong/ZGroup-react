@@ -17,8 +17,9 @@
                                             <a class="images"
                                                href="{{'/blog/post/'.$blog->id}}"
                                                title="Làm sao để trẻ hứng thú với Tiếng Anh?">
-                                                <img class="bee-img" src="{{generate_protocol_url($blog->url)}}"
-                                                     alt="Làm sao để trẻ hứng thú với Tiếng Anh?">
+                                               <div style="height:250px;width:100%;background-image: url('{{generate_protocol_url($blog->url)}}');background-size: cover; background-position: 100% 100%;"></div>
+                                                <!-- <img class="bee-img" src="{{generate_protocol_url($blog->url)}}"
+                                                     alt="Làm sao để trẻ hứng thú với Tiếng Anh?"> -->
                                             </a>
                                         </header>
                                         <a class="category-title" href="{{'/blog/post/' . $blog->id}}">{{shortString($blog->title, 5)}}</a>
