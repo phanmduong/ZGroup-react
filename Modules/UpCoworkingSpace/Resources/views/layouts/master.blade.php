@@ -1,6 +1,7 @@
 
     @include('upcoworkingspace::vi.vi-nav')
     @yield('vi-content')
+    @yield('en-content')
     @include('upcoworkingspace::vi.vi-footer')
 
 

@@ -36,6 +36,7 @@ class RegisterTransformer extends Transformer
                 $register->user->avatar_url : "http://colorme.vn/img/user.png",
             "phone" => $register->user->phone,
             'paid_status' => $register->status == 1,
+            'status' => $register->status,
             'time_to_reach' => $register->time_to_reach,
             'course_avatar_url' => $class->course->icon_url,
             'course_money' => $class->course->price,

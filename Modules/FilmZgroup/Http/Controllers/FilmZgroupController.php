@@ -22,7 +22,6 @@ class FilmZgroupController extends Controller
             "sessions" => $sessions,
         ];
 
-
         return view('filmzgroup::index', $this->data);
     }
 
