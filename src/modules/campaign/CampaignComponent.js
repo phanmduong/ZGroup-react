@@ -52,15 +52,15 @@ class CampaignComponent extends React.Component {
     }
 
     render() {
-        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
-        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
+        let first = this.props.totalCountMessage ? (this.props.currentPageMessage - 1) * this.props.limitMessage + 1 : 0;
+        let end = this.props.currentPageMessage < this.props.totalPagesMessage ? this.props.currentPageMessage * this.props.limitMessage : this.props.totalCountMessage;
 
         return (
             <div className="campaign-content">
                 <div className="form-group is-empty">
                     <div className="flex-row flex">
                         <h5 className="card-title" style={{lineHeight: "0px"}}>
-                            <strong>Tên chiến dịch</strong>
+                            <strong>{this.props.campaignName}</strong>
                         </h5>
                         <div className="dropdown">
                             <button data-toggle="dropdown" aria-expanded="false"
@@ -88,7 +88,7 @@ class CampaignComponent extends React.Component {
                 </div>
                 <br/><br/><br/>
                 {
-                    this.props.isLoading ? <Loading/> :
+                    this.props.isLoadingMessage ? <Loading/> :
                         (
                             <div className="table-responsive">
                                 <table className="table table-hover">
@@ -191,10 +191,10 @@ class CampaignComponent extends React.Component {
                          style={{textAlign: 'right'}}>
                         <b style={{marginRight: '15px'}}>
                             Hiển thị kêt quả từ {first}
-                            - {end}/{this.props.totalCount}</b><br/>
+                            - {end}/{this.props.totalCountMessage}</b><br/>
                         <Pagination
-                            totalPages={this.props.totalPages}
-                            currentPage={this.props.currentPage}
+                            totalPages={this.props.totalPagesMessage}
+                            currentPage={this.props.currentPageMessage}
                             loadDataPage={this.loadOrders}
                         />
                     </div>
@@ -205,24 +205,26 @@ class CampaignComponent extends React.Component {
 }
 
 CampaignComponent.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    limit: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired,
+    isLoadingMessage: PropTypes.bool.isRequired,
+    limitMessage: PropTypes.number.isRequired,
+    currentPageMessage: PropTypes.number.isRequired,
+    totalPagesMessage: PropTypes.number.isRequired,
+    totalCountMessage: PropTypes.number.isRequired,
     campaignAction: PropTypes.object.isRequired,
     allMessage: PropTypes.array.isRequired,
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
+    campaignName: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         allMessage: state.smsCampaign.allMessage,
-        totalPages: state.smsCampaign.totalPages,
-        totalCount: state.smsCampaign.totalCount,
-        currentPage: state.smsCampaign.currentPage,
-        limit: state.smsCampaign.limit,
-        isLoading: state.smsCampaign.isLoading,
+        totalPagesMessage: state.smsCampaign.totalPagesMessage,
+        totalCountMessage: state.smsCampaign.totalCountMessage,
+        currentPageMessage: state.smsCampaign.currentPageMessage,
+        limitMessage: state.smsCampaign.limitMessage,
+        isLoadingMessage: state.smsCampaign.isLoadingMessage,
+        campaignName:state.smsCampaign.campaignName
     };
 }
 

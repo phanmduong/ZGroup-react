@@ -24,24 +24,35 @@ export default {
     },
 
     smsCampaign:{
-        allMessage:[],
+        allMessage:[],template_types:[],campaignName:'',
+        allReceiver:[],campaign_needed_quantity: 0,
+        allHistory:[],sentMessageName:'',
+        //Modal Them, sua message
         message:{
             name:'',
             content:'',
             sms_template_type_id: '',
             send_time: '',
         },
-
-        template_types:[],
-        isSavingMessage:false,
-        upMessage: false,
         addMessageModal: false,
         addReceiverModal: false,
-        isLoading: false,
-        limit: 20,
-        currentPage: 1,
-        totalPages: 1,
-        totalCount: 1,
+        isSavingMessage:false,
+        upMessage: false,
+        upReceiver:false,
+        upHistory: false,
+        isLoadingMessage: false,
+        isLoadingReceiver:false,
+        isLoadingHistory: false,
+        // phan trang cua trang Campaign
+        limitMessage: 20,
+        currentPageMessage: 1,
+        totalPagesMessage: 1,
+        totalCountMessage: 1,
+        // phan trang cua trang Receiver
+        limitReceiver: 20,
+        currentPageReceiver: 1,
+        totalPagesReceiver: 1,
+        totalCountReceiver: 1,
     },
 
     labelManage: {
@@ -141,6 +152,9 @@ export default {
         currentPage: 1,
         limit: 20,
         totalCount: 1,
+        comment:{
+            comment:'',
+        },
         report: [],
         reports: [],
         isLoading: false,
@@ -2319,7 +2333,7 @@ export default {
         isCommitting: false,
         requestVacations: [],
         requestMoneys: [],
-
+        companies: [],
     },
     lead: {
         leads: [],

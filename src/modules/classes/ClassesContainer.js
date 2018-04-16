@@ -193,7 +193,7 @@ class ClassesContainer extends React.Component {
                             ?
                             <Loading/>
                             :
-                            <div>
+                            <div className="col-sm-3 col-xs-5">
                                 <Select
                                     options={this.state.gens}
                                     onChange={this.changeGens}
@@ -204,35 +204,82 @@ class ClassesContainer extends React.Component {
                             </div>
 
                     }
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div className="flex-row flex">
-                                    <h4 className="card-title">
-                                        <strong>Danh sách lớp học</strong>
-                                    </h4>
-                                    <div className="dropdown">
-                                        <button
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button" onClick={() => {this.openModalClass();}}>
-                                            <strong>+</strong>
-                                        </button>
+                    <div className="col-xs-12">
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách lớp học</strong>
+                                        </h4>
+                                        <div className="dropdown">
+                                            <button
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                type="button" onClick={() => {this.openModalClass();}}>
+                                                <strong>+</strong>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <Search
-                                    onChange={this.classesSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm lớp học"
-                                />
-                                
-                                {/* Code của anh Dương :
-                                {
-                                    this.props.isCreateClass ?
-                                        (
-                                            <div>
-                                                <div className="row">
-                                                    {
-                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
+                                    <Search
+                                        onChange={this.classesSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm lớp học"
+                                    />
+                                    
+                                    {/* Code của anh Dương :
+                                    {
+                                        this.props.isCreateClass ?
+                                            (
+                                                <div>
+                                                    <div className="row">
+                                                        {
+                                                            (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
+
+                                                                <div className="col-md-12">
+                                                                    <Select
+                                                                        options={this.state.gens}
+                                                                        onChange={this.changeGens}
+                                                                        value={this.state.selectGenId}
+                                                                        defaultMessage="Chọn khóa học"
+                                                                        name="gens"
+                                                                    />
+                                                                </div>
+                                                                :
+                                                                <div/>
+
+                                                        }
+
+                                                    </div>
+                                                    <div className="row">
+                                                        <div className="col-md-12">
+                                                            <div className="col-md-3">
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-rose"
+                                                                    onClick={() => {
+                                                                        this.openModalClass();
+                                                                    }}
+                                                                >
+                                                                    Thêm lớp
+                                                                </button>
+                                                            </div>
+                                                            <div className="col-md-9">
+                                                                <Search
+                                                                    onChange={this.classesSearchChange}
+                                                                    value={this.state.query}
+                                                                    placeholder="Tìm kiếm lớp"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <div>
+                                                    <div className="row">
+                                                        {
+                                                            (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
 
                                                             <div className="col-md-12">
                                                                 <Select
@@ -243,103 +290,58 @@ class ClassesContainer extends React.Component {
                                                                     name="gens"
                                                                 />
                                                             </div>
-                                                            :
-                                                            <div/>
 
-                                                    }
+                                                        }
 
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-md-12">
-                                                        <div className="col-md-3">
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-rose"
-                                                                onClick={() => {
-                                                                    this.openModalClass();
-                                                                }}
-                                                            >
-                                                                Thêm lớp
-                                                            </button>
-                                                        </div>
-                                                        <div className="col-md-9">
-                                                            <Search
-                                                                onChange={this.classesSearchChange}
-                                                                value={this.state.query}
-                                                                placeholder="Tìm kiếm lớp"
-                                                            />
-                                                        </div>
                                                     </div>
+
+                                                    <Search
+                                                        onChange={this.classesSearchChange}
+                                                        value={this.state.query}
+                                                        placeholder="Tìm kiếm lớp"
+                                                    />
                                                 </div>
-                                            </div>
-                                        )
-                                        :
-                                        (
-                                            <div>
-                                                <div className="row">
-                                                    {
-                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
+                                            )
+                                    }
+                                    */}
 
-                                                        <div className="col-md-12">
-                                                            <Select
-                                                                options={this.state.gens}
-                                                                onChange={this.changeGens}
-                                                                value={this.state.selectGenId}
-                                                                defaultMessage="Chọn khóa học"
-                                                                name="gens"
-                                                            />
-                                                        </div>
-
+                                    {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
+                                        <div>
+                                            <ListClass
+                                                classes={this.props.classes}
+                                                deleteClass={this.deleteClass}
+                                                duplicateClass={this.duplicateClass}
+                                                changeClassStatus={this.changeClassStatus}
+                                                openModalClass={this.openModalClass}
+                                            />
+                                            <ul className="pagination pagination-primary">
+                                                {_.range(1, this.props.totalPages + 1).map(page => {
+                                                    if (Number(this.state.page) === page) {
+                                                        return (
+                                                            <li key={page} className="active">
+                                                                <a onClick={() => this.loadClasses(page, this.state.query)}>
+                                                                    {page}
+                                                                </a>
+                                                            </li>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <li key={page}>
+                                                                <a onClick={() => this.loadClasses(page, this.state.query)}>
+                                                                    {page}
+                                                                </a>
+                                                            </li>
+                                                        );
                                                     }
 
-                                                </div>
-
-                                                <Search
-                                                    onChange={this.classesSearchChange}
-                                                    value={this.state.query}
-                                                    placeholder="Tìm kiếm lớp"
-                                                />
-                                            </div>
-                                        )
-                                }
-                                */}
-
-                                {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
-                                    <div>
-                                        <ListClass
-                                            classes={this.props.classes}
-                                            deleteClass={this.deleteClass}
-                                            duplicateClass={this.duplicateClass}
-                                            changeClassStatus={this.changeClassStatus}
-                                            openModalClass={this.openModalClass}
-                                        />
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => this.loadClasses(page, this.state.query)}>
-                                                                {page}
-                                                            </a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => this.loadClasses(page, this.state.query)}>
-                                                                {page}
-                                                            </a>
-                                                        </li>
-                                                    );
-                                                }
-
-                                            })}
-                                        </ul>
-                                    </div>
-                                }
-                            </div>    
+                                                })}
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>    
+                            </div>
                         </div>
-                    </div>
+                    </div>    
                 </div>
                 <Modal
                     show={this.state.showModalClass}

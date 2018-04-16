@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import FormInputText from '../../components/common/FormInputText';
-import {DOMAIN, LOGO_LOGIN} from '../../constants/env';
+import React from "react";
+import PropTypes from "prop-types";
+import FormInputText from "../../components/common/FormInputText";
+import { DOMAIN } from "../../constants/env";
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -15,9 +15,12 @@ class LoginComponent extends React.Component {
         }
     }
 
-
     render() {
-        if ((!this.props.isLoading && this.props.token !== null && this.props.token !== '')) {
+        if (
+            !this.props.isLoading &&
+            this.props.token !== null &&
+            this.props.token !== ""
+        ) {
             window.open(DOMAIN, "_self");
         }
         return (
@@ -25,86 +28,132 @@ class LoginComponent extends React.Component {
                 <nav className="navbar navbar-primary navbar-transparent navbar-absolute">
                     <div className="container">
                         <div className="navbar-header">
-                            <img src={LOGO_LOGIN}
-                                 className="logo-header"
-                            />
+                            {/*
+                               
+                                <img src={LOGO_LOGIN}
+                                    className="logo-header"
+                                />
+                           */}
                         </div>
                     </div>
                 </nav>
                 <div className="wrapper wrapper-full-page">
                     <div className="full-page login-page">
-                        <div className="full-page-background"
-                             style={{backgroundImage: "url(http://d2xbg5ewmrmfml.cloudfront.net/web/login.jpeg)"}}/>
+                        <div
+                            className="full-page-background"
+                            style={{
+                                backgroundImage:
+                                    "url(http://d2xbg5ewmrmfml.cloudfront.net/web/login.jpeg)",
+                            }}
+                        />
                         <div className="content">
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                                        <form method="post" id="form-login" onSubmit={(e) => {
-                                            e.preventDefault();
-                                        }}>
+                                        <form
+                                            method="post"
+                                            id="form-login"
+                                            onSubmit={e => {
+                                                e.preventDefault();
+                                            }}
+                                        >
                                             <div className="card card-login card-hidden">
-                                                <div className="card-header text-center" data-background-color="rose">
+                                                <div
+                                                    className="card-header text-center"
+                                                    data-background-color="rose"
+                                                >
                                                     <a>
                                                         <h4 className="card-title">
-                                                            <i className="material-icons">lock_open</i> Đăng nhập
+                                                            <i className="material-icons">
+                                                                lock_open
+                                                            </i>{" "}
+                                                            Đăng nhập
                                                         </h4>
                                                     </a>
                                                 </div>
                                                 <div className="card-content">
                                                     <div className="input-group">
                                                         <span className="input-group-addon">
-                                                            <i className="material-icons">face</i>
+                                                            <i className="material-icons">
+                                                                face
+                                                            </i>
                                                         </span>
                                                         <FormInputText
                                                             name="email"
-                                                            updateFormData={this.props.updateFormData}
+                                                            updateFormData={
+                                                                this.props
+                                                                    .updateFormData
+                                                            }
                                                             label="Tên đăng nhập"
-                                                            value={this.props.login.email}
+                                                            value={
+                                                                this.props.login
+                                                                    .email
+                                                            }
                                                             required
                                                         />
                                                     </div>
                                                     <div className="input-group">
-                                            <span className="input-group-addon">
-                                                <i className="material-icons">lock_outline</i>
-                                            </span>
+                                                        <span className="input-group-addon">
+                                                            <i className="material-icons">
+                                                                lock_outline
+                                                            </i>
+                                                        </span>
                                                         <FormInputText
                                                             name="password"
-                                                            updateFormData={this.props.updateFormData}
+                                                            updateFormData={
+                                                                this.props
+                                                                    .updateFormData
+                                                            }
                                                             label="Mật khẩu"
                                                             type="password"
                                                             required
-                                                            value={this.props.login.password}
-                                                            onKeyPress={this.pressEnterKey}
+                                                            value={
+                                                                this.props.login
+                                                                    .password
+                                                            }
+                                                            onKeyPress={
+                                                                this
+                                                                    .pressEnterKey
+                                                            }
                                                         />
                                                     </div>
                                                 </div>
                                                 <div className="footer text-center">
-                                                    {
-                                                        (!(!this.props.isLoading && this.props.token !== null && this.props.token !== '')) &&
-                                                        this.props.isLoading ?
-                                                            (
-                                                                <button type="submit"
-                                                                        className="btn btn-rose btn-simple btn-wd btn-lg disabled">
-                                                                    <i className="fa fa-spinner fa-spin"/> Đang đăng
-                                                                    nhập
-                                                                </button>
-                                                            )
-                                                            :
-                                                            (
-                                                                this.props.token !== null && this.props.token !== '' ?
-                                                                    <button type="submit"
-                                                                            className="btn btn-rose btn-simple btn-wd btn-lg disabled">
-                                                                        Đăng nhập thành công
-                                                                    </button>
-                                                                    :
-                                                                    <button type="submit"
-                                                                            className="btn btn-rose btn-simple btn-wd btn-lg"
-                                                                            onClick={this.props.clickLogin}>
-                                                                        Đăng nhập
-                                                                    </button>
-
-                                                            )
-                                                    }
+                                                    {!(
+                                                        !this.props.isLoading &&
+                                                        this.props.token !==
+                                                            null &&
+                                                        this.props.token !== ""
+                                                    ) &&
+                                                    this.props.isLoading ? (
+                                                        <button
+                                                            type="submit"
+                                                            className="btn btn-rose btn-simple btn-wd btn-lg disabled"
+                                                        >
+                                                            <i className="fa fa-spinner fa-spin" />{" "}
+                                                            Đang đăng nhập
+                                                        </button>
+                                                    ) : this.props.token !==
+                                                        null &&
+                                                    this.props.token !== "" ? (
+                                                        <button
+                                                            type="submit"
+                                                            className="btn btn-rose btn-simple btn-wd btn-lg disabled"
+                                                        >
+                                                            Đăng nhập thành công
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            type="submit"
+                                                            className="btn btn-rose btn-simple btn-wd btn-lg"
+                                                            onClick={
+                                                                this.props
+                                                                    .clickLogin
+                                                            }
+                                                        >
+                                                            Đăng nhập
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </div>
                                         </form>
@@ -117,32 +166,22 @@ class LoginComponent extends React.Component {
                                 <nav className="pull-left">
                                     <ul>
                                         <li>
-                                            <a href="#">
-                                                Home
-                                            </a>
+                                            <a href="#">Home</a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                Company
-                                            </a>
+                                            <a href="#">Company</a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                Portfolio
-                                            </a>
+                                            <a href="#">Portfolio</a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                Blog
-                                            </a>
+                                            <a href="#">Blog</a>
                                         </li>
                                     </ul>
                                 </nav>
                                 <p className="copyright pull-right">
                                     &copy;
-                                    {
-                                        new Date().getFullYear()
-                                    }
+                                    {new Date().getFullYear()}
                                     <a href="http://colorme.vn"> colorME</a>
                                 </p>
                             </div>
@@ -150,7 +189,6 @@ class LoginComponent extends React.Component {
                     </div>
                 </div>
             </div>
-
         );
     }
 }
@@ -160,12 +198,11 @@ LoginComponent.propTypes = {
     updateFormData: PropTypes.func.isRequired,
     clickLogin: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    token: PropTypes.string
-
+    token: PropTypes.string,
 };
 
 LoginComponent.contextTypes = {
-    router: PropTypes.object
+    router: PropTypes.object,
 };
 
 export default LoginComponent;
