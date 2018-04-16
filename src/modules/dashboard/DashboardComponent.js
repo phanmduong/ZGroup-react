@@ -6,9 +6,9 @@ import { Link } from "react-router";
 import Barchart from "./Barchart";
 import ListClass from "./ListClass";
 import PropTypes from "prop-types";
-import ListAttendanceShift from "./ListAttendanceShift";
-import ListAttendanceClass from "./ListAttendanceClass";
-import { DATE } from "../../constants/constants";
+// import ListAttendanceShift from "./ListAttendanceShift";
+// import ListAttendanceClass from "./ListAttendanceClass";
+// import { DATE } from "../../constants/constants";
 
 class DashboardComponent extends React.Component {
     constructor(props, context) {
@@ -39,9 +39,9 @@ class DashboardComponent extends React.Component {
                 paid_by_date,
                 money_by_date,
                 classes,
-                shifts,
-                now_classes,
-                current_date,
+                // shifts,
+                // now_classes,
+                // current_date,
                 end_time_gen
             } = this.props.dashboard;
             if (this.props.dashboard.user) {
@@ -240,126 +240,126 @@ class DashboardComponent extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        {(shifts || this.props.dateShifts !== current_date) && (
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="card">
-                                        <div className="card-content">
-                                            <div className="tab-content">
-                                                <div className="flex flex-row flex-space-between">
-                                                    <h4 className="card-title">
-                                                        <strong>
-                                                            {this.props.dateShifts === current_date
-                                                                ? "Lịch trực hôm nay"
-                                                                : "Lịch trực " + this.props.dateShifts}
-                                                        </strong>
-                                                    </h4>
-                                                    <div className="flex flex-row">
-                                                        <button
-                                                            className="btn btn-rose btn-sm"
-                                                            onClick={() =>
-                                                                this.props.loadAttendanceShift(-DATE)
-                                                            }>
-                                                            <span className="btn-label">
-                                                                <i className="material-icons">
-                                                                    keyboard_arrow_left
-                                                                </i>
-                                                            </span>
-                                                            Trước
-                                                        </button>
-                                                        <button
-                                                            className="btn btn-rose btn-sm"
-                                                            onClick={() =>
-                                                                this.props.loadAttendanceShift(DATE)
-                                                            }>
-                                                            Sau
-                                                            <span className="btn-label btn-label-right">
-                                                                <i className="material-icons">
-                                                                    keyboard_arrow_right
-                                                                </i>
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                {this.props.isLoadingAttendanceShifts ? (
-                                                    <Loading />
-                                                ) : shifts ? (
-                                                    <ListAttendanceShift
-                                                        baseId={this.props.baseId}
-                                                        shifts={shifts}
-                                                    />
-                                                ) : (
-                                                    <div>
-                                                        <strong>Hiện không có lịch trực</strong>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        {
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="card">
-                                        <div className="card-content">
-                                            <div className="tab-content">
-                                                <div className="flex flex-row flex-space-between">
-                                                    <h4 className="card-title">
-                                                        <strong>
-                                                            {this.props.dateClasses === current_date
-                                                                ? "Lớp học hôm nay"
-                                                                : "Lớp học " + this.props.dateClasses}
-                                                        </strong>
-                                                    </h4>
-                                                    <div className="flex flex-row">
-                                                        <button
-                                                            className="btn btn-rose btn-sm"
-                                                            onClick={() =>
-                                                                this.props.loadAttendanceClass(-DATE)
-                                                            }>
-                                                            <span className="btn-label">
-                                                                <i className="material-icons">
-                                                                    keyboard_arrow_left
-                                                                </i>
-                                                            </span>
-                                                            Trước
-                                                        </button>
-                                                        <button
-                                                            className="btn btn-rose btn-sm"
-                                                            onClick={() =>
-                                                                this.props.loadAttendanceClass(DATE)
-                                                            }>
-                                                            Sau
-                                                            <span className="btn-label btn-label-right">
-                                                                <i className="material-icons">
-                                                                    keyboard_arrow_right
-                                                                </i>
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                {this.props.isLoadingAttendanceClasses ? (
-                                                    <Loading />
-                                                ) : now_classes ? (
-                                                    <ListAttendanceClass
-                                                        baseId={this.props.baseId}
-                                                        now_classes={now_classes}
-                                                    />
-                                                ) : (
-                                                    <div>
-                                                        <strong>Hiện không có lớp học</strong>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                        {/*{(shifts || this.props.dateShifts !== current_date) && (*/}
+                            {/*<div className="row">*/}
+                                {/*<div className="col-md-12">*/}
+                                    {/*<div className="card">*/}
+                                        {/*<div className="card-content">*/}
+                                            {/*<div className="tab-content">*/}
+                                                {/*<div className="flex flex-row flex-space-between">*/}
+                                                    {/*<h4 className="card-title">*/}
+                                                        {/*<strong>*/}
+                                                            {/*{this.props.dateShifts === current_date*/}
+                                                                {/*? "Lịch trực hôm nay"*/}
+                                                                {/*: "Lịch trực " + this.props.dateShifts}*/}
+                                                        {/*</strong>*/}
+                                                    {/*</h4>*/}
+                                                    {/*<div className="flex flex-row">*/}
+                                                        {/*<button*/}
+                                                            {/*className="btn btn-rose btn-sm"*/}
+                                                            {/*onClick={() =>*/}
+                                                                {/*this.props.loadAttendanceShift(-DATE)*/}
+                                                            {/*}>*/}
+                                                            {/*<span className="btn-label">*/}
+                                                                {/*<i className="material-icons">*/}
+                                                                    {/*keyboard_arrow_left*/}
+                                                                {/*</i>*/}
+                                                            {/*</span>*/}
+                                                            {/*Trước*/}
+                                                        {/*</button>*/}
+                                                        {/*<button*/}
+                                                            {/*className="btn btn-rose btn-sm"*/}
+                                                            {/*onClick={() =>*/}
+                                                                {/*this.props.loadAttendanceShift(DATE)*/}
+                                                            {/*}>*/}
+                                                            {/*Sau*/}
+                                                            {/*<span className="btn-label btn-label-right">*/}
+                                                                {/*<i className="material-icons">*/}
+                                                                    {/*keyboard_arrow_right*/}
+                                                                {/*</i>*/}
+                                                            {/*</span>*/}
+                                                        {/*</button>*/}
+                                                    {/*</div>*/}
+                                                {/*</div>*/}
+                                                {/*<br />*/}
+                                                {/*{this.props.isLoadingAttendanceShifts ? (*/}
+                                                    {/*<Loading />*/}
+                                                {/*) : shifts ? (*/}
+                                                    {/*<ListAttendanceShift*/}
+                                                        {/*baseId={this.props.baseId}*/}
+                                                        {/*shifts={shifts}*/}
+                                                    {/*/>*/}
+                                                {/*) : (*/}
+                                                    {/*<div>*/}
+                                                        {/*<strong>Hiện không có lịch trực</strong>*/}
+                                                    {/*</div>*/}
+                                                {/*)}*/}
+                                            {/*</div>*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                        {/*)}*/}
+                        {/*{*/}
+                            {/*<div className="row">*/}
+                                {/*<div className="col-md-12">*/}
+                                    {/*<div className="card">*/}
+                                        {/*<div className="card-content">*/}
+                                            {/*<div className="tab-content">*/}
+                                                {/*<div className="flex flex-row flex-space-between">*/}
+                                                    {/*<h4 className="card-title">*/}
+                                                        {/*<strong>*/}
+                                                            {/*{this.props.dateClasses === current_date*/}
+                                                                {/*? "Lớp học hôm nay"*/}
+                                                                {/*: "Lớp học " + this.props.dateClasses}*/}
+                                                        {/*</strong>*/}
+                                                    {/*</h4>*/}
+                                                    {/*<div className="flex flex-row">*/}
+                                                        {/*<button*/}
+                                                            {/*className="btn btn-rose btn-sm"*/}
+                                                            {/*onClick={() =>*/}
+                                                                {/*this.props.loadAttendanceClass(-DATE)*/}
+                                                            {/*}>*/}
+                                                            {/*<span className="btn-label">*/}
+                                                                {/*<i className="material-icons">*/}
+                                                                    {/*keyboard_arrow_left*/}
+                                                                {/*</i>*/}
+                                                            {/*</span>*/}
+                                                            {/*Trước*/}
+                                                        {/*</button>*/}
+                                                        {/*<button*/}
+                                                            {/*className="btn btn-rose btn-sm"*/}
+                                                            {/*onClick={() =>*/}
+                                                                {/*this.props.loadAttendanceClass(DATE)*/}
+                                                            {/*}>*/}
+                                                            {/*Sau*/}
+                                                            {/*<span className="btn-label btn-label-right">*/}
+                                                                {/*<i className="material-icons">*/}
+                                                                    {/*keyboard_arrow_right*/}
+                                                                {/*</i>*/}
+                                                            {/*</span>*/}
+                                                        {/*</button>*/}
+                                                    {/*</div>*/}
+                                                {/*</div>*/}
+                                                {/*<br />*/}
+                                                {/*{this.props.isLoadingAttendanceClasses ? (*/}
+                                                    {/*<Loading />*/}
+                                                {/*) : now_classes ? (*/}
+                                                    {/*<ListAttendanceClass*/}
+                                                        {/*baseId={this.props.baseId}*/}
+                                                        {/*now_classes={now_classes}*/}
+                                                    {/*/>*/}
+                                                {/*) : (*/}
+                                                    {/*<div>*/}
+                                                        {/*<strong>Hiện không có lớp học</strong>*/}
+                                                    {/*</div>*/}
+                                                {/*)}*/}
+                                            {/*</div>*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                        {/*}*/}
 
                         <div className="row" id="list-class">
                             <div className="col-md-12">
