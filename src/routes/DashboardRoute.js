@@ -8,18 +8,18 @@ import DashboardStaffContainer from "../modules/dashboardStaff/DashboardStaffCon
 export default [
     {
         path: "/",
-        component: TypeDashboard,
+        component: TypeDashboard
     },
     {
         path: "/dashboard",
-        component: TypeDashboard,
+        component: TypeDashboard
     },
     {
         path: "/dashboard/it",
-        component: DashboardItContainer,
+        component: DashboardItContainer
     },
     {
         path: "/dashboard/staff",
-        component: DashboardStaffContainer,
-    },
+        component: DashboardStaffContainer
+    }
 ];
