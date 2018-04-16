@@ -243,7 +243,6 @@ class coursesCreateEditCurriculum extends React.Component {
                                     <FormInputText
                                         label="Link audio"
                                         name="audio_url"
-                                        required
                                         updateFormData={this.updateTermData}
                                         value={this.state.term.audio_url}
                                         type="text"
@@ -254,7 +253,6 @@ class coursesCreateEditCurriculum extends React.Component {
                                     <FormInputText
                                         label="Link video"
                                         name="video_url"
-                                        required
                                         updateFormData={this.updateTermData}
                                         value={this.state.term.video_url}
                                         type="text"
