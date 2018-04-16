@@ -586,13 +586,13 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
-            return $total + $importedGood->quantity;
-        }, 0);
-        if ($importedGoodsCount > 0)
+        $hasImported = $good->importedGoods()->first();
+        if ($hasImported != null)
             return $this->respondErrorWithStatus([
                 'message' => 'Sản phẩm còn trong kho không được xóa'
             ]);
+        if ($good->orders()->count() > 0)
+            return $this->respondErrorWithStatus('Tồn tại đơn hàng có sản phẩm này');
         $good->status = 'deleted';
         foreach ($good->properties as $property) {
             $property->delete();

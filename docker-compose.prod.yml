@@ -1,0 +1,49 @@
+version: '3'
+services:
+  redis:
+    restart: always
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+  app:
+    restart: always
+    container_name: app
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+  cron:
+    restart: always
+    container_name: cron
+    build:
+      context: ./docker/cron
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+  supervisor:
+    restart: always
+    container_name: supervisor
+    build:
+      context: ./docker/supervisor
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+  web:    
+    restart: always
+    container_name: web
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - 80:80
+    depends_on: 
+      - app
+      - redis

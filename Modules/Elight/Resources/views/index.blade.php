@@ -164,11 +164,12 @@
         </div>
         <div class="col-md-6">
             <div class="card card-plain card-blog">
+                @if(sizeof($blogSection)>0)
                 <div class="card-image">
-                    <a href="/blog/post/{{$newestBlog->id}}">
+                    <a href="/blog/post/{{$blogSection[0]->id}}">
                         <div style="width: 100%;
                                     border-radius: 10px;
-                                    background: url({{generate_protocol_url($newestBlog->url)}});
+                                    background: url({{generate_protocol_url($blogSection[0]->url)}});
                                     background-size: cover;
                                     background-position: center;
                                     padding-bottom: 70%;"></div>
@@ -176,27 +177,28 @@
                 </div>
                 <div class="card-block">
                     <p style="margin-top:15px">
-                        <b>{{$newestBlog->title}}</b>
+                        <b>{{$blogSection[0]->title}}</b>
                     </p>
                     <p class="card-description">
-                        {{shortString($newestBlog->description,7)}}
+                        {{shortString($blogSection[0]->description,7)}}
                     </p>
-                    <a href="/blog/post/{{$newestBlog->id}}" style="color:#138edc!important">
+                    <a href="/blog/post/{{$blogSection[0]->id}}" style="color:#138edc!important">
                         <b>Xem thêm</b>
                     </a>
                 </div>
+                @endif
             </div>
         </div>
         <div class="col-md-6">
-            @foreach($newestTop3 as $blog)
-            <div class="card card-plain card-blog" style="margin-bottom: 0px">
+            @for($i=1; $i<=sizeof($blogSection)-1; ++$i)
+            <div class="card card-plain card-blog" style="margin-bottom: 10px">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card-image">
-                            <a href="/blog/post/{{$blog->id}}">
+                            <a href="/blog/post/{{$blogSection[$i]->id}}">
                                 <div style="width: 100%;
                                                 border-radius: 10px;
-                                                background: url({{generate_protocol_url($blog->url)}});
+                                                background: url({{generate_protocol_url($blogSection[$i]->url)}});
                                                 background-size: cover;
                                                 background-position: center;
                                                 padding-bottom: 70%;"></div>
@@ -206,11 +208,11 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <p style="margin-top:15px">
-                                <b>{{$blog->title}}</b>
+                                <b>{{$blogSection[$i]->title}}</b>
                             </p>
                             <p class="card-description">
-                                {{$blog->description}}
-                                <a href="/blog/post/{{$blog->id}}" style="color:#138edc!important">
+                                {{$blogSection[$i]->description}}
+                                <a href="/blog/post/{{$blogSection[$i]->id}}" style="color:#138edc!important">
                                     <br>
                                     <b>Xem thêm
                                     </b>
@@ -220,10 +222,11 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @endfor
+        </div>
         </div>
 
-        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519572859mnSTADMESIABzdK.JPG');background-size: cover;background-color: black;min-height: 350px">
+        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/152256691694HIHuCHecOmrJu.jpg');background-size: cover;background-color: black;min-height: 350px">
             <div class="content-center">
                 <div class="container">
                     <h2 style="font-weight: 400">Sách Tiếng Anh Cơ Bản
@@ -296,7 +299,7 @@
                 <div class="col-md-12">
                     <div class="description">
                         <h1 class="medium-title">
-                            Học từ vựng tiếng Anh
+                            Từ vựng tiếng Anh
                             <br>
                         </h1>
                     </div>
@@ -389,7 +392,6 @@
         <br>
         <br>
     </div>
-</div>
 <div id="modalInfo" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->

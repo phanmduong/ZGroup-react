@@ -73,47 +73,6 @@
                     <div class="article-content">
                         {!! $lesson->detail_content !!}
                     </div>
-                    <!-- <hr>
-                    <h3 class="card-title text-center">Liên hệ với Elight</h3>
-
-                        <div>
-                                        <div role="form" id="contact-form" method="post" action="#">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <div class="card-block">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Họ và tên</label>
-                                                    <input id="e-name" type="text" name="name" class="form-control" placeholder="Họ và tên người nhận">
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Email</label>
-                                                    <input id ="e-email" type="email" name="email" class="form-control" placeholder="Email người nhận">
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Lời nhắn</label>
-                                                    <textarea id="e-message" name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div id="alert"> </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <button type="submit" class="btn btn-primary pull-right" id="submit-1">Gửi tin nhắn
-                                                        </button></div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="comments media-area">
-                        <div class="fb-comments"
-                             data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson->id}}"
-                             data-width="100%" data-numposts="5">
-                        </div>
-                    </div> -->
                 </div>
             <div class="col-md-4">
                     <div class="dropdown">
@@ -180,102 +139,45 @@
         <div class="row">
             <div class="col-md-8">
                     <hr>
-                    <h3 class="card-title text-center">Liên hệ với Elight</h3>
-
+                    <h3 class="card-title text-center">Đánh giá chất lượng</h3>
                         <div>
                                         <div role="form" id="contact-form" method="post" action="#">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <div class="card-block">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Họ và tên</label>
-                                                    <input id="e-name" type="text" name="name" class="form-control" placeholder="Họ và tên người nhận">
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Email</label>
-                                                    <input id ="e-email" type="email" name="email" class="form-control" placeholder="Email người nhận">
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Lời nhắn</label>
-                                                    <textarea id="e-message" name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div id="alert"> </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <button type="submit" class="btn btn-primary pull-right" id="submit-1">Gửi tin nhắn
-                                                        </button></div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="comments media-area" style="z-index:997">
-                        <div class="fb-comments"
-                             data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson->id}}"
-                             data-width="100%" data-numposts="5">
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modalInfo" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Đánh giá chất lượng</h4>
-                </div>
-                <div class="modal-header" id="modal-buy-body">
-                    <a style="text-align: center">Bạn có cảm thấy các nội dung trên thư viện có hữu ích với bạn?</a>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="GET">
-                        <div class="card-block">
+                                                
                             <div class="form-group label-floating">
-                                <label class="control-label">Đánh giá</label>
-                                <!-- <div class="radio-inline">
-                                    <input type="radio" id="cod" v-model="payment" value="Thanh toán trực tiếp khi nhận hàng(COD)" checked>
-                                    <label for="cod">
-                                        Rất tốt
-                                    </label>
-                                </div>
-                                <div class="radio-inline">
-                                    <input type="radio" id="transfer" v-model="payment" value="Chuyển khoản">
-                                    <label for="transfer">
-                                        OK
-                                    </label> 
-                                </div> -->
+                                <label class="control-label"><strong style="font-weight:600">Đánh giá</strong></label>
                                 <br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="optradio" value="Rất tốt"> Rất tốt
-                                </label>
-                                &nbsp
-                                <label class="radio-inline">
-                                    <input type="radio" name="optradio" value="OK"> OK
-                                </label>
-                                &nbsp
-                                <label class="radio-inline">
-                                    <input type="radio" name="optradio" value="Trung bình"> Trung bình
-                                </label>
-                                &nbsp
-                                <label class="radio-inline">
-                                    <input type="radio" name="optradio" value="Kém"> Kém
-                                </label>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" value="Rất tốt"> Rất tốt
+                                    </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" value="OK"> OK
+                                    </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" value="Trung bình"> Trung bình
+                                    </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" value="Kém"> Kém
+                                    </label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group label-floating">
-                                <label class="control-label">Góp ý cho elight</label>
+                                <label class="control-label"><strong style="font-weight:600">Góp ý cho Elight</strong></label>
                                 <input id="message" type="text" name="message" class="form-control"
-                                    placeholder="Góp ý để elight cải thiện chất lượng nhé">
+                                    placeholder="Để lại góp ý, nhận xét của bạn nhé">
                             </div>
                             <div class="form-group label-floating">
-                                <label class="control-label">Email</label>
+                                <label class="control-label"><strong style="font-weight:600">Số điện thoại hoặc email</strong></label>
                                 <input id="email" type="text" name="email" class="form-control"
                                     placeholder="Để lại nếu bạn cần Elight hỗ trợ thêm">
                             </div>
@@ -284,60 +186,60 @@
                                     <div id="alert"> </div>
                                 </div>
                             </div>
-                            <div class="pull-right">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                            <!-- <div class="pull-right">
                                 <button id="submit" type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
-                            </div>
-                            <div class="clearfix"></div>
+                            </div> -->
+                            <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a id="submit" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Gửi thông tin </a>
+                                        </div>
+                                    </div>
 
+                            <div class="clearfix"></div>
+                                </div>
+                            </div> 
                         </div>
-                    </form>
-                </div>
+                        <div class="comments media-area" style="z-index:997">
+                    <div class="fb-comments"
+                            data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson->id}}"
+                            data-width="100%" data-numposts="5">
+                        </div>
+                    </div>
+                    </div>
             </div>
         </div>
-    </div>
 @endsection
 
 @push('scripts')
     <script>            
-        window.onload = function (e) {
-            setTimeout(function () {
-                $('#modalInfo').modal('show');
-            }, 180000); //60000
-        };
-
         $(document).ready(function () {
         $("#submit").click(function (event) {
             event.preventDefault();
             event.stopPropagation();
-            // console.log("submit");
             var message_str = $('#message').val();
             var email = $('#email').val();
-            var radio = $('input[name=optradio]:checked').val()
-            // console.log(radio);
-            // console.log(name);
+            var radio = $('input[name=optradio]:checked').val();
             var ok = 0;
             if (email.trim() == "" || message_str.trim() == "" || radio.trim() == "") ok = 1;
 
             if (!message_str || !email || !radio || ok == 1) {
-                alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
                 $("#alert").html(
                     "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
                 );
             } else {
                 var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
-                alert(message);
                 $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
                 var url = "{{ url('book_information') }}";
                 var data = {
+                    lesson_id: {{$lesson->id}},
                     message_str: message_str,
                     email: email,
                     radio: radio,
                     _token: "{{csrf_token()}}"
                 };
-                console.log(data);
                 $.post(url, data, function (data, status) {
-                        console.log("Data: " + data + "\nStatus: " + status);
                     })
                     .fail(function (error) {
                         console.log(error);
@@ -369,7 +271,6 @@
                 {
                     name: 'lessons',
                     display: function (item) {
-                        //alert(item.country);
                         return item.name
                     },
                     source: data.ttAdapter(),

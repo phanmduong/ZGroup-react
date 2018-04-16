@@ -21,7 +21,7 @@ class Good extends Model
 
     public function orders()
     {
-        return $this->hasMany('App\Order', 'good_id');
+        return $this->belongsToMany(Order::class, 'good_order', 'good_id', 'order_id');
     }
 
     public function importedGoods()
@@ -48,7 +48,9 @@ class Good extends Model
     {
         return $this->belongsToMany(Warehouse::class, 'good_warehouse', 'good_id', 'warehouse_id');
     }
-
+    public function zHistoryGood(){
+        return $this->hasMany(ZHistoryGood::class,'good_id');
+    }
     public function properties()
     {
         return $this->hasMany(GoodProperty::class, 'good_id')

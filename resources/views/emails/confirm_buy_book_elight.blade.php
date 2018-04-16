@@ -179,7 +179,7 @@
                                         <tr>
                                             <td>
                                                 <img class="header-image"
-                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1520048113TMFlOqYhT0mmj89.jpg"
+                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1522464758XmeFRDburfmhZG7.jpg"
                                                      border="0" alt="" title="logo" width="600" height="auto"
                                                      style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td>
@@ -195,35 +195,6 @@
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0"
                                                        style="margin: auto;">
                                                     <tbody>
-                                                    <tr style="text-align: center;vertical-align: middle;">
-                                                        <td style="text-align: center;background-color: #00396c;padding:0;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png"
-                                                                 alt="Logo" style="margin:20px" height="35px"/>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-top: 35px; color:#001131; font-weight: 100; text-decoration:none; font-size:36px; font-family: 'nokia-pure-headline-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; line-height:42px; text-align: center;">
-                                                            Xác nhận đặt hàng thành công
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-top: 30px;">
-                                                            <table width="170" border="0" cellpadding="0"
-                                                                   cellspacing="0" style="margin: auto;" align="center">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td style="text-align: center; border-radius:30px; background-color: #124191; color: #ffffff; border-style:solid; border-color: #124191; border-width: 2px">
-                                                                        <a href="{{url("/")}}" target="_blank"
-                                                                           style="display:block; width:100%; font-size:14px; min-height:40px; line-height:40px; font-weight: 200; text-decoration:none; color: #ffffff; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; cursor:pointer;">Xem
-                                                                            tình trạng đơn
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
                                                 </table>
                                             </td>
                                         </tr>
@@ -234,29 +205,22 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
                                         <tr>
-                                            <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                <p>Chào {{$user->name}},</p>
-                                                <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
-                                                    tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với Elight qua
-                                                    <a href="emailto:graphics@colorme.vn">elightedu.books@gmail.com</a></p>
+                                            <td style="padding: 0 40px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                                <p>Cảm ơn <b>{{$user->name}}</b> đã đặt mua sản phẩm của ELIGHT. Chậm nhất trong vòng 3 tiếng (giờ làm việc) bạn sẽ nhận được email hoặc điện thoại hỗ trợ từ Elight để hướng dẫn cách thức thanh toán. Dưới đây là thông tin đơn hàng của bạn</p>
                                                 <p>
                                                     Tên: <b>{{$user->name}}</b><br/>
                                                     Email: <b>{{$user->email}}</b><br/>
                                                     Số điện thoại: <b>{{$user->phone}}</b><br/>
                                                     Địa chỉ: <b>{{$user->address}}</b><br/>
                                                     Phương thức thanh toán: <b>{{$order->payment}}</b><br/>
-                                                <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:
-                                                </div>
-                                                <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
-                                                <div>Ship đến tỉnh thành khác: 30k</div>
                                                 </p>
                                                 <p>
                                                 <table id="goods-table" style="width: 100%">
                                                     <tr>
-                                                        <th style="text-align: left">Tên hàng</th>
+                                                        <th style="text-align: left">Sản phẩm</th>
                                                         <th style="text-align: left">Đơn giá</th>
                                                         <th style="text-align: left">Số lượng</th>
-                                                        <th style="text-align: left">Tổng tiền</th>
+                                                        <th style="text-align: left">Thành tiền</th>
                                                     </tr>
                                                     @foreach($goods as $good)
                                                         <tr>
@@ -281,53 +245,71 @@
                                                 </table>
 
                                                 </p>
-                                                <!-- <p style="font-weight: 600">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522210239e2surOIDlwO3XOM.jpg" alt="">
+                                                    </div>
+                                                </div>
+                                        
+                                                <p>Vui lòng chờ email hoặc điện thoại từ phía Elight hướng dẫn bạn cách thức thanh toán sớm nhất. 
                                                     <br>
-                                                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển
-                                                        khoản</b> dưới đây là thông tin chuyển
-                                                    khoản:</p>
-                                                <p>
-                                                    Tên tài khoản: NGUYEN QUANG HUNG<br/>
-                                                    Số tài khoản: 09 91 00 00 39 263 <br/>
-                                                    Ngân hàng: Vietcombank Tây Hồ.
-                                                </p> -->
-                                                <p>
-                                                    Rất cám ơn sự ủng hộ của bạn đối với Elight. Chúc bạn một ngày tốt
-                                                    lành!
-                                                </p>
+                                                Chân thành cảm ơn sự ủng hộ của bạn.</p>
+                                            
+                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" style="margin:5px">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <img style="margin-right: auto;width: 100px; height: auto;" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522206436MOjkHVg3WSMVhyI.jpg" alt="">
+                                                        </td>
+                                                        <td>
+                                                            <p style="margin-left: auto;text-align: right;padding-right: 10px;">
+                                                                <span style="text-align: right;">0981 937 066 | 01628766444</span>
+                                                                <br/>
+                                                                <span style="text-align: right">elightedu.books@gmail.com</span>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>                                                
                                             </td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- end BLOCK - block 2 columns / phone -->
-                                    <!-- BLOCK - 1 column / second with lifestyle image -->
+                                        <!-- <tr>
+                                            <td style="padding: 0 40px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
 
-                                    <!-- end BLOCK - 1 column / main -->
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!-- BLOCK - Footer -->
-                        <table class="container" align="center" width="600" border="0" cellpadding="0" cellspacing="0">
-                            <tbody>
-                            <tr>
-                                <td style="padding-top: 20px; padding-bottom: 30px; padding-right: 20px; padding-left: 20px;">
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0"
-                                           style="max-width: 560px;">
-                                        <tbody>
-                                        <tr>
-                                            <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
-                                                <p>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất</p>
-                                            </td>
-                                        </tr>
-
+                                           </td>
+                                           <td style="padding: 0 40px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                           <p style="margin-left: auto;text-align: right;padding-right: 10px;">
+                                                            <span style="text-align: right;">098 937 066 | 01628766444</span>
+                                                            <br/>
+                                                            <span style="text-align: right">elightedu.books@gmail.com</span>
+                                                        </p>                                           </td>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </td>
                             </tr>
                             </tbody>
+                            <!-- <table class="container" align="center" width="600" border="0" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-top: 20px; padding-bottom: 30px; padding-right: 20px; padding-left: 20px;">
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0"
+                                            style="max-width: 560px;">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
+                                                    <p>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất</p>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table> -->
                         </table>
-                        <!-- end BLOCK - Footer -->
                     </td>
                 </tr>
                 </tbody>
