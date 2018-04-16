@@ -365,7 +365,6 @@
         </div>
     </footer>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
-    {{--<script src="https://cdn.jsdelivr.net/npm/vue"></script>--}}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/nhatquangshop/js/nav.vue.js"></script>
 </div>
