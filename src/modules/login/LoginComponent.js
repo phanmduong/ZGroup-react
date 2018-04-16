@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FormInputText from "../../components/common/FormInputText";
-import { DOMAIN, LOGO_LOGIN } from "../../constants/env";
+import { DOMAIN } from "../../constants/env";
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
