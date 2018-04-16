@@ -16,6 +16,8 @@ use App\SmsList;
 use App\SmsTemplate;
 use App\SmsTemplateType;
 use App\Group;
+use App\StudyClass;
+use App\User;
 use Illuminate\Http\Request;
 
 class ManageSmsApiController extends ManageApiController
@@ -265,12 +267,67 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function getReceiversChoice(Request $request)
+    {
 
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+        $courses = json_decode($request->courses);
+        $limit = $request->limit ? $request->limit : 20;
+        // $paid_course_quantity = $request->paid_course_quantity;
+        if ($request->carer_id) {
+            $users = User::find($request->carer_id)->getCaredUsers();
+        } else $users = User::query();
 
-//    public function getReceiversChoice()
-//    {
-//
-//    }
+        if ($startTime != null && $endTime != null) {
+            $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
+        }
 
+        if ($request->top) {
+            $users = $users->simplePaginate($request->top);
+        } else {
+            $users = $users->paginate($limit);
+        }
+
+        $classes = StudyClass::query()->join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")->where(function ($query) use ($courses) {
+            if ($courses) {
+                for ($index = 0; $index < count($courses); ++$index) {
+                    $course_id = $courses[$index]->id;
+                    if ($index == 0)
+                        $query->where('courses.id', '=', $course_id);
+                    else
+                        $query->orWhere('courses.id', '=', $course_id);
+                }
+            }
+        })->get();
+
+        $classes = array_merge($classes, json_decode($request->classes));
+        $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+            ->select('users.*')->where(function ($query) use ($classes) {
+                if ($classes) {
+                    for ($index = 0; $index < count($classes); ++$index) {
+                        $class_id = $classes[$index]->id;
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
+                    }
+                }
+            });
+
+        if ($request->top) {
+            return $this->respondWithSimplePagination($users, [
+                'users' => $users->map(function ($user) {
+                    return $user->getReceivers();
+                })
+            ]);
+        } else {
+            return $this->respondWithPagination($users, [
+                'users' => $users->map(function ($user) {
+                    return $user->getReceivers();
+                })
+            ]);
+        }
+    }
 
 }
