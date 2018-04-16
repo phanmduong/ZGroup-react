@@ -1,6 +1,7 @@
 @extends('beeschool::layouts.master')
 
 @section('content')
+<div class="tp-bgimg defaultimg" style="height: 415px; background-image: url(/beeschool/cover-TB.jpg);  background-size: cover; background-position: 50%;"></div>
 <main id="primary">
         <div class="container">
             <div class="vc_row-full-width vc_clearfix"></div>
