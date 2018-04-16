@@ -5,7 +5,7 @@ import goodOrdersReducer from "../modules/goodOrders/goodOrdersReducer";
 import dashboardXHHReducer from "../modules/dashboardXHH/dashboardXHHReducer";
 import DashBoardUpReducer from "../modules/dashboardUp/DashBoardUpReducer";
 import dashboardReducer from "../modules/dashboard/dashboardReducer";
-import dashboardStaffReducer from "../modules/dashboardStaff/dashboardStaffReducer";
+// import dashboardStaffReducer from "../modules/dashboardStaff/dashboardStaffReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import taskReducer from "../modules/tasks/taskReducer";
 
@@ -17,7 +17,7 @@ const appReducer = combineReducers({
     seat: seatReducer,
     dashboardUp: DashBoardUpReducer,
     task: taskReducer,
-    dashboardStaff: dashboardStaffReducer,
+    // dashboardStaff: dashboardStaffReducer,
 });
 
 const rootReducer = (state, action) => {
