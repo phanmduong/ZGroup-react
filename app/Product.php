@@ -105,7 +105,7 @@ class Product extends Model
 
 
         $data["categories"] = $this->productCategories;
-        $data["language"] = $this->language->id;
+        $data["language"] = $this->language ? $this->language->id : 0;
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;
