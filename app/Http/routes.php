@@ -40,7 +40,7 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
+Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');

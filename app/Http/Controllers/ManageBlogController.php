@@ -89,6 +89,8 @@ class ManageBlogController extends ManageApiController
         $product->author_id = $this->user->id;
         $product->tags = $request->tags_string;
         $product->category_id = $request->category_id;
+        $product->language_id = $request->language_id; //
+
         $product->type = 2;
         $product->url = trim_url($request->image_url);
         if ($request->status) {
@@ -157,6 +159,13 @@ class ManageBlogController extends ManageApiController
                     $data['category'] = [
                         'id' => $post->category->id,
                         'name' => $post->category->name,
+                    ];
+                }
+                if ($post->language) {
+                    $data['language'] = [
+                        'id' => $post->language->id,
+                        'name' => $post->language->name,
+                        'encoding'=> $post->language->encoding,
                     ];
                 }
 

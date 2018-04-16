@@ -145,9 +145,11 @@ class UpCoworkingSpaceController extends Controller
             return 'Bài viết không tồn tại';
         }
         $data = $this->getPostData($post);
+
+
         switch($this->lang){
-            case 'vi': return view('upcoworkingspace::vi.post', $data);
-            case 'en': return view('upcoworkingspace::en.post', $data);
+            case 'vi': return view('upcoworkingspace::vi.post', $data); break;
+            case 'en': return view('upcoworkingspace::en.post', $data); break;
             default: return view('upcoworkingspace::en.post', $data);
         }
     }

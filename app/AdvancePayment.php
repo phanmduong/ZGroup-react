@@ -28,6 +28,7 @@ class AdvancePayment extends Model
                 'id' => $this->staff->id,
                 'name' => $this->staff->name,
                 'avatar_url' => $this->staff->avatar_url,
+                'phone' => $this->staff->phone,
             ] : [],
             'company_pay' => $this->companyPay ? [
                 'id' => $this->companyPay->id,

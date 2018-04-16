@@ -1,0 +1,16 @@
+{
+    "name": "Demo",
+    "alias": "demo",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Demo\\Providers\\DemoServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
