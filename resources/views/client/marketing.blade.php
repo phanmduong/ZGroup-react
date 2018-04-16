@@ -1,1 +1,1 @@
-@extends("client.layout.master") @section("css") <link href="manage/marketing/main.94fbc12c5e41f288e3f42030944b0889.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/marketing/main.db103d6949596d6d5c1a.js"></script> @endsection
+@extends("client.layout.master") @section("css") <link href="manage/marketing/main.016791dbaf213eaf117d4b45ca278c0c.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/marketing/main.470087255d9d9ce3c280.js"></script> @endsection
