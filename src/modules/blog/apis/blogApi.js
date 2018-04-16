@@ -1,5 +1,23 @@
+/**
+ * Created by Kiyoshitaro on 15/04/2018.
+ */
 import axios from "axios";
-import * as env from "../../constants/env";
+import * as env from "../../../constants/env";
+
+
+export function loadPostsApis(page = 1, search = "", category_id) {
+    let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page;
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "&token=" + token;
+    }
+    if (category_id) {
+        url += "&category_id=" + category_id;
+    }
+    return axios.get(url);
+}
+
+
 
 export function uploadImage(file, completeHandler, error) {
     let url = env.API_URL + "/upload-image-froala";
@@ -23,7 +41,7 @@ export function savePost(post, status) {
         description: post.description,
         product_content: post.content,
         tags_string: post.tags,
-        categories: JSON.stringify(post.categories.map((category) => {return {"id" : category.value}} )),
+        categories: JSON.stringify(post.categories.map((category) => {return {"id" : category.value};} )),
         image_url: post.imageUrl,
         slug: post.slug,
         meta_title: post.meta_title,
@@ -32,13 +50,10 @@ export function savePost(post, status) {
         title: post.title,
         status: status,
         id: post.id,
+        language_id : post.language_id,
     });
 }
 
-export function loadCategories() {
-    let url = env.API_URL + "/product-categories";
-    return axios.get(url);
-}
 
 export function createCategory(catogory) {
     let url = env.MANAGE_API_URL + "/create-category";
@@ -62,18 +77,8 @@ export function createLanguageApi(language) {
     });
 }
 
-export function getPosts(page = 1, search = "", category_id) {
-    let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page;
-    let token = localStorage.getItem("token");
-    if (token) {
-        url += "&token=" + token;
-    }
-    if (category_id) {
-        url += "&category_id=" + category_id;
-    }
-    return axios.get(url);
-}
-export function getCategoriesApi() {
+
+export function loadCategoriesApi() {
     let url = env.MANAGE_API_URL + "/post/categories?";
     let token = localStorage.getItem("token");
     if (token) {
@@ -91,7 +96,7 @@ export function loadLanguagesApi() {
     return axios.get(url);
 }
 
-export function deletePost(postId) {
+export function deletePostApi(postId) {
     let url = env.MANAGE_API_URL + `/post/${postId}/delete`;
     let token = localStorage.getItem("token");
     if (token) {
@@ -100,7 +105,7 @@ export function deletePost(postId) {
     return axios.delete(url);
 }
 
-export function getPost(postId) {
+export function getPostApi(postId) {
     let url = env.MANAGE_API_URL + `/post/${postId}`;
     let token = localStorage.getItem("token");
     if (token) {

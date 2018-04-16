@@ -31,7 +31,6 @@ export function countTime(register) {
 }
 
 function convertTime(minute) {
-    console.log(minute,"ssssssssssss");
     const hour = Math.floor(minute / 60);
     minute = minute - hour * 60;
     return minute === 0 ? hour + " giờ" : hour + " giờ " + minute + " phút";

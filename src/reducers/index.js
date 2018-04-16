@@ -9,7 +9,7 @@ import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
 import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
-import blogReducer from '../modules/blog/blogReducer';
+// import blogReducer from '../modules/blog/blogReducer';
 import profileReducer from '../modules/profile/profileReducer';
 import studySessionReducer from '../modules/studySession/studySessionReducer';
 import scheduleClassReducer from '../modules/scheduleClass/scheduleClassReducer';
@@ -98,7 +98,7 @@ const appReducer = combineReducers({
     task: taskReducer,
     emailTemplates: emailTemplatesReducer,
     emailForms: emailFormsReducer,
-    blog: blogReducer,
+    // blog: blogReducer,
     profile: profileReducer,
     studySession: studySessionReducer,
     scheduleClass: scheduleClassReducer,
