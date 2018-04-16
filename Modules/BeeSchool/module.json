@@ -1,0 +1,16 @@
+{
+    "name": "BeeSchool",
+    "alias": "beeschool",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\BeeSchool\\Providers\\BeeSchoolServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GoodPropertyItem extends Model
 {
     use SoftDeletes;
-    protected $table = "good_property_items";
+    protected $table = 'good_property_items';
 
     public function creator()
     {
@@ -20,26 +20,36 @@ class GoodPropertyItem extends Model
     public function tasks()
     {
         return $this
-            ->belongsToMany(Task::class,
-                'good_property_item_task', 'good_property_item_id', 'task_id')
-            ->withPivot("order");
+            ->belongsToMany(
+                Task::class,
+                'good_property_item_task',
+                'good_property_item_id',
+                'task_id'
+            )
+            ->withPivot('order');
+    }
+
+    public function propertyItemTasks()
+    {
+        return $this->hasMany(GoodPropertyItemTask::class, 'good_property_item_id');
     }
 
     public function transform()
     {
         $data = [
-            "id" => $this->id,
-            "name" => $this->name,
-            "prevalue" => $this->prevalue,
-            "preunit" => $this->preunit,
-            "type" => $this->type,
+            'id' => $this->id,
+            'name' => $this->name,
+            'prevalue' => $this->prevalue,
+            'preunit' => $this->preunit,
+            'type' => $this->type,
         ];
-        if($this->creator)
+        if ($this->creator) {
             $data['creator'] = [
-                "id" => $this->creator->id,
-                "name" => $this->creator->name,
-                "email" => $this->creator->email
+                'id' => $this->creator->id,
+                'name' => $this->creator->name,
+                'email' => $this->creator->email
             ];
+        }
         return $data;
     }
 }

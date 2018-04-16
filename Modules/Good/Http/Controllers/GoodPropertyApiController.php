@@ -77,6 +77,13 @@ class GoodPropertyApiController extends ManageApiController
         }
 
         $goodPropertyItem = GoodPropertyItem::find($property_item_id);
+
+        $propertyItemTasks = $goodPropertyItem->propertyItemTasks;
+
+        foreach ($propertyItemTasks as $propertyItemTask) {
+            $propertyItemTask->delete();
+        }
+
         $goodPropertyItem->delete();
         return $this->respondSuccessWithStatus([
             'message' => 'success'
