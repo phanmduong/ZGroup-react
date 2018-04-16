@@ -925,6 +925,13 @@ a.btn-seat.active {
 }
 
 
+.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
+    background-color: rgba(197, 0, 0, 1)!important;
+}
+
+.nav-pills-rose > .active > a {
+    background-color: rgba(197, 0, 0, 1) !important;
+}
 
 
 .nav-pills > li > a > i {
@@ -967,6 +974,7 @@ a.btn-seat.active {
     height: 40px;
     border-radius: 5px;
     display: flex;
+    cursor: auto;
 }
 .campaign-message-type > span {
     margin: auto;
@@ -989,3 +997,4 @@ a.btn-seat.active {
     background-color: #74D512;
     cursor: auto;
 }
+

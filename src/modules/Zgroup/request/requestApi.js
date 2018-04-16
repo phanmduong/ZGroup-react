@@ -100,9 +100,24 @@ export function getAllRequestMoney(info = {}) {
     info = {
         ...info,
         page: info.page || 1,
-        query: info.query || "",
+        start_time: info.start_time || "",
+        end_time : info.end_time || "", 
+        staff_name : info.staff_name || "", 
+        command_code : info.command_code || "", 
+        company_pay_id : info.company_pay_id || "", 
+        company_receive_id : info.company_receive_id || "", 
+        status : (info.status || info.status==0) ? info.status : "", 
     };
-    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?page=" + info.page + "&query=" + info.query;
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?"
+    + "page=" + info.page 
+    + "&start_time=" + info.start_time
+    + "&end_time=" + info.end_time
+    + "&staff_name=" + info.staff_name
+    + "&command_code=" + info.command_code
+    + "&company_pay_id=" + info.company_pay_id
+    + "&company_receive_id=" + info.company_receive_id
+    + "&status=" + info.status
+    ;
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;
@@ -124,22 +139,22 @@ export function getAllRequestVacation(info = {}) {
     return axios.get(url);
 }
 
-export function confirmPayRequest(id, money_received) {
+export function confirmPayRequest(id, money_received, company_pay_id) {
     let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     } 
-    return axios.post(url, {money_received, status: 1});
+    return axios.post(url, {money_received,company_pay_id, status: 1});
 }
 
-export function confirmReceiveRequest(id, money_used) {
+export function confirmReceiveRequest(id, money_used, date_complete,company_receive_id) {
     let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/" + id + "/change-status";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     } 
-    return axios.post(url, {money_used, status: 2});
+    return axios.post(url, {money_used, date_complete,company_receive_id, status: 2});
 }
 
 export function confirmRequestVacation(id) {
@@ -149,4 +164,24 @@ export function confirmRequestVacation(id) {
         url +=  "?token=" + token;
     } 
     return axios.post(url, { status: 1});
+}
+
+
+export function getRequestMoneyNoPaging() {
+    
+    let url     = env.MANAGE_API_URL +"/company/administration/advance-payment/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    } 
+    return axios.get(url);
+}
+
+export function loadAllCompany() {
+    let url     = env.MANAGE_API_URL +"/company/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    } 
+    return axios.get(url);
 }

@@ -43,6 +43,11 @@ export default function weekendReportReducer(state = initialState.weekendReport,
                 ...state,
                 weekendReportModal: action.report
             };
+        case types.HANDLE_COMMENT:
+            return{
+                ...state,
+                comment : action.comment
+            };
         case types.BEGIN_SAVE_REPORT:
             return {
                 ...state,

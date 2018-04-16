@@ -6,8 +6,9 @@ import {bindActionCreators} from 'redux';
 import * as campaignAction from "./campaignAction";
 import Loading from "../../components/common/Loading";
 import FormInputSelect from '../../components/common/FormInputSelect';
-import FormInputDate from '../../components/common/FormInputDate';
+import FormInputDateTime from '../../components/common/FormInputDateTime';
 import * as helper from "../../helpers/helper";
+import {DATETIME_FORMAT_SQL} from "../../constants/constants";
 
 
 class AddMessageModal extends React.Component {
@@ -34,13 +35,6 @@ class AddMessageModal extends React.Component {
         }
         else this.props.campaignAction.editMessage(message);
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
-    //         this.props.campaignAction.loadAllMessage(1);
-    //     }
-    // }
-    // Không để componentWillReceiveProps trong Modal như thế này
 
     upMessage(e) {
         const field = e.target.name;
@@ -82,16 +76,13 @@ class AddMessageModal extends React.Component {
 
                                 </div>
                                 <div className="col-md-6">
-                                    <FormInputDate
-                                        type="string"
-                                        label="Ngày gửi tin"
+                                    <FormInputDateTime
+                                        format={DATETIME_FORMAT_SQL}
                                         name="send_time"
-                                        updateFormData={this.upMessage}
-                                        id="form-send-time"
+                                        id="send_time"
+                                        label="Ngày gửi tin"
                                         value={message.send_time || ''}
-                                        required={true}
-                                        placeholder="dd/mm/yyyy"
-                                        disabled={this.props.upMessage}
+                                        updateFormData={this.upMessage}
                                     />
 
                                 </div>
