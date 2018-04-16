@@ -8,5 +8,5 @@ class Event extends Model
 {
     protected $fillable = [];
     protected $table = 'events';
-    Carbon::createFromFormat('Y-m', $dateVariable);
+    // Carbon::createFromFormat('Y-m', $dateVariable);
 }
