@@ -1,27 +1,13 @@
 @extends('beeschool::layouts.master')
 
 @section('content')
-    <main id="primary">
+<div class="tp-bgimg defaultimg" style="height: 415px; background-image: url(/beeschool/cover-TB.jpg);  background-size: cover; background-position: 50%;"></div>
+<main id="primary">
         <div class="container">
-            <div data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"
-                 class="vc_row wpb_row vc_row-fluid vc_row-no-padding"
-                 style="position: relative; left: -314.5px; box-sizing: border-box; width: 1838px;">
-                <div class="wpb_column vc_column_container vc_col-sm-12">
-                    <div class="vc_column-inner ">
-                        
-
-
-						<img src="/beeschool/11.jpg" style="width: 100%; height: 100%">
- 
-
-
-                    </div>
-                </div>
-            </div>
             <div class="vc_row-full-width vc_clearfix"></div>
             <div id="section-01" data-vc-full-width="true" data-vc-full-width-init="true"
                  class="vc_row wpb_row vc_row-fluid"
-                 style="position: relative; left: -314.5px; box-sizing: border-box; width: 1838px; padding-left: 314.5px; padding-right: 314.5px;">
+                 style="position: relative; left: -8px; box-sizing: border-box; width: 1058px; padding-left: 8px; padding-right: 0px;">
                 <div class="wpb_column vc_column_container vc_col-sm-12">
                     <div class="vc_column-inner ">
                         <div class="wpb_wrapper">
@@ -30,7 +16,7 @@
                                     <div class="sliderlogo owl-carousel owl-loaded owl-drag">
                                         <div class="owl-stage-outer">
                                             <div class="owl-stage"
-                                                 style="transform: translate3d(-1205px, 0px, 0px); transition: 0s; width: 3616px;">
+                                                 style="transform: translate3d(-1549px, 0px, 0px); transition: 0.25s; width: 3616px;">
                                                 <div class="owl-item cloned"
                                                      style="width: 162.143px; margin-right: 10px;">
                                                     <div class="item">
@@ -75,7 +61,6 @@
                                                             <img src="/beeschool/logo1-nnfhdlygdv6fmfbufomlk8j4862csayymty7uh2xg8.jpg"
                                                                  alt="Cambridge">
                                                         </a></div>
-                                                        
                                                 </div>
                                                 <div class="owl-item cloned"
                                                      style="width: 162.143px; margin-right: 10px;">
@@ -95,8 +80,7 @@
                                                                  alt="Fastrackids">
                                                         </a></div>
                                                 </div>
-                                                <div class="owl-item active"
-                                                     style="width: 162.143px; margin-right: 10px;">
+                                                <div class="owl-item" style="width: 162.143px; margin-right: 10px;">
                                                     <div class="item">
                                                         <a class="thumb-logo" href="http://beeschool.vn/beesmart/"
                                                            target="_blank">
@@ -104,8 +88,7 @@
                                                                  alt="BeeSmart">
                                                         </a></div>
                                                 </div>
-                                                <div class="owl-item active"
-                                                     style="width: 162.143px; margin-right: 10px;">
+                                                <div class="owl-item" style="width: 162.143px; margin-right: 10px;">
                                                     <div class="item">
                                                         <a class="thumb-logo" href="http://beeschool.vn/#"
                                                            target="_blank">
@@ -158,7 +141,7 @@
                                                                  alt="Fastrackids">
                                                         </a></div>
                                                 </div>
-                                                <div class="owl-item cloned"
+                                                <div class="owl-item cloned active"
                                                      style="width: 162.143px; margin-right: 10px;">
                                                     <div class="item">
                                                         <a class="thumb-logo" href="http://beeschool.vn/beesmart/"
@@ -167,7 +150,7 @@
                                                                  alt="BeeSmart">
                                                         </a></div>
                                                 </div>
-                                                <div class="owl-item cloned"
+                                                <div class="owl-item cloned active"
                                                      style="width: 162.143px; margin-right: 10px;">
                                                     <div class="item">
                                                         <a class="thumb-logo" href="http://beeschool.vn/#"
@@ -240,7 +223,7 @@
             <div class="vc_row-full-width vc_clearfix"></div>
             <div id="section-02" data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"
                  class="vc_row wpb_row vc_row-fluid"
-                 style="position: relative; left: -314.5px; box-sizing: border-box; width: 1838px;">
+                 style="position: relative; left: -8px; box-sizing: border-box; width: 1058px;">
                 <div class="section-content wpb_column vc_column_container vc_col-sm-12">
                     <div class="vc_column-inner ">
                         <div class="wpb_wrapper">
@@ -342,7 +325,7 @@
             <div class="vc_row-full-width vc_clearfix"></div>
             <div id="class_open" data-vc-full-width="true" data-vc-full-width-init="true"
                  class="vc_row wpb_row vc_row-fluid"
-                 style="position: relative; left: -314.5px; box-sizing: border-box; width: 1838px; padding-left: 314.5px; padding-right: 314.5px;">
+                 style="position: relative; left: -8px; box-sizing: border-box; width: 1058px; padding-left: 8px; padding-right: 0px;">
                 <div class="wpb_column vc_column_container vc_col-sm-12">
                     <div class="vc_column-inner ">
                         <div class="wpb_wrapper">
@@ -446,9 +429,9 @@
                                                         <div class="list-post-news owl-carousel owl-loaded owl-drag">
                                                             <div class="owl-stage-outer">
                                                                 <div class="owl-stage"
-                                                                     style="transform: translate3d(0px, 0px, 0px); transition: 0s; width: 874px;">
+                                                                     style="transform: translate3d(0px, 0px, 0px); transition: 0s; width: 756px;">
                                                                     <div class="owl-item active"
-                                                                         style="width: 281.333px; margin-right: 10px;">
+                                                                         style="width: 241.667px; margin-right: 10px;">
                                                                         <div class="content_class">
                                                                             <a class="images"
                                                                                href="http://beeschool.vn/blog/lam-sao-de-tre-hung-thu-voi-tieng-anh/"
@@ -464,7 +447,7 @@
                                                                                 cho trẻ...</p></div>
                                                                     </div>
                                                                     <div class="owl-item active"
-                                                                         style="width: 281.333px; margin-right: 10px;">
+                                                                         style="width: 241.667px; margin-right: 10px;">
                                                                         <div class="content_class">
                                                                             <a class="images"
                                                                                href="http://beeschool.vn/blog/lam-sao-de-tap-trung-hoc/"
@@ -479,7 +462,7 @@
                                                                                 trẻ...</p></div>
                                                                     </div>
                                                                     <div class="owl-item active"
-                                                                         style="width: 281.333px; margin-right: 10px;">
+                                                                         style="width: 241.667px; margin-right: 10px;">
                                                                         <div class="content_class">
                                                                             <a class="images"
                                                                                href="http://beeschool.vn/blog/loi-ich-tu-viec-cho-tre-hoc-tieng-anh-tu-som/"
@@ -610,7 +593,7 @@
                                                              class="widget_text widget widget_custom_html">
                                                         <div class="textwidget custom-html-widget">
                                                             <iframe width="100%" height="260"
-                                                                    src="/beeschool/TLNbsNTlQK8.html"
+                                                                    src="https://www.youtube.com/embed/TLNbsNTlQK8"
                                                                     frameborder="0" allowfullscreen=""></iframe>
                                                         </div>
                                                     </section>
@@ -736,126 +719,12 @@
                                                 hàng</a></h2>
                                         <div class="list-comment owl-carousel owl-loaded owl-drag">
                                             <div class="owl-stage-outer">
-                                                <div class="owl-stage"
-                                                     style="transform: translate3d(-2408px, 0px, 0px); transition: 0s; width: 8428px;">
+                                                <div class="owl-stage">
                                                     <div class="owl-item cloned"
-                                                         style="width: 1194px; margin-right: 10px;">
+                                                         style="margin-right: 10px;">
                                                         <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-2/"
-                                                               title="Hải Minh">
-                                                                <img src="/beeschool/aaaaa-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Hải Minh">
-                                                            </a>
-                                                            <p class="comment">Cảm ơn tất cả các thầy cô giáo của
-                                                                BeeSchool English đã rất nổ lực và nhiệt tình tạo những
-                                                                sân chơi học tập và giao lưu bổ ích cho các bạn nhỏ. Tuy
-                                                                mới tham gia lớp học nhưng bạn Bat-Man Thái Anh rất
-                                                                thích đến lớp mỗi tuần. Mỗi lần đến lớp với con là một
-                                                                lần vui, bởi ở đó con được học-chơi-chơi-học. Trân trọng
-                                                                và yêu quý vô cùng những khoảnh khắc tuyệt vời này,
-                                                                BeeSchool ạ.</p>
-                                                            <p class="field-name">Chị Hải Minh</p></div>
-                                                    </div>
-                                                    <div class="owl-item cloned"
-                                                         style="width: 1194px; margin-right: 10px;">
-                                                        <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-1/"
-                                                               title="Phan Huệ">
-                                                                <img src="/beeschool/Chi-Phan-Huệ-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Phan Huệ">
-                                                            </a>
-                                                            <p class="comment">Hannah rất vui BeeSchool, đặc biệt là yêu
-                                                                quý cô Vicky, vẫn mơ màng kể với mẹ là cô Vicky nói:
-                                                                Được gặp các con là cô hết cả đói, hết cả buồn ngủ, hết
-                                                                cả mệt! Trong mắt mẹ, đó là một cô giáo dễ thương, tràn
-                                                                trề lửa....Chúc BeeSchool và cô Vicky luôn cháy rực ngọn
-                                                                lửa đó để truyền cho các con niềm yêu thích học tiếng
-                                                                Anh nhé.</p>
-                                                            <p class="field-name">Phan Thị Huệ</p></div>
-                                                    </div>
-                                                    <div class="owl-item active"
-                                                         style="width: 1194px; margin-right: 10px;">
-                                                        <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-3/"
-                                                               title="Nguyễn Nga">
-                                                                <img src="/beeschool/11202551_1592778234317797_1155052358311519473_n-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Nguyễn Nga">
-                                                            </a>
-                                                            <p class="comment">Ngày đầu tiên con đi học thử ở trung tâm
-                                                                tiếng Anh. Mẹ thì lo con nhút nhát, không hòa nhập được
-                                                                với các bạn, với thầy giáo bản xứ. Con lên lớp, mẹ ngồi
-                                                                dưới theo dõi con qua camera. Thấy con bỡ ngỡ rồi cô
-                                                                Kimmy đã giúp con làm quen. Hết buổi học thấy con hào
-                                                                hứng vui vẻ, mẹ cũng vui lây. Con bảo" Con thích học
-                                                                tiếng Anh" 
-                                                                &nbsp; &nbsp;</p>
-                                                            <p class="field-name">Nguyễn Nga</p></div>
-                                                    </div>
-                                                    <div class="owl-item" style="width: 1194px; margin-right: 10px;">
-                                                        <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-2/"
-                                                               title="Hải Minh">
-                                                                <img src="/beeschool/aaaaa-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Hải Minh">
-                                                            </a>
-                                                            <p class="comment">Cảm ơn tất cả các thầy cô giáo của
-                                                                BeeSchool English đã rất nổ lực và nhiệt tình tạo những
-                                                                sân chơi học tập và giao lưu bổ ích cho các bạn nhỏ. Tuy
-                                                                mới tham gia lớp học nhưng bạn Bat-Man Thái Anh rất
-                                                                thích đến lớp mỗi tuần. Mỗi lần đến lớp với con là một
-                                                                lần vui, bởi ở đó con được học-chơi-chơi-học. Trân trọng
-                                                                và yêu quý vô cùng những khoảnh khắc tuyệt vời này,
-                                                                BeeSchool ạ.</p>
-                                                            <p class="field-name">Chị Hải Minh</p></div>
-                                                    </div>
-                                                    <div class="owl-item" style="width: 1194px; margin-right: 10px;">
-                                                        <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-1/"
-                                                               title="Phan Huệ">
-                                                                <img src="/beeschool/Chi-Phan-Huệ-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Phan Huệ">
-                                                            </a>
-                                                            <p class="comment">Hannah rất vui BeeSchool, đặc biệt là yêu
-                                                                quý cô Vicky, vẫn mơ màng kể với mẹ là cô Vicky nói:
-                                                                Được gặp các con là cô hết cả đói, hết cả buồn ngủ, hết
-                                                                cả mệt! Trong mắt mẹ, đó là một cô giáo dễ thương, tràn
-                                                                trề lửa....Chúc BeeSchool và cô Vicky luôn cháy rực ngọn
-                                                                lửa đó để truyền cho các con niềm yêu thích học tiếng
-                                                                Anh nhé.</p>
-                                                            <p class="field-name">Phan Thị Huệ</p></div>
-                                                    </div>
-                                                    <div class="owl-item cloned"
-                                                         style="width: 1194px; margin-right: 10px;">
-                                                        <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-3/"
-                                                               title="Nguyễn Nga">
-                                                                <img src="/beeschool/11202551_1592778234317797_1155052358311519473_n-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Nguyễn Nga">
-                                                            </a>
-                                                            <p class="comment">Ngày đầu tiên con đi học thử ở trung tâm
-                                                                tiếng Anh. Mẹ thì lo con nhút nhát, không hòa nhập được
-                                                                với các bạn, với thầy giáo bản xứ. Con lên lớp, mẹ ngồi
-                                                                dưới theo dõi con qua camera. Thấy con bỡ ngỡ rồi cô
-                                                                Kimmy đã giúp con làm quen. Hết buổi học thấy con hào
-                                                                hứng vui vẻ, mẹ cũng vui lây. Con bảo" Con thích học
-                                                                tiếng Anh" 
-                                                                &nbsp; &nbsp;</p>
-                                                            <p class="field-name">Nguyễn Nga</p></div>
-                                                    </div>
-                                                    <div class="owl-item cloned"
-                                                         style="width: 1194px; margin-right: 10px;">
-                                                        <div class="content-comment">
-                                                            <a class="images-comment"
-                                                               href="http://beeschool.vn/comment/khach-hang-2/"
-                                                               title="Hải Minh">
-                                                                <img src="/beeschool/aaaaa-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg"
-                                                                     alt="Hải Minh">
+                                                            <a class="images-comment">
+                                                                <img src="/beeschool/aaaaa-nnfhdlyg8lqn3l8kj0dker7xalz8ui02z67dz4hc2k.jpg">
                                                             </a>
                                                             <p class="comment">Cảm ơn tất cả các thầy cô giáo của
                                                                 BeeSchool English đã rất nổ lực và nhiệt tình tạo những
@@ -876,9 +745,9 @@
                                                                          aria-hidden="true"></i></div>
                                             </div>
                                             <div class="owl-dots">
+                                                <div class="owl-dot"><span></span></div>
+                                                <div class="owl-dot"><span></span></div>
                                                 <div class="owl-dot active"><span></span></div>
-                                                <div class="owl-dot"><span></span></div>
-                                                <div class="owl-dot"><span></span></div>
                                             </div>
                                         </div>
                                     </div>

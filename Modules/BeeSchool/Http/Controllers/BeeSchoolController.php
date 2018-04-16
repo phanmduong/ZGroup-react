@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Product;
+use DB;
 
 class BeeSchoolController extends Controller
 {
@@ -16,16 +17,10 @@ class BeeSchoolController extends Controller
 
     public function blogs(Request $request)
     {
-        $blogs = Product::where('type', 2)->where('status', 1);
+        // $blogs = Product::all();
+        $blogs = DB::table('products');
 
-        $search = $request->search;
-
-        if ($search) {
-            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
-        }
-
-        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
-
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(12);
         $display = '';
         if ($request->page == null) {
             $page_id = 2;
@@ -39,7 +34,6 @@ class BeeSchoolController extends Controller
         $this->data['blogs'] = $blogs;
         $this->data['page_id'] = $page_id;
         $this->data['display'] = $blogs;
-        $this->data['search'] = $search;
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
