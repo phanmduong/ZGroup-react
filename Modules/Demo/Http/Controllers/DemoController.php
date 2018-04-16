@@ -4,14 +4,15 @@ namespace Modules\Demo\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use App\Gen;
 use App\CourseCategory;
 use App\User;
 use App\Base;
 use App\Course;
+use App\StudyClass;
+use Modules\Base\Http\Controllers\PublicApiController;
 
-class DemoController extends Controller
+class DemoController extends PublicApiController
 {
     public function courses($saler_id = null, $campaign_id = null)
     {
@@ -59,4 +60,19 @@ class DemoController extends Controller
         $this->data['saler'] = User::find($saler_id);
         return view('demo::course', $this->data);
     }
+
+    public function register($class_id = null, $saler_id = null, $campaign_id = null)
+    {
+        $this->data['saler_id'] = $saler_id;
+        $this->data['campaign_id'] = $campaign_id;
+        $class = StudyClass::find($class_id);
+        $course = Course::find($class->course_id);
+
+        $this->data['class'] = $class;
+        $this->data['course'] = $course;
+
+        return view('demo::register', $this->data);
+    }
+
+    
 }

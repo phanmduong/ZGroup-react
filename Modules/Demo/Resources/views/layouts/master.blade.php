@@ -127,6 +127,9 @@
         </div>
 
     </div>
+    <div id="whatthefuck">
+        {{message}}
+    </div>
 </footer>
 
 
@@ -229,5 +232,12 @@
 </script>
 
 @stack("scripts")
-
+<script>
+    var wtf = new Vue({
+        el: "whatthefuck",
+        data: {
+            message: 'asdsd',
+        },
+    });
+</script>
 </html>
