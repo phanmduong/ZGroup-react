@@ -64,6 +64,9 @@ class Product extends Model
         return $this->hasOne(TopicAttendance::class, 'product_id', 'id');
     }
 
+    public function languages(){
+        return $this->belongsToMany(LanguageProduct::class,'language_product','product_id','language_id');
+    }
     public function blogTransform()
     {
         return [
