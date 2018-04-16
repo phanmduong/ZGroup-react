@@ -146,6 +146,15 @@ class CompanyController extends ManageApiController
         ]);
 
     }
+
+    public function editDiscountCompany($discountId,Request $request){
+        $discount = DiscountCompany::find($discountId);
+        $discount->discount_value = $request->discount_value;
+        $discount->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
     public function getAllField(Request $request)
     {
         $fields = Field::all();

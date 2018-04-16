@@ -12,6 +12,7 @@ $companyRoutes = function () {
         Route::get('/{companyId}', 'CompanyController@getDetailCompany');
         Route::post('/discount/{companyId}','CompanyController@createDiscount');
         Route::get('/discount/{companyId}','CompanyController@getDiscountsCompany');
+        Route::put('/discount/{discoutnId}','CompanyController@editDiscountCompany;');
 
 
         Route::get('/payment/all', 'CompanyController@getAllPayment');
