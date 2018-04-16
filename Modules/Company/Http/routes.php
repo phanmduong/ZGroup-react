@@ -10,6 +10,9 @@ $companyRoutes = function () {
         Route::get('/share', 'CompanyController@getCompanyShare');
         Route::get('/field/all', 'CompanyController@getAllField');
         Route::get('/{companyId}', 'CompanyController@getDetailCompany');
+        Route::post('/discount/{companyId}','CompanyController@createDiscount');
+        Route::get('/discount/{companyId}','CompanyController@getDiscountsCompany');
+
 
         Route::get('/payment/all', 'CompanyController@getAllPayment');
         Route::post('/payment/create', 'CompanyController@createPayment');

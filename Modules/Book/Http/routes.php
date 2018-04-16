@@ -2,6 +2,7 @@
 $bookRoutes = function () {
     Route::group(['prefix' => 'book'], function () {
         Route::get('/task-list-templates', 'BookController@taskListTemplates');
+        Route::get('/task-list-templates/all','BookController@getAllTaskList');
         Route::get('/all-task-list-templates', 'BookController@getAllTaskListTemplates');
         Route::get('/task-list-template/{taskListTemplateId}', 'BookController@getTaskListTemplateSetting');
         Route::get('/{type}/project', 'BookController@bookProject');
