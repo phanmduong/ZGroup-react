@@ -12,10 +12,10 @@ import * as helper          from "../../../helpers/helper";
 import {Modal}              from "react-bootstrap";
 
 import StorePostComponent   from "../components/StorePostComponent";
-import AddLanguageModal     from "./AddLanguageModal";
-import AddCategoryModal     from "./AddCategoryModal";
+// import AddLanguageModal     from "./AddLanguageModal";
+// import AddCategoryModal     from "./AddCategoryModal";
 
-class StorePostModal extends React.Component {
+class PostModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.closePostModal       = this.closePostModal.bind(this);
@@ -154,8 +154,7 @@ class StorePostModal extends React.Component {
                 </Modal>
 
 
-                <AddLanguageModal/>
-                <AddCategoryModal/>
+
 
 
             </div>
@@ -164,7 +163,7 @@ class StorePostModal extends React.Component {
     }
 }
 
-StorePostModal.propTypes = {
+PostModal.propTypes = {
     post:               PropTypes.object.isRequired,
     isOpenPostModal:    PropTypes.bool.isRequired,
     isLoadingLanguages: PropTypes.bool.isRequired,
@@ -197,4 +196,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StorePostModal);
+export default connect(mapStateToProps, mapDispatchToProps)(PostModal);

@@ -83,7 +83,6 @@ class UserpackModal extends React.Component {
     }
 
     render() {
-        // const {subscriptions} =     this.props.select;
         return (
             <div className="card">
                 <div className="card-header card-header-icon " data-background-color="rose">

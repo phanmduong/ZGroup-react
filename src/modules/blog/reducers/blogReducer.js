@@ -106,7 +106,21 @@ export default function blogReducer(state = blogInitState, action) {
             return {
                 ...state,
                 isOpenPostModal: false,
-                post: {},
+                post: {
+                    ...state.post,
+                    title : "",
+                    description : "",
+                    content : "",
+                    imageUrl : "",
+                    tags : "",
+                    categories :[],
+                    isUpdatingImage : false,
+                    slug : '',
+                    meta_title : '',
+                    keyword:'',
+                    meta_description:'',
+                    language_id:'',
+                },
             };
 
 

@@ -15,7 +15,10 @@ import Loading              from "../../../components/common/Loading";
 import Pagination           from "../../../components/common/Pagination";
 import Select               from '../../../components/common/Select';
 // import Select               from './Select';
-import StorePostModal       from "./StorePostModal";
+import PostModal            from "./PostModal";
+import AddLanguageModal     from "./AddLanguageModal";
+import AddCategoryModal     from "./AddCategoryModal";
+
 
 
 class BlogsContainer extends React.Component {
@@ -88,8 +91,9 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
-    openCreatePostModal(){
+    openCreatePostModal(e){
         this.props.blogActions.openCreatePostModal();
+        e.preventDefault();
     }
 
 
@@ -137,8 +141,7 @@ class BlogsContainer extends React.Component {
                                             <button
                                                 className="btn btn-primary btn-round btn-xs button-add none-margin "
                                                 type="button" onClick={
-                                                    (e)=>{this.openCreatePostModal();e.preventDefault();
-                                                    }}>
+                                                    (e)=>{this.openCreatePostModal(e);}}>
                                                 <strong>+</strong>
                                             </button>
                                         </div>
@@ -167,7 +170,13 @@ class BlogsContainer extends React.Component {
                         </div>
                     </div>
                 )}
-                <StorePostModal/>
+
+
+                <PostModal/>
+                <AddLanguageModal/>
+                <AddCategoryModal/>
+
+
             </div>
         );
     }

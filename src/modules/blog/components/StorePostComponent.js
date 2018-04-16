@@ -61,6 +61,7 @@ class StorePostComponent extends React.Component {
     }
 
     render() {
+        // let post = this.props.post || {}
         let {
             title,
             description,

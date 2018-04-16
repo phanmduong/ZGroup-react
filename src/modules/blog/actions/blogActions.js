@@ -87,7 +87,7 @@ export function openCreatePostModal() {
     return function (dispatch) {
         dispatch({
             type : types.OPEN_POST_MODAL,
-            postId : -1,
+            postId : 0,
         });
     };
 }
