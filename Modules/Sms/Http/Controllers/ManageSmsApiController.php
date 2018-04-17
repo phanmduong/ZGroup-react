@@ -274,7 +274,7 @@ class ManageSmsApiController extends ManageApiController
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $courses = json_decode($request->courses);
         $classes = $request->classes ? json_decode($request->classes) : [];
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         // $paid_course_quantity = $request->paid_course_quantity;
         if ($request->carer_id) {
             $users = User::find($request->carer_id)->getCaredUsers();
