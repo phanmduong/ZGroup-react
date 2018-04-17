@@ -51,13 +51,13 @@ class Language
         ];
 
         $segment;
-
+        
         $url = Request::server('REQUEST_URI');
         if ($request->lang) {
             if ($request->lang) {
                 Session::put('lang', $request->lang);
             }
-            if (substr($url, 0, 3) != '/en') {
+            if (explode('/',$url)[1] != 'en') {
                 $previousLang = 'vi';
             } else {
                 $previousLang = 'en';
@@ -98,7 +98,7 @@ class Language
         // dd($url);
         if (Session::has('lang')) {
             if ($lang == 'vi') {
-                return ($url == '/' || substr($url, 0, 3) != '/en') ? $next($request) : redirect($langs[$lang][$segment]);
+                return ($url == '/' || explode('/',$url)[1] != 'en') ? $next($request) : redirect($langs[$lang][$segment]);
             } else {
                 if (isset($segment) && $segment == '') {
                     return redirect('/en/');
@@ -108,14 +108,14 @@ class Language
                 }
                 // dd(1);
                 // dd($next($request));
-                return ($url == '/en' || substr($url, 0, 3) == '/en') ? $next($request) : redirect($langs[$lang][$segment]);
+                return ($url == '/en' || explode('/',$url)[1] == 'en') ? $next($request) : redirect($langs[$lang][$segment]);
             }
         } else {
             if ($lang == 'vi') {
-                return ($url == '/' || substr($url, 0, 3) != '/en') ? $next($request) : redirect('/');
+                return ($url == '/' || explode('/',$url)[1] != 'en') ? $next($request) : redirect('/');
             } else {
                 // dd(1);
-                return ($url == '/en' || substr($url, 0, 3) == '/en') ? $next($request) : redirect('/en/');
+                return ($url == '/en' || explode('/',$url)[1] == 'en') ? $next($request) : redirect('/en/');
             }
         }
     }
