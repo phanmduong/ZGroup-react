@@ -289,7 +289,7 @@ class ManageSmsApiController extends ManageApiController
             $classes_courses = StudyClass::join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")
                 ->where(function ($query) use ($courses) {
                 for ($index = 0; $index < count($courses); ++$index) {
-                    $course_id = $courses[$index]->id;
+                    $course_id = $courses[$index]->value;
                     if ($index == 0)
                         $query->where('courses.id', '=', $course_id);
                     else
