@@ -62,25 +62,20 @@ class Language
             } else {
                 $previousLang = 'en';
             }
-            // dd($previousLang);
+
             $segments = $langs[$previousLang];
-            // dd($segments);
+
             $url = substr($url, 0, strpos($url, '?lang='));
-            // dd($segments);
-            // dd($url);
+
             foreach ($segments as $key => $value) {
-                // echo $key . "=>";
-                // echo $value . "\n";
                 if ($value == $url) {
                     $segment = $key;
                     break;
                 }
             }
 
-            // dd($segment);
             $lang = ($request->lang) ? Session::get('lang') : substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-            // dd($langs[$lang]);
-            // dd($lang);
+
             if (!array_key_exists($segment, $langs[$lang])) {
                 $segment = '';
             }
@@ -89,13 +84,8 @@ class Language
         } else {
             $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         }
-        $request->attributes->add(['lang' => $lang]);
-        // echo $previousLang;
-        // dd(Session::all());
-        // dd($segment);
-        // dd($langs[$lang][$segment]);
-        // dd(Session::has('lang'));
-        // dd($url);
+        $request->attributes->add(['lang' => $lang]); //inject variable $lang to controller
+
         if (Session::has('lang')) {
             if ($lang == 'vi') {
                 return ($url == '/' || explode('/',$url)[1] != 'en') ? $next($request) : redirect($langs[$lang][$segment]);
@@ -106,15 +96,12 @@ class Language
                 if ($url == '/') {
                     return redirect('/en/');
                 }
-                // dd(1);
-                // dd($next($request));
                 return ($url == '/en' || explode('/',$url)[1] == 'en') ? $next($request) : redirect($langs[$lang][$segment]);
             }
         } else {
             if ($lang == 'vi') {
                 return ($url == '/' || explode('/',$url)[1] != 'en') ? $next($request) : redirect('/');
             } else {
-                // dd(1);
                 return ($url == '/en' || explode('/',$url)[1] == 'en') ? $next($request) : redirect('/en/');
             }
         }
