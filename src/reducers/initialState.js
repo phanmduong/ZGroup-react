@@ -2367,8 +2367,17 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-
-
-
+    },
+    dashboardStaff: {
+        gens: [],
+        isLoadingGens: true,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        user: {},
+        isLoading: true,
+        error: false,
     },
 };
