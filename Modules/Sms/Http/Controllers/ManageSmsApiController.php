@@ -273,6 +273,7 @@ class ManageSmsApiController extends ManageApiController
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $courses = json_decode($request->courses);
+        $classes = json_decode($request->classes);
         $limit = $request->limit ? $request->limit : 20;
         // $paid_course_quantity = $request->paid_course_quantity;
         if ($request->carer_id) {
@@ -283,14 +284,8 @@ class ManageSmsApiController extends ManageApiController
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
         }
 
-        if ($request->top) {
-            $users = $users->simplePaginate($request->top);
-        } else {
-            $users = $users->paginate($limit);
-        }
-
-        $classes = StudyClass::query()->join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")->where(function ($query) use ($courses) {
-            if ($courses) {
+        if ($courses) {
+            $classes = StudyClass::query()->join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")->where(function ($query) use ($courses) {
                 for ($index = 0; $index < count($courses); ++$index) {
                     $course_id = $courses[$index]->id;
                     if ($index == 0)
@@ -298,13 +293,22 @@ class ManageSmsApiController extends ManageApiController
                     else
                         $query->orWhere('courses.id', '=', $course_id);
                 }
-            }
-        })->get();
+            })->get();
+        }
 
-        $classes = array_merge($classes, json_decode($request->classes));
-        $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-            ->select('users.*')->where(function ($query) use ($classes) {
-                if ($classes) {
+//        return $this->respondWithPagination($classes, [
+//            'users' => $classes->map(function ($user) {
+//                return [
+//                    'id'=>$user->id
+//                ];
+//            })
+//        ]);
+        if ($request->classes)
+            $classes = array_merge($classes, json_decode($request->classes));
+
+        if ($classes) {
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+                ->select('users.*')->where(function ($query) use ($classes) {
                     for ($index = 0; $index < count($classes); ++$index) {
                         $class_id = $classes[$index]->id;
                         if ($index == 0)
@@ -312,9 +316,14 @@ class ManageSmsApiController extends ManageApiController
                         else
                             $query->orWhere('registers.class_id', '=', $class_id);
                     }
-                }
-            });
 
+                });
+        }
+        if ($request->top) {
+            $users = $users->simplePaginate($request->top);
+        } else {
+            $users = $users->paginate($limit);
+        }
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
                 'users' => $users->map(function ($user) {

@@ -459,6 +459,7 @@ class User extends Authenticatable
     {
         $registers = $this->registers()->where('status', 1)->get();
         return [
+            'id' => $this->id,
             'avatar_url' => $this->avatar_url,
             'name' => $this->name,
             'email' => $this->email,
@@ -473,10 +474,10 @@ class User extends Authenticatable
                 ];
             }),
             'time' => $this->created_at,
-            'carer' => [
-                'id' => $this->getCarer[0]->id,
-                'name' => $this->getCarer->name
-            ]
+//            'carer' => [
+//                'id' => head($this->getCarer)->id,
+//                'name' => head($this->getCarer)->name
+//            ]
         ];
     }
 
