@@ -224,7 +224,7 @@ class BookRepository
             foreach ($goods_arr as $good) {
                 $order = new Order;
                 $currency = Currency::find($good->currencyId);
-                $order->code = 'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad(++$todayOrderCount, 4, '0', STR_PAD_LEFT);
+                $order->code = rebuild_date('ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad(++$todayOrderCount, 4, '0', STR_PAD_LEFT);
                 $order->user_id = $user_id;
                 $order->address = $address;
                 $order->email = $email;
