@@ -110,7 +110,7 @@ class AdministrationController extends ManageApiController
     {
         $requestVacation = RequestVacation::find($requestId);
         $requestVacation->status = $request->status;
-        $request->save();
+        $requestVacation->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi status thành công"
         ]);
@@ -118,6 +118,13 @@ class AdministrationController extends ManageApiController
 
     public function getAllAdvancePayment(Request $request){
         $limit = $request->limit ? $request->limit : 20;
+        $staff_name = $request->staff_name;
+        $company_pay_id = $request->company_pay_id;
+        $company_receive_id = $request->company_receive_id;
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
+        $status = $request->status;
+        $command_code = $request->command_code;
         if($limit == -1){
             $datas  = AdvancePayment::all();
             return $this->respondSuccessWithStatus([
@@ -127,14 +134,50 @@ class AdministrationController extends ManageApiController
             ]);
         } else {
             if($this->user->role == 2) {
-                $datas = AdvancePayment::orderBy('created_at', 'desc')->paginate($limit);
+                $datas = AdvancePayment::query();
+                if($staff_name){
+                    $datas->where('staff_name', 'like', '%' . $this->user->name . '%');
+                }
+                if($company_pay_id){
+                    $datas->where('company_pay_id', $company_pay_id);
+                }
+                if($company_receive_id){
+                    $datas->where('company_receive_id', $company_receive_id);
+                }
+                if($status){
+                    $datas->where('status', $status == -1 ? 0 : $status);
+                }
+                if($command_code){
+                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                }
+                if ($start_time && $end_time) {
+                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                }
+                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
                     })
                 ]);
             } else {
-                $datas = AdvancePayment::where("staff_id",$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+                $datas = AdvancePayment::query();
+                $datas->where('staff_id', $this->user->id);
+                if($company_pay_id){
+                    $datas->where('company_pay_id', $company_pay_id);
+                }
+                if($company_receive_id){
+                    $datas->where('company_receive_id', $company_receive_id);
+                }
+                if($status ){
+                    $datas->where('status', $status == -1 ? 0 : $status);
+                }
+                if($command_code){
+                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                }
+                if ($start_time && $end_time) {
+                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                }
+                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
@@ -144,11 +187,24 @@ class AdministrationController extends ManageApiController
         }
 
     }
+
     public function changeStatusAdvancePayment($advancePaymentId,Request $request){
         $data = AdvancePayment::find($advancePaymentId);
         $data->status = $request->status;
-        $data->money_received = $request->money_received;
+
+        if($request->status == 1){
+            $data->money_received = $request->money_received;
+            $data->company_pay_id = $request->company_pay_id;
+        }
+        if($request->status == 2){   
+            $data->money_used = $request->money_used;            
+            $data->date_complete = $request->date_complete;            
+            $data->company_receive_id = $request->company_receive_id;
+            
+        }
+
         $data->save();
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
         ]);
@@ -294,6 +350,7 @@ class AdministrationController extends ManageApiController
             $report->save();
         }else if($report->status === 0){
             $report->status = 1;
+            $report->comment = $request->comment;
             $report->save();
         }else{
             return $this->respondErrorWithStatus([

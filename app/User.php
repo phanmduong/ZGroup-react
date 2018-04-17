@@ -343,7 +343,8 @@ class User extends Authenticatable
             'email' => $this->email,
             "avatar_url" => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
-            'phone' => $this->phone ? $this->phone : ""
+            'phone' => $this->phone ? $this->phone : "",
+            'color' => $this->color,
         ];
     }
 
@@ -442,6 +443,51 @@ class User extends Authenticatable
     public function userLessonSurveys()
     {
         return $this->hasMany(UserLessonSurvey::class, "user_id");
+    }
+
+    public function classes()
+    {
+        return $this->belongsToMany(StudyClass::class, "registers", "user_id", "class_id");
+    }
+
+    public function smsGroup()
+    {
+        return $this->belongsToMany(Group::class, "groups_users", "user_id", "group_id");
+    }
+
+    public function getReceivers()
+    {
+        $registers = $this->registers()->where('status', 1)->get();
+        return [
+            'avatar_url' => $this->avatar_url,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'sent_quantity' => 0,
+            'paid_money' => $registers->map(function ($register) {
+                $course = $register->studyClass->course;
+                return [
+                    'id' => $course->id,
+                    'name' => $course->name,
+                    'image_url' => $course->image_url,
+                ];
+            }),
+            'time' => $this->created_at,
+            'carer' => [
+                'id' => $this->getCarer[0]->id,
+                'name' => $this->getCarer->name
+            ]
+        ];
+    }
+
+    public function getCaredUsers()
+    {
+        return $this->belongsToMany(User::class, "user_carer", "carer_id", "user_id");
+    }
+
+    public function getCarer()
+    {
+        return $this->belongsToMany(User::class, "user_carer", "user_id", "carer_id");
     }
 }
 
