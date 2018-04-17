@@ -69,6 +69,9 @@ class Product extends Model
         return $this->hasOne(TopicAttendance::class, 'product_id', 'id');
     }
 
+    public function languages(){
+        return $this->belongsToMany(LanguageProduct::class,'language_product','product_id','language_id');
+    }
     public function blogTransform()
     {
         return [
@@ -105,7 +108,7 @@ class Product extends Model
 
 
         $data["categories"] = $this->productCategories;
-        $data["language"] = $this->language->id;
+        $data["language_id"] = $this->language ? $this->language->id : 0;
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;

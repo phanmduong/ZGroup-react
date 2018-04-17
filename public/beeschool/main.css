@@ -1,3 +1,4 @@
+
 body{font-family:'Roboto Condensed', sans-serif;font-size:15px;}
 a{text-decoration: none;}
 img{max-width: 100%; height: auto;}
@@ -11,7 +12,7 @@ label{width:10%;}
 ul.left-side li a{color:#fff;text-decoration:none;}
 ul.left-side li a:hover{color:#ff0000;}
 ul.left-side li{border-left:1px solid #fff;color:#fff;float:left;font-size:14px;padding-left:20px;margin:12px;list-style:none;}
-.left{width:45%;float:left;}
+.left{width:48%;float:left;}
 ul.left-side{margin:0;float:left;padding:0;}
 ul.right-side{float:left;margin:0;padding-top:7px;padding-left:0;}
 ul.right-side li{list-style:none;padding:5px 10px;background:#fff;display:inline-block;margin:0;border-radius:50%;color:#983B1F;font-size:15px;}
@@ -35,7 +36,7 @@ ul.sub-menu{overflow:hidden;position:absolute;padding-left:0;z-index:99;padding-
 .main-navigation ul li:last-child > a{border-right:none;}
 .main-navigation ul li:last-child > ul.sub-menu{margin-left:-85px;}
 .main-navigation ul li a:hover{color:#ff0000;}
-#logo a img{margin-top:-45px;width:150px;z-index:99;position:absolute;}
+#logo a img{margin-top:-45px;width:150px;z-index:99;position:absolute;margin-left: -25px}
 h1#logo{float:left;margin:0;text-align:center;}
 .site-logo img{max-width:40%;}
 .main-navigation{line-height:46px;width:45%;float:right;}

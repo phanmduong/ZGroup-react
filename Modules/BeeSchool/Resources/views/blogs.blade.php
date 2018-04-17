@@ -17,40 +17,63 @@
                                             <a class="images"
                                                href="{{'/blog/post/'.$blog->id}}"
                                                title="Làm sao để trẻ hứng thú với Tiếng Anh?">
-                                                <img class="bee-img" src="{{generate_protocol_url($blog->url)}}"
-                                                     alt="Làm sao để trẻ hứng thú với Tiếng Anh?">
+                                               <div style="height:250px;width:100%;background-image: url('{{generate_protocol_url($blog->url)}}');background-size: cover; background-position: 100% 100%;"></div>
+                                                <!-- <img class="bee-img" src="{{generate_protocol_url($blog->url)}}"
+                                                     alt="Làm sao để trẻ hứng thú với Tiếng Anh?"> -->
                                             </a>
                                         </header>
-                                        <a class="category-title" href="#">{{$blog->title}}</a><h4
-                                                class="entry-title"><a
-                                                    href="{{'/blog/post/' . $blog->id}}"
-                                                    rel="bookmark">{{$blog->title}}</a></h4>
+                                        <a class="category-title" href="{{'/blog/post/' . $blog->id}}">{{shortString($blog->title, 5)}}</a>
                                         <div class="entry-content">
                                             <div class="entry-meta">
                                                 <span class="posted-on fa fa-calendar" aria-hidden="true"><a
                                                             href="http://beeschool.vn/blog/lam-sao-de-tre-hung-thu-voi-tieng-anh/"
                                                             rel="bookmark"><time class="updated"
-                                                                                 datetime="2017-12-05T18:42:30+00:00">05/12/2017</time></a></span>
+                                                                                 datetime="2017-12-05T18:42:30+00:00">{{$blog->created_at}}</time></a></span>
                                             </div>
                                             <div class="comment-number"></div>
-                                            <p class="excerpt">{{shortString($blog->description, 15)}}</p></div>
+                                            <p class="excerpt">{{shortString($blog->description, 10)}}</p></div>
                                     </article>
                                 @endforeach
                         </div>
+
+                        <hr>
+                    <div id="pagination-blogs" style="text-align: center;">
+                        <div class="pagination-area">
+                            <ul class="pagination pagination-primary justify-content-center">
+                                <li class="page-item">
+                                    <a href="/blogs?page=1" class="page-link">
+                                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li v-for="page in pages"
+                                    v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                                    <a v-bind:href="'/blogs?page='+page+''" class="page-link">
+                                        @{{page}}
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="/blogspost?page={{$total_pages}}" class="page-link">
+                                        <i class="fa fa-angle-double-right" aria-hidden="true">
+                                        </i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
                     </div>
                     <div class="col-md-3">
                         <aside id="secondary" class="widget-area sidebar" role="complementary">
                             <section id="custom_html-2" class="widget_text widget widget_custom_html">
                                 <div class="textwidget custom-html-widget">
-                                    <iframe width="100%" height="260"
-                                            src="https://www.youtube.com/embed/TLNbsNTlQK8"
+                                    <iframe width="100%" height="260" src="https://www.youtube.com/embed/TLNbsNTlQK8"
                                             frameborder="0" allowfullscreen=""></iframe>
                                 </div>
                             </section>
                             <section id="custom_html-3" class="widget_text widget widget_custom_html">
-                                <div class="textwidget custom-html-widget"><h2><a
-                                                href="http://beeschool.vn/su-kien-beeshools/">Sự kiện mới nhất </a>
-                                    </h2>
+                                <div class="textwidget custom-html-widget"><h2><a href="/su-kien-beeshools/">Sự kiện mới
+                                            nhất </a></h2>
                                     <div class="list-post">
                                         <div class="content_post">
                                             <div class="entry-right">
@@ -96,8 +119,8 @@
                                 </div>
                             </section>
                             <section id="text-7" class="widget widget_text">
-                                <div class="textwidget"><h2><a href="http://beeschool.vn/tuyen-dung/">Tin tuyển
-                                            dụng</a></h2>
+                                <div class="textwidget"><h2><a href="http://beeschool.vn/tuyen-dung/">Tin tuyển dụng</a>
+                                    </h2>
                                     <p></p>
                                     <div class="list-notification">
                                         <div class="content_post">
@@ -144,10 +167,10 @@
                             </section>
                             <section id="text-11" class="widget widget_text">
                                 <div class="textwidget">
-                                    <div class="ads-img"><p><a href="http://beeschool.vn/danh-muc/blog/#"><img
+                                    <div class="ads-img"><p><a href="#"><img
                                                         src="http://beeschool.vn/wp-content/uploads/2017/07/QC-BSmart2.png"
                                                         alt=""></a></p>
-                                        <p><a href="http://beeschool.vn/danh-muc/blog/#"><img
+                                        <p><a href="#"><img
                                                         src="http://beeschool.vn/wp-content/uploads/2017/07/QC-Bwords2.png"
                                                         alt=""></a></p></div>
                                 </div>
@@ -159,4 +182,17 @@
         </div>
     </div>
 </main>
-@endsection
+@stop
+
+@push('scripts')
+    <script>
+        var pagination = new Vue({
+            el: '#pagination-blogs',
+            data: {
+                pages: []
+            },
+        });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
+    </script>
+@endpush

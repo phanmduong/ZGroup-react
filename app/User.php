@@ -473,7 +473,21 @@ class User extends Authenticatable
                 ];
             }),
             'time' => $this->created_at,
+            'carer' => [
+                'id' => $this->getCarer[0]->id,
+                'name' => $this->getCarer->name
+            ]
         ];
+    }
+
+    public function getCaredUsers()
+    {
+        return $this->belongsToMany(User::class, "user_carer", "carer_id", "user_id");
+    }
+
+    public function getCarer()
+    {
+        return $this->belongsToMany(User::class, "user_carer", "user_id", "carer_id");
     }
 }
 
