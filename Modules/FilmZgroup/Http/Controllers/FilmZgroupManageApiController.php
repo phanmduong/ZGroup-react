@@ -175,5 +175,4 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccessWithStatus($this->data);
     }
 
-
 }
