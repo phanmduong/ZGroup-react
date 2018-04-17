@@ -33,7 +33,11 @@ class ManageBlogController extends ManageApiController
         $category->save();
 
         return $this->respondSuccessWithStatus([
-            'message' => 'Tạo category thành công'
+            'message' => 'Tạo category thành công',
+            "category" => [
+                "name" => $category->name,
+                "id" => $category->id,
+            ],
         ]);
     }
 

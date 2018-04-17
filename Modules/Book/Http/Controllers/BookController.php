@@ -37,6 +37,15 @@ class BookController extends ManageApiController
             })]);
     }
 
+    public function getAllTaskList(Request $request){
+        $taskLists = TaskList::where('card_id',0)->get();
+        return $this->respondSuccessWithStatus([
+            "taskLists" => $taskLists->map(function($taskList){
+                return $taskList->getData();
+            })
+        ]);
+
+    }
     public function getTaskListTemplateSetting($taskListTemplateId)
     {
         $taskListTemplate = TaskList::find($taskListTemplateId);
