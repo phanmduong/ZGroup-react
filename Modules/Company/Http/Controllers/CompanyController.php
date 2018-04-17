@@ -2,6 +2,7 @@
 
 namespace Modules\Company\Http\Controllers;
 
+use App\DiscountCompany;
 use App\ExportOrder;
 use App\Field;
 use App\HistoryDebt;
@@ -124,6 +125,36 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function createDiscount($companyId,Request $request){
+        $discountCompany= new DiscountCompany;
+        $discountCompany->company_id = $companyId;
+        $discountCompany->task_list_id = $request->task_list_id;
+        $discountCompany->discount_value = $request->discount_value;
+        $discountCompany->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+
+    }
+
+    public function getDiscountsCompany($companyId,Request $request){
+        $discountCompany = DiscountCompany::where('company_id',$companyId)->get();
+        return $this->respondSuccessWithStatus([
+           "discountList" => $discountCompany->map(function($discount){
+                return $discount->transform();
+           })
+        ]);
+
+    }
+
+    public function editDiscountCompany($discountId,Request $request){
+        $discount = DiscountCompany::find($discountId);
+        $discount->discount_value = $request->discount_value;
+        $discount->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
     public function getAllField(Request $request)
     {
         $fields = Field::all();
