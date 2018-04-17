@@ -285,7 +285,7 @@ class ManageSmsApiController extends ManageApiController
         }
 
         if ($courses) {
-            $classes = StudyClass::query()->join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")->where(function ($query) use ($courses) {
+            $classes_courses = StudyClass::query()->join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")->where(function ($query) use ($courses) {
                 for ($index = 0; $index < count($courses); ++$index) {
                     $course_id = $courses[$index]->id;
                     if ($index == 0)
@@ -303,9 +303,11 @@ class ManageSmsApiController extends ManageApiController
 //                ];
 //            })
 //        ]);
-        if ($request->classes)
-            $classes = array_merge($classes, json_decode($request->classes));
+        if ($classes)
+            $classes = array_merge($classes_courses, json_decode($request->classes));
 
+        else
+            $classes = array_merge($classes_courses, []);
         if ($classes) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
                 ->select('users.*')->where(function ($query) use ($classes) {
