@@ -63,6 +63,7 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->language = $request->language;
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
+        $film->film_status = $request->film_status;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -91,6 +92,7 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->language = $request->language;
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
+        $film->film_status = $request->film_status;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -172,4 +174,6 @@ class FilmZgroupManageApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus($this->data);
     }
+
+
 }
