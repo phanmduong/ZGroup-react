@@ -30,17 +30,8 @@ class PublicFilmApiController extends NoAuthApiController
     }
     public function getFilmsComingSoon()
     {
-       $films = Film::where('film_status',2);
-       $data = [];
-//       foreach($films as $film){
-//           $sessions = $film->sessions;
-//           $data = array_push($data, ['sessions'=>$sessions,])
-//       }
-//       $sessions = $films->sessions;
-//
-//        $data = [
-//            "sessions" => $sessions,
-//        ];
+      $films = Film::where('film_status',2)->get();
+      $data = ['films' => $films];
 
         return $this->respondSuccessWithStatus($data);
     }
