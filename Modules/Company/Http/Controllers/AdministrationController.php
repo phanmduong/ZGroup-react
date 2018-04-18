@@ -44,15 +44,15 @@ class AdministrationController extends ManageApiController
                     $requestVacations->where('users.name', 'like', '%' . $staff_name . '%');
                 }
                 if($status){
-                    $requestVacations->where('status', $status == -1 ? 0 : $status);
+                    $requestVacations->where('request_vacations.status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
-                    $requestVacations->where('command_code', 'like', '%' . $command_code . '%');
+                    $requestVacations->where('request_vacations.command_code', 'like', '%' . $command_code . '%');
                 }
                 if ($start_time && $end_time) {
                     $requestVacations = $requestVacations
-                    ->whereBetween('start_time', array($start_time, $end_time))
-                    ->orWhereBetween('end_time', array($start_time, $end_time));
+                    ->whereBetween('request_vacations.start_time', array($start_time, $end_time))
+                    ->orWhereBetween('request_vacations.end_time', array($start_time, $end_time));
                 }
                 $requestVacations = $requestVacations->orderBy('request_vacations.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($requestVacations, [
@@ -63,17 +63,17 @@ class AdministrationController extends ManageApiController
             } else {
                 $requestVacations = RequestVacation::query();
                 if($status){
-                    $requestVacations->where('status', $status == -1 ? 0 : $status);
+                    $requestVacations->where('request_vacations.status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
-                    $requestVacations->where('command_code', 'like', '%' . $command_code . '%');
+                    $requestVacations->where('request_vacations.command_code', 'like', '%' . $command_code . '%');
                 }
                 if ($start_time && $end_time) {
                     $requestVacations = $requestVacations
-                    ->orwhereBetween('start_time', array($start_time, $end_time))
-                    ->orWhereBetween('end_time', array($start_time, $end_time));
+                    ->orwhereBetween('request_vacations.start_time', array($start_time, $end_time))
+                    ->orWhereBetween('request_vacations.end_time', array($start_time, $end_time));
                 }
-                $requestVacations = $requestVacations->where("staff_id",$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+                $requestVacations = $requestVacations->where("staff_id",$this->user->id)->orderBy('request_vacations.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($requestVacations, [
                     "requestVacation" => $requestVacations->map(function ($requestVacation) {
                         return $requestVacation->transform();
@@ -174,19 +174,19 @@ class AdministrationController extends ManageApiController
                     
                 }
                 if($company_pay_id){
-                    $datas->where('company_pay_id', $company_pay_id);
+                    $datas->where('advanced_payments.company_pay_id', $company_pay_id);
                 }
                 if($company_receive_id){
-                    $datas->where('company_receive_id', $company_receive_id);
+                    $datas->where('advanced_payments.company_receive_id', $company_receive_id);
                 }
                 if($status){
-                    $datas->where('status', $status == -1 ? 0 : $status);
+                    $datas->where('advanced_payments.status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
-                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                    $datas->where('advanced_payments.command_code', 'like', '%' . $command_code . '%');
                 }
                 if ($start_time && $end_time) {
-                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                    $datas = $datas->whereBetween('advanced_payments.created_at', array($start_time, $end_time));
                 }
                 $datas = $datas->orderBy('advanced_payments.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
@@ -198,21 +198,21 @@ class AdministrationController extends ManageApiController
                 $datas = AdvancePayment::query();
                 $datas->where('staff_id', $this->user->id);
                 if($company_pay_id){
-                    $datas->where('company_pay_id', $company_pay_id);
+                    $datas->where('advanced_payments.company_pay_id', $company_pay_id);
                 }
                 if($company_receive_id){
-                    $datas->where('company_receive_id', $company_receive_id);
+                    $datas->where('advanced_payments.company_receive_id', $company_receive_id);
                 }
                 if($status ){
-                    $datas->where('status', $status == -1 ? 0 : $status);
+                    $datas->where('advanced_payments.status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
-                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                    $datas->where('advanced_payments.command_code', 'like', '%' . $command_code . '%');
                 }
                 if ($start_time && $end_time) {
-                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                    $datas = $datas->whereBetween('advanced_payments.created_at', array($start_time, $end_time));
                 }
-                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
+                $datas = $datas->orderBy('advanced_payments.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
