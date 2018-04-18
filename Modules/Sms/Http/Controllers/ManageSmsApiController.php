@@ -299,6 +299,8 @@ class ManageSmsApiController extends ManageApiController
             $classes = array_merge($classes_courses, json_decode($request->classes));
         }
 
+
+
 //        return $this->respondWithPagination($classes, [
 //            'users' => $classes->map(function ($user) {
 //                return [
