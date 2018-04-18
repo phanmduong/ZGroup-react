@@ -16,6 +16,8 @@ import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
+import * as createRegisterActions from './createRegisterActions';
+import CreateRegisterModalContainer from './CreateRegisterModalContainer';
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -91,6 +93,7 @@ class RegisterListContainer extends React.Component {
         this.commitModalChangeInfoStudent = this.commitModalChangeInfoStudent.bind(this);
         this.closeModalChangeInfoStudent = this.closeModalChangeInfoStudent.bind(this);
         this.onBaseFilterChange = this.onBaseFilterChange.bind(this);
+        this.openCreateRegisterModal = this.openCreateRegisterModal.bind(this);
     }
 
     componentWillMount() {
@@ -736,10 +739,15 @@ class RegisterListContainer extends React.Component {
 
     }
 
+    openCreateRegisterModal() {
+        this.props.createRegisterActions.showCreateRegisterModal(true);
+    }
+
     render() {
         return (
             <div id="page-wrapper">
                 <div className="row">
+                    <CreateRegisterModalContainer/>
                     <div className="col-sm-3 col-xs-5">
                         {
                             (this.state.selectGenId && this.state.selectGenId >= 0) &&
@@ -792,9 +800,20 @@ class RegisterListContainer extends React.Component {
                     <div className="card" style={{marginTop:20}}>
                         <div className="card-content">
                             <div className="tab-content">
-                                <h4 className="card-title">
-                                    <strong>{this.state.cardTitle}</strong>
-                                </h4>
+                                <div className="flex flex-row">
+                                    <h4 className="card-title">
+                                        <strong>{this.state.cardTitle}</strong>
+                                    </h4>
+                                    <div>
+                                        <button 
+                                            onClick={this.openCreateRegisterModal}
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button">
+                                            <strong>+</strong>
+                                            <div className="ripple-container"/>
+                                        </button>
+                                    </div>
+                                </div>
                                 {this.props.isLoadingGens ? <Loading/> :
                                     <div>
                                         <div className="row">
@@ -1307,6 +1326,7 @@ RegisterListContainer.propTypes = {
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    createRegisterActions: PropTypes.object.isRequired,
     genId: PropTypes.number,
     loadSalerFilter: PropTypes.func,
     loadCampaignFilter: PropTypes.func,
@@ -1353,7 +1373,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerActions: bindActionCreators(registerActions, dispatch)
+        registerActions: bindActionCreators(registerActions, dispatch),
+        createRegisterActions: bindActionCreators(createRegisterActions, dispatch)
     };
 }
 

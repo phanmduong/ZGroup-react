@@ -1,4 +1,5 @@
 export default {
+
     campaignList: {
         campaigns: [],
         isLoading: false,
@@ -900,6 +901,7 @@ export default {
         errorPost: false,
     },
     registerStudents: {
+        showCreateRegisterModal: false,
         registers: [],
         isLoading: false,
         error: false,
