@@ -41,6 +41,7 @@ class RegisterTransformer extends Transformer
             'course_avatar_url' => $class->course->icon_url,
             'course_money' => $class->course->price,
             'money' => $register->money,
+            'coupon' => $register->coupon,
             'study_time' => $register->study_time,
             'note' => $register->note,
             'appointment_payment' => $teleCall ? rebuild_date('d/m', strtotime($teleCall->appointment_payment)) : '',

@@ -76,6 +76,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                             'money' => $regis->money,
                             'received_id_card' => $regis->received_id_card,
                             'note' => $regis->note,
+                            'coupon' => $regis->coupon,
                             'paid_time' => format_vn_date(strtotime($regis->paid_time)),
                             'is_paid' => $regis->status
                         ];
