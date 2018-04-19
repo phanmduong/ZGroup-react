@@ -28,6 +28,7 @@ class AdministrationController extends ManageApiController
         $start_time = $request->start_time;
         $end_time = $request->end_time;
         $status = $request->status;
+        $type = $request->type;
         $command_code = $request->command_code;
         if ($limit == -1) {
             $requestVacations = RequestVacation::all();
@@ -45,6 +46,9 @@ class AdministrationController extends ManageApiController
                 }
                 if($status){
                     $requestVacations->where('request_vacations.status', $status == -1 ? 0 : $status);
+                }
+                if($type){
+                    $requestVacations->where('request_vacations.type', $type );
                 }
                 if($command_code){
                     $requestVacations->where('request_vacations.command_code', 'like', '%' . $command_code . '%');
@@ -67,6 +71,9 @@ class AdministrationController extends ManageApiController
                 }
                 if($command_code){
                     $requestVacations->where('request_vacations.command_code', 'like', '%' . $command_code . '%');
+                }
+                if($type){
+                    $requestVacations->where('request_vacations.type', $type );
                 }
                 if ($start_time && $end_time) {
                     $requestVacations = $requestVacations
