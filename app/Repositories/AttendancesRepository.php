@@ -107,14 +107,37 @@ class AttendancesRepository
         if ($attendance) {
             $data_attendance['staff'] = $this->userRepository->staff($attendance->teacher);
         }
+        $timenow = new \DateTime();
+        $timenow = $timenow->getTimestamp();
+        $data_attendance['attendance']['checkin_status'] = "none";
+                $data_attendance['attendance']['checkout_status'] = "none";
+                $time_start = strtotime($class_lesson->start_time . ' ' .$class_lesson->time);
+                $time_end = strtotime($class_lesson->end_time . ' ' .$class_lesson->time);
+                if ($timenow > $time_start){
+                    $data_attendance['attendance']['checkin_status'] = "absent";
+                }
+                if ($timenow > $time_end){
+                    $data_attendance['attendance']['checkout_status'] = "absent";
+                }
+                if ($attendance && $attendance->teacher_check_in) {
+                    $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
+                    $time_checkin = strtotime($data_attendance['attendance']['check_in_time'] . ' ' .$class_lesson->time);
+                    if ($time_checkin <= $time_start){
+                        $data_attendance['attendance']['checkin_status'] = "accept";
+                    } else {
+                        $data_attendance['attendance']['checkin_status'] = "no-accept";
+                    }
+                }
 
-        if ($attendance && $attendance->teacher_check_in) {
-            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
-        }
-
-        if ($attendance && $attendance->teacher_check_out) {
-            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
-        }
+                if ($attendance && $attendance->teacher_check_out) {
+                    $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
+                    $time_checkout = strtotime($data_attendance['attendance']['check_out_time'] . ' ' .$class_lesson->time);
+                    if ($time_checkout >= $time_start){
+                        $data_attendance['attendance']['checkout_status'] = "accept";
+                    } else {
+                        $data_attendance['attendance']['checkout_status'] = "no-accept";
+                    }
+                }
 
         $data_attendances[] = $data_attendance;
 
@@ -199,12 +222,37 @@ class AttendancesRepository
             $data_attendance['staff'] = $this->userRepository->staff($attendance->teaching_assistant);
         }
 
-        if ($attendance && $attendance->teacher_check_in) {
-            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
+        $timenow = new \DateTime();
+        $timenow = $timenow->getTimestamp();
+        $data_attendance['attendance']['checkin_status'] = "none";
+                $data_attendance['attendance']['checkout_status'] = "none";
+                $time_start = strtotime($class_lesson->start_time . ' ' .$class_lesson->time);
+                $time_end = strtotime($class_lesson->end_time . ' ' .$class_lesson->time);
+                if ($timenow > $time_start){
+                    $data_attendance['attendance']['checkin_status'] = "absent";
+                }
+                if ($timenow > $time_end){
+                    $data_attendance['attendance']['checkout_status'] = "absent";
+                }
+
+        if ($attendance && $attendance->ta_check_in) {
+            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->ta_check_in->created_at));
+            $time_checkin = strtotime($data_attendance['attendance']['check_in_time'] . ' ' .$class_lesson->time);
+            if ($time_checkin <= $time_start){
+                $data_attendance['attendance']['checkin_status'] = "accept";
+            } else {
+                $data_attendance['attendance']['checkin_status'] = "no-accept";
+            }
         }
 
-        if ($attendance && $attendance->teacher_check_out) {
-            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
+        if ($attendance && $attendance->ta_check_out) {
+            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->ta_check_out->created_at));
+            $time_checkout = strtotime($data_attendance['attendance']['check_out_time'] . ' ' .$class_lesson->time);
+            if ($time_checkout >= $time_start){
+                $data_attendance['attendance']['checkout_status'] = "accept";
+            } else {
+                $data_attendance['attendance']['checkout_status'] = "no-accept";
+            }
         }
 
         $data_attendances[] = $data_attendance;
