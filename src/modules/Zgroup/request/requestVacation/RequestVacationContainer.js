@@ -26,7 +26,7 @@ class RequestVacationContainer extends React.Component {
                 staff: {},
             },
             showLoadingModal: false,
-            showPanel: true,
+            showPanel: false,
             filter: {
                 start_time: "",
                 end_time: "",
