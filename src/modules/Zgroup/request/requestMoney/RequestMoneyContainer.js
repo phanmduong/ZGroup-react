@@ -81,7 +81,7 @@ class RequestMoneyContainer extends React.Component {
     submitPayConfirmModal(money, company_pay_id) {
         this.closePayConfirmModal();
         this.props.requestActions.confirmPayRequest(this.state.idPay, money, company_pay_id,
-            this.props.requestActions.getAllRequestMoney
+            () => this.props.requestActions.getAllRequestMoney(this.state.filter)
         );
     }
 
@@ -253,186 +253,186 @@ class RequestMoneyContainer extends React.Component {
                                         <div style={{ marginRight: 5 }}>
                                             <button className="btn btn-rose" onClick={this.openPanel} >
                                                 <i className="material-icons">filter_list</i>
-                                                Bộ lọc</button>
+                                                Lọc</button>
                                         </div>
                                     </div>
                                     <Panel collapsible expanded={showPanel} bsStyle="primary">
                                         <div className="row">
-                                        <div className="col-md-12">
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <label>Nguồn ứng</label>
-                                                <ReactSelect
-                                                    options={companies || []}
-                                                    onChange={(e) => {
-                                                        return this.onFilterChange("company_pay_id", e ? e.id : "");
-                                                    }}
-                                                    value={filter.company_pay_id}
-                                                    defaultMessage="Chọn"
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
-                                            <div className="col-md-4">
-                                                <label>Nguồn hoàn ứng</label>
-                                                <ReactSelect
-                                                    options={companies || []}
-                                                    onChange={(e) => {
-                                                        return this.onFilterChange("company_receive_id", e ? e.id : "");
-                                                    }}
-                                                    value={filter.company_receive_id}
-                                                    defaultMessage="Chọn"
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
-                                            <div className="col-md-4">
-                                                <label>Trạng thái</label>
-                                                <ReactSelect
-                                                    options={statusFilter || []}
-                                                    onChange={(e) => {
-                                                        return this.onFilterChange("status", e ? e.id : "");
-                                                    }}
-                                                    value={filter.status}
-                                                    defaultMessage="Chọn"
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <FormInputText
-                                                    name="command_code"
-                                                    value={filter.command_code}
-                                                    label="Mã ứng tiền"
-                                                    updateFormData={this.onTextFilterChange}
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
+                                            <div className="col-md-12">
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <label>Nguồn ứng</label>
+                                                        <ReactSelect
+                                                            options={companies || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("company_pay_id", e ? e.id : "");
+                                                            }}
+                                                            value={filter.company_pay_id}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label>Nguồn hoàn ứng</label>
+                                                        <ReactSelect
+                                                            options={companies || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("company_receive_id", e ? e.id : "");
+                                                            }}
+                                                            value={filter.company_receive_id}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label>Trạng thái</label>
+                                                        <ReactSelect
+                                                            options={statusFilter || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("status", e ? e.id : "");
+                                                            }}
+                                                            value={filter.status}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <FormInputText
+                                                            name="command_code"
+                                                            value={filter.command_code}
+                                                            label="Mã ứng tiền"
+                                                            updateFormData={this.onTextFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
 
 
-                                            <div className="col-md-4">
-                                                <FormInputText
-                                                    name="staff_name"
-                                                    value={filter.staff_name}
-                                                    label="Nhân viên"
-                                                    updateFormData={this.onTextFilterChange}
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <FormInputDate
-                                                    name="start_time"
-                                                    id="start_time"
-                                                    value={filter.start_time}
-                                                    label="Từ ngày"
-                                                    updateFormData={this.onDateFilterChange}
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
-                                            <div className="col-md-4">
-                                                <FormInputDate
-                                                    name="end_time"
-                                                    id="end_time"
-                                                    value={filter.end_time}
-                                                    label="Đến ngày"
-                                                    updateFormData={this.onDateFilterChange}
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
-                                        </div>
+                                                    <div className="col-md-4">
+                                                        <FormInputText
+                                                            name="staff_name"
+                                                            value={filter.staff_name}
+                                                            label="Nhân viên"
+                                                            updateFormData={this.onTextFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <FormInputDate
+                                                            name="start_time"
+                                                            id="start_time"
+                                                            value={filter.start_time}
+                                                            label="Từ ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <FormInputDate
+                                                            name="end_time"
+                                                            id="end_time"
+                                                            value={filter.end_time}
+                                                            label="Đến ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
 
-                                            
-                                        </div>
+
+                                            </div>
                                         </div>
                                     </Panel>
-                                {
-                                    isLoading ? <Loading /> :
-                                        <div className="col-md-12">
-                                            {
-                                                requestMoneys.length == 0 ?
-                                                    <div>Không có yêu cầu</div>
-                                                    :
-                                                    <div className="table-responsive">
-                                                        <table id="datatables" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{ width: "100%" }}>
-                                                            <thead className="text-rose">
-                                                                <tr>
-                                                                    <th>STT</th>
-                                                                    <th>Mã hành chính</th>
-                                                                    <th>Số tiền ứng</th>
-                                                                    <th>Người ứng tiền</th>
-                                                                    <th>Ngày ứng tiền</th>
-                                                                    <th>Ngày hoàn trả</th>
-                                                                    <th>Trạng thái</th>
-                                                                    <th />
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {requestMoneys.map((obj, index) => {
-                                                                    let status = "Chưa duyệt";
-                                                                    switch (obj.status) {
-                                                                        case 1: {
-                                                                            status = "Đã ứng";
-                                                                            break;
+                                    {
+                                        isLoading ? <Loading /> :
+                                            <div className="col-md-12">
+                                                {
+                                                    requestMoneys.length == 0 ?
+                                                        <div>Không có yêu cầu</div>
+                                                        :
+                                                        <div className="table-responsive">
+                                                            <table id="datatables" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{ width: "100%" }}>
+                                                                <thead className="text-rose">
+                                                                    <tr>
+                                                                        <th>STT</th>
+                                                                        <th>Mã hành chính</th>
+                                                                        <th>Số tiền ứng</th>
+                                                                        <th>Người ứng tiền</th>
+                                                                        <th>Ngày ứng tiền</th>
+                                                                        <th>Ngày hoàn trả</th>
+                                                                        <th>Trạng thái</th>
+                                                                        <th />
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {requestMoneys.map((obj, index) => {
+                                                                        let status = "Chưa duyệt";
+                                                                        switch (obj.status) {
+                                                                            case 1: {
+                                                                                status = "Đã ứng";
+                                                                                break;
+                                                                            }
+                                                                            case 2: {
+                                                                                status = "Đã hoàn ứng";
+                                                                                break;
+                                                                            }
                                                                         }
-                                                                        case 2: {
-                                                                            status = "Đã hoàn ứng";
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                    return (
-                                                                        <tr key={index}>
-                                                                            <td>{index + 1}</td>
-                                                                            <td><a onClick={() => { return this.openInfoModal(obj); }}>{obj.command_code}</a></td>
-                                                                            <td>{helper.dotNumber(obj.money_payment)}</td>
+                                                                        return (
+                                                                            <tr key={index}>
+                                                                                <td>{index + 1}</td>
+                                                                                <td><a onClick={() => { return this.openInfoModal(obj); }}>{obj.command_code}</a></td>
+                                                                                <td>{helper.dotNumber(obj.money_payment)}</td>
 
-                                                                            <td>{obj.staff.name}</td>
-                                                                            <td>{moment(obj.created_at.date).format("D/M/YYYY")}</td>
-                                                                            <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn ứng"}</td>
-                                                                            <td>{status}</td>
-                                                                            <td><ButtonGroupAction
-                                                                                editUrl={"/administration/request/money/edit/" + obj.id}
-                                                                                disabledDelete={true}
-                                                                                disabledEdit={obj.status > 0 || user.id != obj.staff.id}
-                                                                                children={
-                                                                                    [
-                                                                                        (obj.status == 0 && user.role == 2) ?
-                                                                                            <a key="1" data-toggle="tooltip" title="Chi Tiền" type="button" rel="tooltip"
-                                                                                                onClick={() => { this.openPayConfirmModal(obj); }}>
-                                                                                                <i className="material-icons">vertical_align_top</i></a>
-                                                                                            : <div />
-                                                                                        ,
-                                                                                        (obj.status == 1 && user.role == 2) ?
-                                                                                            <a key="2" data-toggle="tooltip" title="Hoàn Trả" type="button" rel="tooltip"
-                                                                                                onClick={() => { this.openReceiveConfirmModal(obj); }}>
-                                                                                                <i className="material-icons">vertical_align_bottom</i></a>
-                                                                                            : <div />
-                                                                                    ]
+                                                                                <td>{obj.staff.name}</td>
+                                                                                <td>{moment(obj.created_at ? obj.created_at.date : "").format("D/M/YYYY")}</td>
+                                                                                <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn ứng"}</td>
+                                                                                <td>{status}</td>
+                                                                                <td><ButtonGroupAction
+                                                                                    editUrl={"/administration/request/money/edit/" + obj.id}
+                                                                                    disabledDelete={true}
+                                                                                    disabledEdit={obj.status > 0 || user.id != obj.staff.id}
+                                                                                    children={
+                                                                                        [
+                                                                                            (obj.status == 0 && user.role == 2) ?
+                                                                                                <a key="1" data-toggle="tooltip" title="Chi Tiền" type="button" rel="tooltip"
+                                                                                                    onClick={() => { this.openPayConfirmModal(obj); }}>
+                                                                                                    <i className="material-icons">vertical_align_top</i></a>
+                                                                                                : <div />
+                                                                                            ,
+                                                                                            (obj.status == 1 && user.role == 2) ?
+                                                                                                <a key="2" data-toggle="tooltip" title="Hoàn Trả" type="button" rel="tooltip"
+                                                                                                    onClick={() => { this.openReceiveConfirmModal(obj); }}>
+                                                                                                    <i className="material-icons">vertical_align_bottom</i></a>
+                                                                                                : <div />
+                                                                                        ]
 
-                                                                                }
-                                                                            /></td>
-                                                                        </tr>
-                                                                    );
-                                                                })}
-                                                            </tbody>
-                                                        </table>
-                                                        <div style={{ display: "flex", flexDirection: "row-reverse" }}><Pagination
-                                                            currentPage={paginator.current_page}
-                                                            totalPages={paginator.total_pages}
-                                                            loadDataPage={(id) => { return this.onFilterChange("page", id); }}
-                                                        /></div>
-                                                    </div>
-                                            }
-                                        </div>
+                                                                                    }
+                                                                                /></td>
+                                                                            </tr>
+                                                                        );
+                                                                    })}
+                                                                </tbody>
+                                                            </table>
+                                                            <div style={{ display: "flex", flexDirection: "row-reverse" }}><Pagination
+                                                                currentPage={paginator.current_page}
+                                                                totalPages={paginator.total_pages}
+                                                                loadDataPage={(id) => { return this.onFilterChange("page", id); }}
+                                                            /></div>
+                                                        </div>
+                                                }
+                                            </div>
 
-                                }
+                                    }
+
+                                </div>
 
                             </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
             </div >
 
         );

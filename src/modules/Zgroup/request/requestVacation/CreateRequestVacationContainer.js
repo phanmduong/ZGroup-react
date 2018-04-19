@@ -7,7 +7,7 @@ import Loading from "../../../../components/common/Loading";
 import FormInputDate from "../../../../components/common/FormInputDate";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 import Avatar from "../../../../components/common/Avatar";
-import { DATE_FORMAT,DATETIME_FORMAT_SQL } from "../../../../constants/constants";
+import { DATE_FORMAT, DATETIME_FORMAT_SQL } from "../../../../constants/constants";
 import moment from "moment";
 import { browserHistory } from 'react-router';
 import * as helper from "../../../../helpers/helper";
@@ -34,14 +34,14 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     componentWillMount() {
-        if(this.props.routeParams.requestId){
+        if (this.props.routeParams.requestId) {
             this.props.requestActions.getRequestVacation(
-                this.props.routeParams.requestId, 
-                (data)=>{
-                    data.start_time = moment(data.start_time).format( DATE_FORMAT);
-                    data.end_time = moment(data.end_time).format( DATE_FORMAT);
-                    data.request_date = moment(data.request_date).format( DATE_FORMAT);
-                    return this.setState({data});
+                this.props.routeParams.requestId,
+                (data) => {
+                    data.start_time = moment(data.start_time).format(DATE_FORMAT);
+                    data.end_time = moment(data.end_time).format(DATE_FORMAT);
+                    data.request_date = moment(data.request_date).format(DATE_FORMAT);
+                    return this.setState({ data });
                 }
             );
         }
@@ -63,25 +63,27 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     submitData() {
-        let  data  = {...this.state.data};
-        
-        if ( helper.isEmptyInput(data.end_time) || !moment(data.end_time).isValid()) {
-            helper.showErrorNotification("Vui lòng chọn ngày kết thúc");
-            return;
-        }
-        if (helper.isEmptyInput(data.start_time) || !moment(data.start_time).isValid()) {
+        let data = { ...this.state.data };
+
+        if (helper.isEmptyInput(data.start_time)) {
             helper.showErrorNotification("Vui lòng chọn ngày bắt đầu");
             return;
         }
+        if (helper.isEmptyInput(data.end_time)) {
+            helper.showErrorNotification("Vui lòng chọn ngày kết thúc");
+            return;
+        }
+
 
         data.request_date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
-        data.start_time = moment(data.start_time).format(DATETIME_FORMAT_SQL);
-        data.end_time = moment(data.end_time).format(DATETIME_FORMAT_SQL);
 
-        
-        if(this.props.routeParams.requestId){
-            this.props.requestActions.editRequestVacation(this.props.routeParams.requestId,data);
-        }else{
+        data.start_time = moment(data.start_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        data.end_time = moment(data.end_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+
+
+        if (this.props.routeParams.requestId) {
+            this.props.requestActions.editRequestVacation(this.props.routeParams.requestId, data);
+        } else {
             this.props.requestActions.createRequestVacation(data);
         }
     }
@@ -98,13 +100,11 @@ class CreateRequestVacationContainer extends React.Component {
     }
 
     render() {
-        
+
         let { isLoading, isCommitting } = this.props;
         let { data } = this.state;
         let date1 = data.start_time;
         let date2 = data.end_time;
-
-        //console.log("data test",data);
 
         return (
             <div>
@@ -208,7 +208,7 @@ class CreateRequestVacationContainer extends React.Component {
                                                     <div className="row">
                                                         <div className="col-md-12">
                                                             <Avatar
-                                                                url={data.staff.avatar_url}
+                                                                url={data.staff ? data.staff.avatar_url : ""}
                                                                 size={100}
                                                                 style={{ width: "100%", height: 170, maxHeight: 170, maxWidth: 170 }}
                                                             /><br />
