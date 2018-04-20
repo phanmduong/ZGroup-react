@@ -28,7 +28,7 @@ class ElightSendingMailController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'time' => date('m/d/Y H:i:s'),
+            'time' => date('n/d/Y H:i:s'),
             'phone' => $request->phone,
         ];
         Mail::send('emails.elight_index', $data, function ($m) use ($request) {
@@ -74,7 +74,7 @@ class ElightSendingMailController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'time' => date('m/d/Y H:i:s'),
+            'time' => date('n/d/Y H:i:s'),
             'phone' => $request->message_str,
         ];
 

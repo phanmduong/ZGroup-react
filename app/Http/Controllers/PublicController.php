@@ -291,6 +291,7 @@ class PublicController extends Controller
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
+        $register->coupon = $request->coupon;
         $register->saler_id = $request->saler_id;
         $register->campaign_id = $request->campaign_id;
         $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');

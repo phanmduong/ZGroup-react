@@ -73,6 +73,10 @@ class ManageDashboardApiController extends ManageApiController
             $registers_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('gen_id', $gen_id)
                 ->whereIn("class_id", $classes_id)
+                ->where(function ($query) {
+                    $query->where('status', 0)
+                        ->orWhere('money', '>', 0);
+                })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
