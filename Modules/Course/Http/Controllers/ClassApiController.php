@@ -134,7 +134,7 @@ class ClassApiController extends ApiController
         $classes = StudyClass::where('gen_id', $request->gen_id)->where('course_id', $courseId);
         if($request->base_id)
             $classes = $classes->where('base_id', $request->base_id);
-        $classes = $classes->orderBy('created_at', 'desc')->get();
+        $classes = $classes->orderBy('datestart', 'asc')->get();
         return $this->respondSuccessWithStatus([
             'classes' => $classes->map(function($class){
                 return [
