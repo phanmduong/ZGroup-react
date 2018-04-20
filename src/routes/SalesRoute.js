@@ -1,7 +1,6 @@
 import SummarySalesContainer from "../modules/summarySales/SummarySalesContainer";
 import OverviewSales from "../modules/summarySales/OverviewSales";
 import StatisticSales from "../modules/summarySales/StatisticSales";
-
 import SummarySalesUpContainer from "../modules/summarySalesUp/SummarySalesUpContainer";
 import OverviewSalesUp from "../modules/summarySalesUp/OverviewSalesUp";
 import StatisticSalesUp from "../modules/summarySalesUp/StatisticSalesUp";
