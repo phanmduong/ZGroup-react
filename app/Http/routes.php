@@ -40,7 +40,9 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
+Route::group(['domain' => 'manage.' . config('app.domain')], function () {
+    Route::get("/login-free-trial", "ClientController@loginFreeTrial");
+    
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
@@ -58,6 +60,9 @@ Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain'
         ->where('path', '.*');
 
     Route::get('/book/{path}', 'ClientController@book')
+        ->where('path', '.*');
+
+    Route::get('/administration/{path}', 'ClientController@administration')
         ->where('path', '.*');
 
     Route::get('/business/{path}', 'ClientController@business')
@@ -985,3 +990,7 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
 
 });
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

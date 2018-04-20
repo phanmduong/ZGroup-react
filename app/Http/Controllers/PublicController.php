@@ -291,6 +291,7 @@ class PublicController extends Controller
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
+        $register->coupon = $request->coupon;
         $register->saler_id = $request->saler_id;
         $register->campaign_id = $request->campaign_id;
         $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
@@ -803,20 +804,20 @@ class PublicController extends Controller
     public function receive_notifications()
     {
         $post = file_get_contents('php://input');
-        // $test = new Test;
-        // $test->content = $post;
-        // $test->save();
+        $test = new Test;
+        $test->content = $post;
+        $test->save();
 
-        $noti = json_decode($post);
-        $message = json_decode($noti->Message);
-        $mail_id = $message->mail->messageId;
-        $mail_status = $message->notificationType;
-        $mail = Email::find($mail_id);
-        if ($mail == null) {
-            $mail = new Email();
-        }
-        $mail->status = email_status_str_to_int($mail_status);
-        $mail->save();
+        // $noti = json_decode($post);
+        // $message = json_decode($noti->Message);
+        // $mail_id = $message->mail->messageId;
+        // $mail_status = $message->notificationType;
+        // $mail = Email::find($mail_id);
+        // if ($mail == null) {
+        //     $mail = new Email();
+        // }
+        // $mail->status = email_status_str_to_int($mail_status);
+        // $mail->save();
     }
 
     public function open_email(Request $request)

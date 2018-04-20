@@ -648,7 +648,7 @@ class GoodController extends ManageApiController
 //        $order += 1;
 
 
-        $barcode = Barcode::where("good_id", 0)->orderBy("created_at")->first();
+        $barcode = Barcode::where("good_id", 0)->where("type", $parentGood->type)->orderBy("created_at")->first();
         if ($barcode) {
             $good->barcode = $barcode->value;
         }

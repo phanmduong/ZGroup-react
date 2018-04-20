@@ -14,6 +14,16 @@ class ClientController extends Controller
         $this->middleware('permission_tab_react:' . $path);
     }
 
+    public function loginFreeTrial()
+    {
+        return view('client.login_free_trial');
+    }
+
+    public function administration()
+    {
+        return view('client.administration');
+    }
+
     public function email()
     {
         return view('client.email');

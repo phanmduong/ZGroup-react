@@ -24,6 +24,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ManageClassApiController extends ManageApiController
 {
@@ -163,6 +164,7 @@ class ManageClassApiController extends ManageApiController
                     ]
                 ]);
             }
+            
             return $this->responseWithError("Có lỗi xảy ra");
         }
 
@@ -340,6 +342,21 @@ class ManageClassApiController extends ManageApiController
         }
 
         $this->classRepository->generateClassLesson($class);
+
+        foreach($class->registers as $register){
+            DB::insert(DB::raw("
+            insert into attendances(`register_id`,`checker_id`,class_lesson_id)
+            (select registers.id,-1,class_lesson.id
+            from class_lesson
+            join registers on registers.class_id = class_lesson.class_id
+            where registers.id = $register->id
+            )
+            "));
+        }
+
+        if ($class->schedule_id){
+            $this->classRepository->setClassLessonTime($class);
+        }
 
         return $this->respondSuccess("success");
     }

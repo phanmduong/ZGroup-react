@@ -221,9 +221,6 @@ class StudentApiController extends ApiController
         else
             $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
-        $registers->map(function ($register) {
-
-        });
         foreach ($registers as &$register) {
             $register->study_time = 1;
             $user = $register->user;

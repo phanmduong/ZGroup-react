@@ -91,7 +91,16 @@ class CourseController extends ManageApiController
         $keyword = $request->search;
         $courses = Course::where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("price", "like", "%$keyword%");
-        })->paginate($limit);
+        });
+        if($limit == -1) {
+            $courses = $courses->get();
+            return $this->respondSuccessWithStatus([
+                "courses" => $courses->map(function ($course) {
+                    return $course->transform();
+                })
+            ]);
+        }
+        $courses = $courses->paginate($limit);
         return $this->respondWithPagination(
             $courses,
             [

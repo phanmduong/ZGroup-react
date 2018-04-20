@@ -2,12 +2,8 @@
 
 namespace Modules\Booking\Http\Controllers;
 
-use App\Base;
-use App\District;
 use App\Http\Controllers\ApiPublicController;
-use App\Province;
 use App\RoomServiceRegister;
-use App\RoomServiceSubscription;
 use App\RoomServiceUserPack;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,9 +11,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
-use App\Product;
-use App\StudyClass;
-use App\Event;
 use App\RoomServiceRegisterRoom;
 
 class BookingController extends ApiPublicController
@@ -50,7 +43,7 @@ class BookingController extends ApiPublicController
         $user = JWTAuth::parseToken()->authenticate();
 
         if ($user == null) {
-            return $this->respondErrorWithStatus("Bạn phải đăng nhập");
+            return $this->respondErrorWithStatus('Bạn phải đăng nhập');
         }
 
         $registers = RoomServiceRegister::where('user_id', $user->id)
@@ -70,10 +63,10 @@ class BookingController extends ApiPublicController
     {
         if ($this->user == null) {
             if ($request->email == null) {
-                return $this->respondErrorWithStatus("Thiếu email");
+                return $this->respondErrorWithStatus('Thiếu email');
             }
             if ($request->phone == null) {
-                return $this->respondErrorWithStatus("Thiếu phone");
+                return $this->respondErrorWithStatus('Thiếu phone');
             }
             $user = User::where('email', '=', $request->email)->first();
             $phone = preg_replace('/[^0-9]+/', '', $request->phone);
@@ -87,7 +80,9 @@ class BookingController extends ApiPublicController
             $user->email = $request->email;
             $user->username = $request->email;
             $user->save();
-        } else $user = $this->user;
+        } else {
+            $user = $this->user;
+        }
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
@@ -95,16 +90,16 @@ class BookingController extends ApiPublicController
         $register->campaign_id = $campaignId;
         $register->type = 'member';
         $register->save();
-        $subject = "Xác nhận đăng ký thành công";
-        $data = ["user" => $user];
-        $emailcc = ["graphics@colorme.vn"];
+        $subject = 'Xác nhận đăng ký thành công';
+        $data = ['user' => $user];
+        $emailcc = ['graphics@colorme.vn'];
         Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
             $m->from('no-reply@colorme.vn', 'Up Coworking Space');
             $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
         });
 
         return $this->respondSuccessWithStatus([
-            'message' => "Đăng kí thành công"
+            'message' => 'Đăng kí thành công'
         ]);
     }
 
@@ -112,10 +107,10 @@ class BookingController extends ApiPublicController
     {
         if ($this->user == null) {
             if ($request->email == null) {
-                return $this->respondErrorWithStatus("Thiếu email");
+                return $this->respondErrorWithStatus('Thiếu email');
             }
             if ($request->phone == null) {
-                return $this->respondErrorWithStatus("Thiếu phone");
+                return $this->respondErrorWithStatus('Thiếu phone');
             }
 
             $user = User::where('email', '=', $request->email)->first();
@@ -130,9 +125,12 @@ class BookingController extends ApiPublicController
             $user->email = $request->email;
             $user->username = $request->email;
             $user->save();
-        } else $user = $this->user;
-        if ($request->base_id == null)
+        } else {
+            $user = $this->user;
+        }
+        if ($request->base_id == null) {
             return $this->respondErrorWithStatus('Thiếu cơ sở');
+        }
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->base_id = $request->base_id;
@@ -142,24 +140,22 @@ class BookingController extends ApiPublicController
         $register->type = 'room';
         $register->save();
 
-
         $registerRoom = new RoomServiceRegisterRoom;
         $registerRoom->room_id = $request->room_id;
-        $registerRoom->room_service_register_id = $request->id;
+        $registerRoom->room_service_register_id = $register->id;
         $registerRoom->start_time = $request->start_time;
         $registerRoom->end_time = $request->end_time;
         $registerRoom->save();
-        
-        $subject = "Xác nhận đặt phòng thành công";
-        $data = ["user" => $user];
-        $emailcc = ["graphics@colorme.vn"];
+
+        $subject = 'Xác nhận đặt phòng thành công';
+        $data = ['user' => $user];
+        $emailcc = ['graphics@colorme.vn'];
         Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
             $m->from('no-reply@colorme.vn', 'Up Coworking Space');
             $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
         });
-
         return $this->respondSuccessWithStatus([
-            'message' => "Đặt phòng thành công thành công"
+            'message' => 'Đặt phòng thành công'
         ]);
     }
 }
