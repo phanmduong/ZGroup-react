@@ -18,6 +18,8 @@ import Select               from '../../../components/common/Select';
 import PostModal            from "./PostModal";
 import AddLanguageModal     from "./AddLanguageModal";
 import AddCategoryModal     from "./AddCategoryModal";
+// import KeetoolEditor from "../../../components/common/KeetoolEditor";
+// import MinEditor from '../../../js/keetool-editor';
 
 
 
@@ -48,6 +50,13 @@ class BlogsContainer extends React.Component {
         this.props.blogActions.loadLanguages();
         this.loadPosts(1);
     }
+    // componentDidMount() {
+    //
+    //     // $("mini-editor").init();
+    //     window.addEventListener('load', function () {
+    //         MinEditor.init('mini-editor');
+    //     });
+    // }
     loadPosts(page) {
         this.setState({page});
         this.props.blogActions.loadPosts(
@@ -99,8 +108,6 @@ class BlogsContainer extends React.Component {
 
 
 
-
-
     render() {
         return (
             <div className="container-fluid">
@@ -146,6 +153,8 @@ class BlogsContainer extends React.Component {
                                             </button>
                                         </div>
                                     </div>
+
+                                    {/*<KeetoolEditor/>*/}
 
 
                                     <Search
