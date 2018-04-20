@@ -1801,6 +1801,7 @@ export default {
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
             currency_value: 0,
+            ship_price : 0,
         },
         coupon: {
             name: '',
