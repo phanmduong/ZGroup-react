@@ -24,7 +24,8 @@ class LanguageController extends ManageApiController
         $language->encoding = $request->encoding;
         $language->save();
         return $this->respondSuccessWithStatus([
-            "message" => "Tạo ngôn ngữ thành công"
+            "language" => $language->transform(),
+            "message" => "Tạo ngôn ngữ thành công",
         ]);
     }
     public function editLanguage($languageId,Request $request){

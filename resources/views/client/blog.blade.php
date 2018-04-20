@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends("client.layout.master")
 
 @section("css")
@@ -8,3 +9,6 @@
     <script type="text/javascript" src="manage/blog/main.248e781d74c44a576345.js"></script>
 @endsection
 
+=======
+@extends("client.layout.master") @section("css") <link href="manage/blog/main.247b587742f37057a12e6c36e550a971.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/blog/main.26e38fdc0ae0385ba0a0.js"></script> @endsection
+>>>>>>> test
