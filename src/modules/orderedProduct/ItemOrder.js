@@ -92,6 +92,7 @@ class ItemOrder extends React.Component {
                     </TooltipButton>
                 </td>
                 <td>{attach_info.code}</td>
+                <td>{attach_info.ratio}</td>
                 <td>
                     {
                         delivery.staff ?
@@ -142,19 +143,18 @@ class ItemOrder extends React.Component {
                 {
                     delivery.delivery_warehouse_status !== "exported" ? (
                         <td>
-                            <div className="btn-group-action">
-                                <Link to={`/order/${delivery.id}/warehouse-import`}
-                                      style={{
-                                          color: "#878787",
-                                          cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 7
-                                          && "not-allowed"
-                                      }}
-                                      data-toggle="tooltip" title=""
-                                      type="button" rel="tooltip"
-                                      data-original-title="Nhập kho">
-                                    <i className="material-icons">import_export</i>
-                                </Link>
-                            </div>
+                            {
+                                ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order > 6 && (
+                                    <div className="btn-group-action">
+                                        <Link to={`/order/${delivery.id}/warehouse-import`}
+                                              data-toggle="tooltip" title=""
+                                              type="button" rel="tooltip"
+                                              data-original-title="Nhập kho">
+                                            <i className="material-icons">import_export</i>
+                                        </Link>
+                                    </div>
+                                )
+                            }
                         </td>
                     ) : (
                         <td>

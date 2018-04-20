@@ -10,12 +10,12 @@ export function showCheckWeekendReportModal() {
     });
 }
 
-export function checkV(report) {
+export function checkV(report,comment) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_REPORT
         });
-        weekendReportApi.checkApi(report)
+        weekendReportApi.checkApi(report,comment)
             .then(() => {
                 helper.showNotification("Duyệt Thành Công");
                 dispatch({
@@ -27,7 +27,12 @@ export function checkV(report) {
 
     };
 }
-
+export function handleComment(comment) {
+    return ({
+        type: types.HANDLE_COMMENT,
+        comment
+    });
+}
 export function loadReportById(i) {
     return function (dispatch) {
         dispatch({
@@ -46,13 +51,13 @@ export function loadReportById(i) {
 
 }
 
-export function loadAllReports(page) {
+export function loadAllReports(page, search) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_REPORTS
         });
 
-        weekendReportApi.loadAllReportsApi(page)
+        weekendReportApi.loadAllReportsApi(page,search)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_REPORT_SUCCESS,
@@ -86,6 +91,30 @@ export function saveReport(report, index) {
                 });
                 helper.showNotification("Thêm báo cáo thành công");
                 browserHistory.push('/administration/weekend-report/');
+            });
+    };
+}
+
+export function editReport(index,id,report) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_REPORT
+        });
+        weekendReportApi.editReportApi(index,id,report)
+            .then((res) => {
+                if(res.data.status){
+                dispatch({
+                    type: types.OPEN_CLOSE_EDIT_LOADING,
+                });
+                helper.showNotification("Chỉnh sửa báo cáo thành công");
+                    browserHistory.push('/administration/weekend-report/');
+                }
+                else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.OPEN_CLOSE_EDIT_LOADING,
+                    });
+                }
             });
     };
 }

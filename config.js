@@ -1,16 +1,15 @@
+/**
+ * Created by phanmduong on 8/16/17.
+ */
 /*eslint-disable */
 var env = {
-    // "DOMAIN": "keetoolclient.test",
-    //"DOMAIN": "colorme.vn",
-    "DOMAIN": "keetool3.xyz",
-    // "DOMAIN": "graphics.dev",
-    "NAME_COMPANY": "KEETOOL test",
-    "LOGO_LOGIN": "https://d255zuevr6tr8p.cloudfront.net/logo/Artboard+5+copy.png",
-    "LOGO_SIDEBAR": "https://d255zuevr6tr8p.cloudfront.net/logo/Artboard+5+copy.png",
-    "LOGO_MAIN": "https://d255zuevr6tr8p.cloudfront.net/logo/Artboard+5+copy.png",
+    "DOMAIN": "colorme.vn",
+    "NAME_COMPANY": "zGroup",
+    "LOGO_LOGIN": "d2xbg5ewmrmfml.cloudfront.net/web/logo2.png",
+    "LOGO_SIDEBAR": "d2xbg5ewmrmfml.cloudfront.net/web/logo2.png",
+    "LOGO_MAIN": "d2xbg5ewmrmfml.cloudfront.net/web/logo2.png",
     "PROTOCOL": "http://",
-    "CHANNEL": 'keetoolclient-channel',
-    "SOCKET_PORT": 3333,
-    "SOCKET_HOST": "http://127.0.0.1",
-    "TYPE_API": "alibaba",
+    'SOCKET_HOST': 'http://colorme.vn',
+    'SOCKET_PORT': '3000',
+    "CHANNEL":"colorme-channel"
 };

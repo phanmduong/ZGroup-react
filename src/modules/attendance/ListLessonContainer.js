@@ -243,7 +243,7 @@ class ListLessonContainer extends React.Component {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {this.props.class.map((item, index) => {
+                                                    {this.props.class.map((item) => {
                                                         return (
                                                             <tr key={item.order}>
                                                                 <td><h6>
@@ -269,7 +269,7 @@ class ListLessonContainer extends React.Component {
                                                                     <button className="btn btn-fill btn-rose"
                                                                             type="button"
                                                                             onClick={() => {
-                                                                                return this.openModalDetailLesson(index + 1);
+                                                                                return this.openModalDetailLesson(item.id);
                                                                             }}
                                                                     >Điểm danh
                                                                     </button>

@@ -520,12 +520,11 @@ export function loadTaskListTemplates(projectId) {
     return axios.get(url);
 }
 
-
-export function barcodeNotEmpty() {
-    let url = env.MANAGE_API_URL + "/book/barcode/exist";
+export function barcodeNotEmpty(type = "book") {
+    let url = env.MANAGE_API_URL + "/book/barcode/exist?type=" + type;
     const token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
     return axios.get(url);
 }

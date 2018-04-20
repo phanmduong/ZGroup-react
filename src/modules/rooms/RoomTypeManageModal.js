@@ -188,8 +188,9 @@ class RoomTypeManageModal extends React.Component {
                                                     </td>
                                                     <td>
                                                         {//eslint-disable-next-line
+                                                            <div dangerouslySetInnerHTML={{__html: type.description}}/>
                                                         }
-                                                        <div dangerouslySetInnerHTML={{__html: type.description}}/>
+                                                        
                                                     </td>
                                                     <td>
                                                         {(type.type_name !== null ) ? ( (type.type_name === "conference") ? "Phòng họp" : "Phòng làm việc") : null}

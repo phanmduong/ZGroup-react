@@ -1,11 +1,11 @@
-//import ManageRequestContainer from "../modules/Zgroup/request/ManageRequestContainer";
+import WarehouseContainer from "../modules/Zgroup/warehouse/WarehouseContainer";
 
 /**
  * Tab Kho Hang
  */
 export default [
-    // { 
-    //     path: "/administration/manage",
-    //     component: ManageRequestContainer
-    // },
+    {
+        path: "/warehouse",
+        component: WarehouseContainer,
+    },
 ];

@@ -1,5 +1,14 @@
-
 export default {
+
+    campaignList: {
+        campaigns: [],
+        isLoading: false,
+        limit: 20,
+        totalPages: 0,
+        currentPage: 0,
+        totalCount: 0
+    },
+
     blogType:{
         isUpdatingEditModal:false,
         isLoading:false,
@@ -14,25 +23,39 @@ export default {
             name:'',
         }
     },
+
     smsCampaign:{
-        allMessage:[],
+        allMessage:[],template_types:[],campaignName:'',
+        allReceiver:[],campaign_needed_quantity: 0,
+        allHistory:[],sentMessageName:'',
+        //Modal Them, sua message
         message:{
             name:'',
             content:'',
             sms_template_type_id: '',
-            send_time:'',
+            send_time: '',
         },
-        template_types:[],
-        isSavingMessage:false,
-        upMessage: false,
         addMessageModal: false,
         addReceiverModal: false,
-        isLoading:false,
-        limit: 20,
-        currentPage: 1,
-        totalPages: 1,
-        totalCount: 1,
+        isSavingMessage:false,
+        upMessage: false,
+        upReceiver:false,
+        upHistory: false,
+        isLoadingMessage: false,
+        isLoadingReceiver:false,
+        isLoadingHistory: false,
+        // phan trang cua trang Campaign
+        limitMessage: 20,
+        currentPageMessage: 1,
+        totalPagesMessage: 1,
+        totalCountMessage: 1,
+        // phan trang cua trang Receiver
+        limitReceiver: 20,
+        currentPageReceiver: 1,
+        totalPagesReceiver: 1,
+        totalCountReceiver: 1,
     },
+
     labelManage: {
         isLoading: false,
         courseCategories: [],
@@ -130,6 +153,9 @@ export default {
         currentPage: 1,
         limit: 20,
         totalCount: 1,
+        comment:{
+            comment:'',
+        },
         report: [],
         reports: [],
         isLoading: false,
@@ -161,7 +187,7 @@ export default {
         isLoading: false,
         editPasswordModal: false,
         isUpdatingEditModal: false,
-        passwordEditModal: { password: '' },
+        passwordEditModal: {password: ''},
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,
@@ -883,6 +909,7 @@ export default {
         errorPost: false,
     },
     registerStudents: {
+        showCreateRegisterModal: false,
         registers: [],
         isLoading: false,
         error: false,
@@ -2004,7 +2031,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: { x: [0, 600], y: [0, 400] }
+        domain: {x: [0, 600], y: [0, 400]}
     },
     printOrder: {
         isLoading: false,
@@ -2020,14 +2047,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{ id: 1, name: "" },],
-        goods: [{ id: 1, name: "" },],
-        codes: [{ value: '', label: '' }],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        codes: [{value: '', label: ''}],
         properties: [],
         data: {
-            company: { id: 0, name: "" },
-            staff: { id: 0, name: "" },
-            good: { id: 0, name: "" },
+            company: {id: 0, name: ""},
+            staff: {id: 0, name: ""},
+            good: {id: 0, name: ""},
             quantity: 1,
             command_code: "",
             core1: {
@@ -2106,16 +2133,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: { id: 0, name: "noname" },
-            warehouse: { id: 0, name: "noname" },
-            company: { id: "", name: "noname" },
+            good: {id: 0, name: "noname"},
+            warehouse: {id: 0, name: "noname"},
+            company: {id: "", name: "noname"},
             price: 0,
             quantity: 0,
         },
-        companies: [{ id: 1, name: "" },],
-        goods: [{ id: 1, name: "" },],
-        warehouses: [{ id: 1, name: "" },],
-        orderedGoods: [{ id: 1, name: "" },],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
+        orderedGoods: [{id: 1, name: ""},],
     },
     notificationTypes: {
         isLoading: false,
@@ -2316,6 +2343,10 @@ export default {
     request: {
         isLoading: false,
         paginator: {},
+        isCommitting: false,
+        requestVacations: [],
+        requestMoneys: [],
+        companies: [],
     },
     lead: {
         leads: [],
@@ -2330,5 +2361,35 @@ export default {
         totalCount: 0,
         isDistributing: false,
         errorDistribution: false,
-    }
+    },
+    zWarehouse: {
+        isLoading : false,
+        isLoadingHisotry :false,
+        goods: [],
+        historyGood: [],
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        historyPaginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+    },
+    dashboardStaff: {
+        gens: [],
+        isLoadingGens: true,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        user: {},
+        isLoading: true,
+        error: false,
+    },
 };

@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from './CampaignActionTypes';
 import * as helper from "../../helpers/helper";
 import * as campaignApi from "./campaignApi";
 
@@ -7,37 +7,30 @@ export function showAddMessageModal() {
         type: types.TOGGLE_ADD_MESSAGE_MODAL
     });
 }
-
 export function showAddReceiverModal() {
-    return({
-       type: types.TOGGLE_ADD_RECEIVER_MODAL
-    });
-}
-
-export function upMessage(message) {
     return ({
-        type: types.UPLOAD_MESSAGE,
-        message
+        type: types.TOGGLE_ADD_RECEIVER_MODAL
     });
 }
 
-export function saveMessage(message) {
+
+export function loadAllMessage(campaignId, page, search) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_SAVE_MESSAGE
+            type: types.BEGIN_LOAD_ALL_MESSAGE
         });
-        campaignApi.saveMessageApi(message)
+        campaignApi.loadAllMessageApi(campaignId, page, search)
             .then((res) => {
-                if (res.data.status) {
-                    helper.showNotification("Thêm tin nhắn thành công");
-                    dispatch({
-                        type: types.SAVE_MESSAGE_SUCCESS,
-                        message
-
-                    });
-                } else
-                    helper.showNotification(res.data.message);
-
+                dispatch({
+                    type: types.LOAD_ALL_MESSAGE_SUCCESS,
+                    allMessage: res.data.templates,
+                    currentPageMessage: res.data.paginator.current_page,
+                    limitMessage: res.data.paginator.limit,
+                    totalCountMessage: res.data.paginator.total_count,
+                    totalPagesMessage: res.data.paginator.total_pages,
+                    campaignName: res.data.campaign.name,
+                    campaign_needed_quantity: res.data.campaign.needed_quantity,
+                });
             });
     };
 }
@@ -52,26 +45,31 @@ export function loadTypeOfMessage() {
             });
     };
 }
-
-export function loadAllMessage(page) {
+export function upMessage(message) {
+    return ({
+        type: types.UPLOAD_MESSAGE,
+        message
+    });
+}
+export function saveMessage(campaignId, message) {
     return function (dispatch) {
         dispatch({
-           type: types.BEGIN_LOAD_ALL_MESSAGE
+            type: types.BEGIN_SAVE_MESSAGE
         });
-        campaignApi.loadAllMessageApi(page)
+        campaignApi.saveMessageApi(campaignId, message)
             .then((res) => {
-                dispatch({
-                    type: types.LOAD_ALL_MESSAGE_SUCCESS,
-                    allMessage: res.data.templates,
-                    currentPage: res.data.paginator.current_page,
-                    limit: res.data.paginator.limit,
-                    totalCount: res.data.paginator.total_count,
-                    totalPages: res.data.paginator.total_pages
-                });
+                if (res.data.status) {
+                    helper.showNotification("Thêm tin nhắn thành công");
+                    dispatch({
+                        type: types.SAVE_MESSAGE_SUCCESS,
+                        message
+
+                    });
+                } else
+                    helper.showNotification(res.data.message);
             });
     };
 }
-
 export function editMessage(message) {
     return function (dispatch) {
         dispatch({
@@ -91,3 +89,24 @@ export function editMessage(message) {
             });
     };
 }
+
+
+export function loadAllReceiver(campaignId, page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_RECEIVER
+        });
+        campaignApi.loadAllReceiverApi(campaignId, page, search)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_RECEIVER_SUCCESS,
+                    allReceiver: res.data.receivers,
+                    currentPageReceiver: res.data.paginator.current_page,
+                    limitReceiver: res.data.paginator.limit,
+                    totalCountReceiver: res.data.paginator.total_count,
+                    totalPagesReceiver: res.data.paginator.total_pages,
+                });
+            });
+    };
+}
+

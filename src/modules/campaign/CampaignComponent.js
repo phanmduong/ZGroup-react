@@ -8,25 +8,42 @@ import AddReceiverModal from "./AddReceiverModal";
 import {bindActionCreators} from 'redux';
 import * as campaignAction from "./campaignAction";
 import Loading from "../../components/common/Loading";
-
+import Search from "../../components/common/Search";
 
 class CampaignComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.campaignId = this.props.params.campaignId;
         this.state = {
-            page: 1
+            page: 1,
+            query: ''
         };
+        this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
+        this.templatesSearchChange = this.templatesSearchChange.bind(this);
     }
 
-    componentWillMount() {
-        this.props.campaignAction.loadAllMessage();
+    templatesSearchChange(value) {
+        this.setState({
+            query: value,
+            page: 1
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.campaignAction.loadAllMessage(
+                this.campaignId,
+                1,
+                value
+            );
+        }.bind(this), 500);
     }
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.campaignAction.loadAllMessage(page);
+        this.props.campaignAction.loadAllMessage(this.campaignId, page, this.state.query);
     }
 
     showAddMessageModal2(message) {
@@ -35,15 +52,15 @@ class CampaignComponent extends React.Component {
     }
 
     render() {
-        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
-        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
+        let first = this.props.totalCountMessage ? (this.props.currentPageMessage - 1) * this.props.limitMessage + 1 : 0;
+        let end = this.props.currentPageMessage < this.props.totalPagesMessage ? this.props.currentPageMessage * this.props.limitMessage : this.props.totalCountMessage;
 
         return (
             <div className="campaign-content">
                 <div className="form-group is-empty">
                     <div className="flex-row flex">
                         <h5 className="card-title" style={{lineHeight: "0px"}}>
-                            <strong>Tên chiến dịch</strong>
+                            <strong>{this.props.campaignName}</strong>
                         </h5>
                         <div className="dropdown">
                             <button data-toggle="dropdown" aria-expanded="false"
@@ -52,7 +69,7 @@ class CampaignComponent extends React.Component {
                             </button>
                             <ul className="dropdown-menu dropdown-primary">
                                 <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 2})}>
+                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>
                                         Thêm tin</a>
                                 </li>
                                 <li>
@@ -63,13 +80,15 @@ class CampaignComponent extends React.Component {
                             </ul>
                         </div>
                     </div>
-                    <input
-                        style={{paddingTop: "20px"}}
-                        type="search" className="form-control" placeholder="Tìm kiếm khảo sát" value=""/>
+                    <Search
+                        onChange={this.templatesSearchChange}
+                        value={this.state.query}
+                        placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                    />
                 </div>
                 <br/><br/><br/>
                 {
-                    this.props.isLoading ? <Loading/> :
+                    this.props.isLoadingMessage ? <Loading/> :
                         (
                             <div className="table-responsive">
                                 <table className="table table-hover">
@@ -133,23 +152,26 @@ class CampaignComponent extends React.Component {
                                                         </TooltipButton>
                                                     </td>
                                                     <td>
-                                                        {message.sms_template_type.name}
+                                                        <a className="campaign-message-type"  style={{backgroundColor:message.sms_template_type.color}}
+                                                        >
+                                                            <span>{message.sms_template_type.name.toUpperCase()}</span></a>
+
                                                     </td>
                                                     <td>
                                                         <div className="btn-group-action">
                                                             <div style={{display: "inline-block"}}>
                                                                 <TooltipButton placement="top"
                                                                                text={`Sửa`}><a
-                                                                    onClick={() => this.showAddMessageModal2(message)}
+                                                                    onClick={() => this.showAddMessageModal2({...message,sms_template_type_id: message.sms_template_type.id})}
                                                                 >
                                                                     <i className="material-icons">edit</i>
                                                                 </a></TooltipButton>
                                                             </div>
-                                                             {/*Thao tác xóa tin nhắn*/}
+                                                            {/*Thao tác xóa tin nhắn*/}
                                                             {/*<TooltipButton placement="top"*/}
-                                                                           {/*text={`Xóa`}>*/}
-                                                                {/*<a><i className="material-icons">delete</i>*/}
-                                                                {/*</a></TooltipButton>*/}
+                                                            {/*text={`Xóa`}>*/}
+                                                            {/*<a><i className="material-icons">delete</i>*/}
+                                                            {/*</a></TooltipButton>*/}
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -162,19 +184,19 @@ class CampaignComponent extends React.Component {
                         )
                 }
                 <AddReceiverModal/>
-                <AddMessageModal/>
+                <AddMessageModal
+                    campaignId={this.props.params.campaignId}/>
                 <div className="row float-right">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style={{textAlign: 'right'}}>
                         <b style={{marginRight: '15px'}}>
                             Hiển thị kêt quả từ {first}
-                            - {end}/{this.props.totalCount}</b><br/>
+                            - {end}/{this.props.totalCountMessage}</b><br/>
                         <Pagination
-                            totalPages={this.props.totalPages}
-                            currentPage={this.props.currentPage}
+                            totalPages={this.props.totalPagesMessage}
+                            currentPage={this.props.currentPageMessage}
                             loadDataPage={this.loadOrders}
                         />
-
                     </div>
                 </div>
             </div>
@@ -183,23 +205,26 @@ class CampaignComponent extends React.Component {
 }
 
 CampaignComponent.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    limit: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired,
+    isLoadingMessage: PropTypes.bool.isRequired,
+    limitMessage: PropTypes.number.isRequired,
+    currentPageMessage: PropTypes.number.isRequired,
+    totalPagesMessage: PropTypes.number.isRequired,
+    totalCountMessage: PropTypes.number.isRequired,
     campaignAction: PropTypes.object.isRequired,
     allMessage: PropTypes.array.isRequired,
+    params: PropTypes.object.isRequired,
+    campaignName: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         allMessage: state.smsCampaign.allMessage,
-        totalPages: state.smsCampaign.totalPages,
-        totalCount: state.smsCampaign.totalCount,
-        currentPage: state.smsCampaign.currentPage,
-        limit: state.smsCampaign.limit,
-        isLoading: state.smsCampaign.isLoading,
+        totalPagesMessage: state.smsCampaign.totalPagesMessage,
+        totalCountMessage: state.smsCampaign.totalCountMessage,
+        currentPageMessage: state.smsCampaign.currentPageMessage,
+        limitMessage: state.smsCampaign.limitMessage,
+        isLoadingMessage: state.smsCampaign.isLoadingMessage,
+        campaignName:state.smsCampaign.campaignName
     };
 }
 
