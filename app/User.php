@@ -478,7 +478,8 @@ class User extends Authenticatable
                 'id' => head($this->getCarer->toArray())['id'],
                 'name' => head($this->getCarer->toArray())['name'],
                 'color' => head($this->getCarer->toArray())['color'],
-            ]
+            ],
+            'rate' => $this->rate
         ];
     }
 
