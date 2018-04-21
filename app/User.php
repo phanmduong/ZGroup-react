@@ -474,10 +474,10 @@ class User extends Authenticatable
                 ];
             }),
             'time' => $this->created_at,
-//            'carer' => [
-//                'id' => head($this->getCarer)->id,
-//                'name' => head($this->getCarer)->name
-//            ]
+            'carer' => [
+                'id' => head($this->getCarer->toArray())['id'],
+                'name' => head($this->getCarer->toArray())['name']
+            ]
         ];
     }
 
