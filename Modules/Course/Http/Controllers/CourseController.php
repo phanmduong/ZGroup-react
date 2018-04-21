@@ -11,19 +11,19 @@ use App\Lesson;
 use App\Link;
 use App\User;
 use Illuminate\Http\Request;
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Response;
+use App\Services\EmailService;
+use App\StudyClass;
+
 
 class CourseController extends ManageApiController
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function __construct()
+    protected $emailService;
+    public function __construct(EmailService $emailService)
     {
-
         parent::__construct();
-
+        $this->emailService = $emailService;
     }
 
     public function getCourse($course_id)
@@ -91,7 +91,16 @@ class CourseController extends ManageApiController
         $keyword = $request->search;
         $courses = Course::where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("price", "like", "%$keyword%");
-        })->paginate($limit);
+        });
+        if ($limit == -1) {
+            $courses = $courses->get();
+            return $this->respondSuccessWithStatus([
+                "courses" => $courses->map(function ($course) {
+                    return $course->transform();
+                })
+            ]);
+        }
+        $courses = $courses->paginate($limit);
         return $this->respondWithPagination(
             $courses,
             [
@@ -312,17 +321,17 @@ class CourseController extends ManageApiController
         // $resgister_ids = $classLesson->attendances->map(function ($data) {
         //     if ($data->register->status === 1) return $data->register->id; else return 0;
         // });
-        
+
         $classLesson = ClassLesson::find($classLessonId);
 
-        if ($classLesson == null){
+        if ($classLesson == null) {
             return $this->respondErrorWithStatus("Buoi hoc khong ton tai");
         }
 
         $attendances = [];
-        
-        foreach ($classLesson->attendances as $attendance){
-            if ($attendance->register != null && $attendance->register->status == 1){
+
+        foreach ($classLesson->attendances as $attendance) {
+            if ($attendance->register != null && $attendance->register->status == 1) {
                 $attendances[] = [
                     'name' => $attendance->register->user->name,
                     'email' => $attendance->register->user->email,
@@ -332,12 +341,12 @@ class CourseController extends ManageApiController
                     'note' => $attendance->note,
                     'attendance_lesson_status' => $attendance->status,
                     'attendance_homework_status' => $attendance->hw_status
-    
+
                 ];
-                
+
             }
         }
-        
+
         $data['attendances'] = $attendances;
         $data['classLesson'] = [
             'name' => $classLesson->studyClass->name,
@@ -368,6 +377,7 @@ class CourseController extends ManageApiController
         ]);
 
     }
+
     public function duplicateCourse($courseId, Request $request)
     {
         $course = Course::find($courseId);
@@ -395,4 +405,61 @@ class CourseController extends ManageApiController
         ]);
     }
 
+    public function register(Request $request)
+    {
+        //send mail here
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($request->class_id == null)
+            return $this->respondErrorWithStatus('Thiếu mã lớp');
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt($phone);
+            $user->username = $request->email;
+            $user->email = $request->email;
+        }
+        $user->rate = 5;
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->save();
+
+        $register = new Register;
+        $register->user_id = $user->id;
+        $register->gen_id = Gen::getCurrentGen()->id;
+        $register->class_id = $request->class_id;
+        $register->status = 0;
+        // $register->coupon = $request->coupon;
+        $register->saler_id = $request->saler_id ? $request->saler_id : 0;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
+
+        $register->save();
+
+        // $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+
+        $class = $register->studyClass;
+        if (strpos($class->name, '.') !== false) {
+            if ($class->registers()->count() >= $class->target) {
+                $class->status = 0;
+                $class->save();
+            }
+        }
+
+        return ['message' => 'SUCCESS'];
+    }
+
+    public function classes(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
+        $classes = StudyClass::where('gen_id', $gen_id)->get();
+        return $this->respondSuccessWithStatus([
+            'classes' => $classes->map(function($class){
+                return [
+                    'id' => $class->id,
+                    'name' => $class->name,
+                ];
+            })
+        ]);
+    }
 }

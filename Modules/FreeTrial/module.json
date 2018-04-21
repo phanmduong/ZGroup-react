@@ -1,0 +1,16 @@
+{
+    "name": "FreeTrial",
+    "alias": "freetrial",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\FreeTrial\\Providers\\FreeTrialServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -28,7 +28,7 @@ class WorkShiftTransformer extends Transformer
         });
 
         $date = new \DateTime();
-        $date->modify('-36 hours');
+        $date->modify('-1000 hours');
         $datetime = strtotime($date->format('Y-m-d H:i:s'));
 
         $shift_session = $shift->work_shift_session()->withTrashed()->first();

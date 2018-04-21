@@ -71,8 +71,12 @@ class ElightController extends Controller
 
         $this->data['type'] = $type;
         $this->data['type_name'] = $type_name;
-        $this->data['blogs'] = $blogs;
-        $this->data['display'] = $blogs;
+        $this->data['blogs'] = $blogs->map(function($blog){
+            $data = $blog;
+            $category = $blog->productCategories()->orderBy('pivot_id')->first();
+            $data['category_name'] = $category ? $category->name : '';
+            return $data;
+        });
         $this->data['search'] = $search;
         $this->data['categories'] = $categories;
 
@@ -84,8 +88,6 @@ class ElightController extends Controller
     public function post($subfix, $post_id)
     {
         $post = Product::find($post_id);
-        $post->author;
-        $post->category;
         $post->url = config('app.protocol') . $post->url;
         if (trim($post->author->avatar_url) === '') {
             $post->author->avatar_url = config('app.protocol') . 'd2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png';
@@ -97,6 +99,7 @@ class ElightController extends Controller
             $p->url = config('app.protocol') . $p->url;
             return $p;
         });
+
         $post->comments = $post->comments->map(function ($comment) {
             $comment->commenter->avatar_url = config('app.protocol') . $comment->commenter->avatar_url;
 
@@ -106,7 +109,8 @@ class ElightController extends Controller
             'elight::post',
             [
                 'post' => $post,
-                'posts_related' => $posts_related
+                'posts_related' => $posts_related,
+                'categories' => $post->productCategories()->orderBy('pivot_id')->get()
             ]
         );
     }

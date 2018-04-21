@@ -14,7 +14,7 @@ class SubscribersList extends Model
 
     public function subscribers()
     {
-        return $this->belongsToMany('App\Subscriber')->withTimestamps();
+        return $this->belongsToMany('App\Subscriber', 'subscriber_subscribers_list', 'subscribers_list_id', 'subscriber_id')->withTimestamps();
     }
 
     public function campaigns()

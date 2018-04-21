@@ -2,6 +2,7 @@
 
 $marketingCampaignRoutes = function () {
     Route::group(['prefix' => 'marketing-campaign'], function () {
+        Route::get('/user', 'MarketingCampaignController@user');
         Route::get('/all', 'MarketingCampaignController@getAll');
         Route::get('/summary', 'MarketingCampaignController@summaryMarketingCampaign');
         Route::get('/sumary-register', 'MarketingCampaignController@summaryMarketingRegister');

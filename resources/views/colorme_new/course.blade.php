@@ -160,6 +160,13 @@
                                        v-model="user.phone"
                                        required>
                             </div>
+                            <div class="form-group" v-model="user.coupon">
+                                <label for="coupon">Mã ưu đãi
+                                </label>
+                                <input type="text" class="form-control" name="coupon" placeholder="Nhập số mã ưu đãi"
+                                       v-model="user.coupon"
+                                       >
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
