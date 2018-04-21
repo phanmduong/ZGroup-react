@@ -288,17 +288,16 @@ class ManageSmsApiController extends ManageApiController
         if ($courses) {
             $classes_courses = StudyClass::join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")
                 ->where(function ($query) use ($courses) {
-                for ($index = 0; $index < count($courses); ++$index) {
-                    $course_id = $courses[$index]->value;
-                    if ($index == 0)
-                        $query->where('courses.id', '=', $course_id);
-                    else
-                        $query->orWhere('courses.id', '=', $course_id);
-                }
-            })->get()->toArray();
+                    for ($index = 0; $index < count($courses); ++$index) {
+                        $course_id = $courses[$index]->value;
+                        if ($index == 0)
+                            $query->where('courses.id', '=', $course_id);
+                        else
+                            $query->orWhere('courses.id', '=', $course_id);
+                    }
+                })->get()->toArray();
             $classes = array_merge($classes_courses, json_decode($request->classes));
         }
-
 
 
 //        return $this->respondWithPagination($classes, [
@@ -309,6 +308,18 @@ class ManageSmsApiController extends ManageApiController
 //            })
 //        ]);
         if (count($classes) > 0) {
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+                ->select('users.*')->where(function ($query) use ($classes) {
+                    for ($index = 0; $index < count($classes); ++$index) {
+                        $class_id = $classes[$index]['id'];
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
+                    }
+                });
+        }
+        if ($request->paid_course_quantity) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
                 ->select('users.*')->where(function ($query) use ($classes) {
                     for ($index = 0; $index < count($classes); ++$index) {
