@@ -33,6 +33,11 @@ class AuthenticateController extends Controller
         $this->emailService = $emailService;
     }
 
+    public function freeTrialLogin(Request $request)
+    {
+        
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -41,7 +46,7 @@ class AuthenticateController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect("/login");
+        return redirect('/login');
     }
 
     public function login(Request $request)

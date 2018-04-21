@@ -24,10 +24,14 @@ $namespaceRoutes = function () {
     Route::get('/summary', 'FinanceManageApiController@summaryFinance');
 };
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Finance\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Finance\Http\Controllers'],
     function () use ($namespaceRoutes) {
-        Route::group(['prefix' => 'v3'],
+        Route::group(
+            ['prefix' => 'v3'],
             function () use ($namespaceRoutes) {
                 Route::group(['prefix' => 'finance'], $namespaceRoutes);
-            });
-    });
+            }
+        );
+    }
+);
