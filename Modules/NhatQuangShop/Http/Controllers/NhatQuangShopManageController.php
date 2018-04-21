@@ -132,6 +132,8 @@ class NhatQuangShopManageController extends Controller
     public function account_information()
     {
         $user = Auth::user();
+        $user->money = number_format($user->money, 0, ',', '.') . ' đ';
+        $user->deposit = number_format($user->deposit, 0, ',', '.') . ' đ';
         $this->data['user'] = $user;
         return view("nhatquangshop::account", $this->data);
     }
