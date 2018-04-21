@@ -45,7 +45,7 @@ class FilmZgroupManageApiController extends ManageApiController
             'country' => 'required|max:255',
             'language' => 'required|max:255',
             'film_genre' => 'required|max:255',
-            'summary' => 'required|max:255',
+            'summary' => 'required',
         ]);
         if($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
