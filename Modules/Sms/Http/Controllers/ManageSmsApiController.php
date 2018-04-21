@@ -294,9 +294,9 @@ class ManageSmsApiController extends ManageApiController
                     for ($index = 0; $index < count($gens); ++$index) {
                         $gen_id = $gens[$index]->value;
                         if ($index == 0)
-                            $query->where('courses.id', '=', $gen_id);
+                            $query->where('gens.id', '=', $gen_id);
                         else
-                            $query->orWhere('courses.id', '=', $gen_id);
+                            $query->orWhere('gens.id', '=', $gen_id);
                     }
                 }
             })->get()->toArray();
