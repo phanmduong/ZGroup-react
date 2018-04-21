@@ -53,8 +53,8 @@ class HistoryGoodComponent extends React.Component {
                                                     <td> {index + 1} </td>
                                                     <td> {pp.order.created_at} </td>
                                                     <td> {pp.order.type === "be-ordered" ? "Xuất hàng" : "Nhập hàng"}</td>
-                                                    <td>  {pp.quantity}</td>
-                                                    <td>  {pp.warehouse.name}</td>
+                                                    <td> {pp.quantity}</td>
+                                                    <td> {pp.warehouse.name}</td>
                                                     <td> {pp.order.command_code} </td>
                                                     <td> {pp.order.staff.name} </td>
                                                 </tr>
