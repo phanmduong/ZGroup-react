@@ -312,7 +312,7 @@ class ManageSmsApiController extends ManageApiController
             })->where(function ($query) use ($classes) {
                 if ($classes) {
                     for ($index = 0; $index < count($classes); ++$index) {
-                        $class_id = $classes[$index]->id;
+                        $class_id = $classes[$index]->value;
                         if ($index == 0)
                             $query->where('registers.class_id', '=', $class_id);
                         else
