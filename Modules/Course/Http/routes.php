@@ -42,7 +42,7 @@ $v2ManageCourseRoutes = function () {
     });
     Route::group(['prefix' => 'v2/class'], function () {
 
-        Route::get('/', 'CouseController@classes');
+        Route::get('/', 'CourseController@classes');
     });
 };
 
