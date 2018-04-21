@@ -38,8 +38,8 @@ class CreateRequestVacationContainer extends React.Component {
             this.props.requestActions.getRequestVacation(
                 this.props.routeParams.requestId,
                 (data) => {
-                    data.start_time = moment(data.start_time).format(DATE_FORMAT);
-                    data.end_time = moment(data.end_time).format(DATE_FORMAT);
+                    data.start_time = moment(data.start_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATE_FORMAT);
+                    data.end_time = moment(data.end_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATE_FORMAT);
                     data.request_date = moment(data.request_date).format(DATE_FORMAT);
                     return this.setState({ data });
                 }
@@ -64,7 +64,6 @@ class CreateRequestVacationContainer extends React.Component {
 
     submitData() {
         let data = { ...this.state.data };
-
         if (helper.isEmptyInput(data.start_time)) {
             helper.showErrorNotification("Vui lòng chọn ngày bắt đầu");
             return;
@@ -74,11 +73,17 @@ class CreateRequestVacationContainer extends React.Component {
             return;
         }
 
+        if (moment(moment(data.start_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL))
+            .isAfter(moment(data.end_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL))) {
+            helper.showErrorNotification("Vui lòng chọn ngày bắt đầu trước ngày kết thúc!");
+            return;
+        }
 
         data.request_date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
 
         data.start_time = moment(data.start_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
         data.end_time = moment(data.end_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+
 
 
         if (this.props.routeParams.requestId) {
@@ -103,9 +108,14 @@ class CreateRequestVacationContainer extends React.Component {
 
         let { isLoading, isCommitting } = this.props;
         let { data } = this.state;
-        let date1 = data.start_time;
-        let date2 = data.end_time;
 
+        let time1 = moment(data.start_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let time2 = moment(data.end_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+
+        let date1 = moment(time1);
+        let date2 = moment(time2).add(1, 'days');
+
+        let duration = helper.getDurationExceptWeekend(date1, date2);
         return (
             <div>
                 {
@@ -129,7 +139,7 @@ class CreateRequestVacationContainer extends React.Component {
                                                                     name="start_time"
                                                                     id="start-time"
                                                                     label="Nghỉ phép từ ngày:"
-                                                                    value={date1}
+                                                                    value={data.start_time}
                                                                     updateFormData={this.updateFormData}
                                                                     format={DATE_FORMAT}
                                                                     placeholder={DATE_FORMAT}
@@ -143,7 +153,7 @@ class CreateRequestVacationContainer extends React.Component {
                                                                     name="end_time"
                                                                     id="end-time"
                                                                     label="Đến ngày:"
-                                                                    value={date2}
+                                                                    value={data.end_time}
                                                                     updateFormData={this.updateFormData}
                                                                     format={DATE_FORMAT}
                                                                     placeholder={DATE_FORMAT}
@@ -152,6 +162,11 @@ class CreateRequestVacationContainer extends React.Component {
                                                                     disabled={isLoading}
                                                                 />
                                                             </div>
+
+                                                            <div className="col-md-12">
+                                                                Nghỉ {(!isNaN(duration) && duration) ? duration : 0} ngày.
+                                                                </div>
+
                                                             <div className="col-md-12">
                                                                 <CheckBoxMaterial
                                                                     label="Nghỉ có lương"
@@ -263,4 +278,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRequestVacationContainer);
-
