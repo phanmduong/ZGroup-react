@@ -450,7 +450,7 @@ class CourseController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus([
-            'register' => $this->registerTransformer->transformCollection($register)
+            'register' => $this->registerTransformer->transform($register)
         ]);
     }
 
