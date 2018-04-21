@@ -944,7 +944,9 @@ export default {
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
         isLoadingBaseFilter: false,
-        baseFilter: []
+        baseFilter: [],
+        isSavingRegister:false,
+
     },
 
     profile: {

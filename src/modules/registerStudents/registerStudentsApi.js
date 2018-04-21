@@ -186,3 +186,33 @@ export function loadBases() {
 
     return axios.get(url);
 }
+export function loadCoursesApi() {
+    let url = env.MANAGE_API_URL + "/v2/course/get-all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+export function loadClassesApi(course_id) {
+    let url = env.MANAGE_API_URL + "/v2/course/"+course_id+"/class";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+export function saveRegisterApi(register) {
+    let url = env.MANAGE_API_URL + "/v2/register";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,{
+        name : register.name,
+        phone : register.phone,
+        email : register.email,
+        class_id : register.class_id,
+    });
+}
