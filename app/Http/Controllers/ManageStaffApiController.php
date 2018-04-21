@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: phanmduong
@@ -80,19 +81,16 @@ class ManageStaffApiController extends ManageApiController
         $q = trim($request->search);
 
         $limit = 20;
+        $staffs = User::where('role', '>', 0);
 
-        if ($q) {
-            $staffs = User::where('role', ">", 0)
-                ->where(function ($query) use ($q) {
-                    $query->where('email', 'like', '%' . $q . '%')
-                        ->orWhere('name', 'like', '%' . $q . '%')
-                        ->orWhere('phone', 'like', '%' . $q . '%');
-                })
-                ->orderBy('created_at')->paginate($limit);
-        } else {
-            $staffs = User::where('role', ">", 0)->orderBy('created_at')->paginate($limit);
-        }
-
+        if ($q)
+            $staffs = $staffs->where(function ($query) use ($q) {
+            $query->where('email', 'like', '%' . $q . '%')
+                ->orWhere('name', 'like', '%' . $q . '%')
+                ->orWhere('phone', 'like', '%' . $q . '%');
+        });
+        $staffs = $staffs->orderBy('created_at')->paginate($limit);
+        
         $data = [
             "staffs" => $staffs->map(function ($staff) {
                 $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
