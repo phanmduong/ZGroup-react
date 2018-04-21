@@ -334,7 +334,6 @@ class ManageSmsApiController extends ManageApiController
 
                 });
         }
-
         if ($request->top) {
             $users = $users->simplePaginate($request->top);
         } else {
