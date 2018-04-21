@@ -37,6 +37,70 @@ class NhatQuangShopManageController extends Controller
         }
     }
 
+    public function orderStatusToVietnamese($status)
+    {
+        switch ($status) {
+            case 'place_order':
+                return 'Đặt hàng';
+                break;
+            case 'not_reach':
+                return 'Chưa gọi';
+                break;
+            case 'transfering':
+                return 'Chờ chuyển khoản';
+                break;
+            case 'confirm_order':
+                return 'Xác nhận';
+                break;
+            case 'ship_order':
+                return 'Giao hàng';
+                break;
+            case 'completed_order':
+                return 'Hoàn thành';
+                break;
+            case 'cancel':
+                return 'Huỷ';
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    public function deliveryStatusToVietnamese($status)
+    {
+
+        switch ($status) {
+            case 'place_order':
+                return 'Đơn mới';
+                break;
+            case 'sent_price':
+                return 'Đã báo giá';
+                break;
+            case 'confirm_order':
+                return 'Xác nhận';
+                break;
+            case 'ordered':
+                return 'Đặt hàng';
+                break;
+            case 'arrive_date':
+                return 'Dự kiến ngày về';
+                break;
+            case 'arrived':
+                return 'Đã về VN';
+                break;
+            case 'ship':
+                return 'Giao hàng';
+            case 'completed':
+                return 'Hoàn thành';
+            case 'cancel':
+                return 'Huỷ';
+            default:
+                return '';
+                break;
+        }
+    }
+
     public function userOrder()
     {
         $user = Auth::user();
@@ -111,15 +175,14 @@ class NhatQuangShopManageController extends Controller
             'newPassword' => 'required|min:6',
             'againPassword' => 'required|same:newPassword|min:6'
         ], [
-                'password.required' => 'Bạn chưa nhập mật khẩu hiện tại',
-                'newPassword.required' => 'Bạn chưa nhập mật khẩu mới',
-                'againPassword.required' => 'Bạn chưa nhập mật khẩu xác nhận',
-                'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
-                'newPassword.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
-                'againPassword.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
-                'againPassword.same' => 'Mật khẩu xác nhận không chính xác',
-            ]
-        );
+            'password.required' => 'Bạn chưa nhập mật khẩu hiện tại',
+            'newPassword.required' => 'Bạn chưa nhập mật khẩu mới',
+            'againPassword.required' => 'Bạn chưa nhập mật khẩu xác nhận',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+            'newPassword.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+            'againPassword.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+            'againPassword.same' => 'Mật khẩu xác nhận không chính xác',
+        ]);
         if ($validator->fails()) {
             return redirect('/manage/password_change')
                 ->withInput()
@@ -139,7 +202,7 @@ class NhatQuangShopManageController extends Controller
     public function filterOrders(Request $request)
     {
         $user = Auth::user();
-        $orders = Order::where([['user_id', '=', $user->id],['type', '=', 'order']])->orderBy('created_at', 'desc');
+        $orders = Order::where([['user_id', '=', $user->id], ['type', '=', 'order']])->orderBy('created_at', 'desc');
         $code = $request->code;
         $status = $request->status;
         $start_day = $request->start_day;
@@ -152,7 +215,10 @@ class NhatQuangShopManageController extends Controller
         if ($code)
             $orders = $orders->where('code', 'like', '%' . $code . '%');
         $orders = $orders->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['orders'] = $orders;
+        $this->data['orders'] = $orders->map(function ($order) {
+            $order->status = $this->orderStatusToVietnamese($order->status);
+            return $order;
+        });
         return view("nhatquangshop::orders", $this->data);
     }
 
@@ -180,7 +246,10 @@ class NhatQuangShopManageController extends Controller
         if ($code)
             $deliveryOrders = $deliveryOrders->where('code', 'like', '%' . $code . '%');
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['deliveryOrders'] = $deliveryOrders;
+        $this->data['deliveryOrders'] = $deliveryOrders->map(function ($order) {
+            $order->status = $this->deliveryStatusToVietnamese($order->status);
+            return $order;
+        });
         return view("nhatquangshop::delivery_orders", $this->data);
     }
 
