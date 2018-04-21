@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Response;
 use App\Services\EmailService;
+use App\StudyClass;
 
 
 class CourseController extends ManageApiController
@@ -405,7 +406,8 @@ class CourseController extends ManageApiController
     }
 
     public function register(Request $request)
-    {//send mail here
+    {
+        //send mail here
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($request->class_id == null)
@@ -444,5 +446,20 @@ class CourseController extends ManageApiController
         }
 
         return ['message' => 'SUCCESS'];
+    }
+
+    public function classes(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
+        $classes = StudyClass::where('gen_id', $gen_id)->get();
+        return $this->respondSuccessWithStatus([
+            'classes' => $classes->map(function($class){
+                return [
+                    'id' => $class->id,
+                    'name' => $class->name,
+                ];
+            })
+        ]);
     }
 }
