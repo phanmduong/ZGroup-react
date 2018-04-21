@@ -26,7 +26,7 @@ $apiRoutes = function()
         Route::post('/films/date','PublicFilmApiController@getFilmByDate');
         Route::post('/films/room','PublicFilmApiController@getFilmByRoom');
         Route::get('/films/showing','PublicFilmApiController@getFilmsNowShowing');
-        Route::get('/films/comming','PublicFilmApiController@getFilmsCommingSoon');
+        Route::get('/films/coming','PublicFilmApiController@getFilmsComingSoon');
         Route::get('/film/{id}','PublicFilmApiController@getFilmById');
         Route::get('/session/{id}','PublicFilmApiController@getSessionById');
 };

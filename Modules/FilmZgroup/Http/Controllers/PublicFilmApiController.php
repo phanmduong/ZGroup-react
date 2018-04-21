@@ -28,12 +28,10 @@ class PublicFilmApiController extends NoAuthApiController
         ];
         return $this->respondSuccessWithStatus($data);
     }
-    public function getFilmsCommingSoon()
+    public function getFilmsComingSoon()
     {
-        $sessions = FilmSession::where('start_date', '=', null)->get();
-        $data = [
-            "sessions" => $sessions,
-        ];
+      $films = Film::where('film_status',2)->get();
+      $data = ['films' => $films];
 
         return $this->respondSuccessWithStatus($data);
     }

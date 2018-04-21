@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'products';
@@ -46,7 +45,8 @@ class Product extends Model
 
     public function productCategories()
     {
-        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id');
+        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id')
+            ->withPivot('id');
     }
 
     public function language()
@@ -69,28 +69,30 @@ class Product extends Model
         return $this->hasOne(TopicAttendance::class, 'product_id', 'id');
     }
 
-    public function languages(){
-        return $this->belongsToMany(LanguageProduct::class,'language_product','product_id','language_id');
+    public function languages()
+    {
+        return $this->belongsToMany(LanguageProduct::class, 'language_product', 'product_id', 'language_id');
     }
+
     public function blogTransform()
     {
         return [
-            "id" => $this->id,
-            "url" => $this->url,
-            "share_url" => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
-            "description" => $this->description,
-            "author" => [
-                "id" => $this->author->id,
-                "name" => $this->author->name,
-                "avatar_url" => $this->author->avatar_url
+            'id' => $this->id,
+            'url' => $this->url,
+            'share_url' => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
+            'description' => $this->description,
+            'author' => [
+                'id' => $this->author->id,
+                'name' => $this->author->name,
+                'avatar_url' => $this->author->avatar_url
             ],
-            "title" => $this->title,
-            "category" => $this->category ? $this->category->name : null,
-            "thumb_url" => $this->thumb_url,
-            "slug" => $this->slug,
-            "meta_description" => $this->meta_description,
-            "meta_title" => $this->meta_title,
-            "keyword" => $this->keyword,
+            'title' => $this->title,
+            'category' => $this->category ? $this->category->name : null,
+            'thumb_url' => $this->thumb_url,
+            'slug' => $this->slug,
+            'meta_description' => $this->meta_description,
+            'meta_title' => $this->meta_title,
+            'keyword' => $this->keyword,
         ];
     }
 
@@ -98,25 +100,23 @@ class Product extends Model
     {
         $data = $this->blogTransform();
         if ($this->author) {
-            $data["author"] = [
-                "id" => $this->author->id,
-                "email" => $this->author->email,
-                "name" => $this->author->name,
-                "avatar_url" => $this->author->avatar_url
+            $data['author'] = [
+                'id' => $this->author->id,
+                'email' => $this->author->email,
+                'name' => $this->author->name,
+                'avatar_url' => $this->author->avatar_url
             ];
         }
 
+        $data['categories'] = $this->productCategories;
+        $data['language_id'] = $this->language ? $this->language->id : 0;
 
-        $data["categories"] = $this->productCategories;
-        $data["language_id"] = $this->language ? $this->language->id : 0;
-
-        $data["created_at"] = format_date($this->created_at);
-        $data["content"] = $this->content;
+        $data['created_at'] = format_date($this->created_at);
+        $data['content'] = $this->content;
         $data['tags'] = $this->tags;
-        $data["related_posts"] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
+        $data['related_posts'] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
             return $post->blogTransform();
         });
         return $data;
     }
-
 }

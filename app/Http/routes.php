@@ -41,6 +41,8 @@ Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
+    Route::get("/login-free-trial", "ClientController@loginFreeTrial");
+    
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
