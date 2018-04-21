@@ -26,8 +26,10 @@ class SendMailController
 
     public function sendAllEmail($email, $subject, $body, $type = null)
     {
+        $source = config('app.email_company_name') . ' ' . '<' . config('app.email_company_from') . '>';
         $message = array(
-            'Source' => 'Color ME <no-reply@colorme.vn>',
+            // 'Source' => 'Color ME <no-reply@colorme.vn>',
+            'Source' => $source,          
             'Destination' => array(
                 'ToAddresses' => $email,
 //                'BccAddresses' => $ccList,

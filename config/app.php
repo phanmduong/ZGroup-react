@@ -1,24 +1,26 @@
 <?php
 
 return [
-    "edu_view" => env("EDU_VIEW", ""),
-    "google_recaptcha_secret" => env("GOOGLE_RECAPTCHA_SECRET", ""),
+    'edu_view' => env('EDU_VIEW', ''),
+    'google_recaptcha_secret' => env('GOOGLE_RECAPTCHA_SECRET', ''),
 
-    "nganluong_merchant_id" => env("NGANLUONG_MERCHANT_ID", ""),
-    "nganluong_merchant_pass" => env("NGANLUONG_MERCHANT_PASS", ""),
-    "nganluong_receiver" => env("NGANLUONG_RECEIVER", ""),
-    "nganluong_url_api" => env("NGANLUONG_URL_API", ""),
+    '' => env('FREE_TRIAL_SECRET', ''),
 
-    "ghtk_api" => env("GHTK_API", ""),
-    "facebook_app_id" => env("FACEBOOK_APP_ID", ""),
-    "facebook_app_secret" => env("FACEBOOK_APP_SECRET", ""),
-    "google_client_id" => env("GOOGLE_CLIENT_ID", ""),
-    "domain" => env('DOMAIN', ''),
-    "channel" => env("CHANNEL", ""),
-    "social_channel" => env("SOCIAL_CHANNEL", ""),
-    "protocol" => env('PROTOCOL', ''),
-    "keetool_secret" => env('SECRET', ''),
-    "favicon" => env('FAVICON', ''),
+    'nganluong_merchant_id' => env('NGANLUONG_MERCHANT_ID', ''),
+    'nganluong_merchant_pass' => env('NGANLUONG_MERCHANT_PASS', ''),
+    'nganluong_receiver' => env('NGANLUONG_RECEIVER', ''),
+    'nganluong_url_api' => env('NGANLUONG_URL_API', ''),
+
+    'ghtk_api' => env('GHTK_API', ''),
+    'facebook_app_id' => env('FACEBOOK_APP_ID', ''),
+    'facebook_app_secret' => env('FACEBOOK_APP_SECRET', ''),
+    'google_client_id' => env('GOOGLE_CLIENT_ID', ''),
+    'domain' => env('DOMAIN', ''),
+    'channel' => env('CHANNEL', ''),
+    'social_channel' => env('SOCIAL_CHANNEL', ''),
+    'protocol' => env('PROTOCOL', ''),
+    'keetool_secret' => env('SECRET', ''),
+    'favicon' => env('FAVICON', ''),
     's3_url' => env('S3_URL', false),
     's3_key' => env('S3_KEY', false),
     's3_secret' => env('S3_SECRET', false),
@@ -161,7 +163,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -200,7 +201,6 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
-
     ],
 
     /*
@@ -252,5 +252,4 @@ return [
         'Module' => Nwidart\Modules\Facades\Module::class,
         'Crawler' => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class
     ],
-
 ];
