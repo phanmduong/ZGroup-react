@@ -284,6 +284,9 @@ class ManageSmsApiController extends ManageApiController
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
         }
 
+        if ($request->rate) {
+            $users = $users->where("rate", $request->rate);
+        }
 
         $classes_courses = StudyClass::join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")
             ->where(function ($query) use ($courses) {
@@ -334,11 +337,13 @@ class ManageSmsApiController extends ManageApiController
 
                 });
         }
+
         if ($request->top) {
             $users = $users->simplePaginate($request->top);
         } else {
             $users = $users->paginate($limit);
         }
+
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
                 'users' => $users->map(function ($user) {
