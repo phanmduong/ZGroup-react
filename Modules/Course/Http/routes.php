@@ -37,6 +37,13 @@ $v2ManageCourseRoutes = function () {
         Route::post('/{courseId}/duplicate', 'CourseController@duplicateCourse');
         Route::get('/{courseId}/class', 'ClassApiController@getClasses');
     });
+    Route::group(['prefix' => 'v2/register'], function () {
+        Route::post('/', 'CourseController@register');
+    });
+    Route::group(['prefix' => 'v2/class'], function () {
+
+        Route::get('/', 'CouseController@classes');
+    });
 };
 
 $v2CourseRoutes = function () {

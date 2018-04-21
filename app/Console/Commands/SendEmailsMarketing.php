@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class SendEmailsMarketing extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -45,7 +44,7 @@ class SendEmailsMarketing extends Command
      */
     public function handle()
     {
-        $email_campaigns = EmailCampaign::where('sended', '=', 0)->whereRaw("\"" . rebuild_date("Y-m-d H:i", time()) . "\" = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
+        $email_campaigns = EmailCampaign::where('sended', '=', 0)->whereRaw('"' . rebuild_date('Y-m-d H:i', time()) . '" = DATE_FORMAT(timer, "%Y-%m-%d %H:%i")')->get();
         if ($email_campaigns->count() > 0) {
             foreach ($email_campaigns as $email_campaign) {
                 $email_campaign->sended = 2;
@@ -57,19 +56,17 @@ class SendEmailsMarketing extends Command
 
                 $list_ids = $email_campaign->subscribers_lists()->get()->pluck('id')->toArray();
                 $str = implode(',', $list_ids);
-                $query = "select distinct email, name from subscribers where id in " .
+                $query = 'select distinct email, name from subscribers where id in ' .
                     "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
 
                 $subscribers = DB::select($query);
 
                 $subscribers_chunk = array_chunk($subscribers, 50);
 
-
-                foreach ($subscribers_chunk as $subscribers_array){
+                foreach ($subscribers_chunk as $subscribers_array) {
                     $job = new SendEmail($email_campaign, $subscribers_array, $data);
                     dispatch($job);
                 };
-
 
                 $notification = new Notification;
                 $notification->actor_id = $email_campaign->owner_id;
@@ -77,7 +74,7 @@ class SendEmailsMarketing extends Command
                 $notification->type = 21;
                 $message = $notification->notificationType->template;
 
-                $message = str_replace('[[NAME_CAMPAIGN]]', "<strong>" . $email_campaign->name . "</strong>", $message);
+                $message = str_replace('[[NAME_CAMPAIGN]]', '<strong>' . $email_campaign->name . '</strong>', $message);
                 $notification->message = $message;
 
                 $notification->color = $notification->notificationType->color;
