@@ -456,6 +456,7 @@ class CourseController extends ManageApiController
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
         $register->time_to_reach = 2;
+        $register->call_status = "uncall";
         $register->save();
 
         // $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
