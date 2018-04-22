@@ -461,7 +461,9 @@ class User extends Authenticatable
     public function getReceivers($group_id)
     {
         $registers = $this->registers()->where('status', 1)->get();
-        $groups = $this->smsGroup()->where("id", $group_id)->get()->toArray();
+        $groups = $this->smsGroup()->where(function ($query) use ($group_id) {
+            $query->where('id', $group_id);
+        })->get()->toArray();
         $status = count($groups) > 0 ? 1 : 0;
         return [
             'id' => $this->id,
