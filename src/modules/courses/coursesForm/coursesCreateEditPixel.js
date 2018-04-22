@@ -117,53 +117,57 @@ class coursesCreateEditPixel extends React.Component {
 
         return (
             <div>
-                <div className="card-content">
+               <div className="col-md-12">
+                <div className="card">
+                    <div className="card-content">
 
-                    <Link className="btn btn-rose" onClick={this.openModal}>
-                        Thêm Pixel
-                    </Link>
+                        <Link className="btn btn-rose" onClick={this.openModal}>
+                            Thêm Pixel
+                        </Link>
 
 
-                    <div className="table-responsive">
+                        <div className="table-responsive">
 
-                        <table id="datatables"
-                               className="table table-striped table-no-bordered table-hover"
-                               cellSpacing="0" width="100%" style={{width: "100%"}}>
-                            <thead className="text-rose">
-                            <tr>
-                                <th>Tên pixel</th>
-                                <th>Code</th>
-                                <th>Người tạo</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {(this.props.data.pixels && this.props.data.pixels.length > 0 ) &&
+                            <table id="datatables"
+                                   className="table table-striped table-no-bordered table-hover"
+                                   cellSpacing="0" width="100%" style={{width: "100%"}}>
+                                <thead className="text-rose">
+                                <tr>
+                                    <th>Tên pixel</th>
+                                    <th>Code</th>
+                                    <th>Người tạo</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {(this.props.data.pixels && this.props.data.pixels.length > 0) &&
                                 this.props.data.pixels.map((pixel) => {
-                                return (
-                                    <tr key={pixel.id}>
-                                        <td>{pixel.name}</td>
-                                        <td>{pixel.code}</td>
-                                        <td>{pixel.staff.name}</td>
-                                        <td>
-                                            <ButtonGroupAction
-                                                edit={() => {
-                                                    return this.openModalEditPixel(pixel);
-                                                }}
-                                                delete={() => {
-                                                    return this.deletePixel(pixel.id);
-                                                }}
-                                                object={pixel}
-                                            />
-                                        </td>
-                                    </tr>
-                                );
+                                    return (
+                                        <tr key={pixel.id}>
+                                            <td>{pixel.name}</td>
+                                            <td>{pixel.code}</td>
+                                            <td>{pixel.staff.name}</td>
+                                            <td>
+                                                <ButtonGroupAction
+                                                    edit={() => {
+                                                        return this.openModalEditPixel(pixel);
+                                                    }}
+                                                    delete={() => {
+                                                        return this.deletePixel(pixel.id);
+                                                    }}
+                                                    object={pixel}
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
 
-                            })}
-                            </tbody>
-                        </table>
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+               </div>
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.isCreate ? "Thêm" : "Chỉnh sửa"} pixel</Modal.Title>

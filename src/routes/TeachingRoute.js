@@ -26,6 +26,7 @@ import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCal
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import CareContainer from "../modules/infoStudent/care/CareContainer";
 import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
+import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesContainer";
 
 /**
  * Tab Teaching
@@ -84,7 +85,7 @@ export default [
     {
         path: "/teaching/courses/edit/:courseId",
         // path: "/manage/courses/edit/:courseId",
-        component: CreateEditCoursesContainer,
+        component: EditCoursesContainer,
         type: "edit",
         // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
         children: [

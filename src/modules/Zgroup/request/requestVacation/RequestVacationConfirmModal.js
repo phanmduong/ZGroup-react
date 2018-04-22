@@ -5,6 +5,7 @@ import * as helper from '../../../../helpers/helper';
 import Avatar from "../../../../components/common/Avatar";
 import moment from "moment";
 import BigCloseButtonForModal from "../../../../components/common/BigCloseButtonForModal";
+import { DATE_FORMAT, DATETIME_FORMAT_SQL } from "../../../../constants/constants";
 
 class PayConfirmModal extends React.Component {
     constructor(props, context) {
@@ -39,7 +40,11 @@ class PayConfirmModal extends React.Component {
 
     render() {
         let { data, isInfoModal } = this.props;
-
+        let date1 = moment(data.start_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let date2 = moment(data.end_time, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        date1 = moment(data.start_time);
+        date2 = moment(data.end_time).add(1, 'days');
+        let duration = helper.getDurationExceptWeekend(date1, date2);
         return (
             <Modal show={this.props.show} onHide={this.props.onHide} bsSize="large">
                 <Modal.Header>
@@ -75,6 +80,10 @@ class PayConfirmModal extends React.Component {
                                                             <label>Đến ngày:</label>
                                                             <br />
                                                             <div>{moment(data.end_time).format("M/D/YYYY")}</div>
+                                                        </div>
+
+                                                        <div className="col-md-12">
+                                                            Nghỉ {(!isNaN(duration) && duration) ? duration : 0} ngày.
                                                         </div>
 
                                                     </div>
