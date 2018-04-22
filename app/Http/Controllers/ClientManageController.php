@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Requests;
+use Composer\DependencyResolver\Request;
 
 class ClientManageController extends Controller
 {
@@ -105,5 +106,4 @@ class ClientManageController extends Controller
             "content" => $content
         ]);
     }
-
 }
