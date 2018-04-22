@@ -1,7 +1,7 @@
 <!--                    --><?php //$i = 0;$classes = array('col-md-6 padding-8', 'col-md-6 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8');?>
 @foreach ($someGoods as $good)
     <!--                        --><?php // $class = $classes[$i++ % 6]?>
-    {{--<div class="{{$class}}">--}}<div class="col-md-3">
+    {{--<div class="{{$class}}">--}}<div class="col-md-3 col-xs-12 col-sm-4">
     <div class="card card-product card-plain">
         <div class="card-image">
 
@@ -11,8 +11,9 @@
                 <div class="badge"><!-- react-text: 121 -->-<!-- /react-text --><!-- react-text: 122 -->50
                     <!-- /react-text --><!-- react-text: 123 -->%<!-- /react-text --></div>
                 <div style="background: url({{ $good['avatar_url'] }});
-                        background-repeat: no-repeat;background-position: center;background-size: auto 250px;
-                        " class=" img-responsive good-img">
+                        background-repeat: no-repeat;background-position: center;background-size: auto   250px; width: 100%;
+                        min-height: 250px;
+                        max-height: 260px;" class=" img-responsive good-img">
 
                 </div>
             </a>
@@ -47,7 +48,7 @@
             </div>
             <div class="progress" style="height:3px">
                 <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-                     style="width:70%;">
+                     style="width:70%;background-color:#DDDDDD!important;" >
                     <span class="sr-only">70% Complete</span>
                 </div>
             </div>
@@ -79,7 +80,7 @@
     </div>
 @endforeach
 <style>
-    .progress-bar{
-        background-color:#DDDDDD!important;
+    .good-img {
+
     }
 </style>

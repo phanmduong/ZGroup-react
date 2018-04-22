@@ -53,6 +53,14 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::index', $this->data);
     }
 
+    public function searchGood(Request $request)
+    {
+        $results = Good::orderBy('created_at','desc')->where('name','LIKE','%'.$request->good_name.'%')->get();
+        $this->data["results"] = $results;
+
+        return view('nhatquangshop::index',$this->data);
+    }
+
     public function goodsByCategory($categoryId)
     {
         $this->data["id"] = $categoryId;

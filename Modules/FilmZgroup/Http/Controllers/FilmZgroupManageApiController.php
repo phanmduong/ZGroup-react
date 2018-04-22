@@ -27,7 +27,7 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllFilms()
     {
-        $films = Film::orderBy("release_date", "desc")->get();
+        $films = Film::orderBy("id", "desc")->get();
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
