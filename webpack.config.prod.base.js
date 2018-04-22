@@ -78,7 +78,15 @@ export default (moduleName) => {
         ],
         module: {
             rules: [
-                {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'},
+                {
+                    test: /\.jsx?$/,
+                    exclude: /node_modules/,
+                    loader: "babel-loader",
+                    query: {
+                        plugins: ["transform-runtime", "transform-decorators-legacy"],
+                        presets: ["es2015", "stage-0", "react"]
+                    }
+                },
                 {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'url-loader?name=[name].[ext]'},
                 {
                     test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
