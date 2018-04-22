@@ -1,6 +1,6 @@
 import DashboardItContainer from "../modules/dashboard/it/DashboardItContainer";
 import TypeDashboard from "../modules/dashboard/TypeDashboard";
-// import DashboardStaffContainer from "../modules/dashboardStaff/DashboardStaffContainer";
+import DashboardStaffContainer from "../modules/dashboardStaff/DashboardStaffContainer";
 
 /**
  * Tab trang chủ
@@ -8,18 +8,18 @@ import TypeDashboard from "../modules/dashboard/TypeDashboard";
 export default [
     {
         path: "/",
-        component: TypeDashboard,
+        component: TypeDashboard
     },
     {
         path: "/dashboard",
-        component: TypeDashboard,
+        component: TypeDashboard
     },
     {
         path: "/dashboard/it",
-        component: DashboardItContainer,
+        component: DashboardItContainer
     },
-    // {
-    //     path: "/dashboard/staff",
-    //     component: DashboardStaffContainer,
-    // },
+    {
+        path: "/dashboard/staff",
+        component: DashboardStaffContainer
+    }
 ];
