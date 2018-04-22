@@ -455,7 +455,7 @@ class CourseController extends ManageApiController
         $register->saler_id = $this->user ? $this->user->id : 0;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
-
+        $register->time_to_reach = 2;
         $register->save();
 
         // $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
@@ -479,7 +479,7 @@ class CourseController extends ManageApiController
         $gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
         $classes = StudyClass::where('gen_id', $gen_id)->get();
         return $this->respondSuccessWithStatus([
-            'classes' => $classes->map(function($class){
+            'classes' => $classes->map(function ($class) {
                 return [
                     'id' => $class->id,
                     'name' => $class->name,
