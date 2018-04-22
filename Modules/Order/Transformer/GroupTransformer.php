@@ -24,6 +24,7 @@ class GroupTransformer extends Transformer
             'delivery_value' => $group->delivery_value,
             'coupons_count' => $group->coupons()->count(),
             'currency_value' => $group->currency_value,
+            'ship_price' => $group->ship_price,
             "customers" => $group->customers->map(function ($customer) {
                 return $customer->transfromCustomer();
             }),

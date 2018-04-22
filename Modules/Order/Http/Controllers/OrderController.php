@@ -150,8 +150,8 @@ class OrderController extends ManageApiController
         $order = Order::find($order_id);
         if ($order == null)
             return $this->respondSuccessWithStatus([
-                'message' => 'Khong ton tai order'
-            ]);
+            'message' => 'Khong ton tai order'
+        ]);
         $data = $order->detailedTransform();
         $returnOrders = Order::where('type', 'return')->where('code', $order->code)->get();
         $data['return_orders'] = $returnOrders->map(function ($returnOrder) {
@@ -167,26 +167,26 @@ class OrderController extends ManageApiController
         $order = Order::find($order_id);
         if ($order_id == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại order'
-            ]);
+            'message' => 'Không tồn tại order'
+        ]);
         if ($this->user->role != 2) {
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
-                    'message' => 'Bạn không có quyền đổi trạng thái này'
-                ]);
+                'message' => 'Bạn không có quyền đổi trạng thái này'
+            ]);
             if ($order->status == 'completed')
                 return $this->respondErrorWithStatus([
-                    'message' => 'Cant change completed order'
-                ]);
+                'message' => 'Cant change completed order'
+            ]);
         }
         if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code'
-            ]);
+            'message' => 'Thiếu code'
+        ]);
         if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
-                'message' => 'Cant change completed import order'
-            ]);
+            'message' => 'Cant change completed import order'
+        ]);
 
         $order->note = $request->note;
         $order->staff_id = $this->user->id;
@@ -199,9 +199,9 @@ class OrderController extends ManageApiController
                 $good = Good::find($good_order->good_id);
                 if ($good_order->quantity >= 0)
                     $order->goods()->attach($good_order->good_id, [
-                        'quantity' => $good_order->quantity,
-                        'price' => $good->price
-                    ]);
+                    'quantity' => $good_order->quantity,
+                    'price' => $good->price
+                ]);
             }
         }
 
@@ -218,10 +218,10 @@ class OrderController extends ManageApiController
         if ($request->money == null)
             return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
         $debt = Order::find($orderId)->goodOrders->reduce(function ($total, $goodOrder) {
-                return $total + $goodOrder->price * $goodOrder->quantity;
-            }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                return $paid + $orderPaidMoney->money;
-            }, 0);
+            return $total + $goodOrder->price * $goodOrder->quantity;
+        }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            return $paid + $orderPaidMoney->money;
+        }, 0);
 
         if ($request->money > $debt)
             return $this->respondErrorWithStatus("Thanh toán thừa số tiền :" . $debt);
@@ -306,8 +306,8 @@ class OrderController extends ManageApiController
         $response = $this->orderService->changeOrderStatus($orderId, $request, $this->user->id);
         if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
-                'message' => $response['message']
-            ]);
+            'message' => $response['message']
+        ]);
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
@@ -328,9 +328,9 @@ class OrderController extends ManageApiController
         foreach ($good_orders as $good_order) {
             if ($good_order->quantity >= 0)
                 $returnOrder->goods()->attach($good_order->good_id, [
-                    'quantity' => $good_order->quantity,
-                    'price' => $good_order->price
-                ]);
+                'quantity' => $good_order->quantity,
+                'price' => $good_order->price
+            ]);
         }
         $this->orderService->returnProcess($returnOrder->id, $request->warehouse_id, $this->user->id);
         return $this->respondSuccessWithStatus([
@@ -341,11 +341,11 @@ class OrderController extends ManageApiController
     public function storeOrder(Request $request)
     {
         $request->code = $request->code ? $request->code :
-            'ORDER' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('order') + 1, 4, '0',STR_PAD_LEFT);
+            'ORDER' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('order') + 1, 4, '0', STR_PAD_LEFT);
         if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu mã kho'
-            ]);
+            'message' => 'Thiếu mã kho'
+        ]);
         $order = new Order;
         $order->note = $request->note;
         $order->code = $request->code;
@@ -353,20 +353,23 @@ class OrderController extends ManageApiController
         $order->staff_id = $this->user->id;
         $order->status = 'completed_order';
 
-        if ($request->phone != null || $request->email != null) {
-            $user = User::where('phone', $request->phone)->first();
-            if ($user == null) {
-                $user = new User;
-            }
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->username = $request->email;
-            $user->save();
+        if ($request->user_id)
+            $order->user_id = $request->user_id;
+        else {
+            if ($request->phone != null || $request->email != null) {
+                $user = User::where('phone', $request->phone)->first();
+                if ($user == null) {
+                    $user = new User;
+                }
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->phone = $request->phone;
+                $user->username = $request->email;
+                $user->save();
 
-            $order->user_id = $user->id;
-        } else $order->user_id = 0;
-
+                $order->user_id = $user->id;
+            } else $order->user_id = 0;
+        }
         $order->save();
 
 
@@ -377,9 +380,9 @@ class OrderController extends ManageApiController
             $total_price += $good_order->quantity * $good->price;
             if ($good_order->quantity >= 0)
                 $order->goods()->attach($good_order->good_id, [
-                    'quantity' => $good_order->quantity,
-                    'price' => $good->price
-                ]);
+                'quantity' => $good_order->quantity,
+                'price' => $good->price
+            ]);
         }
 
         $orderPaidMoney = new OrderPaidMoney;
@@ -393,8 +396,8 @@ class OrderController extends ManageApiController
         $response = $this->orderService->exportOrder($order->id, $request->warehouse_id);
         if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
-                'message' => $response['message']
-            ]);
+            'message' => $response['message']
+        ]);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);

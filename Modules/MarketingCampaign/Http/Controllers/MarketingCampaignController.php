@@ -295,9 +295,9 @@ class MarketingCampaignController extends ManageApiController
         return $this->respondSuccessWithStatus(['summary_sales' => $salers]);
     }
 
-    public function user(Request $request)
-    {
-        $user = User::join('registers', 'users.id', '=', 'registers.user_id');
+    // public function user(Request $request)
+    // {
+    //     $user = User::join('registers', 'users.id', '=', 'registers.user_id');
         
-    }
+    // }
 }

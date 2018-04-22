@@ -5,11 +5,9 @@ namespace App\Jobs;
 use App\Email;
 use App\EmailCampaign;
 use App\Http\Controllers\SendMailController;
-use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\DB;
 
 class SendEmail extends Job implements ShouldQueue
 {
@@ -41,13 +39,12 @@ class SendEmail extends Job implements ShouldQueue
         $mail = new SendMailController();
         foreach ($this->subscribers as $subscriber) {
             if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-                $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $subscriber->email;
+                $url = config('app.protocol') . config('app.domain') . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $subscriber->email;
                 $content = $this->data . '<img src="' . $url . '" width="1" height="1"/>';
 
-                $content = str_replace("[[USER_NAME]]", $subscriber->name, $content);
+                $content = str_replace('[[USER_NAME]]', $subscriber->name, $content);
 
                 $result = $mail->sendAllEmail([$subscriber->email], $this->email_campaign->subject, $content);
-
 
                 $email_id = $result->get('MessageId');
 
@@ -63,5 +60,4 @@ class SendEmail extends Job implements ShouldQueue
             }
         }
     }
-
 }
