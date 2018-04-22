@@ -78,7 +78,7 @@
                         <td class="text-center">{{$order->quantity}}</td>
                         <td class="text-center">{{$order->vnd_price}}</td>
                         <td class="text-center">{{$order->status}}</td>
-                        <td class="td-actions text-center" style = "width:13%">
+                        <td class="td-actions text-center" style = "width:13s%">
                             <!-- <button type="button" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Xoá" class="btn btn-danger btn-link btn-sm">
                                 <i class="fa fa-times"></i>
