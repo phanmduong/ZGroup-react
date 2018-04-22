@@ -61,7 +61,16 @@ export function saveFilm(film) {
                     });
                 } else {
                     helper.showNotification(res.data.message);
+                    dispatch({
+                        type: types.EDIT_FILM_ERROR,
+                    });
                 }
+            })
+            .catch(()=>{
+                helper.showErrorNotification("Lỗi sever");
+                dispatch({
+                    type: types.EDIT_FILM_ERROR,
+                });
             });
     };
 }
@@ -96,7 +105,6 @@ export function editFilm(film) {
                     helper.showErrorNotification(res.data.message.message);
                     dispatch({
                         type: types.EDIT_FILM_ERROR,
-                        film
                     });
                 }
             })
@@ -104,7 +112,6 @@ export function editFilm(film) {
                 helper.showErrorNotification("Lỗi sever");
                 dispatch({
                     type: types.EDIT_FILM_ERROR,
-                    film
                 });
             })
         ;

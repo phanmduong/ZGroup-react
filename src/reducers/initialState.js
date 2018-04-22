@@ -1,11 +1,14 @@
 export default {
 
     session:{
+        allFilms:[],
         allSessions:[],
         showingSession:[],
         comingSession:[],
         daySession:[],
+        isSavingSession: false,
         addEditSessionModal: false,
+        sessionModal:{},
     },
     film:{
         allFilms:[],

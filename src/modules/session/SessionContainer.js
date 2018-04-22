@@ -20,6 +20,7 @@ class SessionContainer extends React.Component {
     }
     componentWillMount() {
         this.props.sessionAction.loadAllSessions();
+        this.props.sessionAction.loadAllFilms();
         this.props.sessionAction.loadShowingSession();
         this.props.sessionAction.loadComingSession();
     }
@@ -35,6 +36,7 @@ class SessionContainer extends React.Component {
         }.bind(this), 500);
     }
     render() {
+
         this.path = this.props.location.pathname;
         return (
             <div>
@@ -42,7 +44,7 @@ class SessionContainer extends React.Component {
                     <button type="button" style={{color: "white"}}
                             className={this.path === `${this.state.link}/all` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
-                        All
+                        Tất cả
                         <div className="ripple-container"/>
                     </button>
                 </Link>&emsp;

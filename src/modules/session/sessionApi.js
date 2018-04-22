@@ -35,4 +35,45 @@ export function loadDaySessionApi(start_date) {
     return axios.post(url, start_date);
 }
 
+// them session
+//keetoolclient.test/manageapi/v3/session?token=
+export function saveSessionApi(session) {
+    let url = env.MANAGE_API_URL + "/session";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, session);
+}
 
+//Edit session
+//keetoolclient.test/manageapi/v3/session/update/{id}?token=
+export function editSessionApi(session) {
+    let url = env.MANAGE_API_URL + "/session/update/" + session.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, session);
+}
+
+//del session
+// /keetoolclient.test/manageapi/v3/session/{id}?token=
+export function deleteSessionApi(session) {
+    let url = env.MANAGE_API_URL + "/session/"+session.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+//keetoolclient.test/manageapi/v3/films?token=
+export function loadAllFilmsApi() {
+    let url = env.MANAGE_API_URL + "/films";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

@@ -21,7 +21,10 @@ class AllSessionContainer extends React.Component {
                                             justifyContent: "space-between"
                                         }}>
                                             <div>
-                                                <button onClick={()=>this.props.sessionAction.toggleSessionModal()}
+                                                <button onClick={()=>{
+                                                    this.props.sessionAction.toggleSessionModal();
+                                                    this.props.sessionAction.handleSessionModal({});
+                                                }}
                                                     rel="tooltip" data-placement="top" title=""
                                                         className="btn btn-rose">
                                                     Thêm suất chiếu

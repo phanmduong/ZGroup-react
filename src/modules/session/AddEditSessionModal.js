@@ -7,23 +7,64 @@ import *as sessionAction from "./sessionAction";
 import Select from "react-select";
 import FormInputDate from '../../components/common/FormInputDate';
 import {TIME_FORMAT_H_M} from "../../constants/constants";
-// import Loading from "../../components/common/Loading";
-// import * as helper from '../../helpers/helper';
+import Loading from "../../components/common/Loading";
+import * as helper from "../../helpers/helper";
 
 class AddEditSessionModal extends React.Component{
     constructor(props, context){
         super(props, context);
-        this.state  ={
-            gen: {
-                day:'',
-                hour:''
-            },
-        };
-
+        this.updateSession = this.updateSession.bind(this);
+        this.submit = this.submit.bind(this);
+        this.changTemplateTypes = this.changTemplateTypes.bind(this);
+        this.changTemplateTypes2 = this.changTemplateTypes2.bind(this);
     }
+    updateSession(e){
+        const field = e.target.name;
+        let session = {
+            ...this.props.sessionModal,
+            [field]: e.target.value
+        };
+        this.props.sessionAction.handleSessionModal(session);
+    }
+    changTemplateTypes(value){
+        let session = {
+            ...this.props.sessionModal,
+            film_id: value ? value.value : '',
+        };
+        this.props.sessionAction.handleSessionModal(session);
+    }
+    changTemplateTypes2(value){
+        let session = {
+            ...this.props.sessionModal,
+            room_id: value ? value.value : '',
+        };
+        this.props.sessionAction.handleSessionModal(session);
+    }
+    submit(){
+        const session = this.props.sessionModal;
+        if (
+            helper.isEmptyInput(session.film_id)
+            ||helper.isEmptyInput(session.film_quality)
+            ||helper.isEmptyInput(session.room_id)
+            ||helper.isEmptyInput(session.start_time)
+            ||helper.isEmptyInput(session.start_date)
 
+        ){
+            if(helper.isEmptyInput(session.film_id)) helper.showErrorNotification("Bạn cần chọn tên film");
+            if(helper.isEmptyInput(session.film_quality)) helper.showErrorNotification("Bạn cần nhập chất lượng film");
+            if(helper.isEmptyInput(session.room_id)) helper.showErrorNotification("Bạn cần chọn phòng chiếu");
+            if(helper.isEmptyInput(session.start_time)) helper.showErrorNotification("Bạn cần chọn ngày chiếu");
+            if(helper.isEmptyInput(session.start_date)) helper.showErrorNotification("Bạn cần chọn giờ chiếu");
+        }
+        else {
+            if (session.id){
+                this.props.sessionAction.editSession(session);
+            }
+            else this.props.sessionAction.saveSession(session);
+        }
+    }
     render(){
-
+        let session = this.props.sessionModal;
         return(
             <Modal show={this.props.addEditSessionModal}
                    onHide={() => this.props.sessionAction.toggleSessionModal()}
@@ -41,18 +82,30 @@ class AddEditSessionModal extends React.Component{
                                     <label className="label-control">Tên phim</label>
                                     <Select
                                         disabled={false}
-                                        value=""
-                                        options=""
-                                        onChange=""
+                                        value={session.film_id || ''}
+                                        options={this.props.allFilms.map  ((film) => {
+                                            return {
+                                                ...film,
+                                                value: film.id,
+                                                label: film.name
+                                            };
+                                        })}
+                                        onChange={this.changTemplateTypes}
+
                                     />
                                 </div>
                                 <div className="col-md-6"><br/>
                                     <label className="label-control">Phòng</label>
                                     <Select
-                                        disabled={false}
-                                        value=""
-                                        options=""
-                                        onChange=""
+                                        // disabled={false}
+                                        value={session.room_id || ''}
+                                        options={[
+                                            {
+                                                value: 1,
+                                                label: "Phòng 1"
+                                            },
+                                        ]}
+                                        onChange={this.changTemplateTypes2}
                                     />
                                 </div>
                             </div>
@@ -60,18 +113,18 @@ class AddEditSessionModal extends React.Component{
                                 <div className="col-md-6"><br/>
                                     <FormInputDate
                                         label="Ngày chiếu"
-                                        name="day"
-                                        updateFormData=""
-                                        value={this.state.gen.day}
+                                        name="start_date"
+                                        updateFormData={this.updateSession}
+                                        value={session.start_date || ''}
                                         id="form-start-day"
                                     />
                                 </div>
                                 <div className="col-md-6"><br/>
                                     <FormInputDate
                                         label="Giờ chiếu"
-                                        name="hour"
-                                        updateFormData=""
-                                        value={this.state.gen.hour}
+                                        name="start_time"
+                                        updateFormData={this.updateSession}
+                                        value={session.start_time || ''}
                                         id="form-start-hour"
                                         format={TIME_FORMAT_H_M}
                                     />
@@ -80,35 +133,40 @@ class AddEditSessionModal extends React.Component{
                             <div className="form-group">
                                 <label className="label-control">Chất lượng film</label>
                                 <input type="text"
-                                       name="bank_name"
+                                       name="film_quality"
                                        className="form-control"
-                                       value=""
-                                       onChange=""/>
+                                       value={session.film_quality || ''}
+                                       onChange={this.updateSession}/>
                                 <span className="material-input"/>
                             </div>
-                            <div style={{textAlign: "right"}}>
-                                <button rel="tooltip" data-placement="top"
-                                        title=""
-                                        data-original-title="Remove item"
-                                        type="button"
-                                        className="btn btn-rose"
-                                        data-dismiss="modal"
-                                >
-                                    <i className="material-icons">check</i> Duyệt
-                                </button>
-                                &ensp;
-                                <button rel="tooltip" data-placement="toxp"
-                                        title=""
-                                        data-original-title="Remove item"
-                                        type="button"
-                                        className="btn"
-                                        data-dismiss="modal"
-                                        onClick={() => this.props.sessionAction.toggleSessionModal()}
-                                >
-                                    <i className="material-icons">close</i> Huỷ
-                                </button>
-                                &emsp;
-                            </div>
+                            {
+                                this.props.isSavingSession ? <Loading/> :
+                                    <div style={{textAlign: "right"}}>
+                                        <button rel="tooltip" data-placement="top"
+                                                title=""
+                                                data-original-title="Remove item"
+                                                type="button"
+                                                className="btn btn-rose"
+                                                data-dismiss="modal"
+                                                onClick={this.submit}
+                                        >
+                                            <i className="material-icons">check</i> Duyệt
+                                        </button>
+                                        &ensp;
+                                        <button rel="tooltip" data-placement="toxp"
+                                                title=""
+                                                data-original-title="Remove item"
+                                                type="button"
+                                                className="btn"
+                                                data-dismiss="modal"
+                                                onClick={() => this.props.sessionAction.toggleSessionModal()}
+                                        >
+                                            <i className="material-icons">close</i> Huỷ
+                                        </button>
+                                        &emsp;
+                                    </div>
+                            }
+
                         </form>
                     </div>
                 </Modal.Body>
@@ -118,11 +176,17 @@ class AddEditSessionModal extends React.Component{
 }
 AddEditSessionModal.propTypes = {
     addEditSessionModal: PropTypes.bool.isRequired,
-    sessionAction: PropTypes.object.isRequired
+    isSavingSession: PropTypes.bool.isRequired,
+    sessionAction: PropTypes.object.isRequired,
+    sessionModal: PropTypes.object.isRequired,
+    allFilms: PropTypes.array.isRequired,
 };
 function mapStateToProps(state) {
     return {
         addEditSessionModal: state.session.addEditSessionModal,
+        isSavingSession: state.session.isSavingSession,
+        sessionModal: state.session.sessionModal,
+        allFilms: state.session.allFilms,
     };
 }
 

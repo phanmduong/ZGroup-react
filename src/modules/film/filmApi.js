@@ -41,5 +41,5 @@ export function postFilmApi(film) {
       if (token) {
           url += "?token=" + token;
       }
-      return axios.put(url,film);
+      return axios.post(url,film);
   }
