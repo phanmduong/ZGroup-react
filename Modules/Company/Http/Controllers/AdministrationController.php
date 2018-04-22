@@ -317,6 +317,16 @@ class AdministrationController extends ManageApiController
     public function showReports(Request $request)
     {
         $limit = $request->limit ? $request->limit :20;
+        $search = $request->search;
+        if($search){
+            $reports = Report::where('content','like', '%' . $search . '%')->paginate($limit);
+            return $this->respondWithPagination($reports, [
+                "reports" => $reports->map(function ($report) {
+                    return $report->transform();
+                })
+            ]);
+        }
+
         if($this->user->role == 2) {
             $reports = Report::orderBy('created_at', 'desc')->paginate($limit);
             return $this->respondWithPagination($reports, [

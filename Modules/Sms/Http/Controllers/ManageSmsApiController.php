@@ -179,9 +179,14 @@ class ManageSmsApiController extends ManageApiController
 
         if ($limit == -1) {
             $templates = $templates->orderBy('created_at', 'desc')->get();
-        } else {
-            $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondSuccessWithStatus([
+                "campaign" => $campaign->getData(),
+                'templates' => $templates->map(function ($template) {
+                    return $template->transform();
+                })
+            ]);
         }
+        $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($templates, [
             "campaign" => $campaign->getData(),
             'templates' => $templates->map(function ($template) {
@@ -204,14 +209,19 @@ class ManageSmsApiController extends ManageApiController
         });
         if ($limit == -1) {
             $users = $users->orderBy('created_at', 'desc')->get();
-        } else {
-            $users = $users->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondSuccessWithStatus([
+                'users' => $users->map(function ($user) {
+                    return $user->getReceivers();
+                })
+            ]);
         }
+        $users = $users->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($users, [
             'receivers' => $users->map(function ($user) {
                 return $user->getReceivers();
             })
         ]);
+
     }
 
     public function createTemplateType(Request $request)
@@ -341,6 +351,14 @@ class ManageSmsApiController extends ManageApiController
         if ($request->top) {
             $users = $users->simplePaginate(intval($request->top));
         } else {
+            if ($limit == -1) {
+                $users = $users->orderBy('created_at', 'desc')->get();
+                return $this->respondSuccessWithStatus([
+                    'users' => $users->map(function ($user) {
+                        return $user->getReceivers();
+                    })
+                ]);
+            }
             $users = $users->paginate($limit);
         }
 

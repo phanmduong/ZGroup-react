@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Services\EmailService;
 use GuzzleHttp\Client;
 use App\Role;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FreeTrialController extends Controller
 {
@@ -46,14 +48,15 @@ class FreeTrialController extends Controller
             $role->restore();
         }
 
-        $user->roles()->attach(9);
+        $user->role_id = 9;
+        $user->save();
 
         // send mail password to user
         $this->emailService->send_mail_password($user, $password);
 
         // send password back to floor 4th with otp
         $client = new Client();
-        $res = $client->request('GET', 'http://keetool.test/free-trial/password?otp=' . $otp, [
+        $res = $client->request('POST', 'https://keetool.com/free-trial/password?otp=' . $otp, [
             'form_params' => [
                 'email' => $user->email,
                 'password' => $password,
