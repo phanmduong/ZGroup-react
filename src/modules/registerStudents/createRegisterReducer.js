@@ -9,9 +9,6 @@ import { SHOW_CREATE_REGISTER_MODAL,
     BEGIN_LOAD_CLASSES,
     LOADED_CLASSES_SUCCESS,
     LOADED_CLASSES_ERROR,
-    BEGIN_LOAD_CAMPAIGNS,
-    LOADED_CAMPAIGNS_SUCCESS,
-    LOADED_CAMPAIGNS_ERROR,
     // SAVED_REGISTER_SUCCESS,
     // SAVED_REGISTER_ERROR,
 
@@ -23,10 +20,8 @@ const createRegister = {
     isLoading: false,
     register: {},
     isLoadingCourses: false,
-    isLoadingCampaigns: false,
     isLoadingClasses: false,
     courses:[],
-    campaigns:[],
 };
 
 export default function registerReducer(state = createRegister, action) {
@@ -56,22 +51,6 @@ export default function registerReducer(state = createRegister, action) {
             return{
                 ...state,
                 isLoadingCourses: false,
-            };
-            case BEGIN_LOAD_CAMPAIGNS:
-            return{
-                ...state,
-                isLoadingCampaigns: true,
-            };
-        case  LOADED_CAMPAIGNS_SUCCESS:
-            return{
-                ...state,
-                isLoadingCampaigns : false,
-                campaigns : action.campaigns,
-            };
-        case LOADED_CAMPAIGNS_ERROR:
-            return{
-                ...state,
-                isLoadingCampaigns: false,
             };
 
         case BEGIN_LOAD_CLASSES:

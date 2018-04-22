@@ -346,7 +346,6 @@ export default function registerReducer(state = initialState.registerStudents, a
                 ...state,
                 isSavingRegister : false,
                 registers : [action.register,...state.registers],
-
                 // ...initialState.registerStudents
             };
         case SAVED_REGISTER_ERROR:
