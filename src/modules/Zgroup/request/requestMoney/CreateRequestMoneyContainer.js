@@ -34,17 +34,17 @@ class CreateRequestMoneyContainer extends React.Component {
     }
 
     componentWillMount() {
-        if(this.props.routeParams.requestId){
+        if (this.props.routeParams.requestId) {
             this.props.requestActions.getRequestMoney(
-                this.props.routeParams.requestId, 
-                (data)=>{
-                    return this.setState({data});
+                this.props.routeParams.requestId,
+                (data) => {
+                    return this.setState({ data });
                 }
             );
-        }        
+        }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         helper.setFormValidation("form-request-money");
     }
 
@@ -57,14 +57,14 @@ class CreateRequestMoneyContainer extends React.Component {
 
         let field = e.target.name;
         let value = e.target.value;
-        switch(field){
-            case "type_cash":{
+        switch (field) {
+            case "type_cash": {
                 field = "type";
                 value = "cash";
                 break;
             }
-            
-            case "type_atm":{
+
+            case "type_atm": {
                 field = "type";
                 value = "atm";
                 break;
@@ -78,12 +78,12 @@ class CreateRequestMoneyContainer extends React.Component {
     submitData() {
         let { data } = this.state;
         data.request_date = moment(moment.now()).format(DATE_FORMAT);
-        if ($('#form-request-money').valid()) 
-        if(this.props.routeParams.requestId){
-            this.props.requestActions.editRequestMoney(this.props.routeParams.requestId,data);
-        }else{
-            this.props.requestActions.createRequestMoney(data);
-        }
+        if ($('#form-request-money').valid())
+            if (this.props.routeParams.requestId) {
+                this.props.requestActions.editRequestMoney(this.props.routeParams.requestId, data);
+            } else {
+                this.props.requestActions.createRequestMoney(data);
+            }
     }
 
     exit() {
@@ -98,8 +98,8 @@ class CreateRequestMoneyContainer extends React.Component {
     }
 
     render() {
-        
-        let { isLoading,isCommitting } = this.props;
+
+        let { isLoading, isCommitting } = this.props;
         let { data } = this.state;
         const disableField = isCommitting || isCommitting;
         return (
@@ -121,7 +121,8 @@ class CreateRequestMoneyContainer extends React.Component {
                                                         <div className="col-md-6">
                                                             <div className="col-md-12">
                                                                 <div>Số tiền</div>
-                                                                <FormInputText 
+                                                                <div>{helper.dotNumber(data.money_payment)}</div>
+                                                                <FormInputText
                                                                     name="money_payment"
                                                                     label=""
                                                                     type="number"
@@ -132,7 +133,7 @@ class CreateRequestMoneyContainer extends React.Component {
                                                                     required
                                                                 />
                                                             </div>
-                                                            <div className="col-md-12"/>
+                                                            <div className="col-md-12" />
                                                             <div className="col-md-12">Hình thức</div>
                                                             <div className="col-md-6">
                                                                 <CheckBoxMaterial
@@ -153,7 +154,7 @@ class CreateRequestMoneyContainer extends React.Component {
                                                                     disabled={disableField}
                                                                 />
                                                             </div>
-                                                            
+
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="control-label">Ghi chú</div>
@@ -189,7 +190,7 @@ class CreateRequestMoneyContainer extends React.Component {
                                                             onClick={this.exit}
                                                         ><i className="material-icons">cancel</i> Hủy
                                                                 </button>
-                                                    </div> 
+                                                    </div>
 
                                                 </div>
                                             </div>

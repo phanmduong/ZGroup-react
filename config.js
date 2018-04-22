@@ -11,5 +11,5 @@ var env = {
     "PROTOCOL": "http://",
     'SOCKET_HOST': 'http://colorme.vn',
     'SOCKET_PORT': '3000',
-    "CHANNEL":"colorme-channel"
+    "CHANNEL": "colorme-channel"
 };
