@@ -195,6 +195,14 @@ export function loadCoursesApi() {
 
     return axios.get(url);
 }
+export function loadCampaignsApi() {
+    let url = env.MANAGE_API_URL + "/marketing-campaign/all?limit=-1";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
 export function loadClassesApi(course_id) {
     let url = env.MANAGE_API_URL + "/v2/course/"+course_id+"/class";
     let token = localStorage.getItem('token');

@@ -10,6 +10,9 @@ import {
     SAVED_REGISTER_SUCCESS,
     SAVED_REGISTER_ERROR,
     BEGIN_SAVE_REGISTER,
+    LOADED_CAMPAIGNS_ERROR,
+    BEGIN_LOAD_CAMPAIGNS,
+    LOADED_CAMPAIGNS_SUCCESS,
 
 } from "./createRegisterActionType";
 import * as registerStudentsApi from "./registerStudentsApi";
@@ -48,6 +51,26 @@ export function loadCourses() {
             .catch(() => {
                 dispatch({
                     type: LOADED_COURSES_ERROR,
+                });
+            });
+
+    };
+}
+export function loadCampaigns() {
+    return function (dispatch) {
+        dispatch({type: BEGIN_LOAD_CAMPAIGNS});
+        registerStudentsApi.loadCampaignsApi()
+            .then(
+                (res) => {
+                    dispatch({
+                        type: LOADED_CAMPAIGNS_SUCCESS,
+                        campaigns: res.data.data.marketing_campaigns,
+                    });
+                }
+            )
+            .catch(() => {
+                dispatch({
+                    type: LOADED_CAMPAIGNS_ERROR,
                 });
             });
 
