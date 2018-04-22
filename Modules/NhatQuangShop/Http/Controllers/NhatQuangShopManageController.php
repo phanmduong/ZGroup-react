@@ -101,11 +101,21 @@ class NhatQuangShopManageController extends Controller
         }
     }
 
+    public function formatDeliveryOrders(&$orders)
+    {
+        foreach ($orders as $order) {
+            $order->en_status = $order->status;
+            $order->status = $this->deliveryStatusToVietnamese($order->status);
+            $order->vnd_price = number_format($order->price, 0, ',', '.') . ' đ';
+        }
+    }
+
     public function userOrder()
     {
         $user = Auth::user();
         $orders = Order::where([['user_id', '=', $user->id], ['type', '=', 'order']])->orderBy('created_at', 'desc')->paginate(15);
         foreach ($orders as $order) {
+            $order->en_status = $order->status;
             $order->status = $this->orderStatusToVietnamese($order->status);
         }
         $this->data['orders'] = $orders;
@@ -222,6 +232,7 @@ class NhatQuangShopManageController extends Controller
             $orders = $orders->where('code', 'like', '%' . $code . '%');
         $orders = $orders->orderBy('created_at', 'desc')->paginate(15);
         foreach ($orders as $order) {
+            $order->en_status = $order->status;
             $order->status = $this->orderStatusToVietnamese($order->status);
         }
         $this->data['orders'] = $orders;
@@ -232,9 +243,7 @@ class NhatQuangShopManageController extends Controller
     {
         $user = Auth::user();
         $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
-        foreach ($deliveryOrders as $order) {
-            $order->status = $this->deliveryStatusToVietnamese($order->status);
-        }
+        $this->formatDeliveryOrders($deliveryOrders);
         $this->data['deliveryOrders'] = $deliveryOrders;
         return view('nhatquangshop::delivery_orders', $this->data);
     }
@@ -254,9 +263,7 @@ class NhatQuangShopManageController extends Controller
         if ($code)
             $deliveryOrders = $deliveryOrders->where('code', 'like', '%' . $code . '%');
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
-        foreach ($deliveryOrders as $order) {
-            $order->status = $this->deliveryStatusToVietnamese($order->status);
-        }
+        $this->formatDeliveryOrders($deliveryOrders);
         $this->data['deliveryOrders'] = $deliveryOrders;
         return view("nhatquangshop::delivery_orders", $this->data);
     }
