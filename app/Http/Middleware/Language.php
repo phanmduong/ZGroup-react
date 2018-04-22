@@ -57,8 +57,6 @@ class Language
             if(Session::has('lang')) $previousLang = Session::get('lang');
             Session::put('lang', $request->lang);
 
-            // $previousLang = Session::get('lang');
-
             // if(explode('/',substr($url, 0, strpos($url, '?lang=')))[1] == $request->lang){
             //     // dd(1);
             //     $previousLang = 'en';
