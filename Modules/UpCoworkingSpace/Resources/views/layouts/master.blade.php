@@ -4,7 +4,7 @@
     @yield('en-content')
     @include('upcoworkingspace::vi.vi-footer')
 
-
+@include('upcoworkingspace::includes.register_modal')
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script>$(document).ready(function () {
         function detectmob() {
