@@ -15,10 +15,10 @@ export function saveMessageApi(campaignId, message) {
 // /sms/template-types
 // get danh sach loại tin nhắn
 export function loadTypeOfMessageApi() {
-    let url = env.MANAGE_API_URL + "/sms/template-types";
+    let url = env.MANAGE_API_URL + "/sms/template-types?limit=-1";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
     return axios.get(url);
 }

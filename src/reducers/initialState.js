@@ -1,28 +1,61 @@
 export default {
 
+    session:{
+        allSessions:[],
+        showingSession:[],
+        comingSession:[],
+        daySession:[],
+        addEditSessionModal: false,
+    },
+    film:{
+        allFilms:[],
+        //modal ****************
+        addEditFilmModal: false,
+        isUploadingAvatar: false,
+        isUploadingImage: false,
+        percent: 0,
+        isSavingFilm: false,
+        filmModal:{},
+        //*************
+    },
+
     campaignList: {
         campaigns: [],
         isLoading: false,
         limit: 20,
         totalPages: 0,
         currentPage: 0,
-        totalCount: 0
+        totalCount: 0,
+        createEditCampaignModal: false,
+        isSavingCampaign: false,
+        campaignCreateEdit: {},
+        manageTemplateTypesModal: false,
+        templateType: {},
+        templateTypesList: [],
+        totalCountTemplateTypes: 0,
+        totalPagesTemplateTypes: 1,
+        limitTemplateTypes: 20,
+        currentPageTemplateTypes: 1,
+        isLoadingTemplateTypes: false,
+        isSavingTemplateTypes: false,
+        templateTypeSuccess: false
     },
 
-    blogType:{
-        isUpdatingEditModal:false,
-        isLoading:false,
-        isSaving:false,
+    blogType: {
+        isUpdatingEditModal: false,
+        isLoading: false,
+        isSaving: false,
         totalCount: 1,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         addEditBlogTypeModal: false,
-        blogTypes:[],
-        blogTypeModal:{
-            name:'',
+        blogTypes: [],
+        blogTypeModal: {
+            name: '',
         }
     },
+
 
     smsCampaign:{
         allMessage:[],template_types:[],campaignName:'',
@@ -2353,8 +2386,8 @@ export default {
         errorDistribution: false,
     },
     zWarehouse: {
-        isLoading : false,
-        isLoadingHisotry :false,
+        isLoading: false,
+        isLoadingHisotry: false,
         goods: [],
         historyGood: [],
         paginator: {
@@ -2369,6 +2402,7 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
+
     },
     dashboardStaff: {
         gens: [],

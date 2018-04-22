@@ -7,6 +7,8 @@ import Pagination from "../../components/common/Pagination";
 import Search from "../../components/common/Search";
 import CampaignListComponent from "./CampaignListComponent";
 import Loading from "../../components/common/Loading";
+import CreateEditCampaignModal from "./CreateEditCampaignModal";
+import ManageTemplateTypesModal from "./ManageTemplateTypesModal";
 
 class CampaignListContainer extends React.Component {
     constructor(props, context) {
@@ -19,10 +21,21 @@ class CampaignListContainer extends React.Component {
         this.campaignsSearchChange = this.campaignsSearchChange.bind(this);
         this.loadCampaigns = this.loadCampaigns.bind(this);
         this.changeCampaignStatus = this.changeCampaignStatus.bind(this);
+        this.showCreateEditCampaignModal = this.showCreateEditCampaignModal.bind(this);
     }
 
     componentWillMount() {
         this.props.campaignListAction.getCampaignList();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSavingCampaign !== this.props.isSavingCampaign && !nextProps.isSavingCampaign) {
+            this.setState({
+                page: 1,
+                query: ''
+            });
+            this.props.campaignListAction.getCampaignList();
+        }
     }
 
     campaignsSearchChange(value) {
@@ -53,6 +66,11 @@ class CampaignListContainer extends React.Component {
         this.props.campaignListAction.changeCampaignStatus(campaignId, value ? "open" : "close");
     }
 
+    showCreateEditCampaignModal(campaign) {
+        this.props.campaignListAction.showCreateEditCampaignModal();
+        this.props.campaignListAction.handleCreateEditCampaignModal(campaign);
+    }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
@@ -71,10 +89,13 @@ class CampaignListContainer extends React.Component {
                             </button>
                             <ul className="dropdown-menu dropdown-primary">
                                 <li>
-                                    <a>Thêm chiến dịch</a>
+                                    <a onClick={() => this.showCreateEditCampaignModal({
+                                        status: "open"
+                                    })}>Thêm chiến dịch</a>
                                 </li>
                                 <li>
-                                    <a>Thêm loại tin nhắn</a>
+                                    <a onClick={() => this.props.campaignListAction.showManageTemplateTypesModal()}
+                                    >Thêm loại tin nhắn</a>
                                 </li>
                             </ul>
                         </div>
@@ -91,7 +112,8 @@ class CampaignListContainer extends React.Component {
                         <Loading/>
                     ) : (
                         <CampaignListComponent campaigns={this.props.campaigns}
-                                               changeCampaignStatus={this.changeCampaignStatus}/>
+                                               changeCampaignStatus={this.changeCampaignStatus}
+                                               showCreateEditCampaignModal={this.showCreateEditCampaignModal}/>
                     )
                 }
                 <div className="row float-right">
@@ -107,6 +129,8 @@ class CampaignListContainer extends React.Component {
                         />
                     </div>
                 </div>
+                <CreateEditCampaignModal/>
+                <ManageTemplateTypesModal/>
             </div>
         );
     }
@@ -119,7 +143,8 @@ CampaignListContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    isSavingCampaign: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -129,7 +154,8 @@ function mapStateToProps(state) {
         totalPages: state.campaignList.totalPages,
         currentPage: state.campaignList.currentPage,
         limit: state.campaignList.limit,
-        isLoading: state.campaignList.isLoading
+        isLoading: state.campaignList.isLoading,
+        isSavingCampaign: state.campaignList.isSavingCampaign
     };
 }
 
