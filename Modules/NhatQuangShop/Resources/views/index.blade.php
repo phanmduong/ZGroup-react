@@ -87,15 +87,17 @@
                     <i class="fa fa-search" style="font-size: 20px" aria-hidden="true"></i>
                 </div>
                 <div style="flex-grow: 12" class="flex-center">
-                    <form action="{{ url('search') }}" method="POST" role="search" class="flex-center" style="margin:0; width:100%; ">
+                    <form action="{{ url('search') }}" method="POST" role="search" class="flex-center"
+                          style="margin:0; width:100%; ">
                         {{ csrf_field() }}
 
-                            <input type="text" class="form-control" id="good_name" name="good_name" placeholder="Tìm kiếm" style="border:none!important; font-size:20px;  color:#2e2e2e;padding:15px">
+                        <input type="text" class="form-control" id="good_name" name="good_name" placeholder="Tìm kiếm"
+                               style="border:none!important; font-size:20px;  color:#2e2e2e;padding:15px">
 
 
                     </form>
                     {{--<input placeholder="Tìm kiếm"--}}
-                           {{--style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>--}}
+                    {{--style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>--}}
                 </div>
 
             </div>
@@ -186,115 +188,115 @@
 
             {{--goods list--}}
             <div class="col-md-9">
-                <div class="container" id="bookinfo">
-                    <br>
-                    <div class="row">
-                        <!--thanh search-->
+                @if($newestGoods)
+                    <div class="container" id="bookinfo">
+                        <br>
+                        <div class="row">
+                            <!--thanh search-->
 
-                        <!--san pham noi bat-->
-                        <div class="col-md-6">
-                            <div>
-                                <div class="description">
-                                    <h1 class="medium-title">
-                                        Sản phẩm nổi bật
+                            <!--san pham noi bat-->
+                            <div class="col-md-6">
+                                <div>
+                                    <div class="description">
+                                        <h1 class="medium-title">
+                                            Sản phẩm nổi bật
+                                            <br>
+                                        </h1>
                                         <br>
-                                    </h1>
-                                    <br>
-                                    <a href="/product/feature" class="btn btn-link btn-success"
-                                       style="padding:0!important; margin:0!important">Xem tất cả
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                </div>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="vuejs1" style="background-color: #ffffff;padding-top:8px">
-                        <div class="container">
-                            <div class="row">
-
-                                <?php use App\Good;$i = 0;$classes = array('col-md-6 padding-8', 'col-md-6 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8');?>
-                                @include('nhatquangshop::common.products_show',['someGoods'=>$highLightGoods])
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                </div>
-                <div class="container" id="bookinfo1">
-                    <br>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div>
-                                <div class="description">
-                                    <h1 class="medium-title">
-                                        Sản phẩm mới nhất
-                                        <br>
-                                    </h1>
-                                    <br>
-                                    <a href="/product/new" class="btn btn-link btn-success"
-                                       style="padding:0!important; margin:0!important">Xem tất cả
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                    <br>
+                                        <a href="/product/feature" class="btn btn-link btn-success"
+                                           style="padding:0!important; margin:0!important">Xem tất cả
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
                                     <br>
                                 </div>
-                                <br>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" id="vuejs2" style="background-color: #ffffff;padding-top:8px">
-                        <div class="container">
-                            <div class="row">
-                                @include('nhatquangshop::common.products_show', ['someGoods'=>$newestGoods])
+                        <div class="row" id="vuejs1" style="background-color: #ffffff;padding-top:8px">
+                            <div class="container">
+                                <div class="row">
+
+                                    <?php use App\Good;$i = 0;$classes = array('col-md-6 padding-8', 'col-md-6 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8');?>
+                                    @include('nhatquangshop::common.products_show',['someGoods'=>$highLightGoods])
+                                </div>
                             </div>
                         </div>
+                        <br>
+                        <br>
                     </div>
-                    <br>
-                    <br>
-                </div>
-                <?php $numbers = array("first");?>
-                @foreach($goodCategories as $goodCategory)
-                    <?php
-                    if ($goodCategory->id == $numbers[count($numbers) - 1]) {
-                        continue;
-                    }
-                    array_push($numbers, $goodCategory->id);
-                    $relateGoods = Good::where("good_category_id", "=", $goodCategory->id)->take(6)->get(); ?>
-                    <?php $categoryName = $goodCategory->name?>
-                    @if(count($relateGoods)>0)
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div>
-                                        <div class="description">
-                                            <h1 class="medium-title">
-                                                {{$categoryName}}
+                    <div class="container" id="bookinfo1">
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div>
+                                    <div class="description">
+                                        <h1 class="medium-title">
+                                            Sản phẩm mới nhất
+                                            <br>
+                                        </h1>
+                                        <br>
+                                        <a href="/product/new" class="btn btn-link btn-success"
+                                           style="padding:0!important; margin:0!important">Xem tất cả
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                        <br>
+                                        <br>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="vuejs2" style="background-color: #ffffff;padding-top:8px">
+                            <div class="container">
+                                <div class="row">
+                                    @include('nhatquangshop::common.products_show', ['someGoods'=>$newestGoods])
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                    <?php $numbers = array("first");?>
+                    @foreach($goodCategories as $goodCategory)
+                        <?php
+                        if ($goodCategory->id == $numbers[count($numbers) - 1]) {
+                            continue;
+                        }
+                        array_push($numbers, $goodCategory->id);
+                        $relateGoods = Good::where("good_category_id", "=", $goodCategory->id)->take(6)->get(); ?>
+                        @if(count($relateGoods)>0)
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <div class="description">
+                                                <h1 class="medium-title">
+                                                    {{$goodCategory->name}}
+                                                    <br>
+                                                </h1>
                                                 <br>
-                                            </h1>
-                                            <br>
-                                            <a href="/product/new" class="btn btn-link btn-success"
-                                               style="padding:0!important; margin:0!important">Xem tất cả
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                            <br>
+                                                <a href="/product/new" class="btn btn-link btn-success"
+                                                   style="padding:0!important; margin:0!important">Xem tất cả
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                                <br>
+                                                <br>
+                                            </div>
                                             <br>
                                         </div>
-                                        <br>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="container">
-                            <div class="row" style="background-color: #ffffff;padding-top:8px">
-                                @include('nhatquangshop::common.products_show', ['someGoods' => $relateGoods])
+                            <div class="container">
+                                <div class="row" style="background-color: #ffffff;padding-top:8px">
+                                    @include('nhatquangshop::common.products_show', ['someGoods' => $relateGoods])
+                                </div>
                             </div>
-                        </div>
-                    @endif
-
-                @endforeach
+                        @endif
+                    @endforeach
+                @endif
             </div>
         </div>
 

@@ -56,7 +56,10 @@ class NhatQuangShopController extends Controller
     public function searchGood(Request $request)
     {
         $results = Good::orderBy('created_at','desc')->where('name','LIKE','%'.$request->good_name.'%')->get();
+        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
+
         $this->data["results"] = $results;
+        $this->data["goodCategories"] = $goodCategories;
 
         return view('nhatquangshop::index',$this->data);
     }
