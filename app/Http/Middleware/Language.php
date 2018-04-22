@@ -56,12 +56,18 @@ class Language
         if ($request->lang) {
             if ($request->lang) {
                 Session::put('lang', $request->lang);
-            }
-            if (explode('/',$url)[1] != 'en') {
+            }  
+
+            if(explode('/',substr($url, 0, strpos($url, '?lang=')))[1] == $request->lang){
+                // dd(1);
+                $previousLang = 'en';
+            }else if (explode('/',substr($url, 0, strpos($url, '?lang=')))[1] != 'en') {
                 $previousLang = 'vi';
             } else {
                 $previousLang = 'en';
             }
+
+            // dd($previousLang);
 
             $segments = $langs[$previousLang];
 
