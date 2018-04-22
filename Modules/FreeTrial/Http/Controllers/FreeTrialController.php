@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Services\EmailService;
 use GuzzleHttp\Client;
 use App\Role;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FreeTrialController extends Controller
 {

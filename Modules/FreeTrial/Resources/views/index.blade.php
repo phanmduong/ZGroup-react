@@ -119,7 +119,7 @@
 <body>	
 
     <div class="container">
-        <div style="height: 900px; display: flex; border:1px solid black; border-radius: 30px">
+        <div style="height: 900px; display: flex; border-radius: 30px">
            <h1 class="loading">
                 <span class="char1">K</span><span class="char2">E</span><span class="char3">E</span><span class="char4">T</span><span class="char5">O</span><span class="char6">O</span><span class="char7">L</span><span class="char8">.</span><span class="char9">.</span><span class="char10">.</span>
             </h1>
