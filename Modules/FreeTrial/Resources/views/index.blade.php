@@ -128,7 +128,7 @@
    
     <script>
         localStorage.setItem("token", "{{$token}}");
-        localStorage.setItem("user", "{!!$user!!}");
+        localStorage.setItem("user", JSON.parse("{!!$user!!}"));
         // window.location = "http://manage.keetool.xyz";
     </script>
 </body>
