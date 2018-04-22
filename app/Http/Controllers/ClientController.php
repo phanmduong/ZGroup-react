@@ -67,11 +67,6 @@ class ClientController extends Controller
         ]);
     }
 
-    public function loginFreeTrial()
-    {
-        return view('client.login_free_trial');
-    }
-
     public function administration()
     {
         return view('client.administration');
