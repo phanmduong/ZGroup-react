@@ -322,10 +322,10 @@ class CourseController extends ManageApiController
             return $this->respondErrorWithStatus([
             'message' => 'Non-existing lesson'
         ]);
-        if ($term_id == null)
-            return $this->respondErrorWithStatus([
-            'message' => 'Missing term id'
-        ]);
+//        if ($term_id == null)
+//            return $this->respondErrorWithStatus([
+//            'message' => 'Missing term id'
+//        ]);
         $lesson = Lesson::find($lessonId);
         $lesson->term_id = $term_id;
         $lesson->save();
