@@ -6,6 +6,8 @@ import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
 import ButtonGroupAction from "../../../../components/common/ButtonGroupAction";
 import Pagination from "../../../../components/common/Pagination";
+import FormInputText from "../../../../components/common/FormInputText";
+import FormInputDate from "../../../../components/common/FormInputDate";
 import moment from "moment";
 import * as helper from "../../../../helpers/helper";
 import PayConfirmModal from "./PayConfirmModal";
@@ -14,6 +16,8 @@ import InfoRequestMoneyModal from "./InfoRequestMoneyModal";
 import { Link } from "react-router";
 import { Modal, Panel } from 'react-bootstrap';
 import { DATETIME_FORMAT_SQL } from '../../../../constants/constants';
+import ReactSelect from 'react-select';
+
 
 class RequestMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -29,6 +33,16 @@ class RequestMoneyContainer extends React.Component {
             },
             showLoadingModal: false,
             showPanel: false,
+            filter: {
+                start_time: "",
+                end_time: "",
+                company_pay_id: "",
+                company_receive_id: "",
+                status: null,
+                staff_name: "",
+                command_code: "",
+                page: 1,
+            },
         };
         this.openPayConfirmModal = this.openPayConfirmModal.bind(this);
         this.closePayConfirmModal = this.closePayConfirmModal.bind(this);
@@ -41,6 +55,9 @@ class RequestMoneyContainer extends React.Component {
         this.exportExcel = this.exportExcel.bind(this);
         this.openLoadingModal = this.openLoadingModal.bind(this);
         this.openPanel = this.openPanel.bind(this);
+        this.onFilterChange = this.onFilterChange.bind(this);
+        this.onTextFilterChange = this.onTextFilterChange.bind(this);
+        this.onDateFilterChange = this.onDateFilterChange.bind(this);
     }
 
     componentWillMount() {
@@ -63,8 +80,8 @@ class RequestMoneyContainer extends React.Component {
 
     submitPayConfirmModal(money, company_pay_id) {
         this.closePayConfirmModal();
-        this.props.requestActions.confirmPayRequest(this.state.idPay, money,company_pay_id,
-            this.props.requestActions.getAllRequestMoney
+        this.props.requestActions.confirmPayRequest(this.state.idPay, money, company_pay_id,
+            () => this.props.requestActions.getAllRequestMoney(this.state.filter)
         );
     }
 
@@ -79,7 +96,7 @@ class RequestMoneyContainer extends React.Component {
     submitReceiveConfirmModal(money, company_receive_id) {
         this.closeReceiveConfirmModal();
         let date = moment(moment.now()).format(DATETIME_FORMAT_SQL);
-        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money,date,company_receive_id,
+        this.props.requestActions.confirmReceiveRequest(this.state.idReceive, money, date, company_receive_id,
             this.props.requestActions.getAllRequestMoney);
     }
 
@@ -97,16 +114,16 @@ class RequestMoneyContainer extends React.Component {
         this.props.requestActions.getRequestMoneyNoPaging(this.exportExcel, () => this.setState({ showLoadingModal: false }));
     }
 
-    openPanel(){
-        let {showPanel} = this.state;
-        this.setState({showPanel: !showPanel});
+    openPanel() {
+        let { showPanel } = this.state;
+        this.setState({ showPanel: !showPanel });
     }
 
     exportExcel(input) {
         let wb = helper.newWorkBook();
         let data;
-        let cols = [{ "wch": 5 }, { "wch": 40 }, { "wch": 25 }, { "wch": 15 },{ "wch": 20 },{ "wch": 20 }, { "wch": 15 },{ "wch": 25 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },{ "wch": 15 },];//độ rộng cột  
-        
+        let cols = [{ "wch": 5 }, { "wch": 40 }, { "wch": 25 }, { "wch": 15 }, { "wch": 20 }, { "wch": 20 }, { "wch": 15 }, { "wch": 25 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 },];//độ rộng cột  
+
         data = input.reverse().map((item, index) => {
 
             /* eslint-disable */
@@ -121,8 +138,8 @@ class RequestMoneyContainer extends React.Component {
                     break;
                 }
             }
-            if(!item.company_pay) data.company_pay={};
-            if(!item.company_receive) data.company_receive={};
+            if (!item.company_pay) data.company_pay = {};
+            if (!item.company_receive) data.company_receive = {};
             let res = {
                 'STT': index + 1,
                 'Mã tạm ứng': item.command_code,
@@ -152,38 +169,67 @@ class RequestMoneyContainer extends React.Component {
         this.setState({ showLoadingModal: false });
     }
 
+    onTextFilterChange(e) {
+        let { name, value } = e.target;
+        let filter = { ...this.state.filter };
+        if (filter[name] == value) return;
+        filter[name] = value ? value : (value == 0 ? value : "");
+        this.setState({ filter });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.requestActions.getAllRequestMoney(filter);
+        }.bind(this), 500);
+    }
+
+    onDateFilterChange(e) {
+        let { name, value } = e.target;
+        this.onFilterChange(name, value);
+    }
+
+    onFilterChange(field, value) {
+        let filter = { ...this.state.filter };
+        if (filter[field] == value) return;
+        filter[field] = value ? value : (value == 0 ? value : "");
+        if (field != "page") filter.page = this.props.paginator.current_page;
+        this.setState({ filter });
+        this.props.requestActions.getAllRequestMoney(filter);
+    }
+
     render() {
-        //console.log(this.props);
-        let { isLoading, requestMoneys, paginator, companies, requestActions, user } = this.props;
-        let { showPayConfirmModal, showReceiveConfirmModal, showInfoModal,showPanel, currentRequest } = this.state;
+        //console.log("container", this.state.filter);
+        let { isLoading, requestMoneys, paginator, companies, user } = this.props;
+        let { showPayConfirmModal, showReceiveConfirmModal, showInfoModal, showPanel, currentRequest, filter } = this.state;
         return (
             <div className="content">
-                <PayConfirmModal
-                    show={showPayConfirmModal}
-                    onHide={this.closePayConfirmModal}
-                    submit={this.submitPayConfirmModal}
-                    data={currentRequest}
-                    companies={companies}
-                />
-                <ReceiveConfirmModal
-                    show={showReceiveConfirmModal}
-                    onHide={this.closeReceiveConfirmModal}
-                    submit={this.submitReceiveConfirmModal}
-                    data={currentRequest}
-                    companies={companies}
-                />
-                <InfoRequestMoneyModal
-                    show={showInfoModal}
-                    onHide={this.closeInfoModal}
-                    data={currentRequest}
-                />
-                <Modal
-                    show={this.state.showLoadingModal}
-                    onHide={() => { }}
-                >
-                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
-                    <Modal.Body><Loading /></Modal.Body>
-                </Modal>
+                <div>
+                    <PayConfirmModal
+                        show={showPayConfirmModal}
+                        onHide={this.closePayConfirmModal}
+                        submit={this.submitPayConfirmModal}
+                        data={currentRequest}
+                        companies={companies}
+                    />
+                    <ReceiveConfirmModal
+                        show={showReceiveConfirmModal}
+                        onHide={this.closeReceiveConfirmModal}
+                        submit={this.submitReceiveConfirmModal}
+                        data={currentRequest}
+                        companies={companies}
+                    />
+                    <InfoRequestMoneyModal
+                        show={showInfoModal}
+                        onHide={this.closeInfoModal}
+                        data={currentRequest}
+                    />
+                    <Modal
+                        show={this.state.showLoadingModal}
+                        onHide={() => { }}>
+                        <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                        <Modal.Body><Loading /></Modal.Body>
+                    </Modal>
+                </div>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -195,30 +241,117 @@ class RequestMoneyContainer extends React.Component {
 
                                 <div className="card-content">
                                     <h4 className="card-title">Danh sách xin tạm ứng</h4>
-                                    <div style={{display:"flex"}}>
-                                        <div style={{marginRight:5}}>
+                                    <div style={{ display: "flex" }}>
+                                        <div style={{ marginRight: 5 }}>
                                             <Link className="btn btn-rose" to="/administration/request/money/create">
                                                 <i className="material-icons">add</i>Xin tạm ứng</Link>
 
                                         </div>
-                                        <div style={{marginRight:5}}>
+                                        <div style={{ marginRight: 5 }}>
                                             <button className="btn btn-rose" onClick={this.openLoadingModal} >Xuất file excel</button>
                                         </div>
-                                        <div style={{marginRight:5}}>
+                                        <div style={{ marginRight: 5 }}>
                                             <button className="btn btn-rose" onClick={this.openPanel} >
                                                 <i className="material-icons">filter_list</i>
-                                            Bộ lọc</button>
+                                                Lọc</button>
                                         </div>
                                     </div>
                                     <Panel collapsible expanded={showPanel} bsStyle="primary">
-                                    <h1>Content</h1>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <label>Nguồn ứng</label>
+                                                        <ReactSelect
+                                                            options={companies || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("company_pay_id", e ? e.id : "");
+                                                            }}
+                                                            value={filter.company_pay_id}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label>Nguồn hoàn ứng</label>
+                                                        <ReactSelect
+                                                            options={companies || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("company_receive_id", e ? e.id : "");
+                                                            }}
+                                                            value={filter.company_receive_id}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label>Trạng thái</label>
+                                                        <ReactSelect
+                                                            options={statusFilter || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("status", e ? e.id : "");
+                                                            }}
+                                                            value={filter.status}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <FormInputText
+                                                            name="command_code"
+                                                            value={filter.command_code}
+                                                            label="Mã ứng tiền"
+                                                            updateFormData={this.onTextFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+
+
+                                                    <div className="col-md-4">
+                                                        <FormInputText
+                                                            name="staff_name"
+                                                            value={filter.staff_name}
+                                                            label="Nhân viên"
+                                                            updateFormData={this.onTextFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <FormInputDate
+                                                            name="start_time"
+                                                            id="start_time"
+                                                            value={filter.start_time}
+                                                            label="Từ ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <FormInputDate
+                                                            name="end_time"
+                                                            id="end_time"
+                                                            value={filter.end_time}
+                                                            label="Đến ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
                                     </Panel>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="col-md-12">
                                                 {
                                                     requestMoneys.length == 0 ?
-                                                        <div>Chưa có yêu cầu</div>
+                                                        <div>Không có yêu cầu</div>
                                                         :
                                                         <div className="table-responsive">
                                                             <table id="datatables" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{ width: "100%" }}>
@@ -254,7 +387,7 @@ class RequestMoneyContainer extends React.Component {
                                                                                 <td>{helper.dotNumber(obj.money_payment)}</td>
 
                                                                                 <td>{obj.staff.name}</td>
-                                                                                <td>{moment(obj.created_at.date).format("D/M/YYYY")}</td>
+                                                                                <td>{moment(obj.created_at ? obj.created_at.date : "").format("D/M/YYYY")}</td>
                                                                                 <td>{moment(obj.date_complete).isValid() ? moment(obj.date_complete).format("D/M/YYYY") : "Chưa hoàn ứng"}</td>
                                                                                 <td>{status}</td>
                                                                                 <td><ButtonGroupAction
@@ -286,7 +419,7 @@ class RequestMoneyContainer extends React.Component {
                                                             <div style={{ display: "flex", flexDirection: "row-reverse" }}><Pagination
                                                                 currentPage={paginator.current_page}
                                                                 totalPages={paginator.total_pages}
-                                                                loadDataPage={(id) => { return requestActions.getAllRequestMoney({ page: id }); }}
+                                                                loadDataPage={(id) => { return this.onFilterChange("page", id); }}
                                                             /></div>
                                                         </div>
                                                 }
@@ -300,7 +433,7 @@ class RequestMoneyContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
         );
     }
@@ -332,3 +465,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestMoneyContainer);
+
+const statusFilter = [
+    { id: -1, value: -1, label: "Chưa duyệt", },
+    { id: 1, value: 1, label: "Đã ứng", },
+    { id: 2, value: 2, label: "Đã hoàn ứng", },
+];

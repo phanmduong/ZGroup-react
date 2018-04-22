@@ -73,7 +73,7 @@ class CardChart extends React.Component {
                     <div className="card-footer">
 
                         <h4 className="card-title" style={{paddingBottom: '0px'}}>
-                            <Link to={`/teaching/registerlist/${this.props.campaign.campaign_id}/${this.props.genId}`}>
+                            <Link to={`/sales/registerlist/${this.props.campaign.campaign_id}/${this.props.genId}`}>
                                 {this.props.campaign.registers[0].campaign.name}
                             </Link>
                         </h4>

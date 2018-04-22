@@ -1,10 +1,11 @@
+
 /* eslint-disable import/default */
 
 import "babel-polyfill";
 import React from "react";
-import {render} from "react-dom";
-import {Provider} from "react-redux";
-import {Router, browserHistory} from "react-router";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import { Router, browserHistory } from "react-router";
 import renderRoutes from "../routes/renderer/RouteRenderer";
 import configureStore from "../store/configureStore";
 import salesRootReducer from "../reducers/sales";
@@ -27,10 +28,7 @@ const store = configureStore({}, salesRootReducer);
 
 render(
     <Provider store={store}>
-        <Router
-            history={browserHistory}
-            routes={renderRoutes(SalesRoute)}
-        />
+        <Router history={browserHistory} routes={renderRoutes(SalesRoute)} />
     </Provider>,
     document.getElementById("app"),
 );

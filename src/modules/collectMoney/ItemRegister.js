@@ -119,6 +119,7 @@ class ItemRegister extends React.Component {
                         </div>
                     </td>
                 }
+                <td>{register.coupon}</td>
                 {register.is_paid ?
                     <td>
                         <div className="checkbox text-center">

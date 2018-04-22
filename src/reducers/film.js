@@ -1,11 +1,13 @@
 import {combineReducers} from "redux";
 import {LOG_OUT} from "../constants/actionTypes";
 import commonReducer from "./commonReducer";
-
+import filmReducer from "../modules/film/filmReducer";
+import sessionReducer from "../modules/session/sessionReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
-    //other reducer
+    film: filmReducer,
+    session: sessionReducer,
 
 });
 

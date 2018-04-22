@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as campaignAction from "./campaignAction";
 import Loading from "../../components/common/Loading";
-import FormInputSelect from '../../components/common/FormInputSelect';
 import FormInputDateTime from '../../components/common/FormInputDateTime';
 import * as helper from "../../helpers/helper";
 import {DATETIME_FORMAT_SQL} from "../../constants/constants";
+import Select from "react-select";
+
 
 
 class AddMessageModal extends React.Component {
@@ -16,6 +17,7 @@ class AddMessageModal extends React.Component {
         super(props, context);
         this.upMessage = this.upMessage.bind(this);
         this.saveMessage = this.saveMessage.bind(this);
+        this.changTemplateTypes = this.changTemplateTypes.bind(this);
     }
 
     saveMessage() {
@@ -45,6 +47,14 @@ class AddMessageModal extends React.Component {
         this.props.campaignAction.upMessage(message);
     }
 
+    changTemplateTypes(value){
+        let message = {
+            ...this.props.message,
+            sms_template_type_id: value ? value.value : ''
+        };
+        this.props.campaignAction.upMessage(message);
+    }
+
     render() {
         let message = this.props.message;
         return (
@@ -63,17 +73,20 @@ class AddMessageModal extends React.Component {
                     <div className="form-group">
                         <form method="#" action="#">
                             <div className="row">
-                                <div className="col-md-6">
-                                    <FormInputSelect
-                                        label="Loại tin nhắn"
-                                        updateFormData={this.upMessage}
-                                        name="sms_template_type_id"
-                                        data={this.props.template_types}
-                                        value={message.sms_template_type_id}
-                                        required={true}
-                                        disabled={this.props.upMessage}
-                                    />
-
+                                <div className="col-md-6"><br/>
+                                        <label className="label-control">Loại tin nhắn</label>
+                                        <Select
+                                            disabled={this.props.upMessage}
+                                            value={message.sms_template_type_id}
+                                            options={this.props.template_types.map  ((template_types) => {
+                                                return {
+                                                    ...template_types,
+                                                    value: template_types.id,
+                                                    label: template_types.name
+                                                };
+                                            })}
+                                            onChange={this.changTemplateTypes}
+                                        />
                                 </div>
                                 <div className="col-md-6">
                                     <FormInputDateTime
