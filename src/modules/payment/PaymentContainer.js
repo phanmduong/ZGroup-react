@@ -206,16 +206,16 @@ PaymentContainer.propTypes = {
     isLoadingPayments: PropTypes.bool.isRequired,
     data: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
-    summary_money: PropTypes.number.isRequired,
     company: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         isLoadingPayments: state.payment.isLoadingPayments,
-        data: state.payment.payment,
+        data: state.payment.listPayment,
         paginator: state.payment.paginator,
         company: state.payment.company,
+        summary_money: state.payment.summary_money,
     };
 }
 

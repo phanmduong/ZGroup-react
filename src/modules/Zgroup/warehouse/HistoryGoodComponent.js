@@ -21,7 +21,10 @@ class HistoryGoodComponent extends React.Component {
                     bsSize="large"
                 >
                     <Modal.Header>
-                        <BigCloseButtonForModal onClick={this.props.onHide} />
+                         <Modal.Title>
+                                Lịch sử sản phẩm
+                                <BigCloseButtonForModal onClick={this.props.onHide} />
+                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="table-responsive" style={{ minHeight: 400 }}>
