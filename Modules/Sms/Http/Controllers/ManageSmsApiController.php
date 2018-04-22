@@ -267,10 +267,13 @@ class ManageSmsApiController extends ManageApiController
         $group = $campaign->group;
         $users = json_decode($request->users);
         foreach ($users as $user) {
-            $groups_users = new GroupUser;
-            $groups_users->group_id = $group->id;
-            $groups_users->user_id = $user->id;
-            $groups_users->save();
+            $check = GroupUser::where("group_id", $group->id)->where("user_id", $user->id);
+            if($check == null){
+                $groups_users = new GroupUser;
+                $groups_users->group_id = $group->id;
+                $groups_users->user_id = $user->id;
+                $groups_users->save();
+            }
         }
         return $this->respondSuccessWithStatus([
             'message' => 'Thêm người nhận vào chiến dịch thành công'
