@@ -66,7 +66,6 @@ class ClientController extends Controller
             'user' => json_encode($user)
         ]);
     }
-    }
 
     public function loginFreeTrial()
     {
