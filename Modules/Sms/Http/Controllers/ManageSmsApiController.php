@@ -322,7 +322,7 @@ class ManageSmsApiController extends ManageApiController
                             $query->orWhere('registers.class_id', '=', $class_id);
                     }
                 }
-            });
+            })->groupBy("users.id");
 
         if ($request->paid_course_quantity) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
