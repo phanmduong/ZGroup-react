@@ -319,7 +319,7 @@ class AdministrationController extends ManageApiController
         $limit = $request->limit ? $request->limit :20;
         $search = $request->search;
         if($search){
-            $reports = Report::where('title','like', '%' . $search . '%')->paginate($limit);
+            $reports = Report::where('content','like', '%' . $search . '%')->paginate($limit);
             return $this->respondWithPagination($reports, [
                 "reports" => $reports->map(function ($report) {
                     return $report->transform();
