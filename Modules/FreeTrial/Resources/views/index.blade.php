@@ -7,15 +7,6 @@
     <title>Keetool demo</title>
 </head>
 <body>
-
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-        let url = env.DOMAIN + "/login";
-        axios.post(url, {
-            email: login.email,
-            password: login.password,
-            token_browser: tokenBrowser,
-        });
-    </script>
+    <h1>Test</h1>
 </body>
 </html>
