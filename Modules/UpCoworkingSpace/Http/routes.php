@@ -51,7 +51,7 @@ $publicRoutes = function () {
 };
 
 Route::group(['middleware' => ['web', 'up'], 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $routes);
-Route::group(['middleware' => ['web', 'up'], 'domain' => 'keetool4.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $routes);
+Route::group(['middleware' => ['web', 'up'], 'domain' => 'keetool7.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $routes);
 
-Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool7.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
