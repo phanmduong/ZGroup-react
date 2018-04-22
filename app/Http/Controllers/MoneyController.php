@@ -75,20 +75,19 @@ class MoneyController extends ManageController
         $limit = 10;
         $id = $request->id;
         $this->data['id'] = $id;
+        $transactions = Transaction::where('status', 1);
         if ($id) {
             $this->data['current_tab'] = 17;
-            $transactions = Transaction::where('status', 1)
-                ->where(function ($query) use ($id) {
-                    $query->where('sender_id', $id)
-                        ->orWhere(function ($query) use ($id) {
-                            $query->where("receiver_id", $id)->where('type', "!=", 1);
-                        });
-                })
-                ->orderBy('created_at', 'desc')->take($limit)->get();
+            $transactions = $transactions->where(function ($query) use ($id) {
+                $query->where('sender_id', $id)
+                    ->orWhere(function ($query) use ($id) {
+                        $query->where("receiver_id", $id)->where('type', "!=", 1);
+                    });
+            });
         } else {
             $this->data['current_tab'] = 31;
-            $transactions = Transaction::where('status', 1)->orderBy('created_at', 'desc')->take($limit)->get();
         }
+        $transactions = $transactions->orderBy('created_at', 'desc')->take($limit)->get();
 
 
         $this->data['transactions'] = $transactions;
@@ -102,16 +101,15 @@ class MoneyController extends ManageController
         $page = $request->page;
         $skip = $limit * $page;
         $id = $request->id;
+        $transactions = Transaction::where('status', 1);
         if ($id) {
-            $transactions = Transaction::where('status', 1)
-                ->where(function ($query) use ($id) {
-                    $query->where('sender_id', $id)
-                        ->orWhere("receiver_id", $id);
-                })
-                ->orderBy('created_at', 'desc')->skip($skip)->take($limit)->get();
-        } else {
-            $transactions = Transaction::where('status', 1)->orderBy('created_at', 'desc')->skip($skip)->take($limit)->get();
+            $transactions = $transactions->where(function ($query) use ($id) {
+                $query->where('sender_id', $id)
+                    ->orWhere("receiver_id", $id);
+            });
         }
+        $transactions = $transactions->orderBy('created_at', 'desc')->skip($skip)->take($limit)->get();
+
         return view('manage.money.ajax_spend_list_load_more', ['transactions' => $transactions]);
     }
 
@@ -154,8 +152,8 @@ class MoneyController extends ManageController
 
         $months = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
-        $income_data = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0,);
-        $expense_data = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0,);
+        $income_data = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, );
+        $expense_data = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, );
 
         foreach ($expense_by_month as $e) {
 //            if (!in_array($e->month, $months)) {
