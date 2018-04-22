@@ -315,6 +315,25 @@ class CourseController extends ManageApiController
         ]);
     }
 
+    public function editTermLesson($lessonId, Request $request)
+    {
+        $term_id = $request->term_id;
+        if (Lesson::find($lessonId) == null)
+            return $this->respondErrorWithStatus([
+            'message' => 'Non-existing lesson'
+        ]);
+        if ($term_id == null)
+            return $this->respondErrorWithStatus([
+            'message' => 'Missing term id'
+        ]);
+        $lesson = Lesson::find($lessonId);
+        $lesson->term_id = $term_id;
+        $lesson->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Change term success'
+        ]);
+    }
+
     public function getAttendance($classId, $classLessonId, Request $request)
     {
         // $classLesson = ClassLesson::query();

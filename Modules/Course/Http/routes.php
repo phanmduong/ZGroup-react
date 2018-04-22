@@ -30,6 +30,7 @@ $v2ManageCourseRoutes = function () {
         Route::delete('/delete-link/{link_id}', 'CourseController@deleteLink');
         Route::post('/lesson/add/{courseId}', 'CourseController@addLesson');
         Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
+        Route::put('/lesson/edit-term/{lessonId}', 'CourseController@editTermLesson');
         Route::get('/get-attendance-lesson/{classId}/{classLessonId}', 'CourseController@getAttendance');
         Route::post('/change-attendances', 'CourseController@changeAttendance');
         Route::put('/{course_id}/change-status', 'CourseController@changeStatusCourse');
