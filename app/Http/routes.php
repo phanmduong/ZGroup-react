@@ -41,10 +41,14 @@ Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
-    Route::get("/login-free-trial", "ClientController@loginFreeTrial");
+    
     
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
+
+
+    Route::get("/login-free-trial", "ClientController@loginFreeTrial");
+
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
