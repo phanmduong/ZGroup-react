@@ -22,6 +22,7 @@ class PropertiesListContainer extends React.Component {
             -1,
             this.state.query,
             this.props.params.type,
+            -1,
         );
     }
 

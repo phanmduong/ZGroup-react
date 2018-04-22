@@ -14,7 +14,7 @@ export function createBarcode(barcode) {
 }
 
 export function loadBarcodes(page = 1, type = "book") {
-    let url = env.MANAGE_API_URL + `/book/barcodes?type=${type}page=` + page;
+    let url = env.MANAGE_API_URL + `/book/barcodes?type=${type}&page=` + page;
     const token = localStorage.getItem("token");
 
     if (token) {
