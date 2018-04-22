@@ -54,7 +54,7 @@ class FreeTrialController extends Controller
 
         // send password back to floor 4th with otp
         $client = new Client();
-        $res = $client->request('GET', 'http://keetool.test/free-trial/password?otp=' . $otp, [
+        $res = $client->request('POST', 'http://keetool.com/free-trial/password?otp=' . $otp, [
             'form_params' => [
                 'email' => $user->email,
                 'password' => $password,
