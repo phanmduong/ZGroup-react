@@ -27,7 +27,7 @@ class MarketingCampaignController extends ManageApiController
             $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'marketing_campaigns' => $marketingCampaigns->map(function ($marketingCampaign) {
-                    return $marketingCampaign->getData;
+                    return $marketingCampaign->getData();
                 })
             ]);
         }
@@ -36,7 +36,7 @@ class MarketingCampaignController extends ManageApiController
 
         return $this->respondWithPagination($marketingCampaigns, [
             'marketing_campaigns' => $marketingCampaigns->map(function ($marketingCampaign) {
-                return $marketingCampaign->getData;
+                return $marketingCampaign->getData();
             })
         ]);
     }
