@@ -32,32 +32,32 @@ class PayConfirmModal extends React.Component {
     }
 
     updateFormData(e) {
-        
-        if(!e) return;
+
+        if (!e) return;
         let field = e.target.name;
         let value = e.target.value;
-        
-        if(!value || !field) return;
+
+        if (!value || !field) return;
         this.setState({ [field]: value });
     }
 
     close() {
-        if ($("#form-confirm").valid()){
-        if(helper.isEmptyInput(this.state.company_pay_id)){
-            helper.showErrorNotification("Vui lòng chọn nguồn ứng!");
-        }else
-            helper.confirm(
-                "warning", "Cảnh báo", "Bạn có chắc chắn muốn duyệt?",
-                () => {
-                    this.props.submit(this.state.money_received, this.state.company_pay_id);
-                },
-            );
+        if ($("#form-confirm").valid()) {
+            if (helper.isEmptyInput(this.state.company_pay_id)) {
+                helper.showErrorNotification("Vui lòng chọn nguồn ứng!");
+            } else
+                helper.confirm(
+                    "warning", "Cảnh báo", "Bạn có chắc chắn muốn duyệt?",
+                    () => {
+                        this.props.submit(this.state.money_received, this.state.company_pay_id);
+                    },
+                );
         }
     }
 
     render() {
-        let {companies} = this.props;
-        let {money_received, company_pay_id} = this.state;
+        let { companies } = this.props;
+        let { money_received, company_pay_id } = this.state;
         return (
             <Modal show={this.props.show} onHide={this.props.onHide}>
                 <Modal.Header>
@@ -77,13 +77,14 @@ class PayConfirmModal extends React.Component {
                                 <label>Chọn nguồn ứng</label>
                                 <ReactSelect
                                     options={companies || []}
-                                    onChange={(e)=>{ 
-                                        return this.updateFormData({target:{name: "company_pay_id", value: e.id}});
+                                    onChange={(e) => {
+                                        return this.updateFormData({ target: { name: "company_pay_id", value: e.id } });
                                     }}
                                     value={company_pay_id}
                                     defaultMessage="Chọn"
                                 />
                             </div>
+                            <div className="col-md-12" style={{ marginTop: 15 }}>Số tiền ứng: {helper.dotNumber(money_received)}</div>
                             <div className="col-md-12">
                                 <FormInputText
                                     label="Số tiền ứng"

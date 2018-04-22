@@ -106,6 +106,7 @@ class CreateCompanyContainer extends React.Component {
         } else helper.showErrorNotification("Vui lòng nhập đủ các thông tin");
     }
 
+
     render() {
         return (
             <div className="content">
@@ -114,6 +115,7 @@ class CreateCompanyContainer extends React.Component {
                     onHide={this.closeAddFieldModal}
                     loadFields={this.props.CompanyActions.loadFields}
                 />
+
                 <div className="container-fluid">{
                     (this.props.isLoadingCompany) ? <Loading/> :
                         <div className="row">
@@ -234,31 +236,6 @@ class CreateCompanyContainer extends React.Component {
                                                             />
                                                         </div>
 
-                                                        <div className="col-md-12">
-                                                            <label>
-                                                                Chiết khấu
-                                                            </label></div>
-
-                                                        <div className="col-md-6">
-                                                            <FormInputText
-                                                                label="Truyện tranh (%)"
-                                                                type="text"
-                                                                name="discount_comic"
-                                                                updateFormData={this.updateFormData}
-                                                                value={this.props.data.discount_comic || ""}
-
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <FormInputText
-                                                                label="Truyện chữ (%)"
-                                                                type="text"
-                                                                name="discount_text"
-                                                                updateFormData={this.updateFormData}
-                                                                value={this.props.data.discount_text  || ""}
-
-                                                            />
-                                                        </div>
 
                                                         <div className="col-md-6">
                                                             <label>
@@ -422,7 +399,7 @@ class CreateCompanyContainer extends React.Component {
 
 CreateCompanyContainer.propTypes = {
     CompanyActions: PropTypes.object.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
     isLoadingFields: PropTypes.bool.isRequired,
     isSavingField: PropTypes.bool.isRequired,
     isSavingCompany: PropTypes.bool.isRequired,

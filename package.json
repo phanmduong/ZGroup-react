@@ -1,316 +1,320 @@
 {
-    "name": "manage",
-    "version": "0.1.0",
-    "description": "",
-    "engines": {
-        "npm": ">=3"
-    },
-    "scripts": {
-        "preinstall": "node tools/nodeVersionCheck.js",
-        "remove-demo": "babel-node tools/removeDemo.js",
-        "start-message": "babel-node tools/startMessage.js",
-        "prestart": "npm-run-all --parallel start-message",
-        "open:src": "babel-node tools/srcServer.js",
-        "open:dist": "babel-node tools/distServer.js",
-        "lint": "esw webpack.config.* src tools --color",
-        "lint:watch": "npm run lint -- --watch",
-        "clean-dist": "npm run remove-dist && mkdir dist",
-        "remove-dist": "rimraf ./dist",
-        "prebuild": "npm run clean-dist && npm run lint && npm run test",
-        "start": "npm-run-all --parallel open:src lint:watch",
-        "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
-        "build:email": "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
-        "start:teaching": "MODULE=teaching npm-run-all --parallel open:src lint:watch",
-        "build:teaching": "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
-        "start:order": "MODULE=order npm-run-all --parallel open:src lint:watch",
-        "build:order": "npm run lint && rimraf ./dist/order && mkdir dist/order && MODULE=order babel-node tools/build/module.js",
-        "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
-        "build:manufacture": "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
-        "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
-        "build:base": "npm run lint && rimraf ./dist/base && mkdir dist/base && MODULE=base babel-node tools/build/module.js",
-        "start:sms": "MODULE=sms npm-run-all --parallel open:src lint:watch",
-        "build:sms": "npm run lint && rimraf ./dist/sms && mkdir dist/sms && MODULE=sms babel-node tools/build/module.js",
-        "start:work": "MODULE=work npm-run-all --parallel open:src lint:watch",
-        "build:work": "npm run lint && rimraf ./dist/work && mkdir dist/work && MODULE=work babel-node tools/build/module.js",
-        "start:blog": "MODULE=blog npm-run-all --parallel open:src lint:watch",
-        "build:blog": "npm run lint && rimraf ./dist/blog && mkdir dist/blog && MODULE=blog babel-node tools/build/module.js",
-        "start:marketing": "MODULE=marketing npm-run-all --parallel open:src lint:watch",
-        "build:marketing": "npm run lint && rimraf ./dist/marketing && mkdir dist/marketing && MODULE=marketing babel-node tools/build/module.js",
-        "start:finance": "MODULE=finance npm-run-all --parallel open:src lint:watch",
-        "build:finance": "npm run lint && rimraf ./dist/finance && mkdir dist/finance && MODULE=finance babel-node tools/build/module.js",
-        "start:hr": "MODULE=hr npm-run-all --parallel open:src lint:watch",
-        "build:hr": "npm run lint && rimraf ./dist/hr && mkdir dist/hr && MODULE=hr babel-node tools/build/module.js",
-        "start:good": "MODULE=good npm-run-all --parallel open:src lint:watch",
-        "build:good": "npm run lint && rimraf ./dist/good && mkdir dist/good && MODULE=good babel-node tools/build/module.js",
-        "start:shift": "MODULE=shift npm-run-all --parallel open:src lint:watch",
-        "build:shift": "npm run lint && rimraf ./dist/shift && mkdir dist/shift && MODULE=shift babel-node tools/build/module.js",
-        "start:profile": "MODULE=profile npm-run-all --parallel open:src lint:watch",
-        "build:profile": "npm run lint && rimraf ./dist/profile && mkdir dist/profile && MODULE=profile babel-node tools/build/module.js",
-        "start:dashboard": "MODULE=dashboard npm-run-all --parallel open:src lint:watch",
-        "build:dashboard": "npm run lint && rimraf ./dist/dashboard && mkdir dist/dashboard && MODULE=dashboard babel-node tools/build/module.js",
-        "start:surveyv2": "MODULE=surveyv2 npm-run-all --parallel open:src lint:watch",
-        "build:surveyv2": "npm run lint && rimraf ./dist/surveyv2 && mkdir dist/surveyv2 && MODULE=surveyv2 babel-node tools/build/module.js",
-        "start:business": "MODULE=business npm-run-all --parallel open:src lint:watch",
-        "build:business": "npm run lint && rimraf ./dist/business && mkdir dist/business && MODULE=business babel-node tools/build/module.js",
-        "start:book": "MODULE=book npm-run-all --parallel open:src lint:watch",
-        "build:book": "npm run lint && rimraf ./dist/book && mkdir dist/book && MODULE=book babel-node tools/build/module.js",
-        "start:work_shift": "MODULE=work_shift npm-run-all --parallel open:src lint:watch",
-        "build:work_shift": "npm run lint && rimraf ./dist/work_shift && mkdir dist/work_shift && MODULE=work_shift babel-node tools/build/module.js",
-        "start:landingPage": "MODULE=landingPage npm-run-all --parallel open:src lint:watch",
-        "build:landingPage": "npm run lint && rimraf ./dist/landingPage && mkdir dist/landingPage && MODULE=landingPage babel-node tools/build/module.js",
-        "start:notification": "MODULE=notification npm-run-all --parallel open:src lint:watch",
-        "build:notification": "npm run lint && rimraf ./dist/notification && mkdir dist/notification && MODULE=notification babel-node tools/build/module.js",
-        "start:administration": "MODULE=administration npm-run-all --parallel open:src lint:watch",
-        "build:administration": "npm run lint && rimraf ./dist/administration && mkdir dist/administration && MODULE=administration babel-node tools/build/module.js",
-        "start:Zwarehouse": "MODULE=Zwarehouse npm-run-all --parallel open:src lint:watch",
-        "build:Zwarehouse": "npm run lint && rimraf ./dist/Zwarehouse && mkdir dist/Zwarehouse && MODULE=Zwarehouse babel-node tools/build/module.js",
-        "start:customerServices": "MODULE=customerServices npm-run-all --parallel open:src lint:watch",
-        "build:customerServices": "npm run lint && rimraf ./dist/customerServices && mkdir dist/customerServices && MODULE=customerServices babel-node tools/build/module.js",
-        "start:sales": "MODULE=sales npm-run-all --parallel open:src lint:watch",
-        "build:sales": "npm run lint && rimraf ./dist/sales && mkdir dist/sales && MODULE=sales babel-node tools/build/module.js",
-        "start:telesales": "MODULE=telesales npm-run-all --parallel open:src lint:watch",
-        "build:telesales": "npm run lint && rimraf ./dist/telesales && mkdir dist/telesales && MODULE=telesales babel-node tools/build/module.js",
-        "start:film": "MODULE=film npm-run-all --parallel open:src lint:watch",
-        "build:film": "npm run lint && rimraf ./dist/film && mkdir dist/film && MODULE=film babel-node tools/build/module.js",
-        "build": "babel-node tools/build.js && npm run open:dist",
-        "test": "jest",
-        "test:CI": "babel-node tools/testCi.js",
-        "test:cover": "npm run test -- --coverage ",
-        "test:cover:CI": "npm run test:CI -- --coverage && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
-        "test:watch": "npm run test -- --watch",
-        "open:cover": "npm run test:cover && opn ./coverage/lcov-report/index.html",
-        "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
-    },
-    "author": "KeeEducation",
-    "license": "MIT",
-    "dependencies": {
-        "async": "git+https://github.com/caolan/async.git",
-        "axios": "0.15.3",
-        "chart.js": "^2.7.1",
-        "d3": "^4.13.0",
-        "draft-js": "^0.10.1",
-        "draftjs-to-html": "^0.7.5",
-        "events": "^1.1.1",
-        "file-saver": "^1.3.3",
-        "firebase": "^4.5.0",
-        "html-to-draftjs": "0.1.0-beta15",
-        "jquery": "3.2.1",
-        "jsonwebtoken": "^7.4.2",
-        "lodash": "^4.17.4",
-        "moment": "^2.18.1",
-        "nouislider": "^11.0.3",
-        "object-assign": "4.1.0",
-        "prop-types": "^15.5.10",
-        "react": "^15.6.2",
-        "react-bootstrap": "^0.31.2",
-        "react-bootstrap-switch": "15.0.3",
-        "react-chartjs-2": "^2.6.4",
-        "react-color": "^2.13.4",
-        "react-dnd": "^2.5.4",
-        "react-dom": "15.5.4",
-        "react-draft-wysiwyg": "^1.12.7",
-        "react-dragula": "^1.1.17",
-        "react-iframe": "^1.0.7",
-        "react-images": "^0.5.14",
-        "react-month-picker": "^1.3.5",
-        "react-number-format": "^3.2.0",
-        "react-redux": "5.0.5",
-        "react-router": "3.0.5",
-        "react-router-redux": "4.0.8",
-        "react-select": "^1.0.0-rc.5",
-        "redux": "3.6.0",
-        "redux-thunk": "2.1.0",
-        "socket.io-client": "^2.0.3",
-        "toastr": "2.1.2",
-        "xlsx": "^0.11.8"
-    },
-    "devDependencies": {
-        "autoprefixer": "7.1.2",
-        "babel-cli": "6.24.1",
-        "babel-core": "^6.25.0",
-        "babel-eslint": "7.2.3",
-        "babel-jest": "20.0.3",
-        "babel-loader": "^7.1.1",
-        "babel-plugin-transform-react-constant-elements": "6.23.0",
-        "babel-plugin-transform-react-remove-prop-types": "0.4.6",
-        "babel-polyfill": "^6.23.0",
-        "babel-preset-env": "1.6.0",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-preset-react": "6.24.1",
-        "babel-preset-react-hmre": "1.1.1",
-        "babel-preset-stage-0": "^6.24.1",
-        "babel-preset-stage-1": "6.24.1",
-        "browser-sync": "2.18.12",
-        "chalk": "2.0.1",
-        "compression-webpack-plugin": "^1.1.6",
-        "connect-history-api-fallback": "1.3.0",
-        "coveralls": "2.13.1",
-        "css-loader": "0.28.4",
-        "enzyme": "2.9.1",
-        "eslint": "4.2.0",
-        "eslint-plugin-import": "2.7.0",
-        "eslint-plugin-react": "^7.6.1",
-        "eslint-watch": "3.1.2",
-        "extract-text-webpack-plugin": "3.0.0-rc.2",
-        "file-loader": "0.11.2",
-        "html-webpack-plugin": "2.29.0",
-        "identity-obj-proxy": "3.0.0",
-        "jest": "20.0.4",
-        "jest-cli": "20.0.4",
-        "json-loader": "0.5.4",
-        "mockdate": "2.0.1",
-        "node-sass": "4.5.3",
-        "npm-run-all": "4.0.2",
-        "opn-cli": "3.1.0",
-        "postcss-loader": "1.2.1",
-        "prompt": "1.0.0",
-        "prop-types": "15.5.10",
-        "react-hot-loader": "3.0.0-beta.6",
-        "react-test-renderer": "15.5.4",
-        "redux-immutable-state-invariant": "2.0.0",
-        "replace": "0.3.0",
-        "rimraf": "2.6.1",
-        "sass-loader": "6.0.6",
-        "style-loader": "0.18.2",
-        "url-loader": "0.5.9",
-        "webpack": "3.1.0",
-        "webpack-bundle-analyzer": "2.8.2",
-        "webpack-dev-middleware": "1.11.0",
-        "webpack-hot-middleware": "2.18.2",
-        "webpack-md5-hash": "0.0.5",
-        "webpack-merge": "^4.1.1"
-    },
-    "keywords": [],
-    "repository": {
-        "type": "git",
-        "url": ""
-    },
-    "jest": {
-        "moduleNameMapper": {
-            "\\.(css|scss)$": "identity-obj-proxy",
-            "^.+\\.(gif|ttf|eot|svg|woff|woff2|ico)$": "<rootDir>/tools/fileMock.js"
-        }
-    },
-    "babel": {
+  "name": "manage",
+  "version": "0.1.0",
+  "description": "",
+  "engines": {
+    "npm": ">=3"
+  },
+  "scripts": {
+    "preinstall": "node tools/nodeVersionCheck.js",
+    "remove-demo": "babel-node tools/removeDemo.js",
+    "start-message": "babel-node tools/startMessage.js",
+    "prestart": "npm-run-all --parallel start-message",
+    "open:src": "babel-node tools/srcServer.js",
+    "open:dist": "babel-node tools/distServer.js",
+    "lint": "esw webpack.config.* src tools --color",
+    "lint:watch": "npm run lint -- --watch",
+    "clean-dist": "npm run remove-dist && mkdir dist",
+    "remove-dist": "rimraf ./dist",
+    "prebuild": "npm run clean-dist && npm run lint && npm run test",
+    "start": "npm-run-all --parallel open:src lint:watch",
+    "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:email": "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
+    "start:teaching": "MODULE=teaching npm-run-all --parallel open:src lint:watch",
+    "build:teaching": "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
+    "start:order": "MODULE=order npm-run-all --parallel open:src lint:watch",
+    "build:order": "npm run lint && rimraf ./dist/order && mkdir dist/order && MODULE=order babel-node tools/build/module.js",
+    "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
+    "build:manufacture": "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+    "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
+    "build:base": "npm run lint && rimraf ./dist/base && mkdir dist/base && MODULE=base babel-node tools/build/module.js",
+    "start:sms": "MODULE=sms npm-run-all --parallel open:src lint:watch",
+    "build:sms": "npm run lint && rimraf ./dist/sms && mkdir dist/sms && MODULE=sms babel-node tools/build/module.js",
+    "start:work": "MODULE=work npm-run-all --parallel open:src lint:watch",
+    "build:work": "npm run lint && rimraf ./dist/work && mkdir dist/work && MODULE=work babel-node tools/build/module.js",
+    "start:blog": "MODULE=blog npm-run-all --parallel open:src lint:watch",
+    "build:blog": "npm run lint && rimraf ./dist/blog && mkdir dist/blog && MODULE=blog babel-node tools/build/module.js",
+    "start:marketing": "MODULE=marketing npm-run-all --parallel open:src lint:watch",
+    "build:marketing": "npm run lint && rimraf ./dist/marketing && mkdir dist/marketing && MODULE=marketing babel-node tools/build/module.js",
+    "start:finance": "MODULE=finance npm-run-all --parallel open:src lint:watch",
+    "build:finance": "npm run lint && rimraf ./dist/finance && mkdir dist/finance && MODULE=finance babel-node tools/build/module.js",
+    "start:hr": "MODULE=hr npm-run-all --parallel open:src lint:watch",
+    "build:hr": "npm run lint && rimraf ./dist/hr && mkdir dist/hr && MODULE=hr babel-node tools/build/module.js",
+    "start:good": "MODULE=good npm-run-all --parallel open:src lint:watch",
+    "build:good": "npm run lint && rimraf ./dist/good && mkdir dist/good && MODULE=good babel-node tools/build/module.js",
+    "start:shift": "MODULE=shift npm-run-all --parallel open:src lint:watch",
+    "build:shift": "npm run lint && rimraf ./dist/shift && mkdir dist/shift && MODULE=shift babel-node tools/build/module.js",
+    "start:profile": "MODULE=profile npm-run-all --parallel open:src lint:watch",
+    "build:profile": "npm run lint && rimraf ./dist/profile && mkdir dist/profile && MODULE=profile babel-node tools/build/module.js",
+    "start:dashboard": "MODULE=dashboard npm-run-all --parallel open:src lint:watch",
+    "build:dashboard": "npm run lint && rimraf ./dist/dashboard && mkdir dist/dashboard && MODULE=dashboard babel-node tools/build/module.js",
+    "start:surveyv2": "MODULE=surveyv2 npm-run-all --parallel open:src lint:watch",
+    "build:surveyv2": "npm run lint && rimraf ./dist/surveyv2 && mkdir dist/surveyv2 && MODULE=surveyv2 babel-node tools/build/module.js",
+    "start:business": "MODULE=business npm-run-all --parallel open:src lint:watch",
+    "build:business": "npm run lint && rimraf ./dist/business && mkdir dist/business && MODULE=business babel-node tools/build/module.js",
+    "start:book": "MODULE=book npm-run-all --parallel open:src lint:watch",
+    "build:book": "npm run lint && rimraf ./dist/book && mkdir dist/book && MODULE=book babel-node tools/build/module.js",
+    "start:work_shift": "MODULE=work_shift npm-run-all --parallel open:src lint:watch",
+    "build:work_shift": "npm run lint && rimraf ./dist/work_shift && mkdir dist/work_shift && MODULE=work_shift babel-node tools/build/module.js",
+    "start:landingPage": "MODULE=landingPage npm-run-all --parallel open:src lint:watch",
+    "build:landingPage": "npm run lint && rimraf ./dist/landingPage && mkdir dist/landingPage && MODULE=landingPage babel-node tools/build/module.js",
+    "start:notification": "MODULE=notification npm-run-all --parallel open:src lint:watch",
+    "build:notification": "npm run lint && rimraf ./dist/notification && mkdir dist/notification && MODULE=notification babel-node tools/build/module.js",
+    "start:administration": "MODULE=administration npm-run-all --parallel open:src lint:watch",
+    "build:administration": "npm run lint && rimraf ./dist/administration && mkdir dist/administration && MODULE=administration babel-node tools/build/module.js",
+    "start:Zwarehouse": "MODULE=Zwarehouse npm-run-all --parallel open:src lint:watch",
+    "build:Zwarehouse": "npm run lint && rimraf ./dist/Zwarehouse && mkdir dist/Zwarehouse && MODULE=Zwarehouse babel-node tools/build/module.js",
+    "start:customerServices": "MODULE=customerServices npm-run-all --parallel open:src lint:watch",
+    "build:customerServices": "npm run lint && rimraf ./dist/customerServices && mkdir dist/customerServices && MODULE=customerServices babel-node tools/build/module.js",
+    "start:sales": "MODULE=sales npm-run-all --parallel open:src lint:watch",
+    "build:sales": "npm run lint && rimraf ./dist/sales && mkdir dist/sales && MODULE=sales babel-node tools/build/module.js",
+    "start:telesales": "MODULE=telesales npm-run-all --parallel open:src lint:watch",
+    "build:telesales": "npm run lint && rimraf ./dist/telesales && mkdir dist/telesales && MODULE=telesales babel-node tools/build/module.js",
+    "start:film": "MODULE=film npm-run-all --parallel open:src lint:watch",
+    "build:film": "npm run lint && rimraf ./dist/film && mkdir dist/film && MODULE=film babel-node tools/build/module.js",
+    "build": "babel-node tools/build.js && npm run open:dist",
+    "test": "jest",
+    "test:CI": "babel-node tools/testCi.js",
+    "test:cover": "npm run test -- --coverage ",
+    "test:cover:CI": "npm run test:CI -- --coverage && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
+    "test:watch": "npm run test -- --watch",
+    "open:cover": "npm run test:cover && opn ./coverage/lcov-report/index.html",
+    "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
+  },
+  "author": "KeeEducation",
+  "license": "MIT",
+  "dependencies": {
+    "async": "git+https://github.com/caolan/async.git",
+    "axios": "0.15.3",
+    "chart.js": "^2.7.1",
+    "d3": "^4.13.0",
+    "draft-js": "^0.10.1",
+    "draftjs-to-html": "^0.7.5",
+    "events": "^1.1.1",
+    "file-saver": "^1.3.3",
+    "firebase": "^4.5.0",
+    "html-to-draftjs": "0.1.0-beta15",
+    "jquery": "3.2.1",
+    "jsonwebtoken": "^7.4.2",
+    "lodash": "^4.17.4",
+    "mobx": "^4.1.1",
+    "mobx-react": "^5.0.0",
+    "moment": "^2.18.1",
+    "nouislider": "^11.0.3",
+    "object-assign": "4.1.0",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.2",
+    "react-bootstrap": "^0.31.2",
+    "react-bootstrap-switch": "15.0.3",
+    "react-chartjs-2": "^2.6.4",
+    "react-color": "^2.13.4",
+    "react-dnd": "^2.5.4",
+    "react-dom": "15.5.4",
+    "react-draft-wysiwyg": "^1.12.7",
+    "react-dragula": "^1.1.17",
+    "react-iframe": "^1.0.7",
+    "react-images": "^0.5.14",
+    "react-month-picker": "^1.3.5",
+    "react-number-format": "^3.2.0",
+    "react-redux": "5.0.5",
+    "react-router": "3.0.5",
+    "react-router-redux": "4.0.8",
+    "react-select": "^1.0.0-rc.5",
+    "redux": "3.6.0",
+    "redux-thunk": "2.1.0",
+    "socket.io-client": "^2.0.3",
+    "toastr": "2.1.2",
+    "xlsx": "^0.11.8"
+  },
+  "devDependencies": {
+    "autoprefixer": "7.1.2",
+    "babel-cli": "6.24.1",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "7.2.3",
+    "babel-jest": "20.0.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-transform-react-constant-elements": "6.23.0",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.6",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-react-hmre": "1.1.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-1": "6.24.1",
+    "browser-sync": "2.18.12",
+    "chalk": "2.0.1",
+    "compression-webpack-plugin": "^1.1.6",
+    "connect-history-api-fallback": "1.3.0",
+    "coveralls": "2.13.1",
+    "css-loader": "0.28.4",
+    "enzyme": "2.9.1",
+    "eslint": "4.2.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-react": "^7.6.1",
+    "eslint-watch": "3.1.2",
+    "extract-text-webpack-plugin": "3.0.0-rc.2",
+    "file-loader": "0.11.2",
+    "html-webpack-plugin": "2.29.0",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "20.0.4",
+    "jest-cli": "20.0.4",
+    "json-loader": "0.5.4",
+    "mockdate": "2.0.1",
+    "node-sass": "4.5.3",
+    "npm-run-all": "4.0.2",
+    "opn-cli": "3.1.0",
+    "postcss-loader": "1.2.1",
+    "prompt": "1.0.0",
+    "prop-types": "15.5.10",
+    "react-hot-loader": "3.0.0-beta.6",
+    "react-test-renderer": "15.5.4",
+    "redux-immutable-state-invariant": "2.0.0",
+    "replace": "0.3.0",
+    "rimraf": "2.6.1",
+    "sass-loader": "6.0.6",
+    "style-loader": "0.18.2",
+    "url-loader": "0.5.9",
+    "webpack": "^3.1.0",
+    "webpack-bundle-analyzer": "2.8.2",
+    "webpack-dev-middleware": "1.11.0",
+    "webpack-hot-middleware": "2.18.2",
+    "webpack-md5-hash": "0.0.5",
+    "webpack-merge": "^4.1.1"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "^.+\\.(gif|ttf|eot|svg|woff|woff2|ico)$": "<rootDir>/tools/fileMock.js"
+    }
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "stage-1"
+    ],
+    "env": {
+      "development": {
         "presets": [
-            "react",
-            "stage-1"
-        ],
-        "env": {
-            "development": {
-                "presets": [
-                    "env",
-                    "react-hmre"
-                ]
-            },
-            "production": {
-                "presets": [
-                    [
-                        "env",
-                        {
-                            "es2015": {
-                                "modules": false
-                            }
-                        }
-                    ]
-                ],
-                "plugins": [
-                    "transform-react-constant-elements",
-                    "transform-react-remove-prop-types"
-                ]
-            },
-            "test": {
-                "presets": [
-                    "env"
-                ]
+          "env",
+          "react-hmre"
+        ]
+      },
+      "production": {
+        "presets": [
+          [
+            "env",
+            {
+              "es2015": {
+                "modules": false
+              }
             }
-        }
-    },
-    "eslintConfig": {
-        "root": true,
-        "extends": [
-            "eslint:recommended",
-            "plugin:import/errors",
-            "plugin:import/warnings"
+          ]
         ],
         "plugins": [
-            "react"
-        ],
-        "parser": "babel-eslint",
-        "parserOptions": {
-            "ecmaVersion": 6,
-            "sourceType": "module",
-            "ecmaFeatures": {
-                "jsx": true,
-                "experimentalObjectRestSpread": true
-            }
-        },
-        "env": {
-            "es6": true,
-            "browser": true,
-            "node": true,
-            "jquery": true,
-            "jest": true
-        },
-        "rules": {
-            "quotes": 0,
-            "no-console": 1,
-            "no-debugger": 1,
-            "no-var": 1,
-            "semi": [
-                1,
-                "always"
-            ],
-            "no-trailing-spaces": 0,
-            "eol-last": 0,
-            "no-underscore-dangle": 0,
-            "no-alert": 0,
-            "no-lone-blocks": 0,
-            "jsx-quotes": 1,
-            "react/display-name": [
-                1,
-                {
-                    "ignoreTranspilerName": false
-                }
-            ],
-            "react/forbid-prop-types": [
-                1,
-                {
-                    "forbid": [
-                        "any"
-                    ]
-                }
-            ],
-            "react/jsx-boolean-value": 0,
-            "react/jsx-closing-bracket-location": 0,
-            "react/jsx-curly-spacing": 1,
-            "react/jsx-indent-props": 0,
-            "react/jsx-key": 1,
-            "react/jsx-max-props-per-line": 0,
-            "react/jsx-no-bind": 0,
-            "react/jsx-no-duplicate-props": 1,
-            "react/jsx-no-literals": 0,
-            "react/jsx-no-undef": 1,
-            "react/jsx-pascal-case": 1,
-            "react/jsx-sort-prop-types": 0,
-            "react/jsx-sort-props": 0,
-            "react/jsx-uses-react": 1,
-            "react/jsx-uses-vars": 1,
-            "react/jsx-wrap-multilines": 1,
-            "react/no-danger": 1,
-            "react/no-did-mount-set-state": 1,
-            "react/no-did-update-set-state": 1,
-            "react/no-direct-mutation-state": 1,
-            "react/no-multi-comp": 1,
-            "react/no-set-state": 0,
-            "react/no-unknown-property": 1,
-            "react/prefer-es6-class": 1,
-            "react/prop-types": 1,
-            "react/react-in-jsx-scope": 1,
-            "import/extensions": 1,
-            "react/self-closing-comp": 1,
-            "react/sort-comp": 1
-        },
-        "globals": {}
+          "transform-react-constant-elements",
+          "transform-react-remove-prop-types"
+        ]
+      },
+      "test": {
+        "presets": [
+          "env"
+        ]
+      }
     }
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "eslint:recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
+    "plugins": [
+      "react"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "experimentalObjectRestSpread": true
+      }
+    },
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true,
+      "jquery": true,
+      "jest": true
+    },
+    "rules": {
+      "quotes": 0,
+      "no-console": 1,
+      "no-debugger": 1,
+      "no-var": 1,
+      "semi": [
+        1,
+        "always"
+      ],
+      "no-trailing-spaces": 0,
+      "eol-last": 0,
+      "no-underscore-dangle": 0,
+      "no-alert": 0,
+      "no-lone-blocks": 0,
+      "jsx-quotes": 1,
+      "react/display-name": [
+        1,
+        {
+          "ignoreTranspilerName": false
+        }
+      ],
+      "react/forbid-prop-types": [
+        1,
+        {
+          "forbid": [
+            "any"
+          ]
+        }
+      ],
+      "react/jsx-boolean-value": 0,
+      "react/jsx-closing-bracket-location": 0,
+      "react/jsx-curly-spacing": 1,
+      "react/jsx-indent-props": 0,
+      "react/jsx-key": 1,
+      "react/jsx-max-props-per-line": 0,
+      "react/jsx-no-bind": 0,
+      "react/jsx-no-duplicate-props": 1,
+      "react/jsx-no-literals": 0,
+      "react/jsx-no-undef": 1,
+      "react/jsx-pascal-case": 1,
+      "react/jsx-sort-prop-types": 0,
+      "react/jsx-sort-props": 0,
+      "react/jsx-uses-react": 1,
+      "react/jsx-uses-vars": 1,
+      "react/jsx-wrap-multilines": 1,
+      "react/no-danger": 1,
+      "react/no-did-mount-set-state": 1,
+      "react/no-did-update-set-state": 1,
+      "react/no-direct-mutation-state": 1,
+      "react/no-multi-comp": 1,
+      "react/no-set-state": 0,
+      "react/no-unknown-property": 1,
+      "react/prefer-es6-class": 1,
+      "react/prop-types": 1,
+      "react/react-in-jsx-scope": 1,
+      "import/extensions": 1,
+      "react/self-closing-comp": 1,
+      "react/sort-comp": 1
+    },
+    "globals": {}
+  }
 }

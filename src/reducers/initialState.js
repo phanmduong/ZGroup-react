@@ -1966,7 +1966,8 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        company: [{
+        companyList:[],
+        company: {
             name: "",
             registered_business_address: "",
             office_address: "",
@@ -1983,7 +1984,7 @@ export default {
             user_contact: "",
             user_contact_phone: "",
             type: "",
-        }],
+        },
         summay_money: 0,
         fields: [],
         paginator: {
