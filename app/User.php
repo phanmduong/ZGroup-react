@@ -458,9 +458,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class, 'groups_users', 'user_id', 'group_id');
     }
 
-    public function getReceivers()
+    public function getReceivers($group_id)
     {
         $registers = $this->registers()->where('status', 1)->get();
+        $groups = $this->smsGroup()->where("id", $group_id)->get()->toArray();
+        $status = count($groups) > 0 ? 1 : 0;
         return [
             'id' => $this->id,
             'avatar_url' => $this->avatar_url,
@@ -482,7 +484,8 @@ class User extends Authenticatable
                 'name' => head($this->getCarer->toArray())['name'],
                 'color' => head($this->getCarer->toArray())['color'],
             ],
-            'rate' => $this->rate
+            'rate' => $this->rate,
+            'status' => $status
         ];
     }
 

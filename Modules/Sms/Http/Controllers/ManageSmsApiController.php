@@ -267,20 +267,17 @@ class ManageSmsApiController extends ManageApiController
         $group = $campaign->group;
         $users = json_decode($request->users);
         foreach ($users as $user) {
-            $check = GroupUser::where("group_id", $group->id)->where("user_id", $user->id);
-            if($check == null){
-                $groups_users = new GroupUser;
-                $groups_users->group_id = $group->id;
-                $groups_users->user_id = $user->id;
-                $groups_users->save();
-            }
+            $groups_users = new GroupUser;
+            $groups_users->group_id = $group->id;
+            $groups_users->user_id = $user->id;
+            $groups_users->save();
         }
         return $this->respondSuccessWithStatus([
             'message' => 'Thêm người nhận vào chiến dịch thành công'
         ]);
     }
 
-    public function getReceiversChoice(Request $request)
+    public function getReceiversChoice($campaignId, Request $request)
     {
 
         $startTime = $request->start_time;
@@ -351,14 +348,17 @@ class ManageSmsApiController extends ManageApiController
                 });
         }
 
+        $campaign = SmsList::find($campaignId);
+        $group_id = $campaign->group->id;
+
         if ($request->top) {
             $users = $users->simplePaginate(intval($request->top));
         } else {
             if ($limit == -1) {
                 $users = $users->orderBy('created_at', 'desc')->get();
                 return $this->respondSuccessWithStatus([
-                    'users' => $users->map(function ($user) {
-                        return $user->getReceivers();
+                    'users' => $users->map(function ($user) use ($group_id) {
+                        return $user->getReceivers($group_id);
                     })
                 ]);
             }
@@ -367,14 +367,14 @@ class ManageSmsApiController extends ManageApiController
 
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
-                'users' => $users->map(function ($user) {
-                    return $user->getReceivers();
+                'users' => $users->map(function ($user) use ($group_id) {
+                    return $user->getReceivers($group_id);
                 })
             ]);
         } else {
             return $this->respondWithPagination($users, [
-                'users' => $users->map(function ($user) {
-                    return $user->getReceivers();
+                'users' => $users->map(function ($user) use ($group_id) {
+                    return $user->getReceivers($group_id);
                 })
             ]);
         }
