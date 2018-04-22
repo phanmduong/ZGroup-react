@@ -1,4 +1,22 @@
 export default {
+    session:{
+        allSessions:[],
+        showingSession:[],
+        comingSession:[],
+        daySession:[],
+        addEditSessionModal: false,
+    },
+    film:{
+        allFilms:[],
+        //modal ****************
+        addEditFilmModal: false,
+        isUploadingAvatar: false,
+        isUploadingImage: false,
+        percent: 0,
+        isSavingFilm: false,
+        filmModal:{},
+        //*************
+    },
     campaignList: {
         campaigns: [],
         isLoading: false,

@@ -46,7 +46,7 @@ export function saveBlogType(blogType) {
         blogTypeApi.saveBlogTypeApi(blogType)
             .then((res) => {
                 if (res.data.status) {
-                    helper.showNotification("Thêm tài khoản ngân hàng thành công");
+                    helper.showNotification("Thêm loại bài viết thành công");
                     dispatch({
                         type: types.SAVE_BLOG_TYPE_SUCCESS,
                         blogType
@@ -88,7 +88,7 @@ export function deleteblogType(blogType) {
         blogTypeApi.delBlogTypeApi(blogType)
             .then(function (res) {
                 if (res.data.status) {
-                    helper.showNotification("Xóa loại khóa học thành công");
+                    helper.showNotification("Xóa loại bài viết thành công");
                     dispatch({
                         type: types.DELETE_BLOG_TYPE_SUCCESS,
                         blogType
