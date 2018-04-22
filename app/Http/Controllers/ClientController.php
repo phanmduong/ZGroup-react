@@ -13,7 +13,9 @@ class ClientController extends Controller
         } else {
             $path = 'dashboard';
         }
-        $this->middleware('permission_tab_react:' . $path);
+        if ($path != 'login-free-trial') {
+            $this->middleware('permission_tab_react:' . $path);
+        }
     }
 
     public function loginFreeTrial(Request $request)
@@ -50,19 +52,17 @@ class ClientController extends Controller
         $this->emailService->send_mail_password($user, $password);
 
         // send password back to floor 4th with otp
-        // $client = new Client();
-        // $res = $client->request('POST', 'https://keetool.com/free-trial/password?otp=' . $otp, [
-        //     'form_params' => [
-        //         'email' => $user->email,
-        //         'password' => $password,
-        //     ]
-        // ]);
+        $client = new Client();
+        $res = $client->request('POST', 'https://keetool.com/free-trial/password?otp=' . $otp, [
+            'form_params' => [
+                'email' => $user->email,
+                'password' => $password,
+            ]
+        ]);
 
         // login this account
         Auth::login($user, true);
         $token = JWTAuth::fromUser($user);
-
-        dd('test');
 
         // redirect to manage.keetool.xyz
         return view('freetrial::index', [
