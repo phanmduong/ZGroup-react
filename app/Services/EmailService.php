@@ -409,4 +409,18 @@ class EmailService
             $m->to($email, $name)->subject($subject);
         });
     }
+
+    public function send_mail_password($user, $password)
+    {
+        $subject = 'KEETOOL - Tài khoản demo';
+        $data = [
+            'user' => $user,
+            'password' => $password
+        ];
+
+        Mail::send('emails.user_password', $data, function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->to($user->email, $user->name)->subject($subject);
+        });
+    }
 }

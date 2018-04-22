@@ -272,7 +272,7 @@ class ManageSmsApiController extends ManageApiController
 
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
-        $courses = json_decode($request->courses);
+        $gens = json_decode($request->gens);
         $classes = json_decode($request->classes);
         $limit = $request->limit ? intval($request->limit) : 20;
         // $paid_course_quantity = $request->paid_course_quantity;
@@ -284,25 +284,28 @@ class ManageSmsApiController extends ManageApiController
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
         }
 
+        if ($request->rate) {
+            $users = $users->where("rate", $request->rate);
+        }
 
-        $classes_courses = StudyClass::join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")
-            ->where(function ($query) use ($courses) {
-                if ($courses) {
-                    for ($index = 0; $index < count($courses); ++$index) {
-                        $course_id = $courses[$index]->value;
+        $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
+            ->where(function ($query) use ($gens) {
+                if ($gens) {
+                    for ($index = 0; $index < count($gens); ++$index) {
+                        $gen_id = $gens[$index]->value;
                         if ($index == 0)
-                            $query->where('courses.id', '=', $course_id);
+                            $query->where('gens.id', '=', $gen_id);
                         else
-                            $query->orWhere('courses.id', '=', $course_id);
+                            $query->orWhere('gens.id', '=', $gen_id);
                     }
                 }
             })->get()->toArray();
 
         $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-            ->select('users.*')->where(function ($query) use ($classes_courses) {
-                if ($classes_courses) {
-                    for ($index = 0; $index < count($classes_courses); ++$index) {
-                        $class_id = $classes_courses[$index]['id'];
+            ->select('users.*')->where(function ($query) use ($classes_gens) {
+                if ($classes_gens) {
+                    for ($index = 0; $index < count($classes_gens); ++$index) {
+                        $class_id = $classes_gens[$index]['id'];
                         if ($index == 0)
                             $query->where('registers.class_id', '=', $class_id);
                         else
@@ -319,7 +322,7 @@ class ManageSmsApiController extends ManageApiController
                             $query->orWhere('registers.class_id', '=', $class_id);
                     }
                 }
-            });
+            })->groupBy("users.id");
 
         if ($request->paid_course_quantity) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
@@ -334,11 +337,13 @@ class ManageSmsApiController extends ManageApiController
 
                 });
         }
+
         if ($request->top) {
-            $users = $users->simplePaginate($request->top);
+            $users = $users->simplePaginate(intval($request->top));
         } else {
             $users = $users->paginate($limit);
         }
+
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
                 'users' => $users->map(function ($user) {

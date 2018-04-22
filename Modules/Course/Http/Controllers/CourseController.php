@@ -15,15 +15,19 @@ use App\Providers\AppServiceProvider;
 use Illuminate\Http\Response;
 use App\Services\EmailService;
 use App\StudyClass;
+use App\Register;
+use App\Colorme\Transformers\RegisterTransformer;
 
 
 class CourseController extends ManageApiController
 {
-    protected $emailService;
-    public function __construct(EmailService $emailService)
+    protected $emailService, $registerTransformer;
+    public function __construct(EmailService $emailService, RegisterTransformer $registerTransformer)
     {
         parent::__construct();
         $this->emailService = $emailService;
+        $this->registerTransformer = $registerTransformer;
+
     }
 
     public function getCourse($course_id)
@@ -445,7 +449,9 @@ class CourseController extends ManageApiController
             }
         }
 
-        return ['message' => 'SUCCESS'];
+        return $this->respondSuccessWithStatus([
+            'register' => $this->registerTransformer->transform($register)
+        ]);
     }
 
     public function classes(Request $request)
