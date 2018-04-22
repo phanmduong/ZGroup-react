@@ -7,12 +7,12 @@ export function showAddMessageModal() {
         type: types.TOGGLE_ADD_MESSAGE_MODAL
     });
 }
+
 export function showAddReceiverModal() {
     return ({
         type: types.TOGGLE_ADD_RECEIVER_MODAL
     });
 }
-
 
 export function loadAllMessage(campaignId, page, search) {
     return function (dispatch) {
@@ -34,6 +34,7 @@ export function loadAllMessage(campaignId, page, search) {
             });
     };
 }
+
 export function loadTypeOfMessage() {
     return function (dispatch) {
         campaignApi.loadTypeOfMessageApi()
@@ -45,12 +46,14 @@ export function loadTypeOfMessage() {
             });
     };
 }
+
 export function upMessage(message) {
     return ({
         type: types.UPLOAD_MESSAGE,
         message
     });
 }
+
 export function saveMessage(campaignId, message) {
     return function (dispatch) {
         dispatch({
@@ -70,6 +73,7 @@ export function saveMessage(campaignId, message) {
             });
     };
 }
+
 export function editMessage(message) {
     return function (dispatch) {
         dispatch({
@@ -109,4 +113,67 @@ export function loadAllReceiver(campaignId, page, search) {
             });
     };
 }
+
+export function getReceiversModal(page, gens, classes, start_time, end_time, top, carer_id, rate, limit) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_RECEIVERS_MODAL
+        });
+        campaignApi.getReceiversModal(page, gens, classes, start_time, end_time, top, carer_id, rate, limit)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_RECEIVERS_MODAL_SUCCESS,
+                    receiversModal: res.data.users,
+                    currentPageModal: res.data.paginator.current_page,
+                    limitModal: res.data.paginator.limit,
+                    totalCountModal: res.data.paginator.total_count,
+                    totalPagesModal: res.data.paginator.total_pages,
+                });
+            });
+    };
+}
+
+export function loadAllGens() {
+    return function (dispatch) {
+        campaignApi.loadAllGens()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_GENS,
+                    gens: res.data.data.gens
+                });
+            });
+    };
+}
+
+export function loadAllClasses() {
+    return function (dispatch) {
+        campaignApi.loadAllClasses()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_CLASSES,
+                    classes: res.data.data.classes
+                });
+            });
+    };
+}
+
+export function toggleChooseReceivers() {
+    return ({
+        type: types.TOGGLE_CHOOSE_RECEIVERS
+    });
+}
+
+// export function chooseAllReceivers() {
+//     return function (dispatch) {
+//         campaignApi.loadAllGens()
+//             .then((res) => {
+//                 dispatch({
+//                     type: types.LOAD_ALL_GENS,
+//                     gens: res.data.data.gens
+//                 });
+//             });
+//     };
+// }
+
+
 

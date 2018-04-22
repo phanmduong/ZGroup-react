@@ -124,7 +124,7 @@ class OrderedContainer extends React.Component {
         });
         this.setState({
             page: 1,
-            searches: value
+            searches: searches
         });
         this.props.orderedProductAction.loadAllOrders(
             1,
@@ -144,7 +144,7 @@ class OrderedContainer extends React.Component {
         });
         this.setState({
             page: 1,
-            queries: value
+            queries: queries
         });
         this.props.orderedProductAction.loadAllOrders(
             1,
@@ -487,58 +487,58 @@ class OrderedContainer extends React.Component {
                         }
                     </div>
                     {/*<div>*/}
-                        {/*{*/}
-                            {/*this.props.isLoading ? (*/}
-                                {/*<Loading/>*/}
-                            {/*) : (*/}
-                                {/*<div>*/}
-                                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
-                                        {/*<div className="card card-stats">*/}
-                                            {/*<div className="card-header" data-background-color="orange">*/}
-                                                {/*<i className="material-icons">weekend</i>*/}
-                                            {/*</div>*/}
-                                            {/*<div className="card-content">*/}
-                                                {/*<p className="category">Tổng đơn chưa chốt</p>*/}
-                                                {/*<h3 className="card-title">{helper.dotNumber(this.props.notLocked)}</h3>*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
-                                        {/*<div className="card card-stats">*/}
-                                            {/*<div className="card-header" data-background-color="green">*/}
-                                                {/*<i className="material-icons">store</i>*/}
-                                            {/*</div>*/}
-                                            {/*<div className="card-content">*/}
-                                                {/*<p className="category">Tổng đơn hàng</p>*/}
-                                                {/*<h3 className="card-title">{helper.dotNumber(this.props.totalDeliveryOrders)}</h3>*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
-                                        {/*<div className="card card-stats">*/}
-                                            {/*<div className="card-header" data-background-color="rose">*/}
-                                                {/*<i className="material-icons">equalizer</i>*/}
-                                            {/*</div>*/}
-                                            {/*<div className="card-content">*/}
-                                                {/*<p className="category">Tổng tiền</p>*/}
-                                                {/*<h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
-                                        {/*<div className="card card-stats">*/}
-                                            {/*<div className="card-header" data-background-color="blue">*/}
-                                                {/*<i className="fa fa-twitter"/>*/}
-                                            {/*</div>*/}
-                                            {/*<div className="card-content">*/}
-                                                {/*<p className="category">Tổng tiền đã trả</p>*/}
-                                                {/*<h3 className="card-title">{helper.dotNumber(this.props.totalPaidMoney)}đ</h3>*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
-                            {/*)*/}
-                        {/*}*/}
+                    {/*{*/}
+                    {/*this.props.isLoading ? (*/}
+                    {/*<Loading/>*/}
+                    {/*) : (*/}
+                    {/*<div>*/}
+                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
+                    {/*<div className="card card-stats">*/}
+                    {/*<div className="card-header" data-background-color="orange">*/}
+                    {/*<i className="material-icons">weekend</i>*/}
+                    {/*</div>*/}
+                    {/*<div className="card-content">*/}
+                    {/*<p className="category">Tổng đơn chưa chốt</p>*/}
+                    {/*<h3 className="card-title">{helper.dotNumber(this.props.notLocked)}</h3>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
+                    {/*<div className="card card-stats">*/}
+                    {/*<div className="card-header" data-background-color="green">*/}
+                    {/*<i className="material-icons">store</i>*/}
+                    {/*</div>*/}
+                    {/*<div className="card-content">*/}
+                    {/*<p className="category">Tổng đơn hàng</p>*/}
+                    {/*<h3 className="card-title">{helper.dotNumber(this.props.totalDeliveryOrders)}</h3>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
+                    {/*<div className="card card-stats">*/}
+                    {/*<div className="card-header" data-background-color="rose">*/}
+                    {/*<i className="material-icons">equalizer</i>*/}
+                    {/*</div>*/}
+                    {/*<div className="card-content">*/}
+                    {/*<p className="category">Tổng tiền</p>*/}
+                    {/*<h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">*/}
+                    {/*<div className="card card-stats">*/}
+                    {/*<div className="card-header" data-background-color="blue">*/}
+                    {/*<i className="fa fa-twitter"/>*/}
+                    {/*</div>*/}
+                    {/*<div className="card-content">*/}
+                    {/*<p className="category">Tổng tiền đã trả</p>*/}
+                    {/*<h3 className="card-title">{helper.dotNumber(this.props.totalPaidMoney)}đ</h3>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*)*/}
+                    {/*}*/}
                     {/*</div>*/}
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="card">
@@ -554,7 +554,12 @@ class OrderedContainer extends React.Component {
                                             placeholder="Nhập tên hoặc số điện thoại khách hàng"
                                             options={[]}
                                             onChange={this.orderedSearchChange}
-                                            value={this.state.searches}
+                                            value={this.state.searches.map(search => {
+                                                return {
+                                                    value: search,
+                                                    label: search
+                                                };
+                                            })}
                                             valueComponent={PropertyReactSelectValue}
                                         />
                                     </div>
@@ -575,7 +580,12 @@ class OrderedContainer extends React.Component {
                                                 placeholder="Nhập mã hàng Nhật hoặc link sản phẩm"
                                                 options={[]}
                                                 onChange={this.queriesSearchChange}
-                                                value={this.state.queries}
+                                                value={this.state.queries.map(query => {
+                                                    return {
+                                                        value: query,
+                                                        label: query
+                                                    };
+                                                })}
                                                 valueComponent={PropertyReactSelectValue}
                                             />
                                         </div>

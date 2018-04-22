@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import *as campaignAction from "./campaignAction";
+import AddReceiverModal from "./AddReceiverModal";
+import AddMessageModal from "./AddMessageModal";
 
 
 class CampaignContainer extends React.Component {
@@ -35,6 +37,7 @@ class CampaignContainer extends React.Component {
 
     render() {
         this.path = this.props.location.pathname;
+        console.log("campaignContainer", this.campaignId);
         return (
             <div>
                 <IndexLink to={this.state.link}>
@@ -64,6 +67,10 @@ class CampaignContainer extends React.Component {
                 <div className="tab-content">
                     {this.props.children}
                 </div>
+                <AddReceiverModal
+                    campaignId={this.campaignId}/>
+                <AddMessageModal
+                    campaignId={this.campaignId}/>
             </div>
         );
     }

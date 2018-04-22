@@ -3,8 +3,6 @@ import Pagination from "../../components/common/Pagination";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import TooltipButton from "../../components/common/TooltipButton";
-import AddMessageModal from "./AddMessageModal";
-import AddReceiverModal from "./AddReceiverModal";
 import {bindActionCreators} from 'redux';
 import * as campaignAction from "./campaignAction";
 import Loading from "../../components/common/Loading";
@@ -183,9 +181,7 @@ class CampaignComponent extends React.Component {
                             </div>
                         )
                 }
-                <AddReceiverModal/>
-                <AddMessageModal
-                    campaignId={this.props.params.campaignId}/>
+
                 <div className="row float-right">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style={{textAlign: 'right'}}>

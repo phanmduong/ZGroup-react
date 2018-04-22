@@ -37,25 +37,25 @@ export default {
     },
 
 
-    smsCampaign:{
-        allMessage:[],template_types:[],campaignName:'',
-        allReceiver:[],campaign_needed_quantity: 0,
-        allHistory:[],sentMessageName:'',
+    smsCampaign: {
+        allMessage: [], template_types: [], campaignName: '',
+        allReceiver: [], campaign_needed_quantity: 0,
+        allHistory: [], sentMessageName: '',
         //Modal Them, sua message
-        message:{
-            name:'',
-            content:'',
+        message: {
+            name: '',
+            content: '',
             sms_template_type_id: '',
             send_time: '',
         },
         addMessageModal: false,
         addReceiverModal: false,
-        isSavingMessage:false,
+        isSavingMessage: false,
         upMessage: false,
-        upReceiver:false,
+        upReceiver: false,
         upHistory: false,
         isLoadingMessage: false,
-        isLoadingReceiver:false,
+        isLoadingReceiver: false,
         isLoadingHistory: false,
         // phan trang cua trang Campaign
         limitMessage: 20,
@@ -67,6 +67,15 @@ export default {
         currentPageReceiver: 1,
         totalPagesReceiver: 1,
         totalCountReceiver: 1,
+        receiversModal: [],
+        currentPageModal: 1,
+        limitModal: 10,
+        totalCountModal: 0,
+        totalPagesModal: 0,
+        isLoadingReceiversModal: false,
+        gens: [],
+        classes: [],
+        isChoosingReceivers: false
     },
 
     labelManage: {
@@ -166,8 +175,8 @@ export default {
         currentPage: 1,
         limit: 20,
         totalCount: 1,
-        comment:{
-            comment:'',
+        comment: {
+            comment: '',
         },
         report: [],
         reports: [],
