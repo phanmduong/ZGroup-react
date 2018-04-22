@@ -412,7 +412,7 @@ class EmailService
 
     public function send_mail_password($user, $password)
     {
-        $subject = 'Tài khoản demo KEETOOL';
+        $subject = 'KEETOOL - Tài khoản demo';
         $data = [
             'user' => $user,
             'password' => $password
@@ -420,7 +420,7 @@ class EmailService
 
         Mail::send('emails.user_password', $data, function ($m) use ($user, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
-            $m->to($email, $name)->subject($subject);
+            $m->to($user->email, $user->name)->subject($subject);
         });
     }
 }
