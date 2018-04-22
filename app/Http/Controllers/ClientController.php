@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use  GuzzleHttp\Client;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
