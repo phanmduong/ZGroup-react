@@ -14,28 +14,36 @@ class AllFilmContainer extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="form-group is-empty">
-                    <div className="flex-row flex">
-                        <h4 className="card-title" style={{lineHeight: '0px'}}><strong>Danh sách film</strong></h4>
-                        <div style={{lineHeight: '5  px'}}>
-                            <button
-                                onClick={()=>{
-                                    this.props.filmAction.showAddEditFilmModal();
-                                    this.props.filmAction.handleFilmModal({});
-                                }}
-                                className="btn btn-primary btn-round btn-xs button-add none-margin" type="button">
-                                <strong>+</strong>
-                            </button>
+            <div className="card">
+                <div className="card-content">
+                    <div className="tab-content">
+                        <div className="flex-row flex">
+                            <h4 className="card-title">
+                                <strong>Danh sách tất cả phim</strong>
+                            </h4>
+                            <div>
+                                <button
+                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                    type="button" class="btn btn-primary btn-round btn-xs button-add none-margin" type="button"
+                                    onClick={()=>{
+                                            this.props.filmAction.showAddEditFilmModal();
+                                            this.props.filmAction.handleFilmModal({});
+                                    }}>
+                                    <strong>+</strong>
+                                </button>
+                            </div>
                         </div>
+                                
+                    
+                        <Search
+                            onChange={()=>{}}
+                            value=""
+                            placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                        />
+                        <br/>
                     </div>
-                    <Search
-                        onChange={()=>{}}
-                        value=""
-                        placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
-                    /><br/>
-                </div>
-                <FilmComponent films={this.props.allFilms}/>
+                    <FilmComponent films={this.props.allFilms}/>
+                </div>    
             </div>
         );
     }

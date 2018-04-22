@@ -15,17 +15,21 @@ class ShowingFilmContainer extends React.Component{
     render() {
         let showing = this.props.allFilms.filter((film)=>(film.film_status == 1));
         return (
-            <div>
-                <div className="form-group is-empty">
+            <div className="card">
+                <div className="card-content">
+                    <br/>
                     <div className="flex-row flex">
-                        <h4 className="card-title" style={{lineHeight: '0px'}}><strong>Danh sách film đang chiếu</strong></h4>
-                        <div style={{lineHeight: '5  px'}}>
+                        <h4 className="card-title">
+                            <strong>Danh sách phim đang chiếu</strong>
+                        </h4>
+                        <div>
                             <button
+                                className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                type="button" class="btn btn-primary btn-round btn-xs button-add none-margin" type="button"
                                 onClick={()=>{
                                     this.props.filmAction.showAddEditFilmModal();
                                     this.props.filmAction.handleFilmModal({});
-                                }}
-                                className="btn btn-primary btn-round btn-xs button-add none-margin" type="button">
+                                }}>
                                 <strong>+</strong>
                             </button>
                         </div>
@@ -35,8 +39,8 @@ class ShowingFilmContainer extends React.Component{
                         value=""
                         placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
                     /><br/>
-                </div>
                 <FilmComponent films={showing}/>
+                </div>
             </div>
         );
     }

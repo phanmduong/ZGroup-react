@@ -25,30 +25,30 @@ class FilmContainer extends React.Component {
         return (
             <div>
                 <Link to={`${this.state.link}/all`}>
-                    <button type="button" style={{color: "white"}}
+                    <button type="button" style={{color: "white", width:160}}
                             className={this.path === `${this.state.link}/all` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
-                        Tất cả film
+                        Tất cả phim
                         <div className="ripple-container"/>
                     </button>
                 </Link>&emsp;
-                <Link to={`${this.state.link}/showing`} style={{color: "white"}}>
+                <Link to={`${this.state.link}/showing`} style={{color: "white", width:160}}>
                     <button type="button"
                             className={this.path === `${this.state.link}/showing` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
-                        Film đang chiếu
+                        Phim đang chiếu
                         <div className="ripple-container"/>
                     </button>
                 </Link>&emsp;
-                <Link to={`${this.state.link}/coming`} style={{color: "white"}}>
+                <Link to={`${this.state.link}/coming`} style={{color: "white", width:160}}>
                     <button type="button"
                             className={this.path === `${this.state.link}/coming` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
-                        Film sắp chiếu
+                        Phim sắp chiếu
                     </button>
-                </Link><br/><br/>
+                </Link>
 
-                <div className="tab-content">
+                <div>
                     {this.props.children}
                 </div>
                 <AddEditFilmModal/>

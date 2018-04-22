@@ -84,7 +84,7 @@ class AddEditFilmModal extends React.Component {
                             <div className="row">
                                 <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div className="card-content">
-                                        <h4 className="card-title">Ảnh đại diện</h4>
+                                        <label class="label-control" style={{marginBottom:15}}>Ảnh đại diện</label>
                                         <ImageUploader handleFileUpload={this.handleUpload}
                                                        tooltipText="Chọn ảnh đại diện"
                                                        image_url={this.props.filmModal.avatar_url}/>
@@ -93,7 +93,7 @@ class AddEditFilmModal extends React.Component {
                                 <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div className="card-content">
                                         <div className="form-group">
-                                            <h4 className="card-title">Thêm ảnh mô tả</h4>
+                                        <label class="label-control">Thêm ảnh mô tả</label>
                                             <UploadManyImages images_url=""
                                                               handleFileUpload={this.handleImages}
                                                               box="box-images-website-create"/>
@@ -102,115 +102,126 @@ class AddEditFilmModal extends React.Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Tên phim"
-                                    name="name"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.name || ''}
-                                    required
-                                />
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Trailer - Nhập link youtube"
-                                    name="trailer_url"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.trailer_url || ''}
-                                    required
-                                />
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Tên phim"
+                                        name="name"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.name || ''}
+                                        required
+                                    />
+                                </div>
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Trailer - Nhập link youtube"
+                                        name="trailer_url"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.trailer_url || ''}
+                                        required
+                                    />
+                                </div>    
                             </div>
                             <div className="row">
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Đạo diễn"
-                                    name="director"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.director || ''}
-                                    required
-                                />
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Diễn viên"
-                                    name="cast"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.cast || ''}
-                                    requireds
-                                />
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Đạo diễn"
+                                        name="director"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.director || ''}
+                                        required
+                                    />
+                                </div>    
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Diễn viên"
+                                        name="cast"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.cast || ''}
+                                        requireds
+                                    />
+                                </div>    
                             </div>
 
                             <div className="row">
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Thời lượng"
-                                    name="running_time"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.running_time || ''}
-                                    required
-                                />
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Ngày phát hành"
-                                    name="release_date"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.release_date || ''}
-                                    required
-                                />
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Thời lượng"
+                                        name="running_time"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.running_time || ''}
+                                        required
+                                    />
+                                </div>
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>    
+                                    <FormInputText
+                                        label="Ngày phát hành"
+                                        name="release_date"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.release_date || ''}
+                                        required
+                                    />
+                                </div>    
                             </div>
                             <div className="row">
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Quốc gia"
-                                    name="country"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.country || ''}
-                                    required
-                                />
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Ngôn ngữ"
-                                    name="language"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.language || ''}
-                                    required
-                                />
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Quốc gia"
+                                        name="country"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.country || ''}
+                                        required
+                                    />
+                                </div>
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>    
+                                    <FormInputText
+                                        label="Ngôn ngữ"
+                                        name="language"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.language || ''}
+                                        required
+                                    />
+                                </div>    
                             </div>
                             <div className="row">
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Thể loại film"
-                                    name="film_genre"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.film_genre || ''}
-                                    required
-                                />
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Rate"
-                                    name="rate"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.rate || ''}
-                                    required
-                                />
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Thể loại film"
+                                        name="film_genre"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.film_genre || ''}
+                                        required
+                                    />
+                                </div>
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>    
+                                    <FormInputText
+                                        label="Rate"
+                                        name="rate"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.rate || ''}
+                                        required
+                                    />
+                                </div>    
                             </div>
                             <div className="row">
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Giới hạn độ tuổi"
-                                    name="film_rated" type="number"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.film_rated || ''}
-                                    required
-                                />
-                                <FormInputText
-                                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                    label="Status"
-                                    name="film_status"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.filmModal.film_status || ''}
-                                    required
-                                />
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Giới hạn độ tuổi"
+                                        name="film_rated" type="number"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.film_rated || ''}
+                                        required
+                                    />
+                                </div>  
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>  
+                                    <FormInputText
+                                        label="Status"
+                                        name="film_status"
+                                        updateFormData={this.updateFormData}
+                                        value={this.props.filmModal.film_status || ''}
+                                        required
+                                    />
+                                </div>    
                             </div>
-
 
                             <div className="form-group">
                                 <label className="label-control">Mô tả</label>

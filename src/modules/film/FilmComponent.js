@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import * as filmAction from "./filmAction";
 import {bindActionCreators} from 'redux';
 import {confirm} from "../../helpers/helper";
-
+import TooltipButton from '../../components/common/TooltipButton';
 
 class FilmComponent extends React.Component {
     constructor(props, context) {
@@ -41,31 +41,34 @@ class FilmComponent extends React.Component {
                                     </Link>
                                 </div>
                                 <div className="card-content" style={{minHeight: '140px'}}>
-                                    <div className="card-action" style={{height: 50}}>
-                                        <Link to={`/film/film/` + film.id}>
-                                            <h4 className="card-title">
+                                    <div className="card-action" style={{height: 50, justifyContent:"space-between", display:"flex"}}>
+                                        <div><h4 className="card-title" style={{ fontWeight: 400}}>
+                                            <Link to={`/film/film/` + film.id}>
                                                 {film.name}
-                                            </h4>
-                                        </Link>
+                                            </Link>
+                                        </h4>
+                                        
+                                        </div>
                                         <div className="btn-group-action">
-                                            <div style={{display: 'inline-block'}}>
-                                                <a data-toggle="tooltip" title=""
-                                                   onClick={()=>{
+                                            <TooltipButton text="Sửa phim" placement="top"><a onClick={()=>{
                                                        this.props.filmAction.showAddEditFilmModal();
                                                        this.props.filmAction.handleFilmModal(film);
-                                                   }}
-                                                   type="button" rel="tooltip"
-                                                   data-original-title="Sửa"><i
-                                                    className="material-icons">edit</i></a></div>
-                                            <a data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                               onClick={() => this.delFilm(film)}
-                                               data-original-title="Xoá"><i className="material-icons">delete</i></a>
+                                                   }}><i className="material-icons">edit</i>
+                                            </a></TooltipButton>
+                                            <TooltipButton text="Xóa phim" placement="top"><a onClick={() => this.delFilm(film)}><i className="material-icons">delete</i></a></TooltipButton>
                                         </div>
-                                        <div>{
+                                    </div> 
+                                    <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
+                                        <p className="category">{film.summary}</p>
+                                    </div>   
+                                    <div>{
                                             film.film_status == 0 ? <h5>Chưa sử dụng</h5> : ""
                                         }
-                                        </div>
                                     </div>
+
+                                        
+
+                                   
                                 </div>
                             </div>
                         </div>
