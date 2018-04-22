@@ -46,7 +46,7 @@ class FreeTrialController extends Controller
             $role->restore();
         }
 
-        $user->roles()->attach(9);
+        $user->roles()->attach($role);
 
         // send mail password to user
         $this->emailService->send_mail_password($user, $password);
