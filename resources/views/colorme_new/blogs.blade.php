@@ -31,8 +31,9 @@
                                                         </div>
                                                         <div class="product-info">
                                                             <div style="font-size: 16px; border-bottom: 1px solid rgb(217, 217, 217); padding: 10px; display: flex; justify-content: space-between;">
-                                                                <a href="/blog/{{$blog['slug']}}" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
-                                                                    {{strlen($blog['title']) > 20 ? mb_substr($blog['title'],0,19, 'utf-8') . '...' : $blog['title']}}
+                                                                <a href="/blog/{{$blog['slug']}}" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;" data-toggle="tooltip"
+                                                                    title="{{$blog['title']}}">
+                                                                    {{strlen($blog['title']) > 25 ? mb_substr($blog['title'],0,24, 'utf-8') . '...' : $blog['title']}}
                                                                 </a>
                                                             </div>
                                                             <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
@@ -74,6 +75,54 @@
             </div>
         </div>
     </div>
+    <hr>
+    <div id="pagination-blogs">
+        <div class="pagination-area">
+            <ul class="pagination pagination-primary">
+                <li class="page-item">
+                    <a href="/blogs?page=1&search={{$search}}" class="page-link">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li v-for="page in pages" v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                    <a v-bind:href="'/blogs?page='+page+'&search={{$search}}'" class="page-link">
+                        @{{page}}
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="/blogs?page={{$total_pages}}&search={{$search}}" class="page-link">
+                        <i class="fa fa-angle-double-right" aria-hidden="true">
+                        </i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br>
     <!--  -->
 </div>
-@endsection
+@endsection @push('scripts')
+<script>
+        var search = new Vue({
+            el: '#search-blog',
+            data: {
+                search: '{!! $search !!}'
+            },
+            methods: {
+                searchBlog: function () {
+                    window.open('/blog?page=1&search=' + this.search, '_self');
+                }
+            }
+
+        })
+
+        var pagination = new Vue({
+            el: '#pagination-blogs',
+            data: {
+                pages: []
+            },
+        });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
+</script>
+@endpush
