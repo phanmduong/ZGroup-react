@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeInfoCustomerGroupsTable2 extends Migration
+class ChangeNullableFilmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,11 @@ class ChangeInfoCustomerGroupsTable2 extends Migration
      */
     public function up()
     {
-        Schema::table('info_customer_groups', function(Blueprint $table) {
-            $table->integer('ship_price')->default(0);
+        //
+        Schema::table('films', function (Blueprint $table) {
+            $table->integer('film_status')->unsigned()->default("0")->nullable()->change();
+            $table->string('film_rated')->nullable()->change();
+
         });
     }
 
