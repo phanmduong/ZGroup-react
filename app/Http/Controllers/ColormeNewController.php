@@ -216,8 +216,6 @@ class ColormeNewController extends CrawlController
 
     public function blogs(Request $request)
     {
-        $string = "Bí quyết có bộ nhận diện thương hiệu ấn tượng";
-        dd(mb_substr($string, 0, 19, 'utf-8'));
         $limit = $request->limit ? $request->limit : 12;
         $search = $request->search;
 
