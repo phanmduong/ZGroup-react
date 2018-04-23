@@ -95,7 +95,7 @@ class Product extends Model
             'meta_description' => $this->meta_description,
             'meta_title' => $this->meta_title,
             'keyword' => $this->keyword,
-            'created_at' => time_remain_string($this->created_at),
+            // 'created_at' => time_remain_string($this->created_at),
             'views' => $this->views,
         ];
     }
