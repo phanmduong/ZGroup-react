@@ -926,6 +926,7 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     Route::get('/post/categories', 'ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
+    Route::get('/extract', 'ManageBlogController@extract');
     //End blog api
 
     //Begin register students api

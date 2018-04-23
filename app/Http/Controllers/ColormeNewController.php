@@ -223,7 +223,7 @@ class ColormeNewController extends CrawlController
             ->where('title', 'like', "%$search%")
             ->orderBy('created_at', 'desc')->paginate($limit);
         // dd($blogs);
-       
+
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
@@ -244,11 +244,21 @@ class ColormeNewController extends CrawlController
         $blog->save();
         $data = $blog->blogDetailTransform();
         $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
-    
+
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
 
         return view('colorme_new.blog', $this->data);
+    }
+
+    public function extract()
+    {
+        $blogs = Product::all();
+        foreach ($blogs as $blog) {
+            $category = $blog->category;
+            if($category != null)
+                $blog->productCategories()->attach($category->id);
+        }
     }
 }
