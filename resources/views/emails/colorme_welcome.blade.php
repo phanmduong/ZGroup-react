@@ -135,7 +135,7 @@
                                     <!-- BLOCK - 1 column / main -->
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding-top: 0px; padding-right: 30px; padding-left: 30px;">
                                                 <tr style="text-align: center;vertical-align: middle;">
-                                                    <td style="text-align: center;background: #00396c">
+                                                    <td style="text-align: center;background: #e8e8e8">
                                                         <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" alt="Logo" style="margin:20px" height="35px"/>
                                                     </td>
                                                 </tr>
