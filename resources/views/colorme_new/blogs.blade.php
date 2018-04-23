@@ -78,7 +78,6 @@
             </div>
         </div>
     </div>
-    <hr>
     <div id="pagination-blogs">
         <div class="pagination-area">
             <ul class="pagination pagination-primary">
