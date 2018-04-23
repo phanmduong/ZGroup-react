@@ -9,6 +9,11 @@ import Pagination from "../../../../components/common/Pagination";
 import { Link } from "react-router";
 import RequestVacationConfirmModal from "./RequestVacationConfirmModal";
 import moment from "moment";
+import { Modal, Panel } from 'react-bootstrap';
+import ReactSelect from 'react-select';
+import FormInputText from "../../../../components/common/FormInputText";
+import FormInputDate from "../../../../components/common/FormInputDate";
+import * as helper from "../../../../helpers/helper";
 //import * as helper from "../../../../helpers/helper";
 
 class RequestVacationContainer extends React.Component {
@@ -20,11 +25,27 @@ class RequestVacationContainer extends React.Component {
             currentRequest: {
                 staff: {},
             },
-
+            showLoadingModal: false,
+            showPanel: false,
+            filter: {
+                start_time: "",
+                end_time: "",
+                status: null,
+                staff_name: "",
+                command_code: "",
+                page: 1,
+                type: "",
+            },
         };
         this.openConfirmModal = this.openConfirmModal.bind(this);
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
         this.submitConfirmModal = this.submitConfirmModal.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
+        this.openLoadingModal = this.openLoadingModal.bind(this);
+        this.openPanel = this.openPanel.bind(this);
+        this.onFilterChange = this.onFilterChange.bind(this);
+        this.onTextFilterChange = this.onTextFilterChange.bind(this);
+        this.onDateFilterChange = this.onDateFilterChange.bind(this);
     }
 
     componentWillMount() {
@@ -36,7 +57,7 @@ class RequestVacationContainer extends React.Component {
     //     console.log(next);
     // }
 
-    openConfirmModal(showInfoModal,currentRequest) {
+    openConfirmModal(showInfoModal, currentRequest) {
         this.setState({ showConfirmModal: true, currentRequest, showInfoModal });
     }
 
@@ -48,15 +69,94 @@ class RequestVacationContainer extends React.Component {
         this.props.requestActions.confirmRequestVacation(this.state.currentRequest.id,
             () => {
                 this.closeConfirmModal();
-                this.props.requestActions.getAllRequestVacation({ page: this.props.paginator.current_page });
+                this.props.requestActions.getAllRequestVacation(this.state.filter);
             }
         );
 
     }
 
+    openPanel() {
+        let { showPanel } = this.state;
+        this.setState({ showPanel: !showPanel });
+    }
+
+    openLoadingModal() {
+        this.setState({ showLoadingModal: true });
+        this.props.requestActions.getRequestVacationNoPaging(this.exportExcel, () => this.setState({ showLoadingModal: false }));
+    }
+
+
+
+    exportExcel(input) {
+        let wb = helper.newWorkBook();
+        let data;
+        let cols = [{ "wch": 5 }, { "wch": 40 }, { "wch": 25 }, { "wch": 15 }, { "wch": 20 }, { "wch": 20 }, { "wch": 15 }, { "wch": 25 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 }, { "wch": 15 },];//độ rộng cột  
+
+        data = input.reverse().map((item, index) => {
+
+            /* eslint-disable */
+            let status = "Chưa duyệt";
+            switch (item.status) {
+                case 1: {
+                    status = "Đã duyệt";
+                    break;
+                }
+            }
+            let res = {
+                'STT': index + 1,
+                'Mã nghỉ phép': item.command_code,
+                'Tên nhân viên': item.staff ? item.staff.name : "Không có",
+                'Ngày nộp đơn': moment(item.created_at.date).format("D/M/YYYY"),
+                'Ngày bắt đầu': moment(item.start_time).format("D/M/YYYY"),
+                'Ngày kết thúc': moment(item.end_time).format("D/M/YYYY"),
+                'Lý do': item.reason,
+                'Hình thức': item.type == "pay" ? "Có lương" : "Không lương",
+                'Trạng thái': status,
+
+            };
+            /* eslint-enable */
+            return res;
+        });
+        helper.appendJsonToWorkBook(data, wb, 'Danh sách nghỉ phép', cols);
+
+        //xuất file
+        helper.saveWorkBookToExcel(wb, 'Danh sách nghỉ phép Zgroup');
+
+        this.setState({ showLoadingModal: false });
+    }
+
+
+    onFilterChange(field, value) {
+        let filter = { ...this.state.filter };
+        if (filter[field] == value) return;
+        filter[field] = value ? value : (value == 0 ? value : "");
+        if (field != "page") filter.page = this.props.paginator.current_page;
+        this.setState({ filter });
+        this.props.requestActions.getAllRequestVacation(filter);
+    }
+
+    onTextFilterChange(e) {
+        let { name, value } = e.target;
+        let filter = { ...this.state.filter };
+        if (filter[name] == value) return;
+        filter[name] = value ? value : (value == 0 ? value : "");
+        this.setState({ filter });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.requestActions.getAllRequestVacation(filter);
+        }.bind(this), 500);
+    }
+
+    onDateFilterChange(e) {
+        let { name, value } = e.target;
+        this.onFilterChange(name, value);
+    }
+
     render() {
-        let { isLoading, requestVacations, paginator, requestActions, user } = this.props;
-        let { showConfirmModal, showInfoModal, currentRequest } = this.state;
+        let { isLoading, requestVacations, paginator, user } = this.props;
+        let { showConfirmModal, showInfoModal, currentRequest, showLoadingModal, showPanel, filter, } = this.state;
         return (
             <div className="content">
                 <RequestVacationConfirmModal
@@ -66,6 +166,12 @@ class RequestVacationContainer extends React.Component {
                     submit={this.submitConfirmModal}
                     isInfoModal={showInfoModal}
                 />
+                <Modal
+                    show={showLoadingModal}
+                    onHide={() => { }}>
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading /></Modal.Body>
+                </Modal>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -77,12 +183,97 @@ class RequestVacationContainer extends React.Component {
 
                                 <div className="card-content">
                                     <h4 className="card-title">Danh sách xin nghỉ phép</h4>
-                                    <div className="row">
-                                        <div className="col-md-3">
+                                    <div style={{ display: "flex" }}>
+                                        <div style={{ marginRight: 5 }}>
                                             <Link className="btn btn-rose" to="/administration/request/vacation/create">
                                                 <i className="material-icons">add</i>Xin nghỉ phép</Link>
+
+                                        </div>
+                                        <div style={{ marginRight: 5 }}>
+                                            <button className="btn btn-rose" onClick={this.openLoadingModal} >Xuất file excel</button>
+                                        </div>
+                                        <div style={{ marginRight: 5 }}>
+                                            <button className="btn btn-rose" onClick={this.openPanel} >
+                                                <i className="material-icons">filter_list</i>
+                                                Lọc</button>
                                         </div>
                                     </div>
+                                    <Panel collapsible expanded={showPanel} bsStyle="primary">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="row">
+                                                    <div className="col-md-3">
+                                                        <label>Trạng thái</label>
+                                                        <ReactSelect
+                                                            options={statusFilter || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("status", e ? e.id : "");
+                                                            }}
+                                                            value={filter.status}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <label>Lương</label>
+                                                        <ReactSelect
+                                                            options={typesFilter || []}
+                                                            onChange={(e) => {
+                                                                return this.onFilterChange("type", e ? e.id : "");
+                                                            }}
+                                                            value={filter.type}
+                                                            defaultMessage="Chọn"
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <FormInputText
+                                                            name="command_code"
+                                                            value={filter.command_code}
+                                                            label="Mã hành chính"
+                                                            updateFormData={this.onTextFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+
+
+                                                    <div className="col-md-3">
+                                                        <FormInputText
+                                                            name="staff_name"
+                                                            value={filter.staff_name}
+                                                            label="Nhân viên"
+                                                            updateFormData={this.onTextFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <FormInputDate
+                                                            name="start_time"
+                                                            id="start_time"
+                                                            value={filter.start_time}
+                                                            label="Từ ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <FormInputDate
+                                                            name="end_time"
+                                                            id="end_time"
+                                                            value={filter.end_time}
+                                                            label="Đến ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </Panel>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="col-md-12">
@@ -120,7 +311,7 @@ class RequestVacationContainer extends React.Component {
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
                                                                                 <td>
-                                                                                    <a onClick={()=>this.openConfirmModal(true,obj)}>
+                                                                                    <a onClick={() => this.openConfirmModal(true, obj)}>
                                                                                         {obj.command_code}
                                                                                     </a>
                                                                                 </td>
@@ -135,7 +326,7 @@ class RequestVacationContainer extends React.Component {
                                                                                     children={
                                                                                         (obj.status == 0 && user.role == 2) ?
                                                                                             <a key="1" data-toggle="tooltip" title="Duyệt" type="button" rel="tooltip"
-                                                                                                onClick={() => { this.openConfirmModal(false,obj); }}>
+                                                                                                onClick={() => { this.openConfirmModal(false, obj); }}>
                                                                                                 <i className="material-icons">done</i></a>
                                                                                             : <div />
                                                                                     }
@@ -148,7 +339,7 @@ class RequestVacationContainer extends React.Component {
                                                             <div style={{ display: "flex", flexDirection: "row-reverse" }}><Pagination
                                                                 currentPage={paginator.current_page}
                                                                 totalPages={paginator.total_pages}
-                                                                loadDataPage={(id) => { return requestActions.getAllRequestVacation({ page: id }); }}
+                                                                loadDataPage={(id) => { return this.onFilterChange('page', id); }}
                                                             /></div>
                                                         </div>
                                                 }
@@ -190,3 +381,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestVacationContainer);
+
+const statusFilter = [
+    { id: -1, value: -1, label: "Chưa duyệt", },
+    { id: 1, value: 1, label: "Đã duyệt", },
+];
+
+const typesFilter = [
+    { id: "pay", value: "pay", label: "Có lương", },
+    { id: "nopay", value: "nopay", label: "Không lương", },
+
+];

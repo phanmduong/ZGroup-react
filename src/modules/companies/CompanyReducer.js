@@ -14,7 +14,7 @@ export default function companyReducer(state = initialState.companies, action) {
             return {
                 ...state,
                 isLoadingCompanies: false,
-                company: data,
+                companyList: data,
                 paginator: action.paginator,
             };
         }

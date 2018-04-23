@@ -31,6 +31,7 @@ class ListRegister extends React.Component {
                         <th>Saler</th>
                         <th>Chiến dịch</th>
                         <th>Học phí</th>
+                        <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
                         <th>Hẹn nộp</th>
                         <th/>
@@ -105,7 +106,7 @@ class ListRegister extends React.Component {
                                             (
                                                 <Link className="btn btn-xs btn-main"
                                                       style={{backgroundColor: '#' + register.saler.color}}
-                                                      to={`/teaching/registerlist/${register.saler.id}`}
+                                                      to={`/sales/registerlist/${register.saler.id}`}
                                                 >
                                                     {helper.getShortName(register.saler.name)}
                                                     <div className="ripple-container"/>
@@ -114,7 +115,7 @@ class ListRegister extends React.Component {
                                             :
                                             (
                                                 <Link className="btn btn-xs btn-main no-data"
-                                                      to={`/teaching/registerlist/-1`}
+                                                      to={`/sales/registerlist/-1`}
                                                 >
                                                     Không có
                                                     <div className="ripple-container"/>
@@ -160,6 +161,7 @@ class ListRegister extends React.Component {
                                             : 'Chưa nộp'
                                     }
                                 </td>
+                                <td>{register.coupon}</td>
                                 <td>
                                     <div data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"
