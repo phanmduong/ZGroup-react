@@ -221,21 +221,30 @@ class ColormeNewController extends CrawlController
 
         $blogs = Product::where('kind', 'blog')->where('status', 1)
             ->where('title', 'like', "%$search%")
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc')->paginate($limit);
+        // dd($blogs);
+       
+
+        $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
+        $this->data['current_page'] = $blogs->currentPage();
+
         $blogs = $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             return $data;
         });
         $this->data['blogs'] = $blogs;
+        $this->data['search'] = $search;
         return view('colorme_new.blogs', $this->data);
     }
 
     public function blog($slug, Request $request)
     {
         $blog = Product::where('slug', $slug)->first();
+        $blog->views += 1;
+        $blog->save();
         $data = $blog->blogDetailTransform();
         $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
-
+    
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
