@@ -87,6 +87,7 @@ class ManageShiftController extends ManageController
 
     public function register_shift(Request $request)
     {
+        dd("test");
         $shiftId = $request->shift_id;
         $shift = Shift::find($shiftId);
         if ($shift->user) {
