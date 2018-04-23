@@ -34,29 +34,29 @@
                         <div class="product-content">
                             {!!$blog['content']!!}
                         </div>
-                        <div class="article-footer">
-                            <div class="container">
-                                <div class="row">
 
-                                    <div class="col-md-10">
-                                    
-                                    </div>
-                                    <div class="col-md-2">
+                        <div class="product-content">
+                            <div class="row">
+                                <div class="col-md-10">
 
-                                        <div class="sharing">
-                                            <div class="fb-share-button fb_iframe_widget" data-href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"
-                                                data-layout="button" data-size="large" data-mobile-iframe="true" fb-xfbml-state="rendered"
-                                                fb-iframe-plugin-query="app_id=1700581200251148&amp;container_width=49&amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large">
-                                                <span style="vertical-align: bottom; width: 83px; height: 28px;">
-                                                    <iframe name="f2b7ac78cc2a6a" width="1000px" height="1000px" frameborder="0"
-                                                        allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:share_button Facebook Social Plugin"
-                                                        src="https://www.facebook.com/v2.10/plugins/share_button.php?app_id=1700581200251148&amp;container_width=49&amp;href={{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}} &amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large"
-                                                        style="border: none; visibility: visible; width: 83px; height: 28px;"
-                                                        class=""></iframe>
-                                                </span>
-                                            </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="sharing">
+                                        <div class="fb-share-button fb_iframe_widget" data-href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"
+                                            data-layout="button" data-size="large" data-mobile-iframe="true" fb-xfbml-state="rendered"
+                                            fb-iframe-plugin-query="app_id=1700581200251148&amp;container_width=49&amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large">
+                                            <span style="vertical-align: bottom; width: 83px; height: 28px;">
+                                                <iframe name="f2b7ac78cc2a6a" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true"
+                                                    scrolling="no" title="fb:share_button Facebook Social Plugin" src="https://www.facebook.com/v2.10/plugins/share_button.php?app_id=1700581200251148&amp;container_width=49&amp;href={{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}} &amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large"
+                                                    style="border: none; visibility: visible; width: 83px; height: 28px;" class=""></iframe>
+                                            </span>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="comments media-area">
+                                <div class="fb-comments" data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}" data-width="100%"
+                                    data-numposts="5">
                                 </div>
                             </div>
                         </div>
@@ -64,16 +64,14 @@
                             <div style="margin-top: 20px;">
                                 <a href="/profile/{{$blog['author']['email']}}" class="more-products">
                                     <h5>
-                                        <!-- react-text: 83 -->Bài viết khác từ
-                                        <!-- /react-text -->
-                                        <!-- react-text: 84 -->{{$blog['author']['name']}}
-                                        <!-- /react-text -->
+                                        Bài viết khác từ
+                       
+                                        {{$blog['author']['name']}}
                                     </h5>
                                 </a>
                                 <div class="more-products-container">
                                     @foreach($related_blogs as $related_blog)
-                                    <a class="more-products-item" style="background-image: url({{$related_blog->url}})"
-                                        href="/blog/{{$related_blog->slug}}"></a>
+                                    <a class="more-products-item" style="background-image: url({{$related_blog->url}})" href="/blog/{{$related_blog->slug}}"></a>
                                     @endforeach
                                 </div>
                             </div>
