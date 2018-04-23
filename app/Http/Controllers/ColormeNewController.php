@@ -216,20 +216,15 @@ class ColormeNewController extends CrawlController
 
     public function blogs(Request $request)
     {
+        dd(Product::where('author_id', 2)->first()->blogTransform());
         $limit = $request->limit ? $request->limit : 12;
         $search = $request->search;
-
         // $current_gen = Gen::getCurrentGen();
         $blogs = Product::where('kind', 'blog')->where('status', 1)
             ->where('title', 'like', "%$search%")
-            ->leftJoin('comments', 'products.id', '=', 'comments.product_id')
-            ->select('products.*', DB::raw('count(comments.id) as comments_count'))->groupBy('products.id')
             ->orderBy('created_at', 'desc')->get();
-            // ->paginate($limit);
-
         $blogs = $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
-            $data['comments_count'] = $blog->comments_count;
             return $data;
         });
         $this->data['blogs'] = $blogs;
@@ -239,7 +234,6 @@ class ColormeNewController extends CrawlController
     public function blog($slug, Request $request)
     {
         $blog = Product::where('slug', $slug)->first();
-
         $data = $blog->blogDetailTransform();
         $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
 
@@ -248,22 +242,5 @@ class ColormeNewController extends CrawlController
         $this->data['blog'] = $data;
 
         return view('colorme_new.blog', $this->data);
-    }
-
-    public function change_data()
-    {
-        // dd(convert_vi_to_en('') . '-' . 21239);
-        $products = Product::all();
-        foreach ($products as $product) {
-            if (trim($product->title == ''))
-                $product->slug = $product->id;
-            else
-                $product->slug = convert_vi_to_en($product->title) . '-' . $product->id;
-            $product->save();
-        }
-        return [
-            'asdk' => 'askd'
-        ];
-
     }
 }
