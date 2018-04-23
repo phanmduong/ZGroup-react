@@ -11,13 +11,12 @@ use App\ShiftPick;
 use App\ShiftSession;
 use App\User;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\Redis;
 
 class ManageShiftController extends ManageController
 {
-    protected $shiftTransfromer, $shiftPickTransformer;
+    protected $shiftTransfromer;
+    protected $shiftPickTransformer;
 
     public function __construct(ShiftTransformer $shiftTransformer, ShiftPickTransformer $shiftPickTransformer)
     {
@@ -106,17 +105,17 @@ class ManageShiftController extends ManageController
             $shift_pick->save();
 
             $data = json_encode([
-                "id" => $shift->id,
-                "user" => [
+                'id' => $shift->id,
+                'user' => [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
-                    'avatar_url' => $this->user->avatar_url
+                    'avatar_url' => generate_protocol_url($this->user->avatar_url)
                 ]
             ]);
-            $publish_data = array(
-                "event" => "regis-shift",
-                "data" => $data
-            );
+            $publish_data = [
+                'event' => 'regis-shift',
+                'data' => $data
+            ];
             Redis::publish(config('app.channel'), json_encode($publish_data));
 
             return response()->json([
@@ -125,7 +124,7 @@ class ManageShiftController extends ManageController
                 'user' => [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
-                    'avatar_url' => $this->user->avatar_url
+                    'avatar_url' => generate_protocol_url($this->user->avatar_url)
                 ]
             ]);
         }
@@ -177,7 +176,7 @@ class ManageShiftController extends ManageController
 
     public function get_bases()
     {
-        if ($this->user->base){
+        if ($this->user->base) {
             $bases = [$this->user->base];
             $rawBases = Base::where('center', 1)->orderBy('created_at')->get();
             foreach ($rawBases as $b) {
@@ -186,11 +185,10 @@ class ManageShiftController extends ManageController
                 }
             }
             return $bases;
-        }else {
+        } else {
             $rawBases = Base::where('center', 1)->orderBy('created_at')->get();
             return $rawBases;
         }
-
     }
 
     public function get_current_shifts($gen_id = null, Request $request)
@@ -261,16 +259,16 @@ class ManageShiftController extends ManageController
         $shift_pick->save();
 
         $data = json_encode([
-            "id" => $shift->id,
+            'id' => $shift->id,
         ]);
-        $publish_data = array(
-            "event" => "remove-shift",
-            "data" => $data
-        );
+        $publish_data = [
+            'event' => 'remove-shift',
+            'data' => $data
+        ];
         Redis::publish(config('app.channel'), json_encode($publish_data));
 
         return response()->json([
-            'message' => "Bỏ đăng ký thành công",
+            'message' => 'Bỏ đăng ký thành công',
             'status' => 1
         ]);
     }
