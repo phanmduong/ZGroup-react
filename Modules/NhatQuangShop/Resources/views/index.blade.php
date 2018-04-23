@@ -131,7 +131,7 @@
 
 
                     <?php
-                    function get_all_childs($parentId)
+                    use App\Good;function get_all_childs($parentId)
                     {
                         $results = array("-1");
                         $childs = \App\GoodCategory::where('parent_id', $parentId)->get();
@@ -188,12 +188,10 @@
 
             {{--goods list--}}
             <div class="col-md-9">
-                @if($newestGoods)
+                @if(0)
                     <div class="container" id="bookinfo">
                         <br>
                         <div class="row">
-                            <!--thanh search-->
-
                             <!--san pham noi bat-->
                             <div class="col-md-6">
                                 <div>
@@ -215,8 +213,6 @@
                         <div class="row" id="vuejs1" style="background-color: #ffffff;padding-top:8px">
                             <div class="container">
                                 <div class="row">
-
-                                    <?php use App\Good;$i = 0;$classes = array('col-md-6 padding-8', 'col-md-6 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8', 'col-md-3 padding-8');?>
                                     @include('nhatquangshop::common.products_show',['someGoods'=>$highLightGoods])
                                 </div>
                             </div>
@@ -257,13 +253,13 @@
                         <br>
                         <br>
                     </div>
-                    <?php $numbers = array("first");?>
+                    <!--                    --><?php //$numbers = array("first");?>
                     @foreach($goodCategories as $goodCategory)
                         <?php
-                        if ($goodCategory->id == $numbers[count($numbers) - 1]) {
-                            continue;
-                        }
-                        array_push($numbers, $goodCategory->id);
+                        //                        if ($goodCategory->id == $numbers[count($numbers) - 1]) {
+                        //                            continue;
+                        //                        }
+                        //                        array_push($numbers, $goodCategory->id);
                         $relateGoods = Good::where("good_category_id", "=", $goodCategory->id)->take(6)->get(); ?>
                         @if(count($relateGoods)>0)
                             <div class="container">
@@ -296,6 +292,10 @@
                             </div>
                         @endif
                     @endforeach
+                @else
+                        <div class="container">
+                            <?php echo $results ?>
+                        </div>
                 @endif
             </div>
         </div>
