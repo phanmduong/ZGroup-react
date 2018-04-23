@@ -5,7 +5,8 @@ import {bindActionCreators} from 'redux';
 import *as filmAction from "./filmAction";
 import AddEditFilmModal from "./AddEditFilmModal";
 import {Link} from 'react-router';
-
+import Search from "../../components/common/Search";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class FilmContainer extends React.Component {
     constructor(props, context) {
@@ -48,8 +49,45 @@ class FilmContainer extends React.Component {
                     </button>
                 </Link>
 
-                <div>
-                    {this.props.children}
+
+
+                <div className="card">
+                    <div className="card-content">
+                        <div className="tab-content">
+                            <div className="flex-row flex">
+                                <h4 className="card-title">
+                                    <strong>Danh sách phim</strong>
+                                </h4>
+                                <div>
+                                    <TooltipButton
+                                        placement="top"
+                                        text="Thêm film">
+                                    <button
+                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                        type="button"
+                                        onClick={()=>{
+                                            this.props.filmAction.showAddEditFilmModal();
+                                            this.props.filmAction.handleFilmModal({});
+                                        }}>
+
+                                        <strong>+</strong>
+                                    </button>
+                                    </TooltipButton>
+                                </div>
+                            </div>
+
+
+                            <Search
+                                onChange={()=>{}}
+                                value=""
+                                placeholder="Nhập tên phim để tìm kiếm"
+                            />
+                            <br/>
+                        </div>
+                        <div>
+                            {this.props.children}
+                        </div>
+                    </div>
                 </div>
                 <AddEditFilmModal/>
             </div>
