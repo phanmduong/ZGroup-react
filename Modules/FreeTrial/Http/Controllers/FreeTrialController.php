@@ -64,13 +64,13 @@ class FreeTrialController extends Controller
         ]);
 
         // login this account
-        Auth::login($user, true);
-        $token = JWTAuth::fromUser($user);
+        // Auth::login($user, true);
+        // $token = JWTAuth::fromUser($user);
 
         // redirect to manage.keetool.xyz
         return view('freetrial::index', [
-            'token' => $token,
-            'user' => json_encode($user)
+            'email' => $user->email,
+            'password' => $password
         ]);
     }
 }
