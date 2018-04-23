@@ -154,6 +154,8 @@
                                                             Email: {{$user->email}}   <br/>
                                                             Số điện thoại: {{$user->phone}} <br/>
                                                         </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>
                                                             <p>
                                                                 Cảm ơn bạn đã đăng kí nhận thông tin từ colorME, chúng tôi sẽ thường xuyên gửi cho bạn các tài liệu và bài viết bổ ích, nhớ check email của colorME thường xuyên bạn nhé.
@@ -164,7 +166,6 @@
                                                             </p>
                                                         </td>
                                                     </tr>
-
                                                     </tbody></table>
                                             </td></tr></tbody></table>
                                     <!-- end BLOCK - 1 column / main -->
