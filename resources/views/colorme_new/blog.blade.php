@@ -72,7 +72,8 @@
                                 </a>
                                 <div class="more-products-container">
                                     @foreach($related_blogs as $related_blog)
-                                    <a class="more-products-item" style="background-image: url({{$related_blog->url}})"></a>
+                                    <a class="more-products-item" style="background-image: url({{$related_blog->url}})"
+                                        href="/blog/{{$related_blog->slug}}"></a>
                                     @endforeach
                                 </div>
                             </div>
