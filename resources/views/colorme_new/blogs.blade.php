@@ -53,8 +53,8 @@
                                                                 <div class="product-tool">
                                                                     <span class="glyphicon glyphicon-eye-open"></span>
                                                                     <span>{{$blog['views']}}</span>
-                                                                    <span class="glyphicon glyphicon-comment"></span>
-                                                                    <span>{{$blog['comments_count']}}</span>
+                                                                    <!-- <span class="glyphicon glyphicon-comment"></span>
+                                                                    <span>{{$blog['comments_count']}}</span> -->
 
                                                                 </div>
                                                             </div>
