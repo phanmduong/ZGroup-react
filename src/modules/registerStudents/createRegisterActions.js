@@ -10,6 +10,9 @@ import {
     SAVED_REGISTER_SUCCESS,
     SAVED_REGISTER_ERROR,
     BEGIN_SAVE_REGISTER,
+    LOADED_CAMPAIGNS_ERROR,
+    BEGIN_LOAD_CAMPAIGNS,
+    LOADED_CAMPAIGNS_SUCCESS,
 
 } from "./createRegisterActionType";
 import * as registerStudentsApi from "./registerStudentsApi";
@@ -53,6 +56,7 @@ export function loadCourses() {
 
     };
 }
+
 export function loadClassesByCourse(course_id) {
     return function (dispatch) {
         dispatch({type: BEGIN_LOAD_CLASSES});
@@ -74,9 +78,9 @@ export function loadClassesByCourse(course_id) {
     };
 }
 
-export function createRegister(register,hide) {
+export function createRegister(register, hide) {
     return function (dispatch) {
-        dispatch({type : BEGIN_SAVE_REGISTER});
+        dispatch({type: BEGIN_SAVE_REGISTER});
         registerStudentsApi.saveRegisterApi(register)
             .then(
                 (res) => {
@@ -86,9 +90,9 @@ export function createRegister(register,hide) {
                             register: res.data.data.register,
                         });
                         hide();
-                        helper.showTypeNotification("Đang thêm học viên", "success");
+                        helper.showTypeNotification("Đã thêm học viên", "success");
                     }
-                    else{
+                    else {
                         helper.showErrorNotification("Lỗi");
                     }
                 }
@@ -96,6 +100,27 @@ export function createRegister(register,hide) {
             .catch(() => {
                 dispatch({
                     type: SAVED_REGISTER_ERROR,
+                });
+            });
+
+    };
+}
+
+export function loadCampaigns() {
+    return function (dispatch) {
+        dispatch({type: BEGIN_LOAD_CAMPAIGNS});
+        registerStudentsApi.loadCampaignsApi()
+            .then(
+                (res) => {
+                    dispatch({
+                        type: LOADED_CAMPAIGNS_SUCCESS,
+                        campaigns: res.data.data.marketing_campaigns,
+                    });
+                }
+            )
+            .catch(() => {
+                dispatch({
+                    type: LOADED_CAMPAIGNS_ERROR,
                 });
             });
 

@@ -1,7 +1,8 @@
 /**
  * Created by phanmduong on 4/6/17.
  */
-import { SHOW_CREATE_REGISTER_MODAL,
+import {
+    SHOW_CREATE_REGISTER_MODAL,
     UPDATE_CREATE_REGISTER_FORM_DATA,
     BEGIN_LOAD_COURSES,
     LOADED_COURSES_SUCCESS,
@@ -11,6 +12,9 @@ import { SHOW_CREATE_REGISTER_MODAL,
     LOADED_CLASSES_ERROR,
     // SAVED_REGISTER_SUCCESS,
     // SAVED_REGISTER_ERROR,
+    BEGIN_LOAD_CAMPAIGNS,
+    LOADED_CAMPAIGNS_SUCCESS,
+    LOADED_CAMPAIGNS_ERROR,
 
 } from "./createRegisterActionType";
 
@@ -21,7 +25,11 @@ const createRegister = {
     register: {},
     isLoadingCourses: false,
     isLoadingClasses: false,
-    courses:[],
+    courses: [],
+    isLoadingCampaigns: false,
+    campaigns: [],
+
+
 };
 
 export default function registerReducer(state = createRegister, action) {
@@ -37,37 +45,53 @@ export default function registerReducer(state = createRegister, action) {
                 register: action.register
             };
         case BEGIN_LOAD_COURSES:
-            return{
+            return {
                 ...state,
                 isLoadingCourses: true,
             };
         case  LOADED_COURSES_SUCCESS:
-            return{
+            return {
                 ...state,
-                isLoadingCourses : false,
-                courses : action.courses,
+                isLoadingCourses: false,
+                courses: action.courses,
             };
         case LOADED_COURSES_ERROR:
-            return{
+            return {
                 ...state,
                 isLoadingCourses: false,
             };
 
         case BEGIN_LOAD_CLASSES:
-            return{
+            return {
                 ...state,
                 isLoadingClasses: true,
             };
         case  LOADED_CLASSES_SUCCESS:
-            return{
-                ...state,
-                isLoadingClasses : false,
-                classes : action.classes,
-            };
-        case LOADED_CLASSES_ERROR:
-            return{
+            return {
                 ...state,
                 isLoadingClasses: false,
+                classes: action.classes,
+            };
+        case LOADED_CLASSES_ERROR:
+            return {
+                ...state,
+                isLoadingClasses: false,
+            };
+        case BEGIN_LOAD_CAMPAIGNS:
+            return {
+                ...state,
+                isLoadingCampaigns: true,
+            };
+        case  LOADED_CAMPAIGNS_SUCCESS:
+            return {
+                ...state,
+                isLoadingCampaigns: false,
+                campaigns: action.campaigns,
+            };
+        case LOADED_CAMPAIGNS_ERROR:
+            return {
+                ...state,
+                isLoadingCampaigns: false,
             };
 
 
