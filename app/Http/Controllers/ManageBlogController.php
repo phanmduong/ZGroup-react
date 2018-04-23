@@ -96,6 +96,7 @@ class ManageBlogController extends ManageApiController
         $product->language_id = $request->language_id; //
 
         $product->type = 2;
+        $product->kind = 'blog';
         $product->url = trim_url($request->image_url);
         if ($request->status) {
             $product->status = $request->status;
