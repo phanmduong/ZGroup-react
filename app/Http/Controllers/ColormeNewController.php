@@ -17,19 +17,22 @@ use App\CourseCategory;
 use App\Product;
 use Illuminate\Support\Facades\DB;
 use App\Comment;
+use App\Services\EmailService;
 
 class ColormeNewController extends CrawlController
 {
     protected $productTransformer;
     protected $courseTransformer;
     protected $courseRepository;
+    protected $emailService;
 
-    public function __construct(ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
+    public function __construct(EmailService $emailService,ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
     {
         parent::__construct();
         $this->productTransformer = $productTransformer;
         $this->courseTransformer = $courseTransformer;
         $this->courseRepository = $courseRepository;
+        $this->emailService = $emailService;
         $bases = Base::orderBy('created_at')->get();
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
@@ -251,13 +254,21 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.blog', $this->data);
     }
 
-    public function extract()
-    {
-        $blogs = Product::all();
-        foreach ($blogs as $blog) {
-            $category = $blog->category;
-            if($category != null)
-                $blog->productCategories()->attach($category->id);
+    public function register(Request $request)
+    {   
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt('123456');
+            $user->username = $request->email;
+            $user->email = $request->email;
+            $user->name = $request->name;
+            $user->phone = $phone;
         }
+        $user->rate = 5;
+        $user->save();
+
+        $this->emailService->send_mail_welcome($user);
     }
 }

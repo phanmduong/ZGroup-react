@@ -137,6 +137,23 @@
         </div>
     </div>
 </div>
+<div id="modalSuccess" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom: 0px">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px"
+                     v-if="modalLogin">
+                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
+                    <h2 style="font-weight: 600">Đăng nhập</h2>
+                    <p>Chào mừng bạn đến với colorME.</p>
+                    <br>
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -157,29 +174,33 @@
             var ok = 0;
             if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
 
-            if (!name || !email || !phone || ok == 1 || !validateEmail(email)) {
+            if (!name || !email || !phone || ok == 1) {
                 $("#alert").html(
-                    "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
+                    "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>"
                 );
-
                 return;
             } 
-            // else {
-            //     var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
-            //     $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
-            //     var url = "{{ url('book_information') }}";
-            //     var data = {
-            //         name: name,
-            //         email: email,
-            //         phone: phone,
-            //         _token: "{{csrf_token()}}"
-            //     };
-            //     $.post(url, data, function (data, status) {
-            //         })
-            //         .fail(function (error) {
-            //             console.log(error);
-            //         });
-            // }
+            if(!validateEmail(email)){
+                $("#alert").html(
+                    "<div class='alert alert-danger'>Bạn vui lòng kiểm tra lại email</div>"
+                );
+                return;
+            }
+            var message = "ColorMe đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+            $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+            var url = "";
+            $("#modalSuccess").modal("show");
+            var data = {                    
+                name: name,
+                email: email,
+                phone: phone,
+                _token: "{{csrf_token()}}"
+            };
+            axios.post("/api/v3/sign-up", data)
+                .then(function () {
+                    }.bind(this))
+                    .catch(function () {
+                    }.bind(this));
         });
     });
 </script>
