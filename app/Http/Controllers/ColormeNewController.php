@@ -26,7 +26,7 @@ class ColormeNewController extends CrawlController
     protected $courseRepository;
     protected $emailService;
 
-    public function __construct(EmailService $emailService,ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
+    public function __construct(EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
     {
         parent::__construct();
         $this->productTransformer = $productTransformer;
@@ -255,7 +255,7 @@ class ColormeNewController extends CrawlController
     }
 
     public function register(Request $request)
-    {   
+    {
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
@@ -273,5 +273,11 @@ class ColormeNewController extends CrawlController
         return [
             'message' => 'success'
         ];
+    }
+
+    public function extract(Request $request)
+    {
+        // $this->author->avatar_url,
+        dd(strpos("http//d1j8r0kxyu9tj8.cloudfront.net/images/1513164556BA4MzWPkrz1e441.jpg", config('app.protocol')));
     }
 }

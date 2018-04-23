@@ -517,7 +517,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
     Route::get('/blogs', 'ColormeNewController@blogs');
     Route::get('/blog/{slug}', 'ColormeNewController@blog');
-    // Route::get('/api/v3/sign-up', 'ColormeNewController@register');
+    Route::get('/api/v3/extract', 'ColormeNewController@extract');
     Route::post('/api/v3/sign-up', 'ColormeNewController@register');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
