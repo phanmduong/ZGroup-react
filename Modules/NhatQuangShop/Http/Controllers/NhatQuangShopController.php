@@ -44,7 +44,7 @@ class NhatQuangShopController extends Controller
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
-        $results = $newestGoods;
+        $results = null;
 
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;

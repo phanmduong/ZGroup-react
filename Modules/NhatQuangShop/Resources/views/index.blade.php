@@ -188,7 +188,7 @@
 
             {{--goods list--}}
             <div class="col-md-9">
-                @if(0)
+                @if(!$results)
                     <div class="container" id="bookinfo">
                         <br>
                         <div class="row">
@@ -294,7 +294,9 @@
                     @endforeach
                 @else
                         <div class="container">
-                            <?php echo $results ?>
+                            <div class="row" style="background-color: #ffffff;padding-top:8px">
+                                @include('nhatquangshop::common.products_show', ['someGoods' => $results])
+                            </div>
                         </div>
                 @endif
             </div>
