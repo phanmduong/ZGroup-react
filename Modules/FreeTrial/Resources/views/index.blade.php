@@ -127,6 +127,7 @@
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        var url = "http://manage.keetool.xyz/login";
         axios.post(url, {
             email: '{{$email}}',
             password: '{{$password}}',
