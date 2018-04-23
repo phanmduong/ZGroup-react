@@ -179,7 +179,7 @@
                                         <tr>
                                             <td>
                                                 <img class="header-image"
-                                                     src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/img/colorlogo.png"
+                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508151807PTVWntrCOCdbQV9.jpg"
                                                      border="0" alt="" title="logo" width="600" height="auto"
                                                      style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td>
