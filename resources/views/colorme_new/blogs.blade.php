@@ -37,12 +37,12 @@
                                                             </div>
                                                             <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
                                                                 <div class="media-left" style="padding-right: 3px;">
-                                                                    <a href="/profile/{{$blog['author']['email']}}">
+                                                                    <a href="/profile/{{$blog['author']['username']}}">
                                                                         <div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;"></div>
                                                                     </a>
                                                                 </div>
                                                                 <div class="media-body">
-                                                                    <a href="/profile/{{$blog['author']['email']}}">
+                                                                    <a href="/profile/{{$blog['author']['username']}}">
                                                                         <div style="font-weight: 600;">{{$blog['author']['name']}}</div>
                                                                         <div class="timestamp" style="font-size: 12px;">3 ngày trước</div>
                                                                     </a>
