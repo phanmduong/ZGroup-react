@@ -1,6 +1,22 @@
+@section('meta')
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"/>
+    <meta property="og:title" content="{!!htmlspecialchars($blog['title'])!!}"/>
+    <meta property="og:description"
+        content="{!! htmlspecialchars($blog['description']) !!}"/>
+    <meta property="og:image" content="{{$blog['url']}}"/>
+
+
+    <meta name="title" content="{!! htmlspecialchars($blog['meta_title']) !!}">
+    <meta id="metaDes" name="description" content="{!! htmlspecialchars($blog['meta_description']) !!}" />
+    <meta id="metakeywords" name="keywords" content="{!! htmlspecialchars($blog['keyword']) !!}" />
+    <meta id="newskeywords" name="news_keywords" content="{!! htmlspecialchars($blog['keyword']) !!}" />
+    <link rel="canonical" href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}" />
+
+
+@endsection
+
 @extends('colorme_new.layouts.master') @section('content')
-
-
 <div style="margin-top: 50px;">
     <div id="app">
         <div data-reactroot="" style="height: 100%;">
