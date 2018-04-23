@@ -146,8 +146,15 @@
                 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px"
                      v-if="modalLogin">
                     <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
-                    <h2 style="font-weight: 600">Đăng nhập</h2>
+                    <h2 style="font-weight: 600">Hoàn tất</h2>
                     <p>Chào mừng bạn đến với colorME.</p>
+                    <p>Cảm ơn bạn đã đăng kí nhận thông tin từ colorME, chúng tôi sẽ thường xuyên gửi cho bạn các tài liệu và bài viết bổ ích, nhớ check email của colorME thường xuyên bạn nhé.</p>
+                    <p>Nếu bạn đang quan tâm đến các khoá học về thiết kế và lập trình, bạn có thể tìm hiểu thêm tại đây.</p>
+                    <a href="/" class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                        >Thông tin khoá học
+                    </a>
+                    <a style="width: 100%; margin: 10px; padding: 15px; color: #484848; text-align: center"
+                        data-toggle="modal" data-target="#modalBuy">Không, cảm ơn</a>
                     <br>
                 </div>           
             </div>

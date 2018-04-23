@@ -270,5 +270,8 @@ class ColormeNewController extends CrawlController
         $user->save();
 
         $this->emailService->send_mail_welcome($user);
+        return [
+            'message' => 'success'
+        ];
     }
 }
