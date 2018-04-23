@@ -44,13 +44,26 @@ class NhatQuangShopController extends Controller
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
+        $results = $newestGoods;
 
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
         $this->data["goodCategories"] = $goodCategories;
+        $this->data["results"] = $results;
 
         return view('nhatquangshop::index', $this->data);
+    }
+
+    public function searchGood(Request $request)
+    {
+        $results = Good::orderBy('created_at','desc')->where('name','LIKE','%'.$request->good_name.'%')->get();
+        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
+
+        $this->data["results"] = $results;
+        $this->data["goodCategories"] = $goodCategories;
+
+        return view('nhatquangshop::index',$this->data);
     }
 
     public function goodsByCategory($categoryId)

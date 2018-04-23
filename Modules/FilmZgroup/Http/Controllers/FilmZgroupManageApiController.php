@@ -27,7 +27,7 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllFilms()
     {
-        $films = Film::orderBy("release_date", "desc")->get();
+        $films = Film::orderBy("id", "desc")->get();
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -64,6 +64,8 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
         $film->film_status = $request->film_status;
+        $film->film_rate = $request->film_rate;
+        $film->rated= $request->rated;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -93,6 +95,8 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
         $film->film_status = $request->film_status;
+        $film->film_rate = $request->film_rate;
+        $film->rated= $request->rated;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
