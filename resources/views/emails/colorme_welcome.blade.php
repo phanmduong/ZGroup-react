@@ -135,7 +135,7 @@
                                     <!-- BLOCK - 1 column / main -->
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding-top: 0px; padding-right: 30px; padding-left: 30px;">
                                                 <tr style="text-align: center;vertical-align: middle;">
-                                                    <td style="text-align: center;background: #e8e8e8">
+                                                    <td style="text-align: center;background: #white">
                                                         <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" alt="Logo" style="margin:20px" height="35px"/>
                                                     </td>
                                                 </tr>
@@ -148,11 +148,20 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                            <b>Thông tin của bạn</b>
+                                                            <b>Chào bạn, dưới đây là thông tin của bạn :</b>
                                                             <br/>
                                                             Họ và tên: {{$user->name}}   <br/>
                                                             Email: {{$user->email}}   <br/>
                                                             Số điện thoại: {{$user->phone}} <br/>
+                                                        </td>
+                                                        <td>
+                                                            <p>
+                                                                Cảm ơn bạn đã đăng kí nhận thông tin từ colorME, chúng tôi sẽ thường xuyên gửi cho bạn các tài liệu và bài viết bổ ích, nhớ check email của colorME thường xuyên bạn nhé.
+
+                                                            </p>
+                                                            <p> 
+                                                                Nếu bạn đang quan tâm đến các khoá học về thiết kế và lập trình, bạn có thể tìm hiểu thêm <a href="http://colorme.vn"><b>tại đây.</b></a>
+                                                            </p>
                                                         </td>
                                                     </tr>
 

@@ -138,7 +138,7 @@
     </div>
 </div>
 <div id="modalSuccess" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width:400px!important">
 
         <!-- Modal content-->
         <div class="modal-content">
