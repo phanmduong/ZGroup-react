@@ -28,6 +28,10 @@ class FilmZgroupManageApiController extends ManageApiController
     public function getAllFilms()
     {
         $films = Film::orderBy("id", "desc")->get();
+        foreach($films as $film)
+        {
+            $this->reloadFilmStatus($film);
+        }
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -144,6 +148,9 @@ class FilmZgroupManageApiController extends ManageApiController
        $session->start_time = $request->start_time;
        $session->film_quality= $request->film_quality;
        $session -> save();
+        $film = Film::find($request->film_id);
+        $film->film_status = 1;
+        $film->save();
 
         return $this->respondSuccess('Tao suat chieu thanh cong');
     }
@@ -166,6 +173,9 @@ class FilmZgroupManageApiController extends ManageApiController
         $session->start_time = $request->start_time;
         $session->film_quality= $request->film_quality;
         $session->save();
+        $film = Film::find($request->film_id);
+        $film->film_status = 1;
+        $film->save();
 
         return $this->respondSuccess('Cap nhat thanh cong');
     }
@@ -186,4 +196,21 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccessWithStatus($this->data);
     }
 
+    public function reloadFilmStatus (Film $film)
+    {
+        if($film->sessions)
+        {
+            $sessions = $film->sessions->where('start_date', '>=', date('Y-m-d').' 00:00:00');
+            if(!$sessions && $film->status !=2)
+            {
+                $film->film_status = 0;
+                $film->save();
+            }
+            elseif ($sessions)
+            {
+                $film->film_status = 1;
+                $film->save();
+            }
+        }
+    }
 }
