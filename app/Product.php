@@ -105,14 +105,6 @@ class Product extends Model
     public function blogDetailTransform()
     {
         $data = $this->blogTransform();
-        if ($this->author) {
-            $data['author'] = [
-                'id' => $this->author->id,
-                'email' => $this->author->email,
-                'name' => $this->author->name,
-                'avatar_url' => $this->author->avatar_url
-            ];
-        }
 
         $data['categories'] = $this->productCategories;
         $data['language_id'] = $this->language ? $this->language->id : 0;

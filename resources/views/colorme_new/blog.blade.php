@@ -138,3 +138,49 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    $(document).ready(function () {
+        $("#submit").click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            console.log(name + phone + email);
+            var ok = 0;
+            if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
+
+            if (!name || !email || !phone || ok == 1 || !validateEmail(email)) {
+                $("#alert").html(
+                    "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
+                );
+
+                return;
+            } 
+            // else {
+            //     var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+            //     $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+            //     var url = "{{ url('book_information') }}";
+            //     var data = {
+            //         name: name,
+            //         email: email,
+            //         phone: phone,
+            //         _token: "{{csrf_token()}}"
+            //     };
+            //     $.post(url, data, function (data, status) {
+            //         })
+            //         .fail(function (error) {
+            //             console.log(error);
+            //         });
+            // }
+        });
+    });
+</script>
+@endpush

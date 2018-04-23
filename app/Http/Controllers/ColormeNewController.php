@@ -244,7 +244,6 @@ class ColormeNewController extends CrawlController
         $blog->save();
         $data = $blog->blogDetailTransform();
         $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
-
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
