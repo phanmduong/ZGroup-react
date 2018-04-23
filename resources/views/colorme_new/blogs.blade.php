@@ -32,7 +32,7 @@
                                                         <div class="product-info">
                                                             <div style="font-size: 16px; border-bottom: 1px solid rgb(217, 217, 217); padding: 10px; display: flex; justify-content: space-between;">
                                                                 <a href="/blog/{{$blog['slug']}}" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
-                                                                    {{shortString($blog['title'], 5, 'w')}}
+                                                                    {{strlen($blog['title']) > 20 ? substr($blog['title'],0,19)) . '...' : $blog['title']}}
                                                                 </a>
                                                             </div>
                                                             <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
