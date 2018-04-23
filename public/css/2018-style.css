@@ -2998,8 +2998,8 @@ div#app {
 .pagination-primary > li:first-child > span,
 .pagination-primary > li:last-child > a,
 .pagination-primary > li:last-child > span {
-    border: 2px solid #c50000;
-    color: #c50000;
+    border: 2px solid #d2d2d2;
+    color: #d2d2d2;
 }
 
 .nav-pills-primary > li.active > a,
@@ -3026,8 +3026,8 @@ div#app {
 .pagination-info > li:first-child > span,
 .pagination-info > li:last-child > a,
 .pagination-info > li:last-child > span {
-    border: 2px solid #c50000;
-    color: #c50000;
+    border: 2px solid #d2d2d2;
+    color: #d2d2d2;
 }
 
 .pagination > li > a,
@@ -3037,9 +3037,9 @@ div#app {
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
   background-color: transparent;
-  border: 2px solid #f5593d;
+  border: 2px solid #d2d2d2;
   border-radius: 20px;
-  color: #f5593d;
+  color: #d2d2d2;
   height: 36px;
   margin: 0 2px;
   min-width: 36px;
