@@ -283,9 +283,7 @@ class ManageSmsApiController extends ManageApiController
         $group_id = $campaign->group->id;
 
         $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
-            ->select('users.*')->where(function ($query) use ($group_id) {
-                $query->where('groups_users.group_id', '<>', $group_id);
-            });
+            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
 
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
