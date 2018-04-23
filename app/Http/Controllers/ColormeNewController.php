@@ -249,4 +249,21 @@ class ColormeNewController extends CrawlController
 
         return view('colorme_new.blog', $this->data);
     }
+
+    public function change_data()
+    {
+        // dd(convert_vi_to_en('') . '-' . 21239);
+        $products = Product::all();
+        foreach ($products as $product) {
+            if (trim($product->title == ''))
+                $product->slug = $product->id;
+            else
+                $product->slug = convert_vi_to_en($product->title) . '-' . $product->id;
+            $product->save();
+        }
+        return [
+            'asdk' => 'askd'
+        ];
+
+    }
 }
