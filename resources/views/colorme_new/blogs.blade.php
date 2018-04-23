@@ -59,7 +59,7 @@
                                                             <div style="position: absolute; bottom: 10px; right: 5px;">
                                                                 <div data-toggle="tooltip" title="" style="cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
                                                                     data-original-title="#"></div>
-                                                                <span style="padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">Inspiration</span>                                                                    
+                                                                <span style="padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>                                                                    
                                                             </div>
                                                         </div>
                                                     </div>
