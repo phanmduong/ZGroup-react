@@ -1,13 +1,13 @@
 @extends('elight::layouts.master')
 
-@section('meta')
+@push('meta')
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"/>
     <meta property="og:title" content="{!!htmlspecialchars($post->title)!!}"/>
     <meta property="og:description" content="{!!htmlspecialchars($post->description)!!}"/>
 
     <meta property="og:image" content="{{$post->url}}"/>
-@endsection
+@endpush
 
 @section('content')
     <div class="wrapper">
