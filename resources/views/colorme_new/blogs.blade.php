@@ -33,7 +33,7 @@
                                                             <div style="font-size: 16px; border-bottom: 1px solid rgb(217, 217, 217); padding: 10px; display: flex; justify-content: space-between;">
                                                                 <a href="/blog/{{$blog['slug']}}" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;" data-toggle="tooltip"
                                                                     title="{{$blog['title']}}">
-                                                                    {{strlen($blog['title']) > 25 ? mb_substr($blog['title'],0,24, 'utf-8') . '...' : $blog['title']}}
+                                                                    {{strlen($blog['title']) > 25 ? mb_substr($blog['title'],0,22, 'utf-8') . '...' : $blog['title']}}
                                                                 </a>
                                                             </div>
                                                             <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
@@ -49,6 +49,7 @@
                                                                     </a>
                                                                 </div>
                                                             </div>
+                                                            <br>
                                                             <div style="border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;"></div>
                                                             <div style="position: absolute; bottom: 5px;">
                                                                 <div class="product-tool">
