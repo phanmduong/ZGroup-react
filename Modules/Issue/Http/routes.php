@@ -4,6 +4,7 @@
 
 $namespaceRoutes = function () {
     Route::post('/create-issue', 'IssueManageApiController@createIssue');
+    Route::get('/get-all-issues', 'IssueManageApiController@getAllIssue');
 };
 
 Route::group(
