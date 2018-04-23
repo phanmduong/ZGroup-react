@@ -223,13 +223,13 @@ class ColormeNewController extends CrawlController
         $diff = abs(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
         $diff /= 60;
         if ($diff < 60)
-            return $diff . 'phút trước';
+            return floor($diff) . 'phút trước';
         $diff /= 60;
         if ($diff < 24)
-            return $diff . 'giờ trước';
+            return floor($diff) . 'giờ trước';
         $diff /= 24;
         if ($diff <= 30)
-            return $diff . 'ngày trước';
+            return floor($diff) . 'ngày trước';
         return date('d-m-Y', strtotime($time));
     }
 
