@@ -522,6 +522,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
     Route::get('/sign-in', 'ColormeNewController@social');
     Route::get('/upload-post', 'ColormeNewController@social');
+    Route::get('/extract', 'ColormeNewController@extract');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
     Route::get('/profile/{username}', 'ColormeNewController@profileProcess');
     Route::get('/profile/{username}/attendance', 'ColormeNewController@profile');
@@ -926,7 +927,6 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     Route::get('/post/categories', 'ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
-    Route::get('/extract', 'ManageBlogController@extract');
     //End blog api
 
     //Begin register students api
