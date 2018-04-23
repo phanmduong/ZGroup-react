@@ -1,13 +1,21 @@
 @extends('elight::layouts.master')
 
-@push('meta')
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"/>
+@section('meta')
+<meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/'.$post->slug}}"/>
     <meta property="og:title" content="{!!htmlspecialchars($post->title)!!}"/>
-    <meta property="og:description" content="{!!htmlspecialchars($post->description)!!}"/>
-
+    <meta property="og:description"
+        content="{!! htmlspecialchars($post->description) !!}"/>
     <meta property="og:image" content="{{$post->url}}"/>
-@endpush
+
+
+    <meta name="title" content="{!! htmlspecialchars($post->meta_title) !!}">
+    <meta id="metaDes" name="description" content="{!! htmlspecialchars($post->meta_description) !!}" />
+    <meta id="metakeywords" name="keywords" content="{!! htmlspecialchars($post->keyword) !!}" />
+    <meta id="newskeywords" name="news_keywords" content="{!! htmlspecialchars($post->keyword) !!}" />
+    <link rel="canonical" href="{{config('app.protocol').config('app.domain').'/blog/'.$post->slug}}" />
+
+@endsection
 
 @section('content')
     <div class="wrapper">
