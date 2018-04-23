@@ -85,7 +85,7 @@ class Product extends Model
             'author' => [
                 'id' => $this->author->id,
                 'name' => $this->author->name,
-                'avatar_url' => $this->author->avatar_url,
+                'avatar_url' => strpos($this->author->avatar_url, config('app.protocol')) == config('app.protocol') . false ? $this->author->avatar_url : $this->author->avatar_url,
                 'email' => $this->author->email,
                 'username' => $this->author->username,
             ],
