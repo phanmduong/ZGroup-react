@@ -230,7 +230,7 @@ class ColormeNewController extends CrawlController
         $diff /= 24;
         if ($diff <= 30)
             return $diff . 'ngày trước';
-        return date('d-m-Y', $time);
+        return date('d-m-Y', strtotime($time));
     }
 
     public function blogs(Request $request)
@@ -249,7 +249,7 @@ class ColormeNewController extends CrawlController
 
         $blogs = $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
-            $data['time'] = $this->timeCal($blog->created_at);
+            $data['time'] = $this->timeCal(date($blog->created_at));
             return $data;
         });
         $this->data['blogs'] = $blogs;

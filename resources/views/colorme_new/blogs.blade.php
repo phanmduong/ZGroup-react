@@ -45,7 +45,7 @@
                                                                 <div class="media-body">
                                                                     <a href="/profile/{{$blog['author']['username']}}">
                                                                         <div style="font-weight: 600;">{{$blog['author']['name']}}</div>
-                                                                        <div class="timestamp" style="font-size: 12px;">3 ngày trước</div>
+                                                                        <div class="timestamp" style="font-size: 12px;">{{$blog['time']}}</div>
                                                                     </a>
                                                                 </div>
                                                             </div>
