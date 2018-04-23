@@ -279,11 +279,11 @@ class ManageSmsApiController extends ManageApiController
 
     public function getReceiversChoice($campaignId, Request $request)
     {
-        $campaign = SmsList::find($campaignId);
-        $group_id = $campaign->group->id;
-
-        $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
-            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
+//        $campaign = SmsList::find($campaignId);
+//        $group_id = $campaign->group->id;
+//
+//        $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
+//            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
 
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
@@ -292,8 +292,8 @@ class ManageSmsApiController extends ManageApiController
         $limit = $request->limit ? intval($request->limit) : 20;
         // $paid_course_quantity = $request->paid_course_quantity;
         if ($request->carer_id) {
-            $users = $users->find($request->carer_id)->getCaredUsers();
-        };
+            $users = User::find($request->carer_id)->getCaredUsers();
+        } else $users = User::query();
 
         if ($startTime != null && $endTime != null) {
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
