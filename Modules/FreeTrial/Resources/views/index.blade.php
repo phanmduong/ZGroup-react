@@ -136,7 +136,7 @@
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(res.data.user));    
             // localStorage.setItem("zgroup-token", JSON.stringify(res.data.user));    
-            // window.location = "http://manage.keetool.xyz";
+            window.location = "http://manage.keetool.xyz";
         });
     </script>
 </body>

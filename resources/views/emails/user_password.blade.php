@@ -221,8 +221,9 @@
                                                         <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
                                                             <p>Chào bạn. Dưới đây là tài khoản demo hệ thống KEETOOL.</p>
                                                             <p>
-                                                                email: {{$user->email}} <br>
-                                                                password: {{$password}}
+                                                                email: <b>{{$user->email}}</b> <br>
+                                                                password: <b>{{$password}}</b> <br>
+                                                                url: <a href="http://manage.keetool.xyz">http://manage.keetool.xyz</a>
                                                             </p>
                                                             <p>Lưu ý: Dữ liệu trong hệ thống demo sẽ được reset vào 2:00 AM hàng ngày.</p>
                                                         </td>
