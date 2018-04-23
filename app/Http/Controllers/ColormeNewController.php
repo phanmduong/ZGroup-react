@@ -18,6 +18,7 @@ use App\Product;
 use Illuminate\Support\Facades\DB;
 use App\Comment;
 use App\Services\EmailService;
+use Carbon\Carbon;
 
 class ColormeNewController extends CrawlController
 {
@@ -217,6 +218,21 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.colorme_react', $this->data);
     }
 
+    public function timeCal($time)
+    {
+        $diff = diff(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
+        $diff /= 60;
+        if ($diff < 60)
+            return $diff . 'phút trước';
+        $diff /= 60;
+        if ($diff < 24)
+            return $diff . 'giờ trước';
+        $diff /= 24;
+        if ($diff <= 30)
+            return $diff . 'ngày trước';
+        return date('d-m-Y', $time);
+    }
+
     public function blogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 12;
@@ -233,6 +249,7 @@ class ColormeNewController extends CrawlController
 
         $blogs = $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
+            $data['time'] = $this->timeCal($blog->created_at);
             return $data;
         });
         $this->data['blogs'] = $blogs;
@@ -278,6 +295,7 @@ class ColormeNewController extends CrawlController
     public function extract(Request $request)
     {
         // $this->author->avatar_url,
-        dd(strpos("http//d1j8r0kxyu9tj8.cloudfront.net/images/1513164556BA4MzWPkrz1e441.jpg", config('app.protocol')));
+        // dd(strtotime("2018-04-23 17:19:42"));
+        // dd(abs(strtotime("2018-04-23 17:19:42") - strtotime(Carbon::now()->toDateTimeString())));
     }
 }
