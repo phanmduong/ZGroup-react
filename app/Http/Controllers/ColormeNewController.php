@@ -14,6 +14,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\CourseCategory;
+use App\Product;
+use Illuminate\Support\Facades\DB;
+use App\Comment;
 
 class ColormeNewController extends CrawlController
 {
@@ -38,14 +41,14 @@ class ColormeNewController extends CrawlController
     {
         $current_gen = Gen::getCurrentGen();
         $categories = CourseCategory::all();
-        $categories = $categories->filter(function($category){
+        $categories = $categories->filter(function ($category) {
             $courses = $category->courses;
-            $courses_count = $courses->reduce(function($count, $course){
-                return $count + $course->status; 
+            $courses_count = $courses->reduce(function ($count, $course) {
+                return $count + $course->status;
             }, 0);
             return $courses_count > 0;
         });
-        
+
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
         $this->data['gen_cover'] = $current_gen->cover_url;
@@ -209,5 +212,41 @@ class ColormeNewController extends CrawlController
     public function social()
     {
         return view('colorme_new.colorme_react', $this->data);
+    }
+
+    public function blogs(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 12;
+        $search = $request->search;
+
+        // $current_gen = Gen::getCurrentGen();
+        $blogs = Product::where('kind', 'blog')->where('status', 1)
+            ->where('title', 'like', "%$search%")
+            ->leftJoin('comments', 'products.id', '=', 'comments.product_id')
+            ->select('products.*', DB::raw('count(comments.id) as comments_count'))->groupBy('products.id')
+            ->orderBy('created_at', 'desc')->get();
+            // ->paginate($limit);
+
+        $blogs = $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['comments_count'] = $blog->comments_count;
+            return $data;
+        });
+        $this->data['blogs'] = $blogs;
+        return view('colorme_new.blogs', $this->data);
+    }
+
+    public function blog($slug, Request $request)
+    {
+        $blog = Product::where('slug', $slug)->first();
+
+        $data = $blog->blogDetailTransform();
+        $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
+
+        $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('author_id', $blog->author_id)
+            ->limit(4)->get();
+        $this->data['blog'] = $data;
+
+        return view('colorme_new.blog', $this->data);
     }
 }

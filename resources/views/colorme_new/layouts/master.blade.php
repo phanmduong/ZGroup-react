@@ -106,7 +106,8 @@
                             </ul>
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
-                        <li class=""><a href="/about-us">Về chúng tôi</a></li>
+                        <!-- <li class=""><a href="/about-us">Về chúng tôi</a></li> -->
+                        <li class=""><a href="/blogs">Blog</a></li>
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
                                             class="glyphicon glyphicon-cloud-upload"></span>

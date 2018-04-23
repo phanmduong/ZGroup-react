@@ -84,7 +84,8 @@ class Product extends Model
             'author' => [
                 'id' => $this->author->id,
                 'name' => $this->author->name,
-                'avatar_url' => $this->author->avatar_url
+                'avatar_url' => $this->author->avatar_url,
+                'email' => $this->author->email,
             ],
             'title' => $this->title,
             'category' => $this->category ? $this->category->name : null,
@@ -93,6 +94,8 @@ class Product extends Model
             'meta_description' => $this->meta_description,
             'meta_title' => $this->meta_title,
             'keyword' => $this->keyword,
+            'created_at' => format_date($this->created_at),
+            'views' => $this->views,
         ];
     }
 

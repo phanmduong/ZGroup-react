@@ -104,7 +104,8 @@ class ManageBlogController extends ManageApiController
             $product->status = 0;
         }
         $product->save();
-
+        $product->slug .= '-' . $product->id;
+        $product->save();
         $arr_ids = json_decode($request->categories);
         $product->productCategories()->detach();
         foreach ($arr_ids as $arr_id)
