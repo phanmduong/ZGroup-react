@@ -23,7 +23,7 @@
             <div class="page-wrap">
                 <div>
                     <div class="container product-detail-container">
-                        <a href="/profile/{{$blog['author']['email']}}">
+                        <a href="/profile/{{$blog['author']['username']}}">
                             <div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 80px; height: 80px; border-radius: 40px; margin: auto;"></div>
                             <div style="text-align: center; padding: 15px 0px; color: rgb(68, 68, 68); font-size: 16px;">{{$blog['author']['name']}}</div>
                         </a>
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="product-content">
-                            <div class="row">
+                            <div class="row" style="margin-bottom: 5px">
                                 <div class="col-md-10">
 
                                 </div>
@@ -72,6 +72,44 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <hr>
+                                    <h3 class="card-title text-center">Đăng kí nhận thông tin</h3>
+                                    <div>
+                                        <div role="form" id="contact-form" method="post" action="#">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <div class="card-block">
+                                                <div class="form-group label-floating">
+                                                    <input id="name" type="text" name="name" class="form-control" placeholder="Họ và tên">
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <input id="phone" type="text" name="phone" class="form-control" placeholder="Số điện thoại">
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <input id="email" type="text" name="email" class="form-control" placeholder="Email">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div id="alert"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <a id="submit" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Đăng kí</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
                             <div class="comments media-area">
                                 <div class="fb-comments" data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}" data-width="100%"
                                     data-numposts="5">
@@ -83,7 +121,6 @@
                                 <a href="/profile/{{$blog['author']['email']}}" class="more-products">
                                     <h5>
                                         Bài viết khác từ
-                       
                                         {{$blog['author']['name']}}
                                     </h5>
                                 </a>
@@ -97,8 +134,6 @@
                     </div>
                 </div>
             </div>
-            <noscript></noscript>
-            <noscript></noscript>
         </div>
     </div>
 </div>
