@@ -293,7 +293,16 @@
                         @endif
                     @endforeach
                 @else
-                        <div class="container">
+                        <div class="container" style="margin-top: 40px">
+                            <div style="padding:20px; ">
+                                <p>
+                                    <span style="font-weight: 500;font-size:32px">{{$good_name}}:</span>
+                                <span style="font-weight: 400; padding-left:20px;">
+                                    {{count($results)}}
+                                </span>
+                                    <span style="font-color: #888888">kết quả</span>
+                                </p>
+                            </div>
                             <div class="row" style="background-color: #ffffff;padding-top:8px">
                                 @include('nhatquangshop::common.products_show', ['someGoods' => $results])
                             </div>

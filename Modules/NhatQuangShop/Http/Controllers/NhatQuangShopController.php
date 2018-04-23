@@ -62,6 +62,7 @@ class NhatQuangShopController extends Controller
 
         $this->data["results"] = $results;
         $this->data["goodCategories"] = $goodCategories;
+        $this->data["good_name"] = $request->good_name;
 
         return view('nhatquangshop::index',$this->data);
     }
