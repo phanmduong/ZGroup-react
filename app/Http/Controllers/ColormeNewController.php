@@ -216,7 +216,7 @@ class ColormeNewController extends CrawlController
 
     public function blogs(Request $request)
     {
-        dd(Product::where('author_id', 2)->first()->blogTransform());
+        // dd(Product::where('author_id', 2)->first()->blogTransform());
         $limit = $request->limit ? $request->limit : 12;
         $search = $request->search;
         // $current_gen = Gen::getCurrentGen();
