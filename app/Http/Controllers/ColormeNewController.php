@@ -220,7 +220,7 @@ class ColormeNewController extends CrawlController
 
     public function timeCal($time)
     {
-        $diff = diff(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
+        $diff = abs(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
         $diff /= 60;
         if ($diff < 60)
             return $diff . 'phút trước';
