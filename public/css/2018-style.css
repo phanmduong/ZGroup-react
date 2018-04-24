@@ -1617,7 +1617,14 @@ a.like-count:hover {
     font-size: 20px !important;
     margin-bottom: 15px!important;
     display: inline-block !important;
-
+}
+.product-content strong {
+    text-align: justify;
+    font-family: Tinos !important;
+    font-size: 20px !important;
+    margin-bottom: 15px!important;
+    display: inline-block !important;
+    font-weight: 700 !important;
 }
 
 .image-wrapper, .product-content iframe, .product-content img, .product-content video {
