@@ -56,70 +56,26 @@
                                                         {{$blog['author']['name']}}
                                                     </div>
                                                 </a>
-                                                @if($blog['category_name'])
-                                                    <div class="product-category" style="text-align: center;"><span
-                                                                style="padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>
-                                                    </div>
-                                                @endif
+
                                                 <a href="/blog/{{$blog['slug']}}" style="color:black">
+                                                    <div style="text-align: center; color: rgb(137, 137, 137);">{{$blog['time']}} · {{$blog['views']}} lượt xem </div>
+
                                                     <div class="blog-title" >
                                                         {{$blog['title']}}
                                                     </div>
-
-                                                    <div style="text-align: center; padding-bottom: 25px; color: rgb(137, 137, 137);">{{$blog['time']}}</div>
                                                 </a>
-                                                <div style="text-align: center; margin-bottom: 30px;">
-                                                    <div class="product-tool"><span
-                                                                class="glyphicon glyphicon-eye-open"></span><span>{{$blog['views']}}</span><span></span><span></span>
+
+                                            @if($blog['category_name'])
+                                                    <div class="product-category" style="text-align: center;margin-bottom: 30px;"><span
+                                                                style=" padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>
                                                     </div>
-                                                </div>
+                                                @endif
 
                                                 <a href="/blog/{{$blog['slug']}}">
                                                     <img class="zoom" src="{{$blog['url']}}" style="width: 100%;height:auto;margin-bottom:100px;"/>
                                                 </a>
 
 
-                                                {{--<div >--}}
-                                                {{--<div class="colorme-img">--}}
-                                                {{--<div class="colorme-link" onclick="location.href='/blog/{{$blog['slug']}}'" style="background-image: url({{$blog['url']}}); background-size: cover; background-position: center center;"></div>--}}
-                                                {{--</div>--}}
-                                                {{--<div >--}}
-                                                {{--<div style="font-size: 16px; border-bottom: 1px solid rgb(217, 217, 217); padding: 10px; display: flex; justify-content: space-between;">--}}
-                                                {{--<a href="/blog/{{$blog['slug']}}" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;" data-toggle="tooltip"--}}
-                                                {{--title="{{$blog['title']}}">--}}
-                                                {{--{{strlen($blog['title']) > 25 ? mb_substr($blog['title'],0,22, 'utf-8') . '...' : $blog['title']}}--}}
-                                                {{--</a>--}}
-                                                {{--</div>--}}
-                                                {{--<div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">--}}
-                                                {{--<div class="media-left" style="padding-right: 3px;">--}}
-                                                {{--<a href="/profile/{{$blog['author']['username']}}">--}}
-                                                {{--<div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;"></div>--}}
-                                                {{--</a>--}}
-                                                {{--</div>--}}
-                                                {{--<div class="media-body">--}}
-                                                {{--<a href="/profile/{{$blog['author']['username']}}">--}}
-                                                {{--<div style="font-weight: 600;">{{$blog['author']['name']}}</div>--}}
-                                                {{--<div class="timestamp" style="font-size: 12px;">{{$blog['time']}}</div>--}}
-                                                {{--</a>--}}
-                                                {{--</div>--}}
-                                                {{--</div>--}}
-                                                {{--<br>--}}
-                                                {{--<div style="border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;"></div>--}}
-                                                {{--<div style="position: absolute; bottom: 5px;">--}}
-                                                {{--<div class="product-tool">--}}
-                                                {{--<span class="glyphicon glyphicon-eye-open"></span>--}}
-                                                {{--<span>{{$blog['views']}}</span>--}}
-                                                {{--</div>--}}
-                                                {{--</div>--}}
-                                                {{--<div style="position: absolute; bottom: 10px; right: 5px;">--}}
-                                                {{--<div data-toggle="tooltip" title="" style="cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"--}}
-                                                {{--data-original-title="#"></div>--}}
-                                                {{--@if($blog['category_name'])--}}
-                                                {{--<span style="padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>--}}
-                                                {{--@endif--}}
-                                                {{--</div>--}}
-                                                {{--</div>--}}
-                                                {{--</div>--}}
                                             </div>
                                         @endforeach
 
