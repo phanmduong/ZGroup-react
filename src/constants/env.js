@@ -34,8 +34,7 @@ export const LOGO_MAIN = PROTOCOL + env.LOGO_MAIN;
 export const SECRET_TOKEN = "KEEeducation";
 export const EXPIRES_IN = "6d";
 export const NAME_DATA_LOGIN_SAVE_LOCAL = "zgroup-token";
-export const NO_AVATAR =
-    PROTOCOL + "d2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png";
+export const NO_AVATAR = PROTOCOL + "d2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png";
 export const NO_IMAGE = PROTOCOL + "d255zuevr6tr8p.cloudfront.net/no_photo.png";
 export const CHANNEL = env.CHANNEL;
 export const SOCKET_HOST = env.SOCKET_HOST;
