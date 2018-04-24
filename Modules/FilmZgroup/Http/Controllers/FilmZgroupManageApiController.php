@@ -31,6 +31,7 @@ class FilmZgroupManageApiController extends ManageApiController
         foreach ($films as $film) {
             $this->reloadFilmStatus($film);
         }
+        $films = Film::orderBy("id", "desc")->get();
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -206,6 +207,9 @@ class FilmZgroupManageApiController extends ManageApiController
                 $film->film_status = 1;
                 $film->save();
             }
+        } elseif ($film->film_status == 1) {
+            $film->film_status = 0;
+            $film->save();
         }
     }
 }
