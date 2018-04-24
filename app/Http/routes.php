@@ -46,7 +46,6 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
 
-
     Route::get("/login-free-trial", "ClientController@loginFreeTrial");
 
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
@@ -484,7 +483,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('get-bases', 'ManageShiftController@get_bases');
         Route::get('shifts-progress/{gen_id?}', 'ManageShiftController@shifts_progress');
         Route::get('shift-picks', 'ManageShiftController@get_shift_picks');
-        Route::post('register-shift', 'ManageShiftController@register_shift');
+        Route::post('register-shift', 'ManageShiftController0@register_shift');
 
         Route::post('remove-shift-regis', 'ManageShiftController@remove_shift_regis');
 
