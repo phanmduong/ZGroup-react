@@ -2,15 +2,12 @@ import React from 'react';
 import Pagination from "../../components/common/Pagination";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import AddMessageModal from "./AddMessageModal";
-import AddReceiverModal from "./AddReceiverModal";
 import {bindActionCreators} from 'redux';
 import TooltipButton from "../../components/common/TooltipButton";
 import OverlappedCircles from "../../components/common/OverlappedCircles";
 import * as campaignAction from "./campaignAction";
 import Loading from "../../components/common/Loading";
 import Search from "../../components/common/Search";
-
 
 class ReceiversComponent extends React.Component {
     constructor(props, context) {
@@ -22,7 +19,6 @@ class ReceiversComponent extends React.Component {
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
-        this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
         this.templatesSearchChange = this.templatesSearchChange.bind(this);
     }
 
@@ -34,11 +30,6 @@ class ReceiversComponent extends React.Component {
             });
             this.props.campaignAction.loadAllReceiver(this.props.params.campaignId, 1, '');
         }
-    }
-
-    showAddMessageModal2(message) {
-        this.props.campaignAction.showAddMessageModal();
-        this.props.campaignAction.upMessage(message);
     }
 
     templatesSearchChange(value) {
@@ -68,36 +59,13 @@ class ReceiversComponent extends React.Component {
         let end = this.props.currentPageReceiver < this.props.totalPagesReceiver ? this.props.currentPageReceiver * this.props.limitReceiver : this.props.totalCountReceiver;
 
         return (
-            <div className="campaign-content">
-                <div className="form-group is-empty">
-                    <div className="flex-row flex">
-                        <h5 className="card-title" style={{lineHeight: "0px"}}>
-                            <strong>{this.props.campaignName}</strong>
-                        </h5>
-                        <div className="dropdown">
-                            <button data-toggle="dropdown" aria-expanded="false"
-                                    className="dropdown-toggle button-plus">
-                                <i className="material-icons" style={{fontSize: "20px"}}>add</i>
-                            </button>
-                            <ul className="dropdown-menu dropdown-primary">
-                                <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>Thêm tin</a>
-                                </li>
-                                <li>
-                                    <a onClick={() => {
-                                        this.props.campaignAction.showAddReceiverModal();
-                                    }}>Thêm người nhận</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <Search
-                        onChange={this.templatesSearchChange}
-                        value={this.state.query}
-                        placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
-                    />
-                </div>
-                <br/><br/><br/>
+            <div>
+                <Search
+                    onChange={this.templatesSearchChange}
+                    value={this.state.query}
+                    placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                />
+                <br/>
                 {
                     this.props.isLoadingReceiver ? <Loading/> :
                         (
@@ -195,9 +163,6 @@ class ReceiversComponent extends React.Component {
                             </div>
                         )
                 }
-                <AddReceiverModal/>
-                <AddMessageModal
-                    campaignId={this.props.params.campaignId}/>
                 <div className="row float-right">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style={{textAlign: 'right'}}>

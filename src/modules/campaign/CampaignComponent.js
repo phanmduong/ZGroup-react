@@ -18,7 +18,6 @@ class CampaignComponent extends React.Component {
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
-        this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
         this.templatesSearchChange = this.templatesSearchChange.bind(this);
     }
 
@@ -44,47 +43,18 @@ class CampaignComponent extends React.Component {
         this.props.campaignAction.loadAllMessage(this.campaignId, page, this.state.query);
     }
 
-    showAddMessageModal2(message) {
-        this.props.campaignAction.showAddMessageModal();
-        this.props.campaignAction.upMessage(message);
-    }
-
     render() {
         let first = this.props.totalCountMessage ? (this.props.currentPageMessage - 1) * this.props.limitMessage + 1 : 0;
         let end = this.props.currentPageMessage < this.props.totalPagesMessage ? this.props.currentPageMessage * this.props.limitMessage : this.props.totalCountMessage;
 
         return (
-            <div className="campaign-content">
-                <div className="form-group is-empty">
-                    <div className="flex-row flex">
-                        <h5 className="card-title" style={{lineHeight: "0px"}}>
-                            <strong>{this.props.campaignName}</strong>
-                        </h5>
-                        <div className="dropdown">
-                            <button data-toggle="dropdown" aria-expanded="false"
-                                    className="dropdown-toggle button-plus">
-                                <i className="material-icons" style={{fontSize: "20px"}}>add</i>
-                            </button>
-                            <ul className="dropdown-menu dropdown-primary">
-                                <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>
-                                        Thêm tin</a>
-                                </li>
-                                <li>
-                                    <a onClick={() => {
-                                        this.props.campaignAction.showAddReceiverModal();
-                                    }}>Thêm người nhận</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <Search
-                        onChange={this.templatesSearchChange}
-                        value={this.state.query}
-                        placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
-                    />
-                </div>
-                <br/><br/><br/>
+            <div>
+                <Search
+                    onChange={this.templatesSearchChange}
+                    value={this.state.query}
+                    placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                />
+                <br/>
                 {
                     this.props.isLoadingMessage ? <Loading/> :
                         (
@@ -150,7 +120,8 @@ class CampaignComponent extends React.Component {
                                                         </TooltipButton>
                                                     </td>
                                                     <td>
-                                                        <a className="campaign-message-type"  style={{backgroundColor:message.sms_template_type.color}}
+                                                        <a className="campaign-message-type"
+                                                           style={{backgroundColor: message.sms_template_type.color}}
                                                         >
                                                             <span>{message.sms_template_type.name.toUpperCase()}</span></a>
 
@@ -160,7 +131,10 @@ class CampaignComponent extends React.Component {
                                                             <div style={{display: "inline-block"}}>
                                                                 <TooltipButton placement="top"
                                                                                text={`Sửa`}><a
-                                                                    onClick={() => this.showAddMessageModal2({...message,sms_template_type_id: message.sms_template_type.id})}
+                                                                    onClick={() => this.showAddMessageModal2({
+                                                                        ...message,
+                                                                        sms_template_type_id: message.sms_template_type.id
+                                                                    })}
                                                                 >
                                                                     <i className="material-icons">edit</i>
                                                                 </a></TooltipButton>
@@ -209,7 +183,6 @@ CampaignComponent.propTypes = {
     campaignAction: PropTypes.object.isRequired,
     allMessage: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
-    campaignName: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -220,7 +193,6 @@ function mapStateToProps(state) {
         currentPageMessage: state.smsCampaign.currentPageMessage,
         limitMessage: state.smsCampaign.limitMessage,
         isLoadingMessage: state.smsCampaign.isLoadingMessage,
-        campaignName:state.smsCampaign.campaignName
     };
 }
 

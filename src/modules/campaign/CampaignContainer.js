@@ -17,6 +17,8 @@ class CampaignContainer extends React.Component {
             type: "edit",
             link: ""
         };
+        this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
+        this.showAddReceiverModal = this.showAddReceiverModal.bind(this);
     }
 
     componentWillMount() {
@@ -30,14 +32,32 @@ class CampaignContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname === `${this.state.link}/receivers`){
+            this.props.campaignAction.loadAllReceiver(this.props.params.campaignId, 1, '');
+        }
+        if(this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname === this.state.link){
+            this.props.campaignAction.loadAllMessage(this.props.params.campaignId, 1, '');
+        }
         if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
             this.props.campaignAction.loadAllMessage(this.campaignId, 1, '');
         }
     }
 
+    showAddMessageModal2(message) {
+        this.props.campaignAction.showAddMessageModal();
+        this.props.campaignAction.upMessage(message);
+    }
+
+    showAddReceiverModal() {
+        console.log("campaignId", this.campaignId);
+        this.props.campaignAction.showAddReceiverModal();
+        this.props.campaignAction.getReceiversModal(this.campaignId);
+        this.props.campaignAction.loadAllGens();
+        this.props.campaignAction.loadAllClasses();
+    }
+
     render() {
         this.path = this.props.location.pathname;
-        console.log("campaignContainer", this.campaignId);
         return (
             <div>
                 <IndexLink to={this.state.link}>
@@ -65,7 +85,31 @@ class CampaignContainer extends React.Component {
                 </Link><br/><br/>
 
                 <div className="tab-content">
-                    {this.props.children}
+                    <div className="campaign-content">
+                        <div className="form-group is-empty">
+                            <div className="flex-row flex">
+                                <h5 className="card-title" style={{lineHeight: "0px"}}>
+                                    <strong>{this.props.campaignName}</strong>
+                                </h5>
+                                <div className="dropdown">
+                                    <button data-toggle="dropdown" aria-expanded="false"
+                                            className="dropdown-toggle button-plus">
+                                        <i className="material-icons" style={{fontSize: "20px"}}>add</i>
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-primary">
+                                        <li>
+                                            <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>
+                                                Thêm tin</a>
+                                        </li>
+                                        <li>
+                                            <a onClick={() => this.showAddReceiverModal()}>Thêm người nhận</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {this.props.children}
+                    </div>
                 </div>
                 <AddReceiverModal
                     campaignId={this.campaignId}/>
@@ -83,11 +127,14 @@ CampaignContainer.propTypes = {
     campaignAction: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     isSavingMessage: PropTypes.bool.isRequired,
+    campaignName: PropTypes.string.isRequired,
+
 };
 
 function mapStateToProps(state) {
     return {
         isSavingMessage: state.smsCampaign.isSavingMessage,
+        campaignName: state.smsCampaign.campaignName
 
     };
 }

@@ -14,9 +14,9 @@ import * as helper from "../../helpers/helper";
 import PropertyReactSelectValue from "../createProduct/PropertyReactSelectValue";
 import Select from 'react-select';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
-import {searchStaffs, getReceiversModal, chooseReceivers} from "./campaignApi";
-import Loading from "../../components/common/Loading";
-//import {DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING} from "../../constants/actionTypes";
+import {searchStaffs, getReceiversModal} from "./campaignApi";
+
+//import Loading from "../../components/common/Loading";
 
 class AddReceiverModal extends React.Component {
     constructor(props, context) {
@@ -53,12 +53,6 @@ class AddReceiverModal extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
-    componentWillMount() {
-        this.props.campaignAction.getReceiversModal();
-        this.props.campaignAction.loadAllGens();
-        this.props.campaignAction.loadAllClasses();
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentPageModal !== this.props.currentPageModal)
             if (this.state.isAll) {
@@ -73,6 +67,25 @@ class AddReceiverModal extends React.Component {
                     chosenItems: chosenItems
                 });
             }
+        if (nextProps.isChoosingReceivers !== this.props.isChoosingReceivers && !nextProps.isChoosingReceivers) {
+            let time = {
+                startTime: '',
+                endTime: ''
+            };
+            this.setState({
+                isAll: false,
+                chosenItems: [],
+                page: 1,
+                gens: [],
+                classes: [],
+                time: time,
+                top: null,
+                carer_id: null,
+                paid_course_quantity: null,
+                rate: null
+            });
+            this.props.campaignAction.getReceiversModal(this.campaignId);
+        }
     }
 
     updateFormDate(event) {
@@ -138,6 +151,7 @@ class AddReceiverModal extends React.Component {
             chosenItems: []
         });
         this.props.campaignAction.getReceiversModal(
+            this.campaignId,
             1,
             this.state.gens,
             this.state.classes,
@@ -158,6 +172,7 @@ class AddReceiverModal extends React.Component {
             chosenItems: []
         });
         this.props.campaignAction.getReceiversModal(
+            this.campaignId,
             1,
             value,
             this.state.classes,
@@ -178,6 +193,7 @@ class AddReceiverModal extends React.Component {
             chosenItems: []
         });
         this.props.campaignAction.getReceiversModal(
+            this.campaignId,
             1,
             this.state.gens,
             value,
@@ -199,6 +215,7 @@ class AddReceiverModal extends React.Component {
                 chosenItems: []
             });
             this.props.campaignAction.getReceiversModal(
+                this.campaignId,
                 1,
                 this.state.gens,
                 this.state.classes,
@@ -217,6 +234,7 @@ class AddReceiverModal extends React.Component {
                 chosenItems: []
             });
             this.props.campaignAction.getReceiversModal(
+                this.campaignId,
                 1,
                 this.state.gens,
                 this.state.classes,
@@ -238,6 +256,7 @@ class AddReceiverModal extends React.Component {
             chosenItems: []
         });
         this.props.campaignAction.getReceiversModal(
+            this.campaignId,
             1,
             this.state.gens,
             this.state.classes,
@@ -253,6 +272,7 @@ class AddReceiverModal extends React.Component {
     loadUsers(page = 1) {
         this.setState({page: page});
         this.props.campaignAction.getReceiversModal(
+            this.campaignId,
             page,
             this.state.gens,
             this.state.classes,
@@ -332,6 +352,7 @@ class AddReceiverModal extends React.Component {
 
     onHideModal() {
         this.props.campaignAction.showAddReceiverModal();
+        this.props.campaignAction.loadAllReceiver(this.campaignId, 1, '');
         let time = {
             startTime: '',
             endTime: ''
@@ -348,16 +369,12 @@ class AddReceiverModal extends React.Component {
             paid_course_quantity: null,
             rate: null
         });
-        this.props.campaignAction.getReceiversModal();
     }
 
     submit() {
-        // dispatch({
-        //     type: DISPLAY_GLOBAL_LOADING
-        // });
-        this.props.campaignAction.toggleChooseReceivers();
         if (this.state.isAll && !this.state.top) {
             getReceiversModal(
+                this.campaignId,
                 this.state.page,
                 this.state.gens,
                 this.state.classes,
@@ -369,16 +386,11 @@ class AddReceiverModal extends React.Component {
                 -1
             ).then(res => {
                 let users = res.data.data.users;
-                chooseReceivers(this.campaignId, users);
+                this.props.campaignAction.chooseReceivers(this.campaignId, users);
             });
         } else {
-            chooseReceivers(this.campaignId, this.state.chosenItems);
+            this.props.campaignAction.chooseReceivers(this.campaignId, this.state.chosenItems);
         }
-        this.props.campaignAction.toggleChooseReceivers();
-
-        // dispatch({
-        //     type: HIDE_GLOBAL_LOADING
-        // });
     }
 
     render() {
@@ -547,22 +559,16 @@ class AddReceiverModal extends React.Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    {
-                        this.props.isChoosingReceivers ? (
-                            <Loading/>
-                        ) : (
-                            <div>
-                                <button className="btn"
-                                        onClick={this.onHideModal}>
-                                    Hủy
-                                </button>
-                                <button className="btn btn-success"
-                                        onClick={this.submit}>
-                                    Thêm
-                                </button>
-                            </div>
-                        )
-                    }
+                    <div>
+                        <button className="btn"
+                                onClick={this.onHideModal}>
+                            Hủy
+                        </button>
+                        <button className="btn btn-success"
+                                onClick={this.submit}>
+                            Thêm
+                        </button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         );
@@ -580,8 +586,8 @@ AddReceiverModal.propTypes = {
     addReceiverModal: PropTypes.bool.isRequired,
     gens: PropTypes.array.isRequired,
     classes: PropTypes.array.isRequired,
-    isChoosingReceivers: PropTypes.bool.isRequired,
     campaignId: PropTypes.string.isRequired,
+    isChoosingReceivers: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {

@@ -65,8 +65,8 @@ export function loadAllReceiverApi(campaignId, page, search) {
     return axios.get(url);
 }
 
-export function getReceiversModal(page = 1, gens, classes, start_time, end_time, top, carer_id, rate, limit = 10) {
-    let url = env.MANAGE_API_URL + "/sms/user-list";
+export function getReceiversModal(campaignId, page = 1, gens, classes, start_time, end_time, top, carer_id, rate, limit = 10) {
+    let url = env.MANAGE_API_URL + "/sms/user-list/" + campaignId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
