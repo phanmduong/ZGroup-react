@@ -43,7 +43,13 @@ class WarehouseController extends ManageApiController
     {
         $limit  = $request->limit ? $request->limit : 20;
         if($limit != -1) {
-            $goods = Good::paginate($limit);
+            $goods = Good::join('zhistory_goods','zhistory_goods.good_id','=','goods.id')->
+             join('item_orders','item_orders.id','=','zhistory_goods.item_order_id')->
+             select('goods.*')->where('item_orders.type','=','order')->groupBy('zhistory_goods.good_id')->
+             havingRaw('COUNT(item_orders.id)>0')
+            ->paginate($limit);
+            //dd($goods);
+            //$goods = Good::paginate($limit);
             return $this->respondWithPagination($goods, [
                 "goods" => $goods->map(function ($good) {
                     $sum_warehouse = [];

@@ -27,7 +27,11 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllFilms()
     {
-        $films = Film::orderBy("release_date", "desc")->get();
+        $films = Film::orderBy("id", "desc")->get();
+        foreach($films as $film)
+        {
+            $this->reloadFilmStatus($film);
+        }
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -41,7 +45,6 @@ class FilmZgroupManageApiController extends ManageApiController
             'director' => 'required|max:255',
             'cast' => 'required|max:255',
             'running_time' => 'required|max:255',
-            'release_date' => 'required|max:255',
             'country' => 'required|max:255',
             'language' => 'required|max:255',
             'film_genre' => 'required|max:255',
@@ -63,7 +66,9 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->language = $request->language;
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
-        $film->film_status = $request->film_status;
+        $film->film_status = 0;
+        $film->film_rated = $request->film_rated;
+        $film->rate = $request->rate;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -74,6 +79,14 @@ class FilmZgroupManageApiController extends ManageApiController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'avatar_url' => 'required|max:255',
+            'director' => 'required|max:255',
+            'cast' => 'required|max:255',
+            'running_time' => 'required|max:255',
+            'country' => 'required|max:255',
+            'language' => 'required|max:255',
+            'film_genre' => 'required|max:255',
+            'summary' => 'required',
 
         ]);
         if($validator->fails()) {
@@ -93,6 +106,8 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
         $film->film_status = $request->film_status;
+        $film->film_rated = $request->film_rated;
+        $film->rate= $request->rate;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -133,6 +148,9 @@ class FilmZgroupManageApiController extends ManageApiController
        $session->start_time = $request->start_time;
        $session->film_quality= $request->film_quality;
        $session -> save();
+        $film = Film::find($request->film_id);
+        $film->film_status = 1;
+        $film->save();
 
         return $this->respondSuccess('Tao suat chieu thanh cong');
     }
@@ -155,6 +173,9 @@ class FilmZgroupManageApiController extends ManageApiController
         $session->start_time = $request->start_time;
         $session->film_quality= $request->film_quality;
         $session->save();
+        $film = Film::find($request->film_id);
+        $film->film_status = 1;
+        $film->save();
 
         return $this->respondSuccess('Cap nhat thanh cong');
     }
@@ -175,4 +196,21 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccessWithStatus($this->data);
     }
 
+    public function reloadFilmStatus (Film $film)
+    {
+        if($film->sessions)
+        {
+            $sessions = $film->sessions->where('start_date', '>=', date('Y-m-d').' 00:00:00');
+            if(!$sessions && $film->status !=2)
+            {
+                $film->film_status = 0;
+                $film->save();
+            }
+            elseif ($sessions)
+            {
+                $film->film_status = 1;
+                $film->save();
+            }
+        }
+    }
 }

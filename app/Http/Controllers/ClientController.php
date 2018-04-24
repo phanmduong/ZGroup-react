@@ -8,10 +8,14 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use  GuzzleHttp\Client;
+use Illuminate\Support\Facades\Hash;
+use App\Services\EmailService;
 
 class ClientController extends Controller
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
     {
         if (url('/') != url()->current()) {
             $path = explode(url('/') . '/', url()->current())[1];
@@ -21,6 +25,7 @@ class ClientController extends Controller
         if ($path != 'login-free-trial') {
             $this->middleware('permission_tab_react:' . $path);
         }
+        $this->emailService = $emailService;
     }
 
     public function loginFreeTrial(Request $request)
@@ -66,13 +71,12 @@ class ClientController extends Controller
         ]);
 
         // login this account
-        Auth::login($user, true);
-        $token = JWTAuth::fromUser($user);
+        // Auth::login($user, true);
+        // $token = JWTAuth::fromUser($user);
 
-        // redirect to manage.keetool.xyz
         return view('freetrial::index', [
-            'token' => $token,
-            'user' => json_encode($user)
+            'email' => $user->email,
+            'password' => $password
         ]);
     }
 
