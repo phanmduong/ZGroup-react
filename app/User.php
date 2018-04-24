@@ -476,7 +476,7 @@ class User extends Authenticatable
                     'image_url' => $course->image_url,
                 ];
             }),
-            'time' => $this->created_at,
+            'time' => format_vn_short_datetime(strtotime($this->created_at)),
             'carer' => [
                 'id' => head($this->getCarer->toArray())['id'],
                 'name' => head($this->getCarer->toArray())['name'],
