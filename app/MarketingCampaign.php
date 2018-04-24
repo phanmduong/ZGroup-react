@@ -12,4 +12,12 @@ class MarketingCampaign extends Model
     {
         return $this->hasMany('App\Register', "campaign_id");
     }
+
+    public function getData() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'color' => $this->color,
+        ];
+    }
 }

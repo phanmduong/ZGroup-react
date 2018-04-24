@@ -164,8 +164,8 @@ class BookRepository
 
         if ($user == null) {
             $user = new User;
+            $user->name = $name;
         }
-        $user->name = $name;
         $user->email = $email;
         $user->phone = $phone;
         $user->address = $address;
@@ -222,7 +222,7 @@ class BookRepository
             'user' => $user,
             'quantity' => $quantity,
             'order' => $order,
-            'time' => date('m/d/Y H:i:s')
+            'time' => date('n/d/Y H:i:s')
         ];
 
         Mail::send('emails.elight_confirm_buy_book_staff', $staff_data, function ($m) {

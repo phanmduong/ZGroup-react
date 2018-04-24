@@ -1,1 +1,1 @@
-@extends("client.layout.master") @section("css") <link href="manage/manufacture/main.24cb2b04476a2c8583a70c6da0021f36.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/manufacture/main.d9d1dbde4bc5d4327a87.js"></script> @endsection
+@extends("client.layout.master") @section("css") <link href="manage/manufacture/main.803084be756533f744293c0cd6118531.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/manufacture/main.b406b9929b56ca06e704.js"></script> @endsection

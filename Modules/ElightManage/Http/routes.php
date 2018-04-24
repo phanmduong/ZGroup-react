@@ -13,5 +13,5 @@ $webRoutes = function () {
     Route::post('/check', 'ElightManageController@check');
 };
 
-Route::group(['middleware' => 'web','domain' => 'keetool8.xyz',  'namespace' => 'Modules\ElightManage\Http\Controllers'], $webRoutes);
-Route::group(['middleware' => 'web','domain' => 'elight.test', 'namespace' => 'Modules\ElightManage\Http\Controllers'], $webRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool8.xyz',  'namespace' => 'Modules\ElightManage\Http\Controllers'], $webRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'elight.test', 'namespace' => 'Modules\ElightManage\Http\Controllers'], $webRoutes);

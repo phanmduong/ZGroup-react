@@ -19,6 +19,7 @@ $goodRoutes = function () {
         Route::get('/all-property-items', 'GoodPropertyApiController@allPropertyItems');
         Route::delete('/delete-property-item/{property_item_id}', 'GoodPropertyApiController@deletePropertyItem');
         Route::post('/create-property-item', 'GoodPropertyApiController@createGoodPropertyItem');
+        Route::post('/duplicate-property-item/{propertyId}', 'GoodPropertyApiController@duplicateProperty');
         Route::post('/add-property-item-task/{task_id}', 'GoodPropertyApiController@addPropertyItemsTask');
         Route::get('/property-item/{property_item_id}', 'GoodPropertyApiController@getGoodPropertyItem');
         Route::get('/get-property/{good_id}', 'GoodPropertyApiController@propertiesOfGood');
@@ -48,12 +49,16 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Good\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Good\Http\Controllers'],
     function () use ($manufactureRoutes) {
         Route::group(['prefix' => 'v3'], $manufactureRoutes);
-    });
+    }
+);
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Good\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Good\Http\Controllers'],
     function () use ($goodRoutes) {
         Route::group(['prefix' => 'v3'], $goodRoutes);
-    });
+    }
+);

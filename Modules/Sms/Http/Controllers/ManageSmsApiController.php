@@ -10,10 +10,14 @@
 namespace Modules\Sms\Http\Controllers;
 
 
+use App\GroupUser;
 use App\Http\Controllers\ManageApiController;
 use App\SmsList;
 use App\SmsTemplate;
 use App\SmsTemplateType;
+use App\Group;
+use App\StudyClass;
+use App\User;
 use Illuminate\Http\Request;
 
 class ManageSmsApiController extends ManageApiController
@@ -46,7 +50,7 @@ class ManageSmsApiController extends ManageApiController
     public function getCampaignsList(Request $request)
     {
         $query = trim($request->search);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $campaigns = SmsList::query();
         if ($query) {
             $campaigns = $campaigns->where('name', 'like', "%$query%");
@@ -67,9 +71,36 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function getTemplateTypes(Request $request)
+    {
+        $query = trim($request->search);
+        $limit = $request->limit ? intval($request->limit) : 20;
+        $templateTypes = SmsTemplateType::query();
+        if ($query) {
+            $templateTypes = $templateTypes->where('name', 'like', "%$query%");
+        }
+        if ($limit == -1) {
+            $templateTypes = $templateTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'template_types' => $templateTypes->map(function ($templateType) {
+                    return $templateType->getData();
+                })
+            ]);
+        }
+        $templateTypes = $templateTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($templateTypes, [
+            'template_types' => $templateTypes->map(function ($templateType) {
+                return $templateType->getData();
+            })
+        ]);
+    }
+
     public function createCampaign(Request $request)
     {
         $campaign = new SmsList;
+        $group = new Group;
+        $group->save();
+        $campaign->group_id = $group->id;
         $this->assignCampaignInfo($campaign, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Tạo chiến dịch thành công'
@@ -132,10 +163,10 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getCampaignDetail($campaignId, Request $request)
+    public function getCampaignTemplates($campaignId, Request $request)
     {
         $campaign = SmsList::find($campaignId);
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit ? intval($request->limit) : 20;
         $search = trim($request->search);
 
         if ($campaign == null) {
@@ -148,9 +179,14 @@ class ManageSmsApiController extends ManageApiController
 
         if ($limit == -1) {
             $templates = $templates->orderBy('created_at', 'desc')->get();
-        } else {
-            $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondSuccessWithStatus([
+                "campaign" => $campaign->getData(),
+                'templates' => $templates->map(function ($template) {
+                    return $template->transform();
+                })
+            ]);
         }
+        $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($templates, [
             "campaign" => $campaign->getData(),
             'templates' => $templates->map(function ($template) {
@@ -159,13 +195,192 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getTemplateTypes()
+    public function getCampaignReceivers($campaignId, Request $request)
     {
-        $templateTypes = SmsTemplateType::all();
-        return $this->respondSuccessWithStatus([
-            'template_types' => $templateTypes->map(function ($templateType) {
-                return $templateType->getData();
+        $campaign = SmsList::find($campaignId);
+        $limit = $request->limit ? intval($request->limit) : 20;
+        $search = trim($request->search);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus('Không có chiến dịch này');
+        }
+        $users = $campaign->group->user()->where(function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%")->orWhere('phone', 'like', "%$search%");
+        });
+        if ($limit == -1) {
+            $users = $users->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'users' => $users->map(function ($user) {
+                    return $user->getReceivers();
+                })
+            ]);
+        }
+        $users = $users->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($users, [
+            'receivers' => $users->map(function ($user) {
+                return $user->getReceivers();
             })
         ]);
+
     }
+
+    public function createTemplateType(Request $request)
+    {
+        $template_type = new SmsTemplateType;
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if (count($check) > 0)
+            return $this->respondErrorWithStatus([
+                'message' => 'Đã tồn tại loại tin nhăn này'
+            ]);
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Tạo loại tin nhắn thành công'
+        ]);
+    }
+
+    public function editTemplateType($templateTypeId, Request $request)
+    {
+        $template_type = SmsTemplateType::find($templateTypeId);
+        $check = SmsTemplateType::where('name', trim($request->name))->get();
+        if (count($check) > 0 && $template_type->name !== $request->name)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+            ]);
+        $template_type->name = $request->name;
+        $template_type->color = $request->color;
+        $template_type->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Sửa loại tin nhắn thành công'
+        ]);
+    }
+
+    public function addUsersIntoCampaign($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chiến dịch này'
+            ]);
+        }
+        $group = $campaign->group;
+        $users = json_decode($request->users);
+        foreach ($users as $user) {
+            $groups_users = new GroupUser;
+            $groups_users->group_id = $group->id;
+            $groups_users->user_id = $user->id;
+            $groups_users->save();
+        }
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thêm người nhận vào chiến dịch thành công'
+        ]);
+    }
+
+    public function getReceiversChoice($campaignId, Request $request)
+    {
+//        $campaign = SmsList::find($campaignId);
+//        $group_id = $campaign->group->id;
+//
+//        $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
+//            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
+
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+        $gens = json_decode($request->gens);
+        $classes = json_decode($request->classes);
+        $limit = $request->limit ? intval($request->limit) : 20;
+        // $paid_course_quantity = $request->paid_course_quantity;
+        if ($request->carer_id) {
+            $users = User::find($request->carer_id)->getCaredUsers();
+        } else $users = User::query();
+
+        if ($startTime != null && $endTime != null) {
+            $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
+        }
+
+        if ($request->rate) {
+            $users = $users->where("rate", $request->rate);
+        }
+
+        $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
+            ->where(function ($query) use ($gens) {
+                if ($gens) {
+                    for ($index = 0; $index < count($gens); ++$index) {
+                        $gen_id = $gens[$index]->value;
+                        if ($index == 0)
+                            $query->where('gens.id', '=', $gen_id);
+                        else
+                            $query->orWhere('gens.id', '=', $gen_id);
+                    }
+                }
+            })->get()->toArray();
+
+        $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+            ->select('users.*')->where(function ($query) use ($classes_gens) {
+                if ($classes_gens) {
+                    for ($index = 0; $index < count($classes_gens); ++$index) {
+                        $class_id = $classes_gens[$index]['id'];
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
+                    }
+                }
+            })->where(function ($query) use ($classes) {
+                if ($classes) {
+                    for ($index = 0; $index < count($classes); ++$index) {
+                        $class_id = $classes[$index]->value;
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
+                    }
+                }
+            })->groupBy("users.id");
+
+//        if ($request->paid_course_quantity) {
+//            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+//                ->select('users.*')->where(function ($query) use ($classes) {
+//                    for ($index = 0; $index < count($classes); ++$index) {
+//                        $class_id = $classes[$index]['id'];
+//                        if ($index == 0)
+//                            $query->where('registers.class_id', '=', $class_id);
+//                        else
+//                            $query->orWhere('registers.class_id', '=', $class_id);
+//                    }
+//
+//                });
+//        }
+
+
+        if ($request->top) {
+            $users = $users->simplePaginate(intval($request->top));
+        } else {
+            if ($limit == -1) {
+                $users = $users->orderBy('created_at', 'desc')->get();
+                return $this->respondSuccessWithStatus([
+                    'users' => $users->map(function ($user) use ($group_id) {
+                        return $user->getReceivers();
+                    })
+                ]);
+            }
+            $users = $users->paginate($limit);
+        }
+
+        if ($request->top) {
+            return $this->respondWithSimplePagination($users, [
+                'users' => $users->map(function ($user) use ($group_id) {
+                    return $user->getReceivers();
+                })
+            ]);
+        } else {
+            return $this->respondWithPagination($users, [
+                'users' => $users->map(function ($user) use ($group_id) {
+                    return $user->getReceivers();
+                })
+            ]);
+        }
+    }
+
 }

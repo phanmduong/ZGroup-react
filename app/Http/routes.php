@@ -40,9 +40,14 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
+Route::group(['domain' => 'manage.' . config('app.domain')], function () {
+    
+    
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/logout', 'AuthenticateController@logout');
+
+    Route::get("/login-free-trial", "ClientController@loginFreeTrial");
+
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
@@ -58,6 +63,9 @@ Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain'
         ->where('path', '.*');
 
     Route::get('/book/{path}', 'ClientController@book')
+        ->where('path', '.*');
+
+    Route::get('/administration/{path}', 'ClientController@administration')
         ->where('path', '.*');
 
     Route::get('/business/{path}', 'ClientController@business')
@@ -475,7 +483,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('get-bases', 'ManageShiftController@get_bases');
         Route::get('shifts-progress/{gen_id?}', 'ManageShiftController@shifts_progress');
         Route::get('shift-picks', 'ManageShiftController@get_shift_picks');
-        Route::post('register-shift', 'ManageShiftController@register_shift');
+        Route::post('register-shift', 'ManageShiftController0@register_shift');
 
         Route::post('remove-shift-regis', 'ManageShiftController@remove_shift_regis');
 
@@ -506,8 +514,11 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
+    Route::get('/blogs', 'ColormeNewController@blogs');
+    Route::get('/blog/{slug}', 'ColormeNewController@blog');
+    Route::get('/api/v3/extract', 'ColormeNewController@extract');
+    Route::post('/api/v3/sign-up', 'ColormeNewController@register');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
-//    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
     Route::get('/sign-in', 'ColormeNewController@social');
     Route::get('/upload-post', 'ColormeNewController@social');
@@ -985,3 +996,7 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
 
 });
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

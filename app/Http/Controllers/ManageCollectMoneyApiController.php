@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: phanmduong
@@ -76,6 +77,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                             'money' => $regis->money,
                             'received_id_card' => $regis->received_id_card,
                             'note' => $regis->note,
+                            'coupon' => $regis->coupon,
                             'paid_time' => format_vn_date(strtotime($regis->paid_time)),
                             'is_paid' => $regis->status
                         ];
@@ -89,8 +91,7 @@ class ManageCollectMoneyApiController extends ManageApiController
     public function pay_money(Request $request)
     {
         if ($request->register_id == null || $request->money == null ||
-            $request->code == null
-        ) {
+            $request->code == null) {
             return $this->responseBadRequest('Not enough parameters!');
         }
         $register_id = $request->register_id;
@@ -194,16 +195,14 @@ class ManageCollectMoneyApiController extends ManageApiController
                         ->orwhere('registers.code', 'like', '%' . $search . '%')
                         ->orWhere('registers.note', 'like', '%' . $search . '%');
                 })
-                ->select('registers.*', 'users.name', 'users.email', 'users.phone')
-                ->orderBy('paid_time', 'desc')->paginate($limit);
+                ->select('registers.*', 'users.name', 'users.email', 'users.phone');
         } else {
-            $registers = Register::where('status', 1)->orderBy('paid_time', 'desc')->paginate($limit);
+            $registers = Register::where('status', 1);
+            if ($request->staff_id)
+                $registers = $registers->where('staff_id', $request->staff_id);
         }
-
-        if ($request->staff_id) {
-            $registers = Register::where('status', 1)->where('staff_id', $request->staff_id)
-                ->orderBy('paid_time', 'desc')->paginate($limit);
-        }
+        
+        $registers = $registers->orderBy('paid_time', 'desc')->paginate($limit);
 
         $data = [
             'registers' => $registers->map(function ($register) {
@@ -231,10 +230,10 @@ class ManageCollectMoneyApiController extends ManageApiController
                 ];
                 if ($register->staff)
                     $register_data['collector'] = [
-                        'id' => $register->staff->id,
-                        'name' => $register->staff->name,
-                        'color' => $register->staff->color,
-                    ];
+                    'id' => $register->staff->id,
+                    'name' => $register->staff->name,
+                    'color' => $register->staff->color,
+                ];
                 return $register_data;
             })
         ];

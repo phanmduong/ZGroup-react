@@ -3,6 +3,7 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 use App\Good;
+use App\GoodCategory;
 use App\Order;
 use App\Product;
 use App\CategoryProduct;
@@ -39,15 +40,37 @@ class NhatQuangShopController extends Controller
         $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
         $generalGoods = $goodQuery->take(8)->get();
         $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
-        $categoryGoods = Good::orderBy("good_category_id")->pluck('good_category_id');
+        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
+        $results = null;
+
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
-        $this->data["categoryGoods"] = $categoryGoods;
+        $this->data["goodCategories"] = $goodCategories;
+        $this->data["results"] = $results;
+
         return view('nhatquangshop::index', $this->data);
+    }
+
+    public function searchGood(Request $request)
+    {
+        $results = Good::orderBy('created_at','desc')->where('name','LIKE','%'.$request->good_name.'%')->get();
+        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
+
+        $this->data["results"] = $results;
+        $this->data["goodCategories"] = $goodCategories;
+        $this->data["good_name"] = $request->good_name;
+
+        return view('nhatquangshop::index',$this->data);
+    }
+
+    public function goodsByCategory($categoryId)
+    {
+        $this->data["id"] = $categoryId;
+        return view('nhatquangshop::goods_by_category', $this->data);
     }
 
     public function productNew(Request $request)
@@ -99,7 +122,7 @@ class NhatQuangShopController extends Controller
             ->first();
         $size = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "size"]])->first();
         $this->data['size'] = $size['value'];
-        $this->data['good']= $good;
+        $this->data['good'] = $good;
         $this->data['color'] = $color['value'];
         $this->data['relateGoods'] = $relateGoods;
         return view('nhatquangshop::product_detail', $this->data);
@@ -181,8 +204,8 @@ class NhatQuangShopController extends Controller
             $blogs = $blogs->where('title', 'like', '%' . $search . '%');
         }
 
-        if($type){
-            $blogs = $blogs->where('category_id',$type);
+        if ($type) {
+            $blogs = $blogs->where('category_id', $type);
         }
 
 
@@ -212,9 +235,6 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::blogs', $this->data);
     }
 
-    
-
-   
 
     public function saveOrder(Request $request)
     {

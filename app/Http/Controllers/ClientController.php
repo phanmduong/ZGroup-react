@@ -2,16 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Role;
+use App\User;
+use  GuzzleHttp\Client;
+use Illuminate\Support\Facades\Hash;
+use App\Services\EmailService;
+
 class ClientController extends Controller
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
     {
         if (url('/') != url()->current()) {
             $path = explode(url('/') . '/', url()->current())[1];
         } else {
             $path = 'dashboard';
         }
-        $this->middleware('permission_tab_react:' . $path);
+        if ($path != 'login-free-trial') {
+            $this->middleware('permission_tab_react:' . $path);
+        }
+        $this->emailService = $emailService;
+    }
+
+    public function loginFreeTrial(Request $request)
+    {
+        $email = $request->email;
+        $otp = $request->otp;
+        $name = $request->name;
+
+        $user = User::where('email', $email)->first();
+
+        if ($user == null) {
+            $user = new User();
+        }
+        $user->email = $email;
+        $user->role = 2;
+        $password = generateRandomString();
+        $user->password = Hash::make($password);
+        $user->name = $name;
+        $user->save();
+
+        // set role CEO
+        $role = Role::find(9);
+        if ($role == null) {
+            $role = withTrashed()
+                ->where('id', 9)
+                ->first();
+            $role->restore();
+        }
+
+        $user->role_id = 9;
+        $user->save();
+
+        // send mail password to user
+        $this->emailService->send_mail_password($user, $password);
+
+        // send password back to floor 4th with otp
+        $client = new Client();
+        $res = $client->request('POST', 'https://keetool.com/free-trial/password?otp=' . $otp, [
+            'form_params' => [
+                'email' => $user->email,
+                'password' => $password,
+            ]
+        ]);
+
+        return view('freetrial::index', [
+            'email' => $user->email,
+            'password' => $password
+        ]);
+    }
+
+    public function administration()
+    {
+        return view('client.administration');
     }
 
     public function email()

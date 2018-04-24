@@ -9,7 +9,6 @@ use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Good\Repositories\GoodRepository;
-use Modules\Task\Entities\TaskList;
 
 class GoodPropertyApiController extends ManageApiController
 {
@@ -27,14 +26,15 @@ class GoodPropertyApiController extends ManageApiController
         $keyword = $request->search;
         $goodPropertyItems = GoodPropertyItem::query();
 
-        if ($request->type)
+        if ($request->type) {
             $goodPropertyItems = $goodPropertyItems->where('type', $request->type);
+        }
         $goodPropertyItems = $goodPropertyItems->where('name', 'like', '%' . $keyword . '%');
 
         if ($limit == -1) {
             $goodPropertyItems = $goodPropertyItems->orderBy('created_at', 'desc')->get();
             return $this->respond([
-                "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+                'good_property_items' => $goodPropertyItems->map(function ($goodPropertyItem) {
                     return $goodPropertyItem->transform();
                 })
             ]);
@@ -43,7 +43,7 @@ class GoodPropertyApiController extends ManageApiController
         return $this->respondWithPagination(
             $goodPropertyItems,
             [
-                "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+                'good_property_items' => $goodPropertyItems->map(function ($goodPropertyItem) {
                     return $goodPropertyItem->transform();
                 })
             ]
@@ -54,9 +54,9 @@ class GoodPropertyApiController extends ManageApiController
     {
         $goodPropertyItem = GoodPropertyItem::find($id);
         if ($goodPropertyItem == null) {
-            return $this->respondErrorWithStatus("Thuộc tính không tồn tại");
+            return $this->respondErrorWithStatus('Thuộc tính không tồn tại');
         }
-        return $this->respondSuccessWithStatus(["good_property_item" => $goodPropertyItem->transform()]);
+        return $this->respondSuccessWithStatus(['good_property_item' => $goodPropertyItem->transform()]);
     }
 
     public function propertiesOfGood($good_id)
@@ -70,34 +70,57 @@ class GoodPropertyApiController extends ManageApiController
     public function deletePropertyItem($property_item_id, Request $request)
     {
         $goodProperty = GoodProperty::where('property_item_id', $property_item_id)->first();
-        if ($goodProperty)
+        if ($goodProperty) {
             return $this->respondErrorWithStatus(
                 'Thuộc tính có sản phẩm xử dụng không xóa'
             );
+        }
 
         $goodPropertyItem = GoodPropertyItem::find($property_item_id);
+
+        $propertyItemTasks = $goodPropertyItem->propertyItemTasks;
+
+        foreach ($propertyItemTasks as $propertyItemTask) {
+            $propertyItemTask->delete();
+        }
+
         $goodPropertyItem->delete();
         return $this->respondSuccessWithStatus([
-            'message' => "success"
+            'message' => 'success'
+        ]);
+    }
+
+    public function duplicateProperty($propertyId)
+    {
+        $property = GoodPropertyItem::find($propertyId);
+        if ($property == null) {
+            return $this->respondErrorWithStatus();
+        }
+        $newProperty = $property->replicate();
+        $newProperty->save();
+
+        return $this->respondSuccessV2([
+            'property' => $newProperty
         ]);
     }
 
     public function createGoodPropertyItem(Request $request)
     {
-        if ($request->name == null)
-            return $this->respondErrorWithStatus("Thiếu trường name");
+        if ($request->name == null) {
+            return $this->respondErrorWithStatus('Thiếu trường name');
+        }
 
-        $goodPropertyItem = GoodPropertyItem::where("name", $request->name)->where("type", $request->type)->first();
+        $goodPropertyItem = GoodPropertyItem::where('name', $request->name)->where('type', $request->type)->first();
         $user = $this->user;
         if ($request->id) {
             if ($goodPropertyItem != null && $goodPropertyItem->id != $request->id) {
-                return $this->respondErrorWithStatus("Đã tồn tại thuộc tính với tên là " . $request->name);
+                return $this->respondErrorWithStatus('Đã tồn tại thuộc tính với tên là ' . $request->name);
             }
             $good_property_item = GoodPropertyItem::find($request->id);
             $good_property_item->editor_id = $user->id;
         } else {
             if ($goodPropertyItem != null) {
-                return $this->respondErrorWithStatus("Đã tồn tại thuộc tính với tên là " . $request->name);
+                return $this->respondErrorWithStatus('Đã tồn tại thuộc tính với tên là ' . $request->name);
             }
             $good_property_item = new GoodPropertyItem();
             $good_property_item->creator_id = $user->id;
@@ -130,10 +153,10 @@ class GoodPropertyApiController extends ManageApiController
         $task->save();
 
         if ($task == null) {
-            return $this->respondErrorWithStatus("Công việc không tồn tại");
+            return $this->respondErrorWithStatus('Công việc không tồn tại');
         }
 
-        BoardTaskTaskList::where("task_id", $task_id)->delete();
+        BoardTaskTaskList::where('task_id', $task_id)->delete();
 
         foreach ($selectedBoards as $selectedBoard) {
             $boardTaskTaskList = new BoardTaskTaskList();
@@ -153,19 +176,19 @@ class GoodPropertyApiController extends ManageApiController
 
         $this->goodRepository->saveGoodProperties($goodProperties, $id);
 
-        return $this->respondSuccessWithStatus(["message" => "success"]);
+        return $this->respondSuccessWithStatus(['message' => 'success']);
     }
 
     public function loadGoodTaskProperties($goodId, $taskId)
     {
         $task = Task::find($taskId);
-        $goodPropertyNames = $task->goodPropertyItems->pluck("name");
-        $goodProperties = GoodProperty::where("good_id", $goodId)->whereIn("name", $goodPropertyNames)->get();
+        $goodPropertyNames = $task->goodPropertyItems->pluck('name');
+        $goodProperties = GoodProperty::where('good_id', $goodId)->whereIn('name', $goodPropertyNames)->get();
         return $this->respondSuccessWithStatus([
-            "good_properties" => $goodProperties->map(function ($goodProperty) {
+            'good_properties' => $goodProperties->map(function ($goodProperty) {
                 return [
-                    "name" => $goodProperty->name,
-                    "value" => $goodProperty->value
+                    'name' => $goodProperty->name,
+                    'value' => $goodProperty->value
                 ];
             })
         ]);

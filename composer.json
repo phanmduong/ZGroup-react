@@ -11,7 +11,7 @@
     "php": ">=5.5.9",
     "composer/composer": "dev-master",
     "laravel/framework": "5.2.*",
-    "doctrine/dbal": "v2.5.*",
+    "doctrine/dbal": "^2.5",
     "aws/aws-sdk-php": "~3.0",
     "league/flysystem-aws-s3-v3": "~1.0",
     "intervention/image": "^2.3",

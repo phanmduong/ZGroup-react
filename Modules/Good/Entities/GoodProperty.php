@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GoodProperty extends Model
 {
     use SoftDeletes;
-    protected $table = "good_properties";
+    protected $table = 'good_properties';
 
     public function transform()
     {
         return [
-            "property_item_id" => $this->property_item_id,
-            "name" => $this->name,
-            "value" => $this->value
+            'property_item_id' => $this->property_item_id,
+            'name' => $this->name,
+            'value' => $this->value
         ];
     }
-
 }

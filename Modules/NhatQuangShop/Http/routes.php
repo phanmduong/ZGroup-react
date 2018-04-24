@@ -23,6 +23,10 @@ $nhatquangShopRoute = function () {
     Route::get('events/{slug}/sign-up-form',['as' => 'event-form', 'uses' => 'NhatQuangShopController@eventSignUpForm']);
 
     Route::get('/product/detail/{good_id}', "NhatQuangShopController@productDetail");
+    Route::get('/category/{categoryid}', "NhatQuangShopController@goodsByCategory");
+    Route::post('/search', "NhatQuangShopController@searchGood");
+    Route::get('/category/test/s', "NhatQuangShopController@categoryTest");
+
 
     Route::get('/test', 'NhatQuangShopController@test');
    
