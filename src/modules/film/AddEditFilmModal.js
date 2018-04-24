@@ -7,6 +7,7 @@ import * as filmAction from "./filmAction";
 import ImageUploader from "../../components/common/ImageUploader";
 import UploadManyImages from "../../components/common/UploadManyImages";
 import FormInputText from "../../components/common/FormInputText";
+import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from "../../helpers/helper";
 
 class AddEditFilmModal extends React.Component {
@@ -51,7 +52,6 @@ class AddEditFilmModal extends React.Component {
             ||helper.isEmptyInput(film.rate)
             ||helper.isEmptyInput(film.summary)
             ||helper.isEmptyInput(film.film_rated)
-            ||helper.isEmptyInput(film.film_status)
 
         ) helper.showErrorNotification("Bạn cần nhập đủ thông tin");
          else {
@@ -84,7 +84,7 @@ class AddEditFilmModal extends React.Component {
                             <div className="row">
                                 <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div className="card-content">
-                                        <label class="label-control" style={{marginBottom:15}}>Ảnh đại diện</label>
+                                        <label style={{marginBottom:15}}>Ảnh đại diện</label>
                                         <ImageUploader handleFileUpload={this.handleUpload}
                                                        tooltipText="Chọn ảnh đại diện"
                                                        image_url={this.props.filmModal.avatar_url}/>
@@ -93,7 +93,7 @@ class AddEditFilmModal extends React.Component {
                                 <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div className="card-content">
                                         <div className="form-group">
-                                        <label class="label-control">Thêm ảnh mô tả</label>
+                                        <label>Thêm ảnh mô tả</label>
                                             <UploadManyImages images_url=""
                                                               handleFileUpload={this.handleImages}
                                                               box="box-images-website-create"/>
@@ -113,7 +113,7 @@ class AddEditFilmModal extends React.Component {
                                 </div>
                                 <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
                                     <FormInputText
-                                        label="Trailer - Nhập link youtube"
+                                        label="Trailer <Chèn link youtube>"
                                         name="trailer_url"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.trailer_url || ''}
@@ -153,13 +153,15 @@ class AddEditFilmModal extends React.Component {
                                     />
                                 </div>
                                 <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>    
-                                    <FormInputText
+                                    <FormInputDate
                                         label="Ngày phát hành"
                                         name="release_date"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.release_date || ''}
+                                        id="form-start-hour"
                                         required
                                     />
+
                                 </div>    
                             </div>
                             <div className="row">
@@ -212,15 +214,7 @@ class AddEditFilmModal extends React.Component {
                                         required
                                     />
                                 </div>  
-                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>  
-                                    <FormInputText
-                                        label="Status"
-                                        name="film_status"
-                                        updateFormData={this.updateFormData}
-                                        value={this.props.filmModal.film_status || ''}
-                                        required
-                                    />
-                                </div>    
+
                             </div>
 
                             <div className="form-group">
