@@ -24,8 +24,22 @@ class IssueManageApiController extends ManageApiController
                 'domain' => 'zgroup.vn',
             ]
         ]);
-        $res = json_decode($response->getBody()->getContents());
-        return $this->respond($res);
+        $issue = json_decode($response->getBody()->getContents())->data->issue;
+        $user = User::where('email', $issue->email)->first();
+        $res = [
+            'name' => $user->name,
+            'avatar_url' => $user->avatar_url,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'color' => $user->color,
+            'title' => $issue->title,
+            'description' => $issue->description,
+            'content' => $issue->content,
+            'status' => $issue->status,
+        ];
+        return $this->respondSuccessWithStatus([
+            'issue' => $res
+        ]);
     }
 
     public function getAllIssue(Request $request)
