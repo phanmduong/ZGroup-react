@@ -277,8 +277,13 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getReceiversChoice(Request $request)
+    public function getReceiversChoice($campaignId, Request $request)
     {
+//        $campaign = SmsList::find($campaignId);
+//        $group_id = $campaign->group->id;
+//
+//        $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
+//            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
 
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
@@ -334,19 +339,20 @@ class ManageSmsApiController extends ManageApiController
                 }
             })->groupBy("users.id");
 
-        if ($request->paid_course_quantity) {
-            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-                ->select('users.*')->where(function ($query) use ($classes) {
-                    for ($index = 0; $index < count($classes); ++$index) {
-                        $class_id = $classes[$index]['id'];
-                        if ($index == 0)
-                            $query->where('registers.class_id', '=', $class_id);
-                        else
-                            $query->orWhere('registers.class_id', '=', $class_id);
-                    }
+//        if ($request->paid_course_quantity) {
+//            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+//                ->select('users.*')->where(function ($query) use ($classes) {
+//                    for ($index = 0; $index < count($classes); ++$index) {
+//                        $class_id = $classes[$index]['id'];
+//                        if ($index == 0)
+//                            $query->where('registers.class_id', '=', $class_id);
+//                        else
+//                            $query->orWhere('registers.class_id', '=', $class_id);
+//                    }
+//
+//                });
+//        }
 
-                });
-        }
 
         if ($request->top) {
             $users = $users->simplePaginate(intval($request->top));
@@ -354,7 +360,7 @@ class ManageSmsApiController extends ManageApiController
             if ($limit == -1) {
                 $users = $users->orderBy('created_at', 'desc')->get();
                 return $this->respondSuccessWithStatus([
-                    'users' => $users->map(function ($user) {
+                    'users' => $users->map(function ($user) use ($group_id) {
                         return $user->getReceivers();
                     })
                 ]);
@@ -364,13 +370,13 @@ class ManageSmsApiController extends ManageApiController
 
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
-                'users' => $users->map(function ($user) {
+                'users' => $users->map(function ($user) use ($group_id) {
                     return $user->getReceivers();
                 })
             ]);
         } else {
             return $this->respondWithPagination($users, [
-                'users' => $users->map(function ($user) {
+                'users' => $users->map(function ($user) use ($group_id) {
                     return $user->getReceivers();
                 })
             ]);

@@ -125,11 +125,19 @@
             </h1>
         </div>
     </div>
-   
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        localStorage.setItem("token", "{{$token}}");
-        localStorage.setItem("user", '{!!$user!!}');
-        // window.location = "http://manage.keetool.xyz";
+        var url = "http://manage.keetool.xyz/login";
+        axios.post(url, {
+            email: '{{$email}}',
+            password: '{{$password}}',
+        }).then((res) => {
+            token = res.data.token;
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(res.data.user));    
+            // localStorage.setItem("zgroup-token", JSON.stringify(res.data.user));    
+            window.location = "http://manage.keetool.xyz";
+        });
     </script>
 </body>
 </body>
