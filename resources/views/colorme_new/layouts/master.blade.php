@@ -107,7 +107,10 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <!-- <li class=""><a href="/about-us">Về chúng tôi</a></li> -->
-                        <li class=""><a href="/blogs">Blog</a></li>
+                        <li class=""><a href="/blogs">Blog 
+                        <span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Mới</span>
+                        </a></li>
+                        
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
                                             class="glyphicon glyphicon-cloud-upload"></span>
