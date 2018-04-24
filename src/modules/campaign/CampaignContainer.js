@@ -32,10 +32,10 @@ class CampaignContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname === `${this.state.link}/receivers`){
+        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname === `${this.state.link}/receivers`) {
             this.props.campaignAction.loadAllReceiver(this.props.params.campaignId, 1, '');
         }
-        if(this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname === this.state.link){
+        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname === this.state.link) {
             this.props.campaignAction.loadAllMessage(this.props.params.campaignId, 1, '');
         }
         if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
@@ -49,7 +49,6 @@ class CampaignContainer extends React.Component {
     }
 
     showAddReceiverModal() {
-        console.log("campaignId", this.campaignId);
         this.props.campaignAction.showAddReceiverModal();
         this.props.campaignAction.getReceiversModal(this.campaignId);
         this.props.campaignAction.loadAllGens();

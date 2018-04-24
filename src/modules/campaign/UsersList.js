@@ -95,7 +95,10 @@ class UsersList extends React.Component {
                                                         }
                                                     </td>
                                                     <td>
-                                                        fuck
+                                                        <div style={{
+                                                            cursor: "default"
+                                                        }}
+                                                             className="btn btn-xs btn-simple btn-main text-name-student-register">{user.time}</div>
                                                     </td>
                                                     <td>
                                                         <OverlappedCircles

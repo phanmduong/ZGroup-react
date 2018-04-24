@@ -396,7 +396,6 @@ class AddReceiverModal extends React.Component {
     render() {
         let first = this.props.totalCountModal ? (this.props.currentPageModal - 1) * this.props.limitModal + 1 : 0;
         let end = this.props.currentPageModal < this.props.totalPagesModal ? this.props.currentPageModal * this.props.limitModal : this.props.totalCountModal;
-        console.log("campaignId", this.props.campaignId);
 
         return (
             <Modal show={this.props.addReceiverModal}
@@ -408,7 +407,14 @@ class AddReceiverModal extends React.Component {
                     <Modal.Title className="modal-title">Nhóm người dùng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div style={{display: "inline-block"}}>
+                    <div
+                        style={{
+                            display: "inline-block",
+                            position: "relative",
+                            width: "100%",
+                            margin: "25px 0",
+                        }}
+                    >
                         <div className="row">
                             <div className="col-md-6">
                                 <Select.Creatable
