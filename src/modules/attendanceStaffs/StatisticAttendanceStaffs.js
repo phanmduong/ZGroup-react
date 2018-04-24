@@ -146,13 +146,13 @@ class StatisticAttendanceStaffs extends React.Component {
                 <div>
                     <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
                         <li className={this.state.tab === 1 ? "active nav-item" : "nav-item"}>
-                            <a onClick={() => this.setState({tab: 1})}>
+                            <a style={{width:150}} onClick={() => this.setState({tab: 1})}>
                                 Giảng viên
                                 <div className="ripple-container"/>
                             </a>
                         </li>
                         <li className={this.state.tab === 2 ? "active nav-item" : "nav-item"}>
-                            <a onClick={() => this.setState({tab: 2})}>
+                            <a style={{width:150}} onClick={() => this.setState({tab: 2})}>
                                 Sales & Marketing
                                 <div className="ripple-container"/>
                             </a>

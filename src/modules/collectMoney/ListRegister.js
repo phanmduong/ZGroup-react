@@ -19,6 +19,7 @@ class ListRegister extends React.Component {
                         <th>Thời gian đăng kí</th>
                         <th>Mã học viên</th>
                         <th>Tổng số tiền nộp</th>
+                        <th>Mã ưu đãi</th>
                         <th>Đã nhận thẻ</th>
                         <th>Chú thích</th>
                         <th>Ngày nộp</th>

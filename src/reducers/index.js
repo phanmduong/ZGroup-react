@@ -9,7 +9,7 @@ import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
 import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
-import blogReducer from '../modules/blog/blogReducer';
+// import blogReducer from '../modules/blog/blogReducer';
 import profileReducer from '../modules/profile/profileReducer';
 import studySessionReducer from '../modules/studySession/studySessionReducer';
 import scheduleClassReducer from '../modules/scheduleClass/scheduleClassReducer';
@@ -79,12 +79,14 @@ import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
 import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
-
+import blogTypeReducer from "../modules/blogType/blogTypeReducer";
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 import labelManageReducer from "../modules/labelManage/labelManageReducer";
-
+import smsCampaignReducer from "../modules/campaign/campaignReducer";
 
 const appReducer = combineReducers({
+    blogType:blogTypeReducer,
+    smsCampaign: smsCampaignReducer,
     labelManage: labelManageReducer,
     weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,
@@ -96,7 +98,7 @@ const appReducer = combineReducers({
     task: taskReducer,
     emailTemplates: emailTemplatesReducer,
     emailForms: emailFormsReducer,
-    blog: blogReducer,
+    // blog: blogReducer,
     profile: profileReducer,
     studySession: studySessionReducer,
     scheduleClass: scheduleClassReducer,

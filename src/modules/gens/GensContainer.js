@@ -118,9 +118,9 @@ class GensContainer extends React.Component {
                                 <div className="card-content">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Danh sách khóa học</strong>
+                                            <strong style={{marginLeft: 6}}>Danh sách khóa học</strong>
                                         </h4>
-                                        <br/><br/>
+                                        <br/>
                                         {this.props.isLoading ? <Loading/> :
                                             <ListGen
                                                 gens={this.props.gens}

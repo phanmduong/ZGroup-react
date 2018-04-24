@@ -36,7 +36,7 @@ class GroupCustomerModal extends React.Component {
 
 
     render() {
-        const {name, description, color, order_value, delivery_value,currency_value} = this.props.groupCustomerForm;
+        const {name, description, color, order_value, delivery_value,currency_value,ship_price} = this.props.groupCustomerForm;
         return (
             <div>
                 <div className="card-header card-header-icon" data-background-color="rose">
@@ -104,7 +104,7 @@ class GroupCustomerModal extends React.Component {
                                     <div className="form-group label-floating is-empty">
                                         <label className="control-label"/>
                                         <FormInputText
-                                            label="Tỉ giá (đ)"
+                                            label="Giá đặt hàng (đ)"
                                             name="currency_value"
                                             updateFormData={this.editFormData}
                                             type="number"
@@ -113,6 +113,25 @@ class GroupCustomerModal extends React.Component {
                                     </div>
                                 </div>
                             </div>
+
+
+
+                            <div className="row">
+                                <label className="col-sm-2 label-on-left">Giá đặt hàng</label>
+                                <div className="col-sm-10">
+                                    <div className="form-group label-floating is-empty">
+                                        <label className="control-label"/>
+                                        <FormInputText
+                                            label="Tỉ giá (đ)"
+                                            name="ship_price"
+                                            updateFormData={this.editFormData}
+                                            type="number"
+                                            value={ship_price}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
 
 
                         </div>

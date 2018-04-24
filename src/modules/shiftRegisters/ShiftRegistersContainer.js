@@ -109,7 +109,7 @@ class ShiftRegistersContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -118,7 +118,7 @@ class ShiftRegistersContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />

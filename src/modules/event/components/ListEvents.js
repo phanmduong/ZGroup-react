@@ -43,9 +43,7 @@ class ListEvents extends React.Component {
                                                      borderRadius: '10px',
                                                      position: "relative"
                                                  }}
-                                            >
-
-                                            </div>
+                                            />
                                         </a>
                                     </div>
 

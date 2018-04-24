@@ -1,7 +1,7 @@
 import "babel-polyfill";
 import React from "react";
 import renderRoutes from "../routes/renderer/RouteRenderer";
-import AdministrationRoute from "../routes/AdministrationRoute";
+import ZwarehouseRoute from "../routes/ZwarehouseRoute";
 
 import "../../node_modules/toastr/build/toastr.min.css";
 import "../styles/react-bootstrap-switch.min.css";
@@ -23,7 +23,7 @@ const store = configureStore({}, rootReducer);
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory} routes={renderRoutes(AdministrationRoute)} />
+        <Router history={browserHistory} routes={renderRoutes(ZwarehouseRoute)} />
     </Provider>,
     document.getElementById("app"),
 );

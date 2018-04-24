@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
+import {ControlLabel, FormGroup, Modal} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import Switch from 'react-bootstrap-switch';
 import {saveSurvey, toggleEditSurveyModal, updateSurveyFormData} from "./surveyActions";
+import FormInputText from "../../components/common/FormInputText";
+import * as helper from '../../helpers/helper';
 
 class AddSurveyModalContainer extends React.Component {
     constructor(props, context) {
@@ -29,7 +31,17 @@ class AddSurveyModalContainer extends React.Component {
         if (this.refs.file.files.length > 0) {
             file = this.refs.file.files[0];
         }
-        this.props.surveyActions.saveSurvey(this.props.survey, file);
+        const survey = {...this.props.survey};
+        if (helper.isEmptyInput(survey.name) || helper.isEmptyInput(survey.description)) {
+            if (helper.isEmptyInput(survey.name)) {helper.showErrorNotification("Bạn cần nhập Tên khảo sát");}
+            if (helper.isEmptyInput(survey.description)) {helper.showErrorNotification("Bạn cần nhập Mô tả");}
+        } else {
+             if (survey.id) {
+                this.props.surveyActions.saveSurvey(survey,file);
+            } else this.props.surveyActions.saveSurvey(this.props.survey,file);
+        }    
+
+
     }
 
     changeSwitch() {
@@ -56,57 +68,47 @@ class AddSurveyModalContainer extends React.Component {
         return (
             <Modal show={this.props.showEditSurveyModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm khảo sát</Modal.Title>
+                    <Modal.Title>{survey.id ? "Sửa khảo sát" : "Thêm khảo sát"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="fileinput fileinput-new text-center" data-provides="fileinput">
-                        <div className="fileinput-new thumbnail">
-                            <img
-                                src={survey.image_url ||
-                                "http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"}/>
-                        </div>
-                        <div className="fileinput-preview fileinput-exists thumbnail"/>
-                        <div>
-                            <span className="btn btn-rose btn-round btn-file">
-                                <span className="fileinput-new">Ảnh đại diện</span>
-                                <span className="fileinput-exists">Change</span>
+                            <div className="btn-file" style={{overflow:"visible"}}>
+                                <div className="fileinput-new">
+                                    <div className="fileinput-new thumbnail">
+                                        <img
+                                            src={survey.image_url ||
+                                            "http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"}/>
+                                    </div>
+                                </div>
+                                <div className="fileinput-preview fileinput-exists thumbnail"/>
                                 <input type="file"
                                        ref="file"
                                        name="image"/>
-                                <div className="ripple-container"/>
-                            </span>
-                        </div>
+                            </div>
                     </div>
-                    <div className="form-group">
-                        <label>Tên:</label>
-                        <input type="text"
-                               name="name"
-                               value={survey.name || ""}
-                               className="form-control"
-                               placeholder="Tên khảo sát"
-                               onChange={this.inputOnchange}/>
-                    </div>
-
-                    <FormGroup
-                        controlId="target">
-                        <ControlLabel>Chỉ tiêu</ControlLabel>
-                        <FormControl
-                            type="number"
-                            name="target"
-                            value={survey.target || ""}
-                            placeholder="Chỉ tiêu"
-                            onChange={this.inputOnchange}
+                    <form role="form"  id="form-add-room">
+                        <FormInputText
+                            label="Tên khảo sát"
+                            name="name"
+                            updateFormData={this.inputOnchange}
+                            value={survey.name || ""}
+                            required
                         />
-                    </FormGroup>
-
-                    <FormGroup controlId="description">
-                        <ControlLabel>Mô tả</ControlLabel>
-                        <FormControl
-                            name="description"
-                            value={survey.description || ""}
-                            onChange={this.inputOnchange}
-                            componentClass="textarea" placeholder="Mô tả"/>
-                    </FormGroup>
+                        <FormInputText
+                            label="Chỉ tiêu"
+                            name="target"
+                            type="number"
+                            updateFormData={this.inputOnchange}
+                            value={survey.target || ""}
+                        />
+                        <div className="form-group">
+                            <label className="label-control">Mô tả&#160;<star style={{ color: "red" }}>*</star></label>
+                            <textarea type="text" className="form-control"
+                                      value={survey.description || ""}
+                                      name="description"
+                                      onChange={this.inputOnchange}/>
+                            <span className="material-input"/>
+                        </div>
                     <FormGroup controlId="description">
                         <ControlLabel>Hiện khảo sát cho học viên:</ControlLabel>
                         <div>
@@ -118,6 +120,7 @@ class AddSurveyModalContainer extends React.Component {
                             />
                         </div>
                     </FormGroup>
+                </form>    
                 </Modal.Body>
                 <Modal.Footer>
                     {
@@ -131,10 +134,8 @@ class AddSurveyModalContainer extends React.Component {
                             (
                                 <div>
                                     <button
-                                        // disabled={this.state.surveyName === ""}
                                         className="btn btn-rose" onClick={this.submitButtonOnClick}>Lưu
                                     </button>
-                                    <Button className="btn btn-default" onClick={this.handleClose}>Đóng</Button>
                                 </div>
                             )
                     }

@@ -92,6 +92,10 @@ class GroupCustomerContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng nhập tỉ giá", 'warning');
                 return ;
             }
+            if (this.props.groupCustomerForm.ship_price === null || this.props.groupCustomerForm.ship_price === undefined || this.props.groupCustomerForm.ship_price === '') {
+                helper.showTypeNotification("Vui lòng nhập giá đặt hàng", 'warning');
+                return ;
+            }
                 this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page);
         }
         e.preventDefault();

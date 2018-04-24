@@ -327,46 +327,40 @@ class ClassContainer extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header card-header-tabs" data-background-color="rose">
-                                <div className="nav-tabs-navigation">
-                                    <div className="nav-tabs-wrapper">
-                                        <ul className="nav nav-tabs" data-tabs="tabs">
-                                            <li className={this.path === `/teaching/class/${this.classId}` ? 'active' : ''}>
-                                                <IndexLink to={`/teaching/class/${this.classId}`}>
-                                                    <i className="material-icons">account_circle</i> Tổng quan
+                        <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+                            <li className={this.path === `/teaching/class/${this.classId}` ? 'active' : ''}>
+                                <IndexLink to={`/teaching/class/${this.classId}`}>
+                                    <i className="material-icons">account_circle</i> Tổng quan  &#160;
 
-                                                    <div className="ripple-container"/>
-                                                </IndexLink>
-                                            </li>
-                                            <li className={this.path === `/teaching/class/${this.classId}/history-teaching` ? 'active' : ''}>
-                                                <Link to={`/teaching/class/${this.classId}/history-teaching`}>
-                                                    <i className="material-icons">smartphone</i> Lịch sử giảng dạy
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                            <li className={this.path === `/teaching/class/${this.classId}/registers` ? 'active' : ''}>
-                                                <Link to={`/teaching/class/${this.classId}/registers`}>
-                                                    <i className="material-icons">create</i> Đăng kí
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                            <li className={this.path === `/teaching/class/${this.classId}/progress` ? 'active' : ''}>
-                                                <Link to={`/teaching/class/${this.classId}/progress`}>
-                                                    <i className="material-icons">create</i> Học tập
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                            <li className={this.path === `/teaching/class/${this.classId}/care` ? 'active' : ''}>
-                                                <Link to={`/teaching/class/${this.classId}/care`}>
-                                                    <i className="material-icons">flag</i> Quan tâm
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                                    <div className="ripple-container"/>
+                                </IndexLink>
+                            </li>
+                            <li className={this.path === `/teaching/class/${this.classId}/history-teaching` ? 'active' : ''}>
+                                <Link to={`/teaching/class/${this.classId}/history-teaching`}>
+                                    <i className="material-icons">smartphone</i> Lịch sử giảng dạy &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                            <li className={this.path === `/teaching/class/${this.classId}/registers` ? 'active' : ''}>
+                                <Link to={`/teaching/class/${this.classId}/registers`}>
+                                    <i className="material-icons">create</i> Đăng kí &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                            <li className={this.path === `/teaching/class/${this.classId}/progress` ? 'active' : ''}>
+                                <Link to={`/teaching/class/${this.classId}/progress`}>
+                                    <i className="material-icons">create</i> Học tập &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                            <li className={this.path === `/teaching/class/${this.classId}/care` ? 'active' : ''}>
+                                <Link to={`/teaching/class/${this.classId}/care`}>
+                                    <i className="material-icons">flag</i> Quan tâm &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                        </ul>
+                        <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
                                     {this.props.children}
@@ -378,223 +372,227 @@ class ClassContainer extends React.Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose"><i
-                                        className="material-icons">announcement</i></div>
-                                    <div className="card-content"><h4 className="card-title">Thông tin về điểm danh</h4>
-                                        <div className="col-md-12">
-                                            <div>
-                                                {/*<button className="btn btn-default width-100" disabled>
-                                                    <i className="material-icons">timer</i>
-                                                    Xem group lớp
-                                                </button>
-                                                <button className="btn btn-default width-100" disabled>
-                                                    <i className="material-icons">timer</i>
-                                                    Xếp bằng
-                                                </button>
-                                                <button className="btn btn-default width-100" disabled>
-                                                    <i className="material-icons">timer</i>
-                                                    In bằng
-                                                </button>*/}
-                                                <button className="btn btn-default width-100"
-                                                        onClick={this.exportExcel}
-                                                        disabled={this.props.isLoadingClass}
-                                                >
-                                                    <i className="material-icons">file_download</i>
-                                                    Xuất danh sách
-                                                </button>
-                                                <button className="btn btn-default width-100"
-                                                        onClick={this.exportAttendanceExcel}
-                                                        disabled={this.props.isLoadingClass}
-                                                >
-                                                    <i className="material-icons">file_download</i>
-                                                    Xuất danh sách điểm danh
-                                                </button>
-                                                <FormInputText
-                                                    name="link-driver"
-                                                    label="Link Driver"
-                                                    updateFormData={this.changeLinkDriver}
-                                                    value={this.state.linkDriver}
-                                                    type="text"
-                                                    disabled={this.props.isLoadingClass || this.props.isLoading}
-                                                />
-                                                <a className="btn btn-rose btn-sm"
-                                                   href={this.state.linkDriver}
-                                                   target="_blank"
-                                                >
-                                                    Mở link
-                                                </a>
-                                                <button className="btn btn-rose btn-sm"
-                                                        onClick={this.submitLinkDriver}
-                                                        disabled={this.props.isLoadingClass || this.props.isLoading}
-                                                >
-                                                    Lưu
-                                                </button>
-                                            </div>
-                                            {this.props.isLoadingClass ? <Loading/> :
+                                    <div className="card-content">
+                                        <div className="tab-content">
+                                            <h4 className="card-title">
+                                                <strong>Thông tin về điểm danh</strong>
+                                            </h4>
+                                            <br/>
+                                            <div className="col-md-12">
                                                 <div>
-                                                    {classData.attendances &&
-                                                    <div><h4><strong>Tình trạng điểm danh</strong></h4>
-                                                        {classData.attendances.map(attendance => {
-                                                            return (
-                                                                <div key={attendance.order}>
-                                                                    <div
-                                                                        className="flex flex-row-center flex-space-between">
-                                                                        <h6>
-                                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
-                                                                        </h6>
-                                                                        {
-                                                                            attendance.is_change &&
-                                                                            <TooltipButton placement="top"
-                                                                                           text="Đổi buổi"
-                                                                            >
-                                                                                <button className="btn btn-xs btn-round"
-                                                                                        onClick={() => this.openModalClassLesson(attendance)}
+                                                    {/*<button className="btn btn-default width-100" disabled>
+                                                        <i className="material-icons">timer</i>
+                                                        Xem group lớp
+                                                    </button>
+                                                    <button className="btn btn-default width-100" disabled>
+                                                        <i className="material-icons">timer</i>
+                                                        Xếp bằng
+                                                    </button>
+                                                    <button className="btn btn-default width-100" disabled>
+                                                        <i className="material-icons">timer</i>
+                                                        In bằng
+                                                    </button>*/}
+                                                    <button className="btn btn-default width-100"
+                                                            onClick={this.exportExcel}
+                                                            disabled={this.props.isLoadingClass}
+                                                    >
+                                                        <i className="material-icons">file_download</i>
+                                                        Xuất danh sách
+                                                    </button>
+                                                    <button className="btn btn-default width-100"
+                                                            onClick={this.exportAttendanceExcel}
+                                                            disabled={this.props.isLoadingClass}
+                                                    >
+                                                        <i className="material-icons">file_download</i>
+                                                        Xuất danh sách điểm danh
+                                                    </button>
+                                                    <FormInputText
+                                                        name="link-driver"
+                                                        label="Link Driver"
+                                                        updateFormData={this.changeLinkDriver}
+                                                        value={this.state.linkDriver}
+                                                        type="text"
+                                                        disabled={this.props.isLoadingClass || this.props.isLoading}
+                                                    />
+                                                    <a className="btn btn-rose btn-sm"
+                                                       href={this.state.linkDriver}
+                                                       target="_blank"
+                                                    >
+                                                        Mở link
+                                                    </a>
+                                                    <button className="btn btn-rose btn-sm"
+                                                            onClick={this.submitLinkDriver}
+                                                            disabled={this.props.isLoadingClass || this.props.isLoading}
+                                                    >
+                                                        Lưu
+                                                    </button>
+                                                </div>
+                                                {this.props.isLoadingClass ? <Loading/> :
+                                                    <div>
+                                                        {classData.attendances &&
+                                                        <div><h4><strong>Tình trạng điểm danh</strong></h4>
+                                                            {classData.attendances.map(attendance => {
+                                                                return (
+                                                                    <div key={attendance.order}>
+                                                                        <div
+                                                                            className="flex flex-row-center flex-space-between">
+                                                                            <h6>
+                                                                                <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
+                                                                            </h6>
+                                                                            {
+                                                                                attendance.is_change &&
+                                                                                <TooltipButton placement="top"
+                                                                                               text="Đổi buổi"
                                                                                 >
-                                                                                    <i className="material-icons">compare_arrows</i>
-                                                                                    <div className="ripple-container"/>
-                                                                                </button>
-                                                                            </TooltipButton>
-                                                                        }
-                                                                    </div>
-
-                                                                    <div
-                                                                        className="progress progress-line-success progress-bar-table width-100">
-                                                                        <div
-                                                                            className="progress-bar progress-bar-success"
-                                                                            role="progressbar"
-                                                                            aria-valuemin="0"
-                                                                            aria-valuemax="100"
-                                                                            style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
-                                                                        >
-                                                    <span
-                                                        className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            );
-                                                        })}
-
-                                                    </div>
-                                                    }
-                                                    {classData.teacher &&
-                                                    <div><h4><strong>Điểm danh giảng viên</strong></h4>
-                                                        {classData.teacher.attendances.map((attendance, index) => {
-                                                                return (
-                                                                    <div key={index}>
-                                                                        <div
-                                                                            className="flex flex-row-center flex-space-between">
-                                                                            <div>
-                                                                                <strong>Buổi {attendance.order} </strong>
-                                                                                {
-                                                                                    attendance.staff &&
-                                                                                    attendance.staff.name
-
-                                                                                }
-                                                                            </div>
-                                                                            {
-                                                                                attendance.is_change &&
-                                                                                <div>
-                                                                                    <TooltipButton placement="top"
-                                                                                                   text="Đổi giảng viên"
+                                                                                    <button className="btn btn-xs btn-round"
+                                                                                            onClick={() => this.openModalClassLesson(attendance)}
                                                                                     >
-                                                                                        <button
-                                                                                            className="btn btn-xs btn-round"
-                                                                                            onClick={() => this.openModalChangeTeacher(attendance)}
-                                                                                        >
-                                                                                            <i className="material-icons">compare_arrows</i>
-                                                                                            <div
-                                                                                                className="ripple-container"/>
-                                                                                        </button>
-                                                                                    </TooltipButton>
-                                                                                    <TooltipButton placement="top"
-                                                                                                   text="Xem thêm"
-                                                                                    >
-                                                                                        <button
-                                                                                            className="btn btn-xs btn-round btn-rose"
-                                                                                            onClick={() => this.openModalTeachingLesson(attendance, 1)}
-                                                                                        >
-                                                                                            <i className="material-icons">more_horiz</i>
-                                                                                            <div
-                                                                                                className="ripple-container"/>
-                                                                                        </button>
-                                                                                    </TooltipButton>
-                                                                                </div>
-
+                                                                                        <i className="material-icons">compare_arrows</i>
+                                                                                        <div className="ripple-container"/>
+                                                                                    </button>
+                                                                                </TooltipButton>
                                                                             }
                                                                         </div>
-                                                                        <AttendanceTeacher
-                                                                            attendance={attendance}
 
-                                                                        />
-                                                                    </div>
-                                                                )
-                                                                    ;
-                                                            }
-                                                        )}
-
-                                                    </div>
-                                                    }
-                                                    {classData.teacher_assistant &&
-                                                    <div><h4><strong>Điểm danh trợ giảng</strong></h4>
-                                                        {classData.teacher_assistant.attendances.map((attendance, index) => {
-                                                                return (
-                                                                    <div key={index}>
                                                                         <div
-                                                                            className="flex flex-row-center flex-space-between">
-                                                                            <div>
-                                                                                <strong>Buổi {attendance.order} </strong>
-                                                                                {
-                                                                                    attendance.staff &&
-                                                                                    attendance.staff.name
-
-                                                                                }
+                                                                            className="progress progress-line-success progress-bar-table width-100">
+                                                                            <div
+                                                                                className="progress-bar progress-bar-success"
+                                                                                role="progressbar"
+                                                                                aria-valuemin="0"
+                                                                                aria-valuemax="100"
+                                                                                style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
+                                                                            >
+                                                        <span
+                                                            className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
                                                                             </div>
-                                                                            {
-                                                                                attendance.is_change &&
-                                                                                <div>
-                                                                                    <TooltipButton placement="top"
-                                                                                                   text="Đổi trợ giảng"
-                                                                                    >
-                                                                                        <button
-                                                                                            className="btn btn-xs btn-round"
-                                                                                            onClick={() => this.openModalTeachAssis(attendance)}
-                                                                                        >
-                                                                                            <i className="material-icons">compare_arrows</i>
-                                                                                            <div
-                                                                                                className="ripple-container"/>
-                                                                                        </button>
-                                                                                    </TooltipButton>
-                                                                                    <TooltipButton placement="top"
-                                                                                                   text="Xem thêm"
-                                                                                    >
-                                                                                        <button
-                                                                                            className="btn btn-xs btn-round btn-rose"
-                                                                                            onClick={() => this.openModalTeachingLesson(attendance, 2)}
-                                                                                        >
-                                                                                            <i className="material-icons">more_horiz</i>
-                                                                                            <div
-                                                                                                className="ripple-container"/>
-                                                                                        </button>
-                                                                                    </TooltipButton>
-                                                                                </div>
-
-                                                                            }
-
                                                                         </div>
-                                                                        <AttendanceTeacher
-                                                                            attendance={attendance}
-
-                                                                        />
                                                                     </div>
                                                                 );
-                                                            }
-                                                        )}
+                                                            })}
+
+                                                        </div>
+                                                        }
+                                                        {classData.teacher &&
+                                                        <div><h4><strong>Điểm danh giảng viên</strong></h4>
+                                                            {classData.teacher.attendances.map((attendance, index) => {
+                                                                    return (
+                                                                        <div key={index}>
+                                                                            <div
+                                                                                className="flex flex-row-center flex-space-between">
+                                                                                <div>
+                                                                                    <strong>Buổi {attendance.order} </strong>
+                                                                                    {
+                                                                                        attendance.staff &&
+                                                                                        attendance.staff.name
+
+                                                                                    }
+                                                                                </div>
+                                                                                {
+                                                                                    attendance.is_change &&
+                                                                                    <div>
+                                                                                        <TooltipButton placement="top"
+                                                                                                       text="Đổi giảng viên"
+                                                                                        >
+                                                                                            <button
+                                                                                                className="btn btn-xs btn-round"
+                                                                                                onClick={() => this.openModalChangeTeacher(attendance)}
+                                                                                            >
+                                                                                                <i className="material-icons">compare_arrows</i>
+                                                                                                <div
+                                                                                                    className="ripple-container"/>
+                                                                                            </button>
+                                                                                        </TooltipButton>
+                                                                                        <TooltipButton placement="top"
+                                                                                                       text="Xem thêm"
+                                                                                        >
+                                                                                            <button
+                                                                                                className="btn btn-xs btn-round btn-rose"
+                                                                                                onClick={() => this.openModalTeachingLesson(attendance, 1)}
+                                                                                            >
+                                                                                                <i className="material-icons">more_horiz</i>
+                                                                                                <div
+                                                                                                    className="ripple-container"/>
+                                                                                            </button>
+                                                                                        </TooltipButton>
+                                                                                    </div>
+
+                                                                                }
+                                                                            </div>
+                                                                            <AttendanceTeacher
+                                                                                attendance={attendance}
+
+                                                                            />
+                                                                        </div>
+                                                                    )
+                                                                        ;
+                                                                }
+                                                            )}
+
+                                                        </div>
+                                                        }
+                                                        {classData.teacher_assistant &&
+                                                        <div><h4><strong>Điểm danh trợ giảng</strong></h4>
+                                                            {classData.teacher_assistant.attendances.map((attendance, index) => {
+                                                                    return (
+                                                                        <div key={index}>
+                                                                            <div
+                                                                                className="flex flex-row-center flex-space-between">
+                                                                                <div>
+                                                                                    <strong>Buổi {attendance.order} </strong>
+                                                                                    {
+                                                                                        attendance.staff &&
+                                                                                        attendance.staff.name
+
+                                                                                    }
+                                                                                </div>
+                                                                                {
+                                                                                    attendance.is_change &&
+                                                                                    <div>
+                                                                                        <TooltipButton placement="top"
+                                                                                                       text="Đổi trợ giảng"
+                                                                                        >
+                                                                                            <button
+                                                                                                className="btn btn-xs btn-round"
+                                                                                                onClick={() => this.openModalTeachAssis(attendance)}
+                                                                                            >
+                                                                                                <i className="material-icons">compare_arrows</i>
+                                                                                                <div
+                                                                                                    className="ripple-container"/>
+                                                                                            </button>
+                                                                                        </TooltipButton>
+                                                                                        <TooltipButton placement="top"
+                                                                                                       text="Xem thêm"
+                                                                                        >
+                                                                                            <button
+                                                                                                className="btn btn-xs btn-round btn-rose"
+                                                                                                onClick={() => this.openModalTeachingLesson(attendance, 2)}
+                                                                                            >
+                                                                                                <i className="material-icons">more_horiz</i>
+                                                                                                <div
+                                                                                                    className="ripple-container"/>
+                                                                                            </button>
+                                                                                        </TooltipButton>
+                                                                                    </div>
+
+                                                                                }
+
+                                                                            </div>
+                                                                            <AttendanceTeacher
+                                                                                attendance={attendance}
+
+                                                                            />
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
+
+                                                        </div>
+                                                        }
 
                                                     </div>
-                                                    }
-
-                                                </div>
-                                            }
+                                                }
+                                            </div>    
                                         </div>
                                     </div>
                                 </div>

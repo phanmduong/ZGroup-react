@@ -138,117 +138,126 @@ class CreateBaseContainer extends React.Component {
                     <div className="row">
                         <div className="col-sm-8">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">mode_edit</i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">{this.state.header}</h4>
-                                    {this.props.isLoadingBase || this.props.isLoadingProvinces ? (
-                                        <div className="card-content">
-                                            <Loading/>
-                                        </div>
-                                    ) : (
-                                        <BaseForm
-                                            changeProvince={this.changeProvince}
-                                            changeDistrict={this.changeDistrict}
-                                            provinces={this.state.provinces}
-                                            districts={this.state.districts}
-                                            error={this.state.error}
-                                            base={this.props.base}
-                                            isSavingBase={this.props.isSavingBase}
-                                            submit={this.submit}
-                                            updateFormData={this.updateFormData}/>
-                                    )}
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>{this.state.header}</strong>
+                                        </h4>
+                                        <br/>
+                                        {this.props.isLoadingBase || this.props.isLoadingProvinces ? (
+                                            <div className="card-content">
+                                                <Loading/>
+                                            </div>
+                                        ) : (
+                                            <BaseForm
+                                                changeProvince={this.changeProvince}
+                                                changeDistrict={this.changeDistrict}
+                                                provinces={this.state.provinces}
+                                                districts={this.state.districts}
+                                                error={this.state.error}
+                                                base={this.props.base}
+                                                isSavingBase={this.props.isSavingBase}
+                                                submit={this.submit}
+                                                updateFormData={this.updateFormData}/>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-sm-4">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">announcement</i>
-                                </div>
                                 {this.props.isLoadingBase || this.props.isLoadingProvinces ? (
                                     <div className="card-content">
-                                        <Loading/>
+                                        <div className="tab-content">
+                                            <Loading/>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="card-content">
-                                        <h4 className="card-title">Ảnh đại diện</h4>
-                                        {
-                                            this.props.isUploadingAvatar ? (
-                                                <div className="progress">
-                                                    <div className="progress-bar" role="progressbar" aria-valuenow="70"
-                                                         aria-valuemin="0" aria-valuemax="100"
-                                                         style={{width: `${this.props.percent}%`}}>
-                                                        <span className="sr-only">{this.props.percent}% Complete</span>
+                                        <div className="tab-content">
+                                            <h4 className="card-title">
+                                                <strong>Ảnh đại diện</strong>
+                                            </h4>
+                                            <br/><br/>
+                                            {
+                                                this.props.isUploadingAvatar ? (
+                                                    <div className="progress">
+                                                        <div className="progress-bar" role="progressbar" aria-valuenow="70"
+                                                             aria-valuemin="0" aria-valuemax="100"
+                                                             style={{width: `${this.props.percent}%`}}>
+                                                            <span className="sr-only">{this.props.percent}% Complete</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <div style={{
-                                                        width: "100%",
-                                                        paddingBottom: "100%",
-                                                        backgroundSize: "cover",
-                                                        backgroundPosition: "center",
-                                                        backgroundImage: `url("${this.props.base.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}")`,
-                                                    }}/>
+                                                ) : (
+                                                    <div>
+                                                        <div style={{
+                                                            width: "100%",
+                                                            paddingBottom: "100%",
+                                                            backgroundSize: "cover",
+                                                            backgroundPosition: "center",
+                                                            backgroundImage: `url("${this.props.base.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}")`,
+                                                        }}/>
 
-                                                    <UploadButton
-                                                        style={{
-                                                            width: "100%"
-                                                        }}
-                                                        className="btn btn-rose"
-                                                        onChange={this.handleUpload}>
-                                                        chọn ảnh đại diện
-                                                    </UploadButton>
-                                                </div>
-                                            )
-                                        }
+                                                        <UploadButton
+                                                            style={{
+                                                                width: "100%"
+                                                            }}
+                                                            className="btn btn-rose"
+                                                            onChange={this.handleUpload}>
+                                                            chọn ảnh đại diện
+                                                        </UploadButton>
+                                                    </div>
+                                                )
+                                            }
+                                        </div>    
                                     </div>
                                 )}
                             </div>
                         </div>
                         <div className="col-md-12">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">photo_library</i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Ảnh</h4>
-                                    {this.props.isLoadingBase || this.props.isLoadingProvinces ? (
-                                        <div className="card-content">
-                                            <Loading/>
-                                        </div>
-                                    ) : (
-                                        <div>
-                                            <ListImage
-                                                handleImageUpload={this.handleUploadImage}
-                                                images={this.props.base.images}
-                                                isUploadingImage={this.props.isUploadingImage}
-                                                percentImage={this.props.percentImage}
-                                            />
-                                            {this.props.isSavingBase ?
-                                                (
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-rose disabled"
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin"/> Đang lưu
-                                                    </button>
-                                                ) :
-                                                (
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-rose"
-                                                        onClick={this.submit}
-                                                    >
-                                                        Lưu
-                                                    </button>
-                                                )}
-                                        </div>
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Ảnh</strong>
+                                        </h4>
+                                        <br/>
+                                        {this.props.isLoadingBase || this.props.isLoadingProvinces ? (
+                                            <div className="card-content">
+                                                <div className="tab-content">
+                                                    <Loading/>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <ListImage
+                                                    handleImageUpload={this.handleUploadImage}
+                                                    images={this.props.base.images}
+                                                    isUploadingImage={this.props.isUploadingImage}
+                                                    percentImage={this.props.percentImage}
+                                                />
+                                                {this.props.isSavingBase ?
+                                                    (
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-rose disabled"
+                                                        >
+                                                            <i className="fa fa-spinner fa-spin"/> Đang lưu
+                                                        </button>
+                                                    ) :
+                                                    (
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-rose"
+                                                            onClick={this.submit}
+                                                        >
+                                                            Lưu
+                                                        </button>
+                                                    )}
+                                            </div>
 
-
-                                    )}
+                                        )}
+                                    </div>    
                                 </div>
                             </div>
                         </div>

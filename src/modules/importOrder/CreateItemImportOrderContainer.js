@@ -9,7 +9,6 @@ import FormInputText from "../../components/common/FormInputText";
 import ReactSelect from 'react-select';
 import {Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
-import HistoryImportOrder from "./HistoryImportOrder";
 
 
 const textAlign = {textAlign: "right"};
@@ -35,9 +34,7 @@ class CreateItemImportOrderContainer extends React.Component {
         this.updateFormAdd = this.updateFormAdd.bind(this);
         this.addGood = this.addGood.bind(this);
         this.commitData = this.commitData.bind(this);
-        this.openInfoModal = this.openInfoModal.bind(this);
-        this.closeInfoModal = this.closeInfoModal.bind(this);
-        this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
+
 
     }
 
@@ -74,20 +71,6 @@ class CreateItemImportOrderContainer extends React.Component {
         this.setState({showAddModal: false});
     }
 
-    openInfoModal() {
-        let {data} = this.state;
-        if (!data.id) {
-            helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
-            return;
-        }
-        this.setState({showInfoModal: true});
-        this.props.importOrderActions.loadHistoryImportOrder(1, data.id);
-
-    }
-
-    closeInfoModal() {
-        this.setState({showInfoModal: false});
-    }
 
     changeDataOrder() {
         let arr = [];
@@ -154,9 +137,6 @@ class CreateItemImportOrderContainer extends React.Component {
         }
     }
 
-    loadHistoryImportOrder(page, id) {
-        this.props.importOrderActions.loadHistoryImportOrder(page, id);
-    }
 
     commitData() {
         let {data} = this.state;
@@ -178,10 +158,15 @@ class CreateItemImportOrderContainer extends React.Component {
             helper.showErrorMessage("Vui lòng chọn kho xuất cho tất cả sản phẩm");
             return;
         }
+        let n = data.good_count;
+        let arr = [];
+        for(let i=data.goods.length-1 ; i>data.goods.length -1- n;i--){
+            arr = [data.goods[i],...arr];
+        }
         this.props.importOrderActions.createImportOrder(
             {
                 ...data,
-                goods: JSON.stringify(data.goods.map(
+                goods: JSON.stringify(arr.map(
                     (obj) => {
                         if (!obj.warehouse || !obj.warehouse.id) return;
                         return ({
@@ -202,7 +187,8 @@ class CreateItemImportOrderContainer extends React.Component {
 
     render() {
         let {data, addModalData} = this.state;
-        let sumQuantity = 0, sumPrice = 0;
+        let sumQuantity = 0, sumPrice = 0, sumImportedQuantity=0;
+        let count = 0;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -217,23 +203,16 @@ class CreateItemImportOrderContainer extends React.Component {
 
                                         <div className="card-content">
                                             <h4 className="card-title">Sản phẩm</h4>
-                                            <button
-                                                className="btn btn-rose"
-                                                type="button"
-
-                                                onClick={() => this.openInfoModal()}
-                                            >
-                                                Lịch sử nhập hàng
-                                            </button>
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <thead className="text-rose">
                                                     <tr>
-                                                        <th style={{width: "10%"}}>STT</th>
+                                                        <th style={{width: "10%"}}>Lần nhập</th>
                                                         <th style={{width: "40%"}}>Tên</th>
-                                                        <th style={textAlign}>Số lượng</th>
+                                                        <th style={textAlign}>Số lượng đặt</th>
                                                         <th style={textAlign}>Đơn giá</th>
                                                         <th style={textAlign}>Kho nhập</th>
+                                                        <th style={textAlign}>Ngày nhập</th>
                                                         <th style={textAlign}>Số lượng nhập</th>
                                                         <th style={textAlign}>Thành tiền</th>
 
@@ -244,11 +223,14 @@ class CreateItemImportOrderContainer extends React.Component {
                                                         <tbody>
                                                         {data.goods.map(
                                                             (obj, index) => {
-                                                                sumPrice += obj.price * obj.quantity;
+                                                                sumPrice += obj.price * parseInt(obj.imported_quantity);
                                                                 sumQuantity += obj.quantity * 1;
+                                                                count += 1;
+                                                                sumImportedQuantity+= parseInt(obj.imported_quantity);
                                                                 return (
                                                                     <tr key={index}>
-                                                                        <td>{index + 1}</td>
+                                                                        <td>{index % data.good_count === 0 ? (index / data.good_count + 1) :
+                                                                            <p/>}</td>
                                                                         <td>{obj.good.name}</td>
                                                                         <td style={textAlign}>{obj.quantity}</td>
                                                                         <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
@@ -257,22 +239,26 @@ class CreateItemImportOrderContainer extends React.Component {
                                                                             color: (obj.warehouse && obj.warehouse.id) ? "" : "red"
                                                                         }}>
                                                                             {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
+                                                                        <td style={textAlign}>{(obj.warehouse && obj.warehouse.id) ? obj.created_at : "Chưa có"}</td>
                                                                         <td style={textAlign}>{obj.imported_quantity}</td>
-                                                                        <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
-                                                                        <td>
-                                                                            <div className="btn-group-action" style={{
-                                                                                display: "flex",
-                                                                                justifyContent: "center"
-                                                                            }}>
-                                                                                <a data-toggle="tooltip" title="Sửa"
-                                                                                   type="button" rel="tooltip"
-                                                                                   onClick={() => {
-                                                                                       return this.openAddModal(index);
-                                                                                   }}><i
-                                                                                    className="material-icons">edit</i>
-                                                                                </a>
-                                                                            </div>
-                                                                        </td>
+                                                                        <td style={textAlign}>{helper.dotNumber(obj.price * obj.imported_quantity)}</td>
+                                                                        <td>{
+                                                                            (obj.status) ?
+                                                                                <div/> :
+                                                                                <div className="btn-group-action"
+                                                                                     style={{
+                                                                                         display: "flex",
+                                                                                         justifyContent: "center"
+                                                                                     }}>
+                                                                                    <a data-toggle="tooltip" title="Sửa"
+                                                                                       type="button" rel="tooltip"
+                                                                                       onClick={() => {
+                                                                                           return this.openAddModal(index);
+                                                                                       }}><i
+                                                                                        className="material-icons">edit</i>
+                                                                                    </a>
+                                                                                </div>
+                                                                        }</td>
                                                                     </tr>
                                                                 );
                                                             })}
@@ -291,8 +277,10 @@ class CreateItemImportOrderContainer extends React.Component {
                                                     <tr>
                                                         <td/>
                                                         <td>Tổng</td>
-                                                        <td style={textAlign}>{sumQuantity}</td>
+                                                        <td style={textAlign}>{sumQuantity / (count / parseInt(data.good_count))}</td>
                                                         <td/>
+                                                        <td/>
+                                                        <td style={textAlign}>{sumImportedQuantity} </td>
                                                         <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                         <td/>
                                                     </tr>
@@ -369,7 +357,8 @@ class CreateItemImportOrderContainer extends React.Component {
                                                     <FormInputText name="" label="Nhà cung cấp"
                                                                    value={data.company.name} disabled/>
                                                     <FormInputText name="" label="Người nhập hàng"
-                                                                   value={data.staff_import_or_export.length ? data.staff_import_or_export.name : this.props.user.name} disabled/>
+                                                                   value={data.staff_import_or_export.length ? data.staff_import_or_export.name : this.props.user.name}
+                                                                   disabled/>
                                                 </div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">
@@ -396,14 +385,6 @@ class CreateItemImportOrderContainer extends React.Component {
                             </div>
                         </form>}
                 </div>
-                <HistoryImportOrder
-                    show={this.state.showInfoModal}
-                    onHide={this.closeInfoModal}
-                    data={this.props.historyImportOrder}
-                    paginator={this.props.paginator_history}
-                    id={this.state.data.id}
-                    loadHistoryImportOrder={this.loadHistoryImportOrder}
-                />
                 <Modal bsSize="small" show={this.state.showAddModal} onHide={this.closeAddModal}>
                     <Modal.Header>
                         <Modal.Title>Thuộc tính
@@ -495,8 +476,6 @@ function mapStateToProps(state) {
         warehouses: state.importOrder.warehouses,
         goods: state.importOrder.goods,
         user: state.login.user,
-        historyImportOrder: state.importOrder.historyImportOrder,
-        paginator_history: state.importOrder.paginator_history,
     };
 }
 
@@ -518,6 +497,8 @@ let defaultData = {
     quantity: 0,
     staff_import_or_export: [],
     total_price: 0,
+    good_count: 1,
+    status: 0,
 };
 const defaultAddModalData = {
     good: {},

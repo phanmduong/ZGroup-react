@@ -280,14 +280,14 @@ export function deleteCard(cardId) {
  * @param createGood
  * @returns {Function}
  */
-export function createCardGood(card) {
+export function createCardGood(card, type = "book") {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD
         });
 
         return new Promise((resolve) => {
-            taskApi.barcodeNotEmpty()
+            taskApi.barcodeNotEmpty(type)
                 .then((res) => {
                     const {count} = res.data.data;
                     // if(createCard) {

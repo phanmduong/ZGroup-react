@@ -103,24 +103,23 @@ class WorkShiftSessionsContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
                     <div className="card-content">
-                        <h4 className="card-title">Danh sách ca làm việc</h4>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="col-md-3">
+                        <div className="tab-content">
+                            <div className="flex-row flex">
+                                <h5 className="card-title">
+                                    <strong style={{marginLeft:6}}>Danh sách ca làm việc</strong>
+                                </h5>
+                                <div>
                                     <button
-                                        type="button"
-                                        className="btn btn-rose"
-                                        onClick={() => this.openModalStore()}
-                                    >
-                                        Tạo
+                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                        type="button" onClick={() => this.openModalStore()}>
+                                        <strong>+</strong>
                                     </button>
                                 </div>
                             </div>
                         </div>
+                        <br/>
+                        
                         {this.props.isLoading ? <Loading/> :
                             <ListShiftSession
                                 workShiftSessions={this.props.workShiftSessions}

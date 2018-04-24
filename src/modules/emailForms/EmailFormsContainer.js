@@ -63,62 +63,56 @@ class EmailFormsContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-
-
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Email forms</h4>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="col-md-3">
-                                        <Link to="/email/email-form/create" className="btn btn-rose">
-                                            Thêm form
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Email forms</strong>
+                                    </h4>
+                                    <div>
+                                        <Link to="/email/email-form/create" className="btn btn-primary btn-round btn-xs button-add none-margin">
+                                                <strong>+</strong>
                                         </Link>
                                     </div>
-                                    <Search
-                                        onChange={this.formsSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm form"
-                                        className="col-md-9"
-                                    />
                                 </div>
-                            </div>
+                                <Search
+                                    onChange={this.formsSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm form"
+                                />
+                                <div className="row">
+                                    {this.props.isLoadingForms ? <Loading/> :
+                                    <ListForm
+                                        forms={this.props.forms}
+                                        deleteEmailForm={this.deleteEmailForm}
+                                        changeHideForm={this.changeHideForm}
+                                    />
+                                    }
+                                </div>
+                                <div className="tab-content">
+                                    <ul className="pagination pagination-primary">
+                                        {_.range(1, this.props.totalPages + 1).map(page => {
+                                            if (Number(this.props.currentPage) === page) {
+                                                return (
+                                                    <li key={page} className="active">
+                                                        <a onClick={() => this.loadForms(page)}>{page}</a>
+                                                    </li>
+                                                );
+                                            } else {
+                                                return (
+                                                    <li key={page}>
+                                                        <a onClick={() => this.loadForms(page)}>{page}</a>
+                                                    </li>
+                                                );
+                                            }
 
-                            {this.props.isLoadingForms ? <Loading/> :
-                                <ListForm
-                                    forms={this.props.forms}
-                                    deleteEmailForm={this.deleteEmailForm}
-                                    changeHideForm={this.changeHideForm}
-                                />}
+                                        })}
+                                    </ul>
+                                </div>    
+                            </div>    
                         </div>
                     </div>
-
-                    <div className="card-content">
-                        <ul className="pagination pagination-primary">
-                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                if (Number(this.props.currentPage) === page) {
-                                    return (
-                                        <li key={page} className="active">
-                                            <a onClick={() => this.loadForms(page)}>{page}</a>
-                                        </li>
-                                    );
-                                } else {
-                                    return (
-                                        <li key={page}>
-                                            <a onClick={() => this.loadForms(page)}>{page}</a>
-                                        </li>
-                                    );
-                                }
-
-                            })}
-                        </ul>
-                    </div>
-
                 </div>
             </div>
         );

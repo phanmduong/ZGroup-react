@@ -1,9 +1,15 @@
 import React from 'react';
-import {NAME_COMPANY, LOGO_SIDEBAR, NO_AVATAR} from '../constants/env';
+import {
+    NAME_COMPANY,
+    LOGO_SIDEBAR,
+    NO_AVATAR
+} from '../constants/env';
 import Loading from "./common/Loading";
 import PropTypes from 'prop-types';
 import TabContainer from "../modules/tab/TabContainer";
-import {Link} from 'react-router';
+import {
+    Link
+} from 'react-router';
 import * as helper from '../helpers/helper';
 import NotificationContainer from "../modules/notification/NotificationContainer";
 

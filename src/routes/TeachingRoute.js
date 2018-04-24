@@ -1,6 +1,5 @@
 import ScheduleClassContainer from "../modules/scheduleClass/ScheduleClassContainer";
 import GensContainer from "../modules/gens/GensContainer";
-import RegisterListContainer from "../modules/registerStudents/RegisterListContainer";
 import CoursesContainer from "../modules/courses/CoursesContainer";
 import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
@@ -27,6 +26,7 @@ import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCal
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import CareContainer from "../modules/infoStudent/care/CareContainer";
 import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
+import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesContainer";
 
 /**
  * Tab Teaching
@@ -46,16 +46,6 @@ export default [
         path: "/teaching/gens",
         // path: "/manage/gens",
         component: GensContainer
-    },
-    {
-        path: "/teaching/waitlist",
-        // path: "/manage/waitlist",
-        component: RegisterListContainer
-    },
-    {
-        path: "/teaching/registerlist/:campaignId/:genId",
-        // path: "/registerlist/:campaignId/:genId",
-        component: RegisterListContainer
     },
     {
         path: "/teaching/courses",
@@ -95,7 +85,7 @@ export default [
     {
         path: "/teaching/courses/edit/:courseId",
         // path: "/manage/courses/edit/:courseId",
-        component: CreateEditCoursesContainer,
+        component: EditCoursesContainer,
         type: "edit",
         // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
         children: [

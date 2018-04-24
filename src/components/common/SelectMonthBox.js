@@ -12,7 +12,6 @@ class SelectMonthBox extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {isShowMonthBox: false
-
         };
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
@@ -86,7 +85,7 @@ class SelectMonthBox extends React.Component {
                             {this.props.isHide ?
                                 <button
                                     style={{width: '100%'}}
-                                    className="btn btn-info btn-rose disabled"
+                                    className="btn btn-info btn-rose disabled btn-round"
                                 >
                                     {"Chọn tháng"}
                                 </button>
@@ -94,7 +93,7 @@ class SelectMonthBox extends React.Component {
                                 <button
                                     style={{width: '100%'}}
                                     onClick={this.props.openBox}
-                                    className="btn btn-info btn-rose"
+                                    className="btn btn-info btn-rose btn-round"
                                 >
                                     {(this.props.value.year) ? makeText(this.props.value) : "Chọn tháng"}
 

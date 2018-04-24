@@ -8,12 +8,12 @@ import { bindActionCreators } from 'redux';
 import * as helper from "../../helpers/helper";
 import { PRINT_ORDER_STATUS } from "../../constants/constants";
 import { Link } from "react-router";
-import ReactSelect from 'react-select';
+//import ReactSelect from 'react-select';
 //import FormInputDate from '../../components/common/FormInputDate';
 import Loading from "../../components/common/Loading";
 /*  */
 const textAlignCenter = { textAlign: "center" };
-const filterStyle = { fontSize: 12 };
+
 
 class ListPrintOrder extends React.Component {
     constructor(props, context) {
@@ -58,12 +58,12 @@ class ListPrintOrder extends React.Component {
     }
 
     render() {
-        let { listPrintOrder, codes, isLoading, goods } = this.props;
-        let { selectedProduct, selectedStatus, selectedCode,  } = this.props;
-        let { changeCodeFilter, changeProduct, changeStatus } = this.props;
+        let { listPrintOrder, isLoading, } = this.props;
+
+
         //console.log(this.props);
         return (
-            <div className="table-responsive" style={{minHeight:300}}>
+            <div className="table-responsive" style={{ minHeight: 300 }}>
                 <ConfirmOrderModal
                     data={this.state.data}
                     show={this.state.openInfoModal}
@@ -82,7 +82,7 @@ class ListPrintOrder extends React.Component {
                             <th>Trạng thái</th>
                             <th />
                         </tr>
-                        <tr>
+                        {/* <tr>
                             <th />
                             <th style={filterStyle}>
                                 <ReactSelect
@@ -105,7 +105,7 @@ class ListPrintOrder extends React.Component {
                                 />
                             </th>
                             <th style={filterStyle}>
-                                {/* <div className="col-md-12">
+                                 <div className="col-md-12">
                                 <FormInputDate
                                     label=""
                                     name="date"
@@ -113,7 +113,7 @@ class ListPrintOrder extends React.Component {
                                     value={selectedDate}
                                     id="date"
 
-                                /></div> */}
+                                /></div> 
                             </th>
                             <th colSpan={2} style={filterStyle}>
                                 <ReactSelect
@@ -125,45 +125,45 @@ class ListPrintOrder extends React.Component {
                                     name="filter_class"
                                 />
                             </th>
-                        </tr>
+                        </tr> */}
                     </thead>
                     {
-                                        isLoading ? <Loading/> :
-                    <tbody>
-                        
-                        {listPrintOrder.map((order, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{order.command_code ?
-                                        <Link to={"/business/print-order/edit/" + order.id} className="text-name-student-register"> {order.command_code}</Link>
-                                        :
-                                        "Chưa có"
-                                    }</td>
-                                    <td>{order.good.name}</td>
-                                    <td>{order.order_date}</td>
-                                    <td>{PRINT_ORDER_STATUS[order.status || 0]}</td>
-                                    <td><ButtonGroupAction
-                                        editUrl={"/business/print-order/edit/" + order.id}
-                                        disabledDelete={true}
-                                        disabledEdit={order.status > 0}
-                                        children={
-                                            (!order.status || order.status == 0) ?
-                                                <a data-toggle="tooltip" title="Duyệt"
-                                                    type="button" rel="tooltip"
-                                                    onClick={() => {
-                                                        return this.openConfirmModal(order);
-                                                    }}
-                                                >
-                                                    <i className="material-icons">done</i>
-                                                </a>
-                                                : <div />
-                                        }
-                                    /></td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>}
+                        isLoading ? <Loading /> :
+                            <tbody>
+
+                                {listPrintOrder.map((order, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{order.command_code ?
+                                                <Link to={"/business/print-order/edit/" + order.id} className="text-name-student-register"> {order.command_code}</Link>
+                                                :
+                                                "Chưa có"
+                                            }</td>
+                                            <td>{order.good.name}</td>
+                                            <td>{order.order_date}</td>
+                                            <td>{PRINT_ORDER_STATUS[order.status || 0]}</td>
+                                            <td><ButtonGroupAction
+                                                editUrl={"/business/print-order/edit/" + order.id}
+                                                disabledDelete={true}
+                                                disabledEdit={order.status > 0}
+                                                children={
+                                                    (!order.status || order.status == 0) ?
+                                                        <a data-toggle="tooltip" title="Duyệt"
+                                                            type="button" rel="tooltip"
+                                                            onClick={() => {
+                                                                return this.openConfirmModal(order);
+                                                            }}
+                                                        >
+                                                            <i className="material-icons">done</i>
+                                                        </a>
+                                                        : <div />
+                                                }
+                                            /></td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>}
                 </table>
             </div>
         );

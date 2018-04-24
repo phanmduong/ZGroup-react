@@ -126,75 +126,73 @@ class StudySessionContainer extends React.Component {
             <div>
                 <div className="col-lg-12">
                     <TabStudy url="manage/studysession"/>
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <div className="card">
-                                            <div className="card-content">
-                                                <div className="tab-content">
-                                                    <h4 className="card-title">
-                                                        <strong>Danh sách ca học</strong>
-                                                    </h4>
-                                                    <br/><br/>
-                                                    {this.props.isLoading ? <Loading/> :
-                                                        <ListStudySession
-                                                            studySessions={this.props.studySessions}
-                                                            deleteStudySession={this.deleteStudySession}
-                                                            onClickEdit={this.onClickEdit}
-                                                        />
-                                                    }
-                                                </div>    
-                                            </div>
+                    <div className="card-content">
+                        <div className="tab-content">
+                            <div className="row">
+                                <div className="col-md-8">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong style={{marginLeft: 6}}>Danh sách ca học</strong>
+                                                </h4>
+                                                <br/>
+                                                {this.props.isLoading ? <Loading/> :
+                                                    <ListStudySession
+                                                        studySessions={this.props.studySessions}
+                                                        deleteStudySession={this.deleteStudySession}
+                                                        onClickEdit={this.onClickEdit}
+                                                    />
+                                                }
+                                            </div>    
                                         </div>
                                     </div>
-                                    <div className="col-md-4">
-                                        <div className="card">
-                                            <div className="card-content">
-                                                <div className="tab-content">
-                                                    <h4 className="card-title">
-                                                        <strong>Tạo ca học</strong>
-                                                    </h4>
-                                                    <Select
-                                                        options={DAY_OF_WEEK}
-                                                        defaultMessage="Chọn ngày trong tuần"
-                                                        onChange={this.changeDay}
-                                                        value={this.props.studySession.weekday}
-                                                    />
-                                                    <TimePicker
-                                                        label="Thời gian bắt đầu"
-                                                        value={this.props.studySession.start_time}
-                                                        onChange={this.updateFormData}
-                                                        name="start_time"
-                                                        id="start_time"
-                                                    />
-                                                    <TimePicker
-                                                        label="Thời gian kết thúc"
-                                                        value={this.props.studySession.end_time}
-                                                        onChange={this.updateFormData}
-                                                        name="end_time"
-                                                        id="end_time"
-                                                    />
-                                                    {
-                                                        this.props.isSaving ?
-                                                            (
-                                                                <button
-                                                                    className="btn btn-fill btn-rose disabled"
-                                                                >
-                                                                    <i className="fa fa-spinner fa-spin"/> Đang tạo
-                                                                </button>
-                                                            )
-                                                            :
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong>Tạo ca học</strong>
+                                                </h4>
+                                                <Select
+                                                    options={DAY_OF_WEEK}
+                                                    defaultMessage="Chọn ngày trong tuần"
+                                                    onChange={this.changeDay}
+                                                    value={this.props.studySession.weekday}
+                                                />
+                                                <TimePicker
+                                                    label="Thời gian bắt đầu"
+                                                    value={this.props.studySession.start_time}
+                                                    onChange={this.updateFormData}
+                                                    name="start_time"
+                                                    id="start_time"
+                                                />
+                                                <TimePicker
+                                                    label="Thời gian kết thúc"
+                                                    value={this.props.studySession.end_time}
+                                                    onChange={this.updateFormData}
+                                                    name="end_time"
+                                                    id="end_time"
+                                                />
+                                                {
+                                                    this.props.isSaving ?
+                                                        (
                                                             <button
-                                                                className="btn btn-fill btn-rose"
-                                                                onClick={this.addStudySession}
+                                                                className="btn btn-fill btn-rose disabled"
                                                             >
-                                                                Tạo
+                                                                <i className="fa fa-spinner fa-spin"/> Đang tạo
                                                             </button>
-                                                    }
-                                                </div>    
-                                            </div>
+                                                        )
+                                                        :
+                                                        <button
+                                                            className="btn btn-fill btn-rose"
+                                                            onClick={this.addStudySession}
+                                                        >
+                                                            Tạo
+                                                        </button>
+                                                }
+                                            </div>    
                                         </div>
                                     </div>
                                 </div>

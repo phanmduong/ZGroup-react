@@ -165,9 +165,8 @@ class AttendanceContainer extends React.Component {
     render(){
         return(
 
-            <div className="row">
-                {this.props.isLoading ? <Loading/> :
-                    <div className="col-md-12">
+            <div className="container-fluid">
+                    <div>
                         {this.props.isLoadingBases || this.props.isLoadingGens
                             ?
                             <Loading/>
@@ -177,63 +176,75 @@ class AttendanceContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
-                                    /></div>
+                                        name="gens"
+                                    />
+                                </div>
                                 <div className="col-sm-3 col-xs-5">
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                         }
-                        <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">assignment</i>
-                            </div>
-                            <div className="card-content">
-                                <h4 className="card-title">Danh sách lớp</h4>
-                                <Search
-                                    onChange={this.classesSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm lớp"
-                                />
-                                <ListClassComponent
-                                    classes={this.props.data.classes}
-                                    isLoading={this.props.isLoading}
-                                    searchByTeacher={this.loadClasses}
-                                    openModalLesson={this.openModalLesson}
-                                />
-                                <ul className="pagination pagination-primary">
-                                    {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
-                                        if (Number(this.state.page) === page) {
-                                            return (
-                                                <li key={page} className="active">
-                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                        {page}
-                                                    </a>
-                                                </li>
-                                            );
-                                        } else {
-                                            return (
-                                                <li key={page}>
-                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                        {page}
-                                                    </a>
-                                                </li>
-                                            );
-                                        }
+                        
+                        <div className="col-xs-12">
+                            <div className="card" style={{marginTop: 15}}>
+                                <div className="card-content">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách lớp</strong>
+                                        </h4>
+                                        <Search
+                                            onChange={this.classesSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm lớp"
+                                        />
+                                        <br/>
+                                        {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
+                                            <div>    
+                                                <ListClassComponent
+                                                    classes={this.props.data.classes}
+                                                    isLoading={this.props.isLoading}
+                                                    searchByTeacher={this.loadClasses}
+                                                    openModalLesson={this.openModalLesson}
+                                                />
+                                                <ul className="pagination pagination-primary">
+                                                    {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
+                                                        if (Number(this.state.page) === page) {
+                                                            return (
+                                                                <li key={page} className="active">
+                                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                        {page}
+                                                                    </a>
+                                                                </li>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <li key={page}>
+                                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                        {page}
+                                                                    </a>
+                                                                </li>
+                                                            );
+                                                        }
 
-                                    })}
-                                </ul>
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        }        
+                                    </div>    
+                                </div>
                             </div>
-                        </div>
+                        </div>    
                     </div>
-                }
+                
             </div>
 
 

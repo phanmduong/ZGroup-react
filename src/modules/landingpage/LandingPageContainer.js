@@ -59,29 +59,29 @@ class LandingPageContainer extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">assignment</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách Landing Page</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-md-3">
-                                                <a className="btn btn-rose" href="/build-landing-page">
-                                                    Tạo landing page
+                                    <div className="tab-content">
+                                        <div className="flex-row flex">
+                                            <h5 className="card-title">
+                                                <strong>Danh sách Landing Page</strong>
+                                            </h5>
+                                            <div>
+                                                <a
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button" href="/build-landing-page">
+                                                    <strong>+</strong>
                                                 </a>
                                             </div>
-                                            <Search
-                                                className="col-md-9"
-                                                placeholder="Tìm kiếm"
-                                                value={this.state.query}
-                                                onChange={this.searchLandingPageChange}
-                                            />
                                         </div>
+                                        <Search
+                                            placeholder="Tìm kiếm"
+                                            value={this.state.query}
+                                            onChange={this.searchLandingPageChange}
+                                        />
                                     </div>
+
+                                    
 
                                     {this.props.isLoading ? <Loading/> :
                                         <ListLandingPage

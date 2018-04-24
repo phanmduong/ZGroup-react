@@ -1,3 +1,7 @@
+import CampaignContaier from '../modules/campaign/CampaignContainer';
+import CampaignComponent from '../modules/campaign/CampaignComponent';
+import HistoryComponent from '../modules/campaign/HistoryComponent';
+import ReceiversComponent from '../modules/campaign/ReceiversComponent';
 import CampaignListContainer from "../modules/campaignList/CampaignListContainer";
 
 /**
@@ -9,22 +13,23 @@ export default [
         component: CampaignListContainer
     },
     {
-        path: "/sms/campaign",
-        // component: ,
-        // type: "create",
+        path: "/sms/campaign-detail/:campaignId",
+        component: CampaignContaier,
+        type: "edit",
         children: [
             {
                 path: "/",
-                //component:
+                component: CampaignComponent
             },
             {
                 path: "receivers",
-                // component:
+                component: ReceiversComponent
             },
             {
                 path: "history",
-                // component:
+                component: HistoryComponent
             }
         ]
     },
 ];
+

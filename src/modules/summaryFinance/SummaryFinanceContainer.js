@@ -127,36 +127,35 @@ class SummaryFinanceContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
-                                                <div className="row">
-                                                    <div className="col-md-3">
-                                                        <FormInputDate
-                                                            label="Từ ngày"
-                                                            name="startTime"
-                                                            updateFormData={this.updateFormFilter}
-                                                            id="form-start-time"
-                                                            value={this.state.filter.startTime}
-                                                            maxDate={this.state.filter.endTime}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-3">
-                                                        <FormInputDate
-                                                            label="Đến ngày"
-                                                            name="endTime"
-                                                            updateFormData={this.updateFormFilter}
-                                                            id="form-end-time"
-                                                            value={this.state.filter.endTime}
-                                                            minDate={this.state.filter.startTime}
+                                                <div className="tab-content">
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                    <div className="row">
+                                                        <div className="col-md-3">
+                                                            <FormInputDate
+                                                                label="Từ ngày"
+                                                                name="startTime"
+                                                                updateFormData={this.updateFormFilter}
+                                                                id="form-start-time"
+                                                                value={this.state.filter.startTime}
+                                                                maxDate={this.state.filter.endTime}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <FormInputDate
+                                                                label="Đến ngày"
+                                                                name="endTime"
+                                                                updateFormData={this.updateFormFilter}
+                                                                id="form-end-time"
+                                                                value={this.state.filter.endTime}
+                                                                minDate={this.state.filter.startTime}
 
-                                                        />
+                                                            />
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>

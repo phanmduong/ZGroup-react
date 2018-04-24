@@ -106,49 +106,70 @@ class RoomsContainer extends React.Component {
                 <div className="container-fluid">
                     <EditRoomModalContainer/>
                     <RoomTypeManageModal/>
-                    <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-                        <div className="card-content">
-                            <h4 className="card-title">Phòng</h4>
-                            <Select
-                                defaultMessage={'Chọn cơ sở'}
-                                options={this.state.bases}
-                                value={this.state.selectBaseId}
-                                onChange={this.onChangeBase}
-                            />
-                            <div style={{marginTop: "15px"}}>
-                                <div className="col-md-3">
-                                    <a className="btn btn-rose" onClick={() => this.openModal({})}>
-                                        Thêm phòng
-                                    </a>
-                                </div>
-                                <Search
-                                    onChange={this.roomsSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm tên phòng, cơ sở"
-                                    className="col-md-9"
+                    {
+                        (this.state.selectBaseId >= 0 && this.state.bases.length > 0) ?
+
+                            <div className="col-md-12">
+                                 <Select
+                                    defaultMessage={'Chọn cơ sở'}
+                                    options={this.state.bases}
+                                    value={this.state.selectBaseId}
+                                    onChange={this.onChangeBase}
                                 />
                             </div>
-                            {
-                                this.props.isLoadingBases ? <Loading/> :
-                                    <ListRoom
-                                        rooms={this.props.rooms}
-                                        isLoading={this.props.isLoading}
-                                        loadData={this.loadRooms}
-                                        openModalEdit={this.openModal}
-                                    />
-                            }
+                            :
+                            <div/>
+
+                    }
+                    <div className="col-md-12">
+                        <div className="card" style={{marginTop: 15}}>
                             <div className="card-content">
-                                <Pagination
-                                    currentPage={this.state.page}
-                                    totalPages={this.props.totalPages}
-                                    loadDataPage={this.loadRooms}
-                                />
+                                 <div className="tab-content">
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title">
+                                            <strong>Phòng</strong>
+                                        </h4>
+                                        <div>
+                                            <button
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                type="button" onClick={() => this.openModal({})}>
+                                                <strong>+</strong>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <Search
+                                        onChange={this.roomsSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm tên phòng, cơ sở"
+                                    />
+                                </div>
+
+                                {/*<Select
+                                    defaultMessage={'Chọn cơ sở'}
+                                    options={this.state.bases}
+                                    value={this.state.selectBaseId}
+                                    onChange={this.onChangeBase}
+                                />*/}
+                               
+                                {
+                                    this.props.isLoadingBases ? <Loading/> :
+                                        <ListRoom
+                                            rooms={this.props.rooms}
+                                            isLoading={this.props.isLoading}
+                                            loadData={this.loadRooms}
+                                            openModalEdit={this.openModal}
+                                        />
+                                }
+                                <div className="card-content">
+                                    <Pagination
+                                        currentPage={this.state.page}
+                                        totalPages={this.props.totalPages}
+                                        loadDataPage={this.loadRooms}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </div>    
                 </div>
             </div>
         );

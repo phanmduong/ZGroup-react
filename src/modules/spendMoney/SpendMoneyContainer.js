@@ -73,103 +73,103 @@ class SpendMoneyContainer extends React.Component {
         return (
             <div>
                 <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">perm_identity</i>
-                    </div>
                     <div className="card-content">
-                        <h4 className="card-title">Thu/Chi</h4>
-                        {
-                            isLoading ?
-                                <Loading/>
-                                :
-                                <div>
-                                    <div className="row">
-                                        <div className="col-md-12 margin-vertical-30">
-                                            <div className="flex flex-row-center">
-                                                <div
-                                                    style={{
-                                                        background: 'url(' + avatar + ') center center / cover',
-                                                        width: '80px',
-                                                        height: '80px',
-                                                        borderRadius: '50%'
-                                                    }}
-                                                />
-                                                <div className="flex flex-col margin-left-20">
-                                                    <div className="font-size-1_5em">
-                                                        <strong>{this.props.user.name}</strong></div>
+                        <div className="tab-content">
+                            <h4 className="card-title">
+                                <strong>Thu/Chi</strong>
+                            </h4>
+                            {
+                                isLoading ?
+                                    <Loading/>
+                                    :
+                                    <div>
+                                        <div className="row">
+                                            <div className="col-md-12 margin-vertical-30">
+                                                <div className="flex flex-row-center">
                                                     <div
-                                                        className="font-weight-400">{dotNumber(this.props.user.money)}đ
+                                                        style={{
+                                                            background: 'url(' + avatar + ') center center / cover',
+                                                            width: '80px',
+                                                            height: '80px',
+                                                            borderRadius: '50%'
+                                                        }}
+                                                    />
+                                                    <div className="flex flex-col margin-left-20">
+                                                        <div className="font-size-1_5em">
+                                                            <strong>{this.props.user.name}</strong></div>
+                                                        <div
+                                                            className="font-weight-400">{dotNumber(this.props.user.money)}đ
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <form id="form-spend-money" onSubmit={(e) => {
-                                        e.preventDefault();
-                                    }}>
-                                        <div className="row">
-                                            <div className="col-md-8">
+                                        <form id="form-spend-money" onSubmit={(e) => {
+                                            e.preventDefault();
+                                        }}>
+                                            <div className="row">
+                                                <div className="col-md-8">
 
-                                                <FormInputText
-                                                    label={"Nhập số tiền"}
-                                                    value={dotNumber(this.state.money)}
-                                                    updateFormData={(event) => {
-                                                        if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
+                                                    <FormInputText
+                                                        label={"Nhập số tiền"}
+                                                        value={dotNumber(this.state.money)}
+                                                        updateFormData={(event) => {
+                                                            if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
+                                                                this.setState({
+                                                                    money: Number(event.target.value.toString().replace(/\./g, ""))
+                                                                });
+                                                            }
+                                                        }}
+                                                        required
+                                                        name="money"/>
+                                                    <FormInputText
+                                                        required
+                                                        label={"Nhập ghi chú"}
+                                                        value={this.state.note}
+                                                        updateFormData={(event) => {
                                                             this.setState({
-                                                                money: Number(event.target.value.toString().replace(/\./g, ""))
+                                                                note: event.target.value
                                                             });
-                                                        }
-                                                    }}
-                                                    required
-                                                    name="money"/>
-                                                <FormInputText
-                                                    required
-                                                    label={"Nhập ghi chú"}
-                                                    value={this.state.note}
-                                                    updateFormData={(event) => {
-                                                        this.setState({
-                                                            note: event.target.value
-                                                        });
-                                                    }}
-                                                    name="note"/>
+                                                        }}
+                                                        name="note"/>
 
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <Select
+                                                        value={this.state.type}
+                                                        options={TYPE_MONEY}
+                                                        defaultMessage="Chọn loại giao dịch"
+                                                        onChange={(value) => this.setState({type: value})}
+                                                    />
+                                                    <Select
+                                                        value={this.state.category_id}
+                                                        options={this.convertDataCategories(this.props.categories)}
+                                                        defaultMessage="Chọn nhóm"
+                                                        onChange={(value) => this.setState({category_id: value})}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="col-md-4">
-                                                <Select
-                                                    value={this.state.type}
-                                                    options={TYPE_MONEY}
-                                                    defaultMessage="Chọn loại giao dịch"
-                                                    onChange={(value) => this.setState({type: value})}
-                                                />
-                                                <Select
-                                                    value={this.state.category_id}
-                                                    options={this.convertDataCategories(this.props.categories)}
-                                                    defaultMessage="Chọn nhóm"
-                                                    onChange={(value) => this.setState({category_id: value})}
-                                                />
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    {
+                                                        this.props.isCreatingTransaction ?
+                                                            <button className="btn btn-rose disabled"
+                                                            >
+                                                                <i className="fa fa-spinner fa-spin"/>
+                                                                Đang tạo
+                                                            </button>
+                                                            :
+                                                            <button className="btn btn-rose"
+                                                                    onClick={() => this.createSpendMoney()}>
+                                                                Tạo
+                                                            </button>
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                {
-                                                    this.props.isCreatingTransaction ?
-                                                        <button className="btn btn-rose disabled"
-                                                        >
-                                                            <i className="fa fa-spinner fa-spin"/>
-                                                            Đang tạo
-                                                        </button>
-                                                        :
-                                                        <button className="btn btn-rose"
-                                                                onClick={() => this.createSpendMoney()}>
-                                                            Tạo
-                                                        </button>
-                                                }
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                        }
-
+                                        </form>
+                                    </div>
+                            }
+                        </div>    
                     </div>
                 </div>
                 <HistoryTransaction/>
