@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row form-register">
                                 <div class="col-md-12">
                                     <br>
                                     <hr>

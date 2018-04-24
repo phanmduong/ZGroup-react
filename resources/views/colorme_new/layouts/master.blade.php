@@ -12,7 +12,7 @@
     @yield("meta")
 
     <title>Color ME - Trường học thiết kế Color ME</title>
-
+    <link href="https://fonts.googleapis.com/css?family=Tinos:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
           rel="stylesheet">
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
