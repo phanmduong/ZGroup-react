@@ -217,7 +217,7 @@ class UserApiController extends ApiController
             $product->thumb_url = $request->thumb_url;
         }
         $product->type = 2;
-
+        $product->kind = 'post';
         $product->save();
 
         $receivers = [];

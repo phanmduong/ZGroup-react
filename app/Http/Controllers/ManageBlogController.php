@@ -96,6 +96,7 @@ class ManageBlogController extends ManageApiController
         $product->language_id = $request->language_id; //
 
         $product->type = 2;
+        $product->kind = 'blog';
         $product->url = trim_url($request->image_url);
         if ($request->status) {
             $product->status = $request->status;
@@ -103,7 +104,8 @@ class ManageBlogController extends ManageApiController
             $product->status = 0;
         }
         $product->save();
-
+        $product->slug .= '-' . $product->id;
+        $product->save();
         $arr_ids = json_decode($request->categories);
         $product->productCategories()->detach();
         foreach ($arr_ids as $arr_id)
