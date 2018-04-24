@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, campaign_id,base_id,startTime,endTime) {
-    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
+    let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
     if (search) {
         url += "&search=" + search;
     }
@@ -57,7 +57,7 @@ export function changeCallStatusApi(status, note, register_id, user_id) {
     });
 }
 
-export function savePaymentApi(money,note, register_id, user_id) {
+export function savePaymentApi(hour, minute,money,note, register_id, user_id) {
     let url = env.MANAGE_API_URL + '/company/payment/create?';
     let token = localStorage.getItem('token');
     if (token) {
@@ -68,6 +68,7 @@ export function savePaymentApi(money,note, register_id, user_id) {
         "user_id": user_id,
         "money_value": money,
         "description" : note,
+        "time" : parseInt(hour) * 60 +   parseInt(minute),
     });
 }
 

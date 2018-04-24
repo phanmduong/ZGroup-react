@@ -10,7 +10,7 @@ class GeneralInfoGroup extends React.Component{
         super(props);
     }
     render(){
-        const {name, description, color, order_value, delivery_value,currency_value} = this.props.groupCustomerForm;
+        const {name, description, color, order_value, delivery_value,currency_value,ship_price} = this.props.groupCustomerForm;
         return(
         <div>
             <div className="row">
@@ -84,6 +84,24 @@ class GeneralInfoGroup extends React.Component{
                                             updateFormData={this.props.editFormData}
                                             type="number"
                                             value={currency_value}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div className="row">
+                                <label className="col-sm-2 label-on-left">Giá đặt hàng</label>
+                                <div className="col-sm-10">
+                                    <div className="form-group label-floating is-empty">
+                                        <label className="control-label"/>
+                                        <FormInputText
+                                            label="Giá đặt hàng (đ)"
+                                            name="ship_price"
+                                            updateFormData={this.props.editFormData}
+                                            type="number"
+                                            value={ship_price}
                                         />
                                     </div>
                                 </div>

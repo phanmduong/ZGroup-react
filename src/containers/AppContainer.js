@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import App from "../components/App";
 // Import actions here!!
 import * as loginActions from "../modules/login/loginActions";
 import * as helper from "../helpers/helper";
-import {Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
 import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
@@ -25,16 +25,11 @@ class AppContainer extends React.Component {
         this.openModalRule = this.openModalRule.bind(this);
         this.closeModalRule = this.closeModalRule.bind(this);
         /* eslint-disable */
-        if (
-            this.props.user &&
-            this.props.user.role !== 0 &&
-            this.props.user.id > 0 &&
-            window.OneSignal
-        ) {
+        if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0 && window.OneSignal) {
             helper.onesignalSetUserId(this.props.user.id);
             /* eslint-disable */
             if (window.OneSignal) {
-                window.OneSignal.sendTag("device_type", "manage", function (tagsSent,) {
+                window.OneSignal.sendTag("device_type", "manage", function(tagsSent) {
                     console.log("tag ok ", tagsSent);
                 });
             }
@@ -45,7 +40,7 @@ class AppContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.checkToken();
+        // this.checkToken();
         this.props.loginActions.getUserLocal();
     }
 
@@ -56,10 +51,10 @@ class AppContainer extends React.Component {
     checkToken() {
         let tokenLocal = helper.getTokenLocal();
         tokenLocal
-            .then(function () {
+            .then(function() {
                 self.props.loginActions.getUserLocal();
             })
-            .catch(function () {
+            .catch(function() {
                 self.onLogOut();
             });
 
@@ -79,20 +74,19 @@ class AppContainer extends React.Component {
         helper.closeSidebar();
         helper.removeDataLoginLocal();
         helper.onesignalSetUserId(0);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         /* eslint-disable */
         if (process.env.NODE_ENV === "production") {
             window.open("/logout", "_self");
         } else {
-            this.props.router.push('/login');
+            this.props.router.push("/login");
         }
         /* eslint-enable */
-
     }
 
     closeModalRule() {
-        this.setState({showModalRule: false});
+        this.setState({ showModalRule: false });
     }
 
     openModalRule() {
@@ -104,9 +98,9 @@ class AppContainer extends React.Component {
     render() {
         return (
             <div>
-                <GlobalLoadingContainer/>
+                <GlobalLoadingContainer />
 
-                <FirstLoginContainer/>
+                <FirstLoginContainer />
 
                 <App
                     pathname={this.props.location.pathname}
@@ -114,11 +108,7 @@ class AppContainer extends React.Component {
                     onLogOut={this.onLogOut}
                     openModalRule={this.openModalRule}
                 />
-                <Modal
-                    show={this.state.showModalRule}
-                    onHide={this.closeModalRule}
-                    bsSize="large"
-                >
+                <Modal show={this.state.showModalRule} onHide={this.closeModalRule} bsSize="large">
                     <Modal.Header closeButton>
                         <Modal.Title>
                             <h3>
@@ -127,7 +117,7 @@ class AppContainer extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <RuleContainer/>
+                        <RuleContainer />
                     </Modal.Body>
                 </Modal>
             </div>

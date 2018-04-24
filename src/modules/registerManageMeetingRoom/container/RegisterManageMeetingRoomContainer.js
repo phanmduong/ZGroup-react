@@ -39,9 +39,9 @@ class RegisterManageRoomContainer extends React.Component {
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.salersSearchChange = this.salersSearchChange.bind(this);
         this.filterBySaler = this.filterBySaler.bind(this);
-        this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
-            this,
-        );
+        // this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
+        //     this,
+        // );
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);

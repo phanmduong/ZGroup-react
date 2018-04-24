@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
+// import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
@@ -172,9 +172,26 @@ class coursesCreateEditDocuments extends React.Component {
                     <div className="card">
                         <div className="card-content">
 
-                            <Link className="btn btn-rose" onClick={this.openModal}>
-                                Thêm Tài Liệu
-                            </Link>
+                            <div className="flex-row flex">
+                                <h5 className="card-title">
+                                    <strong>Tài liệu</strong>
+                                </h5>
+                                <div className="dropdown">
+                                    <button
+                                        className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
+                                        type="button"
+                                        data-toggle="tooltip"
+                                        data-original-title="Thêm tài liệu"
+                                        onClick={this.openModal}
+                                    >
+                                        <strong>+</strong>
+                                    </button>
+                                </div>
+
+                            </div>
+                            {/*<Link className="btn btn-rose" onClick={this.openModal}>*/}
+                                {/*Thêm Tài Liệu*/}
+                            {/*</Link>*/}
 
 
                             <div className="table-responsive">
@@ -188,7 +205,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         <th>Tên Link</th>
                                         <th>Link</th>
                                         <th>Mô tả</th>
-                                        <th>Actions</th>
+                                        <th/>
                                     </tr>
                                     </thead>
                                     <tbody>

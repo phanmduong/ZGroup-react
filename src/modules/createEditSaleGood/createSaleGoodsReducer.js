@@ -89,6 +89,22 @@ export default function createSaleGoodsReducer(state = initialState.createSaleGo
                 ...state,
                 isSaving :  false,
             };
+        case types.BEGIN_LOAD_CUSTOMERS_SALE_GOOD:
+            return{
+                ...state,
+                isLoadingCustomers : true,
+            };
+        case types.LOADED_CUSTOMERS_SALE_GOOD_SUCCESS:
+            return{
+                ...state,
+                isLoadingCustomers: false,
+                customers : action.customers,
+            };
+        case types.LOADED_CUSTOMERS_SALE_GOOD_ERROR:
+            return {
+                ...state,
+                isLoadingCustomers : false,
+            };
         default:
             return state;
     }
