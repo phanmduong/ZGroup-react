@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Role;
 use App\User;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use  GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use App\Services\EmailService;
@@ -69,10 +67,6 @@ class ClientController extends Controller
                 'password' => $password,
             ]
         ]);
-
-        // login this account
-        // Auth::login($user, true);
-        // $token = JWTAuth::fromUser($user);
 
         return view('freetrial::index', [
             'email' => $user->email,

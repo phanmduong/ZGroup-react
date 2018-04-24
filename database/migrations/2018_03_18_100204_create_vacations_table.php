@@ -23,7 +23,6 @@ class CreateVacationsTable extends Migration
              $table->string('type')->nullable();
              $table->integer('status')->default(0);
              $table->string('reason')->nullable();
-
         });
     }
 

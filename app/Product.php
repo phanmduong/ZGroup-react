@@ -76,6 +76,7 @@ class Product extends Model
 
     public function blogTransform()
     {
+        $category = $this->productCategories()->first();
         return [
             'id' => $this->id,
             'url' => $this->url,
@@ -84,29 +85,26 @@ class Product extends Model
             'author' => [
                 'id' => $this->author->id,
                 'name' => $this->author->name,
-                'avatar_url' => $this->author->avatar_url
+                'avatar_url' => strpos($this->author->avatar_url, config('app.protocol')) === false ? config('app.protocol') . $this->author->avatar_url : $this->author->avatar_url,
+                'email' => $this->author->email,
+                'username' => $this->author->username,
             ],
             'title' => $this->title,
             'category' => $this->category ? $this->category->name : null,
+            'category_name' => $category ? $category->name : null,
             'thumb_url' => $this->thumb_url,
             'slug' => $this->slug,
             'meta_description' => $this->meta_description,
             'meta_title' => $this->meta_title,
             'keyword' => $this->keyword,
+            // 'created_at' => time_remain_string($this->created_at),
+            'views' => $this->views,
         ];
     }
 
     public function blogDetailTransform()
     {
         $data = $this->blogTransform();
-        if ($this->author) {
-            $data['author'] = [
-                'id' => $this->author->id,
-                'email' => $this->author->email,
-                'name' => $this->author->name,
-                'avatar_url' => $this->author->avatar_url
-            ];
-        }
 
         $data['categories'] = $this->productCategories;
         $data['language_id'] = $this->language ? $this->language->id : 0;
