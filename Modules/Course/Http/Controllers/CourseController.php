@@ -451,8 +451,8 @@ class CourseController extends ManageApiController
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
-        // $register->coupon = $request->coupon;
-        $register->saler_id = $this->user ? $this->user->id : 0;
+        $register->coupon = $request->coupon;
+        $register->saler_id = $request->saler_id ? $request->saler_id : 0;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
         $register->time_to_reach = 2;

@@ -221,10 +221,12 @@
                                                         <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
                                                             <p>Chào bạn. Dưới đây là tài khoản demo hệ thống KEETOOL.</p>
                                                             <p>
-                                                                email: {{$user->email}} <br>
-                                                                password: {{$password}}
+                                                                email: <b>{{$user->email}}</b> <br>
+                                                                password: <b>{{$password}}</b> <br>
+                                                                url: <a href="http://manage.keetool.xyz"><b>http://manage.keetool.xyz<b/></a>
                                                             </p>
                                                             <p>Lưu ý: Dữ liệu trong hệ thống demo sẽ được reset vào 2:00 AM hàng ngày.</p>
+                                                            <p>Chúng tôi sẽ liên lạc với bạn trong khoảng thời gian sớm nhất</p>
                                                         </td>
                                                 </tr>
                                         </tbody>
@@ -247,7 +249,7 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
-
+                                                Hotline: 096 518 9796 (Bạn Dương)
                                             </td>
                                         </tr>
 

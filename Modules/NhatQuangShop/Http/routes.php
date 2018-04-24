@@ -24,6 +24,7 @@ $nhatquangShopRoute = function () {
 
     Route::get('/product/detail/{good_id}', "NhatQuangShopController@productDetail");
     Route::get('/category/{categoryid}', "NhatQuangShopController@goodsByCategory");
+    Route::post('/search', "NhatQuangShopController@searchGood");
     Route::get('/category/test/s', "NhatQuangShopController@categoryTest");
 
 

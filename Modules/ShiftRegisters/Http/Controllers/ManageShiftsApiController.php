@@ -9,8 +9,6 @@ use App\Shift;
 use App\ShiftPick;
 use App\ShiftSession;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redis;
 
 class ManageShiftsApiController extends ManageApiController
@@ -56,8 +54,8 @@ class ManageShiftsApiController extends ManageApiController
 
                 $shiftsData = $this->shiftTransfromer->transformCollection(collect($temp));
                 $return_dates[] = [
-                    "date" => date_shift(strtotime($date)),
-                    "shifts" => $shiftsData
+                    'date' => date_shift(strtotime($date)),
+                    'shifts' => $shiftsData
                 ];
             }
             $return_arr[] = [
@@ -70,13 +68,12 @@ class ManageShiftsApiController extends ManageApiController
 
     public function get_history_shift_register()
     {
-
         $limit = 40;
 
         $shift_picks = ShiftPick::orderBy('created_at', 'desc')->paginate($limit);
 
         $data = [
-            "shift_picks" => $shift_picks->map(function ($shiftPick) {
+            'shift_picks' => $shift_picks->map(function ($shiftPick) {
                 $shift_session = $shiftPick->shift->shift_session()->withTrashed()->first();
 
                 $shiftPickDate = [
@@ -119,17 +116,17 @@ class ManageShiftsApiController extends ManageApiController
             $shift_pick->save();
 
             $data = json_encode([
-                "id" => $shift->id,
+                'id' => $shift->id,
             ]);
-            $publish_data = array(
-                "event" => "remove-shift",
-                "data" => $data
-            );
+            $publish_data = [
+                'event' => 'remove-shift',
+                'data' => $data
+            ];
             Redis::publish(config('app.channel'), json_encode($publish_data));
 
-            return $this->respondSuccessWithStatus(["message" => "Bỏ đăng ký thành công"]);
+            return $this->respondSuccessWithStatus(['message' => 'Bỏ đăng ký thành công']);
         } else {
-            return $this->respondErrorWithStatus("Bạn không thể bỏ đăng kí của người khác");
+            return $this->respondErrorWithStatus('Bạn không thể bỏ đăng kí của người khác');
         }
     }
 
@@ -137,7 +134,7 @@ class ManageShiftsApiController extends ManageApiController
     {
         $shift = Shift::find($shiftId);
         if ($shift->user) {
-            return $this->respondErrorWithStatus("Ca này đã có người đăng kí rồi");
+            return $this->respondErrorWithStatus('Ca này đã có người đăng kí rồi');
         } else {
             $shift->user_id = $this->user->id;
             $shift->save();
@@ -149,17 +146,17 @@ class ManageShiftsApiController extends ManageApiController
             $shift_pick->save();
 
             $data = json_encode([
-                "id" => $shift->id,
-                "user" => [
+                'id' => $shift->id,
+                'user' => [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
-                    'avatar_url' => $this->user->avatar_url
+                    'avatar_url' => generate_protocol_url($this->user->avatar_url)
                 ]
             ]);
-            $publish_data = array(
-                "event" => "regis-shift",
-                "data" => $data
-            );
+            $publish_data = [
+                'event' => 'regis-shift',
+                'data' => $data
+            ];
             Redis::publish(config('app.channel'), json_encode($publish_data));
 
             return $this->respondSuccessWithStatus([
@@ -168,7 +165,7 @@ class ManageShiftsApiController extends ManageApiController
                 'user' => [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
-                    'avatar_url' => $this->user->avatar_url
+                    'avatar_url' => generate_protocol_url($this->user->avatar_url)
                 ]
             ]);
         }
@@ -199,7 +196,6 @@ class ManageShiftsApiController extends ManageApiController
             $shift_session = ShiftSession::find($request->id);
         } else {
             $shift_session = new ShiftSession();
-
         }
 
         $shift_session->active = $request->active ? $request->active : 0;
@@ -224,4 +220,3 @@ class ManageShiftsApiController extends ManageApiController
         ]);
     }
 }
-

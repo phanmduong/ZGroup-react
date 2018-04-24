@@ -423,4 +423,17 @@ class EmailService
             $m->to($user->email, $user->name)->subject($subject);
         });
     }
+
+    public function send_mail_welcome($user)
+    {
+        $subject = 'Chào mừng bạn đến với Colome';
+        $data = [
+            'user' => $user
+        ];
+
+        Mail::send('emails.colorme_welcome', $data, function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->to($user->email, $user->name)->subject($subject);
+        });
+    }
 }
