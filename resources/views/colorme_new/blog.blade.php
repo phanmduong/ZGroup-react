@@ -32,7 +32,7 @@
                             <span style="padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>
                             @endif
                         </div>
-                        <div style="text-align: center; font-size: 36px; padding: 25px; font-weight: 600;">{{$blog['title']}}</div>
+                        <div class="blog-title">{{$blog['title']}}</div>
                         <div style="text-align: center; padding-bottom: 25px; color: rgb(137, 137, 137);">{{$blog['description']}}</div>
                         <div style="text-align: center; margin-bottom: 30px;">
                             <div class="product-tool">

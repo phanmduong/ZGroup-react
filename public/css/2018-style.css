@@ -3059,3 +3059,22 @@ hr {
     display: flex;
     justify-content: center!important;
 }
+
+.zoom {
+    transition: transform .2s; /* Animation */
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.2);
+}
+
+.zoom:hover {
+    transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+}
+.blog-title {
+    text-align: center !important; font-size: 36px !important; padding: 15px !important; font-weight: 600 !important;
+}
+@media only screen and (max-width: 600px) {
+    .blog-title {
+        text-align: center  !important; font-size: 20px !important; padding: 15px 0 !important; font-weight: 600 !important;
+    }
+
+}

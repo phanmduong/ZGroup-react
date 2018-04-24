@@ -29,24 +29,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <style>
-                                            .zoom {
-                                                transition: transform .2s; /* Animation */
-                                                box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.2);
-                                            }
 
-                                            .zoom:hover {
-                                                transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-                                                box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
-                                            }
-                                            .blog-title {
-                                                text-align: center; font-size: 36px; padding: 15px; font-weight: 600;
-                                            }
-                                            @media only screen and (max-width: 600px) {
-                                                .blog-title {
-                                                    text-align: center; font-size: 20px; padding: 15px 0; font-weight: 600;
-                                                }
-
-                                            }
                                         </style>
                                         @foreach($blogs as $blog)
                                             <div class="col-md-8 col-md-offset-2">
