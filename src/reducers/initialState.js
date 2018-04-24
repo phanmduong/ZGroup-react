@@ -2004,10 +2004,10 @@ export default {
         link: "",
         percent: 0,
         summary_money: 0,
-        payment: [{
+        payment: {
             id: 0,
             money_value: 0,
-            bill_image_url: "",
+            bill_imiage_url: "",
             payer: {
                 id: 0,
                 account_number: "",
@@ -2017,7 +2017,8 @@ export default {
                 account_number: "",
             },
             description: "",
-        }],
+        },
+        listPayment:[],
         company: [],
         paginator: {
             total_count: 0,

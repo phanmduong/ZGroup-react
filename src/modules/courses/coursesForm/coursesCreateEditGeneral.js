@@ -245,6 +245,25 @@ class coursesCreateEditGeneral extends React.Component {
 
                         </div>
                     </div>
+                    <div className="">
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <h4 className="card-title"><strong>Chi tiết khoá học</strong>
+                                    </h4><br/>
+                                    {this.props.isLoading ? <Loading/> :
+                                        <ReactEditor
+                                            urlPost={linkUploadImageEditor()}
+                                            fileField="image"
+                                            name="detail"
+                                            updateEditor={this.updateEditor}
+                                            value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
+                                        />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-4">
                     <div className="card">
@@ -375,25 +394,25 @@ class coursesCreateEditGeneral extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="">
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <h4 className="card-title"><strong>Chi tiết khoá học</strong>
-                                </h4><br/>
-                                {this.props.isLoading ? <Loading/> :
-                                    <ReactEditor
-                                        urlPost={linkUploadImageEditor()}
-                                        fileField="image"
-                                        name="detail"
-                                        updateEditor={this.updateEditor}
-                                        value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
-                                    />
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="">*/}
+                    {/*<div className="card">*/}
+                        {/*<div className="card-content">*/}
+                            {/*<div className="tab-content">*/}
+                                {/*<h4 className="card-title"><strong>Chi tiết khoá học</strong>*/}
+                                {/*</h4><br/>*/}
+                                {/*{this.props.isLoading ? <Loading/> :*/}
+                                    {/*<ReactEditor*/}
+                                        {/*urlPost={linkUploadImageEditor()}*/}
+                                        {/*fileField="image"*/}
+                                        {/*name="detail"*/}
+                                        {/*updateEditor={this.updateEditor}*/}
+                                        {/*value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}*/}
+                                    {/*/>*/}
+                                {/*}*/}
+                            {/*</div>*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
             </div>
 
         );
