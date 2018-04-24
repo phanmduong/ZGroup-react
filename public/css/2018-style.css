@@ -1597,11 +1597,27 @@ a.like-count:hover {
 
 .product-content {
     margin-top: 10px;
-    color: #555
+    color: #555;
+    font-family: Tinos !important;
+    font-size: 20px !important;
 }
 
 .product-content p {
-    text-align: justify
+    text-align: justify;
+
+    font-family: Tinos !important;
+    font-size: 20px !important;
+
+    margin-bottom: 20px;
+
+}
+.product-content span {
+    text-align: justify;
+    font-family: Tinos !important;
+    font-size: 20px !important;
+    margin-bottom: 15px!important;
+    display: inline-block !important;
+
 }
 
 .image-wrapper, .product-content iframe, .product-content img, .product-content video {
@@ -3077,4 +3093,7 @@ hr {
         text-align: center  !important; font-size: 20px !important; padding: 15px 0 !important; font-weight: 600 !important;
     }
 
+}
+.blog-body {
+    font-family: Tinos;
 }
