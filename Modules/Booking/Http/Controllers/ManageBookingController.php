@@ -86,7 +86,7 @@ class ManageBookingController extends ManageApiController
             });
 
         if ($request->base_id)
-            $registers = $registers->where('room_service_registers.base_id', $request->base_id);
+            $registers = $registers->where('room_service_registers.gitbase_id', $request->base_id);
         if ($request->staff_id)
             $registers = $registers->where('staff_id', $request->staff_id);
         if ($request->saler_id)
