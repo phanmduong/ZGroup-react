@@ -235,7 +235,7 @@ class ColormeNewController extends CrawlController
 
     public function blogs(Request $request)
     {
-        $limit = $request->limit ? $request->limit : 12;
+        $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
 
         $blogs = Product::where('kind', 'blog')->where('status', 1)

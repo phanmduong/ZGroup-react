@@ -12,7 +12,7 @@
     @yield("meta")
 
     <title>Color ME - Trường học thiết kế Color ME</title>
-
+    <link href="https://fonts.googleapis.com/css?family=Tinos:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
           rel="stylesheet">
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
@@ -107,7 +107,10 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <!-- <li class=""><a href="/about-us">Về chúng tôi</a></li> -->
-                        <li class=""><a href="/blogs">Blog</a></li>
+                        <li class=""><a href="/blogs">Blog 
+                        <span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Mới</span>
+                        </a></li>
+                        
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
                                             class="glyphicon glyphicon-cloud-upload"></span>
