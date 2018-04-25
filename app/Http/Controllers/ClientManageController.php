@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Requests;
-
 class ClientManageController extends Controller
 {
     public function __construct()
@@ -105,5 +104,4 @@ class ClientManageController extends Controller
             "content" => $content
         ]);
     }
-
 }

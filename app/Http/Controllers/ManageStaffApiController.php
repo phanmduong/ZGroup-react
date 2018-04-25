@@ -55,6 +55,7 @@ class ManageStaffApiController extends ManageApiController
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
         $user->avatar_url = trim_url($request->avatar_url);
+        $user->department_id = $request->department_id;
         if ($request->color) {
             $user->color = trim_color($request->color);
         }
@@ -193,6 +194,7 @@ class ManageStaffApiController extends ManageApiController
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
+        $user->department_id = $request->department_id;
         if ($request->color) {
             $user->color = trim_color($request->color);
         }

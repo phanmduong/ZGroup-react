@@ -19,6 +19,7 @@ use App\Group;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManageSmsApiController extends ManageApiController
 {
@@ -279,12 +280,6 @@ class ManageSmsApiController extends ManageApiController
 
     public function getReceiversChoice($campaignId, Request $request)
     {
-//        $campaign = SmsList::find($campaignId);
-//        $group_id = $campaign->group->id;
-//
-//        $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
-//            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
-
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $gens = json_decode($request->gens);
@@ -295,6 +290,7 @@ class ManageSmsApiController extends ManageApiController
             $users = User::find($request->carer_id)->getCaredUsers();
         } else $users = User::query();
 
+
         if ($startTime != null && $endTime != null) {
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
         }
@@ -303,9 +299,9 @@ class ManageSmsApiController extends ManageApiController
             $users = $users->where("rate", $request->rate);
         }
 
-        $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
-            ->where(function ($query) use ($gens) {
-                if ($gens) {
+        if ($gens) {
+            $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
+                ->where(function ($query) use ($gens) {
                     for ($index = 0; $index < count($gens); ++$index) {
                         $gen_id = $gens[$index]->value;
                         if ($index == 0)
@@ -313,31 +309,34 @@ class ManageSmsApiController extends ManageApiController
                         else
                             $query->orWhere('gens.id', '=', $gen_id);
                     }
-                }
-            })->get()->toArray();
 
-        $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-            ->select('users.*')->where(function ($query) use ($classes_gens) {
-                if ($classes_gens) {
-                    for ($index = 0; $index < count($classes_gens); ++$index) {
-                        $class_id = $classes_gens[$index]['id'];
-                        if ($index == 0)
-                            $query->where('registers.class_id', '=', $class_id);
-                        else
-                            $query->orWhere('registers.class_id', '=', $class_id);
+                })->get()->toArray();
+        } else $classes_gens = null;
+
+
+        if ($classes_gens != null || $classes != null)
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')->select('users.*')
+                ->where(function ($query) use ($classes_gens) {
+                    if ($classes_gens) {
+                        for ($index = 0; $index < count($classes_gens); ++$index) {
+                            $class_id = $classes_gens[$index]['id'];
+                            if ($index == 0)
+                                $query->where('registers.class_id', '=', $class_id);
+                            else
+                                $query->orWhere('registers.class_id', '=', $class_id);
+                        }
                     }
-                }
-            })->where(function ($query) use ($classes) {
-                if ($classes) {
-                    for ($index = 0; $index < count($classes); ++$index) {
-                        $class_id = $classes[$index]->value;
-                        if ($index == 0)
-                            $query->where('registers.class_id', '=', $class_id);
-                        else
-                            $query->orWhere('registers.class_id', '=', $class_id);
+                })->where(function ($query) use ($classes) {
+                    if ($classes) {
+                        for ($index = 0; $index < count($classes); ++$index) {
+                            $class_id = $classes[$index]->value;
+                            if ($index == 0)
+                                $query->where('registers.class_id', '=', $class_id);
+                            else
+                                $query->orWhere('registers.class_id', '=', $class_id);
+                        }
                     }
-                }
-            })->groupBy("users.id");
+                })->groupBy("users.id");
 
 //        if ($request->paid_course_quantity) {
 //            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
@@ -352,6 +351,14 @@ class ManageSmsApiController extends ManageApiController
 //
 //                });
 //        }
+        $campaign = SmsList::find($campaignId);
+        $group_id = $campaign->group->id;
+
+        $users = $users->whereNotExists(function ($query) use ($group_id) {
+            $query->select(DB::raw(1))
+                ->from('groups_users')
+                ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
+        });
 
 
         if ($request->top) {
@@ -360,7 +367,7 @@ class ManageSmsApiController extends ManageApiController
             if ($limit == -1) {
                 $users = $users->orderBy('created_at', 'desc')->get();
                 return $this->respondSuccessWithStatus([
-                    'users' => $users->map(function ($user) use ($group_id) {
+                    'users' => $users->map(function ($user) {
                         return $user->getReceivers();
                     })
                 ]);
@@ -370,17 +377,16 @@ class ManageSmsApiController extends ManageApiController
 
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
-                'users' => $users->map(function ($user) use ($group_id) {
-                    return $user->getReceivers();
-                })
-            ]);
-        } else {
-            return $this->respondWithPagination($users, [
-                'users' => $users->map(function ($user) use ($group_id) {
+                'users' => $users->map(function ($user) {
                     return $user->getReceivers();
                 })
             ]);
         }
+        return $this->respondWithPagination($users, [
+            'users' => $users->map(function ($user) {
+                return $user->getReceivers();
+            })
+        ]);
     }
 
 }

@@ -14,19 +14,26 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\CourseCategory;
+use App\Product;
+use Illuminate\Support\Facades\DB;
+use App\Comment;
+use App\Services\EmailService;
+use Carbon\Carbon;
 
 class ColormeNewController extends CrawlController
 {
     protected $productTransformer;
     protected $courseTransformer;
     protected $courseRepository;
+    protected $emailService;
 
-    public function __construct(ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
+    public function __construct(EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
     {
         parent::__construct();
         $this->productTransformer = $productTransformer;
         $this->courseTransformer = $courseTransformer;
         $this->courseRepository = $courseRepository;
+        $this->emailService = $emailService;
         $bases = Base::orderBy('created_at')->get();
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
@@ -38,14 +45,14 @@ class ColormeNewController extends CrawlController
     {
         $current_gen = Gen::getCurrentGen();
         $categories = CourseCategory::all();
-        $categories = $categories->filter(function($category){
+        $categories = $categories->filter(function ($category) {
             $courses = $category->courses;
-            $courses_count = $courses->reduce(function($count, $course){
-                return $count + $course->status; 
+            $courses_count = $courses->reduce(function ($count, $course) {
+                return $count + $course->status;
             }, 0);
             return $courses_count > 0;
         });
-        
+
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
         $this->data['gen_cover'] = $current_gen->cover_url;
@@ -209,5 +216,86 @@ class ColormeNewController extends CrawlController
     public function social()
     {
         return view('colorme_new.colorme_react', $this->data);
+    }
+
+    public function timeCal($time)
+    {
+        $diff = abs(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
+        $diff /= 60;
+        if ($diff < 60)
+            return floor($diff) . ' phút trước';
+        $diff /= 60;
+        if ($diff < 24)
+            return floor($diff) . ' giờ trước';
+        $diff /= 24;
+        if ($diff <= 30)
+            return floor($diff) . ' ngày trước';
+        return date('d-m-Y', strtotime($time));
+    }
+
+    public function blogs(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 12;
+        $search = $request->search;
+
+        $blogs = Product::where('kind', 'blog')->where('status', 1)
+            ->where('title', 'like', "%$search%")
+            ->orderBy('created_at', 'desc')->paginate($limit);
+        // dd($blogs);
+
+
+        $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
+        $this->data['current_page'] = $blogs->currentPage();
+
+        $blogs = $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['time'] = $this->timeCal(date($blog->created_at));
+            return $data;
+        });
+        $this->data['blogs'] = $blogs;
+        $this->data['search'] = $search;
+        return view('colorme_new.blogs', $this->data);
+    }
+
+    public function blog($slug, Request $request)
+    {
+        $blog = Product::where('slug', $slug)->first();
+        $blog->views += 1;
+        $blog->save();
+        $data = $blog->blogDetailTransform();
+        $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
+        $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
+            ->limit(4)->get();
+        $this->data['blog'] = $data;
+
+        return view('colorme_new.blog', $this->data);
+    }
+
+    public function register(Request $request)
+    {
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt('123456');
+            $user->username = $request->email;
+            $user->email = $request->email;
+            $user->name = $request->name;
+            $user->phone = $phone;
+        }
+        $user->rate = 5;
+        $user->save();
+
+        $this->emailService->send_mail_welcome($user);
+        return [
+            'message' => 'success'
+        ];
+    }
+
+    public function extract(Request $request)
+    {
+        // $this->author->avatar_url,
+        // dd(strtotime("2018-04-23 17:19:42"));
+        // dd(abs(strtotime("2018-04-23 17:19:42") - strtotime(Carbon::now()->toDateTimeString())));
     }
 }

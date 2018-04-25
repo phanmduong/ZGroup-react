@@ -28,10 +28,10 @@ class FilmZgroupManageApiController extends ManageApiController
     public function getAllFilms()
     {
         $films = Film::orderBy("id", "desc")->get();
-        foreach($films as $film)
-        {
+        foreach ($films as $film) {
             $this->reloadFilmStatus($film);
         }
+        $films = Film::orderBy("id", "desc")->get();
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -50,7 +50,7 @@ class FilmZgroupManageApiController extends ManageApiController
             'film_genre' => 'required|max:255',
             'summary' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
@@ -89,7 +89,7 @@ class FilmZgroupManageApiController extends ManageApiController
             'summary' => 'required',
 
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
@@ -107,7 +107,7 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->summary = $request->summary;
         $film->film_status = $request->film_status;
         $film->film_rated = $request->film_rated;
-        $film->rate= $request->rate;
+        $film->rate = $request->rate;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -123,7 +123,7 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function changeSeatStatus(Request $request, $session_id)
     {
-        $seat = SessionSeat::where([['session_id','=',$session_id],['seat_id','=',$request->seat_id]])->first();
+        $seat = SessionSeat::where([['session_id', '=', $session_id], ['seat_id', '=', $request->seat_id]])->first();
         $seat->seat_status = $request->seat_status;
         $seat->save();
 
@@ -137,20 +137,20 @@ class FilmZgroupManageApiController extends ManageApiController
             'start_time' => 'required',
             'film_quality' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
-       $session = new FilmSession();
-       $session->film_id = $request->film_id;
-       $session->room_id = $request->room_id;
-       $session->start_date = $request->start_date;
-       $session->start_time = $request->start_time;
-       $session->film_quality= $request->film_quality;
-       $session -> save();
-        $film = Film::find($request->film_id);
-        $film->film_status = 1;
-        $film->save();
+        $session = new FilmSession();
+        $session->film_id = $request->film_id;
+        $session->room_id = $request->room_id;
+        $session->start_date = $request->start_date;
+        $session->start_time = $request->start_time;
+        $session->film_quality = $request->film_quality;
+        $session->save();
+//        $film = Film::find($request->film_id);
+//        $film->film_status = 1;
+//        $film->save();
 
         return $this->respondSuccess('Tao suat chieu thanh cong');
     }
@@ -163,7 +163,7 @@ class FilmZgroupManageApiController extends ManageApiController
             'start_time' => 'required',
             'film_quality' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
@@ -171,11 +171,11 @@ class FilmZgroupManageApiController extends ManageApiController
         $session->room_id = $request->room_id;
         $session->start_date = $request->start_date;
         $session->start_time = $request->start_time;
-        $session->film_quality= $request->film_quality;
+        $session->film_quality = $request->film_quality;
         $session->save();
-        $film = Film::find($request->film_id);
-        $film->film_status = 1;
-        $film->save();
+//        $film = Film::find($request->film_id);
+//        $film->film_status = 1;
+//        $film->save();
 
         return $this->respondSuccess('Cap nhat thanh cong');
     }
@@ -196,21 +196,20 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccessWithStatus($this->data);
     }
 
-    public function reloadFilmStatus (Film $film)
+    public function reloadFilmStatus(Film $film)
     {
-        if($film->sessions)
-        {
-            $sessions = $film->sessions->where('start_date', '>=', date('Y-m-d').' 00:00:00');
-            if(!$sessions && $film->status !=2)
-            {
+        if (count($film->film_sessions) > 0) {
+            $sessions = $film->film_sessions()->where('start_date', '>=',date('Y-m-d'))->get();
+            if (count($sessions) == 0 && $film->film_status == 1) {
                 $film->film_status = 0;
                 $film->save();
-            }
-            elseif ($sessions)
-            {
+            } elseif (count($sessions) > 0) {
                 $film->film_status = 1;
                 $film->save();
             }
+        } elseif ($film->film_status == 1) {
+            $film->film_status = 0;
+            $film->save();
         }
     }
 }
