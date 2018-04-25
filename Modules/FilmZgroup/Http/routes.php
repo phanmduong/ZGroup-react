@@ -25,6 +25,7 @@ $apiRoutes = function()
 {
         Route::post('/film/search-name','PublicFilmApiController@searchFilmByName');
         Route::post('/films/date','PublicFilmApiController@getFilmByDate');
+        Route::post('/films/date-range','PublicFilmApiController@filterSessionByDateRange');
         Route::post('/films/room','PublicFilmApiController@getFilmByRoom');
         Route::get('/films/showing','PublicFilmApiController@getFilmsNowShowing');
         Route::get('/films/coming','PublicFilmApiController@getFilmsComingSoon');
