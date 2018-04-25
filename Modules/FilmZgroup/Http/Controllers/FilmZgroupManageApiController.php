@@ -212,4 +212,11 @@ class FilmZgroupManageApiController extends ManageApiController
             $film->save();
         }
     }
+
+    public function changeFilmStatus(Request $request)
+    {
+        $film = Film::find($request->film_id);
+        $film->film_status = $request->film_status;
+        $film->save();
+    }
 }
