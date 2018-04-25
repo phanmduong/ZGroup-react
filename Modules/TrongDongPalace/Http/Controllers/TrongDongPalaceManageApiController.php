@@ -48,6 +48,7 @@ class TrongDongPalaceManageApiController extends ManageApiController
                 return [
                     'start_time' => format_time_to_mysql(strtotime($room->start_time)),
                     'end_time' => format_time_to_mysql(strtotime($room->end_time)),
+                    'user' => $room->register->user
                 ];
             });
 
