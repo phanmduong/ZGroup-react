@@ -241,7 +241,7 @@ class ColormeNewController extends CrawlController
 
         $blogs = Product::where('kind', 'blog')->where('status', 1)
             ->where('title', 'like', "%$search%");
-        if ($tags)
+        if ($tag)
             $blogs = $blogs->where('tags', 'like', "%$tag%");
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
 
