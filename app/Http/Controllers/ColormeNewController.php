@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\Comment;
 use App\Services\EmailService;
 use Carbon\Carbon;
+use App\ProductSubscription;
 
 class ColormeNewController extends CrawlController
 {
@@ -302,6 +303,10 @@ class ColormeNewController extends CrawlController
         $user->rate = 5;
         $user->save();
 
+        $subscription = new ProductSubscription();
+        $subscription->user_id = $user->id;
+        $subscription->product_id = $request->blog_id;
+        
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'

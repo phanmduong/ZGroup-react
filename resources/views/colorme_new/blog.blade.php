@@ -221,6 +221,7 @@
                 name: name,
                 email: email,
                 phone: phone,
+                blog_id: {{$blog['id']}},
                 _token: "{{csrf_token()}}"
             };
             axios.post("/api/v3/sign-up", data)
