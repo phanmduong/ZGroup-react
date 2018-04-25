@@ -46,11 +46,11 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
         case types.BEGIN_SAVE_MESSAGE:
             return {
                 ...state,
-                isSavingMessage:true,
+                isSavingMessage: true,
                 upMessage: true
             };
         case types.SAVE_MESSAGE_SUCCESS: {
-            let a = state.template_types.filter(type=>
+            let a = state.template_types.filter(type =>
                 (type.id == action.message.sms_template_type_id));
             let message = {
                 ...action.message,
@@ -61,24 +61,23 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
             };
             return {
                 ...state,
-                isSavingMessage:false,
+                isSavingMessage: false,
                 upMessage: false,
                 addMessageModal: false,
                 allMessage: [message, ...state.allMessage]
             };
         }
-        case types.EDIT_MESSAGE_SUCCESS:
-        {
+        case types.EDIT_MESSAGE_SUCCESS: {
             let messages = state.allMessage.map((message) => {
-                if (message.template_id === action.message.template_id){
-                    let a = state.template_types.filter(type=>
+                if (message.template_id === action.message.template_id) {
+                    let a = state.template_types.filter(type =>
                         (type.id == action.message.sms_template_type_id));
                     return {
                         ...message,
-                        name:action.message.name,
-                        content:action.message.content,
+                        name: action.message.name,
+                        content: action.message.content,
                         sms_template_type_id: action.message.sms_template_type_id,
-                        send_time:action.message.send_time,
+                        send_time: action.message.send_time,
                         sms_template_type: {
                             id: action.message.sms_template_type_id,
                             name: a[0].name,
@@ -111,6 +110,36 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
                 totalCountReceiver: action.totalCountReceiver,
                 totalPagesReceiver: action.totalPagesReceiver,
                 isLoadingReceiver: false
+            };
+        case types.BEGIN_LOAD_RECEIVERS_MODAL:
+            return {
+                ...state,
+                isLoadingReceiversModal: true
+            };
+        case types.LOAD_RECEIVERS_MODAL_SUCCESS:
+            return {
+                ...state,
+                isLoadingReceiversModal: false,
+                receiversModal: action.receiversModal,
+                currentPageModal: action.currentPageModal,
+                limitModal: action.limitModal,
+                totalCountModal: action.totalCountModal,
+                totalPagesModal: action.totalPagesModal,
+            };
+        case types.LOAD_ALL_GENS:
+            return {
+                ...state,
+                gens: action.gens
+            };
+        case types.LOAD_ALL_CLASSES:
+            return {
+                ...state,
+                classes: action.classes
+            };
+        case types.TOGGLE_CHOOSE_RECEIVERS:
+            return {
+                ...state,
+                isChoosingReceivers: !state.isChoosingReceivers
             };
         default:
             return state;

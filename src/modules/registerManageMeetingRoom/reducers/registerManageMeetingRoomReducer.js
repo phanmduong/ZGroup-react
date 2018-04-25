@@ -1,5 +1,5 @@
 import types from '../constants/actionTypes';
-import moment from "moment/moment";
+// import moment from "moment/moment";
 // import initialState from '../../../reducers/initialState';
 
 let tmpRegs = [];
@@ -198,7 +198,7 @@ function addPayment(register_id, registers, payment) {
 }
 
 function prefixRegisters(registers) {
-    const currentTime = new Date().getTime();
+    // const currentTime = new Date().getTime();
     return registers.map((register) => {
         return {
             ...register,
@@ -206,9 +206,15 @@ function prefixRegisters(registers) {
                 !register.is_member ?
                     register.room_history[register.room_history.length - 1].room.room_type.price :
                     register.room_history[register.room_history.length - 1].room.room_type.member_price
-                : 0,
-            official_start_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].start_time: moment(currentTime).format("YYYY-MM-DD HH:mm:ss"),
-            official_end_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].end_time: moment(currentTime).format("YYYY-MM-DD HH:mm:ss"),
+                : 0, // note
+            official_start_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].start_time:
+                // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
+            register.start_time
+            ,
+            official_end_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].end_time:
+                // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
+            register.end_time
+            ,
         };
     });
 }

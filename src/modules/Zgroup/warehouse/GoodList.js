@@ -21,7 +21,8 @@ class GoodList extends React.Component {
                             <th>Tên sản phẩm</th>
                             <th>Tồn kho Hà Nội</th>
                             <th>Tồn kho Sài Gòn</th>
-                            <th>Tổng tồn kho</th>
+                            <th> Tồn kho lỗi Hà Nội </th>
+                            <th> Tồn kho lỗi Sài Gòn </th>
 
 
                         </tr>
@@ -30,7 +31,7 @@ class GoodList extends React.Component {
                         <tbody>
                         {
                             this.props.data && this.props.data.map((pp,index) =>{
-                                let sum =0;
+                                //let sum =0;
                                 return(
                                         <tr key={index} style={checkSumQuantity(pp)}>
                                             <td/>
@@ -39,14 +40,14 @@ class GoodList extends React.Component {
                                             </td>
                                             {
                                                 pp.summary_warehouse.map((warehouse,dm) => {
-                                                    sum+=warehouse.sum_quantity;
+                                                    //sum+=warehouse.sum_quantity;
                                                     return(
                                                         <td key={dm}>{warehouse.sum_quantity} </td>
 
                                                     );
                                                 })
                                             }
-                                            <td>{sum}</td>
+
                                         </tr>
                                     );
                             })

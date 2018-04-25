@@ -212,6 +212,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                         <th style={textAlign}>Số lượng đặt</th>
                                                         <th style={textAlign}>Đơn giá</th>
                                                         <th style={textAlign}>Kho nhập</th>
+                                                        <th style={textAlign}>Ngày nhập</th>
                                                         <th style={textAlign}>Số lượng nhập</th>
                                                         <th style={textAlign}>Thành tiền</th>
 
@@ -238,6 +239,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                                             color: (obj.warehouse && obj.warehouse.id) ? "" : "red"
                                                                         }}>
                                                                             {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
+                                                                        <td style={textAlign}>{(obj.warehouse && obj.warehouse.id) ? obj.created_at : "Chưa có"}</td>
                                                                         <td style={textAlign}>{obj.imported_quantity}</td>
                                                                         <td style={textAlign}>{helper.dotNumber(obj.price * obj.imported_quantity)}</td>
                                                                         <td>{

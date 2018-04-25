@@ -117,11 +117,15 @@ class WarehouseContainer extends React.Component {
                                                     openModal={this.openModal}
                                                 />
 
+                                               <div style={{
+                                                   float: "right"
+                                               }}>
                                                 <Pagination
                                                     totalPages={this.props.paginator.total_pages}
                                                     currentPage={this.state.page}
                                                     loadDataPage={this.loadGoodList}
                                                 />
+                                               </div>
 
                                             </div>
                                     }

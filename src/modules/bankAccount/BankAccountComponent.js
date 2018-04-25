@@ -12,7 +12,7 @@ class BankAccountComponent extends React.Component {
                 <div className="table-responsive">
                     <table className="table table-hover table-striped">
                         <thead className="text-rose">
-                        <tr className="text-zrose">
+                        <tr className="text-rose">
                             <th>Tên ngân hàng</th>
                             <th>Tên tài khoản</th>
                             <th>Số tài khoản</th>
