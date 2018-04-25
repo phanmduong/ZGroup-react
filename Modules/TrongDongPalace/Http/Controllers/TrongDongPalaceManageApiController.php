@@ -5,10 +5,11 @@ namespace Modules\TrongDongPalace\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use App\Room;
 use App\RoomServiceRegisterRoom;
+use App\RoomType;
 use Illuminate\Http\Request;
 
 
-class TrongDongPalaceManageApi extends ManageApiController
+class TrongDongPalaceManageApiController extends ManageApiController
 {
     public function dashboard(Request $request)
     {
@@ -24,7 +25,36 @@ class TrongDongPalaceManageApi extends ManageApiController
         return $this->respondSuccessWithStatus([
             'register_rooms' => $registerRooms
         ]);
+    }
 
+    public function rooms()
+    {
+        $rooms = Room::all();
+        $rooms = $rooms->map(function ($room) {
+            return [
+                'name' => $room->name,
+                'id' => $room->id,
+                'base_id' => $room->base_id,
+                'room_type_id' => $room->room_type_id,
+            ];
+        });
+        return $this->respondSuccessWithStatus([
+            'rooms' => $rooms
+        ]);
+    }
 
+    public function roomTypes()
+    {
+        $roomTypes = RoomType::all();
+        $roomTypes = $roomTypes->map(function ($roomType) {
+            return [
+                'name' => $roomType->name,
+                'id' => $roomType->id,
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            'room_types' => $roomTypes
+        ]);
     }
 }
