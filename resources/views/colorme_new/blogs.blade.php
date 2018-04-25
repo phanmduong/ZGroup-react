@@ -75,17 +75,17 @@
         <div class="pagination-area">
             <ul class="pagination pagination-primary">
                 <li class="page-item">
-                    <a href="/blogs?page=1&search={{$search}}" class="page-link">
+                    <a href="/blogs?page=1&search={{$search}}&tag={{$tag}}" class="page-link">
                         <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li v-for="page in pages" v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
-                    <a v-bind:href="'/blogs?page='+page+'&search={{$search}}'" class="page-link">
+                    <a v-bind:href="'/blogs?page='+page+'&search={{$search}}&tag={{$tag}}'" class="page-link">
                         @{{page}}
                     </a>
                 </li>
                 <li class="page-item">
-                    <a href="/blogs?page={{$total_pages}}&search={{$search}}" class="page-link">
+                    <a href="/blogs?page={{$total_pages}}&search={{$search}}&tag={{$tag}}" class="page-link">
                         <i class="fa fa-angle-double-right" aria-hidden="true">
                         </i>
                     </a>

@@ -237,12 +237,12 @@ class ColormeNewController extends CrawlController
     {
         $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
+        $tag = $request->tag;
 
         $blogs = Product::where('kind', 'blog')->where('status', 1)
             ->where('title', 'like', "%$search%")
+            ->where('tags', 'like', "%$tag%")
             ->orderBy('created_at', 'desc')->paginate($limit);
-        // dd($blogs);
-
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
@@ -254,6 +254,7 @@ class ColormeNewController extends CrawlController
         });
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
+        $this->data['tag'] = $tag;
         return view('colorme_new.blogs', $this->data);
     }
 
@@ -263,7 +264,6 @@ class ColormeNewController extends CrawlController
         $blog->views += 1;
         $blog->save();
         $data = $blog->blogDetailTransform();
-        $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
@@ -297,5 +297,11 @@ class ColormeNewController extends CrawlController
         // $this->author->avatar_url,
         // dd(strtotime("2018-04-23 17:19:42"));
         // dd(abs(strtotime("2018-04-23 17:19:42") - strtotime(Carbon::now()->toDateTimeString())));
+        $products = Product::where('tags', '<>', '')->get();
+        $tags = [];
+        foreach ($products as $product) {
+            $tags[] = explode(',', $product->tags);
+        }
+        dd($tags);
     }
 }
