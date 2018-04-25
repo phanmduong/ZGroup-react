@@ -118,7 +118,7 @@ class ManageCollectMoneyApiController extends ManageApiController
         } else {
             $register->code = $code;
             $register->status = 1;
-            $register->save();
+
 
             $transaction = new Transaction();
             $transaction->money = $money;
@@ -128,7 +128,7 @@ class ManageCollectMoneyApiController extends ManageApiController
             $transaction->note = "Học viên " . $register->user->name . " - Lớp " . $register->studyClass->name;
             $transaction->status = 1;
             $transaction->type = 1;
-            $transaction->save();
+
             DB::insert(DB::raw("
                 insert into attendances(`register_id`,`checker_id`,class_lesson_id)
                 (select registers.id,-1,class_lesson.id
@@ -141,6 +141,9 @@ class ManageCollectMoneyApiController extends ManageApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
+            $register->save();
+            $transaction->save();
+
 
             if ($register->studyClass->group) {
                 $groupMember = new GroupMember();
