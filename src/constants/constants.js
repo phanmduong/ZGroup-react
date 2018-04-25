@@ -457,6 +457,21 @@ export const TYPE_MONEY = [
     }
 ];
 
+export const STATUS_REGISTER_ROOM = [
+    {
+        label: "Đang xem",
+        value: "view"
+    },
+    {
+        label: "Hủy",
+        value: "cancel"
+    },
+    {
+        label: "Khóa",
+        value: "blocked"
+    }
+];
+
 export const STATUS_ISSUE = {
     pending: {
         label: "Đang xác nhận",

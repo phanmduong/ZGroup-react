@@ -36,7 +36,7 @@ export const store = new class DashboardStaffStore {
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
-                this.isLoading = false;
+                this.isLoadingBases = false;
             });
     }
 
