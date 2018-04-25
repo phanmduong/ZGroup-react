@@ -12,7 +12,7 @@ $publicRoutes = function () {
     Route::post('/api/booking', 'TrongDongPalaceController@bookingApi');
 };
 
-$manageApiRoutes = function () {
+$namespaceRoutes = function () {
     Route::get('/dashboard', 'TrongDongPalaceManageApiController@dashboard');
 };
 
