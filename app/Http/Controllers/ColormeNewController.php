@@ -240,9 +240,10 @@ class ColormeNewController extends CrawlController
         $tag = $request->tag;
 
         $blogs = Product::where('kind', 'blog')->where('status', 1)
-            ->where('title', 'like', "%$search%")
-            ->where('tags', 'like', "%$tag%")
-            ->orderBy('created_at', 'desc')->paginate($limit);
+            ->where('title', 'like', "%$search%");
+        if ($tags)
+            $blogs = $blogs->where('tags', 'like', "%$tag%");
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
