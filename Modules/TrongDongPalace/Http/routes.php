@@ -13,8 +13,20 @@ $publicRoutes = function () {
 };
 
 $manageApiRoutes = function () {
-    Route::get('/', 'TrongDongPalaceManageApiController@index');
+    Route::get('/dashboard', 'TrongDongPalaceManageApiController@dashboard');
 };
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool6.xyz', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'trongdongpalace.test', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
+
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'],
+    function () use ($namespaceRoutes) {
+        Route::group(
+            ['prefix' => 'v3'],
+            function () use ($namespaceRoutes) {
+                Route::group(['prefix' => 'trongdong'], $namespaceRoutes);
+            }
+        );
+    }
+);
