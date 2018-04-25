@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import * as createRegisterActions from "./createRegisterActions";
 import {connect} from "react-redux";
 import ReactSelect from "react-select";
-import Loading from "../../components/common/Loading";
+// import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 
 
@@ -103,9 +103,9 @@ class CreateRegisterModalContainer extends React.Component {
         const {register} = this.props;
         return (
             <form role="form" id="form-info-student">
-                {this.props.isLoadingCourses || this.props.isLoadingCampaigns ? <Loading/>
+               {/* {this.props.isLoadingCourses || this.props.isLoadingCampaigns ? <Loading/>
                     :
-
+                */}
                     <Modal show={this.props.showCreateRegisterModal} onHide={this.hide}>
                         <Modal.Header closeButton>
                             <Modal.Title>
@@ -177,8 +177,7 @@ class CreateRegisterModalContainer extends React.Component {
                             )}
                         </Modal.Footer>
                     </Modal>
-                }
-            </form>
+                </form>
         );
     }
 }
