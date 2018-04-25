@@ -306,6 +306,7 @@ class ColormeNewController extends CrawlController
         $subscription = new ProductSubscription();
         $subscription->user_id = $user->id;
         $subscription->product_id = $request->blog_id;
+        $subscription->save();
         
         $this->emailService->send_mail_welcome($user);
         return [
