@@ -316,7 +316,11 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        $blog = Product::find(7785);
-        $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        // $blog = Product::find(7785);
+        // $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        $subscription = new ProductSubscription();
+        $subscription->user_id = 2;
+        $subscription->product_id = 30121;
+        $subscription->save();
     }
 }

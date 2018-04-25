@@ -16,6 +16,7 @@ class CreateProductSubscriptionTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->integer('product_id')->unsigned()->index();
+            $table->timestamps();
         });
     }
 

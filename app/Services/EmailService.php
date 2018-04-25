@@ -439,7 +439,7 @@ class EmailService
 
     public function send_mail_blog($blog, $user, $views)
     {
-        $subject = 'Chào mừng bạn đến với Colome';
+        $subject = $user->name . ', bài viết của bạn đã đạt hơn ' . $views . ' lượt xem!';
         $data = [
             'blog' => $blog->blogTransform(),
             'views' => $views,
