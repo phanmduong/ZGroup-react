@@ -259,7 +259,7 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.blogs', $this->data);
     }
 
-    public function mailView($views)
+    public function mailViews($views)
     {
         if ($views < 10)
             return false;
