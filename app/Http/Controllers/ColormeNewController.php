@@ -259,11 +259,26 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.blogs', $this->data);
     }
 
+    public function mailView($views)
+    {
+        if ($views < 10)
+            return false;
+        while ($views != 0) {
+            if ($views > 10 && $views % 10 != 0)
+                return false;
+            if ($views < 10 && ($views == 1 || $views == 2 || $views == 5))
+                return true;
+            $views /= 10;
+        }
+    }
+
     public function blog($slug, Request $request)
     {
         $blog = Product::where('slug', $slug)->first();
         $blog->views += 1;
         $blog->save();
+        if ($this->mailViews($blog->views) === true)
+            $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
         $data = $blog->blogDetailTransform();
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
@@ -295,14 +310,7 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        // $this->author->avatar_url,
-        // dd(strtotime("2018-04-23 17:19:42"));
-        // dd(abs(strtotime("2018-04-23 17:19:42") - strtotime(Carbon::now()->toDateTimeString())));
-        $products = Product::where('tags', '<>', '')->get();
-        $tags = [];
-        foreach ($products as $product) {
-            $tags[] = explode(',', $product->tags);
-        }
-        dd($tags);
+        $blog = Product::find(7785);
+        $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
     }
 }
