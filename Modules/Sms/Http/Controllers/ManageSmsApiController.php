@@ -280,7 +280,7 @@ class ManageSmsApiController extends ManageApiController
 
     public function getReceiversChoice($campaignId, Request $request)
     {
-        /*$startTime = $request->start_time;
+        $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $gens = json_decode($request->gens);
         $classes = json_decode($request->classes);
@@ -314,71 +314,75 @@ class ManageSmsApiController extends ManageApiController
 
         if ($classes_gens != null || $classes != null)
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')->select('users.*')
-                ->where(function ($query) use ($classes_gens) {
-                    if ($classes_gens) {
-                        for ($index = 0; $index < count($classes_gens); ++$index) {
-                            $class_id = $classes_gens[$index]['id'];
-                            if ($index == 0)
-                                $query->where('registers.class_id', '=', $class_id);
-                            else
-                                $query->orWhere('registers.class_id', '=', $class_id);
-                        }
+            ->where(function ($query) use ($classes_gens) {
+                if ($classes_gens) {
+                    for ($index = 0; $index < count($classes_gens); ++$index) {
+                        $class_id = $classes_gens[$index]['id'];
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
                     }
-                })->where(function ($query) use ($classes) {
-                    if ($classes) {
-                        for ($index = 0; $index < count($classes); ++$index) {
-                            $class_id = $classes[$index]->value;
-                            if ($index == 0)
-                                $query->where('registers.class_id', '=', $class_id);
-                            else
-                                $query->orWhere('registers.class_id', '=', $class_id);
-                        }
+                }
+            })->where(function ($query) use ($classes) {
+                if ($classes) {
+                    for ($index = 0; $index < count($classes); ++$index) {
+                        $class_id = $classes[$index]->value;
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
                     }
-                })->groupBy("users.id");*/
-        
+                }
+            })->groupBy("users.id");
+
+        ///
         if ($request->paid_course_quantity) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-            ->where('registers.money', '>', 0)
+                ->where('registers.money', '>', 0)
             //chèn đống query class của m vào đây
-            ->select('users.*', DB::raw('count(*) as paid_count'))
-            ->groupBy('users.id')->having('paid_count', '=', $request->paid_course_quantity)->get();
+                ->select('users.*', DB::raw('count(*) as paid_count'))
+                ->groupBy('users.id')->having('paid_count', '=', $request->paid_course_quantity)->get();
         }
-    //     $campaign = SmsList::find($campaignId);
-    //     $group_id = $campaign->group->id;
-
-    //     $users = $users->whereNotExists(function ($query) use ($group_id) {
-    //         $query->select(DB::raw(1))
-    //             ->from('groups_users')
-    //             ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
-    //     });
+        //
 
 
-    //     if ($request->top) {
-    //         $users = $users->simplePaginate(intval($request->top));
-    //     } else {
-    //         if ($limit == -1) {
-    //             $users = $users->orderBy('created_at', 'desc')->get();
-    //             return $this->respondSuccessWithStatus([
-    //                 'users' => $users->map(function ($user) {
-    //                     return $user->getReceivers();
-    //                 })
-    //             ]);
-    //         }
-    //         $users = $users->paginate($limit);
-    //     }
+        $campaign = SmsList::find($campaignId);
+        $group_id = $campaign->group->id;
 
-    //     if ($request->top) {
-    //         return $this->respondWithSimplePagination($users, [
-    //             'users' => $users->map(function ($user) {
-    //                 return $user->getReceivers();
-    //             })
-    //         ]);
-    //     }
-    //     return $this->respondWithPagination($users, [
-    //         'users' => $users->map(function ($user) {
-    //             return $user->getReceivers();
-    //         })
-    //     ]);
+        $users = $users->whereNotExists(function ($query) use ($group_id) {
+            $query->select(DB::raw(1))
+                ->from('groups_users')
+                ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
+        });
+
+
+        if ($request->top) {
+            $users = $users->simplePaginate(intval($request->top));
+        } else {
+            if ($limit == -1) {
+                $users = $users->orderBy('created_at', 'desc')->get();
+                return $this->respondSuccessWithStatus([
+                    'users' => $users->map(function ($user) {
+                        return $user->getReceivers();
+                    })
+                ]);
+            }
+            $users = $users->paginate($limit);
+        }
+
+        if ($request->top) {
+            return $this->respondWithSimplePagination($users, [
+                'users' => $users->map(function ($user) {
+                    return $user->getReceivers();
+                })
+            ]);
+        }
+        return $this->respondWithPagination($users, [
+            'users' => $users->map(function ($user) {
+                return $user->getReceivers();
+            })
+        ]);
     }
 
 }
