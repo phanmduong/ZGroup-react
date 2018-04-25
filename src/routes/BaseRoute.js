@@ -1,4 +1,4 @@
-    import BasesContainer from "../modules/bases/BasesContainer";
+import BasesContainer from "../modules/bases/BasesContainer";
 import RoomsContainer from "../modules/rooms/RoomsContainer";
 import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
 import UserpackContainer from "../modules/userpack/UserpackContainer";
@@ -6,6 +6,7 @@ import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
 import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 import RegisterManageRoomContainer from "../modules/registerManageRoom/RegisterManageRoomContainer";
 import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/container/RegisterManageMeetingRoomContainer";
+import RoomRegisterListContainer from "../modules/roomRegisterList_TrongDong/container/RoomRegisterListContainer";
 
 /**
  * Tab Cơ sở
@@ -47,10 +48,13 @@ export default [
         path: "base/registers-room",
         component: RegisterManageRoomContainer
     },
-
     {
         path: "base/registers-meeting-room",
         component: RegisterManageMeetingRoomContainer
+    },
+    {
+        path: "base/room-register-list",
+        component: RoomRegisterListContainer
     },
 
 ];

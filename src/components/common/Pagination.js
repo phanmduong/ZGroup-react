@@ -55,6 +55,30 @@ class Pagination extends React.Component {
                         Trước
                     </a>
                 </li>
+<<<<<<< HEAD
+                {
+                    page.map((item) => {
+                        if (Number(currentPage) === item) {
+                            return (
+                                <li key={item}>
+                                    <a className="btn-rose" style={{ color: "white" }}>{item}</a>
+                                </li>
+                            );
+                        } else {
+                            return (
+                                <li key={item}>
+                                    <a onClick={() => this.props.loadDataPage(item)}>{item}</a>
+                                </li>
+                            );
+                        }
+                    })
+                }
+                <li className={(currentPage + 1 > totalPages) ? 'disabled' : ''}>
+                    <a onClick={() => {
+                        if (currentPage + 1 <= totalPages)
+                            this.props.loadDataPage(currentPage + 1);
+                    }}>Tiếp </a>
+=======
                 {page.map(item => {
                     if (Number(currentPage) === item) {
                         return (
@@ -77,6 +101,7 @@ class Pagination extends React.Component {
                         }}>
                         Tiếp{" "}
                     </a>
+>>>>>>> 6287bf4e2c8ec23c88594f7e0ae664f7721c4c95
                 </li>
                 <li className={currentPage === totalPages ? "disabled" : ""}>
                     <a
