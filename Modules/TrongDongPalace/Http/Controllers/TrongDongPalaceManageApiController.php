@@ -4,6 +4,7 @@ namespace Modules\TrongDongPalace\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
 use App\Room;
+use App\RoomServiceRegister;
 use App\RoomServiceRegisterRoom;
 use App\RoomType;
 use Illuminate\Http\Request;
@@ -44,12 +45,14 @@ class TrongDongPalaceManageApiController extends ManageApiController
 
 
             $registerRooms = $room->room_service_register_room()->get();
-            $data['register_rooms'] = $registerRooms->map(function ($room) {
+            $data['register_rooms'] = $registerRooms->map(function ($register_room) {
                 return [
-                    'start_time' => format_time_to_mysql(strtotime($room->start_time)),
-                    'end_time' => format_time_to_mysql(strtotime($room->end_time)),
-                    'user' => $room->register->user,
-                    'status' => $room->register->status,
+                    'id' => $register_room->id,
+                    'register_id' => $register_room->register->id,
+                    'start_time' => format_time_to_mysql(strtotime($register_room->start_time)),
+                    'end_time' => format_time_to_mysql(strtotime($register_room->end_time)),
+                    'user' => $register_room->register->user,
+                    'status' => $register_room->register->status,
                 ];
             });
 
@@ -90,5 +93,28 @@ class TrongDongPalaceManageApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'room_types' => $roomTypes
         ]);
+    }
+
+    public function changeTime(Request $request)
+    {
+        $register_room = RoomServiceRegisterRoom::find($request->id);
+
+        if ($register_room == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        $register_room->start_time = $request->start_time;
+        $register_room->end_time = $request->end_time;
+        $register_room->save();
+
+        return [
+            'id' => $register_room->id,
+            'register_id' => $register_room->register->id,
+            'start_time' => format_time_to_mysql(strtotime($register_room->start_time)),
+            'end_time' => format_time_to_mysql(strtotime($register_room->end_time)),
+            'user' => $register_room->register->user,
+            'status' => $register_room->register->status,
+        ];
+
     }
 }
