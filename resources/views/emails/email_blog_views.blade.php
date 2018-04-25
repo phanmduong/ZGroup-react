@@ -214,7 +214,7 @@
                                                                                         Chúc bạn có một ngày làm việc thật hiệu quả, chúng tôi sẽ cập nhật thêm những thông tin mới về bài viết của các bạn.
                                                                                     </p>
                                                                                     <p>
-                                                                                        Đội ngũ {{config('app.name_company')}}.
+                                                                                        Đội ngũ COLORME.
                                                                                     </p>
                                                                                 </td>
                                                                             </tr>
