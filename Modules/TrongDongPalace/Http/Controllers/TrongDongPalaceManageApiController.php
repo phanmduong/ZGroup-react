@@ -13,7 +13,19 @@ class TrongDongPalaceManageApiController extends ManageApiController
 {
     public function dashboard(Request $request)
     {
-        $rooms = Room::pluck('id')->toArray();
+        if ($request->room_id != null && $request->room_id > 0) {
+            $rooms = [$request->room_id];
+        } else {
+            $rooms = Room::query();
+            if ($request->base_id != null && $request->base_id > 0) {
+                $rooms = $rooms->where('base_id', $request->base_id);
+            }
+            if ($request->room_type_id != null && $request->room_type_id > 0) {
+                $rooms = $rooms->where('room_type_id', $request->room_type_id);
+            }
+
+        }
+        $rooms = $rooms->pluck('id')->toArray();
         $registerRooms = RoomServiceRegisterRoom::whereIn('room_id', $rooms)->get();
         $registerRooms = $registerRooms->map(function ($room) {
             return [
