@@ -231,8 +231,8 @@ class ManageSmsApiController extends ManageApiController
         $check = SmsTemplateType::where('name', trim($request->name))->get();
         if (count($check) > 0)
             return $this->respondErrorWithStatus([
-                'message' => 'Đã tồn tại loại tin nhăn này'
-            ]);
+            'message' => 'Đã tồn tại loại tin nhăn này'
+        ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -247,8 +247,8 @@ class ManageSmsApiController extends ManageApiController
         $check = SmsTemplateType::where('name', trim($request->name))->get();
         if (count($check) > 0 && $template_type->name !== $request->name)
             return $this->respondErrorWithStatus([
-                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
-            ]);
+            'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+        ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -280,12 +280,11 @@ class ManageSmsApiController extends ManageApiController
 
     public function getReceiversChoice($campaignId, Request $request)
     {
-        $startTime = $request->start_time;
+        /*$startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $gens = json_decode($request->gens);
         $classes = json_decode($request->classes);
         $limit = $request->limit ? intval($request->limit) : 20;
-        // $paid_course_quantity = $request->paid_course_quantity;
         if ($request->carer_id) {
             $users = User::find($request->carer_id)->getCaredUsers();
         } else $users = User::query();
@@ -309,7 +308,6 @@ class ManageSmsApiController extends ManageApiController
                         else
                             $query->orWhere('gens.id', '=', $gen_id);
                     }
-
                 })->get()->toArray();
         } else $classes_gens = null;
 
@@ -336,57 +334,51 @@ class ManageSmsApiController extends ManageApiController
                                 $query->orWhere('registers.class_id', '=', $class_id);
                         }
                     }
-                })->groupBy("users.id");
-
-//        if ($request->paid_course_quantity) {
-//            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-//                ->select('users.*')->where(function ($query) use ($classes) {
-//                    for ($index = 0; $index < count($classes); ++$index) {
-//                        $class_id = $classes[$index]['id'];
-//                        if ($index == 0)
-//                            $query->where('registers.class_id', '=', $class_id);
-//                        else
-//                            $query->orWhere('registers.class_id', '=', $class_id);
-//                    }
-//
-//                });
-//        }
-        $campaign = SmsList::find($campaignId);
-        $group_id = $campaign->group->id;
-
-        $users = $users->whereNotExists(function ($query) use ($group_id) {
-            $query->select(DB::raw(1))
-                ->from('groups_users')
-                ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
-        });
-
-
-        if ($request->top) {
-            $users = $users->simplePaginate(intval($request->top));
-        } else {
-            if ($limit == -1) {
-                $users = $users->orderBy('created_at', 'desc')->get();
-                return $this->respondSuccessWithStatus([
-                    'users' => $users->map(function ($user) {
-                        return $user->getReceivers();
-                    })
-                ]);
-            }
-            $users = $users->paginate($limit);
+                })->groupBy("users.id");*/
+        
+        if ($request->paid_course_quantity) {
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+            ->where('registers.money', '>', 0)
+            //chèn đống query class của m vào đây
+            ->select('users.*', DB::raw('count(*) as paid_count'))
+            ->groupBy('users.id')->having('paid_count', '=', $request->paid_course_quantity)->get();
         }
+    //     $campaign = SmsList::find($campaignId);
+    //     $group_id = $campaign->group->id;
 
-        if ($request->top) {
-            return $this->respondWithSimplePagination($users, [
-                'users' => $users->map(function ($user) {
-                    return $user->getReceivers();
-                })
-            ]);
-        }
-        return $this->respondWithPagination($users, [
-            'users' => $users->map(function ($user) {
-                return $user->getReceivers();
-            })
-        ]);
+    //     $users = $users->whereNotExists(function ($query) use ($group_id) {
+    //         $query->select(DB::raw(1))
+    //             ->from('groups_users')
+    //             ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
+    //     });
+
+
+    //     if ($request->top) {
+    //         $users = $users->simplePaginate(intval($request->top));
+    //     } else {
+    //         if ($limit == -1) {
+    //             $users = $users->orderBy('created_at', 'desc')->get();
+    //             return $this->respondSuccessWithStatus([
+    //                 'users' => $users->map(function ($user) {
+    //                     return $user->getReceivers();
+    //                 })
+    //             ]);
+    //         }
+    //         $users = $users->paginate($limit);
+    //     }
+
+    //     if ($request->top) {
+    //         return $this->respondWithSimplePagination($users, [
+    //             'users' => $users->map(function ($user) {
+    //                 return $user->getReceivers();
+    //             })
+    //         ]);
+    //     }
+    //     return $this->respondWithPagination($users, [
+    //         'users' => $users->map(function ($user) {
+    //             return $user->getReceivers();
+    //         })
+    //     ]);
     }
 
 }
