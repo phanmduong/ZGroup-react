@@ -39,10 +39,13 @@ class FormInputDate extends React.Component {
     render() {
         return (
             <div className="form-group">
-                <label className="label-control">{this.props.label}</label>
+                {
+                    this.props.label && <label className="label-control">{this.props.label}</label>
+                }
                 <input
                     type="text"
                     className="form-control datetimepicker"
+                    placeholder={this.props.placeholder || ''}
                     name={this.props.name}
                     id={this.props.id}
                     value={this.props.value || ""}

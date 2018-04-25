@@ -11,7 +11,7 @@ class CollapsePanel extends React.Component {
     }
 
     render() {
-        if (this.props.isMultiSelect)
+        if (!this.props.isMultiSelect)
             return (
                 <div className="panel panel-default">
                     <div className="panel-heading">

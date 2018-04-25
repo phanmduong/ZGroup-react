@@ -39,7 +39,7 @@ class ListChildCoupon extends React.Component {
                     <div className="table-responsive">
                         <table className="table table-hover"
                                style={{fontSize: 14}}>
-                            {coupons && coupons.length !== 0 ?
+                            {this.props.groupCustomerForm && coupons.length !== 0 ?
                                 <thead>
                                 <tr className="text-rose" role="row">
                                     <th>Tên</th>
@@ -53,7 +53,7 @@ class ListChildCoupon extends React.Component {
                                 : null
                             }
                             <tbody>
-                            {coupons && coupons.map(
+                            {this.props.groupCustomerForm && coupons.map(
                                 (coupon) => {
                                     return (
                                         <tr role="row" className="even" key={coupon.id}>
