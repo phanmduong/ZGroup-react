@@ -53,7 +53,6 @@ class DatetimeModal extends React.Component {
                                 />
                             </div>
                             <div className="col-md-6">
-
                                 <FormInputDateTime
                                     format={DATETIME_FORMAT_SQL}
                                     name="official_end_time"

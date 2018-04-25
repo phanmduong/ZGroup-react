@@ -174,11 +174,6 @@ class OrdersContainer extends React.Component {
                                         <button className="btn btn-rose">Bán hàng</button>
                                     </TooltipButton>
                                 </Link>
-
-
-                                <TooltipButton text="Đặt hàng" placement="top">
-                                    <button className="btn btn-rose">Đặt hàng</button>
-                                </TooltipButton>
                             </div>
                             <div>
                                 <TooltipButton text="In dưới dạng pdf" placement="top">

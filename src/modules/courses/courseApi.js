@@ -218,3 +218,14 @@ export function changeOrderCourse(course,order_number) {
     }
     return axios.put(url, {order_number});
 }
+
+export function changeTermLesson(lessonId,termId){
+    let url = env.MANAGE_API_URL + "/v2/course/lesson/edit-term/"+lessonId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        "term_id": termId,
+    });
+}

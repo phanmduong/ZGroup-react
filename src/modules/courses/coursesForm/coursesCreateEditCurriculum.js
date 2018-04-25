@@ -324,7 +324,8 @@ class coursesCreateEditCurriculum extends React.Component {
                                     <tr>
                                         <th>Buổi</th>
                                         <th>Mô tả ngắn</th>
-                                        <th>Actions</th>
+                                        <th> Học phần </th>
+                                        <th/>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -332,7 +333,38 @@ class coursesCreateEditCurriculum extends React.Component {
                                         return (
                                             <tr key={lesson.id}>
                                                 <td>{lesson.order}</td>
-                                                <td>{lesson.description}</td>
+                                                {/*<td data-toggle="tooltip"*/}
+                                                    {/*data-original-title={lesson.description}*/}
+                                                {/*>{helper.shortenStr(lesson.description,25)}</td>*/}
+                                                <td style={{
+                                                    wordWrap: "break-word",
+                                                    whiteSpace: "initial",
+                                                }}>{lesson.description}
+                                                </td>
+                                                <td>
+                                                    {(
+                                                        (<select className="form-control" value={lesson.term_id}
+                                                                  onChange={(event) => {
+                                                                        this.props.coursesActions.changeTermLesson(lesson.id,event.target.value);
+                                                                 }}
+                                                            >
+                                                            <option
+                                                                value={null}
+                                                            />
+
+
+                                                            {this.props.data.terms.map((term, key) => {
+                                                                return (
+                                                                    <option
+                                                                        key={key}
+                                                                        value={term.id}
+                                                                    >
+                                                                        {term.name}
+                                                                    </option>);
+                                                            })}
+                                                        </select>))
+                                                    }
+                                                </td>
                                                 <td><ButtonGroupAction
                                                     editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}
                                                     delete={() => {

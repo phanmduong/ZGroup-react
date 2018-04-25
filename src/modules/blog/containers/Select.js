@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as blogActions from './blogActions';
+import * as blogActions from '../actions/blogActions';
 
 
 class Select extends React.Component {
@@ -35,8 +35,8 @@ class Select extends React.Component {
                         value={0}>{"Tất cả "}
                     </option>
                     {
-                        this.props.categoriesList &&
-                        this.props.categoriesList.map((item, key) => {
+                        this.props.categories &&
+                        this.props.categories.map((item, key) => {
                             return (
                                 <option
                                     style={{display :"flex"}}
@@ -54,13 +54,14 @@ class Select extends React.Component {
 }
 Select.propTypes = {
     loadByCategory: PropTypes.func.isRequired,
-    categoriesList: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
     category_id: PropTypes.number.isRequired,
     blogActions: PropTypes.object.isRequired,
 };
 function mapStateToProps(state) {
     return{
-        categoriesList : state.blog.categoriesList,
+        // categoriesList : state.blog.categoriesList,
+        categories : state.blog.categories,
     };
 }
 function mapDispatchToProps(dispatch) {

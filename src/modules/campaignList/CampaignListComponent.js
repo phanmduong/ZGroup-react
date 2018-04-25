@@ -85,13 +85,13 @@ class CampaignListComponent extends React.Component {
                                             value={(campaign.status === "open")}/>
                                     </td>
                                     <td>
-                                        <Link to={`/good/product/${campaign.id}/edit`}
-                                              style={{color: "#878787"}}
-                                              data-toggle="tooltip" title=""
-                                              type="button" rel="tooltip"
-                                              data-original-title="Sửa"><i
-                                            className="material-icons">edit</i>
-                                        </Link>
+                                        <a style={{color: "#878787"}}
+                                           data-toggle="tooltip" title=""
+                                           type="button" rel="tooltip"
+                                           data-original-title="Xoá"
+                                           onClick={() => this.props.showCreateEditCampaignModal(campaign)}>
+                                            <i className="material-icons">edit</i>
+                                        </a>
                                     </td>
                                 </tr>
                             );
@@ -107,7 +107,8 @@ class CampaignListComponent extends React.Component {
 
 CampaignListComponent.propTypes = {
     campaigns: PropTypes.array.isRequired,
-    changeCampaignStatus: PropTypes.func.isRequired
+    changeCampaignStatus: PropTypes.func.isRequired,
+    showCreateEditCampaignModal: PropTypes.func.isRequired
 };
 
 export default CampaignListComponent;
