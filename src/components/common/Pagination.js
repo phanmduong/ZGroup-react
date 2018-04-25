@@ -50,8 +50,8 @@ class Pagination extends React.Component {
                     page.map((item) => {
                         if (Number(currentPage) === item) {
                             return (
-                                <li key={item} className="active">
-                                    <a>{item}</a>
+                                <li key={item}>
+                                    <a className="btn-rose" style={{ color: "white" }}>{item}</a>
                                 </li>
                             );
                         } else {

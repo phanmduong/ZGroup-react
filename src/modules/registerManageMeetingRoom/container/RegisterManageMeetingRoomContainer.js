@@ -1,6 +1,6 @@
 import React from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Search from "../../../components/common/Search";
 import ListRegisters from "../component/ListRegisters";
 import * as registerManageMeetingRoomAction from "../actions/registerManageMeetingRoomAction";
@@ -13,7 +13,7 @@ import Pagination from "../../../components/common/Pagination";
 import SelectMonthBox from "../../../components/common/SelectMonthBox";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
-import {Panel} from "react-bootstrap";
+import { Panel } from "react-bootstrap";
 
 class RegisterManageRoomContainer extends React.Component {
     constructor(props, context) {
@@ -32,7 +32,7 @@ class RegisterManageRoomContainer extends React.Component {
                 startTime: "",
                 endTime: "",
             },
-            month: {year: 0, month: 0},
+            month: { year: 0, month: 0 },
         };
         this.timeOut = null;
         this.loadAllRegisters = this.loadAllRegisters.bind(this);
@@ -103,7 +103,7 @@ class RegisterManageRoomContainer extends React.Component {
     }
 
     onChangeBase(value) {
-        this.setState({base_id: value});
+        this.setState({ base_id: value });
         this.props.registerManageMeetingRoomAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -150,7 +150,7 @@ class RegisterManageRoomContainer extends React.Component {
 
 
     filterBySaler(saler_id) {
-        this.setState({saler_id: saler_id});
+        this.setState({ saler_id: saler_id });
         this.props.registerManageMeetingRoomAction.loadAllRegisters(
             this.state.limit,
             1,
@@ -164,7 +164,7 @@ class RegisterManageRoomContainer extends React.Component {
 
 
     handleClickMonthBox() {
-        this.setState({isShowMonthBox: true});
+        this.setState({ isShowMonthBox: true });
     }
 
     handleAMonthChange(value) {
@@ -181,69 +181,24 @@ class RegisterManageRoomContainer extends React.Component {
             this.state.base_id,
             startTime,
             endTime,
-            () => this.setState({month: value}),
+            () => this.setState({ month: value }),
         );
-        let time = {...this.state.time};
+        let time = { ...this.state.time };
         time["startTime"] = startTime;
         time["endTime"] = endTime;
-        this.setState({time: time});
+        this.setState({ time: time });
         this.handleAMonthDismiss();
     }
 
     handleAMonthDismiss() {
-        this.setState({isShowMonthBox: false});
+        this.setState({ isShowMonthBox: false });
     }
 
     openFilterPanel() {
         let newstatus = !this.state.openFilterPanel;
-        this.setState({openFilterPanel: newstatus});
+        this.setState({ openFilterPanel: newstatus });
     }
 
-    // async exportRegistersResultExcel() {
-    //     this.props.registerManageMeetingRoomAction.showGlobalLoading();
-    //     const res = await loadAllRegistersApi(
-    //         -1,
-    //         this.state.page,
-    //         this.state.query,
-    //         this.state.saler_id,
-    //         this.state.status,
-    //         this.state.campaign_id,
-    //         this.state.base_id,
-    //         this.state.startTime,
-    //         this.state.endTime,
-    //     );
-    //     this.props.registerManageMeetingRoomAction.hideGlobalLoading();
-    //     const wsData = res.data.data.room_service_registers;
-    //     const field = [];
-    //     field[0] = "Tên khách hàng";
-    //     field[1] = "Số điện thoại";
-    //     field[2] = "Nhân viên phục vụ";
-    //     field[3] = "Ngày đăng kí";
-    //     field[4] = "Thời gian bắt đầu dự kiến";
-    //     field[5] = "Thời gian kết thúc dự kiến";
-    //     field[6] = "Thời gian bắt đầu chính thức";
-    //     field[7] = "Thời gian kết thúc chính thức";
-    //     const datas = wsData.map(data => {
-    //         let tmp = [];
-    //         tmp[0] = data.user.name;
-    //         tmp[1] = data.user.phone || "Chưa có";
-    //         tmp[2] = data.user.phone || "Chưa có";
-    //         tmp[3] = data.created_at || "Chưa có";
-    //         tmp[4] = (data.saler && data.saler.name) || "Không có";
-    //         tmp[5] = (data.campaign && data.campaign.name) || "Không có";
-    //         return tmp;
-    //     });
-    //     const tmpWsData = [field, ...datas];
-    //     const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-    //     const sheetName = "Danh sách đăng kí đặt phòng h";
-    //     let workbook = {
-    //         SheetNames: [],
-    //         Sheets: {},
-    //     };
-    //     workbook.SheetNames.push(sheetName);
-    //     workbook.Sheets[sheetName] = ws;
-    //     saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòngọp họp");
-    // }
 
     registersSearchChange(value) {
         this.setState({
@@ -271,7 +226,7 @@ class RegisterManageRoomContainer extends React.Component {
 
 
     loadAllRegisters(page = 1) {
-        this.setState({page: page});
+        this.setState({ page: page });
         this.props.registerManageMeetingRoomAction.loadAllRegisters(
             this.state.limit,
             page,
@@ -299,131 +254,131 @@ class RegisterManageRoomContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 {this.props.isLoadingBases || this.props.isLoadingSalers ? (
-                    <Loading/>
+                    <Loading />
                 ) : (
-                    <div>
-                        <div className="row">
-                            <div className="col-sm-3 col-xs-5">
-                                <SelectMonthBox
-                                    theme="light"
-                                    isHide={false}
-                                    value={this.state.month}
-                                    onChange={this.handleAMonthChange}
-                                    isAuto={false}
-                                    isShowMonthBox={this.state.isShowMonthBox}
-                                    openBox={this.handleClickMonthBox}
-                                    closeBox={this.handleAMonthDismiss}
-                                />
-                            </div>
-                            <div className="col-sm-3 col-xs-5">
-                                <SelectCommon
-                                    defaultMessage={"Chọn cơ sở"}
-                                    options={this.state.bases}
-                                    disableRound
-                                    value={this.state.base_id}
-                                    onChange={this.onChangeBase}
-                                />
-                            </div>
-                            <div className="col-sm-2 col-xs-5">
-                                <button
-                                    style={{width: "100%"}}
-                                    onClick={this.openFilterPanel}
-                                    className="btn btn-info btn-rose btn-round"
-                                >
-                                    <i className="material-icons">filter_list</i>
-                                    Lọc
-                                </button>
-                            </div>
-                            {/*<div className="col-sm-4 col-xs-5">*/}
-                                {/*<button*/}
-                                    {/*onClick={this.exportRegistersResultExcel}*/}
-                                    {/*className="btn btn-info btn-rose"*/}
-                                    {/*style={{float: "right"}}*/}
-                                {/*>*/}
-                                    {/*<i className="material-icons">file_download</i>*/}
-                                    {/*Xuất ra Excel*/}
-                                {/*</button>*/}
-                            {/*</div>*/}
-                        </div>
-
-                        <Panel
-                            collapsible
-                            expanded={this.state.openFilterPanel}
-                        >
+                        <div>
                             <div className="row">
-                                <div className="col-md-12">
-                                    <div className="card">
-                                        <div className="card-header card-header-icon"
-                                             data-background-color="rose"
-                                        >
-                                            <i className="material-icons">filter_list</i>
-                                        </div>
-                                        <div className="card-content">
-                                            <h4 className="card-title">Bộ lọc</h4>
-                                            <div className="row">
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo saler</label>
-                                                    <Select
-                                                        value={this.state.saler_id}
-                                                        options={this.state.salers}
-                                                        onChange={this.salersSearchChange}
-                                                    />
+                                <div className="col-sm-3 col-xs-5">
+                                    <SelectMonthBox
+                                        theme="light"
+                                        isHide={false}
+                                        value={this.state.month}
+                                        onChange={this.handleAMonthChange}
+                                        isAuto={false}
+                                        isShowMonthBox={this.state.isShowMonthBox}
+                                        openBox={this.handleClickMonthBox}
+                                        closeBox={this.handleAMonthDismiss}
+                                    />
+                                </div>
+                                <div className="col-sm-3 col-xs-5">
+                                    <SelectCommon
+                                        defaultMessage={"Chọn cơ sở"}
+                                        options={this.state.bases}
+                                        disableRound
+                                        value={this.state.base_id}
+                                        onChange={this.onChangeBase}
+                                    />
+                                </div>
+                                <div className="col-sm-2 col-xs-5">
+                                    <button
+                                        style={{ width: "100%" }}
+                                        onClick={this.openFilterPanel}
+                                        className="btn btn-info btn-rose btn-round"
+                                    >
+                                        <i className="material-icons">filter_list</i>
+                                        Lọc
+                                </button>
+                                </div>
+                                {/*<div className="col-sm-4 col-xs-5">*/}
+                                {/*<button*/}
+                                {/*onClick={this.exportRegistersResultExcel}*/}
+                                {/*className="btn btn-info btn-rose"*/}
+                                {/*style={{float: "right"}}*/}
+                                {/*>*/}
+                                {/*<i className="material-icons">file_download</i>*/}
+                                {/*Xuất ra Excel*/}
+                                {/*</button>*/}
+                                {/*</div>*/}
+                            </div>
+
+                            <Panel
+                                collapsible
+                                expanded={this.state.openFilterPanel}
+                            >
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="card">
+                                            <div className="card-header card-header-icon"
+                                                data-background-color="rose"
+                                            >
+                                                <i className="material-icons">filter_list</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <h4 className="card-title">Bộ lọc</h4>
+                                                <div className="row">
+                                                    <div className="form-group col-md-4">
+                                                        <label className="label-control">Tìm theo saler</label>
+                                                        <Select
+                                                            value={this.state.saler_id}
+                                                            options={this.state.salers}
+                                                            onChange={this.salersSearchChange}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Panel>
+                            </Panel>
 
-                        <div className="card">
-                            <div
-                                className="card-header card-header-icon"
-                                data-background-color="rose"
-                                style={{zIndex: 0}}
-                            >
-                                <i className="material-icons">assignment</i>
-                            </div>
+                            <div className="card">
+                                <div
+                                    className="card-header card-header-icon"
+                                    data-background-color="rose"
+                                    style={{ zIndex: 0 }}
+                                >
+                                    <i className="material-icons">assignment</i>
+                                </div>
 
 
-                            <div className="card-content">
-                                <h4 className="card-title">
-                                    Danh sách đăng kí phòng họp
+                                <div className="card-content">
+                                    <h4 className="card-title">
+                                        Danh sách đăng kí phòng họp
                                 </h4>
-                                <div>
-                                    <Search
-                                        onChange={this.registersSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
-                                    />
-                                    <ListRegisters
-                                        registers={this.props.registers}
-                                        isLoading={this.props.isLoading}
-                                        filterBySaler={this.filterBySaler}
-                                        openPaymentModal={this.openPaymentModal}
-                                    />
-                                    <div className="row float-right">
-                                        <div className="col-md-12"
-                                             style={{textAlign: "right"}}
-                                        >
-                                            <b style={{marginRight: "15px"}}>
-                                                Hiển thị kêt quả từ {first} -{" "}
-                                                {end}/{this.props.totalCount}
-                                            </b>
-                                            <br/>
-                                            <Pagination
-                                                totalPages={this.props.totalPages}
-                                                currentPage={this.props.currentPage}
-                                                loadDataPage={this.loadAllRegisters}
-                                            />
+                                    <div>
+                                        <Search
+                                            onChange={this.registersSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
+                                        />
+                                        <ListRegisters
+                                            registers={this.props.registers}
+                                            isLoading={this.props.isLoading}
+                                            filterBySaler={this.filterBySaler}
+                                            openPaymentModal={this.openPaymentModal}
+                                        />
+                                        <div className="row float-right">
+                                            <div className="col-md-12"
+                                                style={{ textAlign: "right" }}
+                                            >
+                                                <b style={{ marginRight: "15px" }}>
+                                                    Hiển thị kêt quả từ {first} -{" "}
+                                                    {end}/{this.props.totalCount}
+                                                </b>
+                                                <br />
+                                                <Pagination
+                                                    totalPages={this.props.totalPages}
+                                                    currentPage={this.props.currentPage}
+                                                    loadDataPage={this.loadAllRegisters}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                )}
+                    )}
             </div>
         );
     }
