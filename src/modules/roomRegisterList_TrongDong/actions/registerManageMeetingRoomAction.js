@@ -4,6 +4,73 @@ import * as helper from "../../../helpers/helper";
 import * as registerManageMeetingRoomApi from "../apis/registerManageMeetingRoomApi";
 
 
+
+export function submitBooking(data, success) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_REGISTER_ROOMS,
+        });
+        registerManageMeetingRoomApi
+            .submitBooking(data)
+            .then(() => {
+                dispatch({
+                    type: types.REGISTER_ROOMS_SUCCESS,
+                });
+                success();
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.REGISTER_ROOMS_ERROR,
+                });
+            });
+    };
+}
+
+export function loadRooms() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ROOMS,
+        });
+        registerManageMeetingRoomApi
+            .loadRooms()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_ROOMS_SUCCESS,
+                    rooms: res.data.data.rooms,
+                });
+
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_ROOMS_ERROR,
+                });
+            });
+    };
+}
+
+export function loadAllCampaigns() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CAMPAIGNS,
+        });
+        registerManageMeetingRoomApi
+            .loadCampaigns()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_CAMPAIGNS_SUCCESS,
+                    campaigns: res.data.data.marketing_campaigns,
+                });
+
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_CAMPAIGNS_ERROR,
+                });
+            });
+    };
+}
+
+
 export function loadAllBases() {
     return function (dispatch) {
         dispatch({
@@ -16,6 +83,8 @@ export function loadAllBases() {
                     type: types.LOAD_BASES_SUCCESS,
                     bases: res.data.data.bases,
                 });
+
+
             })
             .catch(() => {
                 dispatch({

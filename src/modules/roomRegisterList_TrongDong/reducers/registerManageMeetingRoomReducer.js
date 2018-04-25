@@ -5,6 +5,7 @@ import types from '../constants/actionTypes';
 let tmpRegs = [];
 let tmpReg = {};
 let conferenceRoomInitState = {
+
     registers: [],
     salers: [],
     isLoading: false,
@@ -20,12 +21,80 @@ let conferenceRoomInitState = {
     isChangingOfficialTime: false,
     isOpenPaymentModal: false,
     isOpenDatetimeModal: false,
+    isLoadingCampaignFilter: false,
+    campaigns: [],
+    rooms: [],
+    isBooking: false,
+
 };
 
 export default function registerConferenceRoomReducers(state = conferenceRoomInitState, action) {
     switch (action.type) {
 
+        case types.BEGIN_REGISTER_ROOMS:
+            return {
+                ...state,
+                isBooking: true,
+            };
+        case types.REGISTER_ROOMS_SUCCESS: {
 
+            return {
+                ...state,
+                isBooking: false,
+            };
+        }
+        case types.REGISTER_ROOMS_ERROR:
+            return {
+                ...state,
+                isBooking: false,
+            };
+        case types.BEGIN_LOAD_ROOMS:
+            return {
+                ...state,
+
+            };
+        case types.LOAD_ROOMS_SUCCESS: {
+
+            return {
+                ...state,
+
+                rooms: action.rooms.map((obj) => {
+                    return {
+                        ...obj,
+                        value: obj.id,
+                        label: obj.name,
+                    };
+                }),
+            };
+        }
+        case types.LOAD_ROOMS_ERROR:
+            return {
+                ...state,
+
+            };
+
+        case types.BEGIN_LOAD_CAMPAIGNS:
+            return {
+                ...state,
+                isLoadingCampaignFilter: true,
+            };
+        case types.LOAD_CAMPAIGNS_SUCCESS:
+            return {
+                ...state,
+                isLoadingCampaignFilter: false,
+                campaigns: action.campaigns.map((obj) => {
+                    return {
+                        ...obj,
+                        value: obj.id,
+                        label: obj.name,
+                    };
+                }),
+            };
+        case types.LOAD_CAMPAIGNS_ERROR:
+            return {
+                ...state,
+                isLoadingCampaignFilter: false,
+            };
         case types.BEGIN_LOAD_BASES:
             return {
                 ...state,
@@ -202,18 +271,18 @@ function prefixRegisters(registers) {
     return registers.map((register) => {
         return {
             ...register,
-            price : register.room_history.length !== 0 ?
+            price: register.room_history.length !== 0 ?
                 !register.is_member ?
                     register.room_history[register.room_history.length - 1].room.room_type.price :
                     register.room_history[register.room_history.length - 1].room.room_type.member_price
                 : 0, // note
-            official_start_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].start_time:
+            official_start_time: register.room_history.length !== 0 ? register.room_history[register.room_history.length - 1].start_time :
                 // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
-            register.start_time
+                register.start_time
             ,
-            official_end_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].end_time:
+            official_end_time: register.room_history.length !== 0 ? register.room_history[register.room_history.length - 1].end_time :
                 // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
-            register.end_time
+                register.end_time
             ,
         };
     });

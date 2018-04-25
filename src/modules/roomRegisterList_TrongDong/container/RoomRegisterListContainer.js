@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Search from "../../../components/common/Search";
-import { Tooltip, OverlayTrigger } from "react-bootstrap";
+//import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import * as registerManageMeetingRoomAction from "../actions/registerManageMeetingRoomAction";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -11,17 +11,14 @@ import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
 import { Panel } from "react-bootstrap";
 import TooltipButton from '../../../components/common/TooltipButton';
-import * as helper from "../../../helpers/helper";
+//import * as helper from "../../../helpers/helper";
+import ListRegisters from './ListRegisters';
+import AddBookingModal from './AddBookingModal';
 
 class RoomRegisterListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            page: 1,
-            query: "",
-            saler_id: null,
-            limit: 10,
-            base_id: 0,
             bases: [],
             salers: [],
             openFilterPanel: false,
@@ -35,6 +32,7 @@ class RoomRegisterListContainer extends React.Component {
                 query: '',
                 page: 1,
             },
+            showAddBookingModal: false,
         };
         this.timeOut = null;
 
@@ -42,12 +40,18 @@ class RoomRegisterListContainer extends React.Component {
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.openPaymentModal = this.openPaymentModal.bind(this);
         this.filterChange = this.filterChange.bind(this);
+        this.openBookingModal = this.openBookingModal.bind(this);
+        this.closeBookingModal = this.closeBookingModal.bind(this);
     }
 
     componentWillMount() {
-        //this.props.registerManageMeetingRoomAction.loadAllSalers();
+
+        this.props.registerManageMeetingRoomAction.loadRooms();
+        this.props.registerManageMeetingRoomAction.loadAllSalers();
         this.props.registerManageMeetingRoomAction.loadAllBases();
+        this.props.registerManageMeetingRoomAction.loadAllCampaigns();
         this.props.registerManageMeetingRoomAction.loadAllRegisters();
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,6 +67,7 @@ class RoomRegisterListContainer extends React.Component {
                 salers: this.getSalerData(nextProps.salers),
             });
         }
+
     }
 
     getBaseData(datas) {
@@ -74,7 +79,7 @@ class RoomRegisterListContainer extends React.Component {
         });
         return [
             {
-                key: 0,
+                key: -1,
                 value: "Tất cả cơ sở",
             },
             ...selectData,
@@ -89,7 +94,7 @@ class RoomRegisterListContainer extends React.Component {
         });
         return [
             {
-                value: 0,
+                value: -1,
                 label: "Tất cả",
             },
             ...selectData,
@@ -125,19 +130,29 @@ class RoomRegisterListContainer extends React.Component {
     }
 
 
-
-
-
     openPaymentModal(register) {
         this.props.registerManageMeetingRoomAction.openPaymentModal(register);
+    }
+
+    openBookingModal() {
+        this.setState({ showAddBookingModal: true });
+    }
+
+    closeBookingModal() {
+        this.setState({ showAddBookingModal: false });
     }
 
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-        const TopupTooltip = <Tooltip id="tooltip">Thu tiền</Tooltip>;
+
         return (
             <div id="page-wrapper">
+                <AddBookingModal
+                    show={this.state.showAddBookingModal}
+                    onHide={this.closeBookingModal}
+                    reload={() => this.props.registerManageMeetingRoomAction.loadAllRegisters(this.state.filter)}
+                />
                 {this.props.isLoadingBases || this.props.isLoadingSalers ? (
                     <Loading />
                 ) : (
@@ -152,9 +167,6 @@ class RoomRegisterListContainer extends React.Component {
                                     />
                                 </div>
                             </div>
-
-
-
                             <div className="card">
                                 <div className="card-content">
                                     <div className="flex-row flex">
@@ -162,7 +174,7 @@ class RoomRegisterListContainer extends React.Component {
                                         <div>
                                             <button
                                                 className="btn btn-rose btn-round btn-xs button-add none-margin"
-                                                type="button" onClick={() => { }}>
+                                                type="button" onClick={this.openBookingModal}>
                                                 <strong>+</strong>
                                             </button>
                                         </div>
@@ -208,103 +220,12 @@ class RoomRegisterListContainer extends React.Component {
                                             value={this.state.query}
                                             placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
                                         />
-                                        <div className="table-responsive">
-                                            {this.props.isLoading ? (
-                                                <Loading />
-                                            ) : (
-                                                    <table className="table table-hover">
-                                                        <thead className="text-rose">
-                                                            <tr>
-                                                                <th>Khách hàng</th>
-                                                                <th>Số điện thoại</th>
-                                                                <th>Saler</th>
-                                                                <th>Tiền đã trả</th>
-                                                                <th>Bắt đầu dự kiến</th>
-                                                                <th>Kết thúc dự kiến</th>
-                                                                <th>Bắt đầu chính thức</th>
-                                                                <th>Kết thúc chính thức</th>
-                                                                <th>Đăng ký</th>
-                                                                <th>Thời gian còn lại</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {this.props.registers.map((register, ) => {
-                                                                return (
-                                                                    <tr key={register.id}>
-                                                                        <td>
-                                                                            <a className="text-name-student-register">
-                                                                                {register.user && register.user.name}
-                                                                            </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href={"tel:" + register.phone}
-                                                                                className="text-name-student-register"
-                                                                            >
-                                                                                {register.user && register.user.phone
-                                                                                    ? helper.formatPhone(register.user.phone) : "Chưa có"}
-                                                                            </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            {register.saler ? (
-                                                                                <a
-                                                                                    className="btn btn-xs btn-main"
-                                                                                    onClick={e => {
-                                                                                        this.props.filterBySaler(register.saler.id, );
-                                                                                        e.preventDefault();
-                                                                                    }}
-                                                                                    style={{
-                                                                                        backgroundColor: register.saler.color && "#" + register.saler.color,
-                                                                                    }}
-                                                                                >
-                                                                                    {register.saler.name}
-                                                                                </a>
-                                                                            ) : (
-                                                                                    <a className="btn btn-xs btn-main disabled">Chưa có</a>
-                                                                                )}
-                                                                        </td>
-                                                                        <td>
-                                                                            {helper.dotNumber(register.money)}đ
-                                    </td>
-                                                                        <td>{register.start_time}</td>
-                                                                        <td>{register.end_time}</td>
-
-                                                                        <td>
-                                                                            <a className="text-name-student-register"
-                                                                                onClick={() => this.openDatetimeModal(register)}
-                                                                            >
-                                                                                {register.official_start_time}
-                                                                            </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a className="text-name-student-register"
-                                                                                onClick={() => this.openDatetimeModal(register)}
-                                                                            >
-                                                                                {register.official_end_time}
-                                                                            </a>
-
-                                                                        </td>
-                                                                        <td>{register.created_at}</td>
-                                                                        <td>
-                                                                            {
-                                                                                <OverlayTrigger placement="top"
-                                                                                    overlay={TopupTooltip}>
-                                                                                    <a
-                                                                                        onClick={() => this.openPaymentModal(register)}
-                                                                                    >
-                                                                                        <i className="material-icons">attach_money</i>
-                                                                                    </a>
-                                                                                </OverlayTrigger>
-
-                                                                            }
-
-                                                                        </td>
-                                                                    </tr>
-                                                                );
-                                                            })}
-                                                        </tbody>
-                                                    </table>
-                                                )}
-                                        </div>
+                                        <ListRegisters
+                                            registers={this.props.registers}
+                                            isLoading={this.props.isLoading}
+                                            filterBySaler={() => { }}
+                                            openPaymentModal={this.openPaymentModal}
+                                        />
                                         <div className="row float-right">
                                             <div className="col-md-12"
                                                 style={{ textAlign: "right" }}
@@ -332,6 +253,7 @@ RoomRegisterListContainer.propTypes = {
     limit: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isLoadingCampaignFilter: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     registers: PropTypes.array.isRequired,
     registerManageMeetingRoomAction: PropTypes.object.isRequired,
@@ -339,6 +261,7 @@ RoomRegisterListContainer.propTypes = {
     salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoadingSalers: PropTypes.bool.isRequired,
+    campaigns: PropTypes.array.isRequired,
     bases: PropTypes.array.isRequired,
 };
 
@@ -353,7 +276,9 @@ function mapStateToProps(state) {
         salers: state.registerManageMeetingRoom.salers,
         isLoadingBases: state.registerManageMeetingRoom.isLoadingBases,
         isLoadingSalers: state.registerManageMeetingRoom.isLoadingSalers,
+        isLoadingCampaignFilter: state.registerManageMeetingRoom.isLoadingSalers,
         bases: state.registerManageMeetingRoom.bases,
+        campaigns: state.registerListManage.campaigns,
     };
 }
 
