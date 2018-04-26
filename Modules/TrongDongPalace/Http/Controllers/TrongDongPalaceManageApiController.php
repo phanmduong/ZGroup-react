@@ -6,6 +6,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Room;
 use App\RoomServiceRegister;
 use App\RoomServiceRegisterRoom;
+use App\RoomServiceRegister;
 use App\RoomType;
 use Illuminate\Http\Request;
 

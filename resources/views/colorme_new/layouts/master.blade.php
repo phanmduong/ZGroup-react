@@ -39,6 +39,15 @@
     <link rel="stylesheet" href="/assets/css/facebook.css">
     @yield('styles')
     <link rel="stylesheet" href="/css/2018-style.css?1232131432">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-74966893-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-74966893-1');
+    </script>
 </head>
 <body>
 <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>

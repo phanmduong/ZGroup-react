@@ -45,18 +45,18 @@ class ManageBookingController extends ManageApiController
         else $registers = RoomServiceRegister::where('type', 'member');
 
         if ($request->base_id)
-            $registers = $registers->where('base_id', $request->base_id);
+            $registers = $registers->where('room_service_registers.base_id', $request->base_id);
         if ($request->staff_id)
-            $registers = $registers->where('staff_id', $request->staff_id);
+            $registers = $registers->where('room_service_registers.staff_id', $request->staff_id);
         if ($request->saler_id)
-            $registers = $registers->where('saler_id', $request->saler_id);
+            $registers = $registers->where('room_service_registers.saler_id', $request->saler_id);
         if ($request->campaign_id)
-            $registers = $registers->where('campaign_id', $request->campaign_id);
+            $registers = $registers->where('room_service_registers.campaign_id', $request->campaign_id);
         if ($request->status)
-            $registers = $registers->where('status', $request->status);
+            $registers = $registers->where('room_service_registers.status', $request->status);
         if ($request->start_time && $request->end_time)
-            $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
-        $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+            $registers = $registers->whereBetween('room_service_registers.created_at', array($request->start_time, $request->end_time));
+        $registers = $registers->orderBy('room_service_registers.created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
@@ -86,7 +86,7 @@ class ManageBookingController extends ManageApiController
             });
 
         if ($request->base_id)
-            $registers = $registers->where('base_id', $request->base_id);
+            $registers = $registers->where('room_service_registers.gitbase_id', $request->base_id);
         if ($request->staff_id)
             $registers = $registers->where('staff_id', $request->staff_id);
         if ($request->saler_id)
@@ -306,9 +306,9 @@ class ManageBookingController extends ManageApiController
         $user->save();
 
         $register = new RoomServiceRegister();
-        $register->user_id = $user->id;
+        $register->user_id = $this->user->id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
-        $register->saler_id = $request->saler_id ? $request->saler_id : 0;
+        $register->saler_id = $this->user->id;
         $register->base_id = $request->base_id ? $request->base_id : 0;
         $register->type = 'room';
         $register->save();
@@ -318,6 +318,34 @@ class ManageBookingController extends ManageApiController
         //     $subject = 'Xác nhận thông tin';
         //     $m->to($request->email, $request->name)->subject($subject);
         // });
+
+        return $this->respondSuccess(['Thêm đăng ký thành công']);
+    }
+    public function registerRoom(Request $request)
+    {
+        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = Hash::make($phone);
+        }
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->email = $request->email;
+        $user->username = $request->email;
+        $user->address = $request->address;
+        $user->save();
+
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->saler_id = $this->user->id;
+        //$register->base_id = $request->base_id ? $request->base_id : 0;
+        $register->type = 'room';
+        $register->start_time = $request->start_time;
+        $register->end_time = $request->end_time;
+        $register->save();
 
         return $this->respondSuccess(['Thêm đăng ký thành công']);
     }
