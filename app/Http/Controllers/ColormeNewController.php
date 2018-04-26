@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\Comment;
 use App\Services\EmailService;
 use Carbon\Carbon;
+use App\ProductSubscription;
 
 class ColormeNewController extends CrawlController
 {
@@ -235,14 +236,15 @@ class ColormeNewController extends CrawlController
 
     public function blogs(Request $request)
     {
-        $limit = $request->limit ? $request->limit : 12;
+        $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
+        $tag = $request->tag;
 
         $blogs = Product::where('kind', 'blog')->where('status', 1)
-            ->where('title', 'like', "%$search%")
-            ->orderBy('created_at', 'desc')->paginate($limit);
-        // dd($blogs);
-
+            ->where('title', 'like', "%$search%");
+        if ($tag)
+            $blogs = $blogs->where('tags', 'like', "%$tag%");
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
@@ -254,7 +256,21 @@ class ColormeNewController extends CrawlController
         });
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
+        $this->data['tag'] = $tag;
         return view('colorme_new.blogs', $this->data);
+    }
+
+    public function mailViews($views)
+    {
+        if ($views < 10)
+            return false;
+        while ($views != 0) {
+            if ($views > 10 && $views % 10 != 0)
+                return false;
+            if ($views < 10 && ($views == 1 || $views == 2 || $views == 5))
+                return true;
+            $views /= 10;
+        }
     }
 
     public function blog($slug, Request $request)
@@ -262,8 +278,9 @@ class ColormeNewController extends CrawlController
         $blog = Product::where('slug', $slug)->first();
         $blog->views += 1;
         $blog->save();
+        if ($this->mailViews($blog->views) === true)
+            $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
         $data = $blog->blogDetailTransform();
-        $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
@@ -286,6 +303,11 @@ class ColormeNewController extends CrawlController
         $user->rate = 5;
         $user->save();
 
+        $subscription = new ProductSubscription();
+        $subscription->user_id = $user->id;
+        $subscription->product_id = $request->blog_id;
+        $subscription->save();
+        
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'
@@ -294,8 +316,11 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        // $this->author->avatar_url,
-        // dd(strtotime("2018-04-23 17:19:42"));
-        // dd(abs(strtotime("2018-04-23 17:19:42") - strtotime(Carbon::now()->toDateTimeString())));
+        // $blog = Product::find(7785);
+        // $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        $subscription = new ProductSubscription();
+        $subscription->user_id = 2;
+        $subscription->product_id = 30121;
+        $subscription->save();
     }
 }
