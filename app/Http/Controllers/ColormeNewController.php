@@ -202,13 +202,42 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
-    public function profile($username)
+    public function profileInfo($username)
     {
         $user = User::where('username', $username)->first();
         $user->avatar_url = generate_protocol_url($user->avatar_url);
         $this->data['user_profile'] = $user;
         if ($user) {
-            return view('colorme_new.profile.profile_react', $this->data);
+            return view('colorme_new.profile.profile_info', $this->data);
+        }
+        return redirect('/');
+    }
+
+    public function profileProject($username)
+    {
+        $user = User::where('username', $username)->first();
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
+        $blogs = Product::where('author_id',$user->id)->get();
+        $blogs = $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['time'] = $this->timeCal(date($blog->created_at));
+            $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
+            return $data;
+        });
+        $this->data['user_profile'] = $user;
+        $this->data['blogs'] = $blogs;
+        if ($user) {
+            return view('colorme_new.profile.profile_project', $this->data);
+        }
+        return redirect('/');
+    }
+
+    public function profileAttendance($username) {
+        $user = User::where('username', $username)->first();
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
+        $this->data['user_profile'] = $user;
+        if ($user) {
+            return view('colorme_new.profile.profile_attendance', $this->data);
         }
         return redirect('/');
     }
