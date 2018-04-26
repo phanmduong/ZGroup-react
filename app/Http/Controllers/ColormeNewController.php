@@ -214,8 +214,24 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
-    public function social()
+    public function social(Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
+
+        $products = Product::orderBy('created_at', 'desc');
+        $products = $products->orderBy('created_at', 'desc')->paginate($limit);
+
+        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        $this->data['current_page'] = $products->currentPage();
+
+        $products = $products->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['time'] = $this->timeCal(date($blog->created_at));
+            return $data;
+        });
+        $this->data['products'] = $products;
+        // dd($this->data['products']);
+        // dd($this->data['products']);
         return view('colorme_new.colorme_react', $this->data);
     }
 
