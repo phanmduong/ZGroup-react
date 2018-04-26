@@ -115,6 +115,25 @@ class TrongDongPalaceManageApiController extends ManageApiController
             'user' => $register_room->register->user,
             'status' => $register_room->register->status,
         ];
+    }
 
+    public function changeStatus(Request $request)
+    {
+        $register = RoomServiceRegister::find($request->id);
+
+        if ($register == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        $register->status = $request->status;
+
+        $register->save();
+
+        return $this->respondSuccessWithStatus([
+            'register' => [
+                'id' => $register->id,
+                'status' => $register->status,
+            ]
+        ]);
     }
 }
