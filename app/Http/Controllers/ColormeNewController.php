@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\Comment;
 use App\Services\EmailService;
 use Carbon\Carbon;
+use App\ProductSubscription;
 
 class ColormeNewController extends CrawlController
 {
@@ -302,6 +303,11 @@ class ColormeNewController extends CrawlController
         $user->rate = 5;
         $user->save();
 
+        $subscription = new ProductSubscription();
+        $subscription->user_id = $user->id;
+        $subscription->product_id = $request->blog_id;
+        $subscription->save();
+        
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'
@@ -310,7 +316,11 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        $blog = Product::find(7785);
-        $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        // $blog = Product::find(7785);
+        // $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        $subscription = new ProductSubscription();
+        $subscription->user_id = 2;
+        $subscription->product_id = 30121;
+        $subscription->save();
     }
 }

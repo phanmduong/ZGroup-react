@@ -111,7 +111,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div id="alert"> </div>
+                                                        <div id="alert" style="font-size: 14px"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -215,12 +215,15 @@
             }
             var message = "ColorMe đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
             $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+            $("#submit").css("display", "none");
+
             var url = "";
             $("#modalSuccess").modal("show");
             var data = {                    
                 name: name,
                 email: email,
                 phone: phone,
+                blog_id: {{$blog['id']}},
                 _token: "{{csrf_token()}}"
             };
             axios.post("/api/v3/sign-up", data)
