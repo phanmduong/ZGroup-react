@@ -2355,9 +2355,11 @@ export default {
     },
     zWarehouse: {
         isLoading : false,
+        isLoadingGoodAll: false,
         isLoadingHisotry :false,
         goods: [],
         historyGood: [],
+        goodAll: [],
         paginator: {
             current_page: 1,
             limit: 20,
