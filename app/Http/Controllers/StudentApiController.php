@@ -156,7 +156,6 @@ class StudentApiController extends ApiController
             $registers = Register::query();
         }
 
-
         $search = $request->search;
 
         if ($search) {
@@ -164,6 +163,12 @@ class StudentApiController extends ApiController
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
             $registers = $registers->whereIn('user_id', $users_id);
+        }
+        $search_coupon = $request->search_coupon;
+
+        if ($search_coupon){
+            $coupon_id = User::where('name', 'like', '%' . $search_coupon.'%')->get()->pluck('id')->toArray();
+            $registers = $registers->whereIn('coupon_id',$coupon_id);
         }
 
         if ($request->base_id != null) {
