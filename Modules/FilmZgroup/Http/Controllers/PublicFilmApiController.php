@@ -67,6 +67,7 @@ class PublicFilmApiController extends NoAuthApiController
     {
         $sessions = FilmSession::where('start_date', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $request->from_date . ' 00:00:00') )
             ->where('start_date', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $request->to_date . ' 00:00:00') )->get();
+
         $data = [
             "sessions" => $sessions,
         ];
