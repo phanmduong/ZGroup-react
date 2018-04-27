@@ -185,15 +185,15 @@ class InfoPaymentModal extends React.Component{
 }
 InfoPaymentModal.propTypes = {
     PaymentActions: PropTypes.object.isRequired,
-    isLoadingCompanies: PropTypes.bool.isRequired,
+    isLoadingCompanies: PropTypes.bool,
     companies: PropTypes.array.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func,
 };
 function mapStateToProps(state) {
     return {
-        isLoandingCompanies: state.payment.isLoadingCompanies,
+        isLoadingCompanies: state.payment.isLoadingCompanies,
         companies: state.payment.company,
     };
 }

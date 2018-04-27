@@ -609,3 +609,15 @@ export function changeOrderCourse(course,order,callback) {
             });
     };
 }
+
+export function changeTermLesson(lessonId,termId){
+    return function (){
+        helper.showNotification("Đang thay đổi học phần");
+        courseApi.changeTermLesson(lessonId,termId)
+            .then(() => {
+                helper.showNotification("Thay đổi học phần thành công");
+            }).catch(() => {
+                helper.showErrorNotification("Thay đổi học phần thất bại");
+        });
+    };
+}

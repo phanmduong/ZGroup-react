@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Search from "../../components/common/Search";
-import ReactSelect from 'react-select';
+
 
 
 class CompaniesList extends React.Component {
@@ -12,8 +11,8 @@ class CompaniesList extends React.Component {
     }
 
     render() {
-        let { partner_code, type, name, phone, address } = this.props.filterData;
-        let { searchCodeCompany, searchCompanybyType, searchNameCompany, searchPhoneCompany, searchAddressCompany } = this.props.filterAction;
+        //let { partner_code, type, name, phone, address } = this.props.filterData;
+        //let { searchCodeCompany, searchCompanybyType, searchNameCompany, searchPhoneCompany, searchAddressCompany } = this.props.filterAction;
         return (
             <div className="table-responsive" style={{minHeight: 400}}>
 
@@ -32,56 +31,56 @@ class CompaniesList extends React.Component {
                             <th />
 
                         </tr>
-                        <tr>
-                            <th />
-                            <th>
-                                <Search
-                                    placeholder="Tìm theo mã công ty"
-                                    value={partner_code}
-                                    onChange={searchCodeCompany}
-                                />
-                            </th>
-                            <th>
-                                <Search
-                                    placeholder="Tìmtheo công ty"
-                                    value={name}
-                                    onChange={searchNameCompany}
-                                />
-                            </th>
-                            <th>
-                                <Search
-                                    placeholder="Tìm theo địa chỉ"
-                                    value={address}
-                                    onChange={searchAddressCompany}
-                                />
-                            </th>
-                            <th />
-                            <th>
-                                <Search
-                                    placeholder="Tìm theo SĐT"
-                                    value={phone}
-                                    onChange={searchPhoneCompany}
-                                />
-                            </th>
-                            <th colSpan={2}>
-                                <div>
-                                    <label> Loại </label>
-                                    <ReactSelect
-                                        options={[
-                                            { value: '', label: 'Tất cả', },
-                                            { value: 'provided', label: 'Cung cấp', },
-                                            { value: 'share', label: 'Phân phối', },
-                                            { value: 'different', label: 'Khác', },
-                                        ]}
-                                        onChange={searchCompanybyType}
-                                        value={type || ""}
-                                        defaultMessage="Tuỳ chọn"
-                                        name="type"
-                                    />
-                                </div>
-                            </th>
-                            
-                        </tr>
+                        {/*<tr>*/}
+                            {/*<th />*/}
+                            {/*<th>*/}
+                                {/*<Search*/}
+                                    {/*placeholder="Tìm theo mã công ty"*/}
+                                    {/*value={partner_code}*/}
+                                    {/*onChange={searchCodeCompany}*/}
+                                {/*/>*/}
+                            {/*</th>*/}
+                            {/*<th>*/}
+                                {/*<Search*/}
+                                    {/*placeholder="Tìmtheo công ty"*/}
+                                    {/*value={name}*/}
+                                    {/*onChange={searchNameCompany}*/}
+                                {/*/>*/}
+                            {/*</th>*/}
+                            {/*<th>*/}
+                                {/*<Search*/}
+                                    {/*placeholder="Tìm theo địa chỉ"*/}
+                                    {/*value={address}*/}
+                                    {/*onChange={searchAddressCompany}*/}
+                                {/*/>*/}
+                            {/*</th>*/}
+                            {/*<th />*/}
+                            {/*<th>*/}
+                                {/*<Search*/}
+                                    {/*placeholder="Tìm theo SĐT"*/}
+                                    {/*value={phone}*/}
+                                    {/*onChange={searchPhoneCompany}*/}
+                                {/*/>*/}
+                            {/*</th>*/}
+                            {/*<th colSpan={2}>*/}
+                                {/*<div>*/}
+                                    {/*<label> Loại </label>*/}
+                                    {/*<ReactSelect*/}
+                                        {/*options={[*/}
+                                            {/*{ value: '', label: 'Tất cả', },*/}
+                                            {/*{ value: 'provided', label: 'Cung cấp', },*/}
+                                            {/*{ value: 'share', label: 'Phân phối', },*/}
+                                            {/*{ value: 'different', label: 'Khác', },*/}
+                                        {/*]}*/}
+                                        {/*onChange={searchCompanybyType}*/}
+                                        {/*value={type || ""}*/}
+                                        {/*defaultMessage="Tuỳ chọn"*/}
+                                        {/*name="type"*/}
+                                    {/*/>*/}
+                                {/*</div>*/}
+                            {/*</th>*/}
+
+                        {/*</tr>*/}
                     </thead>
                     <tbody>
                         {
