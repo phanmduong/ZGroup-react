@@ -433,7 +433,7 @@
 
     $(document).ready(function () {
 
-        var iFrames = $('iframe');
+        var iFrame = document.getElementById("survey");
 
         function iResize() {
 
@@ -455,8 +455,9 @@
         //     }
 
         // } else {
-            iFrames.load(function() {
-                this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
+            iFrame.load(function() {
+                this.style.height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                // this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
             });
         // }
     });
