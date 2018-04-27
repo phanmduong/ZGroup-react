@@ -510,10 +510,17 @@ $(document).ready(function () {
         // Blink engine detection
         var isBlink = (isChrome || isOpera) && !!window.CSS;
         if (isSafari|| isOpera) {
+            console.log("safari");
+            iFrame.onload = function () {        
+                setTimeout(function () {
+                    var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                    iFrame.style.height=height; 
+                }, 0);
+            };
 
-            // iFrames.load(function(){
-            //     setTimeout(iResize, 0);
-            // });
+            var iSource = iFrame.src;
+            iFrame.src = '';
+            iFrame.src = iSource;
 
             // for (var i = 0, j = iFrames.length; i < j; i++) {
             //         var iSource = iFrames[i].src;
@@ -524,7 +531,6 @@ $(document).ready(function () {
         } else {
             iFrame.onload = function () {        
                 var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                console.log(height);
                 iFrame.style.height=height; 
             };
         }
