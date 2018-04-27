@@ -48,7 +48,7 @@ export function getRegisterStudent(page = 1, limit ,genId, search = '', salerId 
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
         "&type=" + class_status+
-        "&search_coupon" + query_coupon
+        "&search_coupon=" + query_coupon
     ;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
