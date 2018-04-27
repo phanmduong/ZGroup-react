@@ -327,7 +327,7 @@ class StoreImportContainer extends React.Component {
                                         this.setState({search: value});
                                     }}
                                     value={this.state.search}
-                                    placeholder="Nhập mã hoặc tên sản phẩm"
+                                    placeholder="Nhập mã hoặc tên sản phẩm để tìm kiếm"
                                 />
                                 {this.props.isLoading || this.state.initTable ? <Loading/> :
                                     <ListGood

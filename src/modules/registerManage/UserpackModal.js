@@ -71,7 +71,6 @@ class UserpackModal extends React.Component {
     }
 
     updateFormData(event) {
-        //console.log("updateFormData",event.target.name);
         const field = event.target.name;
         let select = {...this.props.select};
         select[field] = event.target.value;
@@ -84,7 +83,6 @@ class UserpackModal extends React.Component {
     }
 
     render() {
-        // const {subscriptions} =     this.props.select;
         return (
             <div className="card">
                 <div className="card-header card-header-icon " data-background-color="rose">

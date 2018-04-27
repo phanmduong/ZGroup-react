@@ -18,7 +18,8 @@ class ListOrder extends React.Component {
                     this.props.isLoading ? <Loading/> :
                         (
                             <table className="table">
-                                <thead className="text-rose">
+                                <thead className="text-rose"
+                                       style={{fontSize: "10px"}}>
                                 <tr>
                                     {
                                         this.props.isSendingPrice && (
@@ -37,6 +38,8 @@ class ListOrder extends React.Component {
                                     <th>Ngày bán</th>
                                     <th>Khách hàng</th>
                                     <th>Link sản phẩm</th>
+                                    <th>Kích thước</th>
+                                    <th>Màu</th>
                                     <th>Mã hàng Nhật</th>
                                     <th>Tỷ giá</th>
                                     <th>Thu ngân</th>
@@ -47,7 +50,7 @@ class ListOrder extends React.Component {
                                     <th>Nhập kho</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style={{fontSize: "12px"}}>
                                 {
                                     this.props.deliveryOrders && this.props.deliveryOrders.map((delivery, index) => {
                                         return (

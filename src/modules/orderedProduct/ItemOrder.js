@@ -48,16 +48,16 @@ class ItemOrder extends React.Component {
     render() {
         const delivery = this.props.delivery;
         const attach_info = JSON.parse(delivery.attach_info);
-        const link = attach_info.link.substring(0, 15) + "...";
+        const link = attach_info.link.length > 40 ? (attach_info.link.substring(0, 39) + "...") : attach_info.link;
         let delivery_note;
         if (delivery.note) {
-            delivery_note = delivery.note.length < 16 ? delivery.note : delivery.note.substring(0, 15) + "...";
+            delivery_note = delivery.note.length < 16 ? delivery.note : (delivery.note.substring(0, 15) + "...");
         } else delivery_note = "";
         return (
             <tr>
                 {
                     this.props.isSendingPrice && (
-                        <td>
+                        <td style={{padding: "0 5px"}}>
                             <CheckBoxMaterial
                                 name="sale_status"
                                 checked={this.props.check}
@@ -66,43 +66,53 @@ class ItemOrder extends React.Component {
                         </td>
                     )
                 }
-                <td>
+                <td style={{padding: "0 5px"}}>
                     <Link
                         style={{
                             backgroundColor: ORDERED_STATUS_COLORS[delivery.status]
                         }}
-                        className="btn text-name-student-register"
+                        className="btn btn-sm btn-success btn-main text-name-student-register"
+                        //className="btn text-name-student-register"
                         to={`/order/${delivery.id}/edit`}>
                         {delivery.code ? delivery.code : 'Không có mã'}
                     </Link>
                 </td>
-                <td>{delivery.created_at}</td>
-                <td>
+                <td style={{
+                    padding: "0 5px",
+                }}>
+                    <div style={{
+                        cursor: "default"
+                    }}
+                         className="btn btn-xs btn-simple btn-main text-name-student-register">{delivery.created_at}</div>
+                </td>
+                <td style={{padding: "0 5px"}}>
                     {
                         delivery.customer ? (
-                            <span>{delivery.customer.name}<br/>
-                        ({delivery.customer.phone})
+                            <span>{delivery.customer.name || ''}&nbsp;
+                                ({delivery.customer.phone || ''})<br/>
+                                {delivery.customer.email || ''}<br/>{delivery.customer.address || ''}
                     </span>
                         ) : "Không nhập"
                     }
                 </td>
-                <td>
-                    <TooltipButton text={attach_info.link} placement="top">
-                        <a href={attach_info.link} target="_blank">{link}</a>
-                    </TooltipButton>
+                <td style={{padding: "0 5px"}}>
+                    <a href={attach_info.link} target="_blank">{link}</a>
                 </td>
-                <td>{attach_info.code}</td>
+                <td>{attach_info.size}</td>
+                <td>{attach_info.color}</td>
+                <td style={{padding: "0 5px"}}>
+                    {attach_info.code}</td>
                 <td>{attach_info.ratio}</td>
-                <td>
+                <td style={{padding: "0 5px"}}>
                     {
                         delivery.staff ?
 
                             (
                                 <TooltipButton text={delivery.staff.name} placement="top">
-                                    <button className="btn btn-xs btn-main"
+                                    <span className="label label-rose"
                                             style={{backgroundColor: delivery.staff.color ? delivery.staff.color : ''}}>
                                         {helper.getShortName(delivery.staff.name)}
-                                    </button>
+                                    </span>
                                 </TooltipButton>
                             )
                             :
@@ -111,12 +121,12 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td style={{width: "120px"}}>
+                <td style={{padding: "0 5px"}}>
                     <StatusSelect options={ORDERED_STATUS}
                                   onChange={this.changeStatus}
                                   value={delivery.status}/>
                 </td>
-                <td>
+                <td style={{padding: "0 5px"}}>
                     <a type="button" onClick={() => this.props.showAddNoteModal(delivery)}>
                         {
                             delivery_note === "" ? (
@@ -127,22 +137,22 @@ class ItemOrder extends React.Component {
                         }
                     </a>
                 </td>
-                <td>
+                <td style={{padding: "0 5px"}}>
                     <TooltipButton text="Thanh toán" placement="top">
                         <button
                             onClick={() => this.props.showChooseWalletModal(delivery)}
-                            className="btn btn-sm btn-success btn-main"
+                            className="btn btn-xs btn-success btn-main"
                             disabled={(delivery.status === "place_order")}>
                             {helper.dotNumber(delivery.total)}đ
                         </button>
                     </TooltipButton>
                 </td>
-                <td>
+                <td style={{padding: "0 5px"}}>
                     {helper.dotNumber(delivery.debt)}đ
                 </td>
                 {
                     delivery.delivery_warehouse_status !== "exported" ? (
-                        <td>
+                        <td style={{padding: "0 5px"}}>
                             {
                                 ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order > 6 && (
                                     <div className="btn-group-action">
@@ -157,7 +167,7 @@ class ItemOrder extends React.Component {
                             }
                         </td>
                     ) : (
-                        <td>
+                        <td style={{padding: "0 5px"}}>
                             <span>Đã nhập kho</span>
                         </td>
                     )

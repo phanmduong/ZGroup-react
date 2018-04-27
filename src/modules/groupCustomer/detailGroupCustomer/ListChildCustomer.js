@@ -71,7 +71,7 @@ class ListChildCustomer extends React.Component {
                     <h4 className="card-title">Khách hàng</h4>
                     <div className="row">
                         <div className="col-md-8">
-                            {customersShowInTable.length && customersShowInTable.length === 0 ? null :
+                            {this.props.groupCustomerForm && customersShowInTable.length  === 0 ? null :
                                 <Search
                                     onChange={this.onSearchChange}
                                     value={this.state.query}
@@ -116,7 +116,7 @@ class ListChildCustomer extends React.Component {
                         <div className="table-responsive">
                             <table id="property-table" className="table table-hover" role="grid"
                                    aria-describedby="property-table_info">
-                                {customersShowInTable && customersShowInTable.length !== 0 ?
+                                {this.props.groupCustomerForm && customersShowInTable.length !== 0 ?
                                     <thead>
 
                                     <tr className="text-rose" role="row">
@@ -133,7 +133,7 @@ class ListChildCustomer extends React.Component {
                                     : null
                                 }
                                 <tbody>
-                                {customersShowInTable && customersShowInTable.map(
+                                {this.props.groupCustomerForm && customersShowInTable.map(
                                     (customer) => {
                                         return (
                                             <tr role="row" className="even" key={customer.id}>
@@ -160,7 +160,7 @@ class ListChildCustomer extends React.Component {
                             </table>
                         </div>
                     }
-                    {customersShowInTable && customersShowInTable.length === 0 ? null :
+                    {this.props.groupCustomerForm && customersShowInTable.length === 0 ? null :
                         <Pagination
                             totalPages={this.props.totalCustomerPages}
                             currentPage={currentPage}
