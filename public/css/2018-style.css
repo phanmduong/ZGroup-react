@@ -688,7 +688,7 @@ td.rdtMonth:hover, td.rdtYear:hover {
 }
 
 body {
-    font-family: Montserrat, sans-serif
+    font-family: 'Roboto', sans-serif
 }
 
 strong {
@@ -1873,7 +1873,7 @@ a.more-products {
 }
 
 .bl-title, .bl-title-big {
-    font-family: Montserrat, sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding-top: 15px;
     font-weight: 600;
     padding-bottom: 15px
@@ -1884,7 +1884,7 @@ a.more-products {
 }
 
 .bl-sub-title {
-    font-family: Montserrat, sans-serif
+    font-family: 'Roboto', sans-serif
 }
 
 .book-landing-section {
@@ -3106,5 +3106,5 @@ hr {
 }
 
 .form-register {
-    font-family: Montserrat !important;
+    font-family: 'Roboto', sans-serif!important;
 }
