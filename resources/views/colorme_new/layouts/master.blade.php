@@ -226,35 +226,40 @@
         {{--</div>--}}
         {{--</div>--}}
         {{--</div>--}}
+
         <footer id="myFooter" style="font-size:13px">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-xs-12 col-sm-2">
                         <h2 class="logo"><a href="#">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-2"><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
+                                    <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
                                                                          width="40"><h4>colorME</h4>
-                                        <div>Trường học thiết kế</div>
+                                        <div style="font-size:13px">Trường học thiết kế</div>
                                     </div>
                             </a></h2>
                     </div>
-                    <div class="col-sm-2">
-                        <h5>Get started</h5>
+                    <div class="col-sm-3">
+                        <h5>CƠ SỞ</h5>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Sign up</a></li>
-                            <li><a href="#">Downloads</a></li>
+
+                            @foreach($bases as $base)
+                                <li>
+                                    {{$base->name}}<br>
+                                        {{$base->address}}
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
-                    <div class="col-sm-2">
-                        <h5>About us</h5>
+                    <div class="col-xs-12  col-sm-2">
+                        <h5>CÁC KHÓA HỌC</h5>
                         <ul>
-                            <li><a href="#">Company Information</a></li>
-                            <li><a href="#">Contact us</a></li>
-                            <li><a href="#">Reviews</a></li>
+                            @foreach($courses as $course)
+                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
+                            @endforeach
                         </ul>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-xs-12  col-sm-2">
                         <h5>Support</h5>
                         <ul>
                             <li><a href="#">FAQ</a></li>
@@ -262,7 +267,7 @@
                             <li><a href="#">Forums</a></li>
                         </ul>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-xs-12  col-sm-3">
                         <div class="social-networks">
                             <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
                             <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
@@ -273,7 +278,7 @@
                 </div>
             </div>
             <div class="footer-copyright">
-                <p>© 2016 Copyright Text </p>
+                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
             </div>
         </footer>
     </div>
