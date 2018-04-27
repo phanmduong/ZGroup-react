@@ -122,7 +122,12 @@ class PaymentModal extends React.Component {
                 bsStyle="primary"
                 onHide={this.closePaymentModal}
             >
-                <Modal.Header/>
+
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <strong>Thu tiền</strong>
+                    </Modal.Title>
+                </Modal.Header>
                 <Modal.Body>
                     <div>
                         <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

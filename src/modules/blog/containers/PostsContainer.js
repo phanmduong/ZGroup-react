@@ -109,6 +109,13 @@ class BlogsContainer extends React.Component {
 
 
     render() {
+        // let first = this.props.totalPages
+        //     ? (this.state.page - 1) * this.state.limit + 1
+        //     : 0;
+        // let end =
+        //     this.state.page < this.props.totalPages
+        //         ? this.state.page * this.state.limit
+        //         : this.props.totalPages;
         return (
             <div className="container-fluid">
                 {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages? (
@@ -166,16 +173,23 @@ class BlogsContainer extends React.Component {
 
                                 <ListPost/>
 
+                                <div className="row float-right">
+                                    <div className="col-md-12"
+                                         style={{textAlign: "right"}}
+                                    >
+                                        {/*<b style={{marginRight: "15px"}}>*/}
+                                            {/*Hiển thị kêt quả từ {first} -{" "}*/}
+                                            {/*{end}/{this.props.totalPages}*/}
+                                        {/*</b>*/}
+                                        <br/>
+                                        <Pagination
+                                            totalPages={this.props.totalPages}
+                                            currentPage={this.state.page}
+                                            loadDataPage={this.loadPosts}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-
-                        </div>
-
-                        <div className="card-content">
-                            <Pagination
-                                totalPages={this.props.totalPages}
-                                currentPage={this.state.page}
-                                loadDataPage={this.loadPosts}
-                            />
                         </div>
                     </div>
                 )}

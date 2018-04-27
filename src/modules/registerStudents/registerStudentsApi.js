@@ -23,8 +23,8 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
     return axios.get(url);
 }
 
-export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
-                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '') {
+export function getRegisterStudent(page = 1, limit ,genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
+                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '',query_coupon) {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -38,6 +38,7 @@ export function getRegisterStudent(page = 1, genId, search = '', salerId = '', c
         urlType +
         "/register-list?" +
         "page=" + page +
+        "&limit=" + limit+
         "&gen_id=" + genId +
         "&search=" + search +
         "&saler_id=" + salerId +
@@ -46,7 +47,9 @@ export function getRegisterStudent(page = 1, genId, search = '', salerId = '', c
         "&status=" + paid_status +
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
-        "&type=" + class_status;
+        "&type=" + class_status+
+        "&search_coupon" + query_coupon
+    ;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
     }
@@ -217,6 +220,7 @@ export function saveRegisterApi(register) {
         phone: register.phone,
         email: register.email,
         class_id: register.class_id,
+        coupon : register.coupon,
     });
 }
 

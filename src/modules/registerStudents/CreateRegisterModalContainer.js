@@ -8,11 +8,32 @@ import {connect} from "react-redux";
 import ReactSelect from "react-select";
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
+import MemberReactSelectOption from "./MemberReactSelectOption";
+import MemberReactSelectValue from "./MemberReactSelectValue";
 
 
-function addSelect(items) {
+
+function addSelectCourse(items) {
     return items && items.map(item => {
-        return {value: item.id, label: item.name};
+        return {
+            value: item.id,
+            label: item.name,
+            icon_url : item.icon_url,
+        };
+    });
+}
+function addSelectCampaign(items) {
+    return items && items.map(item => {
+        return {
+            value: item.id,
+            label: item.name,
+        };
+    });
+}
+
+function addSelectClass(items) {
+    return items && items.map(item => {
+        return {value: item.id, label: item.name + " - " + item.date_start + " - " + item.study_time};
     });
 }
 
@@ -32,7 +53,6 @@ class CreateRegisterModalContainer extends React.Component {
     componentWillMount() {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
-
     }
 
     updateFormData(event) {
@@ -133,29 +153,39 @@ class CreateRegisterModalContainer extends React.Component {
                                 value={register.phone}
                                 updateFormData={this.updateFormData}
                             />
+                            <FormInputText
+                                name="coupon"
+                                label="Mã khuyến mãi"
+                                // required
+                                value={register.coupon}
+                                updateFormData={this.updateFormData}
+                            />
                             <br/>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <ReactSelect
-                                        value={register.course_id}
-                                        options={addSelect(this.props.courses)}
-                                        onChange={this.updateCourse}
-                                        placeholder="Chọn môn học"/>
-                                </div>
-                                <div className="col-md-6">
-
-                                    <ReactSelect
-                                        value={register.class_id}
-                                        options={addSelect(this.props.classes)}
-                                        onChange={this.updateClass}
-                                        placeholder="Chọn lớp học"
-                                    />
-                                </div>
-                            </div>
+                            {/*<div className="row">*/}
+                            {/*<div className="col-md-6">*/}
+                            <ReactSelect
+                                optionComponent={MemberReactSelectOption}
+                                value={register.course_id}
+                                options={addSelectCourse(this.props.courses)}
+                                onChange={this.updateCourse}
+                                placeholder="Chọn môn học"
+                                valueComponent={MemberReactSelectValue}
+                            />
+                            {/*</div>*/}
+                            {/*<div className="col-md-6">*/}
+                            <br/>
+                            <ReactSelect
+                                value={register.class_id}
+                                options={addSelectClass(this.props.classes)}
+                                onChange={this.updateClass}
+                                placeholder="Chọn lớp học"
+                            />
+                            {/*</div>*/}
+                            {/*</div>*/}
                             <br/>
                             <ReactSelect
                                 value={register.campaign_id}
-                                options={addSelect(this.props.campaigns)}
+                                options={addSelectCampaign(this.props.campaigns)}
                                 onChange={this.updateCampaign}
                                 placeholder="Chọn chiến dịch"
                             />

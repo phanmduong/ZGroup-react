@@ -128,6 +128,7 @@ export function loadCampaignFilter() {
 
 export function loadRegisterStudent(
     page,
+    limit,
     genId,
     search,
     salerId,
@@ -139,6 +140,7 @@ export function loadRegisterStudent(
     endTime,
     baseId,
     appointment_payment,
+    query_coupon,
 ) {
     return function(dispatch) {
         dispatch({
@@ -147,6 +149,7 @@ export function loadRegisterStudent(
         registerStudentsApi
             .getRegisterStudent(
                 page,
+                limit,
                 genId,
                 search,
                 salerId,
@@ -158,6 +161,7 @@ export function loadRegisterStudent(
                 endTime,
                 baseId,
                 appointment_payment,
+                query_coupon,
             )
             .then(function(res) {
                 dispatch(loadDataSuccessful(res));

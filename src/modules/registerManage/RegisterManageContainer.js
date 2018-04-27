@@ -1,21 +1,22 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import Search from "../../components/common/Search";
 import ListOrder from "./ListOrder";
 import * as registerManageAction from "./registerManageAction";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import Pagination from "../../components/common/Pagination";
-import { REGISTER_STATUS } from "../../constants/constants";
+import {REGISTER_STATUS} from "../../constants/constants";
 import XLSX from "xlsx";
-import { saveWorkBookToExcel } from "../../helpers/helper";
-import { loadAllRegistersApi } from "./registerManageApi";
+import {saveWorkBookToExcel} from "../../helpers/helper";
+import {loadAllRegistersApi} from "./registerManageApi";
 import SelectMonthBox from "../../components/common/SelectMonthBox";
 import Loading from "../../components/common/Loading";
 import SelectCommon from "../../components/common/Select";
-import { Panel } from "react-bootstrap";
+import {OverlayTrigger, Panel, Tooltip} from "react-bootstrap";
 import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
+
 
 class RegisterManageContainer extends React.Component {
     constructor(props, context) {
@@ -36,7 +37,7 @@ class RegisterManageContainer extends React.Component {
                 startTime: "",
                 endTime: "",
             },
-            month: { year: 0, month: 0 },
+            month: {year: 0, month: 0},
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -78,7 +79,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     handleClickMonthBox() {
-        this.setState({ isShowMonthBox: true });
+        this.setState({isShowMonthBox: true});
     }
 
     handleAMonthChange(value) {
@@ -97,27 +98,27 @@ class RegisterManageContainer extends React.Component {
             this.state.selectBaseId,
             startTime,
             endTime,
-            () => this.setState({ month: value }),
+            () => this.setState({month: value}),
         );
-        let time = { ...this.state.time };
+        let time = {...this.state.time};
         time["startTime"] = startTime;
         time["endTime"] = endTime;
-        this.setState({ time: time });
+        this.setState({time: time});
         this.handleAMonthDismiss();
     }
 
     handleAMonthDismiss() {
-        this.setState({ isShowMonthBox: false });
+        this.setState({isShowMonthBox: false});
     }
 
     getBases(bases) {
-        let baseData = bases.map(function(base) {
+        let baseData = bases.map(function (base) {
             return {
                 key: base.id,
                 value: base.name,
             };
         });
-        this.setState({ selectBaseId: 0 });
+        this.setState({selectBaseId: 0});
         return [
             {
                 key: 0,
@@ -128,7 +129,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     onChangeBase(value) {
-        this.setState({ selectBaseId: value });
+        this.setState({selectBaseId: value});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -144,7 +145,7 @@ class RegisterManageContainer extends React.Component {
 
     openFilterPanel() {
         let newstatus = !this.state.openFilterPanel;
-        this.setState({ openFilterPanel: newstatus });
+        this.setState({openFilterPanel: newstatus});
     }
 
     async exportRegistersResultExcel() {
@@ -160,6 +161,7 @@ class RegisterManageContainer extends React.Component {
             this.state.startTime,
             this.state.endTime,
         );
+        // console.log(res.data.data, "qqqqqqqqqqqqqq");
         this.props.registerManageAction.hideGlobalLoading();
         const wsData = res.data.data.room_service_registers;
         const field = [];
@@ -182,6 +184,7 @@ class RegisterManageContainer extends React.Component {
             return tmp;
         });
         const tmpWsData = [field, ...datas];
+        // console.log(tmpWsData, "sssssssssss");
         const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
         const sheetName = "Danh sách đăng kí đặt chỗ";
         let workbook = {
@@ -202,7 +205,7 @@ class RegisterManageContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 this.props.registerManageAction.loadAllRegisters(
                     this.state.limit,
                     1,
@@ -284,7 +287,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     filterByCampaign(campaign_id) {
-        this.setState({ campaign_id: campaign_id });
+        this.setState({campaign_id: campaign_id});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -299,7 +302,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     filterBySaler(saler_id) {
-        this.setState({ saler_id: saler_id });
+        this.setState({saler_id: saler_id});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             1,
@@ -314,7 +317,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     loadOrders(page = 1) {
-        this.setState({ page: page });
+        this.setState({page: page});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             page,
@@ -333,9 +336,11 @@ class RegisterManageContainer extends React.Component {
             showModal: false,
         });
     }
+
     openChooseSeatHistoryModal() {
         this.props.chooseSeatActions.toggleChooseSeatHistoryModal(true);
     }
+
     openChooseSeatModal(base, register) {
         this.props.chooseSeatActions.toggleShowChooseSeatModal(
             true,
@@ -345,6 +350,8 @@ class RegisterManageContainer extends React.Component {
     }
 
     render() {
+        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
+        const Export = <Tooltip id="tooltip">Xuất file excel</Tooltip>;
         let SALER = this.props.salers.map(saler => {
             return {
                 ...saler,
@@ -352,7 +359,7 @@ class RegisterManageContainer extends React.Component {
                 label: saler.name,
             };
         });
-        SALER = [{ value: 0, label: "Tất cả" }, ...SALER];
+        SALER = [{value: 0, label: "Tất cả"}, ...SALER];
         let first = this.props.totalCount
             ? (this.props.currentPage - 1) * this.props.limit + 1
             : 0;
@@ -363,7 +370,7 @@ class RegisterManageContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 {this.props.isLoadingBases ? (
-                    <Loading />
+                    <Loading/>
                 ) : (
                     <div>
                         <div className="row">
@@ -383,99 +390,101 @@ class RegisterManageContainer extends React.Component {
                                 <SelectCommon
                                     defaultMessage={"Chọn cơ sở"}
                                     options={this.state.bases}
-                                    // disableRound
                                     value={this.state.selectBaseId}
                                     onChange={this.onChangeBase}
                                 />
                             </div>
-                            <div className="col-sm-2 col-xs-5">
-                                <button
-                                    style={{ width: "100%" }}
-                                    onClick={this.openFilterPanel}
-                                    className="btn btn-info btn-rose btn-round"
-                                >
-                                    <i className="material-icons">
-                                        filter_list
-                                    </i>
-                                    Lọc
-                                </button>
-                            </div>
-                            <div className="col-sm-4 col-xs-5">
-                                <button
-                                    onClick={this.exportRegistersResultExcel}
-                                    className="btn btn-info btn-rose btn-round"
-                                    style={{ float: "right" }}
-                                >
-                                    <i className="material-icons">
-                                        file_download
-                                    </i>
-                                    Xuất ra Excel
-                                </button>
-                            </div>
                         </div>
 
-                        <Panel
-                            collapsible
-                            expanded={this.state.openFilterPanel}
-                        >
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="card">
-                                        <div className="card-content">
-                                            <div className="tab-content">
-                                                <h4 className="card-title">
-                                                    <strong>Bộ lọc</strong>
-                                                </h4>
-                                                <div className="row">
-                                                    <div className="form-group col-md-4">
-                                                        <label className="label-control">
-                                                            Tìm theo saler
-                                                        </label>
-                                                        <Select
-                                                            value={
-                                                                this.state.saler_id
-                                                            }
-                                                            options={SALER}
-                                                            onChange={
-                                                                this
-                                                                    .salersSearchChange
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div className="form-group col-md-4">
-                                                        <label className="label-control">
-                                                            Tìm theo trạng thái
-                                                        </label>
-                                                        <Select
-                                                            value={
-                                                                this.state.status
-                                                            }
-                                                            options={
-                                                                REGISTER_STATUS
-                                                            }
-                                                            onChange={
-                                                                this.filterByStatus
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>    
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Panel>
+
                         <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
-                                    <h4 className="card-title">
-                                        <strong>Danh sách đơn hàng</strong>
-                                    </h4>
+                                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                                        <div style={{display: "flex"}}>
+                                            <h4 className="card-title">
+                                                <strong>Danh sách đăng kí</strong>
+                                            </h4>
+                                            <div>
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={Filter}
+                                                >
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                        onClick={this.openFilterPanel}
+                                                    >
+                                                        <i className="material-icons"
+                                                           style={{margin: "0px -4px", top: 0}}
+                                                        >
+                                                            filter_list
+                                                        </i>
+                                                    </button>
+                                                </OverlayTrigger>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Export}
+                                            >
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    onClick={this.exportRegistersResultExcel}
+                                                >
+                                                    <i className="material-icons"
+                                                       style={{margin: "0px -4px", top: 0}}
+                                                    >
+                                                        file_download
+                                                    </i>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                    </div>
                                     <Search
                                         onChange={this.registersSearchChange}
                                         value={this.state.query}
                                         placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
                                     />
+                                    <Panel
+                                        collapsible
+                                        expanded={this.state.openFilterPanel}
+                                    >
+                                        <div className="row">
+                                            <div className="form-group col-md-4">
+                                                <label className="label-control">
+                                                    Tìm theo saler
+                                                </label>
+                                                <Select
+                                                    value={
+                                                        this.state.saler_id
+                                                    }
+                                                    options={SALER}
+                                                    onChange={
+                                                        this
+                                                            .salersSearchChange
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="form-group col-md-4">
+                                                <label className="label-control">
+                                                    Tìm theo trạng thái
+                                                </label>
+                                                <Select
+                                                    value={
+                                                        this.state.status
+                                                    }
+                                                    options={
+                                                        REGISTER_STATUS
+                                                    }
+                                                    onChange={
+                                                        this.filterByStatus
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    </Panel>
                                     <ListOrder
                                         openChooseSeatModal={
                                             this.openChooseSeatModal
@@ -491,13 +500,13 @@ class RegisterManageContainer extends React.Component {
                                     <div className="row float-right">
                                         <div
                                             className="col-md-12"
-                                            style={{ textAlign: "right" }}
+                                            style={{textAlign: "right"}}
                                         >
-                                            <b style={{ marginRight: "15px" }}>
+                                            <b style={{marginRight: "15px"}}>
                                                 Hiển thị kêt quả từ {first} -{" "}
                                                 {end}/{this.props.totalCount}
                                             </b>
-                                            <br />
+                                            <br/>
                                             <Pagination
                                                 totalPages={
                                                     this.props.totalPages

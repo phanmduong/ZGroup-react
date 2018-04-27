@@ -13,7 +13,7 @@ import Pagination from "../../../components/common/Pagination";
 import SelectMonthBox from "../../../components/common/SelectMonthBox";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
-import {Panel} from "react-bootstrap";
+import {OverlayTrigger, Panel, Tooltip} from "react-bootstrap";
 
 class RegisterManageRoomContainer extends React.Component {
     constructor(props, context) {
@@ -86,6 +86,7 @@ class RegisterManageRoomContainer extends React.Component {
             ...selectData,
         ];
     }
+
     getSalerData(datas) {
         let selectData = datas.map(function (data) {
             return {
@@ -289,6 +290,7 @@ class RegisterManageRoomContainer extends React.Component {
     }
 
     render() {
+        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
         let first = this.props.totalCount
             ? (this.props.currentPage - 1) * this.props.limit + 1
             : 0;
@@ -319,106 +321,111 @@ class RegisterManageRoomContainer extends React.Component {
                                 <SelectCommon
                                     defaultMessage={"Chọn cơ sở"}
                                     options={this.state.bases}
-                                    disableRound
                                     value={this.state.base_id}
                                     onChange={this.onChangeBase}
                                 />
                             </div>
-                            <div className="col-sm-2 col-xs-5">
-                                <button
-                                    style={{width: "100%"}}
-                                    onClick={this.openFilterPanel}
-                                    className="btn btn-info btn-rose btn-round"
-                                >
-                                    <i className="material-icons">filter_list</i>
-                                    Lọc
-                                </button>
-                            </div>
+
                             {/*<div className="col-sm-4 col-xs-5">*/}
-                                {/*<button*/}
-                                    {/*onClick={this.exportRegistersResultExcel}*/}
-                                    {/*className="btn btn-info btn-rose"*/}
-                                    {/*style={{float: "right"}}*/}
-                                {/*>*/}
-                                    {/*<i className="material-icons">file_download</i>*/}
-                                    {/*Xuất ra Excel*/}
-                                {/*</button>*/}
+                            {/*<button*/}
+                            {/*onClick={this.exportRegistersResultExcel}*/}
+                            {/*className="btn btn-info btn-rose"*/}
+                            {/*style={{float: "right"}}*/}
+                            {/*>*/}
+                            {/*<i className="material-icons">file_download</i>*/}
+                            {/*Xuất ra Excel*/}
+                            {/*</button>*/}
                             {/*</div>*/}
                         </div>
 
-                        <Panel
-                            collapsible
-                            expanded={this.state.openFilterPanel}
-                        >
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="card">
-                                        <div className="card-header card-header-icon"
-                                             data-background-color="rose"
-                                        >
-                                            <i className="material-icons">filter_list</i>
-                                        </div>
-                                        <div className="card-content">
-                                            <h4 className="card-title">Bộ lọc</h4>
-                                            <div className="row">
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo saler</label>
-                                                    <Select
-                                                        value={this.state.saler_id}
-                                                        options={this.state.salers}
-                                                        onChange={this.salersSearchChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Panel>
 
                         <div className="card">
-                            <div
-                                className="card-header card-header-icon"
-                                data-background-color="rose"
-                                style={{zIndex: 0}}
-                            >
-                                <i className="material-icons">assignment</i>
-                            </div>
-
-
                             <div className="card-content">
-                                <h4 className="card-title">
-                                    Danh sách đăng kí phòng họp
-                                </h4>
-                                <div>
-                                    <Search
-                                        onChange={this.registersSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
-                                    />
-                                    <ListRegisters
-                                        registers={this.props.registers}
-                                        isLoading={this.props.isLoading}
-                                        filterBySaler={this.filterBySaler}
-                                        openPaymentModal={this.openPaymentModal}
-                                    />
-                                    <div className="row float-right">
-                                        <div className="col-md-12"
-                                             style={{textAlign: "right"}}
-                                        >
-                                            <b style={{marginRight: "15px"}}>
-                                                Hiển thị kêt quả từ {first} -{" "}
-                                                {end}/{this.props.totalCount}
-                                            </b>
-                                            <br/>
-                                            <Pagination
-                                                totalPages={this.props.totalPages}
-                                                currentPage={this.props.currentPage}
-                                                loadDataPage={this.loadAllRegisters}
+                                <div className="tab-content">
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{display: "flex"}}>
+                                        <h4 className="card-title">
+                                            <strong>Danh sách đăng kí phòng họp</strong>
+                                        </h4>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Filter}
+                                            >
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    onClick={this.openFilterPanel}
+                                                >
+                                                    <i className="material-icons"
+                                                       style={{margin: "0px -4px", top: 0}}
+                                                    >
+                                                        filter_list
+                                                    </i>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                    </div>
+                                    {/*<div>*/}
+                                    {/*<OverlayTrigger*/}
+                                    {/*placement="top"*/}
+                                    {/*overlay={Export}*/}
+                                    {/*>*/}
+                                    {/*<button*/}
+                                    {/*className="btn btn-primary btn-round btn-xs button-add none-margin "*/}
+                                    {/*onClick={this.exportRegistersResultExcel}*/}
+                                    {/*>*/}
+                                    {/*<i className="material-icons"*/}
+                                    {/*style={{margin: "0px -4px", top: 0}}*/}
+                                    {/*>*/}
+                                    {/*file_download*/}
+                                    {/*</i>*/}
+                                    {/*</button>*/}
+                                    {/*</OverlayTrigger>*/}
+                                    {/*</div>*/}
+                                </div>
+                                <Search
+                                    onChange={this.registersSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
+                                />
+                                <Panel
+                                    collapsible
+                                    expanded={this.state.openFilterPanel}
+                                >
+                                    <div className="row">
+                                        <div className="form-group col-md-4">
+                                            <label className="label-control">Tìm theo saler</label>
+                                            <Select
+                                                value={this.state.saler_id}
+                                                options={this.state.salers}
+                                                onChange={this.salersSearchChange}
                                             />
                                         </div>
                                     </div>
+                                </Panel>
+                                <ListRegisters
+                                    registers={this.props.registers}
+                                    isLoading={this.props.isLoading}
+                                    filterBySaler={this.filterBySaler}
+                                    openPaymentModal={this.openPaymentModal}
+                                />
+                                <div className="row float-right">
+                                    <div className="col-md-12"
+                                         style={{textAlign: "right"}}
+                                    >
+                                        <b style={{marginRight: "15px"}}>
+                                            Hiển thị kêt quả từ {first} -{" "}
+                                            {end}/{this.props.totalCount}
+                                        </b>
+                                        <br/>
+                                        <Pagination
+                                            totalPages={this.props.totalPages}
+                                            currentPage={this.props.currentPage}
+                                            loadDataPage={this.loadAllRegisters}
+                                        />
+                                    </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>

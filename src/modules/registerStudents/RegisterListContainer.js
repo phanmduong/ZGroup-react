@@ -10,7 +10,7 @@ import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import Select from './SelectGen';
 import ReactSelect from 'react-select';
-import {Modal, Panel} from 'react-bootstrap';
+import {Modal, OverlayTrigger, Panel, Tooltip} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
@@ -24,6 +24,7 @@ class RegisterListContainer extends React.Component {
         super(props, context);
         this.state = {
             page: 1,
+            limit: 20,
             query: "",
             gens: [],
             selectGenId: '',
@@ -62,7 +63,7 @@ class RegisterListContainer extends React.Component {
             },
             allClassFilter: [],
             selectedStudent: {},
-
+            query_coupon: "",
         };
 
         this.isWaitListPage = false;
@@ -94,6 +95,7 @@ class RegisterListContainer extends React.Component {
         this.closeModalChangeInfoStudent = this.closeModalChangeInfoStudent.bind(this);
         this.onBaseFilterChange = this.onBaseFilterChange.bind(this);
         this.openCreateRegisterModal = this.openCreateRegisterModal.bind(this);
+        this.searchByCoupon = this.searchByCoupon.bind(this);
     }
 
     componentWillMount() {
@@ -185,6 +187,7 @@ class RegisterListContainer extends React.Component {
         if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 Number(nextProps.params.salerId),
@@ -196,6 +199,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
             this.setState({
                 page: 1,
@@ -274,6 +278,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.selectedClassId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -285,6 +290,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({selectedClassId: res, page: 1});
     }
@@ -297,6 +303,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.selectedBaseId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -308,6 +315,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 obj ? obj.value : '',
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({
             selectedBaseId: res,
@@ -325,6 +333,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.selectedSalerId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 obj ? obj.value : '',
@@ -336,6 +345,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({selectedSalerId: res, page: 1});
     }
@@ -351,6 +361,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.campaignId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -362,6 +373,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({campaignId: res, page: 1});
     }
@@ -371,6 +383,7 @@ class RegisterListContainer extends React.Component {
         if (this.state.selectedMoneyFilter != res)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -382,6 +395,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({selectedMoneyFilter: res, page: 1});
     }
@@ -396,6 +410,7 @@ class RegisterListContainer extends React.Component {
         }
         this.props.registerActions.loadRegisterStudent(
             1,//page
+            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
@@ -407,6 +422,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
 
         this.setState({
@@ -439,6 +455,7 @@ class RegisterListContainer extends React.Component {
             this.setState({time: time, page: 1});
             this.props.registerActions.loadRegisterStudent(
                 1,
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -450,6 +467,7 @@ class RegisterListContainer extends React.Component {
                 time.endTime,
                 this.state.selectedBaseId,
                 time.appointmentPayment,
+                this.state.query_coupon,
             );
         } else {
             this.setState({time: time});
@@ -558,6 +576,7 @@ class RegisterListContainer extends React.Component {
             page,
         });
         this.props.registerActions.loadRegisterStudent(page,
+            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
@@ -569,6 +588,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
     }
 
@@ -582,6 +602,7 @@ class RegisterListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.registerActions.loadRegisterStudent(1,
+                this.state.limit,
                 this.state.selectGenId,
                 value,
                 this.state.selectedSalerId,
@@ -593,6 +614,34 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
+            );
+        }.bind(this), 500);
+    }
+
+    searchByCoupon(value) {
+        this.setState({
+            page: 1,
+            query_coupon: value,
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.registerActions.loadRegisterStudent(1,
+                -1,// limit
+                this.state.selectGenId,
+                this.state.query,
+                this.state.selectedSalerId,
+                this.state.campaignId,
+                this.state.selectedClassId,
+                this.state.selectedMoneyFilter,
+                this.state.selectedClassStatus,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
+                value,
             );
         }.bind(this), 500);
     }
@@ -602,7 +651,9 @@ class RegisterListContainer extends React.Component {
             page: 1,
             selectGenId: value
         });
-        this.props.registerActions.loadRegisterStudent(1, value,
+        this.props.registerActions.loadRegisterStudent(1,
+            this.state.limit,
+            value,
             this.state.query,
             this.state.selectedSalerId,
             this.state.campaignId,
@@ -613,6 +664,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
         this.props.registerActions.loadClassFilter(value);
     }
@@ -634,6 +686,7 @@ class RegisterListContainer extends React.Component {
     showLoadingModal() {
         this.props.registerActions.loadAllRegisterStudent(
             '',//page
+            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
@@ -642,10 +695,11 @@ class RegisterListContainer extends React.Component {
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
             this.state.time.startTime,
-            
+
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
             this.closeLoadingModal
         );
     }
@@ -735,6 +789,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
 
     }
@@ -744,6 +799,9 @@ class RegisterListContainer extends React.Component {
     }
 
     render() {
+        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
+        const Export = <Tooltip id="tooltip">Xuất file excel</Tooltip>;
+        const Add = <Tooltip id="tooltip">Thêm</Tooltip>;
         return (
             <div id="page-wrapper">
                 <div className="row">
@@ -760,58 +818,75 @@ class RegisterListContainer extends React.Component {
                             />
                         }
                     </div>
-                    <div className="col-sm-2 col-xs-5">
-                        <button
-                            style={{width: '100%'}}
-                            onClick={this.openFilterPanel}
-                            className="btn btn-info btn-rose btn-round"
-                            disabled={
-                                this.props.isLoadingGens ||
-                                this.props.isLoadingClassFilter ||
-                                this.props.isLoadingBaseFilter ||
-                                this.props.isLoading ||
-                                this.props.isLoadingRegisters
-                            }
-                        >
-                            <i className="material-icons">filter_list</i>
-                            Lọc
-                        </button>
-                    </div>
-                    <div className="col-sm-2 col-xs-5">
-                        <button
-                            style={{width: '100%'}}
-                            onClick={this.showLoadingModal}
-                            className="btn btn-info btn-rose btn-round"
-                            disabled={
-                                this.props.isLoadingGens ||
-                                this.props.isLoadingClassFilter ||
-                                this.props.isLoading ||
-                                this.props.isLoadingRegisters ||
-                                this.props.isLoadingBaseFilter ||
-                                this.props.isLoadingExcel
-                            }
-                        >
-                            <i className="material-icons">file_download</i>
-                            Xuất ra Excel
-                        </button>
-                    </div>
                 </div>
-                <div>        
-                    <div className="card" style={{marginTop:20}}>
+                <div>
+                    <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
-                                <div className="flex flex-row">
-                                    <h4 className="card-title">
-                                        <strong>{this.state.cardTitle}</strong>
-                                    </h4>
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{display: "flex"}}>
+                                        <h4 className="card-title">
+                                            <strong>{this.state.cardTitle}</strong>
+                                        </h4>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Add}
+                                            >
+                                                <button
+                                                    onClick={this.openCreateRegisterModal}
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button">
+                                                    <strong>+</strong>
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Filter}
+                                            >
+                                                <button
+                                                    onClick={this.openFilterPanel}
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    disabled={
+                                                        this.props.isLoadingGens ||
+                                                        this.props.isLoadingClassFilter ||
+                                                        this.props.isLoadingBaseFilter ||
+                                                        this.props.isLoading ||
+                                                        this.props.isLoadingRegisters
+                                                    }
+                                                >
+                                                    <i className="material-icons"
+                                                       style={{margin: "0px -4px", top: 0}}
+                                                    >filter_list</i>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                    </div>
                                     <div>
-                                        <button 
-                                            onClick={this.openCreateRegisterModal}
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
-                                            type="button">
-                                            <strong>+</strong>
-                                            <div className="ripple-container"/>
-                                        </button>
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={Export}
+                                        >
+                                            <button
+                                                onClick={this.showLoadingModal}
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                disabled={
+                                                    this.props.isLoadingGens ||
+                                                    this.props.isLoadingClassFilter ||
+                                                    this.props.isLoading ||
+                                                    this.props.isLoadingRegisters ||
+                                                    this.props.isLoadingBaseFilter ||
+                                                    this.props.isLoadingExcel
+                                                }
+                                            >
+                                                <i className="material-icons"
+                                                   style={{margin: "0px -4px", top: 0}}
+                                                >file_download</i>
+                                            </button>
+                                        </OverlayTrigger>
                                     </div>
                                 </div>
                                 {this.props.isLoadingGens ? <Loading/> :
@@ -919,7 +994,6 @@ class RegisterListContainer extends React.Component {
                                                         id="form-end-time"
                                                         value={this.state.time.endTime}
                                                         minDate={this.state.time.startTime}
-
                                                     />
                                                 </div>
                                                 <div className="col-md-3 form-group">
@@ -942,6 +1016,14 @@ class RegisterListContainer extends React.Component {
                                                         updateFormData={this.updateFormDate}
                                                         id="form-appointment-payment"
                                                         value={this.state.time.appointmentPayment}
+                                                    />
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <Search
+                                                        className="col-sm-12"
+                                                        onChange={this.searchByCoupon}
+                                                        value={this.state.query_coupon}
+                                                        placeholder="Tìm kiếm theo coupon"
                                                     />
                                                 </div>
                                             </div>
@@ -982,7 +1064,7 @@ class RegisterListContainer extends React.Component {
                                         </ul>
                                     </div>
                                 }
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
