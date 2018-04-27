@@ -186,6 +186,56 @@
         <div style="margin-top: 50px;">
             @yield('content')
         </div>
+        <footer id="myFooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2">
+                        <h2 class="logo"><a href="#">
+
+                                <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
+                                          width="40"><h4>colorME</h4>
+                                    <div style="font-size:13px">Trường học thiết kế</div>
+
+                            </a></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>CƠ SỞ</h5>
+                        <ul>
+
+                            @foreach($bases as $base)
+                                <li>
+                                    {{$base->name}}<br>
+                                    {{$base->address}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-12  col-sm-3">
+                        <h5>CÁC KHÓA HỌC</h5>
+                        <ul>
+                            @foreach($courses as $course)
+                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-12  col-sm-3">
+                        <div class="social-networks">
+                            <a href="https://www.facebook.com/ColorME.Hanoi/?fref=ts" class="facebook"><i class="fa fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/colorme.hanoi/" class="instagram"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w" class="youtube"><i class="fa fa-youtube"></i></a>
+                        </div>
+                        <a href="#">
+                            <button type="button" class="btn btn-default">Đăng kí học</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
+
+            </div>
+        </footer>
 
         {{--<div class="container-fluid " id="footer">--}}
         {{--<div class="row">--}}
@@ -230,56 +280,6 @@
         {{--</div>--}}
         {{--</div>--}}
 
-        <footer id="myFooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-2">
-                        <h2 class="logo"><a href="#">
-
-                                    <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
-                                                                         width="40"><h4>colorME</h4>
-                                        <div style="font-size:13px">Trường học thiết kế</div>
-
-                            </a></h2>
-                    </div>
-                    <div class="col-sm-4">
-                        <h5>CƠ SỞ</h5>
-                        <ul>
-
-                            @foreach($bases as $base)
-                                <li>
-                                    {{$base->name}}<br>
-                                        {{$base->address}}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="col-xs-12  col-sm-3">
-                        <h5>CÁC KHÓA HỌC</h5>
-                        <ul>
-                            @foreach($courses as $course)
-                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <div class="col-xs-12  col-sm-3">
-                        <div class="social-networks">
-                            <a href="https://www.facebook.com/ColorME.Hanoi/?fref=ts" class="facebook"><i class="fa fa-facebook"></i></a>
-                            <a href="https://www.instagram.com/colorme.hanoi/" class="instagram"><i class="fa fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w" class="youtube"><i class="fa fa-youtube"></i></a>
-                        </div>
-                        <a href="#">
-                            <button type="button" class="btn btn-default">Đăng kí học</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-copyright">
-                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
-
-            </div>
-        </div>
     </div>
 </div>
 <div id="modalLogin" class="modal fade" role="dialog">
