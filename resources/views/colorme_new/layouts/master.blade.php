@@ -487,45 +487,49 @@
 $(document).ready(function () {
 
     var iFrame = document.getElementById("survey");   
-    // Opera 8.0+
-    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
-    // Firefox 1.0+
-    var isFirefox = typeof InstallTrigger !== 'undefined';
+    if (iFrame) {
+        // Opera 8.0+
+        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
-    // Safari 3.0+ "[object HTMLElementConstructor]" 
-    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+        // Firefox 1.0+
+        var isFirefox = typeof InstallTrigger !== 'undefined';
 
-    // Internet Explorer 6-11
-    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+        // Safari 3.0+ "[object HTMLElementConstructor]" 
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 
-    // Edge 20+
-    var isEdge = !isIE && !!window.StyleMedia;
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
 
-    // Chrome 1+
-    var isChrome = !!window.chrome && !!window.chrome.webstore;
+        // Edge 20+
+        var isEdge = !isIE && !!window.StyleMedia;
 
-    // Blink engine detection
-    var isBlink = (isChrome || isOpera) && !!window.CSS;
-    if (isSafari|| isOpera) {
+        // Chrome 1+
+        var isChrome = !!window.chrome && !!window.chrome.webstore;
 
-        // iFrames.load(function(){
-        //     setTimeout(iResize, 0);
-        // });
+        // Blink engine detection
+        var isBlink = (isChrome || isOpera) && !!window.CSS;
+        if (isSafari|| isOpera) {
 
-        // for (var i = 0, j = iFrames.length; i < j; i++) {
-        //         var iSource = iFrames[i].src;
-        //         iFrames[i].src = '';
-        //         iFrames[i].src = iSource;
-        // }
+            // iFrames.load(function(){
+            //     setTimeout(iResize, 0);
+            // });
 
-    } else {
-        iFrame.onload = function () {        
-            var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-            console.log(height);
-            iFrame.style.height=height; 
-        };
+            // for (var i = 0, j = iFrames.length; i < j; i++) {
+            //         var iSource = iFrames[i].src;
+            //         iFrames[i].src = '';
+            //         iFrames[i].src = iSource;
+            // }
+
+        } else {
+            iFrame.onload = function () {        
+                var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                console.log(height);
+                iFrame.style.height=height; 
+            };
+        }
     }
+    
 });
 
 
