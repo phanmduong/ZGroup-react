@@ -1597,11 +1597,34 @@ a.like-count:hover {
 
 .product-content {
     margin-top: 10px;
-    color: #555
+    color: black;
+    font-family: Tinos !important;
+    font-size: 20px !important;
 }
 
 .product-content p {
-    text-align: justify
+    text-align: justify;
+
+    font-family: Tinos !important;
+    font-size: 20px !important;
+
+    margin-bottom: 20px;
+
+}
+.product-content span {
+    text-align: justify;
+    font-family: Tinos !important;
+    font-size: 20px !important;
+    margin-bottom: 15px!important;
+    display: inline-block !important;
+}
+.product-content strong {
+    text-align: justify;
+    font-family: Tinos !important;
+    font-size: 20px !important;
+    margin-bottom: 15px!important;
+    display: inline-block !important;
+    font-weight: 700 !important;
 }
 
 .image-wrapper, .product-content iframe, .product-content img, .product-content video {
@@ -3058,4 +3081,30 @@ hr {
 .pagination-area {
     display: flex;
     justify-content: center!important;
+}
+
+.zoom {
+    transition: transform .2s; /* Animation */
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.2);
+}
+
+.zoom:hover {
+    transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+}
+.blog-title {
+    text-align: center !important; font-size: 26px !important; padding: 15px !important; font-weight: 600 !important;
+}
+@media only screen and (max-width: 600px) {
+    .blog-title {
+        text-align: center  !important; font-size: 20px !important; padding: 15px 0 !important; font-weight: 600 !important;
+    }
+
+}
+.blog-body {
+    font-family: Tinos;
+}
+
+.form-register {
+    font-family: Montserrat !important;
 }
