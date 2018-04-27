@@ -168,7 +168,7 @@ class StudentApiController extends ApiController
         $search_coupon = $request->search_coupon;
 
         if ($search_coupon){
-            $registers = $registers->where('coupon', 'like', '%' . $search_coupon.'%')->get();
+            $registers = $registers->where('coupon', 'like', '%' . $search_coupon.'%');
         }
 
         if ($request->base_id != null) {
