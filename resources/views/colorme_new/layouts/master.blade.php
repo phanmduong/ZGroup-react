@@ -184,46 +184,103 @@
         <div style="margin-top: 50px;">
             @yield('content')
         </div>
-        <div class="container-fluid " id="footer">
-            <div class="row">
-                <div class="col-xs-12 col-sm-2"><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
-                                                     width="40"><h4>colorME</h4>
-                    <div>Trường học thiết kế</div>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                    @foreach($bases as $base)
-                        <p>{{$base->name}}<br>
-                            {{$base->address}}</p>
-                    @endforeach
-                </div>
-                <div>
-                    <ul class="col-xs-12 col-sm-6 col-md-4">
-                        @foreach($courses as $course)
-                            <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
-                        @endforeach
-                    </ul>
+
+        {{--<div class="container-fluid " id="footer">--}}
+        {{--<div class="row">--}}
+        {{--<div class="col-xs-12 col-sm-2"><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"--}}
+        {{--width="40"><h4>colorME</h4>--}}
+        {{--<div>Trường học thiết kế</div>--}}
+        {{--</div>--}}
+        {{--<div class="col-xs-12 col-sm-4">--}}
+        {{--@foreach($bases as $base)--}}
+        {{--<p>{{$base->name}}<br>--}}
+        {{--{{$base->address}}</p>--}}
+        {{--@endforeach--}}
+        {{--</div>--}}
+        {{--<div>--}}
+        {{--<ul class="col-xs-12 col-sm-6 col-md-4">--}}
+        {{--@foreach($courses as $course)--}}
+        {{--<li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>--}}
+        {{--@endforeach--}}
+        {{--</ul>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="row" style="padding-top: 20px;">--}}
+        {{--<div class="col-xs-12">Copyright © 2015 –--}}
+        {{--<script>document.write(new Date().getFullYear())</script>--}}
+        {{--KEE Education. All screenshots and videos © their--}}
+        {{--respective owners.--}}
+        {{--</div>--}}
+        {{--<div class="col-xs-12"><a class="social-button"--}}
+        {{--href="https://www.facebook.com/ColorME.Hanoi/?fref=ts"--}}
+        {{--target="_blank"><img--}}
+        {{--src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867660z8twlU93Fm0PF2R.jpg"></a><a--}}
+        {{--class="social-button" target="_blank"--}}
+        {{--href="https://www.instagram.com/colorme.hanoi/"><img--}}
+        {{--src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867650jPSNvMfYhve7Xm0.jpg"></a><a--}}
+        {{--class="social-button" target="_blank"--}}
+        {{--href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w"><img--}}
+        {{--src="https://maxcdn.icons8.com/windows8/PNG/26/Social_Networks/youtube_copyrighted-26.png"--}}
+        {{--title="YouTube"></a><a class="social-button" href="http://colorme.vn/"--}}
+        {{--target="_blank"><img--}}
+        {{--src="https://maxcdn.icons8.com/Android/PNG/24/Network/domain-24.png" title="Domain"></a>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+
+        <footer id="myFooter" style="font-size:13px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2">
+                        <h2 class="logo"><a href="#">
+                                <div class="row">
+                                    <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
+                                                                         width="40"><h4>colorME</h4>
+                                        <div style="font-size:13px">Trường học thiết kế</div>
+                                    </div>
+                            </a></h2>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>CƠ SỞ</h5>
+                        <ul>
+
+                            @foreach($bases as $base)
+                                <li>
+                                    {{$base->name}}<br>
+                                        {{$base->address}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-12  col-sm-2">
+                        <h5>CÁC KHÓA HỌC</h5>
+                        <ul>
+                            @foreach($courses as $course)
+                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-12  col-sm-2">
+                        <h5>Support</h5>
+                        <ul>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Help desk</a></li>
+                            <li><a href="#">Forums</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12  col-sm-3">
+                        <div class="social-networks">
+                            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                            <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                        </div>
+                        <button type="button" class="btn btn-default">Contact us</button>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="padding-top: 20px;">
-                <div class="col-xs-12">Copyright © 2015 –
-                    <script>document.write(new Date().getFullYear())</script>
-                    KEE Education. All screenshots and videos © their
-                    respective owners.
-                </div>
-                <div class="col-xs-12"><a class="social-button"
-                                          href="https://www.facebook.com/ColorME.Hanoi/?fref=ts"
-                                          target="_blank"><img
-                                src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867660z8twlU93Fm0PF2R.jpg"></a><a
-                            class="social-button" target="_blank"
-                            href="https://www.instagram.com/colorme.hanoi/"><img
-                                src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867650jPSNvMfYhve7Xm0.jpg"></a><a
-                            class="social-button" target="_blank"
-                            href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w"><img
-                                src="https://maxcdn.icons8.com/windows8/PNG/26/Social_Networks/youtube_copyrighted-26.png"
-                                title="YouTube"></a><a class="social-button" href="http://colorme.vn/"
-                                                       target="_blank"><img
-                                src="https://maxcdn.icons8.com/Android/PNG/24/Network/domain-24.png" title="Domain"></a>
-                </div>
+            <div class="footer-copyright">
+                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
+
             </div>
         </div>
     </div>
