@@ -177,7 +177,7 @@ class FinanceManageApiController extends ManageApiController
             $transactions = $transactions->where('type', $request->type);
         }
 
-        $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
+        $transactions = $transactions->where('status', 1)->orderBy('updated_at', 'desc')->paginate($limit);
 
 
         $data = [
