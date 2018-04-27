@@ -11,6 +11,7 @@ use App\TransferMoney;
 use App\BankAccount;
 use App\User;
 use Illuminate\Http\Request;
+
 //use Illuminate\Http\Response;
 //use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -145,7 +146,7 @@ class FinanceManageApiController extends ManageApiController
             });
         }
 
-        $staffs = $staffs->whereBetween('role', [1, 2])->where('money', '>', 0)->orderBy('money', 'desc')->paginate($limit);
+        $staffs = $staffs->whereBetween('role', [1, 2])->orderBy('money', 'desc')->paginate($limit);
 
         $total_money = User::whereBetween('role', [1, 2])->where('money', '>', 0)->sum('money');
         $total_staffs = User::whereBetween('role', [1, 2])->where('money', '>', 0)->count();
@@ -276,7 +277,7 @@ class FinanceManageApiController extends ManageApiController
 
 
         $data = [
-            'transactions' => $transactions->map(function ($transaction) use($staff_id){
+            'transactions' => $transactions->map(function ($transaction) use ($staff_id) {
                 $data = [
                     'updated_at' => format_vn_short_datetime(strtotime($transaction->updated_at)),
                     'money' => $transaction->money,
