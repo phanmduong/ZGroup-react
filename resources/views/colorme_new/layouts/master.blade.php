@@ -442,23 +442,23 @@
             }
         }
 
-        if ($.browser.safari || $.browser.opera) {
+        // if ($.browser.safari || $.browser.opera) {
 
-            iFrames.load(function(){
-                setTimeout(iResize, 0);
-            });
+        //     iFrames.load(function(){
+        //         setTimeout(iResize, 0);
+        //     });
 
-            for (var i = 0, j = iFrames.length; i < j; i++) {
-                    var iSource = iFrames[i].src;
-                    iFrames[i].src = '';
-                    iFrames[i].src = iSource;
-            }
+        //     for (var i = 0, j = iFrames.length; i < j; i++) {
+        //             var iSource = iFrames[i].src;
+        //             iFrames[i].src = '';
+        //             iFrames[i].src = iSource;
+        //     }
 
-        } else {
+        // } else {
             iFrames.load(function() {
                 this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
             });
-        }
+        // }
     });
     
 
