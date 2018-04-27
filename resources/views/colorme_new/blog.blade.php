@@ -38,8 +38,6 @@
                             <div class="product-tool">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span>{{$blog['views']}}</span>
-                                <span class="glyphicon glyphicon-comment"></span>
-                                <span>{{$blog['comments_count']}}</span>
                             </div>
                         </div>
                         <div style="text-align: center;">
@@ -51,14 +49,35 @@
                         </div>
                         <div class="product-content">
                             {!!$blog['content']!!}
+                            <hr>
                         </div>
-
-                        <div class="product-content">
-                            <div class="row" style="margin-bottom: 5px">
-                                <div class="col-md-10">
-
+                        <div style="padding: 25px 0px;">
+                            <div style="margin-top: 0px;">
+                                <span>Tags:</span>
+                                <span>
+                                    @foreach(explode(',', $blog['tags']) as $tag)
+                                        @if(trim($tag) != '')
+                                            <a class="modal-tag" href="/blogs?tag={{trim($tag)}}">
+                                                <strong style="color:black">{{trim($tag)}}</strong>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </span>
+                            </div>
+                        </div>
+                        <div style="height: 40px;">
+                            <div style="float: left;">
+                                <div class="product-tool">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    <span>{{$blog['views']}}</span>
+                                    <!-- <span class="glyphicon glyphicon-comment"></span>
+                                    <span></span>
+                                    <a data-toggle="tooltip" title="" class="glyphicon glyphicon-heart" data-original-title="Thích"></a>
+                                    <span data-html="true" data-toggle="tooltip" title="" style="cursor: pointer;" data-original-title="Le Tuan Dat<br/>Nguyễn Thu Hằng<br/>Phạm Thị Ngọc Tú<br/>Hà Đăng Dương<br/>Nguyễn Bá Nam<br/>Trang Le	">6</span>
+                                    <span></span> -->
                                 </div>
-                                <div class="col-md-2">
+                            </div>
+                            <div style="float: right;">
                                     <div class="sharing">
                                         <div class="fb-share-button fb_iframe_widget" data-href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"
                                             data-layout="button" data-size="large" data-mobile-iframe="true" fb-xfbml-state="rendered"
@@ -70,12 +89,12 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div>
                             </div>
+                        </div>
+                        <div class="product-content">
+                            <hr>
                             <div class="row form-register">
                                 <div class="col-md-12">
-                                    <br>
-                                    <hr>
                                     <h3 class="card-title text-center">Đăng kí nhận thông tin</h3>
                                     <div>
                                         <div role="form" id="contact-form" method="post" action="#">
@@ -92,7 +111,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div id="alert"> </div>
+                                                        <div id="alert" style="font-size: 14px"> </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -196,12 +215,15 @@
             }
             var message = "ColorMe đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
             $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+            $("#submit").css("display", "none");
+
             var url = "";
             $("#modalSuccess").modal("show");
             var data = {                    
                 name: name,
                 email: email,
                 phone: phone,
+                blog_id: {{$blog['id']}},
                 _token: "{{csrf_token()}}"
             };
             axios.post("/api/v3/sign-up", data)

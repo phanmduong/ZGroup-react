@@ -419,7 +419,7 @@ class EmailService
         ];
 
         Mail::send('emails.user_password', $data, function ($m) use ($user, $subject) {
-            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->from('no-reply@keetool.com', 'KEETOOL');
             $m->to($user->email, $user->name)->subject($subject);
         });
     }
@@ -432,6 +432,20 @@ class EmailService
         ];
 
         Mail::send('emails.colorme_welcome', $data, function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->to($user->email, $user->name)->subject($subject);
+        });
+    }
+
+    public function send_mail_blog($blog, $user, $views)
+    {
+        $subject = $user->name . ', bài viết của bạn đã đạt hơn ' . $views . ' lượt xem!';
+        $data = [
+            'blog' => $blog->blogTransform(),
+            'views' => $views,
+        ];
+
+        Mail::send('emails.email_blog_views', $data, function ($m) use ($user, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
             $m->to($user->email, $user->name)->subject($subject);
         });

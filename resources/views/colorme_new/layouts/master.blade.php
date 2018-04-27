@@ -39,6 +39,15 @@
     <link rel="stylesheet" href="/assets/css/facebook.css">
     @yield('styles')
     <link rel="stylesheet" href="/css/2018-style.css?1232131432">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-74966893-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-74966893-1');
+    </script>
 </head>
 <body>
 <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
@@ -352,7 +361,11 @@
         <div class="bubble">1</div>
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
     </a></div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script
+    src="http://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous">
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
@@ -414,6 +427,41 @@
         return page;
     }
 </script>
+
 @stack("scripts")
+<script>
+
+    $(document).ready(function () {
+
+        var iFrames = $('iframe');
+
+        function iResize() {
+
+            for (var i = 0, j = iFrames.length; i < j; i++) {
+                iFrames[i].style.height = iFrames[i].contentWindow.document.body.offsetHeight + 'px';
+            }
+        }
+
+        // if ($.browser.safari || $.browser.opera) {
+
+        //     iFrames.load(function(){
+        //         setTimeout(iResize, 0);
+        //     });
+
+        //     for (var i = 0, j = iFrames.length; i < j; i++) {
+        //             var iSource = iFrames[i].src;
+        //             iFrames[i].src = '';
+        //             iFrames[i].src = iSource;
+        //     }
+
+        // } else {
+            iFrames.load(function() {
+                this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
+            });
+        // }
+    });
+    
+
+</script>
 </body>
 </html>
