@@ -3109,9 +3109,12 @@ hr {
     font-family: Montserrat !important;
 }
 
+#myFooter ul {
+    padding-left:0;
+}
 #myFooter .btn {
     color: white;
-    background-color: #d84b6b;
+    background-color: #c50000;
     border-radius: 20px;
     border: none;
     width: 150px;
@@ -3127,7 +3130,7 @@ hr {
     transition: 0.2s;
 }
 #myFooter {
-    background-color: #3c3d41 !important;
+    background-color: #232323;
     color: white;
     padding-top: 30px;
     font-size:13px

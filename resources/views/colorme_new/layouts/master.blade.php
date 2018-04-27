@@ -235,11 +235,11 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-2">
                         <h2 class="logo"><a href="#">
-                                <div class="row">
+
                                     <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
                                                                          width="40"><h4>colorME</h4>
                                         <div style="font-size:13px">Trường học thiết kế</div>
-                                    </div>
+
                             </a></h2>
                     </div>
                     <div class="col-sm-4">
@@ -265,11 +265,13 @@
 
                     <div class="col-xs-12  col-sm-3">
                         <div class="social-networks">
-                            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                            <a href="https://www.facebook.com/ColorME.Hanoi/?fref=ts" class="facebook"><i class="fa fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/colorme.hanoi/" class="instagram"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w" class="youtube"><i class="fa fa-youtube"></i></a>
                         </div>
-                        <button type="button" class="btn btn-default">Contact us</button>
+                        <a href="#">
+                            <button type="button" class="btn btn-default">Đăng kí học</button>
+                        </a>
                     </div>
                 </div>
             </div>
