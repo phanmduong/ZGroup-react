@@ -483,36 +483,44 @@
 @stack("scripts")
 <script>
 
-    $(document).ready(function () {
+    <script>
 
-        var iFrame = document.getElementById("survey");
+$(document).ready(function () {
 
-        function iResize() {
+    var iFrame = document.getElementById("survey");
+    console.log(iFrame);    
 
-            for (var i = 0, j = iFrames.length; i < j; i++) {
-                iFrames[i].style.height = iFrames[i].contentWindow.document.body.offsetHeight + 'px';
-            }
+    function iResize() {
+
+        for (var i = 0, j = iFrames.length; i < j; i++) {
+            iFrames[i].style.height = iFrames[i].contentWindow.document.body.offsetHeight + 'px';
         }
+}
 
-        // if ($.browser.safari || $.browser.opera) {
+// if ($.browser.safari || $.browser.opera) {
 
-        //     iFrames.load(function(){
-        //         setTimeout(iResize, 0);
-        //     });
+    //     iFrames.load(function(){
+    //         setTimeout(iResize, 0);
+    //     });
 
-        //     for (var i = 0, j = iFrames.length; i < j; i++) {
-        //             var iSource = iFrames[i].src;
-        //             iFrames[i].src = '';
-        //             iFrames[i].src = iSource;
-        //     }
+    //     for (var i = 0, j = iFrames.length; i < j; i++) {
+    //             var iSource = iFrames[i].src;
+    //             iFrames[i].src = '';
+    //             iFrames[i].src = iSource;
+    //     }
 
-        // } else {
-            iFrame.load(function() {
-                this.style.height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                // this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
-            });
-        // }
-    });
+    // } else {
+        iFrame.onload = function () {
+                    
+        var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+        console.log(height);
+        iFrame.style.height=height; 
+        };
+    // }
+});
+
+
+</script>
     
 
 </script>
