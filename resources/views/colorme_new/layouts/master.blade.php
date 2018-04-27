@@ -240,7 +240,7 @@
                                     </div>
                             </a></h2>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h5>CƠ SỞ</h5>
                         <ul>
 
@@ -252,7 +252,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="col-xs-12  col-sm-2">
+                    <div class="col-xs-12  col-sm-3">
                         <h5>CÁC KHÓA HỌC</h5>
                         <ul>
                             @foreach($courses as $course)
@@ -260,14 +260,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="col-xs-12  col-sm-2">
-                        <h5>Support</h5>
-                        <ul>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Help desk</a></li>
-                            <li><a href="#">Forums</a></li>
-                        </ul>
-                    </div>
+
                     <div class="col-xs-12  col-sm-3">
                         <div class="social-networks">
                             <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
