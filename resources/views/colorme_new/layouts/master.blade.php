@@ -483,40 +483,29 @@
 @stack("scripts")
 <script>
 
-    <script>
 
 $(document).ready(function () {
 
-    var iFrame = document.getElementById("survey");
-    console.log(iFrame);    
+    var iFrame = document.getElementById("survey");   
 
-    function iResize() {
+        // if ($.browser.safari || $.browser.opera) {
 
-        for (var i = 0, j = iFrames.length; i < j; i++) {
-            iFrames[i].style.height = iFrames[i].contentWindow.document.body.offsetHeight + 'px';
-        }
-}
+        //     iFrames.load(function(){
+        //         setTimeout(iResize, 0);
+        //     });
 
-// if ($.browser.safari || $.browser.opera) {
+        //     for (var i = 0, j = iFrames.length; i < j; i++) {
+        //             var iSource = iFrames[i].src;
+        //             iFrames[i].src = '';
+        //             iFrames[i].src = iSource;
+        //     }
 
-    //     iFrames.load(function(){
-    //         setTimeout(iResize, 0);
-    //     });
-
-    //     for (var i = 0, j = iFrames.length; i < j; i++) {
-    //             var iSource = iFrames[i].src;
-    //             iFrames[i].src = '';
-    //             iFrames[i].src = iSource;
-    //     }
-
-    // } else {
-        iFrame.onload = function () {
-                    
+        // } else {
+    iFrame.onload = function () {        
         var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
         console.log(height);
         iFrame.style.height=height; 
-        };
-    // }
+    };
 });
 
 
