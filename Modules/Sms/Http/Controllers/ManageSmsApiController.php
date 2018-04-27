@@ -19,6 +19,7 @@ use App\Group;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManageSmsApiController extends ManageApiController
 {
@@ -230,8 +231,8 @@ class ManageSmsApiController extends ManageApiController
         $check = SmsTemplateType::where('name', trim($request->name))->get();
         if (count($check) > 0)
             return $this->respondErrorWithStatus([
-                'message' => 'Đã tồn tại loại tin nhăn này'
-            ]);
+            'message' => 'Đã tồn tại loại tin nhăn này'
+        ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -246,8 +247,8 @@ class ManageSmsApiController extends ManageApiController
         $check = SmsTemplateType::where('name', trim($request->name))->get();
         if (count($check) > 0 && $template_type->name !== $request->name)
             return $this->respondErrorWithStatus([
-                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
-            ]);
+            'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+        ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -279,21 +280,15 @@ class ManageSmsApiController extends ManageApiController
 
     public function getReceiversChoice($campaignId, Request $request)
     {
-//        $campaign = SmsList::find($campaignId);
-//        $group_id = $campaign->group->id;
-//
-//        $users = User::join('groups_users', 'groups_users.user_id', '=', 'users.id')
-//            ->select('users.*')->where('groups_users.group_id', '<>', $group_id)->groupBy("users.id");
-
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $gens = json_decode($request->gens);
         $classes = json_decode($request->classes);
         $limit = $request->limit ? intval($request->limit) : 20;
-        // $paid_course_quantity = $request->paid_course_quantity;
         if ($request->carer_id) {
             $users = User::find($request->carer_id)->getCaredUsers();
         } else $users = User::query();
+
 
         if ($startTime != null && $endTime != null) {
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
@@ -303,9 +298,9 @@ class ManageSmsApiController extends ManageApiController
             $users = $users->where("rate", $request->rate);
         }
 
-        $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
-            ->where(function ($query) use ($gens) {
-                if ($gens) {
+        if ($gens) {
+            $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
+                ->where(function ($query) use ($gens) {
                     for ($index = 0; $index < count($gens); ++$index) {
                         $gen_id = $gens[$index]->value;
                         if ($index == 0)
@@ -313,11 +308,13 @@ class ManageSmsApiController extends ManageApiController
                         else
                             $query->orWhere('gens.id', '=', $gen_id);
                     }
-                }
-            })->get()->toArray();
+                })->get()->toArray();
+        } else $classes_gens = null;
 
-        $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-            ->select('users.*')->where(function ($query) use ($classes_gens) {
+
+        if ($classes_gens != null || $classes != null)
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')->select('users.*')
+            ->where(function ($query) use ($classes_gens) {
                 if ($classes_gens) {
                     for ($index = 0; $index < count($classes_gens); ++$index) {
                         $class_id = $classes_gens[$index]['id'];
@@ -339,19 +336,25 @@ class ManageSmsApiController extends ManageApiController
                 }
             })->groupBy("users.id");
 
-//        if ($request->paid_course_quantity) {
-//            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-//                ->select('users.*')->where(function ($query) use ($classes) {
-//                    for ($index = 0; $index < count($classes); ++$index) {
-//                        $class_id = $classes[$index]['id'];
-//                        if ($index == 0)
-//                            $query->where('registers.class_id', '=', $class_id);
-//                        else
-//                            $query->orWhere('registers.class_id', '=', $class_id);
-//                    }
-//
-//                });
-//        }
+        ///
+        if ($request->paid_course_quantity) {
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
+                ->where('registers.money', '>', 0)
+            //chèn đống query class của m vào đây
+                ->select('users.*', DB::raw('count(*) as paid_count'))
+                ->groupBy('users.id')->having('paid_count', '=', $request->paid_course_quantity)->get();
+        }
+        //
+
+
+        $campaign = SmsList::find($campaignId);
+        $group_id = $campaign->group->id;
+
+        $users = $users->whereNotExists(function ($query) use ($group_id) {
+            $query->select(DB::raw(1))
+                ->from('groups_users')
+                ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
+        });
 
 
         if ($request->top) {
@@ -360,7 +363,7 @@ class ManageSmsApiController extends ManageApiController
             if ($limit == -1) {
                 $users = $users->orderBy('created_at', 'desc')->get();
                 return $this->respondSuccessWithStatus([
-                    'users' => $users->map(function ($user) use ($group_id) {
+                    'users' => $users->map(function ($user) {
                         return $user->getReceivers();
                     })
                 ]);
@@ -370,17 +373,16 @@ class ManageSmsApiController extends ManageApiController
 
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
-                'users' => $users->map(function ($user) use ($group_id) {
-                    return $user->getReceivers();
-                })
-            ]);
-        } else {
-            return $this->respondWithPagination($users, [
-                'users' => $users->map(function ($user) use ($group_id) {
+                'users' => $users->map(function ($user) {
                     return $user->getReceivers();
                 })
             ]);
         }
+        return $this->respondWithPagination($users, [
+            'users' => $users->map(function ($user) {
+                return $user->getReceivers();
+            })
+        ]);
     }
 
 }
