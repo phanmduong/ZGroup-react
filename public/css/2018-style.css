@@ -3106,7 +3106,6 @@ hr {
 }
 
 .form-register {
-<<<<<<< HEAD
     font-family: Montserrat !important;
 }
 
@@ -3131,6 +3130,7 @@ hr {
     background-color: #3c3d41 !important;
     color: white;
     padding-top: 30px;
+    font-size:13px
 }
 #myFooter {
     flex: 0 0 auto;
@@ -3159,7 +3159,8 @@ hr {
 }
 #myFooter .row {
     margin-bottom: 60px;
-=======
     font-family: 'Roboto'!important;
->>>>>>> 75f4e18626189aa25c95b619897796c356cb6e4c
+}
+#myFooter a {
+    color:white;
 }
