@@ -56,4 +56,9 @@ class Room extends Model
         }
         return $data;
     }
+
+    public function room_service_register_room()
+    {
+        return $this->hasMany(RoomServiceRegisterRoom::class, 'room_id');
+    }
 }

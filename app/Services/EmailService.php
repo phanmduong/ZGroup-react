@@ -419,7 +419,7 @@ class EmailService
         ];
 
         Mail::send('emails.user_password', $data, function ($m) use ($user, $subject) {
-            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->from('no-reply@keetool.com', 'KEETOOL');
             $m->to($user->email, $user->name)->subject($subject);
         });
     }

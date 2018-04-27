@@ -76,7 +76,7 @@ Route::group(
         Route::group(['prefix' => 'v3/v2'], $baseRoutes);
         Route::group(['prefix' => 'v3'], $provinceRoutes);
         Route::group(['prefix' => 'v3'], $roomRoutes);
-        Route::group(['prefix' => 'v3/v2/seat'], $seatRoutes);
+        Route::group(['prefix' => 'v3/seat'], $seatRoutes);
     }
 );
 

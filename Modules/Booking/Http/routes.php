@@ -29,6 +29,7 @@ $manageapiRoutes = function () {
     Route::post('/save-call', 'ManageBookingController@saveCall');
     Route::get('/saler', 'ManageBookingController@getAllSalers');
     Route::post('/booking', 'ManageBookingController@booking');
+    Route::post('/register-room', 'ManageBookingController@registerRoom');
     Route::put('/register/{registerId}/assign-subscription', 'ManageBookingController@assignSubscription');
     Route::put('/room-booking/{registerId}/assign-time', 'ManageBookingController@assignTime');
     Route::get('/conference-rooms', 'ManageBookingController@conferenceRooms');
@@ -36,7 +37,7 @@ $manageapiRoutes = function () {
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
-
+//coworking-space/register-room
 Route::group(
     ['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'],
     function () use ($publicRoutes, $apiRoutes) {
