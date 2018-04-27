@@ -485,40 +485,59 @@
 @stack("scripts")
 <script>
 
-    <script>
 
 $(document).ready(function () {
 
-    var iFrame = document.getElementById("survey");
-    console.log(iFrame);    
+    var iFrame = document.getElementById("survey");   
 
-    function iResize() {
+    if (iFrame) {
+        // Opera 8.0+
+        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
-        for (var i = 0, j = iFrames.length; i < j; i++) {
-            iFrames[i].style.height = iFrames[i].contentWindow.document.body.offsetHeight + 'px';
+        // Firefox 1.0+
+        var isFirefox = typeof InstallTrigger !== 'undefined';
+
+        // Safari 3.0+ "[object HTMLElementConstructor]" 
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+        // Edge 20+
+        var isEdge = !isIE && !!window.StyleMedia;
+
+        // Chrome 1+
+        var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+        // Blink engine detection
+        var isBlink = (isChrome || isOpera) && !!window.CSS;
+        if (isSafari|| isOpera) {
+            console.log("safari");
+            iFrame.onload = function () {        
+                setTimeout(function () {
+                    var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                    iFrame.style.height=height; 
+                }, 0);
+            };
+
+            var iSource = iFrame.src;
+            iFrame.src = '';
+            iFrame.src = iSource;
+
+            // for (var i = 0, j = iFrames.length; i < j; i++) {
+            //         var iSource = iFrames[i].src;
+            //         iFrames[i].src = '';
+            //         iFrames[i].src = iSource;
+            // }
+
+        } else {
+            iFrame.onload = function () {        
+                var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                iFrame.style.height=height; 
+            };
         }
-}
-
-// if ($.browser.safari || $.browser.opera) {
-
-    //     iFrames.load(function(){
-    //         setTimeout(iResize, 0);
-    //     });
-
-    //     for (var i = 0, j = iFrames.length; i < j; i++) {
-    //             var iSource = iFrames[i].src;
-    //             iFrames[i].src = '';
-    //             iFrames[i].src = iSource;
-    //     }
-
-    // } else {
-        iFrame.onload = function () {
-                    
-        var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-        console.log(height);
-        iFrame.style.height=height; 
-        };
-    // }
+    }
+    
 });
 
 
