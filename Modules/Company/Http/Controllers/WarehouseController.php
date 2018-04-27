@@ -43,7 +43,7 @@ class WarehouseController extends ManageApiController
     {
         $limit  = $request->limit ? $request->limit : 20;
         if($limit != -1) {
-            if($request->good_id != null) {
+            if($request->good_id == null) {
                 $goods = Good::join('zhistory_goods', 'zhistory_goods.good_id', '=', 'goods.id')->
                 join('item_orders', 'item_orders.id', '=', 'zhistory_goods.item_order_id')->
                 select('goods.*')->where('item_orders.status', '=', 3)->where('item_orders.type', '=', 'order')->
