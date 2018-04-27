@@ -216,8 +216,13 @@ class FilmZgroupManageApiController extends ManageApiController
     public function changeFilmStatus(Request $request)
     {
         $film = Film::find($request->film_id);
+<<<<<<< HEAD
+        $film->film_status = $request->film_status;
+        $film->save();
+=======
         $film->film_status =  $request->film_status;
         $film->save();
         return $this->respondSuccess('Doi trang thai thanh cong');
+>>>>>>> 5c2929ed1c1b119b343784912843aba551d4292c
     }
 }

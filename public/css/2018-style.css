@@ -688,7 +688,7 @@ td.rdtMonth:hover, td.rdtYear:hover {
 }
 
 body {
-    font-family: Montserrat, sans-serif
+    font-family: 'Roboto', sans-serif
 }
 
 strong {
@@ -1873,7 +1873,7 @@ a.more-products {
 }
 
 .bl-title, .bl-title-big {
-    font-family: Montserrat, sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding-top: 15px;
     font-weight: 600;
     padding-bottom: 15px
@@ -1884,7 +1884,7 @@ a.more-products {
 }
 
 .bl-sub-title {
-    font-family: Montserrat, sans-serif
+    font-family: 'Roboto', sans-serif
 }
 
 .book-landing-section {
@@ -3106,5 +3106,60 @@ hr {
 }
 
 .form-register {
+<<<<<<< HEAD
     font-family: Montserrat !important;
+}
+
+#myFooter .btn {
+    color: white;
+    background-color: #d84b6b;
+    border-radius: 20px;
+    border: none;
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    line-height: 25px;
+}
+#myFooter .social-networks a {
+    font-size: 32px;
+    color: #f9f9f9;
+    padding: 10px;
+    transition: 0.2s;
+}
+#myFooter {
+    background-color: #3c3d41 !important;
+    color: white;
+    padding-top: 30px;
+}
+#myFooter {
+    flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+}
+#myFooter .social-networks {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 16px;
+}
+#myFooter h5 {
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    margin-top: 30px;
+}
+#myFooter .footer-copyright {
+    background-color: #333333;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+}
+#myFooter .footer-copyright p {
+    margin: 10px;
+    color: #ccc;
+}
+#myFooter .row {
+    margin-bottom: 60px;
+=======
+    font-family: 'Roboto'!important;
+>>>>>>> 75f4e18626189aa25c95b619897796c356cb6e4c
 }
