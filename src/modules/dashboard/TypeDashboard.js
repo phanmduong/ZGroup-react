@@ -6,7 +6,7 @@ import DashboardContainer from "./DashboardContainer";
 import OrdersContainer from "../eCommerceDashboard/OrdersContainer";
 import DashboardXHHContainer from "../dashboardXHH/DashboardXHHContainer";
 import DashBoardUpContainer from "../dashboardUp/DashBoardUpContainer";
-import DashboardTrongDong from "../dashboardTrongDong/DashboardTrongDongContainer";
+// import DashboardTrongDong from "../dashboardTrongDong/DashboardTrongDongContainer";
 
 /*eslint-disable */
 class TypeDashboard extends React.Component {
@@ -14,6 +14,8 @@ class TypeDashboard extends React.Component {
         super(props, context);
     }
 
+    // case "trongdongpalace":
+    // return <DashboardTrongDong />;
     render() {
         switch (env.TYPE_DASHBOARD) {
             case "e-commerce":
@@ -22,8 +24,7 @@ class TypeDashboard extends React.Component {
                 return <DashboardXHHContainer />;
             case "UpCowoking-space":
                 return <DashBoardUpContainer />;
-            case "trongdongpalace":
-                return <DashboardTrongDong />;
+           
             default:
                 return <DashboardContainer />;
         }
