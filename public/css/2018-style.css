@@ -3103,6 +3103,7 @@ hr {
     .blog-title {
         font-size: 20px !important;
         font-weight: 600 !important;
+        margin-top: 10px;
     }
 
 }
@@ -3225,4 +3226,14 @@ hr {
 
 .absolute {
     position: absolute;
+}
+
+.tag-header-blogs{
+    color: white!important;
+    border: solid 1px;
+    font-size: 12px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: 20px 20px 0px 0px;
+    display: inline-block;
 }

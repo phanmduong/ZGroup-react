@@ -11,6 +11,16 @@
                                          style="display: block; font-size: 14px; color: rgb(217, 217, 217);"><h1
                                                 style="font-size: 40px; margin-top: 0px; color: rgb(255, 255, 255);">
                                             Bài viết</h1><span>Chia sẻ kiến thức về đồ họa</span></div>
+                                    <div>
+                                        @foreach($topTags as $tagItem)
+                                            <a href="{{"/blogs?page=1&search=&tag=$tagItem->tag"}}"
+                                               title="{{$tagItem->tag}}"
+                                               class="tag-header-blogs">
+                                                {{$tagItem->tag}}
+                                            </a>
+                                        @endforeach
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -47,7 +57,8 @@
                                                         @if($topBlogs['category_name'])
                                                             <div class="product-category absolute"
                                                                  style="text-align: center; bottom: 10px; right: 10px"><span
-                                                                        style=" padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>
+                                                                        style=" padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">
+                                                                    {{$topBlogs['category_name']}}</span>
                                                             </div>
                                                         @endif
                                                     </div>
