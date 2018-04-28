@@ -81,7 +81,7 @@ class Product extends Model
             'id' => $this->id,
             'url' => $this->url,
             'share_url' => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
-            'description' => $this->description,
+            'description' => $this->description ? $this->description : "",
             'author' => [
                 'id' => $this->author->id,
                 'name' => $this->author->name,
@@ -90,13 +90,13 @@ class Product extends Model
                 'username' => $this->author->username,
             ],
             'title' => $this->title,
-            'category' => $this->category ? $this->category->name : null,
-            'category_name' => $category ? $category->name : null,
+            'category' => $this->category ? $this->category->name : "",
+            'category_name' => $category ? $category->name : "",
             'thumb_url' => $this->thumb_url,
             'slug' => $this->slug,
             'kind' => $this->kind,
-            'meta_description' => $this->meta_description,
-            'meta_title' => $this->meta_title,
+            'meta_description' => $this->meta_description ? $this->meta_description :"",
+            'meta_title' => $this->meta_title ? $this->meta_title : "",
             'keyword' => $this->keyword,
             // 'created_at' => time_remain_string($this->created_at),
             'views' => $this->views,
@@ -111,8 +111,8 @@ class Product extends Model
         $data['language_id'] = $this->language ? $this->language->id : 0;
 
         $data['created_at'] = format_date($this->created_at);
-        $data['content'] = $this->content;
-        $data['tags'] = $this->tags;
+        $data['content'] = $this->content ? $this->content : "";
+        $data['tags'] = $this->tags ? $this->tags : "";
         $data['related_posts'] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
             return $post->blogTransform();
         });
