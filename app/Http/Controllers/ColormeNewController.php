@@ -218,20 +218,30 @@ class ColormeNewController extends CrawlController
     {
         $limit = $request->limit ? $request->limit : 20;
 
-        $products = Product::orderBy('created_at', 'desc');
-        $products = $products->orderBy('created_at', 'desc')->paginate($limit);
+        $products = Product::orderBy('created_at', 'desc')->paginate($limit);
 
-        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        // $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        $this->data['total_pages'] = 5;
         $this->data['current_page'] = $products->currentPage();
 
-        $products = $products->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['time'] = $this->timeCal(date($blog->created_at));
+        $products = $products->map(function ($product) {
+            $data = $product->personalTransform();
+            $data['time'] = $this->timeCal(date($product->created_at));
+            $data['comment'] = count(Product::find($product['id'])->comments);
+            $data['like'] = count(Product::find($product['id'])->likes);
             return $data;
         });
+
+        
+        if($request->page){
+           return json_encode($products);
+        };
+
+        $cources = Course::all();
+
+
         $this->data['products'] = $products;
-        // dd($this->data['products']);
-        // dd($this->data['products']);
+        $this->data['cources'] = $cources;
         return view('colorme_new.colorme_react', $this->data);
     }
 
@@ -323,7 +333,7 @@ class ColormeNewController extends CrawlController
         $subscription->user_id = $user->id;
         $subscription->product_id = $request->blog_id;
         $subscription->save();
-        
+
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'

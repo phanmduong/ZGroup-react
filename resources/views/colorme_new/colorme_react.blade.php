@@ -27,147 +27,152 @@
 @endsection
 
 @section('content')
-        <style>
-                #nav-bar{
-                        width: 100%;
-                        text-align: center;
-                        background-color: white;
-                        height: 50px;
-                        /* display: flex; */
-                        justify-content: center;
-                        position: fixed;
-                        z-index: 99;
-                        box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;
-                }
-                .transform-text{
-                        color: #000 !important;
-                        height: 100%;
-                        line-height: 50px;
-                        display: inline-block;
-                        margin: 0px 8px;
-                        font-weight: 600;
-                        opacity: 0.6;
-                        font-size: 12px;
-                }
-        </style>
-        <div class="navbar navbar-default" id="nav-bar">
-                <div class="container-fluid">
-                        <div style="position:absolute; left: 20px;">
-                                <a class="routing-bar-item transform-text active" href="">Nổi bật</a>
-                                <a class="routing-bar-item transform-text" href="">Mới nhất</a>
-                        </div>
-                </div>
-                <div class="days">
-                        <a href="" class="routing-bar-item transform-text">Hôm nay</a>
-                        <a href="" class="routing-bar-item transform-text active">7 ngày qua</a>
-                        <a href="" class="routing-bar-item transform-text">30 ngày qua</a>
-                </div>
-        </div>
-        <div class="home-page-wrapper" style="padding-top: 70px;">
-                <div>
-                        <div class="left-panel-wrapper" id="left-panel-wrapper">
-                                <div class="left-panel" id="left-panel-hi">
-                                        <div class="hi-wrapper">
-                                                <div class="hi">HI!</div>
-                                        </div>
-                                        <h5>Chào bạn!</h5>
-                                        <div style="font-size: 12px; color: rgb(155, 155, 155);">
-                                                <div>Bạn vẫn chưa đăng nhập</div>
-                                                <div>Để sử dụng tối đa các chức năng</div>
-                                                <div>Xin bạn vui lòng:</div>
-                                        </div>
-                                        <div>
-                                                <a class="btn sign-in">Đăng nhập</a>
-                                                <a class="btn sign-up">Tạo tài khoản</a>
-                                        </div>
-                                </div>
-                                <div class="left-panel-lower" id="left-panel-courses">
-                                        <h5 style="font-weight: 600;">ĐĂNG KÍ HỌC</h5>
-                                        <div class="media">
-                                                <div class="media-left">
-                                                        <a href="/course/photoshop">
-                                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                                                        class="media-object img-circle" style="width: 40px;">
-                                                        </a>
-                                                </div>
-                                                <div class="media-body">
-                                                        <div>
-                                                                <a href="/course/photoshop" style="color: rgb(12, 12, 12); font-weight: 400;">Photoshop</a>
-                                                        </div>
-                                                        <div style="color: rgb(128, 128, 128);">
-                                                                8 buổi
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
-                <div class="product-list-wrapper">
-                        @foreach($products as $product)
-                        <div class="product-wrapper">
-                                <div class="product-item">
-                                        <div class="colorme-img">
-                                                <div class="colorme-link" style="background-image: url({{ $product['url'] }});
-                                                background-size: cover;
-                                                background-position: center center;">
-                                                </div>
-                                        </div>
-                                        <div class="product-info">
-                                                <div style="font-size: 16px;
-                                                border-bottom: 1px solid rgb(217, 217, 217);
-                                                padding: 10px;
-                                                display: flex;
-                                                justify-content: space-between;">
-                                                        <a href="/post/btvn-buoi-3-35311" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">{{ $product['title'] }}</a>
-                                                        <div>
-                                                                <span data-html="true" data-toggle="tooltip" title="" data-original-title="Được đánh dấu nổi bật bởi<br/>Nguyen Mine Linh">
-                                                                <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(240, 173, 78); margin-right: 2px;"></span>
-                                                        </span>
-                                                        <a data-toggle="tooltip" title="" href="/group/thietkechuyensau13" data-original-title="Lớp Thiết kế chuyên sâu 1.3">
-                                                                <span class="glyphicon glyphicon-circle-arrow-right" style="color: green;"></span>
-                                                        </a>
-                                                        </div>
-                                                </div>
-                                                <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
-                                                        <div class="media-left" style="padding-right: 3px;">
-                                                                <a href="/profile/flourishartist@gmail.com">
-                                                                        <div style="background: url({{ $product['author']['avatar_url'] }}) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;">
-                                                                        </div>
-                                                                </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                                <a href="/profile/flourishartist@gmail.com">
-                                                                        <div style="font-weight: 600;">
-                                                                                Vũ Nam Anh
-                                                                        </div>
-                                                                        <div class="timestamp" style="font-size: 12px;">
-                                                                                7 ngày trước
-                                                                        </div>
-                                                                </a>
-                                                        </div>
-                                                </div>
-                                                <div style="border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;"></div>
-                                                <div style="position: absolute; bottom: 5px;">
-                                                        <div class="product-tool">
-                                                                <span class="glyphicon glyphicon-eye-open">136</span>
-                                                                <span class="glyphicon glyphicon-comment">0</span>
-                                                                <span class="glyphicon glyphicon-heart"></span>
-                                                                <span data-html="true" data-toggle="tooltip" title="" style="cursor: pointer;" data-original-title="Nguyen Mine Linh<br/>Ngọc Diệp<br/>Trần Đức Dũng">3</span>
-                                                                <span></span>
-                                                        </div>
-                                                </div>
-                                                <div style="position: absolute; bottom: 10px; right: 5px;">
-                                                        <div data-toggle="tooltip" title="" style="cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;" data-original-title="#">
+<style>
+    #nav-bar {
+        width: 100%;
+        text-align: center;
+        background-color: white;
+        height: 50px;
+        /* display: flex; */
+        justify-content: center;
+        position: fixed;
+        z-index: 99;
+        box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;
+    }
 
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-                        @endforeach
-                        <div style="clear: both; width: 100%; text-align: center; padding-bottom: 30px;"><button type="button" class="btn btn-upload">Tải thêm</button></div>
-                </div>
+    .transform-text {
+        color: #000 !important;
+        height: 100%;
+        line-height: 50px;
+        display: inline-block;
+        margin: 0px 8px;
+        font-weight: 600;
+        opacity: 0.6;
+        font-size: 12px;
+    }
+</style>
+<div class="navbar navbar-default" id="nav-bar">
+    <div class="container-fluid">
+        <div style="position:absolute; left: 20px;">
+            <a class="routing-bar-item transform-text active" href="">Nổi bật</a>
+            <a class="routing-bar-item transform-text" href="">Mới nhất</a>
         </div>
+    </div>
+    <div class="days">
+        <a href="" class="routing-bar-item transform-text">Hôm nay</a>
+        <a href="" class="routing-bar-item transform-text active">7 ngày qua</a>
+        <a href="" class="routing-bar-item transform-text">30 ngày qua</a>
+    </div>
+</div>
+<div class="home-page-wrapper" style="padding-top: 70px;">
+    <div>
+        <div class="left-panel-wrapper" id="left-panel-wrapper">
+            <div class="left-panel" id="left-panel-hi">
+                <div class="hi-wrapper">
+                    <div class="hi">HI!</div>
+                </div>
+                <h5>Chào bạn!</h5>
+                <div style="font-size: 12px; color: rgb(155, 155, 155);">
+                    <div>Bạn vẫn chưa đăng nhập</div>
+                    <div>Để sử dụng tối đa các chức năng</div>
+                    <div>Xin bạn vui lòng:</div>
+                </div>
+                <div>
+                    <a class="btn sign-in">Đăng nhập</a>
+                    <a class="btn sign-up">Tạo tài khoản</a>
+                </div>
+            </div>
+            <div class="left-panel-lower" id="left-panel-courses">
+                <h5 style="font-weight: 600;">ĐĂNG KÍ HỌC</h5>
+                @foreach ($cources as $cource)
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="/course/{{ convert_vi_to_en($cource['name']) }}">
+                                <img src="{{ $cource['icon_url']}}" class="media-object img-circle" style="width: 40px;">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div>
+                                <a href="/course/{{ convert_vi_to_en($cource['name']) }}" style="color: rgb(12, 12, 12); font-weight: 400;">{{ $cource['name'] }}</a>
+                            </div>
+                            <div style="color: rgb(128, 128, 128);">
+                                {{ $cource['duration'] }} buổi
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <div class="product-list-wrapper" id="products">
+        @foreach($products as $product)
+        <div class="product-wrapper">
+            <div class="product-item">
+                <div class="colorme-img">
+                    <div class="colorme-link" style="background-image: url({{ $product['url'] }});
+                                    background-size: cover;
+                                    background-position: center center;">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div style="font-size: 16px;
+                                        border-bottom: 1px solid rgb(217, 217, 217);
+                                        padding: 10px;
+                                        display: flex;
+                                        justify-content: space-between;">
+                        <a href="/post/btvn-buoi-3-35311" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">{{ shortString($product['title'],3) }}</a>
+                        <div>
+                            <span data-html="true" data-toggle="tooltip" title="" data-original-title="Được đánh dấu nổi bật bởi<br/>Nguyen Mine Linh">
+                                <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(240, 173, 78); margin-right: 2px;"></span>
+                            </span>
+                            <a data-toggle="tooltip" title="" href="/group/thietkechuyensau13" data-original-title="Lớp Thiết kế chuyên sâu 1.3">
+                                <span class="glyphicon glyphicon-circle-arrow-right" style="color: green;"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
+                        <div class="media-left" style="padding-right: 3px;">
+                            <a href="/profile/flourishartist@gmail.com">
+                                <div style="background: url({{ $product['author']['avatar_url'] }}) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <a href="/profile/flourishartist@gmail.com">
+                                <div style="font-weight: 600;">
+                                    {{ $product['author']['name']}}
+                                </div>
+                                <div class="timestamp" style="font-size: 12px;">
+                                    {{ $product['time'] }}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;"></div>
+                    <div style="position: absolute; bottom: 5px;">
+                        <div class="product-tool">
+                            <span class="glyphicon glyphicon-eye-open">{{ $product['views'] }}</span>
+                            <span class="glyphicon glyphicon-comment">{{ $product['comment'] }}</span>
+                            <span class="glyphicon glyphicon-heart"></span>
+                            <span data-html="true" data-toggle="tooltip" title="" style="cursor: pointer;" data-original-title="Nguyen Mine Linh<br/>Ngọc Diệp<br/>Trần Đức Dũng">{{ $product['like'] }}</span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div style="position: absolute; bottom: 10px; right: 5px;">
+                        <div data-toggle="tooltip" title="" style="cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
+                            data-original-title="#">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+        <div style="clear: both; width: 100%; text-align: center; padding-bottom: 30px;">
+            <button id="load-more" v-on:click="loadmore" type="button" class="btn btn-upload">Tải thêm</button>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -223,4 +228,29 @@
     <script type="text/javascript" src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/js/plugins/video.min.js"></script>
 
     <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
+
+    <script>
+        var app = new Vue({
+            el: "#products",
+            data: {
+                page: {{ $current_page }}
+            },
+            methods: {
+                loadmore: function(){
+                    console.log(window.location.href + '?page=' + this.page);
+                    this.page++;
+                    axios.get(window.location.href + '?page=' + this.page)
+                    .then(function(response){
+                        // $('#products').append(response);
+                        console.log(typeof response);
+                        console.log(response);
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
+                }
+            }
+        });
+    </script>
+
 @endpush
