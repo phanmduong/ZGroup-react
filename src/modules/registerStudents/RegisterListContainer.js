@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import ListRegister from "./ListRegister";
 import ListClass from "./ListClass";
@@ -10,11 +10,11 @@ import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import Select from './SelectGen';
 import ReactSelect from 'react-select';
-import {Modal, Panel} from 'react-bootstrap';
+import { Modal, Panel } from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
+import { DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL } from '../../constants/constants';
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
@@ -48,14 +48,14 @@ class RegisterListContainer extends React.Component {
             baseFilter: [],
             cardTitle: 'Danh sách đăng kí học',
             moneyFilter: [
-                {value: '', label: 'Tất cả',},
-                {value: '1', label: 'Đã nộp',},
-                {value: '0', label: 'Chưa nộp',},
+                { value: '', label: 'Tất cả', },
+                { value: '1', label: 'Đã nộp', },
+                { value: '0', label: 'Chưa nộp', },
             ],
             classStatusFilter: [
-                {value: '', label: 'Tất cả',},
-                {value: 'active', label: 'Hoạt động',},
-                {value: 'waiting', label: 'Chờ',},
+                { value: '', label: 'Tất cả', },
+                { value: 'active', label: 'Hoạt động', },
+                { value: 'waiting', label: 'Chờ', },
             ],
             time: {
                 startTime: '',
@@ -105,7 +105,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadBaseFilter();
         if (this.props.route.path === '/sales/waitlist') {
             this.isWaitListPage = true;
-            this.setState({selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: ''});
+            this.setState({ selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: '' });
         }
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
@@ -129,7 +129,7 @@ class RegisterListContainer extends React.Component {
 
             } else {
                 if (this.props.route.path === '/sales/waitlist') {
-                    this.onClassStatusFilterChange({value: 'waiting'});
+                    this.onClassStatusFilterChange({ value: 'waiting' });
                 }
             }
         }
@@ -143,7 +143,7 @@ class RegisterListContainer extends React.Component {
                 classFilter: this.getFilter(nextProps.classFilter),
                 allClassFilter: this.getFilter(nextProps.classFilter),
             });
-            this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
+            this.onClassStatusFilterChange({ value: this.state.selectedClassStatus }, nextProps.classFilter);
         }
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
             let filter = this.getSalerFilter(nextProps.salerFilter);
@@ -171,7 +171,7 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             const genId = nextProps.params.genId ? nextProps.params.genId : nextProps.currentGen.id;
             this.setState({
-                gens: [{id: 0, name: ''}, ...gens],
+                gens: [{ id: 0, name: '' }, ...gens],
                 selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
             });
 
@@ -225,7 +225,7 @@ class RegisterListContainer extends React.Component {
                     this.state.selectGenId, '', '', '', '', '',
                     'waiting',
                 );
-                this.changeClassStatusFilter({value: 'waiting'});
+                this.changeClassStatusFilter({ value: 'waiting' });
                 this.setState({
                     page: 1,
                     selectedClassStatus: 'waiting',
@@ -233,7 +233,7 @@ class RegisterListContainer extends React.Component {
                 });
             }
             else {
-                this.changeClassStatusFilter({value: ''});
+                this.changeClassStatusFilter({ value: '' });
                 this.isWaitListPage = false;
                 this.setState({
                     page: 1,
@@ -288,7 +288,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
             );
-        this.setState({selectedClassId: res, page: 1});
+        this.setState({ selectedClassId: res, page: 1 });
     }
 
     onBaseFilterChange(obj) {
@@ -339,7 +339,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
             );
-        this.setState({selectedSalerId: res, page: 1});
+        this.setState({ selectedSalerId: res, page: 1 });
     }
 
     onCampaignFilterChange(obj) {
@@ -365,7 +365,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
             );
-        this.setState({campaignId: res, page: 1});
+        this.setState({ campaignId: res, page: 1 });
     }
 
     onMoneyFilterChange(obj) {
@@ -385,7 +385,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
             );
-        this.setState({selectedMoneyFilter: res, page: 1});
+        this.setState({ selectedMoneyFilter: res, page: 1 });
     }
 
     onClassStatusFilterChange(obj, filter) {
@@ -421,7 +421,7 @@ class RegisterListContainer extends React.Component {
 
     changeClassStatusFilter(obj, filter) {
         let res = obj ? obj.value : '';
-        this.setState({selectedClassStatus: res, page: 1});
+        this.setState({ selectedClassStatus: res, page: 1 });
 
         let newfilter = filter ? filter : this.state.allClassFilter;
         if (res === 'waiting') {
@@ -429,16 +429,16 @@ class RegisterListContainer extends React.Component {
         } else if (res === 'active') {
             newfilter = newfilter.filter(item => (item.type === 'active'));
         }
-        this.setState({classFilter: this.getFilter(newfilter), selectedClassId: ''});
+        this.setState({ classFilter: this.getFilter(newfilter), selectedClassId: '' });
     }
 
     updateFormDate(event) {
         const field = event.target.name;
-        let time = {...this.state.time};
+        let time = { ...this.state.time };
         time[field] = event.target.value;
 
         if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
-            this.setState({time: time, page: 1});
+            this.setState({ time: time, page: 1 });
             this.props.registerActions.loadRegisterStudent(
                 1,
                 this.state.selectGenId,
@@ -454,7 +454,7 @@ class RegisterListContainer extends React.Component {
                 time.appointmentPayment,
             );
         } else {
-            this.setState({time: time});
+            this.setState({ time: time });
         }
     }
 
@@ -511,11 +511,11 @@ class RegisterListContainer extends React.Component {
 
     openFilterPanel() {
         let newstatus = !this.state.openFilterPanel;
-        this.setState({openFilterPanel: newstatus});
+        this.setState({ openFilterPanel: newstatus });
     }
 
     closeModal() {
-        this.setState({showModal: false});
+        this.setState({ showModal: false });
     }
 
     openModal() {
@@ -529,7 +529,7 @@ class RegisterListContainer extends React.Component {
     }
 
     closeModalChangeClass() {
-        this.setState({showModalChangeClass: false});
+        this.setState({ showModalChangeClass: false });
     }
 
     openModalChangeClass(registerId) {
@@ -543,7 +543,7 @@ class RegisterListContainer extends React.Component {
     viewCall(register) {
         this.props.registerActions.loadHistoryCallStudent(register.student_id, register.id);
         this.props.registerActions.loadRegisterByStudent(register.student_id);
-        this.setState({register});
+        this.setState({ register });
         this.openModal();
     }
 
@@ -552,7 +552,7 @@ class RegisterListContainer extends React.Component {
             page: 1,
             campaignId,
         });
-        this.onCampaignFilterChange({value: campaignId});
+        this.onCampaignFilterChange({ value: campaignId });
     }
 
     loadRegisterStudent(page, campaignid) {
@@ -642,7 +642,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
             this.state.time.startTime,
-            
+
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
@@ -652,7 +652,7 @@ class RegisterListContainer extends React.Component {
 
     closeLoadingModal() {
         let json = this.props.excel;
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 25}, {"wch": 12}, {"wch": 8}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},];//độ rộng cột
+        let cols = [{ "wch": 5 }, { "wch": 22 }, { "wch": 22 }, { "wch": 22 }, { "wch": 25 }, { "wch": 12 }, { "wch": 8 }, { "wch": 22 }, { "wch": 22 }, { "wch": 15 }, { "wch": 22 },];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.registers.map((item, index) => {
             if (item) {
@@ -698,13 +698,13 @@ class RegisterListContainer extends React.Component {
                     ? (gen[0] ? ` - Khóa ${gen[0].name}` : '')
                     :
                     (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
-                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)  }`)
+                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)}`)
             )
         );
     }
 
     openModalChangeInfoStudent(obj) {
-        this.setState({showChangeInfoStudent: true, selectedStudent: obj});
+        this.setState({ showChangeInfoStudent: true, selectedStudent: obj });
     }
 
     updateModalChangeInfoStudent(e) {
@@ -713,7 +713,7 @@ class RegisterListContainer extends React.Component {
         if (feild == "paid_status") {
             value = !this.state.selectedStudent.paid_status;
         }
-        this.setState({selectedStudent: {...this.state.selectedStudent, [feild]: value}});
+        this.setState({ selectedStudent: { ...this.state.selectedStudent, [feild]: value } });
     }
 
     commitModalChangeInfoStudent(obj) {
@@ -721,7 +721,7 @@ class RegisterListContainer extends React.Component {
     }
 
     closeModalChangeInfoStudent() {
-        this.setState({showChangeInfoStudent: false});
+        this.setState({ showChangeInfoStudent: false });
         this.props.registerActions.loadRegisterStudent(
             this.state.page,//page
             this.state.selectGenId,
@@ -749,8 +749,8 @@ class RegisterListContainer extends React.Component {
                 {
                     this.props.isLoadingGens
                         ?
-                        <Loading/>
-                        :    
+                        <Loading />
+                        :
                         <div id="page-wrapper">
                             <div className="row">
                                 <div className="col-sm-3 col-xs-5">
@@ -766,8 +766,8 @@ class RegisterListContainer extends React.Component {
                                     }
                                 </div>
                             </div>
-                            <div>        
-                                <div className="card" style={{marginTop:20}}>
+                            <div>
+                                <div className="card" style={{ marginTop: 20 }}>
                                     <div className="card-content">
                                         <div className="tab-content">
                                             <div className="card-top">
@@ -776,15 +776,15 @@ class RegisterListContainer extends React.Component {
                                                         <strong>{this.state.cardTitle}</strong>
                                                     </h4>
                                                     <TooltipButton text="Thêm đăng ký chờ" placement="top" >
-                                                        <button 
+                                                        <button
                                                             onClick={this.openCreateRegisterModal}
                                                             className="btn btn-round" type="button">
                                                             <i className="material-icons">add</i>
                                                         </button>
-                                                    </TooltipButton> 
-                                                    <TooltipButton text="Lọc" placement="top">  
-                                                        <button 
-                                                            className="btn btn-round"  type="button"
+                                                    </TooltipButton>
+                                                    <TooltipButton text="Lọc" placement="top">
+                                                        <button
+                                                            type="button"
                                                             onClick={this.openFilterPanel}
                                                             className="btn btn-info btn-rose btn-round"
                                                             disabled={
@@ -795,13 +795,13 @@ class RegisterListContainer extends React.Component {
                                                                 this.props.isLoadingRegisters
                                                             }
                                                         >
-                                                            <i className="material-icons" style={{top: 1.5}}>filter_list</i>
+                                                            <i className="material-icons" style={{ top: 1.5 }}>filter_list</i>
                                                         </button>
-                                                    </TooltipButton>    
+                                                    </TooltipButton>
                                                 </div>
-                                                <div className="flex-end">   
-                                                    <TooltipButton text="Xuất ra Excel" placement="top"> 
-                                                        <button 
+                                                <div className="flex-end">
+                                                    <TooltipButton text="Xuất ra Excel" placement="top">
+                                                        <button
                                                             className="btn btn-round" type="button"
                                                             onClick={this.showLoadingModal}
                                                             disabled={
@@ -811,14 +811,14 @@ class RegisterListContainer extends React.Component {
                                                                 this.props.isLoadingRegisters ||
                                                                 this.props.isLoadingBaseFilter ||
                                                                 this.props.isLoadingExcel
-                                                            }    
+                                                            }
                                                         >
                                                             <i className="material-icons">file_download</i>
                                                         </button>
-                                                    </TooltipButton>    
-                                                </div>    
+                                                    </TooltipButton>
+                                                </div>
                                             </div>
-                                            {this.props.isLoadingGens ? <Loading/> :
+                                            {this.props.isLoadingGens ? <Loading /> :
                                                 <div>
                                                     <div className="row">
                                                         <Search
@@ -953,8 +953,8 @@ class RegisterListContainer extends React.Component {
                                                     </Panel>
                                                     {
                                                         this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
-                                                        this.props.isLoading ?
-                                                            <Loading/> :
+                                                            this.props.isLoading ?
+                                                            <Loading /> :
                                                             <ListRegister
                                                                 genId={this.state.selectGenId}
                                                                 registers={this.props.registers}
@@ -966,59 +966,59 @@ class RegisterListContainer extends React.Component {
                                                                 openModalChangeInfoStudent={this.openModalChangeInfoStudent}
                                                             />
                                                     }
-                                                    
-                                                    <br/>
-                                                    <div className="row">
-                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
-                                                                 <b style={{marginRight: '15px'}}>
-                                                        Hiển thị kêt quả từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
-                                                        - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
-                                                    <ul className="pagination pagination-primary">
-                                                        <li className={(this.props.currentPage === 1) ? 'disabled' : ''}>
-                                                            <a onClick={() => {
-                                                                if (this.props.currentPage !== 1) this.loadRegisterStudent(1);
-                                                            }}> Đầu</a>
-                                                        </li>
-                                                        <li className={(this.props.currentPage - 1 <= 0) ? 'disabled' : ''}>
-                                                            <a
-                                                                onClick={() => {
-                                                                    if (this.props.currentPage - 1 > 0)
-                                                                        this.loadRegisterStudent(this.state.page - 1);
-                                                                }}> Trước</a>
-                                                        </li>
-                                                        {_.range(1, this.props.totalPages + 1).map(page => {
-                                                            if (Number(this.state.page) === page) {
-                                                                return (
-                                                                    <li key={page} className="active">
-                                                                        <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
-                                                                    </li>
-                                                                );
-                                                            } else {
-                                                                return (
-                                                                    <li key={page}>
-                                                                        <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
-                                                                    </li>
-                                                                );
-                                                            }
 
-                                                        })}
-                                                        <li className={(this.props.currentPage + 1 > this.props.totalPages) ? 'disabled' : ''}>
-                                                            <a onClick={() => {
-                                                                if (this.props.currentPage + 1 <= this.props.totalPages)
-                                                                    this.loadRegisterStudent(this.state.page + 1)
-                                                            }}>Tiếp </a>
-                                                        </li>
-                                                        <li className={((this.props.currentPage === this.props.totalPages)) ? 'disabled' : ''}>
-                                                            <a onClick={() => {
-                                                                if (this.props.currentPage !== this.props.totalPages) 
-                                                                    this.loadRegisterStudent(this.props.totalPages)
-                                                            }}>Cuối </a>
-                                                        </li>
-                                                    </ul>   
-                                                    </div></div>
+                                                    <br />
+                                                    <div className="row">
+                                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{ textAlign: 'right' }}>
+                                                            <b style={{ marginRight: '15px' }}>
+                                                                Hiển thị kêt quả từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
+                                                                - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br />
+                                                            <ul className="pagination pagination-primary">
+                                                                <li className={(this.props.currentPage === 1) ? 'disabled' : ''}>
+                                                                    <a onClick={() => {
+                                                                        if (this.props.currentPage !== 1) this.loadRegisterStudent(1);
+                                                                    }}> Đầu</a>
+                                                                </li>
+                                                                <li className={(this.props.currentPage - 1 <= 0) ? 'disabled' : ''}>
+                                                                    <a
+                                                                        onClick={() => {
+                                                                            if (this.props.currentPage - 1 > 0)
+                                                                                this.loadRegisterStudent(this.state.page - 1);
+                                                                        }}> Trước</a>
+                                                                </li>
+                                                                {_.range(1, this.props.totalPages + 1).map(page => {
+                                                                    if (Number(this.state.page) === page) {
+                                                                        return (
+                                                                            <li key={page} className="active">
+                                                                                <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
+                                                                            </li>
+                                                                        );
+                                                                    } else {
+                                                                        return (
+                                                                            <li key={page}>
+                                                                                <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
+                                                                            </li>
+                                                                        );
+                                                                    }
+
+                                                                })}
+                                                                <li className={(this.props.currentPage + 1 > this.props.totalPages) ? 'disabled' : ''}>
+                                                                    <a onClick={() => {
+                                                                        if (this.props.currentPage + 1 <= this.props.totalPages)
+                                                                            this.loadRegisterStudent(this.state.page + 1);
+                                                                    }}>Tiếp </a>
+                                                                </li>
+                                                                <li className={((this.props.currentPage === this.props.totalPages)) ? 'disabled' : ''}>
+                                                                    <a onClick={() => {
+                                                                        if (this.props.currentPage !== this.props.totalPages)
+                                                                            this.loadRegisterStudent(this.props.totalPages);
+                                                                    }}>Cuối </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div></div>
                                                 </div>
                                             }
-                                        </div>    
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1029,277 +1029,277 @@ class RegisterListContainer extends React.Component {
                                     <Modal.Title>Thông tin học viên</Modal.Title>
                                 </Modal.Header>
                                 {this.state.register.name &&
-                                <Modal.Body>
+                                    <Modal.Body>
 
-                                    <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div className="panel panel-default">
-                                            <div className="panel-heading" role="tab" id="headingOne">
+                                        <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading" role="tab" id="headingOne">
 
-                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                                   aria-expanded="false" aria-controls="collapseOne" className="collapsed">
-                                                    <h4 className="panel-title">
-                                                        Thông tin học viên
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                                        aria-expanded="false" aria-controls="collapseOne" className="collapsed">
+                                                        <h4 className="panel-title">
+                                                            Thông tin học viên
                                                         <i className="material-icons">keyboard_arrow_down</i>
-                                                    </h4>
-                                                </a>
-                                            </div>
-                                            <div id="collapseOne" className="panel-collapse collapse" role="tabpanel"
-                                                 aria-labelledby="headingOne" aria-expanded="false" style={{height: '0px'}}>
-                                                <div className="panel-body">
-                                                    <div className="flex-row-center"><i
-                                                        className="material-icons">account_circle</i><b>&nbsp; &nbsp; {this.state.register.name} </b>
-                                                    </div>
-                                                    <div className="flex-row-center"><i
-                                                        className="material-icons">phone</i><b>&nbsp; &nbsp; {helper.formatPhone(this.state.register.phone)} </b>
-                                                    </div>
-                                                    <div className="flex-row-center"><i
-                                                        className="material-icons">email</i>&nbsp; &nbsp; {this.state.register.email}
-                                                    </div>
-                                                    {this.state.register.university &&
-                                                    <div className="flex-row-center"><i
-                                                        className="material-icons">account_balance</i>&nbsp; &nbsp; {this.state.register.university}
-                                                    </div>
-                                                    }
+                                                        </h4>
+                                                    </a>
+                                                </div>
+                                                <div id="collapseOne" className="panel-collapse collapse" role="tabpanel"
+                                                    aria-labelledby="headingOne" aria-expanded="false" style={{ height: '0px' }}>
+                                                    <div className="panel-body">
+                                                        <div className="flex-row-center"><i
+                                                            className="material-icons">account_circle</i><b>&nbsp; &nbsp; {this.state.register.name} </b>
+                                                        </div>
+                                                        <div className="flex-row-center"><i
+                                                            className="material-icons">phone</i><b>&nbsp; &nbsp; {helper.formatPhone(this.state.register.phone)} </b>
+                                                        </div>
+                                                        <div className="flex-row-center"><i
+                                                            className="material-icons">email</i>&nbsp; &nbsp; {this.state.register.email}
+                                                        </div>
+                                                        {this.state.register.university &&
+                                                            <div className="flex-row-center"><i
+                                                                className="material-icons">account_balance</i>&nbsp; &nbsp; {this.state.register.university}
+                                                            </div>
+                                                        }
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="panel panel-default">
-                                            <div className="panel-heading" role="tab" id="headingTwo">
-                                                <a className="collapsed" role="button" data-toggle="collapse"
-                                                   data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
-                                                   aria-controls="collapseTwo">
-                                                    <h4 className="panel-title">
-                                                        Thông tin lớp học
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading" role="tab" id="headingTwo">
+                                                    <a className="collapsed" role="button" data-toggle="collapse"
+                                                        data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                                        aria-controls="collapseTwo">
+                                                        <h4 className="panel-title">
+                                                            Thông tin lớp học
                                                         <i className="material-icons">keyboard_arrow_down</i>
-                                                    </h4>
-                                                </a>
-                                            </div>
-                                            <div id="collapseTwo" className="panel-collapse collapse" role="tabpanel"
-                                                 aria-labelledby="headingTwo" aria-expanded="false" style={{height: '0px'}}>
-                                                <div className="panel-body">
-                                                    <div className="flex-row-center">
-                                                        <i className="material-icons">class</i>
-                                                        <b>&nbsp; &nbsp;{this.state.register.class.name.trim()} </b></div>
-                                                    <div className="flex-row-center">
-                                                        <i className="material-icons">access_time</i>
-                                                        <b>&nbsp; &nbsp; {this.state.register.class.study_time} </b>
-                                                    </div>
-                                                    <div className="flex-row-center">
-                                                        <i className="material-icons">home</i>&nbsp; &nbsp;
+                                                        </h4>
+                                                    </a>
+                                                </div>
+                                                <div id="collapseTwo" className="panel-collapse collapse" role="tabpanel"
+                                                    aria-labelledby="headingTwo" aria-expanded="false" style={{ height: '0px' }}>
+                                                    <div className="panel-body">
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">class</i>
+                                                            <b>&nbsp; &nbsp;{this.state.register.class.name.trim()} </b></div>
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">access_time</i>
+                                                            <b>&nbsp; &nbsp; {this.state.register.class.study_time} </b>
+                                                        </div>
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">home</i>&nbsp; &nbsp;
                                                         {this.state.register.class.room + ' - ' + this.state.register.class.base}
-                                                    </div>
-                                                    <div className="flex-row-center">
-                                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {this.state.register.class.description}
+                                                        </div>
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">date_range</i>&nbsp; &nbsp; {this.state.register.class.description}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="panel panel-default">
-                                            <div className="panel-heading" role="tab" id="headingThree">
-                                                <a className="collapsed" role="button" data-toggle="collapse"
-                                                   data-parent="#accordion" href="#collapseThree" aria-expanded="false"
-                                                   aria-controls="collapseThree">
-                                                    <h4 className="panel-title">
-                                                        Thông tin đăng kí
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading" role="tab" id="headingThree">
+                                                    <a className="collapsed" role="button" data-toggle="collapse"
+                                                        data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                        <h4 className="panel-title">
+                                                            Thông tin đăng kí
                                                         <i className="material-icons">keyboard_arrow_down</i>
-                                                    </h4>
-                                                </a>
-                                            </div>
+                                                        </h4>
+                                                    </a>
+                                                </div>
 
-                                            <div id="collapseThree" className="panel-collapse collapse" role="tabpanel"
-                                                 aria-labelledby="headingThree" aria-expanded="false" style={{height: '0px'}}>
-                                                {
-                                                    this.props.isLoadingRegistersByStudent ? <Loading/> :
-                                                        <ul className="timeline timeline-simple">
-                                                            {
-                                                                this.props.registersByStudent.map(function (register, index) {
-                                                                    return (
-                                                                        <li className="timeline-inverted" key={index}>
-                                                                            <div className="timeline-badge">
-                                                                                <img className="circle size-40-px"
-                                                                                     src={register.class.avatar_url} alt=""/>
-                                                                            </div>
-                                                                            <div className="timeline-panel">
-                                                                                <h4>
-                                                                                    <b>{register.class.name}</b>
-                                                                                </h4>
-                                                                                <div className="timeline-body">
-                                                                                    <div className="flex-row-center">
-                                                                                        <i className="material-icons">access_time</i>
-                                                                                        <b>&nbsp; &nbsp; {register.class.study_time} </b>
-                                                                                    </div>
-                                                                                    <div className="flex-row-center">
-                                                                                        <i className="material-icons">home</i>&nbsp; &nbsp;
-                                                                                        {register.class.room && register.class.room + ' - '}
-                                                                                        {register.class.base}
-                                                                                    </div>
-                                                                                    <div className="flex-row-center">
-                                                                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
-                                                                                    </div>
+                                                <div id="collapseThree" className="panel-collapse collapse" role="tabpanel"
+                                                    aria-labelledby="headingThree" aria-expanded="false" style={{ height: '0px' }}>
+                                                    {
+                                                        this.props.isLoadingRegistersByStudent ? <Loading /> :
+                                                            <ul className="timeline timeline-simple">
+                                                                {
+                                                                    this.props.registersByStudent.map(function (register, index) {
+                                                                        return (
+                                                                            <li className="timeline-inverted" key={index}>
+                                                                                <div className="timeline-badge">
+                                                                                    <img className="circle size-40-px"
+                                                                                        src={register.class.avatar_url} alt="" />
                                                                                 </div>
-                                                                            </div>
-                                                                        </li>
-                                                                    );
-                                                                })
-                                                            }
-                                                        </ul>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="panel panel-default">
-                                            <div className="panel-heading" role="tab" id="headingFour">
-                                                <a className="collapsed" role="button" data-toggle="collapse"
-                                                   data-parent="#accordion" href="#collapseFour" aria-expanded="false"
-                                                   aria-controls="collapseFour">
-                                                    <h4 className="panel-title">
-                                                        Lịch sử gọi điện
-                                                        <i className="material-icons">keyboard_arrow_down</i>
-                                                    </h4>
-                                                </a>
-                                            </div>
-
-                                            <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
-                                                 aria-labelledby="headingFour" aria-expanded="false" style={{height: '0px'}}>
-                                                {
-                                                    this.props.isLoadingHistoryCall ? <Loading/> :
-                                                        <ul className="timeline timeline-simple">
-                                                            {
-                                                                this.props.historyCall.map((history, index) => {
-                                                                    let btn = '';
-                                                                    if (history.call_status === 'success') {
-                                                                        btn = ' success';
-                                                                    }
-                                                                    else if (history.call_status === 'failed') {
-                                                                        btn = ' danger';
-                                                                    } else if (history.call_status === 'calling') {
-                                                                        btn = ' info';
-                                                                    }
-
-                                                                    return (
-                                                                        <li className="timeline-inverted" key={index}>
-                                                                            <div className={"timeline-badge " + btn}>
-                                                                                <i className="material-icons">phone</i>
-                                                                            </div>
-                                                                            <div className="timeline-panel">
-                                                                                <div className="timeline-heading">
-                                                                                    <span className="label label-default"
-                                                                                          style={{backgroundColor: '#' + history.caller.color}}>
-                                                                                        {history.caller.name}</span> <span
-                                                                                    className="label label-default">{history.updated_at}</span>
-                                                                                </div>
-                                                                                <div className="timeline-body">
-                                                                                    {history.note}
-                                                                                </div>
-                                                                                {
-                                                                                    history.appointment_payment &&
+                                                                                <div className="timeline-panel">
+                                                                                    <h4>
+                                                                                        <b>{register.class.name}</b>
+                                                                                    </h4>
                                                                                     <div className="timeline-body">
-                                                                                        Hẹn nộp tiền: {history.appointment_payment}
+                                                                                        <div className="flex-row-center">
+                                                                                            <i className="material-icons">access_time</i>
+                                                                                            <b>&nbsp; &nbsp; {register.class.study_time} </b>
+                                                                                        </div>
+                                                                                        <div className="flex-row-center">
+                                                                                            <i className="material-icons">home</i>&nbsp; &nbsp;
+                                                                                        {register.class.room && register.class.room + ' - '}
+                                                                                            {register.class.base}
+                                                                                        </div>
+                                                                                        <div className="flex-row-center">
+                                                                                            <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
+                                                                                        </div>
                                                                                     </div>
-                                                                                }
+                                                                                </div>
+                                                                            </li>
+                                                                        );
+                                                                    })
+                                                                }
+                                                            </ul>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading" role="tab" id="headingFour">
+                                                    <a className="collapsed" role="button" data-toggle="collapse"
+                                                        data-parent="#accordion" href="#collapseFour" aria-expanded="false"
+                                                        aria-controls="collapseFour">
+                                                        <h4 className="panel-title">
+                                                            Lịch sử gọi điện
+                                                        <i className="material-icons">keyboard_arrow_down</i>
+                                                        </h4>
+                                                    </a>
+                                                </div>
 
-                                                                            </div>
-                                                                        </li>
-                                                                    );
-                                                                })
-                                                            }
-                                                        </ul>
-                                                }
+                                                <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
+                                                    aria-labelledby="headingFour" aria-expanded="false" style={{ height: '0px' }}>
+                                                    {
+                                                        this.props.isLoadingHistoryCall ? <Loading /> :
+                                                            <ul className="timeline timeline-simple">
+                                                                {
+                                                                    this.props.historyCall.map((history, index) => {
+                                                                        let btn = '';
+                                                                        if (history.call_status === 'success') {
+                                                                            btn = ' success';
+                                                                        }
+                                                                        else if (history.call_status === 'failed') {
+                                                                            btn = ' danger';
+                                                                        } else if (history.call_status === 'calling') {
+                                                                            btn = ' info';
+                                                                        }
+
+                                                                        return (
+                                                                            <li className="timeline-inverted" key={index}>
+                                                                                <div className={"timeline-badge " + btn}>
+                                                                                    <i className="material-icons">phone</i>
+                                                                                </div>
+                                                                                <div className="timeline-panel">
+                                                                                    <div className="timeline-heading">
+                                                                                        <span className="label label-default"
+                                                                                            style={{ backgroundColor: '#' + history.caller.color }}>
+                                                                                            {history.caller.name}</span> <span
+                                                                                                className="label label-default">{history.updated_at}</span>
+                                                                                    </div>
+                                                                                    <div className="timeline-body">
+                                                                                        {history.note}
+                                                                                    </div>
+                                                                                    {
+                                                                                        history.appointment_payment &&
+                                                                                        <div className="timeline-body">
+                                                                                            Hẹn nộp tiền: {history.appointment_payment}
+                                                                                        </div>
+                                                                                    }
+
+                                                                                </div>
+                                                                            </li>
+                                                                        );
+                                                                    })
+                                                                }
+                                                            </ul>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br/>
-                                    <div className="form-group label-floating is-empty">
-                                        <label className="control-label">Ghi chú</label>
-                                        <input type="text" className="form-control"
-                                               value={this.state.note}
-                                               onChange={(event) => this.setState({note: event.target.value})}/>
-                                        <span className="material-input"/>
-                                        <span className="material-input"/></div>
-                                    <FormInputDate
-                                        label="Hẹn nộp tiền"
-                                        name="appointmentPayment"
-                                        updateFormData={(event) => {
-                                            this.setState({appointmentPayment: event.target.value});
-                                        }}
-                                        id="form-appointment_payment"
-                                        value={this.state.appointmentPayment}
-                                    />
-                                    {this.props.isChangingStatus ?
-                                        (
-                                            <div>
-                                                <button type="button" className="btn btn-success btn-round disabled"
+                                        <br />
+                                        <div className="form-group label-floating is-empty">
+                                            <label className="control-label">Ghi chú</label>
+                                            <input type="text" className="form-control"
+                                                value={this.state.note}
+                                                onChange={(event) => this.setState({ note: event.target.value })} />
+                                            <span className="material-input" />
+                                            <span className="material-input" /></div>
+                                        <FormInputDate
+                                            label="Hẹn nộp tiền"
+                                            name="appointmentPayment"
+                                            updateFormData={(event) => {
+                                                this.setState({ appointmentPayment: event.target.value });
+                                            }}
+                                            id="form-appointment_payment"
+                                            value={this.state.appointmentPayment}
+                                        />
+                                        {this.props.isChangingStatus ?
+                                            (
+                                                <div>
+                                                    <button type="button" className="btn btn-success btn-round disabled"
                                                         data-dismiss="modal"
-                                                >
-                                                    <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin" /> Đang cập nhật
                                                 </button>
-                                                <button type="button" className="btn btn-danger btn-round disabled"
+                                                    <button type="button" className="btn btn-danger btn-round disabled"
                                                         data-dismiss="modal"
-                                                >
-                                                    <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin" /> Đang cập nhật
                                                 </button>
-                                            </div>
+                                                </div>
 
-                                        )
-                                        :
-                                        (
-                                            this.props.isLoadingHistoryCall ?
-                                                (
-                                                    <div>
-                                                        <button type="button" className="btn btn-success btn-round disabled"
+                                            )
+                                            :
+                                            (
+                                                this.props.isLoadingHistoryCall ?
+                                                    (
+                                                        <div>
+                                                            <button type="button" className="btn btn-success btn-round disabled"
                                                                 data-dismiss="modal"
-                                                        ><i className="material-icons">phone</i>
-                                                            Gọi thành công
+                                                            ><i className="material-icons">phone</i>
+                                                                Gọi thành công
                                                         </button>
-                                                        <button type="button" className="btn btn-danger btn-round disabled"
+                                                            <button type="button" className="btn btn-danger btn-round disabled"
                                                                 data-dismiss="modal"
-                                                        >
-                                                            <i className="material-icons">phone</i>
-                                                            Không gọi được
+                                                            >
+                                                                <i className="material-icons">phone</i>
+                                                                Không gọi được
                                                         </button>
-                                                    </div>
-                                                )
-                                                :
-                                                (
-                                                    <div>
-                                                        <button type="button" className="btn btn-success btn-round"
+                                                        </div>
+                                                    )
+                                                    :
+                                                    (
+                                                        <div>
+                                                            <button type="button" className="btn btn-success btn-round"
                                                                 data-dismiss="modal"
                                                                 onClick={() => {
                                                                     this.changeCallStatusStudent(1, this.state.register.student_id);
                                                                 }}>
-                                                            <i className="material-icons">phone</i>
-                                                            Gọi thành công
+                                                                <i className="material-icons">phone</i>
+                                                                Gọi thành công
                                                         </button>
-                                                        <button type="button" className="btn btn-danger btn-round"
+                                                            <button type="button" className="btn btn-danger btn-round"
                                                                 data-dismiss="modal"
                                                                 onClick={() => {
                                                                     this.changeCallStatusStudent(0, this.state.register.student_id);
                                                                 }}>
-                                                            <i className="material-icons">phone</i>
-                                                            Không gọi được
+                                                                <i className="material-icons">phone</i>
+                                                                Không gọi được
                                                         </button>
-                                                    </div>
-                                                )
+                                                        </div>
+                                                    )
 
 
-                                        )
-                                    }
-                                </Modal.Body>
+                                            )
+                                        }
+                                    </Modal.Body>
                                 }
                             </Modal>
                             <Modal show={this.state.showModalChangeClass}
-                                   onHide={() => {
-                                       if (!this.props.isChangingClass)
-                                           this.closeModalChangeClass();
-                                   }}
-                                   bsSize="large"
+                                onHide={() => {
+                                    if (!this.props.isChangingClass)
+                                        this.closeModalChangeClass();
+                                }}
+                                bsSize="large"
                             >
                                 <Modal.Header closeButton={!this.props.isChangingClass}>
                                     <Modal.Title>Thay đổi lớp đăng kí</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     {this.props.isLoadingClasses ?
-                                        <Loading/>
+                                        <Loading />
                                         :
                                         <ListClass
                                             classes={this.props.classes}
@@ -1316,23 +1316,23 @@ class RegisterListContainer extends React.Component {
                                 }}
                             >
                                 <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
-                                <Modal.Body><Loading/></Modal.Body>
+                                <Modal.Body><Loading /></Modal.Body>
                             </Modal>
                             <ChangeInfoStudentModal
                                 showChangeInfoStudent={this.state.showChangeInfoStudent}
                                 onHide={() => {
-                                    return this.setState({showChangeInfoStudent: false});
+                                    return this.setState({ showChangeInfoStudent: false });
                                 }}
                                 updateData={this.updateModalChangeInfoStudent}
                                 commitData={this.commitModalChangeInfoStudent}
                                 info={this.state.selectedStudent}
                                 isCommitting={this.props.isCommittingInfoStudent}
                             />
-                                <CreateRegisterModalContainer/>
+                            <CreateRegisterModalContainer />
 
                         </div>
                 }
-            </div>            
+            </div>
         );
     }
 }

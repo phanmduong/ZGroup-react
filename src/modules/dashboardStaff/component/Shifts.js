@@ -9,12 +9,13 @@ import _ from "lodash";
 
 @observer
 export default class Shifts extends Component {
-    @observable startTime = "";
-    @observable endTime = "";
     constructor(props) {
         super(props);
         this.updateFormFilter = this.updateFormFilter.bind(this);
     }
+
+    @observable startTime = "";
+    @observable endTime = "";
 
     updateFormFilter(event) {
         this[event.target.name] = event.target.value;
@@ -93,78 +94,78 @@ export default class Shifts extends Component {
                                 {store.isLoadingShifts ? (
                                     <Loading />
                                 ) : (
-                                    <div>
-                                        <div className="row">
-                                            {shifts.map(item => {
-                                                return (
-                                                    <div className="col-sm-6">
-                                                        <div className="card">
-                                                            <div className="card-content">
-                                                                <h4 className="card-title">
-                                                                    <strong>{item.shifts[0].date_vi}</strong>
-                                                                </h4>
-                                                                <div>
-                                                                    <div className="table-responsive">
-                                                                        <table className="table">
-                                                                            <tbody>
-                                                                                {item.shifts.map(
-                                                                                    (shift, index) => {
-                                                                                        return (
-                                                                                            <tr key={index}>
-                                                                                                <td>
-                                                                                                    <strong>
-                                                                                                        {
-                                                                                                            shift.name
-                                                                                                        }
-                                                                                                    </strong>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    {`${
-                                                                                                        shift.start_shift_time
-                                                                                                    } - ${
-                                                                                                        shift.end_shift_time
-                                                                                                    }`}
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <div>
+                                        <div>
+                                            <div className="row">
+                                                {shifts.map((item, key) => {
+                                                    return (
+                                                        <div className="col-sm-6" key={key}>
+                                                            <div className="card">
+                                                                <div className="card-content">
+                                                                    <h4 className="card-title">
+                                                                        <strong>{item.shifts[0].date_vi}</strong>
+                                                                    </h4>
+                                                                    <div>
+                                                                        <div className="table-responsive">
+                                                                            <table className="table">
+                                                                                <tbody>
+                                                                                    {item.shifts.map(
+                                                                                        (shift, index) => {
+                                                                                            return (
+                                                                                                <tr key={index}>
+                                                                                                    <td>
+                                                                                                        <strong>
+                                                                                                            {
+                                                                                                                shift.name
+                                                                                                            }
+                                                                                                        </strong>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        {`${
+                                                                                                            shift.start_shift_time
+                                                                                                            } - ${
+                                                                                                            shift.end_shift_time
+                                                                                                            }`}
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div>
+                                                                                                            {shift &&
+                                                                                                                this.statusAttendance(
+                                                                                                                    {
+                                                                                                                        status:
+                                                                                                                            shift.checkin_status,
+                                                                                                                        time:
+                                                                                                                            shift.check_in_time
+                                                                                                                    }
+                                                                                                                )}
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                    <td>
                                                                                                         {shift &&
                                                                                                             this.statusAttendance(
                                                                                                                 {
                                                                                                                     status:
-                                                                                                                        shift.checkin_status,
+                                                                                                                        shift.checkout_status,
                                                                                                                     time:
-                                                                                                                        shift.check_in_time
+                                                                                                                        shift.check_out_time
                                                                                                                 }
                                                                                                             )}
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    {shift &&
-                                                                                                        this.statusAttendance(
-                                                                                                            {
-                                                                                                                status:
-                                                                                                                    shift.checkout_status,
-                                                                                                                time:
-                                                                                                                    shift.check_out_time
-                                                                                                            }
-                                                                                                        )}
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        );
-                                                                                    }
-                                                                                )}
-                                                                            </tbody>
-                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            );
+                                                                                        }
+                                                                                    )}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            })}
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
                             </div>
                         </div>
                     </div>

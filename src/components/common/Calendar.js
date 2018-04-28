@@ -28,7 +28,7 @@ class Calendar extends React.Component {
         let today = new Date();
 
         $calendar.fullCalendar({
-            viewRender: function(view, element) {
+            viewRender: function (view, element) {
                 if (view.name != "month") {
                     $(element)
                         .find(".fc-scroller")
@@ -67,7 +67,7 @@ class Calendar extends React.Component {
             //     this.props.onClickDay(date);
             // },
 
-            select: function() {},
+            select: function () { },
             editable: true,
             droppable: true,
             eventLimit: true,
@@ -83,7 +83,10 @@ class Calendar extends React.Component {
 }
 
 Calendar.propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    calendarEvents: PropTypes.func.isRequired,
+    onDropTime: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default Calendar;

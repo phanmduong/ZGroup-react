@@ -34,7 +34,7 @@ export default new class DashboardTrongDongStore {
     changeTime(registerRoomId = "", startTime = "", endTime = "") {
         dashboardApi
             .changeTime(registerRoomId, startTime, endTime)
-            .then(() => {})
+            .then(() => { })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
             });
@@ -48,7 +48,6 @@ export default new class DashboardTrongDongStore {
                 this.registerRooms = this.registerRooms.map(room => {
                     const register_rooms = room.register_rooms.map(register => {
                         if (register.register_id == res.data.data.register.id) {
-                            console.log("ok");
                             return {
                                 ...register,
                                 status: res.data.data.register.status
@@ -115,7 +114,7 @@ export default new class DashboardTrongDongStore {
 
     @computed
     get basesData() {
-        let baseData = this.bases.map(function(base) {
+        let baseData = this.bases.map(function (base) {
             return {
                 key: base.id,
                 value: base.name
@@ -132,7 +131,7 @@ export default new class DashboardTrongDongStore {
 
     @computed
     get roomTypesData() {
-        let roomTypesData = this.roomTypes.map(function(base) {
+        let roomTypesData = this.roomTypes.map(function (base) {
             return {
                 key: base.id,
                 value: base.name
@@ -156,7 +155,7 @@ export default new class DashboardTrongDongStore {
         if (this.selectedRoomTypeId != 0) {
             rooms = rooms.filter(room => room.room_type_id == this.selectedRoomTypeId);
         }
-        rooms = rooms.map(function(base) {
+        rooms = rooms.map(function (base) {
             return {
                 key: base.id,
                 value: base.name

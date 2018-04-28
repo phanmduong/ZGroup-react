@@ -1,10 +1,10 @@
 /**
  * Created by Kiyoshitaro on 15/04/2018.
  */
-import types        from "../constants/actionTypes";
+import types from "../constants/actionTypes";
 import * as blogApi from "../apis/blogApi";
-import * as helper  from "../../../helpers/helper";
-import {BASE_URL}   from "../../../constants/env";
+import * as helper from "../../../helpers/helper";
+import { BASE_URL } from "../../../constants/env";
 
 
 // export function resetForm() {
@@ -15,19 +15,19 @@ import {BASE_URL}   from "../../../constants/env";
 //
 
 
-export function loadPosts(page, query, category_id) {
+export function loadPosts(page, query, category_id, kind) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_POSTS,
         });
-        blogApi.loadPostsApis(page, query, category_id)
+        blogApi.loadPostsApis(page, query, category_id, kind)
             .then((res) => {
-                    dispatch({
-                        type: types.LOADED_POSTS_SUCCESS,
-                        posts: res.data.posts,
-                        currentPage: res.data.paginator.current_page,
-                        totalPages: res.data.paginator.total_pages,
-                    });
+                dispatch({
+                    type: types.LOADED_POSTS_SUCCESS,
+                    posts: res.data.posts,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages,
+                });
             })
             .catch(() => {
                 dispatch({
@@ -86,16 +86,16 @@ export function changeStatus(id, status, name) {
 export function openCreatePostModal() {
     return function (dispatch) {
         dispatch({
-            type : types.OPEN_POST_MODAL,
-            postId : 0,
+            type: types.OPEN_POST_MODAL,
+            postId: 0,
         });
     };
 }
 export function openEditPostModal(postId) {
     return function (dispatch) {
         dispatch({
-            type : types.OPEN_POST_MODAL,
-            postId : postId,
+            type: types.OPEN_POST_MODAL,
+            postId: postId,
         });
         dispatch(loadPost(postId));
     };
@@ -103,9 +103,9 @@ export function openEditPostModal(postId) {
 
 export function closePostModal() {
     return function (dispatch) {
-      dispatch({
-          type : types.CLOSE_POST_MODAL,
-      });
+        dispatch({
+            type: types.CLOSE_POST_MODAL,
+        });
     };
 }
 
@@ -166,7 +166,7 @@ export function loadLanguages() {
                 if (res.data.status) {
                     dispatch({
                         type: types.LOADED_LANGUAGES_SUCCESS,
-                        languages : res.data.data.languages,
+                        languages: res.data.data.languages,
                     });
                 }
                 else {
@@ -176,7 +176,7 @@ export function loadLanguages() {
                     helper.showErrorNotification(res.data.message);
                 }
             })
-            .catch(()=>{
+            .catch(() => {
                 dispatch({
                     type: types.LOADED_LANGUAGES_ERROR,
                 });
@@ -237,7 +237,7 @@ export function savePostBlog(post, closeModal) {
                     postId: res.data.data.product.id,
                 });
                 closeModal();
-                dispatch(loadPosts(1, "", 0));
+                dispatch(loadPosts(1, "", 0, ''));
             })
             .catch(() => {
                 helper.showErrorNotification("Tải lên thất bại");
@@ -268,7 +268,7 @@ export function preSavePostBlog(post, preview = false) {
                     type: types.PRE_SAVE_POST_SUCCESS,
                     postId: res.data.data.product.id,
                 });
-                dispatch(loadPosts(1, "", 0));
+                dispatch(loadPosts(1, "", 0, ''));
             })
             .catch(() => {
                 helper.showErrorNotification("Tải lên thất bại");
@@ -279,7 +279,7 @@ export function preSavePostBlog(post, preview = false) {
     };
 }
 
-export function createLanguage(language,closeAddLanguageModal) {
+export function createLanguage(language, closeAddLanguageModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_LANGUAGE,
@@ -315,34 +315,34 @@ export function updateFormLanguage(language) {
 
 export function openAddLanguageModal() {
     return function (dispatch) {
-      dispatch({
-          type : types.OPEN_ADD_LANGUAGE_MODAL,
-      });
+        dispatch({
+            type: types.OPEN_ADD_LANGUAGE_MODAL,
+        });
     };
 }
 export function closeAddLanguageModal() {
     return function (dispatch) {
-      dispatch({
-          type : types.CLOSE_ADD_LANGUAGE_MODAL,
-      });
+        dispatch({
+            type: types.CLOSE_ADD_LANGUAGE_MODAL,
+        });
     };
 }
 export function openAddCategoryModal() {
     return function (dispatch) {
-      dispatch({
-          type : types.OPEN_ADD_CATEGORY_MODAL,
-      });
+        dispatch({
+            type: types.OPEN_ADD_CATEGORY_MODAL,
+        });
     };
 }
 
 export function closeAddCategoryModal() {
     return function (dispatch) {
-      dispatch({
-          type : types.CLOSE_ADD_CATEGORY_MODAL,
-      });
+        dispatch({
+            type: types.CLOSE_ADD_CATEGORY_MODAL,
+        });
     };
 }
-export function createCategory(category,closeAddLanguageModal) {
+export function createCategory(category, closeAddLanguageModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CATEGORY,
@@ -353,7 +353,7 @@ export function createCategory(category,closeAddLanguageModal) {
                 helper.showNotification("Tạo nhóm bài viết thành công");
                 dispatch({
                     type: types.CREATE_CATEGORY_SUCCESS,
-                    category :res.data.data.category,
+                    category: res.data.data.category,
                 });
                 closeAddLanguageModal();
             })

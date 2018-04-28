@@ -11,6 +11,7 @@ import { convertTimeToSecond } from "../../helpers/helper";
 import { observable } from "mobx";
 import { Modal } from "react-bootstrap";
 import ReactSelect from "react-select";
+import PropTypes from 'prop-types';
 
 let self;
 @observer
@@ -83,112 +84,112 @@ class DashboardTrongDongContainer extends Component {
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
                     <Loading />
                 ) : (
-                    <div>
-                        <div className="row">
-                            <div className="col-sm-4 col-xs-6">
-                                <Select
-                                    defaultMessage={"Chọn cơ sở"}
-                                    options={store.basesData}
-                                    value={store.selectedBaseId}
-                                    onChange={this.onChangeBase}
-                                />
+                        <div>
+                            <div className="row">
+                                <div className="col-sm-4 col-xs-6">
+                                    <Select
+                                        defaultMessage={"Chọn cơ sở"}
+                                        options={store.basesData}
+                                        value={store.selectedBaseId}
+                                        onChange={this.onChangeBase}
+                                    />
+                                </div>
+                                <div className="col-sm-3 col-xs-3">
+                                    <Select
+                                        defaultMessage={"Chọn loại phòng"}
+                                        options={store.roomTypesData}
+                                        value={store.selectedRoomTypeId}
+                                        onChange={this.onChangeRoomType}
+                                    />
+                                </div>
+                                <div className="col-sm-3 col-xs-3">
+                                    <Select
+                                        defaultMessage={"Chọn phòng"}
+                                        options={store.roomsData}
+                                        value={store.selectedRoomId}
+                                        onChange={this.onChangeRoom}
+                                    />
+                                </div>
                             </div>
-                            <div className="col-sm-3 col-xs-3">
-                                <Select
-                                    defaultMessage={"Chọn loại phòng"}
-                                    options={store.roomTypesData}
-                                    value={store.selectedRoomTypeId}
-                                    onChange={this.onChangeRoomType}
-                                />
-                            </div>
-                            <div className="col-sm-3 col-xs-3">
-                                <Select
-                                    defaultMessage={"Chọn phòng"}
-                                    options={store.roomsData}
-                                    value={store.selectedRoomId}
-                                    onChange={this.onChangeRoom}
-                                />
-                            </div>
-                        </div>
-                        {store.isLoading ? (
-                            <Loading />
-                        ) : (
-                            store.registerRooms &&
-                            store.registerRooms.map((room, index) => {
-                                const registers = room.register_rooms.map(register => {
-                                    let startTime = moment(register.start_time, DATETIME_FORMAT_SQL);
-                                    let endTime = moment(register.end_time, DATETIME_FORMAT_SQL);
-                                    let startSecond = convertTimeToSecond(startTime.format("HH:mm"));
-                                    let endSecond = convertTimeToSecond(endTime.format("HH:mm"));
-                                    let time = convertTimeToSecond("14:00");
-                                    let title = "";
-                                    if (startTime.format("MM-DD") == endTime.format("MM-DD")) {
-                                        if (startSecond <= time && time < endSecond) {
-                                            title = "Cả ngày: ";
-                                        } else if (startSecond <= time && endSecond <= time) {
-                                            title = "Ca sáng: ";
-                                        } else {
-                                            title = "Ca tối: ";
-                                        }
-                                    }
-                                    title += register.user.name;
-                                    let color =
-                                        register.status == "view"
-                                            ? "#4caa00"
-                                            : register.status == "cancel"
-                                                ? "#9b9b9b"
-                                                : "#ff4444";
-                                    return {
-                                        title: title,
-                                        register_room_id: register.id,
-                                        register_name: register.user.name,
-                                        room: room.name,
-                                        type: room.type.name,
-                                        register_id: register.register_id,
-                                        start: register.start_time,
-                                        end: register.end_time,
-                                        status: register.status,
-                                        color: color,
-                                        overlay: 1
-                                    };
-                                });
+                            {store.isLoading ? (
+                                <Loading />
+                            ) : (
+                                    store.registerRooms &&
+                                    store.registerRooms.map((room, index) => {
+                                        const registers = room.register_rooms.map(register => {
+                                            let startTime = moment(register.start_time, DATETIME_FORMAT_SQL);
+                                            let endTime = moment(register.end_time, DATETIME_FORMAT_SQL);
+                                            let startSecond = convertTimeToSecond(startTime.format("HH:mm"));
+                                            let endSecond = convertTimeToSecond(endTime.format("HH:mm"));
+                                            let time = convertTimeToSecond("14:00");
+                                            let title = "";
+                                            if (startTime.format("MM-DD") == endTime.format("MM-DD")) {
+                                                if (startSecond <= time && time < endSecond) {
+                                                    title = "Cả ngày: ";
+                                                } else if (startSecond <= time && endSecond <= time) {
+                                                    title = "Ca sáng: ";
+                                                } else {
+                                                    title = "Ca tối: ";
+                                                }
+                                            }
+                                            title += register.user.name;
+                                            let color =
+                                                register.status == "view"
+                                                    ? "#4caa00"
+                                                    : register.status == "cancel"
+                                                        ? "#9b9b9b"
+                                                        : "#ff4444";
+                                            return {
+                                                title: title,
+                                                register_room_id: register.id,
+                                                register_name: register.user.name,
+                                                room: room.name,
+                                                type: room.type.name,
+                                                register_id: register.register_id,
+                                                start: register.start_time,
+                                                end: register.end_time,
+                                                status: register.status,
+                                                color: color,
+                                                overlay: 1
+                                            };
+                                        });
 
-                                return (
-                                    <div className="card" key={index}>
-                                        <div className="card-content">
-                                            <h4 className="card-title">
-                                                <strong>{`Phòng ${room.name} - ${room.type.name} - ${
-                                                    room.seats_count
-                                                } chỗ ngồi`}</strong>
-                                            </h4>
-                                            <div>{`Cơ sở ${room.base.name} - ${room.base.address}`}</div>
-                                            <Calendar
-                                                id={"room-calender-" + room.id}
-                                                calendarEvents={registers}
-                                                onDropTime={value => this.updateTime(value)}
-                                                onClick={value => {
-                                                    this.registerRoomSelected = {
-                                                        id: value.register_id,
-                                                        status: value.status,
-                                                        register_name: value.register_name,
-                                                        room: value.room,
-                                                        type: value.type,
-                                                        start_time: value.start.format(DATETIME_FORMAT),
-                                                        end_time: value.end.format(DATETIME_FORMAT)
-                                                    };
-                                                    this.showModalChangeStatus = true;
-                                                }}
-                                                onClickDay={day => {
-                                                    self.openModalBooking(day, room);
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                );
-                            })
-                        )}
-                    </div>
-                )}
+                                        return (
+                                            <div className="card" key={index}>
+                                                <div className="card-content">
+                                                    <h4 className="card-title">
+                                                        <strong>{`Phòng ${room.name} - ${room.type.name} - ${
+                                                            room.seats_count
+                                                            } chỗ ngồi`}</strong>
+                                                    </h4>
+                                                    <div>{`Cơ sở ${room.base.name} - ${room.base.address}`}</div>
+                                                    <Calendar
+                                                        id={"room-calender-" + room.id}
+                                                        calendarEvents={registers}
+                                                        onDropTime={value => this.updateTime(value)}
+                                                        onClick={value => {
+                                                            this.registerRoomSelected = {
+                                                                id: value.register_id,
+                                                                status: value.status,
+                                                                register_name: value.register_name,
+                                                                room: value.room,
+                                                                type: value.type,
+                                                                start_time: value.start.format(DATETIME_FORMAT),
+                                                                end_time: value.end.format(DATETIME_FORMAT)
+                                                            };
+                                                            this.showModalChangeStatus = true;
+                                                        }}
+                                                        onClickDay={day => {
+                                                            self.openModalBooking(day, room);
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                )}
+                        </div>
+                    )}
                 <Modal
                     show={this.showModalChangeStatus}
                     onHide={() => {
@@ -247,6 +248,10 @@ class DashboardTrongDongContainer extends Component {
         );
     }
 }
+
+DashboardTrongDongContainer.propTypes = {
+    user: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

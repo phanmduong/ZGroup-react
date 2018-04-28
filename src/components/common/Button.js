@@ -27,13 +27,13 @@ export default class Button extends Component {
                         {this.props.labelLoading}
                     </button>
                 ) : (
-                    <button
-                        onClick={this.props.onClick}
-                        type="button"
-                        className={`btn ${this.props.className}`}>
-                        {this.props.label}
-                    </button>
-                )}
+                        <button
+                            onClick={this.props.onClick}
+                            type="button"
+                            className={`btn ${this.props.className}`}>
+                            {this.props.label}
+                        </button>
+                    )}
             </div>
         );
     }
@@ -45,5 +45,6 @@ Button.propTypes = {
     labelLoading: PropTypes.string,
     className: PropTypes.string,
     scrollerId: PropTypes.string,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    height: PropTypes.string,
 };

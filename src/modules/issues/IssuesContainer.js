@@ -17,13 +17,13 @@ export default class IssuesContainer extends Component {
         this.searchChange = this.searchChange.bind(this);
     }
 
-    @observable search = "";
-    @observable status = "";
-    @observable showModalCreate = false;
-
     componentWillMount() {
         store.loadIssues();
     }
+
+    @observable search = "";
+    @observable status = "";
+    @observable showModalCreate = false;
 
     loadDataPage(page) {
         store.currentPage = page;
@@ -37,7 +37,7 @@ export default class IssuesContainer extends Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 store.loadIssues(this.search, this.status, store.currentPage);
             }.bind(this),
             500
@@ -79,43 +79,43 @@ export default class IssuesContainer extends Component {
                         {store.isLoading ? (
                             <Loading />
                         ) : (
-                            <div className="table-responsive">
-                                <table
-                                    className="table table-striped table-no-bordered table-hover"
-                                    cellSpacing="0"
-                                    width="100%"
-                                    style={{ width: "100%" }}>
-                                    <thead className="text-rose">
-                                        <tr>
-                                            <th>Báo cáo</th>
-                                            <th>Mô tả</th>
-                                            <th>Người báo</th>
-                                            <th>Trạng thái</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {store.issues.map(issue => {
-                                            return (
-                                                <tr key={issue.id}>
-                                                    <td>{issue.title}</td>
-                                                    <td>{issue.description}</td>
-                                                    <td>
-                                                        <button
-                                                            className="btn btn-xs btn-main"
-                                                            style={{
-                                                                backgroundColor: "#" + issue.color
-                                                            }}>
-                                                            {getShortName(issue.name)}
-                                                        </button>
-                                                    </td>
-                                                    <td>{this.renderStatus(issue.status)}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
+                                <div className="table-responsive">
+                                    <table
+                                        className="table table-striped table-no-bordered table-hover"
+                                        cellSpacing="0"
+                                        width="100%"
+                                        style={{ width: "100%" }}>
+                                        <thead className="text-rose">
+                                            <tr>
+                                                <th>Báo cáo</th>
+                                                <th>Mô tả</th>
+                                                <th>Người báo</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {store.issues.map(issue => {
+                                                return (
+                                                    <tr key={issue.id}>
+                                                        <td>{issue.title}</td>
+                                                        <td>{issue.description}</td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-xs btn-main"
+                                                                style={{
+                                                                    backgroundColor: "#" + issue.color
+                                                                }}>
+                                                                {getShortName(issue.name)}
+                                                            </button>
+                                                        </td>
+                                                        <td>{this.renderStatus(issue.status)}</td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
                         <Pagination
                             currentPage={store.currentPage}
                             totalPages={store.totalPages}
