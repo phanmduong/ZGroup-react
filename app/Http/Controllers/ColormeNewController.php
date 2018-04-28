@@ -218,7 +218,7 @@ class ColormeNewController extends CrawlController
     {
         $user = User::where('username', $username)->first();
         $user->avatar_url = generate_protocol_url($user->avatar_url);
-        $blogs = Product::where('author_id',$user->id)->get();
+        $blogs = Product::where('author_id', $user->id)->get();
         $blogs = $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             $data['time'] = $this->timeCal(date($blog->created_at));
@@ -233,7 +233,8 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
-    public function profileAttendance($username) {
+    public function profileAttendance($username)
+    {
         $user = User::where('username', $username)->first();
         $user->avatar_url = generate_protocol_url($user->avatar_url);
         $this->data['user_profile'] = $user;
@@ -269,11 +270,23 @@ class ColormeNewController extends CrawlController
         $search = $request->search;
         $tag = $request->tag;
 
-        $blogs = Product::where('kind', 'blog')->where('status', 1)
-            ->where('title', 'like', "%$search%");
+        $blogsData = Product::where('kind', 'blog')->where('status', 1)
+            ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
+
+        if ($request->page > 1) {
+            $blogs = $blogsData;
+        } else {
+            $topBlogs = $blogsData->first();
+            $topBlogs->time = $this->timeCal(date($topBlogs->created_at));
+            $this->data['topBlogs'] = $topBlogs;
+
+            $blogs = $blogsData->where('id', '<>', $topBlogs->id);
+        }
+
+
         if ($tag)
             $blogs = $blogs->where('tags', 'like', "%$tag%");
-        $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
+        $blogs = $blogs->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
@@ -336,7 +349,7 @@ class ColormeNewController extends CrawlController
         $subscription->user_id = $user->id;
         $subscription->product_id = $request->blog_id;
         $subscription->save();
-        
+
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'

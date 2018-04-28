@@ -1611,18 +1611,20 @@ a.like-count:hover {
     margin-bottom: 20px;
 
 }
+
 .product-content span {
     text-align: justify;
     font-family: Tinos !important;
     font-size: 20px !important;
-    margin-bottom: 15px!important;
+    margin-bottom: 15px !important;
     display: inline-block !important;
 }
+
 .product-content strong {
     text-align: justify;
     font-family: Tinos !important;
     font-size: 20px !important;
-    margin-bottom: 15px!important;
+    margin-bottom: 15px !important;
     display: inline-block !important;
     font-weight: 700 !important;
 }
@@ -3009,10 +3011,9 @@ div#app {
 }
 
 .pagination-area > ul {
-    justify-content: center!important;
+    justify-content: center !important;
     margin: 0 5px;
 }
-
 
 .nav-pills-primary > li > a,
 .pagination-primary > li > a,
@@ -3059,48 +3060,53 @@ div#app {
 .pagination > li:first-child > span,
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
-  background-color: transparent;
-  border: 2px solid #d2d2d2;
-  border-radius: 20px;
-  color: #d2d2d2;
-  height: 36px;
-  margin: 0 2px;
-  min-width: 36px;
-  padding: 7px 12px;
-  font-weight: 600;
+    background-color: transparent;
+    border: 2px solid #d2d2d2;
+    border-radius: 20px;
+    color: #d2d2d2;
+    height: 36px;
+    margin: 0 2px;
+    min-width: 36px;
+    padding: 7px 12px;
+    font-weight: 600;
 }
 
 hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, .1);
     border-color: #F1EAE0;
 }
 
 .pagination-area {
     display: flex;
-    justify-content: center!important;
+    justify-content: center !important;
 }
 
 .zoom {
     transition: transform .2s; /* Animation */
-    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 .zoom:hover {
     transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
+
 .blog-title {
-    text-align: center !important; font-size: 26px !important; padding: 15px !important; font-weight: 600 !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
 }
+
 @media only screen and (max-width: 600px) {
     .blog-title {
-        text-align: center  !important; font-size: 20px !important; padding: 15px 0 !important; font-weight: 600 !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
     }
 
 }
+
 .blog-body {
     font-family: Tinos;
 }
@@ -3110,8 +3116,9 @@ hr {
 }
 
 #myFooter ul {
-    padding-left:0;
+    padding-left: 0;
 }
+
 #myFooter .btn {
     color: white;
     background-color: #c50000;
@@ -3123,47 +3130,99 @@ hr {
     margin-top: 10px;
     line-height: 25px;
 }
+
 #myFooter .social-networks a {
     font-size: 32px;
     color: #f9f9f9;
     padding: 10px;
     transition: 0.2s;
 }
+
 #myFooter {
     background-color: #232323;
     color: white;
     padding-top: 30px;
-    font-size:13px
+    font-size: 13px
 }
+
 #myFooter {
     flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
 }
+
 #myFooter .social-networks {
     text-align: center;
     padding-top: 30px;
     padding-bottom: 16px;
 }
+
 #myFooter h5 {
     font-size: 14px;
     color: white;
     font-weight: bold;
     margin-top: 30px;
 }
+
 #myFooter .footer-copyright {
     background-color: #333333;
     padding-top: 3px;
     padding-bottom: 3px;
     text-align: center;
 }
+
 #myFooter .footer-copyright p {
     margin: 10px;
     color: #ccc;
 }
+
 #myFooter .row {
     margin-bottom: 60px;
-    font-family: 'Roboto'!important;
+    font-family: 'Roboto' !important;
 }
+
 #myFooter a {
-    color:white;
+    color: white;
+}
+
+.flex-row-center {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-justify-content-center {
+    justify-content: center;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex {
+    display: flex !important;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-wrap {
+    flex-wrap: wrap !important;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.margin-hr {
+    margin-top: 30px;
+    margin-bottom: 30px
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
 }
