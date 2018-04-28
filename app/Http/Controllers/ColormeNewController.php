@@ -273,19 +273,34 @@ class ColormeNewController extends CrawlController
         $blogsData = Product::where('kind', 'blog')->where('status', 1)
             ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
 
+        if ($tag)
+            $blogsData = $blogsData->where('tags', 'like', "%$tag%");
+
         if ($request->page > 1) {
             $blogs = $blogsData;
         } else {
             $topBlogs = $blogsData->first();
-            $topBlogs->time = $this->timeCal(date($topBlogs->created_at));
+            $topBlogs = $topBlogs->blogTransform();
+            $topBlogs['time'] = $this->timeCal(date($topBlogs['created_at']));
             $this->data['topBlogs'] = $topBlogs;
 
-            $blogs = $blogsData->where('id', '<>', $topBlogs->id);
+            $blogs = $blogsData->where('id', '<>', $topBlogs['id']);
         }
 
+        $topTags = DB::select("SELECT
+                                   SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) tag,
+                                  count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
+                                FROM
+                                  tag_numbers INNER JOIN products
+                                  ON products.kind='blog' AND CHAR_LENGTH(products.tags)
+                                     -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
+                                WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
+                                GROUP BY tag 
+                                ORDER BY sum_tag DESC
+                                LIMIT 5");
 
-        if ($tag)
-            $blogs = $blogs->where('tags', 'like', "%$tag%");
+//        dd($topTags[0]->tag);
+
         $blogs = $blogs->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
@@ -299,6 +314,7 @@ class ColormeNewController extends CrawlController
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
+        $this->data['topTags'] = $topTags;
         return view('colorme_new.blogs', $this->data);
     }
 
