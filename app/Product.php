@@ -94,6 +94,7 @@ class Product extends Model
             'category_name' => $category ? $category->name : null,
             'thumb_url' => $this->thumb_url,
             'slug' => $this->slug,
+            'kind' => $this->kind,
             'meta_description' => $this->meta_description,
             'meta_title' => $this->meta_title,
             'keyword' => $this->keyword,
