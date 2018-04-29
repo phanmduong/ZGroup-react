@@ -14,7 +14,7 @@ class RoomModal extends React.Component {
         this.state = {
             from: moment().format(DATETIME_VN_FORMAT),
             to: moment().format(DATETIME_VN_FORMAT),
-            roomId: this.props.rooms[0].id,
+                roomId: this.props.rooms[0].id,
         };
         this.onFromDateInputChange = this.onFromDateInputChange.bind(this);
         this.onToDateInputChange = this.onToDateInputChange.bind(this);
@@ -141,46 +141,46 @@ class RoomModal extends React.Component {
                             {this.props.isLoadingSeats ? (
                                 <Loading />
                             ) : (
-                                <div className="tab-content">
-                                    <TooltipButton
-                                        placement="top"
-                                        text={
-                                            Math.round(
-                                                percent(
-                                                    this.props.available_seats,
-                                                    this.props.seats_count,
-                                                ),
-                                            ) + "%"
-                                        }
-                                    >
-                                        <div className="progress progress-line-rose">
-                                            <div
-                                                className="progress-bar"
-                                                role="progressbar"
-                                                style={{
-                                                    width:
-                                                        percent(
-                                                            this.props
-                                                                .available_seats,
-                                                            this.props
-                                                                .seats_count,
-                                                        ) + "%",
-                                                }}
-                                            />
-                                        </div>
-                                    </TooltipButton>
-                                    {this.props.isLoadingSeats ? (
-                                        <Loading />
-                                    ) : (
-                                        <RoomGrid
-                                            onClick={this.onClick}
-                                            onDrag={this.onDrag}
-                                            onPointClick={this.onPointClick}
-                                            data={this.props.seats}
-                                            domain={this.props.domain}
-                                        />
-                                    )}
-                                </div>
+                                    <div className="tab-content">
+                                        <TooltipButton
+                                            placement="top"
+                                            text={
+                                                Math.round(
+                                                    percent(
+                                                        this.props.available_seats,
+                                                        this.props.seats_count,
+                                                    ),
+                                                ) + "%"
+                                            }
+                                        >
+                                            <div className="progress progress-line-rose">
+                                                <div
+                                                    className="progress-bar"
+                                                    role="progressbar"
+                                                    style={{
+                                                        width:
+                                                            percent(
+                                                                this.props
+                                                                    .available_seats,
+                                                                this.props
+                                                                    .seats_count,
+                                                            ) + "%",
+                                                    }}
+                                                />
+                                            </div>
+                                        </TooltipButton>
+                                        {this.props.isLoadingSeats ? (
+                                            <Loading />
+                                        ) : (
+                                                <RoomGrid
+                                                    onClick={this.onClick}
+                                                    onDrag={this.onDrag}
+                                                    onPointClick={this.onPointClick}
+                                                    data={this.props.seats}
+                                                    domain={this.props.domain}
+                                                />
+                                        )}
+                                    </div>
                             )}
                         </div>
                     }

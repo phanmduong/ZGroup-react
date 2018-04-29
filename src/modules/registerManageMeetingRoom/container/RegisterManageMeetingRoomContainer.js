@@ -15,6 +15,38 @@ import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
 import {OverlayTrigger, Panel, Tooltip} from "react-bootstrap";
 
+function getBaseData(datas) {
+    let selectData = datas.map(function (data) {
+        return {
+            key: data.id,
+            value: data.name,
+        };
+    });
+    return [
+        {
+            key: 0,
+            value: "Tất cả",
+        },
+        ...selectData,
+    ];
+}
+
+function getSalerData(datas) {
+    let selectData = datas.map(function (data) {
+        return {
+            value: data.id,
+            label: data.name,
+        };
+    });
+    return [
+        {
+            value: 0,
+            label: "Tất cả",
+        },
+        ...selectData,
+    ];
+}
+
 class RegisterManageRoomContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -60,48 +92,18 @@ class RegisterManageRoomContainer extends React.Component {
         if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
             this.setState({
                 base_id: 0,
-                bases: this.getBaseData(nextProps.bases),
+                bases: getBaseData(nextProps.bases),
             });
         }
         if (nextProps.isLoadingSalers !== this.props.isLoadingSalers && !nextProps.isLoadingSalers) {
             this.setState({
                 saler_id: 0,
-                salers: this.getSalerData(nextProps.salers),
+                salers: getSalerData(nextProps.salers),
             });
         }
     }
 
-    getBaseData(datas) {
-        let selectData = datas.map(function (data) {
-            return {
-                key: data.id,
-                value: data.name,
-            };
-        });
-        return [
-            {
-                key: 0,
-                value: "Tất cả",
-            },
-            ...selectData,
-        ];
-    }
 
-    getSalerData(datas) {
-        let selectData = datas.map(function (data) {
-            return {
-                value: data.id,
-                label: data.name,
-            };
-        });
-        return [
-            {
-                value: 0,
-                label: "Tất cả",
-            },
-            ...selectData,
-        ];
-    }
 
     onChangeBase(value) {
         this.setState({base_id: value});
@@ -200,51 +202,6 @@ class RegisterManageRoomContainer extends React.Component {
         this.setState({openFilterPanel: newstatus});
     }
 
-    // async exportRegistersResultExcel() {
-    //     this.props.registerManageMeetingRoomAction.showGlobalLoading();
-    //     const res = await loadAllRegistersApi(
-    //         -1,
-    //         this.state.page,
-    //         this.state.query,
-    //         this.state.saler_id,
-    //         this.state.status,
-    //         this.state.campaign_id,
-    //         this.state.base_id,
-    //         this.state.startTime,
-    //         this.state.endTime,
-    //     );
-    //     this.props.registerManageMeetingRoomAction.hideGlobalLoading();
-    //     const wsData = res.data.data.room_service_registers;
-    //     const field = [];
-    //     field[0] = "Tên khách hàng";
-    //     field[1] = "Số điện thoại";
-    //     field[2] = "Nhân viên phục vụ";
-    //     field[3] = "Ngày đăng kí";
-    //     field[4] = "Thời gian bắt đầu dự kiến";
-    //     field[5] = "Thời gian kết thúc dự kiến";
-    //     field[6] = "Thời gian bắt đầu chính thức";
-    //     field[7] = "Thời gian kết thúc chính thức";
-    //     const datas = wsData.map(data => {
-    //         let tmp = [];
-    //         tmp[0] = data.user.name;
-    //         tmp[1] = data.user.phone || "Chưa có";
-    //         tmp[2] = data.user.phone || "Chưa có";
-    //         tmp[3] = data.created_at || "Chưa có";
-    //         tmp[4] = (data.saler && data.saler.name) || "Không có";
-    //         tmp[5] = (data.campaign && data.campaign.name) || "Không có";
-    //         return tmp;
-    //     });
-    //     const tmpWsData = [field, ...datas];
-    //     const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-    //     const sheetName = "Danh sách đăng kí đặt phòng h";
-    //     let workbook = {
-    //         SheetNames: [],
-    //         Sheets: {},
-    //     };
-    //     workbook.SheetNames.push(sheetName);
-    //     workbook.Sheets[sheetName] = ws;
-    //     saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòngọp họp");
-    // }
 
     registersSearchChange(value) {
         this.setState({
@@ -342,90 +299,90 @@ class RegisterManageRoomContainer extends React.Component {
                         <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
-                                <div style={{display: "flex", justifyContent: "space-between"}}>
-                                    <div style={{display: "flex"}}>
-                                        <h4 className="card-title">
-                                            <strong>Danh sách đăng kí phòng họp</strong>
-                                        </h4>
-                                        <div>
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={Filter}
-                                            >
-                                                <button
-                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                                    onClick={this.openFilterPanel}
+                                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                                        <div style={{display: "flex"}}>
+                                            <h4 className="card-title">
+                                                <strong>Danh sách đăng kí phòng họp</strong>
+                                            </h4>
+                                            <div>
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={Filter}
                                                 >
-                                                    <i className="material-icons"
-                                                       style={{margin: "0px -4px", top: 0}}
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                        onClick={this.openFilterPanel}
                                                     >
-                                                        filter_list
-                                                    </i>
-                                                </button>
-                                            </OverlayTrigger>
+                                                        <i className="material-icons"
+                                                           style={{margin: "0px -4px", top: 0}}
+                                                        >
+                                                            filter_list
+                                                        </i>
+                                                    </button>
+                                                </OverlayTrigger>
+                                            </div>
                                         </div>
+                                        {/*<div>*/}
+                                        {/*<OverlayTrigger*/}
+                                        {/*placement="top"*/}
+                                        {/*overlay={Export}*/}
+                                        {/*>*/}
+                                        {/*<button*/}
+                                        {/*className="btn btn-primary btn-round btn-xs button-add none-margin "*/}
+                                        {/*onClick={this.exportRegistersResultExcel}*/}
+                                        {/*>*/}
+                                        {/*<i className="material-icons"*/}
+                                        {/*style={{margin: "0px -4px", top: 0}}*/}
+                                        {/*>*/}
+                                        {/*file_download*/}
+                                        {/*</i>*/}
+                                        {/*</button>*/}
+                                        {/*</OverlayTrigger>*/}
+                                        {/*</div>*/}
                                     </div>
-                                    {/*<div>*/}
-                                    {/*<OverlayTrigger*/}
-                                    {/*placement="top"*/}
-                                    {/*overlay={Export}*/}
-                                    {/*>*/}
-                                    {/*<button*/}
-                                    {/*className="btn btn-primary btn-round btn-xs button-add none-margin "*/}
-                                    {/*onClick={this.exportRegistersResultExcel}*/}
-                                    {/*>*/}
-                                    {/*<i className="material-icons"*/}
-                                    {/*style={{margin: "0px -4px", top: 0}}*/}
-                                    {/*>*/}
-                                    {/*file_download*/}
-                                    {/*</i>*/}
-                                    {/*</button>*/}
-                                    {/*</OverlayTrigger>*/}
-                                    {/*</div>*/}
-                                </div>
-                                <Search
-                                    onChange={this.registersSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
-                                />
-                                <Panel
-                                    collapsible
-                                    expanded={this.state.openFilterPanel}
-                                >
-                                    <div className="row">
-                                        <div className="form-group col-md-4">
-                                            <label className="label-control">Tìm theo saler</label>
-                                            <Select
-                                                value={this.state.saler_id}
-                                                options={this.state.salers}
-                                                onChange={this.salersSearchChange}
+                                    <Search
+                                        onChange={this.registersSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
+                                    />
+                                    <Panel
+                                        collapsible
+                                        expanded={this.state.openFilterPanel}
+                                    >
+                                        <div className="row">
+                                            <div className="form-group col-md-4">
+                                                <label className="label-control">Tìm theo saler</label>
+                                                <Select
+                                                    value={this.state.saler_id}
+                                                    options={this.state.salers}
+                                                    onChange={this.salersSearchChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Panel>
+                                    <ListRegisters
+                                        registers={this.props.registers}
+                                        isLoading={this.props.isLoading}
+                                        filterBySaler={this.filterBySaler}
+                                        openPaymentModal={this.openPaymentModal}
+                                    />
+                                    <div className="row float-right">
+                                        <div className="col-md-12"
+                                             style={{textAlign: "right"}}
+                                        >
+                                            <b style={{marginRight: "15px"}}>
+                                                Hiển thị kêt quả từ {first} -{" "}
+                                                {end}/{this.props.totalCount}
+                                            </b>
+                                            <br/>
+                                            <Pagination
+                                                totalPages={this.props.totalPages}
+                                                currentPage={this.props.currentPage}
+                                                loadDataPage={this.loadAllRegisters}
                                             />
                                         </div>
                                     </div>
-                                </Panel>
-                                <ListRegisters
-                                    registers={this.props.registers}
-                                    isLoading={this.props.isLoading}
-                                    filterBySaler={this.filterBySaler}
-                                    openPaymentModal={this.openPaymentModal}
-                                />
-                                <div className="row float-right">
-                                    <div className="col-md-12"
-                                         style={{textAlign: "right"}}
-                                    >
-                                        <b style={{marginRight: "15px"}}>
-                                            Hiển thị kêt quả từ {first} -{" "}
-                                            {end}/{this.props.totalCount}
-                                        </b>
-                                        <br/>
-                                        <Pagination
-                                            totalPages={this.props.totalPages}
-                                            currentPage={this.props.currentPage}
-                                            loadDataPage={this.loadAllRegisters}
-                                        />
-                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>

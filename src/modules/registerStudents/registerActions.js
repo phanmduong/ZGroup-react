@@ -233,6 +233,8 @@ export function loadDataSuccessful(res) {
         genId: res.data.gen.id,
         currentPage: res.data.paginator.current_page,
         totalPages: res.data.paginator.total_pages,
+        totalCount: res.data.paginator.total_count,
+        limit: res.data.paginator.limit,
         isLoading: false,
         error: false,
     };

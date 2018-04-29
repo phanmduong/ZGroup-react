@@ -2,8 +2,6 @@ import React from 'react';
 import Pagination from "../../components/common/Pagination";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import AddMessageModal from "./AddMessageModal";
-import AddReceiverModal from "./AddReceiverModal";
 import {bindActionCreators} from 'redux';
 import TooltipButton from "../../components/common/TooltipButton";
 import OverlappedCircles from "../../components/common/OverlappedCircles";
@@ -15,49 +13,22 @@ class HistoryComponent extends React.Component {
         // this.state = {
         //     page: 1
         // };
-        this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
     }
-    showAddMessageModal2(message){
-        this.props.campaignAction.showAddMessageModal();
-        this.props.campaignAction.upMessage(message);
-    }
-    loadOrders(
-        //page = 1
+
+    loadOrders(//page = 1
     ) {
         // this.setState({page: page});
         // this.props.weekendReportAction.loadAllReports(page);
     }
+
     render() {
         return (
-            <div className="campaign-content">
-                <div className="form-group is-empty">
-                    <div className="flex-row flex">
-                        <h5 className="card-title" style={{lineHeight: "0px"}}>
-                            <strong>Tin đã gửi</strong>
-                        </h5>
-                        <div className="dropdown">
-                            <button data-toggle="dropdown" aria-expanded="false"
-                                    className="dropdown-toggle button-plus">
-                                <i className="material-icons" style={{fontSize: "20px"}}>add</i>
-                            </button>
-                            <ul className="dropdown-menu dropdown-primary">
-                                <li>
-                                    <a onClick={() => this.showAddMessageModal2({sms_template_type_id: 1})}>Thêm tin</a>
-                                </li>
-                                <li>
-                                    <a onClick={()=>{
-                                        this.props.campaignAction.showAddReceiverModal();
-                                    }}>Thêm người nhận</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <input
-                        style={{paddingTop: "20px"}}
-                        type="search" className="form-control" placeholder="Tìm kiếm người nhận" value=""/>
-                </div>
-                <br/><br/><br/>
+            <div>
+                <input
+                    style={{paddingTop: "20px"}}
+                    type="search" className="form-control" placeholder="Tìm kiếm người nhận" value=""/>
+                <br/>
                 <div className="table-responsive">
                     <table className="table table-hover">
                         <thead className="text-rose">
@@ -75,7 +46,7 @@ class HistoryComponent extends React.Component {
                         <tr>
                             <td>
                                 <div style={{display: "flex"}}>
-                                    <div style={{width:"28px"}}>
+                                    <div style={{width: "28px"}}>
                                         <img className="circle-avatar"
                                              src="https://i.quantrimang.com/photos/image/2016/11/30/fb-size-vuong.png"/>
 
@@ -83,7 +54,7 @@ class HistoryComponent extends React.Component {
                                     <div>
                                         <TooltipButton placement="top"
                                                        text="Tin thứ 6">
-                                        <button className="sent-message">6</button>
+                                            <button className="sent-message">6</button>
                                         </TooltipButton>
                                     </div>
                                 </div>
@@ -95,7 +66,7 @@ class HistoryComponent extends React.Component {
                                 Hello world Happy new year...
                             </td>
                             <td>
-                                <span style={{width:"120px"}}>01626457547</span>
+                                <span style={{width: "120px"}}>01626457547</span>
                                 &ensp;
                                 <span>
                                     <img style={{height: "20px"}}
@@ -138,8 +109,6 @@ class HistoryComponent extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <AddReceiverModal/>
-                <AddMessageModal/>
                 <div className="row float-right">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style={{textAlign: 'right'}}>
@@ -159,16 +128,17 @@ class HistoryComponent extends React.Component {
 }
 
 HistoryComponent.propTypes = {
-    campaignAction:PropTypes.object.isRequired,
+    campaignAction: PropTypes.object.isRequired,
 };
-function mapStateToProps() {
-    return{
 
-    };
+function mapStateToProps() {
+    return {};
 }
+
 function mapDispatchToProps(dispatch) {
     return {
         campaignAction: bindActionCreators(campaignAction, dispatch)
     };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryComponent);
