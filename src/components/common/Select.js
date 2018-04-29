@@ -5,16 +5,16 @@ class Select extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
-    componentDidUpdate() {
-        $(".selectpicker").selectpicker("refresh");
-    }
 
     componentDidMount() {
         $(".selectpicker").selectpicker();
     }
+    componentDidUpdate() {
+        $(".selectpicker").selectpicker("refresh");
+    }
+
 
     render() {
-        console.log("123");
         return (
             <div>
                 <select

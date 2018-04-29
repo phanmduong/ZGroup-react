@@ -1,32 +1,32 @@
-import React                from 'react';
-import PropTypes            from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import {connect}            from "react-redux";
-import * as blogActions     from "../actions/blogActions";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import * as blogActions from "../actions/blogActions";
+import { bindActionCreators } from "redux";
 
-import FormInputText        from '../../../components/common/FormInputText';
-import {Modal}              from "react-bootstrap";
+import FormInputText from '../../../components/common/FormInputText';
+import { Modal } from "react-bootstrap";
 
 class AddCategoryModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.closeAddCategoryModal  = this.closeAddCategoryModal.bind(this);
-        this.updateFormCategory     = this.updateFormCategory.bind(this);
-        this.createCategory         = this.createCategory.bind(this);
+        this.closeAddCategoryModal = this.closeAddCategoryModal.bind(this);
+        this.updateFormCategory = this.updateFormCategory.bind(this);
+        this.createCategory = this.createCategory.bind(this);
     }
     closeAddCategoryModal() {
         this.props.blogActions.closeAddCategoryModal();
     }
     updateFormCategory(event) {
         const field = event.target.name;
-        let data = {...this.props.category};
+        let data = { ...this.props.category };
         data[field] = event.target.value;
         this.props.blogActions.updateFormCategory(data);
     }
     createCategory(e) {
         if ($("#form-category").valid()) {
-            this.props.blogActions.createCategory(this.props.category,this.closeAddCategoryModal);
+            this.props.blogActions.createCategory(this.props.category, this.closeAddCategoryModal);
         }
         e.preventDefault();
     }
@@ -54,27 +54,27 @@ class AddCategoryModal extends React.Component {
                             value={this.props.category.name}
                         />
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-danger btn-simple"
-                                    onClick={() => {
-                                        this.closeAddCategoryModal();
-                                    }}
-                            >Huỷ
-                            </button>
                             {this.props.isCreatingCategory ?
                                 (
                                     <button type="button" className="btn btn-rose disabled">
-                                        <i className="fa fa-spinner fa-spin "/>Đang thêm
+                                        <i className="fa fa-spinner fa-spin " />Đang thêm
                                     </button>
                                 )
                                 :
                                 (
                                     <button type="button" className="btn btn-rose"
-                                            onClick={(e) => {
-                                                this.createCategory(e);
-                                            }}>Thêm
+                                        onClick={(e) => {
+                                            this.createCategory(e);
+                                        }}>Thêm
                                     </button>
                                 )
                             }
+                            <button type="button" className="btn"
+                                onClick={() => {
+                                    this.closeAddCategoryModal();
+                                }}
+                            >Huỷ
+                            </button>
                         </div>
                     </form>
                 </Modal.Body>
@@ -84,16 +84,16 @@ class AddCategoryModal extends React.Component {
 }
 
 AddCategoryModal.propTypes = {
-    category:           PropTypes.object.isRequired,
+    category: PropTypes.object.isRequired,
     isCreatingCategory: PropTypes.bool.isRequired,
-    blogActions:        PropTypes.object.isRequired,
-    isOpenCategoryModal:PropTypes.bool.isRequired,
+    blogActions: PropTypes.object.isRequired,
+    isOpenCategoryModal: PropTypes.bool.isRequired,
 
 };
 function mapStateToProps(state) {
     return {
-        isOpenCategoryModal:state.blog.isOpenCategoryModal,
-        category:           state.blog.category,
+        isOpenCategoryModal: state.blog.isOpenCategoryModal,
+        category: state.blog.category,
         isCreatingCategory: state.blog.isCreatingCategory,
     };
 }

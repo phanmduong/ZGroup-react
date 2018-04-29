@@ -1,23 +1,23 @@
 /**
  * Created by Kiyoshitaro on 15/04/2018.
  */
-import React                from "react";
-import PropTypes            from "prop-types";
+import React from "react";
+import PropTypes from "prop-types";
 
-import {connect}            from "react-redux";
-import {bindActionCreators} from "redux";
-import * as blogActions     from "../actions/blogActions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as blogActions from "../actions/blogActions";
 
 
-import ListPost             from "./ListPost";
-import Search               from "../../../components/common/Search";
-import Loading              from "../../../components/common/Loading";
-import Pagination           from "../../../components/common/Pagination";
-import Select               from '../../../components/common/Select';
+import ListPost from "./ListPost";
+import Search from "../../../components/common/Search";
+import Loading from "../../../components/common/Loading";
+import Pagination from "../../../components/common/Pagination";
+import Select from '../../../components/common/Select';
 // import Select               from './Select';
-import PostModal            from "./PostModal";
-import AddLanguageModal     from "./AddLanguageModal";
-import AddCategoryModal     from "./AddCategoryModal";
+import PostModal from "./PostModal";
+import AddLanguageModal from "./AddLanguageModal";
+import AddCategoryModal from "./AddCategoryModal";
 // import KeetoolEditor from "../../../components/common/KeetoolEditor";
 // import MinEditor from '../../../js/keetool-editor';
 
@@ -31,17 +31,18 @@ class BlogsContainer extends React.Component {
             page: 1,
             query: "",
             category_id: 0,
-
+            kind: 'blog',
             isOpenModal: false,
             postId: 0,
             isEdit: false,
         };
         this.timeOut = null;
-        this.loadPosts          = this.loadPosts.bind(this);
-        this.openCreatePostModal= this.openCreatePostModal.bind(this);
-        this.loadByText         = this.loadByText.bind(this);
-        this.loadPosts          = this.loadPosts.bind(this);
-        this.loadByCategories   = this.loadByCategories.bind(this);
+        this.loadPosts = this.loadPosts.bind(this);
+        this.openCreatePostModal = this.openCreatePostModal.bind(this);
+        this.loadByText = this.loadByText.bind(this);
+        this.loadPosts = this.loadPosts.bind(this);
+        this.loadByCategories = this.loadByCategories.bind(this);
+        this.loadByKinds = this.loadByKinds.bind(this);
     }
 
 
@@ -58,11 +59,12 @@ class BlogsContainer extends React.Component {
     //     });
     // }
     loadPosts(page) {
-        this.setState({page});
+        this.setState({ page });
         this.props.blogActions.loadPosts(
             page,
             this.state.query,
             this.state.category_id,
+            this.state.kind,
         );
     }
     loadByText(value) {
@@ -79,13 +81,14 @@ class BlogsContainer extends React.Component {
                     this.state.page,
                     value,
                     this.state.category_id,
+                    this.state.kind,
                 );
             }.bind(this),
             500,
         );
     }
     loadByCategories(category_id) {
-        this.setState({category_id});
+        this.setState({ category_id });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -95,12 +98,30 @@ class BlogsContainer extends React.Component {
                     1,
                     this.state.query,
                     category_id,
+                    this.state.kind,
                 );
             }.bind(this),
             500,
         );
     }
-    openCreatePostModal(e){
+    loadByKinds(kind) {
+        this.setState({ kind });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(
+            function () {
+                this.props.blogActions.loadPosts(
+                    1,
+                    this.state.query,
+                    this.state.category_id,
+                    kind,
+                );
+            }.bind(this),
+            500,
+        );
+    }
+    openCreatePostModal(e) {
         this.props.blogActions.openCreatePostModal();
         e.preventDefault();
     }
@@ -118,56 +139,78 @@ class BlogsContainer extends React.Component {
         //         : this.props.totalPages;
         return (
             <div className="container-fluid">
-                {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages? (
-                    <Loading/>
+                {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages ? (
+                    <Loading />
                 ) : (
-                    <div>
-                        <div className="row">
-                            <div className="col-md-2">
+                        <div>
+                            <div className="row">
+                                <div className="col-md-2">
 
-                                <Select
-                                    className="btn-round"
-                                    name="board-id"
-                                    value={this.state.category_id}
-                                    options={
-                                        [
-                                        {key : 0, value : "Tất cả"},
-                                        ...this.props.categories ? this.props.categories.map((category) => {
-                                        return {
-                                            ...category,
-                                            key: category.id,
-                                            value: category.name
-                                        };
-                                    }) : [] ]
-                                    }
-                                    onChange={this.loadByCategories}
-                                />
+                                    <Select
+                                        className="btn-round"
+                                        name="board-id"
+                                        value={this.state.category_id}
+                                        options={
+                                            [
+                                                { key: 0, value: "Tất cả" },
+                                                ...this.props.categories ? this.props.categories.map((category) => {
+                                                    return {
+                                                        ...category,
+                                                        key: category.id,
+                                                        value: category.name
+                                                    };
+                                                }) : []]
+                                        }
+                                        onChange={this.loadByCategories}
+                                    />
+                                </div>
+                                <div className="col-md-2">
+
+                                    <Select
+                                        className="btn-round"
+                                        name="board-id"
+                                        value={this.state.kind}
+                                        options={
+                                            this.props.allBlogKinds.map((obj) => {
+                                                return { key: obj.value, value: obj.label };
+                                            })
+                                        }
+                                        onChange={this.loadByKinds}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div className="card">
-                            <div className="card-content">
-                                <div className="tab-content">
-                                    <div className="flex-row flex">
-                                        <h4 className="card-title">
-                                            <strong>Danh sách bài viết</strong>
-                                        </h4>
-                                        <div>
-                                            <button
-                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                                type="button" onClick={
-                                                    (e)=>{this.openCreatePostModal(e);}}>
-                                                <strong>+</strong>
-                                            </button>
+                            <div className="card">
+                                <div className="card-content">
+                                    <div className="tab-content">
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title">
+                                                <strong>Danh sách bài viết</strong>
+                                            </h4>
+                                            <div>
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    type="button" onClick={
+                                                        (e) => { this.openCreatePostModal(e); }}>
+                                                    <strong>+</strong>
+                                                </button>
+                                            </div>
                                         </div>
+
+                                        {/*<KeetoolEditor/>*/}
+
+
+                                        <Search
+                                            onChange={this.loadByText}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm tiêu đề"
+                                        />
                                     </div>
 
-                                    {/*<KeetoolEditor/>*/}
-
-
-                                    <Search
-                                        onChange={this.loadByText}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm tiêu đề"
+                                    <ListPost />
+                                    <Pagination
+                                        totalPages={this.props.totalPages}
+                                        currentPage={this.state.page}
+                                        loadDataPage={this.loadPosts}
                                     />
                                 </div>
 
@@ -191,13 +234,12 @@ class BlogsContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
                 )}
 
 
-                <PostModal/>
-                <AddLanguageModal/>
-                <AddCategoryModal/>
+                <PostModal />
+                <AddLanguageModal />
+                <AddCategoryModal />
 
 
             </div>
@@ -206,23 +248,25 @@ class BlogsContainer extends React.Component {
 }
 
 BlogsContainer.propTypes = {
-    isLoadingPosts      : PropTypes.bool.isRequired,
-    isLoadingCategories : PropTypes.bool.isRequired,
-    isLoadingLanguages  : PropTypes.bool.isRequired,
-    blogActions         : PropTypes.object.isRequired,
-    categories          : PropTypes.array.isRequired,
-    posts               : PropTypes.array.isRequired,
-    totalPages          : PropTypes.number.isRequired,
+    isLoadingPosts: PropTypes.bool.isRequired,
+    isLoadingCategories: PropTypes.bool.isRequired,
+    isLoadingLanguages: PropTypes.bool.isRequired,
+    blogActions: PropTypes.object.isRequired,
+    categories: PropTypes.array.isRequired,
+    posts: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    allBlogKinds: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        posts               : state.blog.posts,
-        totalPages          : state.blog.totalPages,
-        isLoadingCategories : state.blog.isLoadingCategories,
-        isLoadingLanguages  : state.blog.isLoadingLanguages,
-        categories          : state.blog.categories,
-        isLoadingPosts      : state.blog.isLoadingPosts,
+        posts: state.blog.posts,
+        totalPages: state.blog.totalPages,
+        isLoadingCategories: state.blog.isLoadingCategories,
+        isLoadingLanguages: state.blog.isLoadingLanguages,
+        categories: state.blog.categories,
+        isLoadingPosts: state.blog.isLoadingPosts,
+        allBlogKinds: state.blog.allBlogKinds,
     };
 }
 

@@ -1,41 +1,43 @@
 /**
  * Created by Kiyoshitaro on 15/04/2018.
  */
-import React                from "react";
-import PropTypes            from "prop-types";
+import React from "react";
+import PropTypes from "prop-types";
 
-import {connect}            from "react-redux";
-import * as blogActions     from "../actions/blogActions";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import * as blogActions from "../actions/blogActions";
+import { bindActionCreators } from "redux";
 
-import * as helper          from "../../../helpers/helper";
-import {Modal}              from "react-bootstrap";
+import * as helper from "../../../helpers/helper";
+import { Modal } from "react-bootstrap";
 
-import StorePostComponent   from "../components/StorePostComponent";
+import StorePostComponent from "../components/StorePostComponent";
 // import AddLanguageModal     from "./AddLanguageModal";
 // import AddCategoryModal     from "./AddCategoryModal";
 
 class PostModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.closePostModal       = this.closePostModal.bind(this);
-        this.handleFileUpload     = this.handleFileUpload.bind(this);
-        this.updateFormPostData   = this.updateFormPostData.bind(this);
-        this.generateFromTitle    = this.generateFromTitle.bind(this);
-        this.updateLanguage       = this.updateLanguage.bind(this);
-        this.updateEditor         = this.updateEditor.bind(this);
-        this.preSavePost          = this.preSavePost.bind(this);
-        this.savePost             = this.savePost.bind(this);
+        this.closePostModal = this.closePostModal.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
+        this.updateFormPostData = this.updateFormPostData.bind(this);
+        this.generateFromTitle = this.generateFromTitle.bind(this);
+        this.updateLanguage = this.updateLanguage.bind(this);
+        this.updateEditor = this.updateEditor.bind(this);
+        this.preSavePost = this.preSavePost.bind(this);
+        this.savePost = this.savePost.bind(this);
         this.openAddLanguageModal = this.openAddLanguageModal.bind(this);
         this.openAddCategoryModal = this.openAddCategoryModal.bind(this);
-        this.updateCategory       = this.updateCategory.bind(this);
+        this.updateCategory = this.updateCategory.bind(this);
+        this.updateKind = this.updateKind.bind(this);
+
     }
 
 
     closePostModal() {
         helper.confirm("warning", "Cảnh báo",
             "Bạn có chắc muốn đóng editor? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
-            () => {this.props.blogActions.closePostModal();},
+            () => { this.props.blogActions.closePostModal(); },
         );
     }
 
@@ -44,13 +46,13 @@ class PostModal extends React.Component {
         this.props.blogActions.uploadImage(file);
     }
     generateFromTitle(field, value) {
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         data[field] = value;
         this.props.blogActions.updateFormPost(data);
     }
     updateFormPostData(event) {
         const field = event.target.name;
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         if (event.target.type === "checkbox") {
             data[field] = event.target.checked;
         } else {
@@ -59,24 +61,28 @@ class PostModal extends React.Component {
         this.props.blogActions.updateFormPost(data);
     }
     updateCategory(e) {
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         data["categories"] = e;
         this.props.blogActions.updateFormPost(data);
     }
     updateLanguage(e) {
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         data["language_id"] = e.value;
         this.props.blogActions.updateFormPost(data);
     }
     updateEditor(value) {
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         data["content"] = value;
         this.props.blogActions.updateFormPost(data);
     }
-
+    updateKind(e) {
+        let data = { ...this.props.post };
+        data.kind = e.value;
+        this.props.blogActions.updateFormPost(data);
+    }
 
     preSavePost(preview = false) {
-        let post = {...this.props.post};
+        let post = { ...this.props.post };
         post.tags = $("#tags").val();
         this.props.blogActions.updateFormPost(post);
         if ($("#form-post").valid()) {
@@ -91,7 +97,7 @@ class PostModal extends React.Component {
         }
     }
     savePost() {
-        let post = {...this.props.post};
+        let post = { ...this.props.post };
         post.tags = $("#tags").val();
         this.props.blogActions.updateFormPost(post);
         if ($("#form-post").valid()) {
@@ -102,7 +108,7 @@ class PostModal extends React.Component {
                 );
                 return;
             }
-            this.props.blogActions.savePostBlog(post, this.closePostModal);
+            this.props.blogActions.savePostBlog(post, () => { this.props.blogActions.closePostModal(); });
         } else {
             helper.showErrorNotification("Bạn cần nhập đủ tất cả các trường");
         }
@@ -141,6 +147,7 @@ class PostModal extends React.Component {
                             generateFromTitle={this.generateFromTitle}
                             updateLanguage={this.updateLanguage}
                             updateEditor={this.updateEditor}
+                            updateKind={this.updateKind}
                             preSavePost={this.preSavePost}
                             savePost={this.savePost}
                             openAddLanguageModal={this.openAddLanguageModal}
@@ -148,6 +155,7 @@ class PostModal extends React.Component {
                             closePostModal={this.closePostModal}
                             openAddCategoryModal={this.openAddCategoryModal}
                             updateCategory={this.updateCategory}
+                            allBlogKinds={this.props.allBlogKinds}
                         />
                     </Modal.Body>
                 </Modal>
@@ -163,29 +171,31 @@ class PostModal extends React.Component {
 }
 
 PostModal.propTypes = {
-    post:               PropTypes.object.isRequired,
-    isOpenPostModal:    PropTypes.bool.isRequired,
+    post: PropTypes.object.isRequired,
+    isOpenPostModal: PropTypes.bool.isRequired,
     isLoadingLanguages: PropTypes.bool.isRequired,
-    languages:          PropTypes.array.isRequired,
-    blogActions:        PropTypes.object.isRequired,
-    postId:             PropTypes.number.isRequired,
-    isLoadingPost:      PropTypes.bool.isRequired,
-    language:           PropTypes.object.isRequired,
+    languages: PropTypes.array.isRequired,
+    blogActions: PropTypes.object.isRequired,
+    postId: PropTypes.number.isRequired,
+    isLoadingPost: PropTypes.bool.isRequired,
+    language: PropTypes.object.isRequired,
     isCreatingLanguage: PropTypes.bool.isRequired,
-    categories:         PropTypes.array.isRequired,
-    closePostModal:     PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    closePostModal: PropTypes.func.isRequired,
+    allBlogKinds: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        post:               state.blog.post,
-        language:           state.blog.language,
+        post: state.blog.post,
+        language: state.blog.language,
         isLoadingLanguages: state.blog.isLoadingLanguages,
-        isOpenPostModal:    state.blog.isOpenPostModal,
-        languages:          state.blog.languages,
-        isLoadingPost:      state.blog.isLoadingPost,
+        isOpenPostModal: state.blog.isOpenPostModal,
+        languages: state.blog.languages,
+        isLoadingPost: state.blog.isLoadingPost,
         isCreatingLanguage: state.blog.isCreatingLanguage,
-        categories:         state.blog.categories,
+        categories: state.blog.categories,
+        allBlogKinds: state.blog.allBlogKinds,
     };
 }
 

@@ -5,8 +5,8 @@ import axios from "axios";
 import * as env from "../../../constants/env";
 
 
-export function loadPostsApis(page = 1, search = "", category_id) {
-    let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page;
+export function loadPostsApis(page = 1, search = "", category_id, kind = '') {
+    let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page + "&kind=" + kind;
     let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
@@ -41,7 +41,7 @@ export function savePost(post, status) {
         description: post.description,
         product_content: post.content,
         tags_string: post.tags,
-        categories: JSON.stringify(post.categories.map((category) => {return {"id" : category.value};} )),
+        categories: JSON.stringify(post.categories.map((category) => { return { "id": category.value }; })),
         image_url: post.imageUrl,
         slug: post.slug,
         meta_title: post.meta_title,
@@ -50,7 +50,8 @@ export function savePost(post, status) {
         title: post.title,
         status: status,
         id: post.id,
-        language_id : post.language_id,
+        language_id: post.language_id,
+        kind: post.kind,
     });
 }
 
@@ -73,7 +74,7 @@ export function createLanguageApi(language) {
     }
     return axios.post(url, {
         name: language.name,
-        encoding : language.encoding,
+        encoding: language.encoding,
     });
 }
 

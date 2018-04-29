@@ -180,7 +180,7 @@ class RoomRegisterListContainer extends React.Component {
                                         </div>
                                         <div>
                                             <TooltipButton text="Lọc" placement="top">
-                                                <button style={{ width: "100%" }}
+                                                <button
                                                     className="btn btn-rose"
                                                     onClick={this.openFilterPanel}
                                                     style={{
@@ -189,6 +189,7 @@ class RoomRegisterListContainer extends React.Component {
                                                         margin: "-1px 10px",
                                                         minWidth: 25,
                                                         height: 25,
+                                                        width: "100%",
                                                     }}
                                                 >
                                                     <i className="material-icons"
