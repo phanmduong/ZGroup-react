@@ -15,7 +15,7 @@ export function getSeats(roomId, from, to) {
     let token = localStorage.getItem("token");
     let url = `${
         env.MANAGE_API_URL
-    }/v2/seat/available?token=${token}&from=${from}&to=${to}&limit=-1&room_id=${roomId}`;
+    }/seat/available?token=${token}&from=${from}&to=${to}&limit=-1&room_id=${roomId}`;
     return axios.get(url);
 }
 
@@ -41,6 +41,6 @@ export function loadHistoryChooseSeatApi(page,limit) {
     const token = localStorage.getItem("token");
     const url = `${
         env.MANAGE_API_URL
-        }/v2/seat/all?token=${token}&page=${page}&limit=${limit}`;
+        }/seat/all?token=${token}&page=${page}&limit=${limit}`;
     return axios.get(url);
 }

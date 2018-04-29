@@ -184,7 +184,6 @@ class RegisterManageContainer extends React.Component {
             return tmp;
         });
         const tmpWsData = [field, ...datas];
-        // console.log(tmpWsData, "sssssssssss");
         const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
         const sheetName = "Danh sách đăng kí đặt chỗ";
         let workbook = {

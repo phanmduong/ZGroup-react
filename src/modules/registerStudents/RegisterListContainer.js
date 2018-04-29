@@ -11,6 +11,7 @@ import Search from '../../components/common/Search';
 import Select from './SelectGen';
 import ReactSelect from 'react-select';
 import {Modal, OverlayTrigger, Panel, Tooltip} from 'react-bootstrap';
+
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
@@ -18,6 +19,7 @@ import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/co
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
+import Pagination from "../../components/common/Pagination";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -96,6 +98,7 @@ class RegisterListContainer extends React.Component {
         this.onBaseFilterChange = this.onBaseFilterChange.bind(this);
         this.openCreateRegisterModal = this.openCreateRegisterModal.bind(this);
         this.searchByCoupon = this.searchByCoupon.bind(this);
+        this.loadRegisterStudent = this.loadRegisterStudent.bind(this);
     }
 
     componentWillMount() {
@@ -571,7 +574,7 @@ class RegisterListContainer extends React.Component {
         this.onCampaignFilterChange({value: campaignId});
     }
 
-    loadRegisterStudent(page, campaignid) {
+    loadRegisterStudent(page) {
         this.setState({
             page,
         });
@@ -580,7 +583,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
-            campaignid ? campaignid : this.state.campaignId,
+            this.state.campaignId,
             this.state.selectedClassId,
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
@@ -629,7 +632,7 @@ class RegisterListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.registerActions.loadRegisterStudent(1,
-                -1,// limit
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -1044,24 +1047,40 @@ class RegisterListContainer extends React.Component {
                                                     openModalChangeInfoStudent={this.openModalChangeInfoStudent}
                                                 />
                                         }
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
-                                                        </li>
-                                                    );
-                                                }
+                                        <div className="row float-right">
+                                            <div
+                                                className="col-md-12"
+                                                style={{textAlign: "right"}}
+                                            >
+                                                <Pagination
+                                                    totalPages={
+                                                        this.props.totalPages
+                                                    }
+                                                    currentPage={
+                                                        this.state.page
+                                                    }
+                                                    loadDataPage={this.loadRegisterStudent}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/*<ul className="pagination pagination-primary">*/}
+                                            {/*{_.range(1, this.props.totalPages + 1).map(page => {*/}
+                                                {/*if (Number(this.state.page) === page) {*/}
+                                                    {/*return (*/}
+                                                        {/*<li key={page} className="active">*/}
+                                                            {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
+                                                        {/*</li>*/}
+                                                    {/*);*/}
+                                                {/*} else {*/}
+                                                    {/*return (*/}
+                                                        {/*<li key={page}>*/}
+                                                            {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
+                                                        {/*</li>*/}
+                                                    {/*);*/}
+                                                {/*}*/}
 
-                                            })}
-                                        </ul>
+                                            {/*})}*/}
+                                        {/*</ul>*/}
                                     </div>
                                 }
                             </div>
