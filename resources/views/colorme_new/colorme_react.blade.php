@@ -173,7 +173,7 @@
     </div>
 </div>
 <div id="load-more" style="width: 100%; text-align: center; padding-bottom: 30px;">
-    <button v-on:click="loadmore" type="button" class="btn btn-upload">Tải thêm</button>
+    <button v-on:click="loadmore" id="load-button" type="button" class="btn btn-upload">Tải thêm</button>
 </div>
 @endsection
 
@@ -260,6 +260,7 @@
                 loadmore: function(){
                     console.log(window.location.href + '?page=' + this.page);
                     this.page++;
+                    var that = this;
                     axios.get(window.location.href + '?page=' + this.page)
                     .then(function(response){
                         console.log(response.data);
@@ -331,13 +332,104 @@
                         $("#clear").remove();
                         // console.log($(html));
                         $("#products").append($(html));
+                        $("#load-button").hide();
+                        that.scroll = true;
                         // console.log(value.author.email);
                         // that.products = JSON.parse(response.data);
                     })
                     .catch(function(error){
                         console.log(error);
                     });
+                },
+                handleScroll: function(){
+                    console.log(window.scrollY);
+                    if(this.scroll && $(window).scrollTop() + $(window).height() >= $(document).height()){
+                        this.page++;
+                        axios.get(window.location.href + '?page=' + this.page)
+                            .then(function(response){
+                                console.log(response.data);
+                                var html = "";
+                                $.each(response.data, function(index, value) {
+                                    html += "        <div class=\"product-wrapper\">\n" +
+                                        "            <div class=\"product-item\">\n" +
+                                        "                <div class=\"colorme-img\">\n" +
+                                        "                    <div class=\"colorme-link\" style=\"background-image: url("+ value.url +");\n" +
+                                        "                                    background-size: cover;\n" +
+                                        "                                    background-position: center center;\">\n" +
+                                        "                    </div>\n" +
+                                        "                </div>\n" +
+                                        "                <div class=\"product-info\">\n" +
+                                        "                    <div style=\"font-size: 16px;\n" +
+                                        "                                        border-bottom: 1px solid rgb(217, 217, 217);\n" +
+                                        "                                        padding: 10px;\n" +
+                                        "                                        display: flex;\n" +
+                                        "                                        justify-content: space-between;\">\n" +
+                                        "                        <a href=\"/post/btvn-buoi-3-35311\" style=\"color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;\">"+ shortString(value.title,3) +"</a>\n" +
+                                        "                        <div>\n" +
+                                        "                            <span data-html=\"true\" data-toggle=\"tooltip\" title=\"\" data-original-title=\"Được đánh dấu nổi bật bởi<br/>Nguyen Mine Linh\">\n" +
+                                        "                                <span class=\"glyphicon glyphicon-circle-arrow-up\" style=\"color: rgb(240, 173, 78); margin-right: 2px;\"></span>\n" +
+                                        "                            </span>\n" +
+                                        "                            <a data-toggle=\"tooltip\" title=\"\" href=\"/group/thietkechuyensau13\" data-original-title=\"Lớp Thiết kế chuyên sâu 1.3\">\n" +
+                                        "                                <span class=\"glyphicon glyphicon-circle-arrow-right\" style=\"color: green;\"></span>\n" +
+                                        "                            </a>\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>\n" +
+                                        "                    <div class=\"media\" style=\"font-size: 12px; margin-top: 10px; padding: 5px 10px;\">\n" +
+                                        "                        <div class=\"media-left\" style=\"padding-right: 3px;\">\n" +
+                                        "                            <a href=\"/profile/flourishartist@gmail.com\">\n" +
+                                        "                                <div style=\"background: url("+ value.author.avatar_url +") center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;\">\n" +
+                                        "                                </div>\n" +
+                                        "                            </a>\n" +
+                                        "                        </div>\n" +
+                                        "                        <div class=\"media-body\">\n" +
+                                        "                            <a href=\"/profile/flourishartist@gmail.com\">\n" +
+                                        "                                <div style=\"font-weight: 600;\">\n" +
+                                                                            value.author.name +"\n" +
+                                        "                                </div>\n" +
+                                        "                                <div class=\"timestamp\" style=\"font-size: 12px;\">\n" +
+                                                                            value.time +"\n" +
+                                        "                                </div>\n" +
+                                        "                            </a>\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>\n" +
+                                        "                    <div style=\"border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;\"></div>\n" +
+                                        "                    <div style=\"position: absolute; bottom: 5px;\">\n" +
+                                        "                        <div class=\"product-tool\">\n" +
+                                        "                            <span class=\"glyphicon glyphicon-eye-open\">"+ value.views +"</span>\n" +
+                                        "                            <span class=\"glyphicon glyphicon-comment\">"+ value.comment +"</span>\n" +
+                                        "                            <span class=\"glyphicon glyphicon-heart\"></span>\n" +
+                                        "                            <span data-html=\"true\" data-toggle=\"tooltip\" title=\"\" style=\"cursor: pointer;\" data-original-title=\"Nguyen Mine Linh<br/>Ngọc Diệp<br/>Trần Đức Dũng\">"+ value.like +"</span>\n" +
+                                        "                            <span></span>\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>\n" +
+                                        "                    <div style=\"position: absolute; bottom: 10px; right: 5px;\">\n" +
+                                        "                        <div data-toggle=\"tooltip\" title=\"\" style=\"cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;\"\n" +
+                                        "                            data-original-title=\"#\">\n" +
+                                        "\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>\n" +
+                                        "                </div>\n" +
+                                        "            </div>\n" +
+                                        "        </div>";
+                                });
+                                html+= "<div id=\"clear\" style=\"clear: both\"></div>";
+                                $("#clear").remove();
+                                // console.log($(html));
+                                $("#products").append($(html));
+                                // console.log(value.author.email);
+                                // that.products = JSON.parse(response.data);
+                            })
+                            .catch(function(error){
+                                console.log(error);
+                        });
+                    }
                 }
+            },
+            beforeMount () {
+                window.addEventListener('scroll', this.handleScroll);
+            },
+            beforeDestroy () {
+                window.removeEventListener('scroll', this.handleScroll);
             }
         });
 
