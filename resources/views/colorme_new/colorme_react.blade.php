@@ -50,6 +50,21 @@
         opacity: 0.6;
         font-size: 12px;
     }
+    #loader {
+        margin: 0 auto;
+        border: 5px solid #f3f3f3; /* Light grey */
+        border-top: 5px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+        display: none;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
 <div class="navbar navbar-default" id="nav-bar">
     <div class="container-fluid">
@@ -173,6 +188,7 @@
     </div>
 </div>
 <div id="load-more" style="width: 100%; text-align: center; padding-bottom: 30px;">
+    <div id="loader"></div>
     <button v-on:click="loadmore" id="load-button" type="button" class="btn btn-upload">Tải thêm</button>
 </div>
 @endsection
@@ -342,7 +358,7 @@
                     });
                 },
                 handleScroll: function(){
-                    console.log(window.scrollY);
+                    // console.log(window.scrollY);
                     if(this.scroll && $(window).scrollTop() + $(window).height() >= $(document).height()){
                         this.page++;
                         axios.get(window.location.href + '?page=' + this.page)
@@ -425,21 +441,13 @@
                     }
                 }
             },
-            beforeMount () {
+            beforeMount: function () {
                 window.addEventListener('scroll', this.handleScroll);
             },
-            beforeDestroy () {
+            beforeDestroy: function () {
                 window.removeEventListener('scroll', this.handleScroll);
             }
         });
-
-        // if(app.scroll){
-        //     $(window).scroll(function() { //detact scroll
-        //     if($(window).scrollTop() + $(window).height() >= $(document).height()){ //scrolled to bottom of the page
-        //             contents(el, settings); //load content chunk 
-        //         }
-        //     });     
-        // }
     </script>
 
 @endpush

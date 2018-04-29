@@ -220,8 +220,8 @@ class ColormeNewController extends CrawlController
 
         $products = Product::orderBy('created_at', 'desc')->paginate($limit);
 
-        // $this->data['total_pages'] = ceil($products->total() / $products->perPage());
-        $this->data['total_pages'] = 5;
+        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        // $this->data['total_pages'] = 5;
         $this->data['current_page'] = $products->currentPage();
 
         $products = $products->map(function ($product) {
