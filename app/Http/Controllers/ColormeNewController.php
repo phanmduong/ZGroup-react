@@ -232,9 +232,9 @@ class ColormeNewController extends CrawlController
             return $data;
         });
 
-        
+        // axios called
         if($request->page){
-           return json_encode($products);
+            return $products;
         };
 
         $cources = Course::all();
