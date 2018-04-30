@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {Link} from "react-router";
+import { connect } from "react-redux";
+import { Link } from "react-router";
 
 class ShowFilmContainer extends React.Component {
 
@@ -19,18 +19,18 @@ class ShowFilmContainer extends React.Component {
                                     <div className="col-md-12">
                                         <div className="card">
                                             <div className="card-header card-header-icon"
-                                                 data-background-color="rose"><i
-                                                className="material-icons">assignment</i>
+                                                data-background-color="rose"><i
+                                                    className="material-icons">assignment</i>
                                             </div>
                                             <div className="card-content"><h4 className="card-title">{a.name}</h4>
-                                                <br/>
-                                                <img style={{width: "300px"}} src={a.avatar_url}/>
+                                                <br />
+                                                <img style={{ width: "300px" }} src={a.avatar_url} />
                                                 <h1>Trailer</h1>
                                                 <iframe width="560px" height="315px"
-                                                        //https://www.youtube.com/watch?v=
-                                                        src={"https://www.youtube.com/embed/"+a.trailer_url.slice(32,44)}
-                                                            frameBorder="0"
-                                                        allow="autoplay; encrypted-media" allowFullScreen></iframe>
+                                                    //https://www.youtube.com/watch?v=
+                                                    src={"https://www.youtube.com/embed/" + a.trailer_url.slice(32, 44)}
+                                                    frameBorder="0"
+                                                    allow="autoplay; encrypted-media" allowFullScreen />
                                                 <div>director:{a.director}</div>
                                                 <div>Diễn viên:{a.cast}</div>
                                                 <div>running_time:{a.running_time}</div>

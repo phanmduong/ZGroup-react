@@ -134,7 +134,7 @@ class WorkInfoModal extends React.Component {
                                                                 }}>
                                                                     <div style={{ display: "flex" }}>
                                                                         <Avatar size={30}
-                                                                            url={helper.validateLinkImage(payer.avatar_url)} />
+                                                                            url={helper.validateLinkImage(payer ? payer.avatar_url : "")} />
                                                                         {payer.id ? (payer.label || payer.name) : "Chưa chọn nhân viên"}
                                                                     </div>
                                                                     <div style={{ display: "flex" }}>{

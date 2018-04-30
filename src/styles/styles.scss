@@ -1001,3 +1001,32 @@ a.btn-seat.active {
 	background-color: #74d512;
 	cursor: auto;
 }
+
+.card-content .card-top {
+    display: flex;
+    justify-content: space-between
+}
+
+.card-content .card-top .btn-round {
+    display: flex;
+    margin: 0px 0px 0px 15px;
+    padding: 0px!important;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    background: rgba(197, 0, 0, 1)!important;
+    border-color: rgba(197, 0, 0, 1)!important;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(197, 0, 0, 0.4)!important;
+}
+.flex-end {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    justify-content: flex-end;
+}
+.card-content .card-top .btn-round i{
+    font-weight: bold;
+    font-size: 18px;
+    margin: auto;
+    top: 0px;
+}

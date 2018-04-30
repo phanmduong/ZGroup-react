@@ -27,6 +27,7 @@ let blogInitState = {
         keyword: '',
         meta_description: '',
         language: '',
+        kind: '',
     },
     language: {
         name: "",
@@ -37,6 +38,13 @@ let blogInitState = {
     },
     isCreatingLanguage: false,
     isCreatingCategory: false,
+    allBlogKinds: [
+        { value: '', label: 'Tất cả' },
+        { value: 'blog', label: 'Blog' },
+        { value: 'post', label: 'Post' },
+        { value: 'promotion', label: 'Ưu đãi' },
+        { value: 'tutorial', label: 'Hướng dẫn' },
+    ],
 
 };
 export default function blogReducer(state = blogInitState, action) {
@@ -53,19 +61,19 @@ export default function blogReducer(state = blogInitState, action) {
         //     };
 
 
-        case types.LOADED_POSTS_ERROR :
+        case types.LOADED_POSTS_ERROR:
             return {
                 ...state,
                 isLoadingPosts: false,
             };
-        case types.LOADED_POSTS_SUCCESS :
+        case types.LOADED_POSTS_SUCCESS:
             return {
                 ...state,
                 isLoadingPosts: false,
                 posts: prefixDataPost(action.posts),
                 totalPages: action.totalPages,
             };
-        case types.BEGIN_LOAD_POSTS :
+        case types.BEGIN_LOAD_POSTS:
             return {
                 ...state,
                 isLoadingPosts: true,
@@ -108,18 +116,18 @@ export default function blogReducer(state = blogInitState, action) {
                 isOpenPostModal: false,
                 post: {
                     ...state.post,
-                    title : "",
-                    description : "",
-                    content : "",
-                    imageUrl : "",
-                    tags : "",
-                    categories :[],
-                    isUpdatingImage : false,
-                    slug : '',
-                    meta_title : '',
-                    keyword:'',
-                    meta_description:'',
-                    language_id:'',
+                    title: "",
+                    description: "",
+                    content: "",
+                    imageUrl: "",
+                    tags: "",
+                    categories: [],
+                    isUpdatingImage: false,
+                    slug: '',
+                    meta_title: '',
+                    keyword: '',
+                    meta_description: '',
+                    language_id: '',
                 },
             };
 
@@ -268,7 +276,7 @@ export default function blogReducer(state = blogInitState, action) {
         case types.CREATE_LANGUAGE_SUCCESS:
             return {
                 ...state,
-                isCreatingLanguage: true,
+                isCreatingLanguage: false,
                 languages: [action.language, ...state.languages],
             };
         case types.BEGIN_CREATE_LANGUAGE:
@@ -355,7 +363,7 @@ export default function blogReducer(state = blogInitState, action) {
 function changeStatus(posts, id, status) {
     return posts.map(post => {
         if (post.id === id) {
-            return {...post, status: 1 - status};
+            return { ...post, status: 1 - status };
         } else {
             return post;
         }
@@ -378,7 +386,7 @@ function prefixDataPost(posts) {
         }
         return {
             ...post,
-            author: {...post.author, avatar_url: tmpAva},
+            author: { ...post.author, avatar_url: tmpAva },
             image_url: tmpImg,
             title: tmpTit.join(""),
         };
@@ -388,7 +396,7 @@ function prefixDataPost(posts) {
 function addSelectValue(post) {
     return {
         ...post, categories: post.categories.map(item => {
-            return {value: item.id, label: item.name};
+            return { value: item.id, label: item.name };
         })
     };
 }
