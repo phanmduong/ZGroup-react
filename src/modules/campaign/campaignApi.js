@@ -65,7 +65,7 @@ export function loadAllReceiverApi(campaignId, page, search) {
     return axios.get(url);
 }
 
-export function getReceiversModal(campaignId, page = 1, gens, classes, start_time, end_time, top, carer_id, rate, limit = 10) {
+export function getReceiversModal(campaignId, page = 1, gens, classes, start_time, end_time, top, carer_id, rate, limit = 10, paid_course_quantity) {
     let url = env.MANAGE_API_URL + "/sms/user-list/" + campaignId;
     let token = localStorage.getItem('token');
     if (token) {
@@ -94,6 +94,9 @@ export function getReceiversModal(campaignId, page = 1, gens, classes, start_tim
     }
     if (rate) {
         url += "&rate=" + rate;
+    }
+    if (paid_course_quantity) {
+        url += "&paid_course_quantity=" + paid_course_quantity;
     }
     return axios.get(url);
 }
