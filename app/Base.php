@@ -48,6 +48,8 @@ class Base extends Model
             'description' => $this->description,
             'images_url' => $this->images_url ? $this->images_url : '',
             'address' => $this->address ? $this->address : '',
+            'longitude' => $this->longtitude ? $this->longtitude : '',
+            'latitude' => $this->latitude ? $this->latitude : '',
             'district' => $this->district ? $this->district->name : '',
             'province' => $this->district ? $this->district->province->name : '',
         ];
