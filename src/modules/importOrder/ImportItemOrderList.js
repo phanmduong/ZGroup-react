@@ -29,11 +29,10 @@ class ImportItemOrderList extends React.Component {
                     <tr>
                         <th/>
                         <th>STT</th>
-                        <th> Mã đặt hàng </th>
+                        <th> Mã đặt hàng</th>
                         <th>Nhà cung cấp</th>
                         <th> Số sản phẩm</th>
-                        <th> Số lần nhập </th>
-
+                        <th> Số lần nhập</th>
                         <th/>
                     </tr>
                     </thead>

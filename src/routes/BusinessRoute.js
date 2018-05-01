@@ -8,7 +8,7 @@ import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContai
 import CreateExportOrderContainer from "../modules/Zgroup/exportGood/CreateExportOrderContainer";
 import CreateOrderedGood from "../modules/Zgroup/orderedGood/CreateOrderedGood";
 import HistoryDebtContainer from "../modules/historyDebt/HistoryDebtContainer";
-import ImportOrderContainer from "../modules/importOrder/ImportOrderContainer";
+//import ImportOrderContainer from "../modules/importOrder/ImportOrderContainer";
 import CreateItemImportOrderContainer from "../modules/importOrder/CreateItemImportOrderContainer";
 import ItemOrderContainer from "../modules/importOrder/ItemOrderContainer";
 import OrderedGoodContainer from "../modules/Zgroup/orderedGood/OrderedGoodContainer";
@@ -89,17 +89,8 @@ export default [
     },
     {
         path: "/business/import-order",
-        component: ImportOrderContainer,
-        children: [
-            {
-                path: "item",
-                component: ItemOrderContainer,
-            },
-            {
-                path: "print",
-                component: ItemOrderContainer,
-            },
-        ]
+        component: ItemOrderContainer,
+
     },
     {
         path: "/business/import-order/item/create",
