@@ -10,14 +10,15 @@ import store from "./issueStore";
 
 @observer
 export default class CreateIssue extends Component {
-    @observable title = "";
-    @observable description = "";
-    @observable content = "";
     constructor(props, context) {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
         this.storeIssue = this.storeIssue.bind(this);
     }
+
+    @observable title = "";
+    @observable description = "";
+    @observable content = "";
 
     storeIssue() {
         setFormValidation("#form-create-issue");
