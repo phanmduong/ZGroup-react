@@ -28,7 +28,6 @@
 
 @section('content_profile')
     <div style="margin-top: 50px">
-
         <div id="app">
             <div data-reactroot="" style="height: 100%;">
                 <div class="survey-wrapper">
@@ -65,45 +64,58 @@
                                                                        style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
                                                                         {{$blog['title']}}
                                                                     </a>
-                                                                    <div><a data-toggle="tooltip" data-html="true" title=""
-                                                                            data-original-title="Đánh dấu nổi bật"><span
-                                                                                    class="glyphicon glyphicon-circle-arrow-up"
-                                                                                    style="color: rgb(137, 137, 137); margin-right: 2px;"></span></a><a
-                                                                                data-toggle="tooltip" title=""
-                                                                                href="/group/colorme"
-                                                                                data-original-title="Lớp COLORME"><span
-                                                                                    class="glyphicon glyphicon-circle-arrow-right"
-                                                                                    style="color: green;"></span></a></div>
+                                                                    <div>
+                                                                        <a data-toggle="tooltip" data-html="true"
+                                                                           title=""
+                                                                           data-original-title="Đánh dấu nổi bật">
+                                                                            <span class="glyphicon glyphicon-circle-arrow-up"
+                                                                                  style="color: rgb(137, 137, 137); margin-right: 2px;">
+
+                                                                            </span>
+                                                                        </a>
+                                                                        <a data-toggle="tooltip" title=""
+                                                                           href="/group/colorme"
+                                                                           data-original-title="Lớp COLORME">
+                                                                            <span class="glyphicon glyphicon-circle-arrow-right"
+                                                                                  style="color: green;">
+
+                                                                            </span>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="media"
                                                                      style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
-                                                                    <div class="media-left" style="padding-right: 3px;"><a
-                                                                                href="/profile/{{$blog['author']['username']}}">
+                                                                    <div class="media-left" style="padding-right: 3px;">
+                                                                        <a href="/profile/{{$blog['author']['username']}}">
                                                                             <div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;"></div>
-                                                                        </a></div>
-                                                                    <div class="media-body"><a
-                                                                                href="/blog/{{$blog['slug']}}">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="media-body">
+                                                                        <a href="/blog/{{$blog['slug']}}">
                                                                             <div style="font-weight: 600;">{{$blog['author']['name']}}
                                                                             </div>
-                                                                            <div class="timestamp" style="font-size: 12px;">
+                                                                            <div class="timestamp"
+                                                                                 style="font-size: 12px;">
                                                                                 {{$blog['time']}}
                                                                             </div>
-                                                                        </a></div>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                                 <div style="border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;"></div>
                                                                 <div style="position: absolute; bottom: 5px;">
-                                                                    <div class="product-tool"><span
-                                                                                class="glyphicon glyphicon-eye-open"></span><span>{{$blog['views']}}</span><span
-                                                                                class="glyphicon glyphicon-comment"></span><span>{{$blog['comments_count']}}</span><a
-                                                                                data-toggle="tooltip" title=""
-                                                                                {{--class="glyphicon glyphicon-heart"--}}
-                                                                                {{--data-original-title="Thích"></a><span>{{$blog['likes_count']}}</span><span></span>--}}
+                                                                    <div class="product-tool">
+                                                                        <span class="glyphicon glyphicon-eye-open"></span><span>{{$blog['views']}}</span>
+                                                                        <span class="glyphicon glyphicon-comment"></span><span>{{$blog['comments_count']}}</span>
+                                                                        <a
+                                                                                data-toggle="tooltip" title=""</a>
+                                                                        {{--class="glyphicon glyphicon-heart"--}}
+                                                                        {{--data-original-title="Thích"></a><span>{{$blog['likes_count']}}</span><span></span>--}}
                                                                     </div>
                                                                 </div>
                                                                 <div style="position: absolute; bottom: 10px; right: 5px;">
                                                                     <div data-toggle="tooltip" title=""
                                                                          style="cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                                                         data-original-title="#"></div>s
+                                                                         data-original-title="#"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -123,6 +135,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('scripts')

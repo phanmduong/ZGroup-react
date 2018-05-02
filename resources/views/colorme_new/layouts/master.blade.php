@@ -44,11 +44,15 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-74966893-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'UA-74966893-1');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-74966893-1');
     </script>
 </head>
 <body>
@@ -56,6 +60,7 @@
 
 <div style="">
     <div data-reactroot="" style="height: 100%;">
+
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
             <div class="container-fluid" style="padding-left: 0px;">
                 <div class="navbar-header">
@@ -118,10 +123,10 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <!-- <li class=""><a href="/about-us">Về chúng tôi</a></li> -->
-                        <li class=""><a href="/blogs">Blog 
-                        <span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Mới</span>
-                        </a></li>
-                        
+                        <li class=""><a href="/blogs">Blog
+                                <span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Mới</span>
+                            </a></li>
+
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
                                             class="glyphicon glyphicon-cloud-upload"></span>
@@ -186,6 +191,59 @@
         <div style="margin-top: 50px;">
             @yield('content')
         </div>
+        <footer id="myFooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2">
+                        <h2 class="logo"><a href="#">
+
+                                <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
+                                          width="40"><h4>colorME</h4>
+                                    <div style="font-size:13px">Trường học thiết kế</div>
+
+                            </a></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>CƠ SỞ</h5>
+                        <ul>
+
+                            @foreach($bases as $base)
+                                <li>
+                                    {{$base->name}}<br>
+                                    {{$base->address}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-12  col-sm-3">
+                        <h5>CÁC KHÓA HỌC</h5>
+                        <ul>
+                            @foreach($courses as $course)
+                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-12  col-sm-3">
+                        <div class="social-networks">
+                            <a href="https://www.facebook.com/ColorME.Hanoi/?fref=ts" class="facebook"><i
+                                        class="fa fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/colorme.hanoi/" class="instagram"><i
+                                        class="fa fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w" class="youtube"><i
+                                        class="fa fa-youtube"></i></a>
+                        </div>
+                        <a href="#">
+                            <button type="button" class="btn btn-default">Đăng kí học</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
+            </div>
+        </footer>
+
 
         {{--<div class="container-fluid " id="footer">--}}
         {{--<div class="row">--}}
@@ -230,54 +288,6 @@
         {{--</div>--}}
         {{--</div>--}}
 
-        <footer id="myFooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-2">
-                        <h2 class="logo"><a href="#">
-                                <div class="row">
-                                    <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
-                                                                         width="40"><h4>colorME</h4>
-                                        <div style="font-size:13px">Trường học thiết kế</div>
-                                    </div>
-                            </a></h2>
-                    </div>
-                    <div class="col-sm-4">
-                        <h5>CƠ SỞ</h5>
-                        <ul>
-
-                            @foreach($bases as $base)
-                                <li>
-                                    {{$base->name}}<br>
-                                        {{$base->address}}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="col-xs-12  col-sm-3">
-                        <h5>CÁC KHÓA HỌC</h5>
-                        <ul>
-                            @foreach($courses as $course)
-                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <div class="col-xs-12  col-sm-3">
-                        <div class="social-networks">
-                            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
-                        </div>
-                        <button type="button" class="btn btn-default">Contact us</button>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-copyright">
-                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
-
-            </div>
-        </div>
     </div>
 </div>
 <div id="modalLogin" class="modal fade" role="dialog">
@@ -414,9 +424,9 @@
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
     </a></div>
 <script
-    src="http://code.jquery.com/jquery-1.12.4.min.js"
-    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-    crossorigin="anonymous">
+        src="http://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -484,64 +494,68 @@
 <script>
 
 
-$(document).ready(function () {
+    $(document).ready(function () {
 
-    var iFrame = document.getElementById("survey");   
+        var iFrame = document.getElementById("survey");
 
-    if (iFrame) {
-        // Opera 8.0+
-        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+        if (iFrame) {
+            // Opera 8.0+
+            var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
-        // Firefox 1.0+
-        var isFirefox = typeof InstallTrigger !== 'undefined';
+            // Firefox 1.0+
+            var isFirefox = typeof InstallTrigger !== 'undefined';
 
-        // Safari 3.0+ "[object HTMLElementConstructor]" 
-        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+            // Safari 3.0+ "[object HTMLElementConstructor]"
+            var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) {
+                return p.toString() === "[object SafariRemoteNotification]";
+            })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 
-        // Internet Explorer 6-11
-        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+            // Internet Explorer 6-11
+            var isIE = /*@cc_on!@*/false || !!document.documentMode;
 
-        // Edge 20+
-        var isEdge = !isIE && !!window.StyleMedia;
+            // Edge 20+
+            var isEdge = !isIE && !!window.StyleMedia;
 
-        // Chrome 1+
-        var isChrome = !!window.chrome && !!window.chrome.webstore;
+            // Chrome 1+
+            var isChrome = !!window.chrome && !!window.chrome.webstore;
 
-        // Blink engine detection
-        var isBlink = (isChrome || isOpera) && !!window.CSS;
-        if (isSafari|| isOpera) {
-            console.log("safari");
-            iFrame.onload = function () {        
-                setTimeout(function () {
+            // Blink engine detection
+            var isBlink = (isChrome || isOpera) && !!window.CSS;
+            if (isSafari || isOpera) {
+                console.log("safari");
+                iFrame.onload = function () {
+                    setTimeout(function () {
+                        var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                        iFrame.style.height = height;
+                    }, 0);
+                };
+
+                var iSource = iFrame.src;
+                iFrame.src = '';
+                iFrame.src = iSource;
+
+                // for (var i = 0, j = iFrames.length; i < j; i++) {
+                //         var iSource = iFrames[i].src;
+                //         iFrames[i].src = '';
+                //         iFrames[i].src = iSource;
+                // }
+
+            } else {
+                iFrame.onload = function () {
                     var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                    iFrame.style.height=height; 
-                }, 0);
-            };
-
-            var iSource = iFrame.src;
-            iFrame.src = '';
-            iFrame.src = iSource;
-
-            // for (var i = 0, j = iFrames.length; i < j; i++) {
-            //         var iSource = iFrames[i].src;
-            //         iFrames[i].src = '';
-            //         iFrames[i].src = iSource;
-            // }
-
-        } else {
-            iFrame.onload = function () {        
-                var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                iFrame.style.height=height; 
-            };
+                    iFrame.style.height = height;
+                };
+            }
         }
-    }
-    
-});
+
+    });
 
 
 </script>
     
     
+
+
 </script>
 </body>
 </html>
