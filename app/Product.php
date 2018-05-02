@@ -130,6 +130,7 @@ class Product extends Model
                 'email' => $this->author->email,
                 'username' => $this->author->username,
             ],
+            'content' => $this->content,
             'title' => $this->title,
             'thumb_url' => $this->thumb_url,
             'slug' => $this->slug,

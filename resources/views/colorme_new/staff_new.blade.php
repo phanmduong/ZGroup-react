@@ -65,6 +65,11 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+
+    .overlay{
+        display: none;
+        transition: opacity 200ms;
+    }
 </style>
 <div class="navbar navbar-default" id="nav-bar">
     <div class="container-fluid">
@@ -119,10 +124,12 @@
         <div class="product-wrapper">
             <div class="product-item">
                 <div class="colorme-img">
-                    <div class="colorme-link" style="background-image: url({{ $product['url'] }});
+                    <a href="#{{ $product['id'] }}">
+                        <div class="colorme-link" style="background-image: url({{ $product['url'] }});
                                     background-size: cover;
                                     background-position: center center;">
-                    </div>
+                        </div>
+                    </a>
                 </div>
                 <div class="product-info">
                     <div style="font-size: 16px;
@@ -177,7 +184,78 @@
                 </div>
             </div>
         </div>
-        
+        <div id="{{ $product['id'] }}" data-reactroot="" class="overlay ReactModal__Overlay ReactModal__Overlay--after-open ProductOverlayClass">
+            <div class="ReactModal__Content ReactModal__Content--after-open ProductModalClass" tabindex="-1">
+                <a id="btn-close-modal">x</a>
+                <div class="container" style="width: 100%; padding: 20px 120px;">
+                    <a href="/profile/{{ $product['author']['email'] }}">
+                        <div style="background: url({{ $product['author']['avatar_url'] }}) center center / cover; width: 80px; height: 80px; border-radius: 40px; margin: auto;"></div>
+                        <div style="text-align: center; padding: 15px 0px; color: rgb(68, 68, 68); font-size: 16px;">{{ $product['author']['name'] }}</div>
+                    </a>
+                    <a href="/post/{{ $product['slug'] }}">
+                        <div style="text-align: center; font-size: 36px; padding: 25px; font-weight: 600; color: rgb(68, 68, 68);">{{ $product['title'] }}</div>
+                    </a>
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div class="product-tool">
+                            <span class="glyphicon glyphicon-eye-open">{{ $product['views'] }}</span>
+                            <span class="glyphicon glyphicon-comment">{{ $product['comment'] }}</span>
+                            <span class="glyphicon glyphicon-heart">{{ $product['like'] }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="text-align: center;">
+                            <div data-placement="bottom" data-toggle="tooltip" title="" style="cursor: pointer; width: 15px; height: 15px; border-radius: 10px; margin-right: 10px; display: inline-block;"
+                                data-original-title="#"></div>
+                        </div>
+                        <div class="image-wrapper">
+                            <img id="colorme-image" src="{{ $product['url'] }}" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <p>
+                            {{ $product['content'] }}
+                        </p>
+                    </div>
+                    <div style="padding: 25px 0px;"></div>
+                    <div style="height: 40px; border-bottom: 1px solid rgb(217, 217, 217);">
+                        <div style="float: left;">
+                            <div class="product-tool">
+                                <span class="glyphicon glyphicon-eye-open">{{ $product['views'] }}</span>
+                                <span class="glyphicon glyphicon-comment">{{ $product['comment'] }}</span>
+                                <span class="glyphicon glyphicon-heart">{{ $product['like'] }}</span>
+                            </div>
+                        </div>
+                        <div style="float: right;">
+                            <a href="javascript: void(0)" target="_blank" class="btn-share-fb">
+                                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                                <span> Share </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="padding: 20px 0px;">
+                        <div></div>
+                    </div>
+                    <div style="width: 130%; margin-left: -15%; margin-top: 40px;">
+                        <div style="margin-top: 20px;">
+                            <a href="/profile/{{ $product['author']['email'] }}" class="more-products">
+                                <h5>
+                                    <!-- react-text: 246 -->Bài viết khác từ
+                                    <!-- /react-text -->
+                                    <!-- react-text: 247 -->{{ $product['author']['name'] }}
+                                    <!-- /react-text -->
+                                </h5>
+                            </a>
+                            <div class="more-products-container">
+                                <a class="more-products-item" style="background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/1524712876guL2OYuj4QOviqS.jpg&quot;);"></a>
+                                <a class="more-products-item" style="background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/1522738012DrjkzawDRHKBlBq.jpg&quot;);"></a>
+                                <a class="more-products-item" style="background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/15252117232nuHy7z96FtAVQo.jpg&quot;);"></a>
+                                <a class="more-products-item" style="background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/1523558453rDAFFcjK4ll1Rqm.jpg&quot;);"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         @endforeach
         <div id="clear" style="clear: both"></div>
     </div>
@@ -243,6 +321,8 @@
     <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
 
     <script>
+        
+        
         function count(arr){
             var count = 0;
             for(var i = 0; i < arr.length; ++i){
