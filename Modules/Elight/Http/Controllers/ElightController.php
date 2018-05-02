@@ -94,9 +94,9 @@ class ElightController extends Controller
         } else {
             $post->author->avatar_url = config('app.protocol') . $post->author->avatar_url;
         }
-        $posts_related = $post->productCategories()
-            ->join('product_category_product', 'category_products.id', '=', 'product_category_product.category_product_id')
-            ->select('product_category_product.*')->groupBy('product_category_product.product_id')->get();
+        $posts_related = $post->productCategories()->get();
+            // ->join('product_category_product', 'category_products.id', '=', 'product_category_product.category_product_id')
+            // ->select('product_category_product.*')->groupBy('product_category_product.product_id')->get();
             // ->join('products', 'product_category_product.products_id', '=', 'products.id')
             // ->groupBy('products.id')->where('status', 1)->orderBy('created_at', 'desc')->get();
         // Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
