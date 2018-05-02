@@ -69,14 +69,14 @@
 <div class="navbar navbar-default" id="nav-bar">
     <div class="container-fluid">
         <div style="position:absolute; left: 20px;">
-            <a class="routing-bar-item transform-text active" href="">Nổi bật</a>
-            <a class="routing-bar-item transform-text" href="">Mới nhất</a>
+                <a class="routing-bar-item transform-text active" href="/posts/7">Nổi bật</a>
+                <a class="routing-bar-item transform-text" href="/posts/new">Mới nhất</a>
         </div>
     </div>
     <div class="days">
-        <a href="" class="routing-bar-item transform-text">Hôm nay</a>
-        <a href="" class="routing-bar-item transform-text active">7 ngày qua</a>
-        <a href="" class="routing-bar-item transform-text">30 ngày qua</a>
+        <a href="/posts/1" class="routing-bar-item transform-text">Hôm nay</a>
+        <a href="/posts/7" class="routing-bar-item transform-text">7 ngày qua</a>
+        <a href="/posts/30" class="routing-bar-item transform-text active">30 ngày qua</a>
     </div>
 </div>
 <div class="home-page-wrapper" style="padding-top: 70px;">
@@ -135,7 +135,7 @@
                                         padding: 10px;
                                         display: flex;
                                         justify-content: space-between;">
-                        <a href="/post/btvn-buoi-3-35311" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">{{ shortString($product['title'],3) }}</a>
+                        <a href="/post/{{ $product['slug'] }}" style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">{{ shortString($product['title'],3) }}</a>
                         <div>
                             <span data-html="true" data-toggle="tooltip" title="" data-original-title="Được đánh dấu nổi bật bởi<br/>Nguyen Mine Linh">
                                 <span class="glyphicon glyphicon-circle-arrow-up" style="color: rgb(240, 173, 78); margin-right: 2px;"></span>
@@ -147,13 +147,13 @@
                     </div>
                     <div class="media" style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
                         <div class="media-left" style="padding-right: 3px;">
-                            <a href="/profile/flourishartist@gmail.com">
+                            <a href="/profile/{{ $product['author']['email'] }}">
                                 <div style="background: url({{ $product['author']['avatar_url'] }}) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;">
                                 </div>
                             </a>
                         </div>
                         <div class="media-body">
-                            <a href="/profile/flourishartist@gmail.com">
+                            <a href="/profile/{{ $product['author']['email'] }}">
                                 <div style="font-weight: 600;">
                                     {{ $product['author']['name']}}
                                 </div>
@@ -296,7 +296,7 @@
                                 "                                        padding: 10px;\n" +
                                 "                                        display: flex;\n" +
                                 "                                        justify-content: space-between;\">\n" +
-                                "                        <a href=\"/post/btvn-buoi-3-35311\" style=\"color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;\">"+ shortString(value.title,3) +"</a>\n" +
+                                "                        <a href=\"/post/"+ value.slug +"\" style=\"color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;\">"+ shortString(value.title,3) +"</a>\n" +
                                 "                        <div>\n" +
                                 "                            <span data-html=\"true\" data-toggle=\"tooltip\" title=\"\" data-original-title=\"Được đánh dấu nổi bật bởi<br/>Nguyen Mine Linh\">\n" +
                                 "                                <span class=\"glyphicon glyphicon-circle-arrow-up\" style=\"color: rgb(240, 173, 78); margin-right: 2px;\"></span>\n" +
@@ -308,13 +308,13 @@
                                 "                    </div>\n" +
                                 "                    <div class=\"media\" style=\"font-size: 12px; margin-top: 10px; padding: 5px 10px;\">\n" +
                                 "                        <div class=\"media-left\" style=\"padding-right: 3px;\">\n" +
-                                "                            <a href=\"/profile/flourishartist@gmail.com\">\n" +
+                                "                            <a href=\"/profile/"+ value.author.email +"\">\n" +
                                 "                                <div style=\"background: url("+ value.author.avatar_url +") center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;\">\n" +
                                 "                                </div>\n" +
                                 "                            </a>\n" +
                                 "                        </div>\n" +
                                 "                        <div class=\"media-body\">\n" +
-                                "                            <a href=\"/profile/flourishartist@gmail.com\">\n" +
+                                "                            <a href=\"/profile/"+ value.author.email +"\">\n" +
                                 "                                <div style=\"font-weight: 600;\">\n" +
                                                                      value.author.name +"\n" +
                                 "                                </div>\n" +
@@ -380,7 +380,7 @@
                                         "                                        padding: 10px;\n" +
                                         "                                        display: flex;\n" +
                                         "                                        justify-content: space-between;\">\n" +
-                                        "                        <a href=\"/post/btvn-buoi-3-35311\" style=\"color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;\">"+ shortString(value.title,3) +"</a>\n" +
+                                        "                        <a href=\"/post/"+ value.slug +"\" style=\"color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;\">"+ shortString(value.title,3) +"</a>\n" +
                                         "                        <div>\n" +
                                         "                            <span data-html=\"true\" data-toggle=\"tooltip\" title=\"\" data-original-title=\"Được đánh dấu nổi bật bởi<br/>Nguyen Mine Linh\">\n" +
                                         "                                <span class=\"glyphicon glyphicon-circle-arrow-up\" style=\"color: rgb(240, 173, 78); margin-right: 2px;\"></span>\n" +
@@ -392,13 +392,13 @@
                                         "                    </div>\n" +
                                         "                    <div class=\"media\" style=\"font-size: 12px; margin-top: 10px; padding: 5px 10px;\">\n" +
                                         "                        <div class=\"media-left\" style=\"padding-right: 3px;\">\n" +
-                                        "                            <a href=\"/profile/flourishartist@gmail.com\">\n" +
+                                        "                            <a href=\"/profile/"+ value.author.email +"\">\n" +
                                         "                                <div style=\"background: url("+ value.author.avatar_url +") center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;\">\n" +
                                         "                                </div>\n" +
                                         "                            </a>\n" +
                                         "                        </div>\n" +
                                         "                        <div class=\"media-body\">\n" +
-                                        "                            <a href=\"/profile/flourishartist@gmail.com\">\n" +
+                                        "                            <a href=\"/profile/"+ value.author.email +"\">\n" +
                                         "                                <div style=\"font-weight: 600;\">\n" +
                                                                             value.author.name +"\n" +
                                         "                                </div>\n" +
