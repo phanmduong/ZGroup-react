@@ -30,7 +30,7 @@ class ShowFilmContainer extends React.Component {
                                                         //https://www.youtube.com/watch?v=
                                                         src={"https://www.youtube.com/embed/"+a.trailer_url.slice(32,44)}
                                                             frameBorder="0"
-                                                        allow="autoplay; encrypted-media" allowFullScreen></iframe>
+                                                        allowFullScreen/>
                                                 <div>director:{a.director}</div>
                                                 <div>Diễn viên:{a.cast}</div>
                                                 <div>running_time:{a.running_time}</div>
@@ -63,8 +63,6 @@ class ShowFilmContainer extends React.Component {
 ShowFilmContainer.propTypes = {
     params: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
-    showingFilm: PropTypes.array.isRequired,
-    comingFilm: PropTypes.array.isRequired,
 
 };
 

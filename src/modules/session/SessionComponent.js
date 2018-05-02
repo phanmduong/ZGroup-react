@@ -12,16 +12,18 @@ class SessionComponent extends React.Component {
         this.delSession = this.delSession.bind(this);
     }
     delSession(session){
-        confirm("error", "Xóa film", "Bạn có chắc muốn xóa film này", () => {
+        confirm("error", "Xóa xuất chiếu", "Bạn có chắc muốn xóa xuất chiếu này", () => {
             this.props.sessionAction.deleteSession(session);
         });
     }
     render() {
+
         return (
             <div className="table-responsive">
                 <table className="table table-hover">
                     <thead className="text-rose">
                     <tr className="text-rose">
+                        <th>STT</th>
                         <th>Tên film</th>
                         <th>Phòng</th>
                         <th>Ngày chiếu</th>
@@ -33,10 +35,12 @@ class SessionComponent extends React.Component {
                     <tbody>
 
                     {this.props.sessions && this.props.sessions.map((session, index) => {
+                        let a =this.props.allFilms.filter((film)=>(film.id == session.film_id))[0];
                         return (
                             <tr key={index}>
+                                <td>{index + 1}</td>
                                 <td>
-                                    {this.props.allFilms.filter((film)=>(film.id == session.film_id))[0].name}
+                                    {a  && a.name}
                                 </td>
                                 <td>
                                     Phòng {session.room_id}

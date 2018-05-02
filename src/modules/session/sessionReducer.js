@@ -4,20 +4,27 @@ import initialState from "../../reducers/initialState";
 
 export default function sessionReducer(state = initialState.session, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_ALL_SESSIONS:
+            return{
+                ...state,
+                isLoadingAllSessions: true,
+            };
         case types.LOAD_ALL_SESSIONS_SUCCESS:
             return {
                 ...state,
                 allSessions: action.allSessions,
+                isLoadingAllSessions: false,
+            };
+        case types.BEGIN_LOAD_SHOWING_SESSION:
+            return{
+                ...state,
+                isLoadingShowingSession: true,
             };
         case types.LOAD_SHOWING_SESSION_SUCCESS:
             return {
                 ...state,
                 showingSession: action.showingSession,
-            };
-        case types.LOAD_COMING_SESSION_SUCCESS:
-            return {
-                ...state,
-                comingSession: action.comingSession,
+                isLoadingShowingSession: false,
             };
         case types.LOAD_DAY_SESSION_SUCCESS:
             return {
@@ -32,6 +39,7 @@ export default function sessionReducer(state = initialState.session, action) {
         case types.BEGIN_SAVE_SESSION:
             return{
                 ...state,
+                isSaving: true,
                 isSavingSession: true
             };
         case types.EDIT_FILM_ERROR:
@@ -44,7 +52,8 @@ export default function sessionReducer(state = initialState.session, action) {
                 ...state,
                 allSessions:[action.session,...state.allSessions],
                 addEditSessionModal: false,
-                isSavingSession: false
+                isSavingSession: false,
+                isSaving: false
             };
         case types.HANDLE_SESSION_MODAL:
             return{
@@ -79,10 +88,16 @@ export default function sessionReducer(state = initialState.session, action) {
                 ...state,
                 allSessions: state.allSessions.filter(session => session.id !== action.session.id)
             };
+        case types.BEGIN_LOAD_ALL_FILMS:
+            return{
+                ...state,
+              isLoadingFilms: true,
+            };
         case types.LOAD_ALL_FILMS_SUCCESS:
             return {
                 ...state,
                 allFilms: action.allFilms,
+                isLoadingFilms: false
             };
         default:
             return state;

@@ -8,6 +8,10 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {confirm} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
+import TooltipButton from "../../components/common/TooltipButton";
+//import Search from "../../components/common/Search";
+
+
 
 class BlogTypeContainer extends React.Component {
     constructor(props, context) {
@@ -45,102 +49,63 @@ class BlogTypeContainer extends React.Component {
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div className="wrapper">
-                <div className="content">
-                    <div className="content">
-                        <div className="container-fluid">
-                            <div>
-                                <div className="row">
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            justifyContent: "space-between"
-                                        }}>
-                                            <div>
-                                                <button
-                                                    onClick={() => this.showEditBlogTypeModal2({})}
-                                                    rel="tooltip" data-placement="top" title=""
-                                                    className="btn btn-rose btn-round">
-                                                    Thêm loại bài viết
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div className="card">
-                                            <div className="card-content">
-                                                <div className="tab-content">
-                                                    <h4 className="card-title">
-                                                        <strong>&#160; Quản lý bài viết</strong>
-                                                    </h4>
-                                                    <br/>
-                                                    {
-                                                        this.props.isLoading ? <Loading/> :
-
-
-                                                            (
-                                                                <BlogTypeComponent
-                                                                    blogTypes={this.props.blogTypes}
-                                                                    showEditBlogTypeModal={this.showEditBlogTypeModal2}
-                                                                    deleteBlogType={this.deleteBlogType}
-                                                                />
-                                                            )
-                                                    }
-                                                </div>
-                                            </div>
-                                            <div className="row float-right">
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                                     style={{textAlign: 'right'}}>
-                                                    <b style={{marginRight: '15px'}}>
-                                                        Hiển thị kêt quả từ {first}
-                                                        - {end}/{this.props.totalCount}</b><br/>
-                                                    <Pagination
-                                                        totalPages={this.props.totalPages}
-                                                        currentPage={this.props.currentPage}
-                                                        loadDataPage={this.loadOrders}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                <div className="card">
+                    <div className="card-content">
+                        <div className="tab-content">
+                            <div className="flex-row flex">
+                                <h4 className="card-title">
+                                    <strong>Danh sách loại bài viết</strong>
+                                </h4>
+                                <div>
+                                    <TooltipButton
+                                        placement="top"
+                                        text="Thêm loại bài viết">
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            type="button"
+                                            onClick={() => this.showEditBlogTypeModal2({})}
+                                        >
+                                            <strong>+</strong>
+                                        </button>
+                                    </TooltipButton>
                                 </div>
-
-
                             </div>
-                        </div>
 
+                            {/*<Search*/}
+                            {/*onChange={() => {*/}
+                            {/*}}*/}
+                            {/*value=""*/}
+                            {/*placeholder="Nhập để tìm kiếm"*/}
+                            {/*/>*/}
+                            <br/>
+                        </div>
+                        {
+                            this.props.isLoading ? <Loading/> :
+
+
+                                (
+                                    <BlogTypeComponent
+                                        blogTypes={this.props.blogTypes}
+                                        showEditBlogTypeModal={this.showEditBlogTypeModal2}
+                                        deleteBlogType={this.deleteBlogType}
+                                    />
+                                )
+                        }
+
+                    </div>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                         style={{textAlign: 'right'}}>
+                        <b style={{marginRight: '15px'}}>
+                            Hiển thị kêt quả từ {first}
+                            - {end}/{this.props.totalCount}</b><br/>
+                        <Pagination
+                            totalPages={this.props.totalPages}
+                            currentPage={this.props.currentPage}
+                            loadDataPage={this.loadOrders}
+                        />
                     </div>
                 </div>
-                <AddEditBlogTypeModal/>
-                <footer className="footer">
-                    <div className="container-fluid">
-                        <nav className="pull-left">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Company
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Portfolio
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Blog
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </footer>
+            <AddEditBlogTypeModal/>
             </div>
         );
     }

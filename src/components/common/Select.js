@@ -40,7 +40,7 @@ Select.propTypes = {
     onChange: PropTypes.func.isRequired,
     defaultMessage: PropTypes.string,
     disableRound: PropTypes.bool,
-    isPaddingLeft: PropTypes.bool
+    isPaddingLeft: PropTypes.bool,
 };
 
 export default Select;
