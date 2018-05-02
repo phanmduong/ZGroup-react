@@ -65,25 +65,25 @@ export default {
     },
 
 
-    smsCampaign:{
-        allMessage:[],template_types:[],campaignName:'',
-        allReceiver:[],campaign_needed_quantity: 0,
-        allHistory:[],sentMessageName:'',
+    smsCampaign: {
+        allMessage: [], template_types: [], campaignName: '',
+        allReceiver: [], campaign_needed_quantity: 0,
+        allHistory: [], sentMessageName: '',
         //Modal Them, sua message
-        message:{
-            name:'',
-            content:'',
+        message: {
+            name: '',
+            content: '',
             sms_template_type_id: '',
             send_time: '',
         },
         addMessageModal: false,
         addReceiverModal: false,
-        isSavingMessage:false,
+        isSavingMessage: false,
         upMessage: false,
-        upReceiver:false,
+        upReceiver: false,
         upHistory: false,
         isLoadingMessage: false,
-        isLoadingReceiver:false,
+        isLoadingReceiver: false,
         isLoadingHistory: false,
         // phan trang cua trang Campaign
         limitMessage: 20,
@@ -95,6 +95,15 @@ export default {
         currentPageReceiver: 1,
         totalPagesReceiver: 1,
         totalCountReceiver: 1,
+        receiversModal: [],
+        currentPageModal: 1,
+        limitModal: 10,
+        totalCountModal: 0,
+        totalPagesModal: 0,
+        isLoadingReceiversModal: false,
+        gens: [],
+        classes: [],
+        isChoosingReceivers: false
     },
 
     labelManage: {
@@ -194,8 +203,8 @@ export default {
         currentPage: 1,
         limit: 20,
         totalCount: 1,
-        comment:{
-            comment:'',
+        comment: {
+            comment: '',
         },
         report: [],
         reports: [],
@@ -919,8 +928,15 @@ export default {
             saveError: false,
             isPreSaving: false,
             preSaveError: false,
-            id: ''
+            id: '',
+            language : 0,
         },
+        language:{
+            name : "",
+            encoding : "",
+        },
+        isCreatingLanguage : false,
+        languages:[],
         categories: {
             categories: [],
             isLoading: false,
@@ -938,6 +954,7 @@ export default {
         posts: [],
         categoriesList: [],
         isLoadingCategories: true,
+        isLoadingLanguages: true,
         isLoadingPost: false,
         errorPost: false,
     },
@@ -977,7 +994,9 @@ export default {
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
         isLoadingBaseFilter: false,
-        baseFilter: []
+        baseFilter: [],
+        isSavingRegister:false,
+
     },
 
     profile: {
@@ -1834,6 +1853,7 @@ export default {
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
             currency_value: 0,
+            ship_price : 0,
         },
         coupon: {
             name: '',
@@ -1910,6 +1930,7 @@ export default {
             email: '',
             phone: '',
             address: '',
+            customer_id:0,
         },
         infoOrder: {
             payment: "",
@@ -1923,6 +1944,8 @@ export default {
         totalGoodPages: 0,
         warehouse: 0,
         isSaving: false,
+        customers :[],
+        isLoadingCustomers : false,
     },
 
     historyExtension: {
@@ -2031,10 +2054,10 @@ export default {
         link: "",
         percent: 0,
         summary_money: 0,
-        payment: [{
+        payment: {
             id: 0,
             money_value: 0,
-            bill_image_url: "",
+            bill_imiage_url: "",
             payer: {
                 id: 0,
                 account_number: "",
@@ -2044,7 +2067,8 @@ export default {
                 account_number: "",
             },
             description: "",
-        }],
+        },
+        listPayment:[],
         company: [],
         paginator: {
             total_count: 0,

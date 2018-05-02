@@ -1,4 +1,4 @@
-import PostsContainer from "../modules/blog/PostsContainer";
+import PostsContainer from "../modules/blog/containers/PostsContainer";
 import BlogTypeContainer from "../modules/blogType/BlogTypeContainer";
 
 /**

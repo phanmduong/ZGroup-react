@@ -161,7 +161,7 @@ AddMessageModal.propTypes = {
     message: PropTypes.object.isRequired,
     template_types: PropTypes.array.isRequired,
     isSavingMessage: PropTypes.bool.isRequired,
-    campaignId: PropTypes.number.isRequired
+    campaignId: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {

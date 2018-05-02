@@ -3,7 +3,12 @@
  */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+import {
+    SAVED_REGISTER_SUCCESS,
+    SAVED_REGISTER_ERROR,
+    BEGIN_SAVE_REGISTER,
 
+} from "./createRegisterActionType";
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
     switch (action.type) {
@@ -329,6 +334,24 @@ export default function registerReducer(state = initialState.registerStudents, a
                     isLoadingRegistersByStudent: true,
                     errorRegistersByStudent: true,
                 }
+            };
+        case BEGIN_SAVE_REGISTER:
+            return{
+                ...state,
+                isSavingRegister : true,
+
+            };
+        case  SAVED_REGISTER_SUCCESS:
+            return{
+                ...state,
+                isSavingRegister : false,
+                registers : [action.register,...state.registers],
+                // ...initialState.registerStudents
+            };
+        case SAVED_REGISTER_ERROR:
+            return{
+                ...state,
+                isSavingRegister: false,
             };
         default:
             return state;

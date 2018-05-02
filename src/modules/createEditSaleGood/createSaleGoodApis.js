@@ -54,5 +54,15 @@ export function createSaleGoodApi(createSaleGood) {
         "address" : createSaleGood.customer.address,
         "phone" : createSaleGood.customer.phone,
         "email" : createSaleGood.customer.email,
+        "user_id" : createSaleGood.customer.customer_id,
     });
+}
+
+export function loadCustomersApi( ) {
+    let url = env.MANAGE_API_URL + "/order/all-customers?limit=20";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
 }

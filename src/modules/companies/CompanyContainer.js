@@ -230,20 +230,20 @@ class CompanyContainer extends React.Component {
                                                 data={this.props.data || []}
                                                 editCompany={this.editCompany}
                                                 openInfoModal={this.openInfoModal}
-                                                filterData={{
-                                                    partner_code,
-                                                    phone,
-                                                    name,
-                                                    address,
-                                                    type, 
-                                                }}
-                                                filterAction={{
-                                                    searchCodeCompany: this.searchCodeCompany,
-                                                    searchCompanybyType: this.searchCompanybyType,
-                                                    searchNameCompany: this.searchNameCompany,
-                                                    searchPhoneCompany: this.searchPhoneCompany,
-                                                    searchAddressCompany: this.searchAddressCompany,
-                                                }}
+                                                // filterData={{
+                                                //     partner_code,
+                                                //     phone,
+                                                //     name,
+                                                //     address,
+                                                //     type,
+                                                // }}
+                                                // filterAction={{
+                                                //     searchCodeCompany: this.searchCodeCompany,
+                                                //     searchCompanybyType: this.searchCompanybyType,
+                                                //     searchNameCompany: this.searchNameCompany,
+                                                //     searchPhoneCompany: this.searchPhoneCompany,
+                                                //     searchAddressCompany: this.searchAddressCompany,
+                                                // }}
                                             />
                                     }
                                     <ul className="pagination pagination-primary">

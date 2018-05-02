@@ -6,19 +6,19 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as registerManageMeetingRoomAction from "../actions/registerManageMeetingRoomAction";
 import {Tooltip, OverlayTrigger} from "react-bootstrap";
-import moment from "moment/moment";
+// import moment from "moment/moment";
 import PaymentModal from "../container/PaymentModal";
 import DatetimeModal from "../container/DatetimeModal";
 
-export function fixTime(register) {
-    const time = register.extra_time -
-        (moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-            - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-        ) / 3600000;
-    const hour = Math.floor(time);
-    const minute = (Math.floor((time - Math.floor(time)) * 60));
-    return minute === 0 ? hour + " giờ" : hour + " giờ " + minute + " phút";
-}
+// export function fixTime(register) {
+//     const time = register.extra_time -
+//         (moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
+//             - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
+//         ) / 3600000;
+//     const hour = Math.floor(time);
+//     const minute = (Math.floor((time - Math.floor(time)) * 60));
+//     return minute === 0 ? hour + " giờ" : hour + " giờ " + minute + " phút";
+// }
 
 class ListRegisters extends React.Component {
     constructor(props, context) {
@@ -121,24 +121,23 @@ class ListRegisters extends React.Component {
                                     <td>{register.created_at}</td>
                                     <td>
                                         {
-                                            (
-                                                moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-                                                - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-                                            ) / 3600000
-                                            > register.extra_time ?
+                                            // (
+                                            //     moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
+                                            //     - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
+                                            // ) / 3600000
+                                            // > register.extra_time ?
                                                 <OverlayTrigger placement="top"
                                                                 overlay={TopupTooltip}>
                                                     <a
                                                         onClick={() => this.openPaymentModal(register)}
                                                     >
-                                                        <b>Đã hết</b>
                                                         <i className="material-icons">attach_money</i>
                                                     </a>
                                                 </OverlayTrigger>
-                                                :
-                                                <a>
-                                                    {fixTime(register)}
-                                                </a>
+                                                // :
+                                                // <a>
+                                                //     {fixTime(register)}
+                                                // </a>
                                         }
 
                                     </td>
