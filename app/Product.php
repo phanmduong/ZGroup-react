@@ -46,8 +46,7 @@ class Product extends Model
     public function productCategories()
     {
         return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id')
-            ->withPivot('id')
-            ->withTimestamps();
+            ->withPivot('id');
     }
 
     public function language()

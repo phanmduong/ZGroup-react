@@ -36,7 +36,7 @@ class ElightController extends Controller
         $blogSection = CategoryProduct::find(1)->mulCatProducts()->where('status', 1)->orderBy('created_at', 'desc')->limit(4)->get();
         $blogSection1 = CategoryProduct::find(2)->mulCatProducts()->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection2 = CategoryProduct::find(3)->mulCatProducts()->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
-        
+
         $goods = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
         $books = Course::orderBy('created_at', 'desc')->limit(8)->get();
         return view('elight::index', [
@@ -59,9 +59,9 @@ class ElightController extends Controller
         $type_name = CategoryProduct::find($type);
         $type_name = $type_name ? $type_name->name : '';
 
-        if ($search) 
+        if ($search)
             $blogs = $blogs->where('products.title', 'like', '%' . $search . '%');
-        if ($type) 
+        if ($type)
             $blogs = $blogs->where('product_category_product.category_product_id', '=', $type);
 
         $blogs = $blogs->select('products.*')->groupBy('products.id');
@@ -71,7 +71,7 @@ class ElightController extends Controller
 
         $this->data['type'] = $type;
         $this->data['type_name'] = $type_name;
-        $this->data['blogs'] = $blogs->map(function($blog){
+        $this->data['blogs'] = $blogs->map(function ($blog) {
             $data = $blog;
             $category = $blog->productCategories()->orderBy('pivot_id')->first();
             $data['category_name'] = $category ? $category->name : '';
@@ -94,13 +94,15 @@ class ElightController extends Controller
         } else {
             $post->author->avatar_url = config('app.protocol') . $post->author->avatar_url;
         }
-        $posts_related = $post->productCategories()->get();
-            // ->join('product_category_product', 'category_products.id', '=', 'product_category_product.category_product_id')
-            // ->select('product_category_product.*')->groupBy('product_category_product.product_id')->get();
-            // ->join('products', 'product_category_product.products_id', '=', 'products.id')
-            // ->groupBy('products.id')->where('status', 1)->orderBy('created_at', 'desc')->get();
-        // Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
-        dd($posts_related);
+        $categoriesId = Product::where('products.id', $post_id)
+            ->join('product_category_product', 'products.id', '=', 'product_category_product.product_id')
+            ->select('product_category_product.*')->groupBy('product_category_product.product_id')->pluck('category_product_id')->toArray();
+        $posts_related = Product::join('product_category_product', 'products.id', '=', 'product_category_product.product_id')
+            ->whereIn('product_category_product.category_product_id', $categoriesId)
+            ->where('products.status', 1)
+            ->where('products.id', '<>', $post_id)
+            ->select('products.*')->groupBy('products.id')->orderBy('created_at', 'desc')->limit(3)->get();
+        // dd($posts_related);
         $posts_related = $posts_related->map(function ($p) {
             $p->url = config('app.protocol') . $p->url;
             return $p;
