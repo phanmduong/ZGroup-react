@@ -96,7 +96,7 @@ class ElightController extends Controller
         }
         $posts_related = $post->productCategories()
             ->join('product_category_product', 'category_products.id', '=', 'product_category_product.category_product_id')
-            ->groupBy('product_category_product.product_id')
+            ->select('product_category_product.*')->groupBy('product_category_product.product_id')
             ->join('products', 'product_category_product.products_id', '=', 'products.id')
             ->groupBy('products.id')->where('status', 1)->orderBy('created_at', 'desc')->get();
         // Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
