@@ -34,6 +34,7 @@ class FormInputText extends React.Component {
                     " " +
                     (this.props.className ? this.props.className : "")
                 }
+                style={this.props.style}
             >
                 {this.props.label && (
                     <label className="control-label">
@@ -48,24 +49,24 @@ class FormInputText extends React.Component {
                 {this.props.disabled ? (
                     <p className="form-control-static">{this.props.value}</p>
                 ) : (
-                    <input
-                        autoComplete={this.props.autoComplete}
-                        type={this.props.type || "text"}
-                        className="form-control"
-                        required={this.props.required}
-                        onChange={this.props.updateFormData}
-                        name={this.props.name}
-                        value={this.props.value ? this.props.value : ""}
-                        disabled={this.props.disabled}
-                        onKeyPress={this.props.onKeyPress}
-                        placeholder={this.props.placeholder}
-                        min={
-                            this.props.minValue
-                                ? this.props.minValue
-                                : undefined
-                        }
-                    />
-                )}
+                        <input
+                            autoComplete={this.props.autoComplete}
+                            type={this.props.type || "text"}
+                            className="form-control"
+                            required={this.props.required}
+                            onChange={this.props.updateFormData}
+                            name={this.props.name}
+                            value={this.props.value ? this.props.value : ""}
+                            disabled={this.props.disabled}
+                            onKeyPress={this.props.onKeyPress}
+                            placeholder={this.props.placeholder}
+                            min={
+                                this.props.minValue
+                                    ? this.props.minValue
+                                    : undefined
+                            }
+                        />
+                    )}
                 {this.props.children}
                 {this.props.isNotValid && (
                     <span className="help-block">
@@ -94,6 +95,7 @@ FormInputText.propTypes = {
     equalTo: PropTypes.string,
     onKeyPress: PropTypes.func,
     minValue: PropTypes.string,
+    style: PropTypes.object,
 };
 
 export default FormInputText;
