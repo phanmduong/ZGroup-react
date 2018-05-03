@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use Illuminate\Foundation\Auth\User;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class RenderSurveyController extends ApiController
 {
@@ -28,6 +29,7 @@ class RenderSurveyController extends ApiController
             return 'Khảo sát không tồn tại';
         } else {
             $data = [
+                // 'user' => Auth::user(),
                 'survey' => $survey
             ];
             return view('survey::survey', $data);
