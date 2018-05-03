@@ -4,12 +4,12 @@ import * as PaymentActions from "./PaymentActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Loading from "../../components/common/Loading";
-import _ from 'lodash';
 import PaymentList from './PaymentList';
 import InfoPaymentModal from './InfoPaymentModal';
 import {Panel} from 'react-bootstrap';
 import Select from 'react-select';
 import PropTypes from "prop-types";
+import Pagination from "../../components/common/Pagination";
 
 class PaymentContainer extends React.Component {
     constructor(props, context) {
@@ -108,27 +108,37 @@ class PaymentContainer extends React.Component {
                             <div className="col-md-12">
 
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">home</i>
-                                    </div>
 
                                     <div className="card-content">
-                                        <h4 className="card-title">Quản lý danh sách hóa đơn</h4>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="col-md-3">
-                                                    <Link className="btn btn-rose"
-                                                          to="/business/company/payment/create">
-                                                        <i className="material-icons keetool-card">add</i>
-                                                        Tạo hóa đơn
+                                        <div className="flex" style={{justifyContent: "space-between"}}>
+                                            <div className="flex">
+
+                                                <h4 className="card-title"><strong> Quản lý danh sách hóa đơn </strong>
+                                                </h4>
+                                                <div style={{
+                                                    display: "inline-block"
+                                                }}>
+                                                    {/*<div className="dropdown">*/}
+                                                    <Link
+                                                        className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
+                                                        type="button"
+                                                        data-toggle="tooltip"
+                                                        rel="tootip"
+                                                        title="Tạo thanh toán"
+                                                        to="/business/company/payment/create"
+                                                    >
+                                                        <strong>+</strong>
                                                     </Link>
-                                                </div>
-                                                <div className="col-md-7"/>
-                                                <div className="col-md-2">
-                                                    <button className="btn btn-info btn-rose"
-                                                            onClick={() => this.setState({openFilter: !this.state.openFilter})}>
-                                                        <i className="material-icons">filter_list</i>
-                                                        Lọc
+                                                    {/*</div>*/}
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                        data-toggle="tooltip"
+                                                        rel="tooltip"
+                                                        data-original-title="Lọc"
+                                                        onClick={() => this.setState({openFilter: !this.state.openFilter})}
+                                                        type="button">
+                                                        <i className="material-icons"
+                                                           style={{margin: "0px -4px", top: 0}}>filter_list</i>
                                                     </button>
                                                 </div>
                                             </div>
@@ -168,28 +178,13 @@ class PaymentContainer extends React.Component {
                                                     changeStatus={this.props.PaymentActions.changeStatus}
                                                 />
                                         }
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, this.props.paginator.total_pages + 1).map(page => {
-
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => {
-                                                                this.loadPayments(page);
-                                                            }}>{page}</a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => {
-                                                                this.loadPayments(page);
-                                                            }}>{page}</a>
-                                                        </li>
-                                                    );
-                                                }
-                                            })}
-                                        </ul>
+                                        <div>
+                                            <Pagination
+                                                totalPages={this.props.paginator.total_pages}
+                                                currentPage={this.props.paginator.current_page}
+                                                loadDataPage={this.props.PaymentActions.loadPayments}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

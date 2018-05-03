@@ -13,7 +13,6 @@ class ImportItemOrderList extends React.Component {
     }
 
 
-
     loadHistoryImportOrder(page, id) {
         this.props.loadHistoryImportOrder(page, id);
     }
@@ -46,18 +45,20 @@ class ImportItemOrderList extends React.Component {
                                     <td>  {pp.command_code}</td>
                                     <td>  {pp.company.name}</td>
                                     <td> {pp.good_count} </td>
-                                    <td> {(pp.goods.length -pp.good_count)/ pp.good_count}</td>
+                                    <td> {(pp.goods.length - pp.good_count) / pp.good_count}</td>
                                     <td>
-                                        { (pp.status == 2) ?
-                                        <a data-toggle="tooltip" title="Duyệt"
-                                           type="button"
-                                           // onClick={() =>
-                                           //     this.openInfoModal(pp.id)
-                                           // }
-                                           rel="tooltip"
-                                        >
-                                            <i className="material-icons">done</i>
-                                        </a> : <div/> }
+                                        {(pp.status == 2) ?
+                                            <div className="btn-group-action">
+                                                <a data-toggle="tooltip" title="Duyệt"
+                                                   type="button"
+                                                   onClick={() =>
+                                                       this.props.changeStatus(pp.id)
+                                                   }
+                                                   rel="tooltip"
+                                                >
+                                                    <i className="material-icons">done</i>
+                                                </a></div>
+                                            : <div/>}
 
                                     </td>
 

@@ -109,12 +109,9 @@ class CreatePaymentContainer extends React.Component {
                     <div className="row">
                         <div className="col-md-8">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">home</i>
-                                </div>
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Lưu trữ hóa đơn</h4>
+                                    <h4 className="card-title"> <strong> Lưu trữ hóa đơn</strong> </h4>
                                     <div className="row">{
                                         (this.props.isLoadingCompanies) ? <Loading/> :
 

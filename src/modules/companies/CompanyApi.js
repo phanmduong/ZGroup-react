@@ -5,7 +5,7 @@ export function loadCompanies(page = 1, type, name, phone, address, partner_code
     let url = env.MANAGE_API_URL + "/company/all";
     let token = localStorage.getItem('token');
     if (token)
-        url += "?token=" + token + "&page=" + page + "&type=" + type + "&name=" + name + "&limit=10" + "&phone=" + phone + "&address=" + address + "&partner_code=" + partner_code ;
+        url += "?token=" + token + "&page=" + page + "&type=" + type + "&name=" + name + "&limit=20" + "&phone=" + phone + "&address=" + address + "&partner_code=" + partner_code ;
     return axios.get(url);
 
 }
