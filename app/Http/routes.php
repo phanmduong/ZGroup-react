@@ -499,6 +499,9 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/', 'ColormeNewController@home');
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
     Route::get('/blogs', 'ColormeNewController@blogs');
+    Route::get('/blog/category/{category}', 'ColormeNewController@blogsByCategory');
+    Route::get('/khuyen-mai', 'ColormeNewController@promotions');
+    Route::get('/tai-nguyen', 'ColormeNewController@resources');
     Route::get('/blog/{slug}', 'ColormeNewController@blog');
     Route::get('/api/v3/extract', 'ColormeNewController@extract');
     Route::post('/api/v3/sign-up', 'ColormeNewController@register');
@@ -970,6 +973,8 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     //End history call api
 
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
+
+
 });
 
 Route::auth();

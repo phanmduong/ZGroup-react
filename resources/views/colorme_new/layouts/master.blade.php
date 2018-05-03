@@ -123,9 +123,17 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <!-- <li class=""><a href="/about-us">Về chúng tôi</a></li> -->
-                        <li class=""><a href="/blogs">Blog
-                                <span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Mới</span>
-                            </a></li>
+                        <li class="">
+                            <a href="/blogs">Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/khuyen-mai">Khuyến mãi</a>
+                        </li>
+                        <li>
+                            <a href="/tai-nguyen">Tài nguyên<span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Beta</span></a>
+
+                        </li>
 
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
@@ -492,13 +500,18 @@
 
 @stack("scripts")
 <script>
-
+    
 
     $(document).ready(function () {
 
         var iFrame = document.getElementById("survey");
 
         if (iFrame) {
+
+            function iframeLoaded() {
+                var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                iFrame.style.height = height;
+            }
             // Opera 8.0+
             var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
@@ -522,12 +535,8 @@
             // Blink engine detection
             var isBlink = (isChrome || isOpera) && !!window.CSS;
             if (isSafari || isOpera) {
-                console.log("safari");
                 iFrame.onload = function () {
-                    setTimeout(function () {
-                        var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                        iFrame.style.height = height;
-                    }, 0);
+                    setTimeout(iframeLoaded, 0);
                 };
 
                 var iSource = iFrame.src;
@@ -541,10 +550,7 @@
                 // }
 
             } else {
-                iFrame.onload = function () {
-                    var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                    iFrame.style.height = height;
-                };
+                iFrame.onload = iframeLoaded;
             }
         }
 

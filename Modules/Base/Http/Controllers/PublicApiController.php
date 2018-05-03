@@ -3,6 +3,7 @@
 namespace Modules\Base\Http\Controllers;
 
 use App\Base;
+use App\CategoryProduct;
 use App\District;
 use App\Http\Controllers\NoAuthApiController;
 use App\Product;
@@ -96,4 +97,40 @@ class PublicApiController extends NoAuthApiController
             'product' => $product->blogDetailTransform()
         ]);
     }
+
+    public function getBlogsByCategory(Request $request, $category_name)
+    {
+        $limit = $request->limit ? $request->limit : 6;
+        $category = CategoryProduct::where('name',$category_name)->first();
+        $blogs = Product::where('category_id',$category->id)->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
+        })]);
+    }
+
+    public function getBlogsByKind(Request $request, $kind)
+    {
+        $limit = $request->limit ? $request->limit : 6;
+        $blogs = Product::where('kind',$kind)->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
+        })]);
+    }
+
+    public function getBlogsByTag(Request $request, $tag)
+    {
+        $limit = $request->limit ? $request->limit : 6;
+        $blogs = Product::where('tag',$tag)->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
+        })]);
+    }
+
+
 }

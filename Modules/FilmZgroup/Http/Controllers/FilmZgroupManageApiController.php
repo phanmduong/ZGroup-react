@@ -31,7 +31,9 @@ class FilmZgroupManageApiController extends ManageApiController
         foreach ($films as $film) {
             $this->reloadFilmStatus($film);
         }
-        $films = Film::orderBy("id", "desc")->get();
+        $films = Film::orderBy("id", "desc")->paginate(24);
+        $this->data['total_pages'] = ceil($films->total() / $films->perPage());
+        $this->data['current_page'] = $films->currentPage();
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -190,7 +192,9 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllSessions()
     {
-        $sessions = FilmSession::orderBy('start_date', 'desc')->get();
+        $sessions = FilmSession::orderBy('start_date', 'desc')->paginate(20);
+        $this->data['total_pages'] = ceil($sessions->total() / $sessions->perPage());
+        $this->data['current_page'] = $sessions->currentPage();
         $this->data["sessions"] = $sessions;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -216,13 +220,10 @@ class FilmZgroupManageApiController extends ManageApiController
     public function changeFilmStatus(Request $request)
     {
         $film = Film::find($request->film_id);
-<<<<<<< HEAD
         $film->film_status = $request->film_status;
         $film->save();
-=======
-        $film->film_status =  $request->film_status;
-        $film->save();
+
         return $this->respondSuccess('Doi trang thai thanh cong');
->>>>>>> 5c2929ed1c1b119b343784912843aba551d4292c
+
     }
 }

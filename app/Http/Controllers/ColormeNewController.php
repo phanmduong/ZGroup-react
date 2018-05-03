@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Base;
+use App\Category;
+use App\CategoryProduct;
 use App\Colorme\Transformers\CourseTransformer;
 use App\Colorme\Transformers\ProductTransformer;
 use App\Course;
@@ -253,28 +255,32 @@ class ColormeNewController extends CrawlController
     {
         $diff = abs(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
         $diff /= 60;
-        if ($diff < 60)
+        if ($diff < 60) {
             return floor($diff) . ' phút trước';
+        }
         $diff /= 60;
-        if ($diff < 24)
+        if ($diff < 24) {
             return floor($diff) . ' giờ trước';
+        }
         $diff /= 24;
-        if ($diff <= 30)
+        if ($diff <= 30) {
             return floor($diff) . ' ngày trước';
+        }
         return date('d-m-Y', strtotime($time));
     }
 
-    public function blogs(Request $request)
+    public function queryProducts($kind, $request)
     {
         $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
         $tag = $request->tag;
 
-        $blogsData = Product::where('kind', 'blog')->where('status', 1)
+        $blogsData = Product::where('kind', $kind)->where('status', 1)
             ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
 
-        if ($tag)
+        if ($tag) {
             $blogsData = $blogsData->where('tags', 'like', "%$tag%");
+        }
 
         if ($request->page > 1) {
             $blogs = $blogsData;
@@ -292,7 +298,7 @@ class ColormeNewController extends CrawlController
                                   count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
                                 FROM
                                   tag_numbers INNER JOIN products
-                                  ON products.kind='blog' AND CHAR_LENGTH(products.tags)
+                                  ON products.kind='$kind' AND CHAR_LENGTH(products.tags)
                                      -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
                                 WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
                                 GROUP BY tag 
@@ -318,15 +324,33 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.blogs', $this->data);
     }
 
+    public function blogs(Request $request)
+    {
+        return $this->queryProducts('blog', $request);
+    }
+
+    public function promotions(Request $request)
+    {
+        return $this->queryProducts('promotion', $request);
+    }
+
+    public function resources(Request $request)
+    {
+        return $this->queryProducts('resource', $request);
+    }
+
     public function mailViews($views)
     {
-        if ($views < 10)
+        if ($views < 10) {
             return false;
+        }
         while ($views != 0) {
-            if ($views > 10 && $views % 10 != 0)
+            if ($views > 10 && $views % 10 != 0) {
                 return false;
-            if ($views < 10 && ($views == 1 || $views == 2 || $views == 5))
+            }
+            if ($views < 10 && ($views == 1 || $views == 2 || $views == 5)) {
                 return true;
+            }
             $views /= 10;
         }
     }
@@ -336,9 +360,11 @@ class ColormeNewController extends CrawlController
         $blog = Product::where('slug', $slug)->first();
         $blog->views += 1;
         $blog->save();
-        if ($this->mailViews($blog->views) === true)
+        if ($this->mailViews($blog->views) === true) {
             $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        }
         $data = $blog->blogDetailTransform();
+        $data['time'] = $this->timeCal(date($blog->created_at));
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
@@ -380,5 +406,11 @@ class ColormeNewController extends CrawlController
         $subscription->user_id = 2;
         $subscription->product_id = 30121;
         $subscription->save();
+    }
+
+    public function blogsByCategory($category_name) {
+        $category = CategoryProduct::where('name',$category_name)->first();
+        $blogs = Product::where('category_id',$category->id);
+        return $this->queryProducts('blog', $blogs);
     }
 }

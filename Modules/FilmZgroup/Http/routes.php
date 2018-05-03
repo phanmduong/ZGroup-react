@@ -23,7 +23,7 @@ $manageApiRoutes = function()
 
 $apiRoutes = function()
 {
-        Route::post('/film/search-name','PublicFilmApiController@searchFilmByName');
+        Route::get('/film&search={name}','PublicFilmApiController@searchFilmByName');
         Route::post('/films/date','PublicFilmApiController@getFilmByDate');
         Route::post('/films/date-range','PublicFilmApiController@filterSessionByDateRange');
         Route::post('/films/room','PublicFilmApiController@getFilmByRoom');

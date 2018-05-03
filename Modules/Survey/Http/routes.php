@@ -51,7 +51,8 @@ Route::group(
 );
 $publicSurveyRoutes = function () {
     Route::get('/survey/{surveyId}/render', 'RenderSurveyController@render');
-    Route::post("/survey/{surveyId}/store", 'RenderSurveyController@submitForm');
+    Route::post('/survey/{surveyId}/store', 'RenderSurveyController@submitForm');
+    Route::get('/survey/submitted', 'RenderSurveyController@surveySubmitted');
 };
 
 Route::group(
