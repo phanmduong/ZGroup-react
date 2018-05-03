@@ -7,7 +7,7 @@ use \App\Http\Controllers\Controller;
 use App\Survey;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
-use Illuminate\Foundation\Auth\User;
+
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
