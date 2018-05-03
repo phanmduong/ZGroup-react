@@ -1631,7 +1631,6 @@ a.like-count:hover {
 
 .image-wrapper, .product-content iframe, .product-content img, .product-content video {
     width: 130% !important;
-    margin-left: -15%;
     margin-top: 20px;
     margin-bottom: 20px
 }

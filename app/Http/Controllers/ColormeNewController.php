@@ -362,6 +362,7 @@ class ColormeNewController extends CrawlController
             $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
         }
         $data = $blog->blogDetailTransform();
+        $data['time'] = $this->timeCal(date($blog->created_at));
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
