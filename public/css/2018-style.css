@@ -692,7 +692,7 @@ body {
 }
 
 strong {
-    font-weight: 600
+    font-weight: 700
 }
 
 nav.navbar {
@@ -1068,12 +1068,12 @@ a.navbar-brand img {
 .noti-footer {
     border-top: 1px solid #d9d9d9;
     text-align: center;
-    font-weight: 600
+    font-weight: 700
 }
 
 .noti-title {
     color: #444;
-    font-weight: 600;
+    font-weight: 700;
     padding-left: 10px
 }
 
@@ -1411,7 +1411,7 @@ span.comment {
     vertical-align: baseline;
     border: 0;
     background: transparent;
-    font-weight: 600
+    font-weight: 700
 }
 
 .colorme-author:hover {
@@ -1875,7 +1875,7 @@ a.more-products {
 .bl-title, .bl-title-big {
     font-family: 'Roboto', sans-serif;
     padding-top: 15px;
-    font-weight: 600;
+    font-weight: 700;
     padding-bottom: 15px
 }
 
@@ -2258,7 +2258,7 @@ ul.dashed > li:before {
 }
 
 .hi, .left-panel h5 {
-    font-weight: 600
+    font-weight: 700
 }
 
 .hi {
@@ -2669,7 +2669,7 @@ section {
 
 .landing-title {
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 35px;
 }
 
@@ -2703,7 +2703,7 @@ section {
 
 .mb-3 {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     margin-top: 30px;
 }
 
@@ -3067,7 +3067,7 @@ div#app {
   margin: 0 2px;
   min-width: 36px;
   padding: 7px 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 hr {
