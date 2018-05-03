@@ -492,13 +492,18 @@
 
 @stack("scripts")
 <script>
-
+    
 
     $(document).ready(function () {
 
         var iFrame = document.getElementById("survey");
 
         if (iFrame) {
+
+            function iframeLoaded() {
+                var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                iFrame.style.height = height;
+            }
             // Opera 8.0+
             var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
@@ -522,12 +527,8 @@
             // Blink engine detection
             var isBlink = (isChrome || isOpera) && !!window.CSS;
             if (isSafari || isOpera) {
-                console.log("safari");
                 iFrame.onload = function () {
-                    setTimeout(function () {
-                        var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                        iFrame.style.height = height;
-                    }, 0);
+                    setTimeout(iframeLoaded, 0);
                 };
 
                 var iSource = iFrame.src;
@@ -541,10 +542,7 @@
                 // }
 
             } else {
-                iFrame.onload = function () {
-                    var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
-                    iFrame.style.height = height;
-                };
+                iFrame.onload = iframeLoaded;
             }
         }
 
@@ -552,6 +550,8 @@
 
 
 </script>
+    
+    
 
 
 </script>

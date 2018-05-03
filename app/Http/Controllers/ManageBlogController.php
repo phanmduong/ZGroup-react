@@ -96,7 +96,7 @@ class ManageBlogController extends ManageApiController
         $product->language_id = $request->language_id; //
 
         $product->type = 2;
-        $product->kind = 'blog';
+        $product->kind = $request->kind;
         $product->url = trim_url($request->image_url);
         if ($request->status) {
             $product->status = $request->status;
@@ -133,12 +133,16 @@ class ManageBlogController extends ManageApiController
     public function get_posts(Request $request)
     {
         $q = trim($request->search);
+        $kind = trim($request->kind);
         $category_id = $request->category_id;
         $limit = 20;
         $posts = Product::leftJoin('product_category_product', 'product_category_product.product_id', '=', 'products.id')
         ->where('products.type', 2);
         if ($category_id) {
             $posts = $posts->where('product_category_product.category_product_id', $category_id);
+        }
+        if ($kind) {
+            $posts = $posts->where('products.kind', $kind);
         }
         if ($q) {
             $posts = $posts->where('products.title', 'like', '%' . $q . '%');
@@ -155,6 +159,7 @@ class ManageBlogController extends ManageApiController
                     'image_url' => $post->url,
                     'thumb_url' => $post->thumb_url,
                     'description' => $post->description,
+                    'kind' => $post->kind,
                     'author' => [
                         'id' => $post->author->id,
                         'name' => $post->author->name,
