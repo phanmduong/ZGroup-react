@@ -3060,7 +3060,6 @@ div#app {
 .pagination > li:first-child > span,
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
-<<<<<<< HEAD
   background-color: transparent;
   border: 2px solid #d2d2d2;
   border-radius: 20px;
@@ -3070,17 +3069,6 @@ div#app {
   min-width: 36px;
   padding: 7px 12px;
   font-weight: 700;
-=======
-    background-color: transparent;
-    border: 2px solid #d2d2d2;
-    border-radius: 20px;
-    color: #d2d2d2;
-    height: 36px;
-    margin: 0 2px;
-    min-width: 36px;
-    padding: 7px 12px;
-    font-weight: 600;
->>>>>>> a0b14819d1f304928b6f03562bbd24ad63050673
 }
 
 hr {
