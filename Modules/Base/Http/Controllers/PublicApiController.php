@@ -99,7 +99,6 @@ class PublicApiController extends NoAuthApiController
 
     public function getBlogsByCategory(Request $request, $category_name)
     {
-        dd(1);
         $limit = $request->limit ? $request->limit : 6;
         $category = CategoryProduct::where('name',$category_name)->first();
         $blogs = Product::where('category_id',$category->id)->orderBy('created_at', 'desc')->paginate($limit);
