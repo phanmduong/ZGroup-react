@@ -109,4 +109,28 @@ class PublicApiController extends NoAuthApiController
             return $data;
         })]);
     }
+
+    public function getBlogsByKind(Request $request, $kind)
+    {
+        $limit = $request->limit ? $request->limit : 6;
+        $blogs = Product::where('kind',$kind)->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
+        })]);
+    }
+
+    public function getBlogsByTag(Request $request, $tag)
+    {
+        $limit = $request->limit ? $request->limit : 6;
+        $blogs = Product::where('tag',$tag)->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
+        })]);
+    }
+
+
 }
