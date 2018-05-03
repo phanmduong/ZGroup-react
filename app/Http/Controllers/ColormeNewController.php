@@ -408,9 +408,9 @@ class ColormeNewController extends CrawlController
         $subscription->save();
     }
 
-    public function blogsByCategory($category) {
-        $categoryId = CategoryProduct::where('name',$category);
-        $blogs = Product::where('categoryId',$categoryId);
+    public function blogsByCategory($category_name) {
+        $category = CategoryProduct::where('name',$category_name)->first();
+        $blogs = Product::where('category_id',$category->id);
         return $this->queryProducts('blog', $blogs);
     }
 }
