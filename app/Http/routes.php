@@ -973,6 +973,8 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
     //End history call api
 
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
+
+
 });
 
 Route::auth();

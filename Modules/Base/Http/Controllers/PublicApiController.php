@@ -96,4 +96,17 @@ class PublicApiController extends NoAuthApiController
             'product' => $product->blogDetailTransform()
         ]);
     }
+
+    public function getBlogsByCategory(Request $request, $category_name)
+    {
+        dd(1);
+        $limit = $request->limit ? $request->limit : 6;
+        $category = CategoryProduct::where('name',$category_name)->first();
+        $blogs = Product::where('category_id',$category->id)->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
+        })]);
+    }
 }
