@@ -11,9 +11,9 @@ use Carbon\Carbon;
 
 class PublicFilmApiController extends NoAuthApiController
 {
-    public function searchFilmByName(Request $request)
+    public function searchFilmByName($name)
     {
-        $results = Film::where('name', 'LIKE', '%' . $request->film_name . '%')->get();
+        $results = Film::where('name', 'LIKE', '%' . $name . '%')->paginate(12);
         $data = [
             'results' => $results,
         ];
