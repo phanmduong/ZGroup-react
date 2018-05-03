@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Base;
+use App\Category;
+use App\CategoryProduct;
 use App\Colorme\Transformers\CourseTransformer;
 use App\Colorme\Transformers\ProductTransformer;
 use App\Course;
@@ -404,5 +406,11 @@ class ColormeNewController extends CrawlController
         $subscription->user_id = 2;
         $subscription->product_id = 30121;
         $subscription->save();
+    }
+
+    public function blogsByCategory($category) {
+        $categoryId = CategoryProduct::where('name',$category);
+        $blogs = Product::where('categoryId',$categoryId);
+        return $this->queryProducts('blog', $blogs);
     }
 }
