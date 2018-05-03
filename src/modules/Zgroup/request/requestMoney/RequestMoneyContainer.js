@@ -17,7 +17,7 @@ import { Link } from "react-router";
 import { Modal, Panel } from 'react-bootstrap';
 import { DATETIME_FORMAT_SQL } from '../../../../constants/constants';
 import ReactSelect from 'react-select';
-
+import TooltipButton from '../../../../components/common/TooltipButton';
 
 class RequestMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -144,7 +144,7 @@ class RequestMoneyContainer extends React.Component {
                 'STT': index + 1,
                 'Mã tạm ứng': item.command_code,
                 'Người ứng': item.staff ? item.staff.name : "Không có",
-                'Ngày tạm ứng': moment(item.created_at.date).format("D/M/YYYY"),
+                'Ngày tạm ứng': item.created_at ? moment(item.created_at.date).format("D/M/YYYY") : "Không có",
                 'Nguồn ứng': item.company_pay.name,
                 'Nguồn hoàn ứng': item.company_receive.name,
                 'Ngày hoàn trả': moment(item.date_complete).isValid() ? moment(item.date_complete).format("D/M/YYYY") : "Không có",
@@ -235,32 +235,64 @@ class RequestMoneyContainer extends React.Component {
                         <div className="col-md-12">
 
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">attach_money</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách xin tạm ứng</h4>
-                                    <div style={{ display: "flex" }}>
-                                        <div style={{ marginRight: 5 }}>
-                                            <Link className="btn btn-rose" to="/administration/request/money/create">
-                                                <i className="material-icons">add</i>Xin tạm ứng</Link>
 
+                                    <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong>Danh sách xin tạm ứng</strong></h4>
+                                            <div>
+                                                <Link to="/administration/request/money/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <strong>+</strong>
+                                                </Link>
+
+                                            </div>
+                                            <div>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openPanel}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
-                                        <div style={{ marginRight: 5 }}>
-                                            <button className="btn btn-rose" onClick={this.openLoadingModal} >Xuất file excel</button>
-                                        </div>
-                                        <div style={{ marginRight: 5 }}>
-                                            <button className="btn btn-rose" onClick={this.openPanel} >
-                                                <i className="material-icons">filter_list</i>
-                                                Lọc</button>
+                                        <div className="flex-end">
+                                            <div>
+                                                <TooltipButton text="Xuất thành file excel" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openLoadingModal}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >file_download</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
                                     </div>
                                     <Panel collapsible expanded={showPanel} bsStyle="primary">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="row">
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <label>Nguồn ứng</label>
                                                         <ReactSelect
                                                             options={companies || []}
@@ -272,7 +304,7 @@ class RequestMoneyContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <label>Nguồn hoàn ứng</label>
                                                         <ReactSelect
                                                             options={companies || []}
@@ -284,7 +316,7 @@ class RequestMoneyContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <label>Trạng thái</label>
                                                         <ReactSelect
                                                             options={statusFilter || []}
@@ -298,7 +330,7 @@ class RequestMoneyContainer extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <FormInputText
                                                             name="command_code"
                                                             value={filter.command_code}
@@ -309,7 +341,7 @@ class RequestMoneyContainer extends React.Component {
                                                     </div>
 
 
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <FormInputText
                                                             name="staff_name"
                                                             value={filter.staff_name}
@@ -320,7 +352,7 @@ class RequestMoneyContainer extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <FormInputDate
                                                             name="start_time"
                                                             id="start_time"
@@ -330,7 +362,7 @@ class RequestMoneyContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-4 col-xs-6">
                                                         <FormInputDate
                                                             name="end_time"
                                                             id="end_time"
@@ -383,7 +415,7 @@ class RequestMoneyContainer extends React.Component {
                                                                         return (
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
-                                                                                <td><a onClick={() => { return this.openInfoModal(obj); }}>{obj.command_code}</a></td>
+                                                                                <td><b style={{ cursor: "pointer" }} onClick={() => { return this.openInfoModal(obj); }}>{obj.command_code}</b></td>
                                                                                 <td>{helper.dotNumber(obj.money_payment)}</td>
 
                                                                                 <td>{obj.staff.name}</td>
