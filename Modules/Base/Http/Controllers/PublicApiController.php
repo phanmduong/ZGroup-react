@@ -3,6 +3,7 @@
 namespace Modules\Base\Http\Controllers;
 
 use App\Base;
+use App\CategoryProduct;
 use App\District;
 use App\Http\Controllers\NoAuthApiController;
 use App\Product;
