@@ -101,11 +101,25 @@ class NhatQuangShopManageController extends Controller
         }
     }
 
+    public function formatDeliveryOrders(&$orders)
+    {
+        foreach ($orders as $order) {
+            $order->en_status = $order->status;
+            $order->status = $this->deliveryStatusToVietnamese($order->status);
+            $order->vnd_price = number_format($order->price, 0, ',', '.') . ' đ';
+        }
+    }
+
     public function userOrder()
     {
         $user = Auth::user();
         $orders = Order::where([['user_id', '=', $user->id], ['type', '=', 'order']])->orderBy('created_at', 'desc')->paginate(15);
+        foreach ($orders as $order) {
+            $order->en_status = $order->status;
+            $order->status = $this->orderStatusToVietnamese($order->status);
+        }
         $this->data['orders'] = $orders;
+
         return view("nhatquangshop::orders", $this->data);
     }
 
@@ -128,6 +142,8 @@ class NhatQuangShopManageController extends Controller
     public function account_information()
     {
         $user = Auth::user();
+        $user->money = number_format($user->money, 0, ',', '.') . ' đ';
+        $user->deposit = number_format($user->deposit, 0, ',', '.') . ' đ';
         $this->data['user'] = $user;
         return view("nhatquangshop::account", $this->data);
     }
@@ -215,10 +231,11 @@ class NhatQuangShopManageController extends Controller
         if ($code)
             $orders = $orders->where('code', 'like', '%' . $code . '%');
         $orders = $orders->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['orders'] = $orders->map(function ($order) {
+        foreach ($orders as $order) {
+            $order->en_status = $order->status;
             $order->status = $this->orderStatusToVietnamese($order->status);
-            return $order;
-        });
+        }
+        $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
 
@@ -226,8 +243,8 @@ class NhatQuangShopManageController extends Controller
     {
         $user = Auth::user();
         $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
+        $this->formatDeliveryOrders($deliveryOrders);
         $this->data['deliveryOrders'] = $deliveryOrders;
-//        dd($user->id);
         return view('nhatquangshop::delivery_orders', $this->data);
     }
 
@@ -235,21 +252,16 @@ class NhatQuangShopManageController extends Controller
     {
         $user = Auth::user();
         $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc');
-        $code = $request->code;
-        $status = $request->status;
-        $start_day = $request->start_day;
-        $end_day = $request->end_day;
-        if ($start_day)
-            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($start_day, $end_day));
-        if ($status)
-            $deliveryOrders = $deliveryOrders->where('status', $status);
-        if ($code)
-            $deliveryOrders = $deliveryOrders->where('code', 'like', '%' . $code . '%');
+        if ($request->start_day)
+            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($request->start_day, $request->end_day));
+        if ($request->status)
+            $deliveryOrders = $deliveryOrders->where('status', $request->status);
+        if ($request->code)
+            $deliveryOrders = $deliveryOrders->where('code', 'like', "%$request->code%");
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['deliveryOrders'] = $deliveryOrders->map(function ($order) {
-            $order->status = $this->deliveryStatusToVietnamese($order->status);
-            return $order;
-        });
+        // dd($deliveryOrders);
+        $this->formatDeliveryOrders($deliveryOrders);
+        $this->data['deliveryOrders'] = $deliveryOrders;
         return view("nhatquangshop::delivery_orders", $this->data);
     }
 
