@@ -21,6 +21,7 @@ class ClientController extends Controller
             $path = 'dashboard';
         }
         if ($path != 'login-free-trial') {
+            $this->middleware('auth');
             $this->middleware('permission_tab_react:' . $path);
         }
         $this->emailService = $emailService;

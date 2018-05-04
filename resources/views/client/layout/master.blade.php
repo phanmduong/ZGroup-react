@@ -36,6 +36,11 @@
     @yield("css")
 
     <link href="{{url('config.css')}}" rel="stylesheet">
+    @if (Auth::check())
+    <script>
+            localStorage.setItem("token", JWTAuth::refresh(JWTAuth::getToken()));
+    </script>
+    @endif
 </head>
 <body>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
