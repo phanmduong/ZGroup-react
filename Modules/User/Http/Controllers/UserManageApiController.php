@@ -64,7 +64,7 @@ class UserManageApiController extends ManageApiController
                 'role_title' => $user->current_role->role_title
             ],
             'base' => [
-                'name' => $user->base->name
+                'name' => $user->base ?  $user->base->name : ""
             ]
         ];
 
