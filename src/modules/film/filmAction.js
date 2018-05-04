@@ -5,6 +5,9 @@ import * as helper from "../../helpers/helper";
 
 export function loadAllFilms() {
     return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_FILMS
+        });
         filmApi.loadAllFilmsApi()
             .then((res) => {
                 dispatch({
@@ -113,6 +116,26 @@ export function editFilm(film) {
                 dispatch({
                     type: types.EDIT_FILM_ERROR,
                 });
+            })
+        ;
+    };
+}
+export function editStatus(id , status) {
+    return function (dispatch) {
+        filmApi.editStatusApi(id, status)
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.EDIT_STATUS_SUCCESS,
+                        id,status
+                    });
+                    if(status==0){helper.showNotification("Chuyển thành film chưa sử dụng thành công");}
+                    if(status==2){helper.showNotification("Chuyển thành film sắp chiếu thành công");}
+                } else helper.showErrorNotification(res.data.message);
+
+            })
+            .catch(()=>{
+                helper.showErrorNotification("Lỗi sever");
             })
         ;
     };

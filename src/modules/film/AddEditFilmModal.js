@@ -45,15 +45,25 @@ class AddEditFilmModal extends React.Component {
             ||helper.isEmptyInput(film.director)
             ||helper.isEmptyInput(film.cast)
             ||helper.isEmptyInput(film.running_time)
-            ||helper.isEmptyInput(film.release_date)
             ||helper.isEmptyInput(film.country)
             ||helper.isEmptyInput(film.language)
-            ||helper.isEmptyInput(film.film_genre)
             ||helper.isEmptyInput(film.rate)
             ||helper.isEmptyInput(film.summary)
-            ||helper.isEmptyInput(film.film_rated)
+            ||helper.isEmptyInput(film.film_genre)
 
-        ) helper.showErrorNotification("Bạn cần nhập đủ thông tin");
+        ) {
+            if(helper.isEmptyInput(film.name)) helper.showErrorNotification("Bạn cần nhập tên film");
+            if(helper.isEmptyInput(film.avatar_url)) helper.showErrorNotification("Bạn cần chọn ảnh đại diện");
+            if(helper.isEmptyInput(film.trailer_url)) helper.showErrorNotification("Bạn cần nhập link trailer");
+            if(helper.isEmptyInput(film.director)) helper.showErrorNotification("Bạn cần nhập tên đạo diễn");
+            if(helper.isEmptyInput(film.cast)) helper.showErrorNotification("Bạn cần nhập tên diễn viên");
+            if(helper.isEmptyInput(film.running_time)) helper.showErrorNotification("Bạn cần nhập thời lượng");
+            if(helper.isEmptyInput(film.country)) helper.showErrorNotification("Bạn cần nhập quốc gia");
+            if(helper.isEmptyInput(film.language)) helper.showErrorNotification("Bạn cần nhập ngôn ngữ");
+            if(helper.isEmptyInput(film.rate)) helper.showErrorNotification("Bạn cần nhập đánh giá");
+            if(helper.isEmptyInput(film.summary)) helper.showErrorNotification("Bạn cần nhập mô tả");
+            if(helper.isEmptyInput(film.film_genre)) helper.showErrorNotification("Bạn cần nhập thể loại film");
+        }
          else {
             if (film.id) {
                 this.props.filmAction.editFilm(film);
@@ -68,7 +78,10 @@ class AddEditFilmModal extends React.Component {
                 bsSize="large"
                 show={this.props.addEditFilmModal}
                 onHide={() => {
-                    this.props.filmAction.showAddEditFilmModal();
+                    helper.confirm("warning", "Quay lại", "Bạn có chắc muốn quay lại, dữ liệu hiện tại sẽ không được cập nhật", () => {
+                        this.props.filmAction.showAddEditFilmModal();
+                    });
+
                 }}>
                 <a onClick={() => {
                     this.props.filmAction.showAddEditFilmModal();
@@ -137,7 +150,7 @@ class AddEditFilmModal extends React.Component {
                                         name="cast"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.cast || ''}
-                                        requireds
+                                        required
                                     />
                                 </div>    
                             </div>
@@ -152,16 +165,14 @@ class AddEditFilmModal extends React.Component {
                                         required
                                     />
                                 </div>
-                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>    
-                                    <FormInputDate
-                                        label="Ngày phát hành"
-                                        name="release_date"
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
+                                    <FormInputText
+                                        label="Thể loại film"
+                                        name="film_genre"
                                         updateFormData={this.updateFormData}
-                                        value={this.props.filmModal.release_date || ''}
-                                        id="form-start-hour"
+                                        value={this.props.filmModal.film_genre || ''}
                                         required
                                     />
-
                                 </div>    
                             </div>
                             <div className="row">
@@ -187,33 +198,33 @@ class AddEditFilmModal extends React.Component {
                             <div className="row">
                                 <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
                                     <FormInputText
-                                        label="Thể loại film"
-                                        name="film_genre"
+                                        label="Giới hạn độ tuổi"
+                                        name="film_rated" type="number"
                                         updateFormData={this.updateFormData}
-                                        value={this.props.filmModal.film_genre || ''}
-                                        required
+                                        value={this.props.filmModal.film_rated || ''}
                                     />
                                 </div>
-                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>    
+                                <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
                                     <FormInputText
-                                        label="Rate"
+                                        label="Đánh giá"
                                         name="rate"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.rate || ''}
                                         required
                                     />
-                                </div>    
+                                </div>
                             </div>
                             <div className="row">
                                 <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
-                                    <FormInputText
-                                        label="Giới hạn độ tuổi"
-                                        name="film_rated" type="number"
+                                    <FormInputDate
+                                        label="Ngày phát hành"
+                                        name="release_date"
                                         updateFormData={this.updateFormData}
-                                        value={this.props.filmModal.film_rated || ''}
+                                        value={this.props.filmModal.release_date || ''}
+                                        id="form-start-hour"
                                         required
                                     />
-                                </div>  
+                                </div>
 
                             </div>
 

@@ -1,16 +1,21 @@
 export default {
 
     session:{
-        allFilms:[],
+        isLoadingAllSessions:false,
+        isLoadingShowingSession:false,
+        allFilms:[],isLoadingFilms: false,
         allSessions:[],
         showingSession:[],
         comingSession:[],
         daySession:[],
         isSavingSession: false,
+        isSaving: false,
         addEditSessionModal: false,
         sessionModal:{},
     },
     film:{
+        isLoading: false,
+        isSaving:false,
         allFilms:[],
         //modal ****************
         addEditFilmModal: false,

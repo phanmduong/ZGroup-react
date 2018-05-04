@@ -14,6 +14,7 @@ class ShowingFilmContainer extends React.Component{
     render() {
         let showing = this.props.allFilms.filter((film)=>(film.film_status == 1));
         return (
+
             <FilmComponent films={showing}/>
         );
     }

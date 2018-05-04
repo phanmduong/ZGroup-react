@@ -43,3 +43,18 @@ export function postFilmApi(film) {
       }
       return axios.post(url,film);
   }
+
+// change-stateus: keetoolclient.test/manageapi/v3/film/update/{id}?token=
+// 0 chưa dùng, 1 đang chiếu, 2 sắp chiếu
+export function editStatusApi(film_id, film_status) {
+    let url = env.MANAGE_API_URL + "/film/change-status";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let film = {
+        film_id: film_id,
+        film_status: film_status
+    };
+    return axios.post(url, film);
+}

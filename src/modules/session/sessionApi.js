@@ -21,13 +21,6 @@ export function loadShowingSessionApi() {
     return axios.get(url);
 }
 
-//session sap chieu
-//keetoolclient.test/api/v3/films/coming
-export function loadComingSessionApi() {
-    let url = env.API_URL + "/films/coming";
-    return axios.get(url);
-}
-
 //sesion theo ngay
 //keetoolclient.test/api/v3/films/date
 export function loadDaySessionApi(start_date) {
