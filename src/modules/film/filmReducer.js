@@ -4,10 +4,26 @@ import initialState from "../../reducers/initialState";
 
 export default function filmReducer(state = initialState.film, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_ALL_FILMS:
+            return{
+                ...state,
+                isLoading:true
+            };
         case types.LOAD_ALL_FILMS_SUCCESS:
             return {
                 ...state,
                 allFilms: action.allFilms,
+                isLoading: false
+            };
+        case types.LOAD_ALL_FILMS_HAVE_PAGINATION_SUCCESS:
+            return{
+                ...state,
+                allFilmsHavePagination: action.allFilms,
+                isLoading: false,
+                currentPage: action.currentPage,
+                limit: action.limit,
+                totalCount: action.totalCount,
+                totalPages: action.totalPages
             };
         case types.SHOW_ADD_EDIT_FILM_MODAL:
             return{
@@ -23,10 +39,12 @@ export default function filmReducer(state = initialState.film, action) {
             return{
                 ...state,
                 isSavingFilm: true,
+                isSaving: true,
             };
         case types.SAVE_FILM_SUCCESS:
             return{
                 ...state,
+                isSaving:false,
                 isSavingFilm:false,
                 addEditFilmModal: false,
                 allFilms:[action.film, ...state.allFilms]
@@ -68,7 +86,6 @@ export default function filmReducer(state = initialState.film, action) {
                         rate:action.film.rate,
                         summary:action.film.summary,
                         film_rated:action.film.film_rated,
-                        film_status:action.film.film_status,
                     };
                 }
                 return film;
@@ -77,6 +94,22 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 isSavingFilm:false,
                 addEditFilmModal: false,
+                allFilms: film
+            };
+        }
+        case types.EDIT_STATUS_SUCCESS:
+        {
+            let film = state.allFilms.map((film) => {
+                if (film.id === action.id){
+                    return {
+                        ...film,
+                        film_status:action.status,
+                    };
+                }
+                return film;
+            });
+            return {
+                ...state,
                 allFilms: film
             };
         }

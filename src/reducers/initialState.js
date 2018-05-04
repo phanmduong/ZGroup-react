@@ -1,17 +1,27 @@
 export default {
 
     session:{
-        allFilms:[],
+        isLoadingAllSessions:false,
+        isLoadingShowingSession:false,
+        allFilms:[],isLoadingFilms: false,
         allSessions:[],
         showingSession:[],
         comingSession:[],
         daySession:[],
         isSavingSession: false,
+        isSaving: false,
         addEditSessionModal: false,
         sessionModal:{},
     },
     film:{
+        isLoading: false,
+        isSaving:false,
         allFilms:[],
+        allFilmsHavePagination:[],
+        currentPage: 0,
+        limit: 0,
+        totalCount: 0,
+        totalPages: 0,
         //modal ****************
         addEditFilmModal: false,
         isUploadingAvatar: false,

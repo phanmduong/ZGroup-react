@@ -5,11 +5,14 @@ import * as helper from "../../helpers/helper";
 
 export function loadAllSessions() {
     return function (dispatch) {
+        dispatch({
+           type: types.BEGIN_LOAD_ALL_SESSIONS
+        });
         sessionApi.loadAllSessionsApi()
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_SESSIONS_SUCCESS,
-                    allSessions: res.data.data.sessions
+                    allSessions: res.data.data.sessions,
                 });
             });
     };
@@ -17,23 +20,14 @@ export function loadAllSessions() {
 
 export function loadShowingSession() {
     return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SHOWING_SESSION,
+        });
         sessionApi.loadShowingSessionApi()
             .then((res) => {
                 dispatch({
                     type: types.LOAD_SHOWING_SESSION_SUCCESS,
-                    showingSession: res.data.data.films
-                });
-            });
-    };
-}
-
-export function loadComingSession() {
-    return function (dispatch) {
-        sessionApi.loadComingSessionApi()
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_COMING_SESSION_SUCCESS,
-                    comingSession: res.data.data.films
+                    showingSession: res.data.data.sessions
                 });
             });
     };
@@ -151,11 +145,14 @@ export function deleteSession(session) {
 
 export function loadAllFilms() {
     return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_FILMS
+        });
         sessionApi.loadAllFilmsApi()
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_FILMS_SUCCESS,
-                    allFilms: res.data.data.films
+                    allFilms: res.data.films
                 });
             });
     };
