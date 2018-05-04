@@ -11,6 +11,7 @@ use App\TransferMoney;
 use App\BankAccount;
 use App\User;
 use Illuminate\Http\Request;
+
 //use Illuminate\Http\Response;
 //use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -145,7 +146,7 @@ class FinanceManageApiController extends ManageApiController
             });
         }
 
-        $staffs = $staffs->whereBetween('role', [1, 2])->where('money', '>', 0)->orderBy('money', 'desc')->paginate($limit);
+        $staffs = $staffs->whereBetween('role', [1, 2])->orderBy('money', 'desc')->paginate($limit);
 
         $total_money = User::whereBetween('role', [1, 2])->where('money', '>', 0)->sum('money');
         $total_staffs = User::whereBetween('role', [1, 2])->where('money', '>', 0)->count();
@@ -176,7 +177,7 @@ class FinanceManageApiController extends ManageApiController
             $transactions = $transactions->where('type', $request->type);
         }
 
-        $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
+        $transactions = $transactions->where('status', 1)->orderBy('updated_at', 'desc')->paginate($limit);
 
 
         $data = [
@@ -268,9 +269,7 @@ class FinanceManageApiController extends ManageApiController
             $q->where('sender_id', $staff_id)->orWhere('receiver_id', $staff_id);
         });
 
-        if ($request->type == null) {
-            $transactions = $transactions->whereBetween('type', [1, 2]);
-        } else {
+        if ($request->type != null) {
             $transactions = $transactions->where('type', $request->type);
         }
 
@@ -278,24 +277,38 @@ class FinanceManageApiController extends ManageApiController
 
 
         $data = [
-            'transactions' => $transactions->map(function ($transaction) {
-                $dataTransaction = [
+            'transactions' => $transactions->map(function ($transaction) use ($staff_id) {
+                $data = [
                     'updated_at' => format_vn_short_datetime(strtotime($transaction->updated_at)),
                     'money' => $transaction->money,
                     'type' => $transaction->type,
                     'status' => $transaction->status,
                     'sender_id' => $transaction->sender_id,
                     'receiver_id' => $transaction->receiver_id,
-                    'before_money' => $transaction->sender_money
                 ];
 
+                if ($transaction->sender_id == $staff_id) {
+                    $data['before_money'] = $transaction->sender_money;
+                } else {
+                    $data['before_money'] = $transaction->receiver_money;
+                }
+
+                if ($transaction->type == 0) {
+                    if ($transaction->sender_id == $staff_id) {
+                        $data['note'] = "Gửi tiền đến " . $transaction->receiver->name;
+                    } else {
+                        $data['note'] = "Nhận tiền từ " . $transaction->sender->name;
+                    }
+                } else {
+                    $data['note'] = $transaction->note;
+                }
+
                 if ($transaction->category) {
-                    $dataTransaction['category'] = $transaction->category->transform();
+                    $data['category'] = $transaction->category->transform();
                 }
 
 
-                $dataTransaction['note'] = $transaction->note;
-                return $dataTransaction;
+                return $data;
             })
         ];
 

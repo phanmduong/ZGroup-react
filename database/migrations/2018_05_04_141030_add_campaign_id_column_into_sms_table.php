@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductSubscriptionTable extends Migration
+class AddCampaignIdColumnIntoSmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,8 @@ class CreateProductSubscriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_subscriptions', function(Blueprint $table){
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('product_id')->unsigned()->index();
-            $table->timestamps();
+        Schema::table('sms',function (Blueprint $table){
+            $table->integer('campaign_id')->unsigned();
         });
     }
 

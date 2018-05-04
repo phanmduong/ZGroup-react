@@ -203,13 +203,43 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
-    public function profile($username)
+    public function profileInfo($username)
     {
         $user = User::where('username', $username)->first();
         $user->avatar_url = generate_protocol_url($user->avatar_url);
         $this->data['user_profile'] = $user;
         if ($user) {
-            return view('colorme_new.profile.profile_react', $this->data);
+            return view('colorme_new.profile.profile_info', $this->data);
+        }
+        return redirect('/');
+    }
+
+    public function profileProject($username)
+    {
+        $user = User::where('username', $username)->first();
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
+        $blogs = Product::where('author_id', $user->id)->get();
+        $blogs = $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['time'] = $this->timeCal(date($blog->created_at));
+            $data['comments_count'] = Comment::where('product_id', $blog->id)->count();
+            return $data;
+        });
+        $this->data['user_profile'] = $user;
+        $this->data['blogs'] = $blogs;
+        if ($user) {
+            return view('colorme_new.profile.profile_project', $this->data);
+        }
+        return redirect('/');
+    }
+
+    public function profileAttendance($username)
+    {
+        $user = User::where('username', $username)->first();
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
+        $this->data['user_profile'] = $user;
+        if ($user) {
+            return view('colorme_new.profile.profile_attendance', $this->data);
         }
         return redirect('/');
     }
@@ -240,11 +270,38 @@ class ColormeNewController extends CrawlController
         $search = $request->search;
         $tag = $request->tag;
 
-        $blogs = Product::where('kind', 'blog')->where('status', 1)
-            ->where('title', 'like', "%$search%");
+        $blogsData = Product::where('kind', 'blog')->where('status', 1)
+            ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
+
         if ($tag)
-            $blogs = $blogs->where('tags', 'like', "%$tag%");
-        $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
+            $blogsData = $blogsData->where('tags', 'like', "%$tag%");
+
+        if ($request->page > 1) {
+            $blogs = $blogsData;
+        } else {
+            $topBlogs = $blogsData->first();
+            $topBlogs = $topBlogs->blogTransform();
+            $topBlogs['time'] = $this->timeCal(date($topBlogs['created_at']));
+            $this->data['topBlogs'] = $topBlogs;
+
+            $blogs = $blogsData->where('id', '<>', $topBlogs['id']);
+        }
+
+        $topTags = DB::select("SELECT
+                                   SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) tag,
+                                  count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
+                                FROM
+                                  tag_numbers INNER JOIN products
+                                  ON products.kind='blog' AND CHAR_LENGTH(products.tags)
+                                     -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
+                                WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
+                                GROUP BY tag 
+                                ORDER BY sum_tag DESC
+                                LIMIT 5");
+
+//        dd($topTags[0]->tag);
+
+        $blogs = $blogs->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
@@ -257,6 +314,7 @@ class ColormeNewController extends CrawlController
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
+        $this->data['topTags'] = $topTags;
         return view('colorme_new.blogs', $this->data);
     }
 
@@ -281,6 +339,7 @@ class ColormeNewController extends CrawlController
         if ($this->mailViews($blog->views) === true)
             $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
         $data = $blog->blogDetailTransform();
+        $data['time'] = $this->timeCal(date($blog->created_at));
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
             ->limit(4)->get();
         $this->data['blog'] = $data;
@@ -307,7 +366,7 @@ class ColormeNewController extends CrawlController
         $subscription->user_id = $user->id;
         $subscription->product_id = $request->blog_id;
         $subscription->save();
-        
+
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'

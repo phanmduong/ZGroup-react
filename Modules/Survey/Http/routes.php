@@ -42,8 +42,24 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi' , 'namespace' => 'Modules\Survey\Http\Controllers'],
-    function () use($surveyRoutes, $appSurveyRoutes){
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Survey\Http\Controllers'],
+    function () use ($surveyRoutes, $appSurveyRoutes) {
         Route::group(['prefix' => 'v3'], $surveyRoutes);
         Route::group(['prefix' => 'v3'], $appSurveyRoutes);
-    });
+    }
+);
+$publicSurveyRoutes = function () {
+    Route::get('/survey/{surveyId}/render', 'RenderSurveyController@render');
+    Route::post('/survey/{surveyId}/store', 'RenderSurveyController@submitForm');
+    Route::get('/survey/submitted', 'RenderSurveyController@surveySubmitted');
+};
+
+Route::group(
+    [
+        'middleware' => 'web',
+        'domain' => config('app.domain'),
+        'namespace' => 'Modules\Survey\Http\Controllers',
+    ],
+    $publicSurveyRoutes
+);
