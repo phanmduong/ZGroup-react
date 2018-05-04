@@ -149,7 +149,7 @@ class ElightController extends Controller
 
         if ($lesson == null) 
             return view('elight::404-not-lesson'); 
-
+        $term = $lesson->term->id;
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
         return view('elight::book', [
             'term_id' => $term ? $term->id : $lesson->term->id,
