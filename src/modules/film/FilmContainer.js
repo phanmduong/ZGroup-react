@@ -16,17 +16,34 @@ class FilmContainer extends React.Component {
         this.path = '';
         this.state = {
             type: "edit",
-            link: "/film"
+            link: "/film",
+            page: 1,
+            query: '',
         };
+        this.timeOut = null;
+        this.filmsSearchChange = this.filmsSearchChange.bind(this);
     }
 
     componentWillMount() {
         this.props.filmAction.loadAllFilms();
+        this.props.filmAction.loadAllFilmsHavePagination(1);
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
-            this.props.filmAction.loadAllFilms();
+            this.props.filmAction.loadAllFilmsHavePagination(1);
         }
+    }
+    filmsSearchChange(value){
+        this.setState({
+            query: value,
+            page: 1
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.filmAction.loadAllFilmsHavePagination(1, value);
+        }.bind(this), 500);
     }
     render() {
         this.path = this.props.location.pathname;
@@ -84,9 +101,8 @@ class FilmContainer extends React.Component {
 
 
                             <Search
-                                onChange={() => {
-                                }}
-                                value=""
+                                onChange={this.filmsSearchChange}
+                                value={this.state.query}
                                 placeholder="Nhập tên phim để tìm kiếm"
                             />
                             <br/>

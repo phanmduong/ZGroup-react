@@ -64,6 +64,11 @@ class FormInputText extends React.Component {
                                 ? this.props.minValue
                                 : undefined
                         }
+                        max={
+                            this.props.maxValue
+                                ? this.props.maxValue
+                                : undefined
+                        }
                     />
                 )}
                 {this.props.children}
@@ -94,6 +99,7 @@ FormInputText.propTypes = {
     equalTo: PropTypes.string,
     onKeyPress: PropTypes.func,
     minValue: PropTypes.string,
+    maxValue: PropTypes.string,
 };
 
 export default FormInputText;

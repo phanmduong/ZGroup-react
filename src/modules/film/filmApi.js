@@ -6,8 +6,24 @@ export function loadAllFilmsApi() {
     let url = env.MANAGE_API_URL + "/films";
     let token = localStorage.getItem('token');
     if (token) {
+        url += "?token=" + token + "?limit=-1";
+    }
+    return axios.get(url);
+}
+
+export function loadAllFilmsHavePaginationApi(page, search) {
+    let url = env.MANAGE_API_URL + "/films";
+    let token = localStorage.getItem('token');
+    if (token) {
         url += "?token=" + token;
     }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (search) {
+        url += "&search=" + search;
+    }
+    url += "?limit=10";
     return axios.get(url);
 }
 

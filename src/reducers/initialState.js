@@ -17,6 +17,11 @@ export default {
         isLoading: false,
         isSaving:false,
         allFilms:[],
+        allFilmsHavePagination:[],
+        currentPage: 0,
+        limit: 0,
+        totalCount: 0,
+        totalPages: 0,
         //modal ****************
         addEditFilmModal: false,
         isUploadingAvatar: false,

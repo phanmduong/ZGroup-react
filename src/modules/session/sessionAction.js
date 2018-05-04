@@ -152,7 +152,7 @@ export function loadAllFilms() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_FILMS_SUCCESS,
-                    allFilms: res.data.data.films
+                    allFilms: res.data.films
                 });
             });
     };

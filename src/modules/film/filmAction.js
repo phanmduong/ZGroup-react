@@ -18,6 +18,25 @@ export function loadAllFilms() {
     };
 }
 
+export function loadAllFilmsHavePagination(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_FILMS
+        });
+        filmApi.loadAllFilmsHavePaginationApi(page, search)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_FILMS_HAVE_PAGINATION_SUCCESS,
+                    allFilms: res.data.films,
+                    currentPage: res.data.paginator.current_page,
+                    limit: res.data.paginator.limit,
+                    totalCount: res.data.paginator.total_count,
+                    totalPages: res.data.paginator.total_pages,
+                });
+            });
+    };
+}
+
 export function showAddEditFilmModal() {
     return ({
         type: types.SHOW_ADD_EDIT_FILM_MODAL
