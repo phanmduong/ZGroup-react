@@ -38,9 +38,9 @@
     @yield("css")
 
     <link href="{{url('config.css')}}" rel="stylesheet">
-    @if (Auth::check())
+    @if (isset($jwt_token))
     <script>
-            localStorage.setItem("token", {{JWTAuth::refresh(JWTAuth::getToken())}});
+            localStorage.setItem("token", {{"\"".$jwt_token."\""}});
     </script>
     @endif
 </head>
