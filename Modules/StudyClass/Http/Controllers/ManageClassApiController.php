@@ -57,8 +57,7 @@ class ManageClassApiController extends ManageApiController
 
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
-        if ($request->limit)
-            $limit = $request->limit;
+
         $classes = StudyClass::query();
         if ($search)
             $classes = $classes->where('name', 'like', '%' . $search . '%');
@@ -74,7 +73,7 @@ class ManageClassApiController extends ManageApiController
 
         $classes = $classes->orderBy('gen_id', 'desc');
 
-        if ($limit === -1)
+        if ($limit == -1)
             $classes = $classes->get();
         else
             $classes = $classes->paginate($limit);
@@ -90,8 +89,8 @@ class ManageClassApiController extends ManageApiController
             'is_create_class' => $this->classRepository->is_create($this->user)
         ];
 
-        if($limit === -1)
-            return $this->respondSuccessWithStatus($classes);
+        if($limit == -1)
+            return $this->respondSuccessWithStatus($data);
         else
             return $this->respondWithPagination($classes, $data);
     }
