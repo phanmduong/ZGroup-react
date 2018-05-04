@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Role;
 use App\User;
-use GuzzleHttp\Client;
+use  GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use App\Services\EmailService;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ClientController extends Controller
 {
@@ -22,13 +21,9 @@ class ClientController extends Controller
             $path = 'dashboard';
         }
         if ($path != 'login-free-trial') {
-            $this->middleware('auth');
             $this->middleware('permission_tab_react:' . $path);
         }
         $this->emailService = $emailService;
-        $data = [
-            'jwt_token' => JWTAuth::refresh(JWTAuth::getToken())
-        ];
     }
 
     public function loginFreeTrial(Request $request)
@@ -91,7 +86,7 @@ class ClientController extends Controller
 
     public function dashboard()
     {
-        return view('client.dashboard', $data);
+        return view('client.dashboard');
     }
 
     public function business()
@@ -105,7 +100,7 @@ class ClientController extends Controller
     }
 
     public function teaching()
-    {
+    { 
         return view('client.teaching');
     }
 

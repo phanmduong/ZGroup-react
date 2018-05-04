@@ -38,11 +38,6 @@
     @yield("css")
 
     <link href="{{url('config.css')}}" rel="stylesheet">
-    @if (isset($jwt_token))
-    <script>
-            localStorage.setItem("token", {{"\"".$jwt_token."\""}});
-    </script>
-    @endif
 </head>
 <body>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
