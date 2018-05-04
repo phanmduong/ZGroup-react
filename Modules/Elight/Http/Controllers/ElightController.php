@@ -134,20 +134,18 @@ class ElightController extends Controller
 
         if($term == null)
             $term = $course->terms()->orderBy('order')->first();
-
         if ($lesson == null)
             $lesson = $term->lessons()->orderBy('order')->first();
-
-        // if ($lesson == null) {
-        //     $terms = $course->terms()->orderBy('order')->get();
-        //     foreach ($terms as $term) {
-        //         $data = $term->lessons()->orderBy('order')->first();
-        //         if ($data != null) {
-        //             $lesson = $data;
-        //             break;
-        //         }
-        //     }
-        // }
+        if ($lesson == null) {
+            $terms = $course->terms()->orderBy('order')->get();
+            foreach ($terms as $term) {
+                $data = $term->lessons()->orderBy('order')->first();
+                if ($data != null) {
+                    $lesson = $data;
+                    break;
+                }
+            }
+        }
 
         if ($lesson == null) 
             return view('elight::404-not-lesson'); 
