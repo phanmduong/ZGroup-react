@@ -54,6 +54,7 @@ $routes = function () {
         Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
         Route::get('/base', 'PublicApiController@bases');
         Route::get('/product-category', 'PublicApiController@productCategories');
+        Route::get('/product-kind', 'PublicApiController@productKinds');
         Route::get('/blogs', 'PublicApiController@getBlogs');
         Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
     });

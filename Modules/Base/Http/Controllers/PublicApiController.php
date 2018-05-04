@@ -41,7 +41,7 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function bases(Request $request) 
+    public function bases(Request $request)
     {
         $bases = Base::query();
         $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
@@ -60,7 +60,7 @@ class PublicApiController extends NoAuthApiController
         // $rooms = $base->rooms;
         $rooms = Room::leftJoin('room_service_register_room', 'room_service_register_room.room_id', '=', 'rooms.id')
             ->where('rooms.base_id', '=', $base->id)
-            ->where(function($query) use ($request){
+            ->where(function ($query) use ($request) {
                 $query->where('room_service_register_room.start_time', '>', $request->end_time)
                     ->orWhere('room_service_register_room.end_time', '<', $request->start_time)
                     ->orWhere('room_service_register_room.end_time', '=', null);
@@ -80,7 +80,7 @@ class PublicApiController extends NoAuthApiController
         $category = $request->category;
         $kind = $request->kind;
         $tag = $request->tag;
-        $blogs = Product::where([['type', '=', 2], ['kind', '=', $kind], ['category','=',$category, ], ['tag','=',$tag]])->orderBy('created_at', 'desc')->get();
+        $blogs = Product::where([['type', '=', 2], ['kind', '=', $kind], ['category', '=', $category,], ['tag', '=', $tag]])->orderBy('created_at', 'desc')->get();
         $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
         $blogs = $blogs->paginate($limit);
         return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
@@ -106,6 +106,21 @@ class PublicApiController extends NoAuthApiController
         $categories = CategoryProduct::orderBy('id')->get();
         return $this->respondSuccessWithStatus([
             'categories' => $categories
+        ]);
+    }
+
+    public function productKinds()
+    {
+        $kinds = Product::pluck('kind')->get();
+        $values = array("zxc.start.zxc");
+        foreach ($kinds as $kind) {
+            if ($kind == $values[count($values) - 1]) {
+                continue;
+            } else array_push($values, $goodCategory->id);
+        }
+        array_shift($values);
+        return $this->respondSuccessWithStatus([
+            'kinds' => $values
         ]);
     }
 
