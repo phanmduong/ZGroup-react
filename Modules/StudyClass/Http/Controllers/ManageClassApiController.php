@@ -57,8 +57,7 @@ class ManageClassApiController extends ManageApiController
 
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
-        if ($request->limit)
-            $limit = $request->limit;
+
         $classes = StudyClass::query();
         if ($search)
             $classes = $classes->where('name', 'like', '%' . $search . '%');
@@ -75,7 +74,7 @@ class ManageClassApiController extends ManageApiController
         $classes = $classes->orderBy('gen_id', 'desc');
 
         if ($limit === -1)
-            $classes = $classes->paginate($limit);
+            $classes = $classes->limit(MAX_VALUE)->get();
         else
             $classes = $classes->paginate($limit);
 
