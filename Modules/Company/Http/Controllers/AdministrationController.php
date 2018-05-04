@@ -375,19 +375,14 @@ class AdministrationController extends ManageApiController
         if($this->user->role == 2) {
             // dd($reports);
             $reports = $reports->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
         } else {
             $reports = $reports->where('staff_id',$this->user->id)->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
         }
+        return $this->respondWithPagination($reports, [
+            "reports" => $reports->map(function ($report) {
+                return $report->transform();
+            })
+        ]);
     }
 
     public function deleteReport(Request $request, $id)
