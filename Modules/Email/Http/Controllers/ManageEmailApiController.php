@@ -194,7 +194,6 @@ class ManageEmailApiController extends ManageApiController
             });
 
         if ($request->send_status != null)
-            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
 
         $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%');
 
@@ -279,9 +278,6 @@ class ManageEmailApiController extends ManageApiController
         if ($request->post_id == null) {
             return $this->respondErrorWithStatus("Thiếu post_id");
         }
-
-        $this->user->code = $request->token;
-        $this->user->save();
 
         $comments = getAllCommentFacebook($request->post_id, $request->token);
 
