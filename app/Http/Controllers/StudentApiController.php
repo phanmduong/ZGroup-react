@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
+use App\Coupon;
 use App\Gen;
 use App\Register;
 use App\Services\EmailService;
@@ -156,7 +157,6 @@ class StudentApiController extends ApiController
             $registers = Register::query();
         }
 
-
         $search = $request->search;
 
         if ($search) {
@@ -164,6 +164,11 @@ class StudentApiController extends ApiController
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
             $registers = $registers->whereIn('user_id', $users_id);
+        }
+        $search_coupon = $request->search_coupon;
+
+        if ($search_coupon){
+            $registers = $registers->where('coupon', 'like', '%' . $search_coupon.'%');
         }
 
         if ($request->base_id != null) {

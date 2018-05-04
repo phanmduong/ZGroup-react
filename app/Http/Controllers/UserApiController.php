@@ -218,7 +218,8 @@ class UserApiController extends ApiController
         $product->type = 2;
         $product->kind = 'post';
         $product->save();
-        
+        $product->slug = convert_vi_to_en($product->title) . '-' . $product->id;
+        $product->save();
         $product->productCategories()->attach($request->category_id);
 
         $receivers = [];
