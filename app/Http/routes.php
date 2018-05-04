@@ -499,7 +499,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/', 'ColormeNewController@home');
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
     Route::get('/blogs', 'ColormeNewController@blogs');
-    Route::get('/blog/category/{category}', 'ColormeNewController@blogsByCategory');
+    Route::get('/blog/category/{category}', 'ColormeNewController@blogsFilter');
     Route::get('/khuyen-mai', 'ColormeNewController@promotions');
     Route::get('/tai-nguyen', 'ColormeNewController@resources');
     Route::get('/blog/{slug}', 'ColormeNewController@blog');

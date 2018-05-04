@@ -74,12 +74,15 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function getAllBlogs(Request $request)
+    public function getBlogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc');
+        $category = $request->category;
+        $kind = $request->kind;
+        $tag = $request->tag;
+        $blogs = Product::where([['type', '=', 2], ['kind', '=', $kind], ['category','=',$category, ], ['tag','=',$tag]])->orderBy('created_at', 'desc')->get();
         $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
-        $blogs = $blogs->paginate(6);
+        $blogs = $blogs->paginate($limit);
         return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             $data['status'] = $blog->status;
@@ -98,38 +101,12 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function getBlogsByCategory(Request $request, $category_name)
+    public function productCategories()
     {
-        $limit = $request->limit ? $request->limit : 6;
-        $category = CategoryProduct::where('name',$category_name)->first();
-        $blogs = Product::where('category_id',$category->id)->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['status'] = $blog->status;
-            return $data;
-        })]);
-    }
-
-    public function getBlogsByKind(Request $request, $kind)
-    {
-        $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('kind',$kind)->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['status'] = $blog->status;
-            return $data;
-        })]);
-    }
-
-    public function getBlogsByTag(Request $request, $tag)
-    {
-        $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('tag',$tag)->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['status'] = $blog->status;
-            return $data;
-        })]);
+        $categories = CategoryProduct::orderBy('id')->get();
+        return $this->respondSuccessWithStatus([
+            'categories' => $categories
+        ]);
     }
 
 

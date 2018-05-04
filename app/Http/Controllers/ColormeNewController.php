@@ -413,4 +413,5 @@ class ColormeNewController extends CrawlController
         $blogs = Product::where('category_id',$category->id);
         return $this->queryProducts('blog', $blogs);
     }
+
 }
