@@ -72,8 +72,8 @@ class ManageClassApiController extends ManageApiController
                 ->orWhere('teaching_assistant_id', $request->teacher_id);
         });
 
-        if ($limit == -1)
-            $classes = $classes->orderBy('gen_id', 'desc')->get(($limit));
+        if ($limit === -1)
+            $classes = $classes->orderBy('gen_id', 'desc')->get();
         else
             $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
 
@@ -88,7 +88,7 @@ class ManageClassApiController extends ManageApiController
             'is_create_class' => $this->classRepository->is_create($this->user)
         ];
 
-        if($limit == -1)
+        if($limit === -1)
             return $this->respondSuccessWithStatus($classes);
         else
             return $this->respondWithPagination($classes, $data);
