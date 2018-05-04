@@ -252,16 +252,12 @@ class NhatQuangShopManageController extends Controller
     {
         $user = Auth::user();
         $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc');
-        $code = $request->code;
-        $status = $request->status;
-        $start_day = $request->start_day;
-        $end_day = $request->end_day;
-        if ($start_day)
-            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($start_day, $end_day));
-        if ($status)
-            $deliveryOrders = $deliveryOrders->where('status', $status);
-        if ($code)
-            $deliveryOrders = $deliveryOrders->where('code', 'like', '%' . $code . '%');
+        if ($request->start_day)
+            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($request->start_day, $request->end_day));
+        if ($request->status)
+            $deliveryOrders = $deliveryOrders->where('status', $request->status);
+        if ($request->code)
+            $deliveryOrders = $deliveryOrders->where('code', 'like', "%$request->code%");
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
         $this->formatDeliveryOrders($deliveryOrders);
         $this->data['deliveryOrders'] = $deliveryOrders;
