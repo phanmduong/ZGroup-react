@@ -894,7 +894,28 @@ class PublicController extends Controller
 
     public function send_noti_test(Request $request)
     {
-        $this->dispatch(new TestJob());
+        // $this->dispatch(new TestJob());
+
+        // $phones = [];
+        // $row = 1;
+        // if (($handle = fopen('/var/www/sms2.csv', 'r')) !== false) {
+        //     while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+        //         $num = count($data);
+        //         // echo "<p> $num fields in line $row: <br /></p>\n";
+        //         $row++;
+        //         for ($c = 0; $c < $num; $c++) {
+        //             // echo $data[$c] . "<br />\n";
+        //             $phone = preg_replace('/[^0-9]/', '', $data[$c]);
+        //             if (strlen($phone) && $phone[0] != '0') {
+        //                 $phone = '0' . $phone;
+        //             }
+        //             $phones[] = $phone;
+        //         }
+        //     }
+        //     fclose($handle);
+        // }
+        // dd($phones);
+
         // $registers34 = Register::where('gen_id', 29)->pluck('user_id');
         // $phones = Register::join('users', 'users.id', '=', 'registers.user_id')
         //     ->join('classes', 'classes.id', '=', 'registers.class_id')
@@ -907,13 +928,37 @@ class PublicController extends Controller
         //     ->pluck('phone');
         // $phones[] = '0969785925';
 
-        // $content = 'Mung sinh nhat 3 tuoi, COLORME giam 30% tat ca khoa hoc cho hoc vien cu cua COLORME voi ma uu dai CMALUMNI, ap dung den het ngay 3/4/2018. Dang ki ngay tai http://colorme.vn';
+        // $content = 'Colorme danh tang rieng sv Bao chi ma AJCSMS giam 300.000D cho tat ca khoa hoc truoc 29/04. Dang ki ngay tai http://colorme.vn';
         // $client = new \GuzzleHttp\Client(['base_uri' => 'http://api-02.worldsms.vn']);
         // $headers = [
         //     'Content-Type' => 'application/json',
         //     'Accept' => 'application/json',
         //     'Authorization' => 'Basic ' . config('app.sms_key')
         // ];
+
+        // foreach ($phones as $phone) {
+        //     $body = json_encode([
+        //         'from' => config('app.brand_sms'),
+        //         'to' => $phone,
+        //         'text' => convert_vi_to_en_not_url($content)
+        //     ]);
+
+        //     $request = new \GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
+        //     $response = $client->send($request);
+        //     $status = json_decode($response->getBody())->status;
+
+        //     $sms = new \App\Sms();
+        //     $sms->content = convert_vi_to_en_not_url($content);
+        //     // $sms->user_id = $register->user_id;
+        //     $sms->user_id = 1;
+        //     $sms->purpose = 'marketing';
+        //     if ($status == 1) {
+        //         $sms->status = 'success';
+        //     } else {
+        //         $sms->status = 'failed';
+        //     }
+        //     $sms->save();
+        // }
 
         // $start = $request->start;
         // $end = $request->end;

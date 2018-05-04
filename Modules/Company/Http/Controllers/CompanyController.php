@@ -53,8 +53,6 @@ class CompanyController extends ManageApiController
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
-        $company->discount_comic = $request->discount_comic;
-        $company->discount_text = $request->discount_text;
         $company->user_contact1 = $request->user_contact1;
         $company->user_contact_phone1 = $request->user_contact_phone1;
         $company->user_contact2 = $request->user_contact2;
@@ -103,8 +101,6 @@ class CompanyController extends ManageApiController
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
-        $company->discount_comic = $request->discount_comic;
-        $company->discount_text = $request->discount_text;
         $company->user_contact1 = $request->user_contact1;
         $company->user_contact_phone1 = $request->user_contact_phone1;
         $company->user_contact2 = $request->user_contact2;
@@ -950,8 +946,11 @@ class CompanyController extends ManageApiController
         $importOrders = ItemOrder::query();
 
         $importOrders = $importOrders->where('type', '<>', 'be-ordered')
-            ->where('status', '>', 1)
-            ->orderBy('created_at', 'desc')->paginate($limit);
+            ->where('status', '>', 1);
+
+        if($request->company_id)
+            $importOrders = $importOrders->where('company_id',$request->company_id);
+        $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($importOrders, [
             "import-orders" => $importOrders->map(function ($importOrder) {
                 return $importOrder->importTransform();

@@ -15,15 +15,19 @@ use App\Providers\AppServiceProvider;
 use Illuminate\Http\Response;
 use App\Services\EmailService;
 use App\StudyClass;
+use App\Register;
+use App\Colorme\Transformers\RegisterTransformer;
 
 
 class CourseController extends ManageApiController
 {
-    protected $emailService;
-    public function __construct(EmailService $emailService)
+    protected $emailService, $registerTransformer;
+    public function __construct(EmailService $emailService, RegisterTransformer $registerTransformer)
     {
         parent::__construct();
         $this->emailService = $emailService;
+        $this->registerTransformer = $registerTransformer;
+
     }
 
     public function getCourse($course_id)
@@ -311,6 +315,25 @@ class CourseController extends ManageApiController
         ]);
     }
 
+    public function editTermLesson($lessonId, Request $request)
+    {
+        $term_id = $request->term_id;
+        if (Lesson::find($lessonId) == null)
+            return $this->respondErrorWithStatus([
+            'message' => 'Non-existing lesson'
+        ]);
+//        if ($term_id == null)
+//            return $this->respondErrorWithStatus([
+//            'message' => 'Missing term id'
+//        ]);
+        $lesson = Lesson::find($lessonId);
+        $lesson->term_id = $term_id;
+        $lesson->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Change term success'
+        ]);
+    }
+
     public function getAttendance($classId, $classLessonId, Request $request)
     {
         // $classLesson = ClassLesson::query();
@@ -428,11 +451,12 @@ class CourseController extends ManageApiController
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
-        // $register->coupon = $request->coupon;
+        $register->coupon = $request->coupon;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->time_to_call = addTimeToDate($register->created_at, '+2 hours');
-
+        $register->time_to_reach = 2;
+        $register->call_status = "uncall";
         $register->save();
 
         // $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
@@ -445,7 +469,9 @@ class CourseController extends ManageApiController
             }
         }
 
-        return ['message' => 'SUCCESS'];
+        return $this->respondSuccessWithStatus([
+            'register' => $this->registerTransformer->transform($register)
+        ]);
     }
 
     public function classes(Request $request)
@@ -454,7 +480,7 @@ class CourseController extends ManageApiController
         $gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
         $classes = StudyClass::where('gen_id', $gen_id)->get();
         return $this->respondSuccessWithStatus([
-            'classes' => $classes->map(function($class){
+            'classes' => $classes->map(function ($class) {
                 return [
                     'id' => $class->id,
                     'name' => $class->name,

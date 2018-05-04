@@ -27,7 +27,13 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllFilms()
     {
-        $films = Film::orderBy("release_date", "desc")->get();
+        $films = Film::orderBy("id", "desc")->get();
+        foreach ($films as $film) {
+            $this->reloadFilmStatus($film);
+        }
+        $films = Film::orderBy("id", "desc")->paginate(24);
+        $this->data['total_pages'] = ceil($films->total() / $films->perPage());
+        $this->data['current_page'] = $films->currentPage();
         $this->data["films"] = $films;
 
         return $this->respondSuccessWithStatus($this->data);
@@ -41,13 +47,12 @@ class FilmZgroupManageApiController extends ManageApiController
             'director' => 'required|max:255',
             'cast' => 'required|max:255',
             'running_time' => 'required|max:255',
-            'release_date' => 'required|max:255',
             'country' => 'required|max:255',
             'language' => 'required|max:255',
             'film_genre' => 'required|max:255',
-            'summary' => 'required|max:255',
+            'summary' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
@@ -63,7 +68,9 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->language = $request->language;
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
-        $film->film_status = $request->film_status;
+        $film->film_status = 0;
+        $film->film_rated = $request->film_rated;
+        $film->rate = $request->rate;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -74,9 +81,17 @@ class FilmZgroupManageApiController extends ManageApiController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'avatar_url' => 'required|max:255',
+            'director' => 'required|max:255',
+            'cast' => 'required|max:255',
+            'running_time' => 'required|max:255',
+            'country' => 'required|max:255',
+            'language' => 'required|max:255',
+            'film_genre' => 'required|max:255',
+            'summary' => 'required',
 
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
@@ -93,6 +108,8 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_genre = $request->film_genre;
         $film->summary = $request->summary;
         $film->film_status = $request->film_status;
+        $film->film_rated = $request->film_rated;
+        $film->rate = $request->rate;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -108,7 +125,7 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function changeSeatStatus(Request $request, $session_id)
     {
-        $seat = SessionSeat::where([['session_id','=',$session_id],['seat_id','=',$request->seat_id]])->first();
+        $seat = SessionSeat::where([['session_id', '=', $session_id], ['seat_id', '=', $request->seat_id]])->first();
         $seat->seat_status = $request->seat_status;
         $seat->save();
 
@@ -122,17 +139,20 @@ class FilmZgroupManageApiController extends ManageApiController
             'start_time' => 'required',
             'film_quality' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
-       $session = new FilmSession();
-       $session->film_id = $request->film_id;
-       $session->room_id = $request->room_id;
-       $session->start_date = $request->start_date;
-       $session->start_time = $request->start_time;
-       $session->film_quality= $request->film_quality;
-       $session -> save();
+        $session = new FilmSession();
+        $session->film_id = $request->film_id;
+        $session->room_id = $request->room_id;
+        $session->start_date = $request->start_date;
+        $session->start_time = $request->start_time;
+        $session->film_quality = $request->film_quality;
+        $session->save();
+//        $film = Film::find($request->film_id);
+//        $film->film_status = 1;
+//        $film->save();
 
         return $this->respondSuccess('Tao suat chieu thanh cong');
     }
@@ -145,7 +165,7 @@ class FilmZgroupManageApiController extends ManageApiController
             'start_time' => 'required',
             'film_quality' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
         }
 
@@ -153,8 +173,11 @@ class FilmZgroupManageApiController extends ManageApiController
         $session->room_id = $request->room_id;
         $session->start_date = $request->start_date;
         $session->start_time = $request->start_time;
-        $session->film_quality= $request->film_quality;
+        $session->film_quality = $request->film_quality;
         $session->save();
+//        $film = Film::find($request->film_id);
+//        $film->film_status = 1;
+//        $film->save();
 
         return $this->respondSuccess('Cap nhat thanh cong');
     }
@@ -169,10 +192,38 @@ class FilmZgroupManageApiController extends ManageApiController
 
     public function getAllSessions()
     {
-        $sessions = FilmSession::orderBy('start_date', 'desc')->get();
+        $sessions = FilmSession::orderBy('start_date', 'desc')->paginate(20);
+        $this->data['total_pages'] = ceil($sessions->total() / $sessions->perPage());
+        $this->data['current_page'] = $sessions->currentPage();
         $this->data["sessions"] = $sessions;
 
         return $this->respondSuccessWithStatus($this->data);
     }
 
+    public function reloadFilmStatus(Film $film)
+    {
+        if (count($film->film_sessions) > 0) {
+            $sessions = $film->film_sessions()->where('start_date', '>=',date('Y-m-d'))->get();
+            if (count($sessions) == 0 && $film->film_status == 1) {
+                $film->film_status = 0;
+                $film->save();
+            } elseif (count($sessions) > 0) {
+                $film->film_status = 1;
+                $film->save();
+            }
+        } elseif ($film->film_status == 1) {
+            $film->film_status = 0;
+            $film->save();
+        }
+    }
+
+    public function changeFilmStatus(Request $request)
+    {
+        $film = Film::find($request->film_id);
+        $film->film_status = $request->film_status;
+        $film->save();
+
+        return $this->respondSuccess('Doi trang thai thanh cong');
+
+    }
 }

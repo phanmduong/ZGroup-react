@@ -51,17 +51,31 @@ class Language
         ];
 
         $segment;
-        
+        // $request->session()->flush();
+        // dd(Session::all());
         $url = Request::server('REQUEST_URI');
         if ($request->lang) {
-            if ($request->lang) {
-                Session::put('lang', $request->lang);
+            // if(Session::has('lang')) $previousLang = Session::get('lang');
+            // Session::put('lang', $request->lang);
+
+            // if(explode('/',substr($url, 0, strpos($url, '?lang=')))[1] == $request->lang){
+            //     // dd(1);
+            //     $previousLang = 'en';
+            // }else if (explode('/',substr($url, 0, strpos($url, '?lang=')))[1] != 'en') {
+            //     $previousLang = 'vi';
+            // } else {
+            //     $previousLang = 'en';
+            // }
+
+            // dd($previousLang);
+
+            if(Session::has('lang')) $previousLang = Session::get('lang');
+            else if(explode('/',substr($url, 0, strpos($url, '?lang=')))[1] != "en"){
+                $previousLang = "vi";
+            }else{
+                $previousLang = explode('/',substr($url, 0, strpos($url, '?lang=')))[1];
             }
-            if (explode('/',$url)[1] != 'en') {
-                $previousLang = 'vi';
-            } else {
-                $previousLang = 'en';
-            }
+            Session::put('lang', $request->lang);
 
             $segments = $langs[$previousLang];
 
@@ -90,8 +104,10 @@ class Language
             if ($lang == 'vi') {
                 return ($url == '/' || explode('/',$url)[1] != 'en') ? $next($request) : redirect($langs[$lang][$segment]);
             } else {
-                if (isset($segment) && $segment == '') {
-                    return redirect('/en/');
+                if (isset($segment)) {
+                    if($segment == ''){
+                        return redirect('/en/');
+                    }
                 }
                 if ($url == '/') {
                     return redirect('/en/');

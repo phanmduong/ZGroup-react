@@ -9,19 +9,12 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Providers\AppServiceProvider;
-use App\StudyClass;
 use App\Role;
-use App\Tab;
 use App\User;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class ManageStaffApiController extends ManageApiController
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -34,12 +27,12 @@ class ManageStaffApiController extends ManageApiController
         $user = User::where('email', '=', trim($request->email))->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user) {
-            $errors['email'] = "Email đã có người sử dụng";
+            $errors['email'] = 'Email đã có người sử dụng';
         }
         $username = trim($request->username);
         $user = User::where('username', '=', $username)->first();
         if ($user) {
-            $errors['username'] = "Username đã có người sử dụng";
+            $errors['username'] = 'Username đã có người sử dụng';
         }
 
         if (!empty($errors)) {
@@ -71,29 +64,28 @@ class ManageStaffApiController extends ManageApiController
         $user->deleted_at = null;
         $user->save();
         return $this->respondSuccessWithStatus([
-            "user" => $user
+            'user' => $user
         ]);
     }
 
-
     public function get_staffs(Request $request)
     {
-
         $q = trim($request->search);
 
         $limit = 20;
         $staffs = User::where('role', '>', 0);
 
-        if ($q)
+        if ($q) {
             $staffs = $staffs->where(function ($query) use ($q) {
-            $query->where('email', 'like', '%' . $q . '%')
+                $query->where('email', 'like', '%' . $q . '%')
                 ->orWhere('name', 'like', '%' . $q . '%')
                 ->orWhere('phone', 'like', '%' . $q . '%');
-        });
+            });
+        }
         $staffs = $staffs->orderBy('created_at')->paginate($limit);
 
         $data = [
-            "staffs" => $staffs->map(function ($staff) {
+            'staffs' => $staffs->map(function ($staff) {
                 $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
                 return $staff;
             })
@@ -117,20 +109,20 @@ class ManageStaffApiController extends ManageApiController
         $q = trim($request->search);
 
         $limit = 20;
-        $users = User::where('role', "=", 0);
+        $users = User::where('role', '=', 0);
 
-        if ($q)
+        if ($q) {
             $users = $users->where(function ($query) use ($q) {
-            $query->where('email', 'like', '%' . $q . '%')
+                $query->where('email', 'like', '%' . $q . '%')
                 ->orWhere('name', 'like', '%' . $q . '%')
                 ->orWhere('phone', 'like', '%' . $q . '%');
-        });
-        
+            });
+        }
+
         $users = $users->orderBy('created_at')->paginate($limit);
 
-
         $data = [
-            "users" => $users->map(function ($user) {
+            'users' => $users->map(function ($user) {
                 $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
                 return $user;
             })
@@ -156,15 +148,16 @@ class ManageStaffApiController extends ManageApiController
         }
         $staff->role_id = $role_id;
         $staff->save();
-        return $this->respondSuccessWithStatus(['message' => "Thay đổi chức vụ thành công"]);
+        return $this->respondSuccessWithStatus(['message' => 'Thay đổi chức vụ thành công']);
     }
 
     public function change_base(Request $request)
     {
         $staff = User::find($request->staff_id);
-        $staff->base_id = $request->base_id;;
+        $staff->base_id = $request->base_id;
+        ;
         $staff->save();
-        return $this->respondSuccessWithStatus(['message' => "Thay đổi cơ sở thành công"]);
+        return $this->respondSuccessWithStatus(['message' => 'Thay đổi cơ sở thành công']);
     }
 
     public function edit_staff($staff_id, Request $request)
@@ -172,19 +165,16 @@ class ManageStaffApiController extends ManageApiController
         $errors = [];
         $user = User::where('id', '=', $staff_id)->first();
         if (!$user) {
-            $errors['message'] = "Tài khoản chưa tồn tại";
+            $errors['message'] = 'Tài khoản chưa tồn tại';
             return $this->respondErrorWithStatus($errors);
-
         }
 
         if (User::where('id', '<>', $staff_id)->where('email', '=', $request->email)->first()) {
-            $errors['email'] = "Email đã tồn tại";
-
+            $errors['email'] = 'Email đã tồn tại';
         }
 
         if (User::where('id', '<>', $staff_id)->where('username', '=', $request->username)->first()) {
-            $errors['username'] = "Username đã tồn tại";
-
+            $errors['username'] = 'Username đã tồn tại';
         }
 
         if (!empty($errors)) {
@@ -211,7 +201,7 @@ class ManageStaffApiController extends ManageApiController
         $user->save();
         $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
         return $this->respondSuccessWithStatus([
-            "user" => $user
+            'user' => $user
         ]);
     }
 
@@ -220,7 +210,7 @@ class ManageStaffApiController extends ManageApiController
         $errors = null;
         $user = User::where('id', '=', $request->id)->first();
         if (!$user) {
-            $errors = "Tài khoản chưa tồn tại";
+            $errors = 'Tài khoản chưa tồn tại';
         }
 
         if ($errors) {
@@ -230,7 +220,7 @@ class ManageStaffApiController extends ManageApiController
         $user->role_id = 0;
         $user->role = 0;
         $user->save();
-        return $this->respondSuccessWithStatus("Xóa nhân viên thành công");
+        return $this->respondSuccessWithStatus('Xóa nhân viên thành công');
     }
 
     public function create_avatar(Request $request)
@@ -238,19 +228,19 @@ class ManageStaffApiController extends ManageApiController
         $avatar_url = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
         $avatar_url = $this->s3_url . $avatar_url;
         return $this->respond([
-            "message" => "Tải lên thành công",
-            "avatar_url" => config('app.protocol') . trim_url($avatar_url),
+            'message' => 'Tải lên thành công',
+            'avatar_url' => config('app.protocol') . trim_url($avatar_url),
         ]);
     }
 
     public function reset_password(Request $request)
     {
         $staff = User::find($request->staff_id);
-        $staff->password = bcrypt("123456");
+        $staff->password = bcrypt('123456');
         $staff->save();
 
         return $this->respondSuccessWithStatus([
-            'message' => "Khôi phục mật khẩu thành công"
+            'message' => 'Khôi phục mật khẩu thành công'
         ]);
     }
 
@@ -268,9 +258,7 @@ class ManageStaffApiController extends ManageApiController
         }
 
         return [
-            'message' => "thành công"
+            'message' => 'thành công'
         ];
-
     }
-
 }
