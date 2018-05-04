@@ -409,8 +409,6 @@
 </style>
 
 @push('scripts')
-    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>--}}
-    {{--<script src="jquery-3.3.1.min.js"></script>--}}
     <script>
         $(".panel-heading").parent('.panel').hover(
             function () {

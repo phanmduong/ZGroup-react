@@ -3,6 +3,7 @@
     @foreach($question->answers as $answer)
         <div class="form-check">
             <input class="form-check-input" 
+                required
                 name="{{$question->order}}" 
                 type="radio" id="answer{{$answer->id}}"
                 value="{{$answer->content}}"/>
