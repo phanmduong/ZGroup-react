@@ -194,7 +194,6 @@ class ManageEmailApiController extends ManageApiController
             });
 
         if ($request->send_status != null)
-            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
 
         $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%');
 
