@@ -109,7 +109,7 @@ class PublicApiController extends NoAuthApiController
 
     public function productKinds()
     {
-        $kinds = Product::pluck('kind');
+        $kinds = Product::pluck('kind')->orderBy('kind');
         $values = array("zxc.start.zxc");
         foreach ($kinds as $kind) {
             if ($kind == $values[count($values) - 1]) {
