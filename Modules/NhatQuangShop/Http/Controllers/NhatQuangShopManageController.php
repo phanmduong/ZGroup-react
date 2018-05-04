@@ -259,6 +259,7 @@ class NhatQuangShopManageController extends Controller
         if ($request->code)
             $deliveryOrders = $deliveryOrders->where('code', 'like', "%$request->code%");
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
+        // dd($deliveryOrders);
         $this->formatDeliveryOrders($deliveryOrders);
         $this->data['deliveryOrders'] = $deliveryOrders;
         return view("nhatquangshop::delivery_orders", $this->data);

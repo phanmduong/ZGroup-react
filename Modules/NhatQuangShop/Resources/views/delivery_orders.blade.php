@@ -24,7 +24,7 @@
                         <option  selected="" value = "ship"> giao hàng </option>
                         <option  selected="" value = "completed"> Hoàn thành </option>
                         <option  selected="" value = "cancel "> Huỷ đơn </option>
-                        <option  selected="">Trạng thái</option>
+                        <option  selected="" value = "">Trạng thái</option>
                     </select>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                     <tr>
                         <td class="text-center" style = "width:15%">
                             @if($order->code != null )
-                                <a href="delivery_orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                <a href="javascript:void(0)" class="btn btn-round btn-twitter">
                                     {{$order->code}}
                                 </a>
                             @endif
