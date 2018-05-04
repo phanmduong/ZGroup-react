@@ -1,3 +1,5 @@
+
+{{use Tymon\JWTAuth\Facades\JWTAuth;}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
