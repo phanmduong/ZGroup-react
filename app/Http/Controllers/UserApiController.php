@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Color;
-use App\Colorme\Transformers\NotificationTransformer;
-use App\Colorme\Transformers\OldNotificationTransformer;
-use App\CV;
-use App\Gen;
 use App\Group;
 use App\GroupMember;
-use App\Notification;
 use App\NotificationType;
-use App\Order;
 use App\Product;
 use App\Repositories\NotificationRepository;
 use App\Topic;
@@ -20,7 +14,6 @@ use App\TopicAttendance;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 
 class UserApiController extends ApiController
 {
@@ -46,7 +39,6 @@ class UserApiController extends ApiController
         return $this->respondSuccessWithStatus([
             'id' => $topicId
         ]);
-
     }
 
     public function add_user_to_group(Request $request)
@@ -60,11 +52,11 @@ class UserApiController extends ApiController
             $groupMember->user_id = $user_id;
             $groupMember->join_date = format_time_to_mysql(time());
             $groupMember->acceptor_id = $this->user->id;
-            $groupMember->position = "member";
-            $groupMember->state = "joined";
+            $groupMember->position = 'member';
+            $groupMember->state = 'joined';
             $groupMember->save();
         } else {
-            return $this->respondErrorWithStatus("Nhóm không tồn tại");
+            return $this->respondErrorWithStatus('Nhóm không tồn tại');
         }
     }
 
@@ -77,8 +69,8 @@ class UserApiController extends ApiController
         }
         $this->user->save();
         return $this->respond([
-            "message" => "Tải lên thành công",
-            "avatar_url" => $this->user->avatar_url
+            'message' => 'Tải lên thành công',
+            'avatar_url' => $this->user->avatar_url
         ]);
     }
 
@@ -90,10 +82,10 @@ class UserApiController extends ApiController
             $limit = 20;
         }
 
-        $notificationTypeIds = NotificationType::where("type", "social")->pluck("id");
+        $notificationTypeIds = NotificationType::where('type', 'social')->pluck('id');
 
         $notifications = $this->user->received_notifications()
-            ->whereIn("type", $notificationTypeIds)
+            ->whereIn('type', $notificationTypeIds)
             ->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($notifications, [
@@ -111,9 +103,8 @@ class UserApiController extends ApiController
             $notification->seen = 1;
             $notification->save();
         });
-        return $this->respond(['message' => "success"]);
+        return $this->respond(['message' => 'success']);
     }
-
 
     public function upload_image(Request $request)
     {
@@ -121,21 +112,21 @@ class UserApiController extends ApiController
         $old_name = $request->old_name;
         $thumb_size = $request->thumb_size;
         $old_thumb_name = $request->old_thumb_name;
-        $data = ["type" => "image"];
+        $data = ['type' => 'image'];
         $image_name = uploadFileToS3($request, 'image', $size, $old_name);
         if ($image_name != null) {
-            $data["image_url"] = generate_protocol_url($this->s3_url . $image_name);
-            $data["image_name"] = $image_name;
+            $data['image_url'] = generate_protocol_url($this->s3_url . $image_name);
+            $data['image_name'] = $image_name;
         }
         if ($thumb_size) {
             $thumb_name = uploadThunbImageToS3($request, 'image', $thumb_size, $old_thumb_name);
             if ($thumb_name != null) {
-                $data["thumb_name"] = $thumb_name;
-                $data["thumb_url"] = generate_protocol_url($this->s3_url . $thumb_name);
+                $data['thumb_name'] = $thumb_name;
+                $data['thumb_url'] = generate_protocol_url($this->s3_url . $thumb_name);
             }
         }
 
-        $data["message"] = "Tải lên thành công";
+        $data['message'] = 'Tải lên thành công';
         $data['size'] = $size;
         $data['thumb_size'] = $thumb_size;
         return $this->respond($data);
@@ -184,12 +175,11 @@ class UserApiController extends ApiController
         $video_name = uploadAndTranscodeVideoToS3($request, 'video', $old_name);
         if ($video_name != null) {
             return $this->respond([
-                "message" => "Tải lên thành công",
-                "video_url" => $this->s3_url . $video_name,
-                "video_name" => $video_name,
-                "type" => "video"
+                'message' => 'Tải lên thành công',
+                'video_url' => $this->s3_url . $video_name,
+                'video_name' => $video_name,
+                'type' => 'video'
             ]);
-
         } else {
             return $this->responseBadRequest(['Có lỗi xảy ra, không upload được video']);
         }
@@ -198,7 +188,7 @@ class UserApiController extends ApiController
     public function delete_file(Request $request)
     {
 //        deleteFileFromS3($request->file_name);
-        return $this->respond(['message' => "Xoá file thành công"]);
+        return $this->respond(['message' => 'Xoá file thành công']);
     }
 
     public function save_product(Request $request)
@@ -215,7 +205,6 @@ class UserApiController extends ApiController
         $product->author_id = $this->user->id;
         $product->tags = $request->tags_string;
         $product->category_id = $request->category_id;
-
         if ($request->video_url) {
             $product->url = $request->video_url;
             $product->image_name = $request->video_name;
@@ -227,8 +216,11 @@ class UserApiController extends ApiController
             $product->thumb_url = $request->thumb_url;
         }
         $product->type = 2;
-
+        $product->kind = 'post';
         $product->save();
+        $product->slug = convert_vi_to_en($product->title) . '-' . $product->id;
+        $product->save();
+        $product->productCategories()->attach($request->category_id);
 
         $receivers = [];
 
@@ -241,13 +233,19 @@ class UserApiController extends ApiController
                 $topicAction = new TopicAction();
                 $topicAction->topic_id = $request->topicId;
                 $topicAction->user_id = $this->user->id;
-                $topicAction->content = "Đã nộp bài";
+                $topicAction->content = 'Đã nộp bài';
                 $topicAction->save();
             }
             $topic = Topic::find($request->topicId);
             $group = $topic->group;
             if ($group) {
                 $class = $group->studyClass;
+
+                if ($group->link == 'colorme') {
+                    $product->status = 1;
+                    $product->kind = 'blog';
+                    $product->save();
+                }
 
                 if ($class) {
                     if ($class->teach) {
@@ -260,7 +258,6 @@ class UserApiController extends ApiController
                     }
                 }
             }
-
         }
 
         foreach ($product->colors as $color) {
@@ -268,7 +265,7 @@ class UserApiController extends ApiController
         }
 
         $colorStr = $request->colorStr;
-        $colors = explode("#", $colorStr);
+        $colors = explode('#', $colorStr);
         foreach ($colors as $c) {
             $color = new Color();
             $color->product_id = $product->id;
@@ -276,8 +273,7 @@ class UserApiController extends ApiController
             $color->save();
         }
 
-
-        return $this->respond(['message' => "Đăng bài thành công", "url" => convert_vi_to_en($product->title) . "-" . $product->id]);
+        return $this->respond(['message' => 'Đăng bài thành công', 'url' => convert_vi_to_en($product->title) . '-' . $product->id]);
     }
 
     public function update_user_info(Request $request)
@@ -285,12 +281,12 @@ class UserApiController extends ApiController
         $errors = [];
         $user1 = User::where('email', '=', $request->email)->first();
         if ($request->email != $this->user->email && $user1) {
-            $errors['email'] = "Email đã có người sử dụng";
+            $errors['email'] = 'Email đã có người sử dụng';
         }
         $username = trim($request->username);
         $user2 = User::where('username', '=', $username)->first();
         if ($username != $this->user->username && $user2) {
-            $errors['username'] = "Username đã có người sử dụng";
+            $errors['username'] = 'Username đã có người sử dụng';
         }
 
         if (!empty($errors)) {
@@ -311,7 +307,7 @@ class UserApiController extends ApiController
         $this->user->dob = $request->dob;
         $this->user->save();
         return $this->respond([
-            "message" => "Cập nhật thông tin thành công"
+            'message' => 'Cập nhật thông tin thành công'
         ]);
     }
 
@@ -338,29 +334,30 @@ class UserApiController extends ApiController
         $current_cv_id = $this->user->cv_id;
         $cvs = $this->user->cvs;
         return $this->respondSuccessWithStatus([
-            "cvs" => $cvs->map(function ($cv) use ($current_cv_id) {
+            'cvs' => $cvs->map(function ($cv) use ($current_cv_id) {
                 return [
-                    "id" => $cv->id,
-                    "cv_id" => $cv->cv_id,
-                    "cv_name" => $cv->cv_name,
-                    "thumb_url" => $cv->thumb_url,
-                    "url" => $cv->url,
-                    "is_current_cv" => $current_cv_id == $cv->id
+                    'id' => $cv->id,
+                    'cv_id' => $cv->cv_id,
+                    'cv_name' => $cv->cv_name,
+                    'thumb_url' => $cv->thumb_url,
+                    'url' => $cv->url,
+                    'is_current_cv' => $current_cv_id == $cv->id
                 ];
             })
         ]);
     }
-    
-    public function getAllSaler(Request $request){
+
+    public function getAllSaler(Request $request)
+    {
         $saler_ids = DB::table('registers')->select('saler_id')->distinct()->get();
 
-        $saler_idss =[];
-        foreach($saler_ids as $saler_id){
-            array_push($saler_idss,$saler_id->saler_id);
+        $saler_idss = [];
+        foreach ($saler_ids as $saler_id) {
+            array_push($saler_idss, $saler_id->saler_id);
         }
 
         $salers = User::query();
-        $salers= $salers->whereIn('id',$saler_idss)->get(   );
+        $salers = $salers->whereIn('id', $saler_idss)->get();
 
         return $this->respondSuccessWithStatus([
             'salers' => $salers

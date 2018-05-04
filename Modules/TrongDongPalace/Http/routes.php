@@ -12,5 +12,25 @@ $publicRoutes = function () {
     Route::post('/api/booking', 'TrongDongPalaceController@bookingApi');
 };
 
+$manageApiRoutes = function () {
+    Route::get('/dashboard', 'TrongDongPalaceManageApiController@dashboard');
+    Route::get('/room/all', 'TrongDongPalaceManageApiController@rooms');
+    Route::get('/room-type/all', 'TrongDongPalaceManageApiController@roomTypes');
+    Route::put('/register-room/change-time', 'TrongDongPalaceManageApiController@changeTime');
+    Route::put('/register-room/change-status', 'TrongDongPalaceManageApiController@changeStatus');
+};
+
 Route::group(['middleware' => 'web', 'domain' => 'keetool6.xyz', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'trongdongpalace.test', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
+
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'],
+    function () use ($manageApiRoutes) {
+        Route::group(
+            ['prefix' => 'v3'],
+            function () use ($manageApiRoutes) {
+                Route::group(['prefix' => 'trongdong'], $manageApiRoutes);
+            }
+        );
+    }
+);

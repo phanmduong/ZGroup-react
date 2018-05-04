@@ -19,6 +19,7 @@ use App\Group;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManageSmsApiController extends ManageApiController
 {
@@ -179,9 +180,14 @@ class ManageSmsApiController extends ManageApiController
 
         if ($limit == -1) {
             $templates = $templates->orderBy('created_at', 'desc')->get();
-        } else {
-            $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondSuccessWithStatus([
+                "campaign" => $campaign->getData(),
+                'templates' => $templates->map(function ($template) {
+                    return $template->transform();
+                })
+            ]);
         }
+        $templates = $templates->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($templates, [
             "campaign" => $campaign->getData(),
             'templates' => $templates->map(function ($template) {
@@ -204,14 +210,19 @@ class ManageSmsApiController extends ManageApiController
         });
         if ($limit == -1) {
             $users = $users->orderBy('created_at', 'desc')->get();
-        } else {
-            $users = $users->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondSuccessWithStatus([
+                'users' => $users->map(function ($user) {
+                    return $user->getReceivers();
+                })
+            ]);
         }
+        $users = $users->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($users, [
             'receivers' => $users->map(function ($user) {
                 return $user->getReceivers();
             })
         ]);
+
     }
 
     public function createTemplateType(Request $request)
@@ -220,8 +231,8 @@ class ManageSmsApiController extends ManageApiController
         $check = SmsTemplateType::where('name', trim($request->name))->get();
         if (count($check) > 0)
             return $this->respondErrorWithStatus([
-                'message' => 'Đã tồn tại loại tin nhăn này'
-            ]);
+            'message' => 'Đã tồn tại loại tin nhăn này'
+        ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -236,8 +247,8 @@ class ManageSmsApiController extends ManageApiController
         $check = SmsTemplateType::where('name', trim($request->name))->get();
         if (count($check) > 0 && $template_type->name !== $request->name)
             return $this->respondErrorWithStatus([
-                'message' => 'Không thể chỉnh sửa vì bị trùng tên'
-            ]);
+            'message' => 'Không thể chỉnh sửa vì bị trùng tên'
+        ]);
         $template_type->name = $request->name;
         $template_type->color = $request->color;
         $template_type->save();
@@ -267,89 +278,111 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function getReceiversChoice(Request $request)
+    public function getReceiversChoice($campaignId, Request $request)
     {
-
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
-        $courses = json_decode($request->courses);
-        $classes = $request->classes ? json_decode($request->classes) : [];
+        $gens = json_decode($request->gens);
+        $classes = json_decode($request->classes);
         $limit = $request->limit ? intval($request->limit) : 20;
-        // $paid_course_quantity = $request->paid_course_quantity;
         if ($request->carer_id) {
             $users = User::find($request->carer_id)->getCaredUsers();
         } else $users = User::query();
+
 
         if ($startTime != null && $endTime != null) {
             $users = $users->whereBetween('users.created_at', array($startTime, $endTime));
         }
 
+        if ($request->rate) {
+            $users = $users->where("rate", $request->rate);
+        }
 
-        if ($courses) {
-            $classes_courses = StudyClass::join("courses", "courses.id", "=", "classes.course_id")->select("classes.*")
-                ->where(function ($query) use ($courses) {
-                    for ($index = 0; $index < count($courses); ++$index) {
-                        $course_id = $courses[$index]->value;
+        if ($gens) {
+            $classes_gens = StudyClass::join("gens", "gens.id", "=", "classes.gen_id")->select("classes.*")
+                ->where(function ($query) use ($gens) {
+                    for ($index = 0; $index < count($gens); ++$index) {
+                        $gen_id = $gens[$index]->value;
                         if ($index == 0)
-                            $query->where('courses.id', '=', $course_id);
+                            $query->where('gens.id', '=', $gen_id);
                         else
-                            $query->orWhere('courses.id', '=', $course_id);
+                            $query->orWhere('gens.id', '=', $gen_id);
                     }
                 })->get()->toArray();
-            $classes = array_merge($classes_courses, json_decode($request->classes));
-        }
+        } else $classes_gens = null;
 
 
-//        return $this->respondWithPagination($classes, [
-//            'users' => $classes->map(function ($user) {
-//                return [
-//                    'id'=>$user->id
-//                ];
-//            })
-//        ]);
-        if (count($classes) > 0) {
-            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-                ->select('users.*')->where(function ($query) use ($classes) {
-                    for ($index = 0; $index < count($classes); ++$index) {
-                        $class_id = $classes[$index]['id'];
+        if ($classes_gens != null || $classes != null)
+            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')->select('users.*')
+            ->where(function ($query) use ($classes_gens) {
+                if ($classes_gens) {
+                    for ($index = 0; $index < count($classes_gens); ++$index) {
+                        $class_id = $classes_gens[$index]['id'];
                         if ($index == 0)
                             $query->where('registers.class_id', '=', $class_id);
                         else
                             $query->orWhere('registers.class_id', '=', $class_id);
                     }
-                });
-        }
+                }
+            })->where(function ($query) use ($classes) {
+                if ($classes) {
+                    for ($index = 0; $index < count($classes); ++$index) {
+                        $class_id = $classes[$index]->value;
+                        if ($index == 0)
+                            $query->where('registers.class_id', '=', $class_id);
+                        else
+                            $query->orWhere('registers.class_id', '=', $class_id);
+                    }
+                }
+            })->groupBy("users.id");
+
+        ///
         if ($request->paid_course_quantity) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-                ->select('users.*')->where(function ($query) use ($classes) {
-                    for ($index = 0; $index < count($classes); ++$index) {
-                        $class_id = $classes[$index]['id'];
-                        if ($index == 0)
-                            $query->where('registers.class_id', '=', $class_id);
-                        else
-                            $query->orWhere('registers.class_id', '=', $class_id);
-                    }
-
-                });
+                ->where('registers.money', '>', 0)
+            //chèn đống query class của m vào đây
+                ->select('users.*', DB::raw('count(*) as paid_count'))
+                ->groupBy('users.id')->having('paid_count', '=', $request->paid_course_quantity)->get();
         }
+        //
+
+
+        $campaign = SmsList::find($campaignId);
+        $group_id = $campaign->group->id;
+
+        $users = $users->whereNotExists(function ($query) use ($group_id) {
+            $query->select(DB::raw(1))
+                ->from('groups_users')
+                ->whereRaw('groups_users.user_id = users.id and groups_users.group_id=' . $group_id);
+        });
+
+
         if ($request->top) {
-            $users = $users->simplePaginate($request->top);
+            $users = $users->simplePaginate(intval($request->top));
         } else {
+            if ($limit == -1) {
+                $users = $users->orderBy('created_at', 'desc')->get();
+                return $this->respondSuccessWithStatus([
+                    'users' => $users->map(function ($user) {
+                        return $user->getReceivers();
+                    })
+                ]);
+            }
             $users = $users->paginate($limit);
         }
+
         if ($request->top) {
             return $this->respondWithSimplePagination($users, [
                 'users' => $users->map(function ($user) {
                     return $user->getReceivers();
                 })
             ]);
-        } else {
-            return $this->respondWithPagination($users, [
-                'users' => $users->map(function ($user) {
-                    return $user->getReceivers();
-                })
-            ]);
         }
+        return $this->respondWithPagination($users, [
+            'users' => $users->map(function ($user) {
+                return $user->getReceivers();
+            })
+        ]);
     }
 
 }

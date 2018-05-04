@@ -24,6 +24,12 @@ class AdministrationController extends ManageApiController
     public function getAllRequestVacation(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        $staff_name = $request->staff_name;
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
+        $status = $request->status;
+        $type = $request->type;
+        $command_code = $request->command_code;
         if ($limit == -1) {
             $requestVacations = RequestVacation::all();
             return $this->respondSuccessWithStatus([
@@ -33,14 +39,48 @@ class AdministrationController extends ManageApiController
             ]);
         } else {
             if($this->user->role == 2) {
-                $requestVacations = RequestVacation::orderBy('created_at', 'desc')->paginate($limit);
+                $requestVacations = RequestVacation::query();
+                if($staff_name){
+                    $requestVacations = $requestVacations->join('users', 'users.id', '=',  'request_vacations.staff_id'); 
+                    $requestVacations->where('users.name', 'like', '%' . $staff_name . '%');
+                }
+                if($status){
+                    $requestVacations->where('request_vacations.status', $status == -1 ? 0 : $status);
+                }
+                if($type){
+                    $requestVacations->where('request_vacations.type', $type );
+                }
+                if($command_code){
+                    $requestVacations->where('request_vacations.command_code', 'like', '%' . $command_code . '%');
+                }
+                if ($start_time && $end_time) {
+                    $requestVacations = $requestVacations
+                    ->whereBetween('request_vacations.start_time', array($start_time, $end_time))
+                    ->orWhereBetween('request_vacations.end_time', array($start_time, $end_time));
+                }
+                $requestVacations = $requestVacations->orderBy('request_vacations.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($requestVacations, [
                     "requestVacation" => $requestVacations->map(function ($requestVacation) {
                         return $requestVacation->transform();
                     }),
                 ]);
             } else {
-                $requestVacations = RequestVacation::where("staff_id",$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
+                $requestVacations = RequestVacation::query();
+                if($status){
+                    $requestVacations->where('request_vacations.status', $status == -1 ? 0 : $status);
+                }
+                if($command_code){
+                    $requestVacations->where('request_vacations.command_code', 'like', '%' . $command_code . '%');
+                }
+                if($type){
+                    $requestVacations->where('request_vacations.type', $type );
+                }
+                if ($start_time && $end_time) {
+                    $requestVacations = $requestVacations
+                    ->orwhereBetween('request_vacations.start_time', array($start_time, $end_time))
+                    ->orWhereBetween('request_vacations.end_time', array($start_time, $end_time));
+                }
+                $requestVacations = $requestVacations->where("staff_id",$this->user->id)->orderBy('request_vacations.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($requestVacations, [
                     "requestVacation" => $requestVacations->map(function ($requestVacation) {
                         return $requestVacation->transform();
@@ -136,24 +176,26 @@ class AdministrationController extends ManageApiController
             if($this->user->role == 2) {
                 $datas = AdvancePayment::query();
                 if($staff_name){
-                    $datas->where('staff_name', 'like', '%' . $this->user->name . '%');
+                    $datas = $datas->join('users', 'users.id', '=',  'advanced_payments.staff_id'); 
+                    $datas->where('users.name',   'like', '%' . $staff_name . '%');
+                    
                 }
                 if($company_pay_id){
-                    $datas->where('company_pay_id', $company_pay_id);
+                    $datas->where('advanced_payments.company_pay_id', $company_pay_id);
                 }
                 if($company_receive_id){
-                    $datas->where('company_receive_id', $company_receive_id);
+                    $datas->where('advanced_payments.company_receive_id', $company_receive_id);
                 }
                 if($status){
-                    $datas->where('status', $status == -1 ? 0 : $status);
+                    $datas->where('advanced_payments.status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
-                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                    $datas->where('advanced_payments.command_code', 'like', '%' . $command_code . '%');
                 }
                 if ($start_time && $end_time) {
-                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                    $datas = $datas->whereBetween('advanced_payments.created_at', array($start_time, $end_time));
                 }
-                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
+                $datas = $datas->orderBy('advanced_payments.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
@@ -163,21 +205,21 @@ class AdministrationController extends ManageApiController
                 $datas = AdvancePayment::query();
                 $datas->where('staff_id', $this->user->id);
                 if($company_pay_id){
-                    $datas->where('company_pay_id', $company_pay_id);
+                    $datas->where('advanced_payments.company_pay_id', $company_pay_id);
                 }
                 if($company_receive_id){
-                    $datas->where('company_receive_id', $company_receive_id);
+                    $datas->where('advanced_payments.company_receive_id', $company_receive_id);
                 }
                 if($status ){
-                    $datas->where('status', $status == -1 ? 0 : $status);
+                    $datas->where('advanced_payments.status', $status == -1 ? 0 : $status);
                 }
                 if($command_code){
-                    $datas->where('command_code', 'like', '%' . $command_code . '%');
+                    $datas->where('advanced_payments.command_code', 'like', '%' . $command_code . '%');
                 }
                 if ($start_time && $end_time) {
-                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                    $datas = $datas->whereBetween('advanced_payments.created_at', array($start_time, $end_time));
                 }
-                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
+                $datas = $datas->orderBy('advanced_payments.created_at', 'desc')->paginate($limit);
                 return $this->respondWithPagination($datas, [
                     "data" => $datas->map(function ($data) {
                         return $data->transform();
@@ -317,6 +359,16 @@ class AdministrationController extends ManageApiController
     public function showReports(Request $request)
     {
         $limit = $request->limit ? $request->limit :20;
+        $search = $request->search;
+        if($search){
+            $reports = Report::where('content','like', '%' . $search . '%')->paginate($limit);
+            return $this->respondWithPagination($reports, [
+                "reports" => $reports->map(function ($report) {
+                    return $report->transform();
+                })
+            ]);
+        }
+
         if($this->user->role == 2) {
             $reports = Report::orderBy('created_at', 'desc')->paginate($limit);
             return $this->respondWithPagination($reports, [

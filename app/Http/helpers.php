@@ -498,27 +498,6 @@ function RGBToHex($r, $g, $b)
     return $hex;
 }
 
-//
-//function extract_dominant_color($image_url)
-//{
-//    $ext = pathinfo($image_url, PATHINFO_EXTENSION);
-//
-//    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
-//        $image = Image::make($image_url);
-//        return [
-//            'width' => $image->width(),
-//            'height' => $image->height(),
-//            'color' => $image->pickColor(0, 0, 'hex')
-//        ];
-//    } else {
-//        return [
-//            'width' => 0,
-//            'height' => 0,
-//            'color' => 'white'
-//        ];
-//    }
-//}
-
 function deleteFileFromS3($file_name)
 {
     $s3 = \Illuminate\Support\Facades\Storage::disk('s3');

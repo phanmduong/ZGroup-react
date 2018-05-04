@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: phanmduong
@@ -90,8 +91,7 @@ class ManageCollectMoneyApiController extends ManageApiController
     public function pay_money(Request $request)
     {
         if ($request->register_id == null || $request->money == null ||
-            $request->code == null
-        ) {
+            $request->code == null) {
             return $this->responseBadRequest('Not enough parameters!');
         }
         $register_id = $request->register_id;
@@ -118,7 +118,7 @@ class ManageCollectMoneyApiController extends ManageApiController
         } else {
             $register->code = $code;
             $register->status = 1;
-            $register->save();
+
 
             $transaction = new Transaction();
             $transaction->money = $money;
@@ -128,7 +128,7 @@ class ManageCollectMoneyApiController extends ManageApiController
             $transaction->note = "Học viên " . $register->user->name . " - Lớp " . $register->studyClass->name;
             $transaction->status = 1;
             $transaction->type = 1;
-            $transaction->save();
+
             DB::insert(DB::raw("
                 insert into attendances(`register_id`,`checker_id`,class_lesson_id)
                 (select registers.id,-1,class_lesson.id
@@ -141,6 +141,9 @@ class ManageCollectMoneyApiController extends ManageApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
+            $register->save();
+            $transaction->save();
+
 
             if ($register->studyClass->group) {
                 $groupMember = new GroupMember();
@@ -195,16 +198,14 @@ class ManageCollectMoneyApiController extends ManageApiController
                         ->orwhere('registers.code', 'like', '%' . $search . '%')
                         ->orWhere('registers.note', 'like', '%' . $search . '%');
                 })
-                ->select('registers.*', 'users.name', 'users.email', 'users.phone')
-                ->orderBy('paid_time', 'desc')->paginate($limit);
+                ->select('registers.*', 'users.name', 'users.email', 'users.phone');
         } else {
-            $registers = Register::where('status', 1)->orderBy('paid_time', 'desc')->paginate($limit);
+            $registers = Register::where('status', 1);
+            if ($request->staff_id)
+                $registers = $registers->where('staff_id', $request->staff_id);
         }
-
-        if ($request->staff_id) {
-            $registers = Register::where('status', 1)->where('staff_id', $request->staff_id)
-                ->orderBy('paid_time', 'desc')->paginate($limit);
-        }
+        
+        $registers = $registers->orderBy('paid_time', 'desc')->paginate($limit);
 
         $data = [
             'registers' => $registers->map(function ($register) {
@@ -232,10 +233,10 @@ class ManageCollectMoneyApiController extends ManageApiController
                 ];
                 if ($register->staff)
                     $register_data['collector'] = [
-                        'id' => $register->staff->id,
-                        'name' => $register->staff->name,
-                        'color' => $register->staff->color,
-                    ];
+                    'id' => $register->staff->id,
+                    'name' => $register->staff->name,
+                    'color' => $register->staff->color,
+                ];
                 return $register_data;
             })
         ];

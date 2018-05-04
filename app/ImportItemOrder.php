@@ -41,6 +41,7 @@ class ImportItemOrder extends Model
             "quantity" => $this->quantity,
             "imported_quantity" => $this->imported_quantity,
             "status" => $this->status,
+            "created_at" => format_vn_short_datetime(strtotime($this->created_at)),
 
         ];
     }

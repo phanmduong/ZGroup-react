@@ -21,24 +21,23 @@ class MarketingCampaignController extends ManageApiController
 
     public function getAll(Request $request)
     {
-        if (!$request->limit) {
-            $limit = 20;
-        } else {
-            $limit = $request->limit;
+        $limit = $request->limit ? $request->limit : 20;
+
+        if ($limit == -1) {
+            $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'marketing_campaigns' => $marketingCampaigns->map(function ($marketingCampaign) {
+                    return $marketingCampaign->getData();
+                })
+            ]);
         }
 
         $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->paginate($limit);
 
-        $data = $marketingCampaigns->map(function ($marketingCampaign) {
-            return [
-                'id' => $marketingCampaign->id,
-                'name' => $marketingCampaign->name,
-                'color' => $marketingCampaign->color,
-            ];
-        });
-
         return $this->respondWithPagination($marketingCampaigns, [
-            'marketing_campaigns' => $data
+            'marketing_campaigns' => $marketingCampaigns->map(function ($marketingCampaign) {
+                return $marketingCampaign->getData();
+            })
         ]);
     }
 
@@ -295,9 +294,9 @@ class MarketingCampaignController extends ManageApiController
         return $this->respondSuccessWithStatus(['summary_sales' => $salers]);
     }
 
-    public function user(Request $request)
-    {
-        $user = User::join('registers', 'users.id', '=', 'registers.user_id');
+    // public function user(Request $request)
+    // {
+    //     $user = User::join('registers', 'users.id', '=', 'registers.user_id');
         
-    }
+    // }
 }

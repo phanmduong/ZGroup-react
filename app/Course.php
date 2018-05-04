@@ -76,7 +76,8 @@ class Course extends Model
             }),
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
-            })
+            }),
+            'classes' => $this->classes
         ];
     }
 

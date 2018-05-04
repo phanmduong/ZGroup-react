@@ -194,20 +194,14 @@ class ManageEmailApiController extends ManageApiController
             });
 
         if ($request->send_status != null)
-            $campaigns = $campaigns->where('email_campaigns.sended', $request->send_status);
 
-        if ($request->owner_id) {
-            $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
-                ->where('owner_id', $request->owner_id)->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
-        } else {
-            if ($query) {
-                $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
-                    ->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
-            } else {
-                $campaigns = $campaigns->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
-            }
-        }
+        $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%');
 
+        if ($request->owner_id)
+            $campaigns = $campaigns->where('owner_id', $request->owner_id);
+
+        $campaigns = $campaigns->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
+        
         $data = [
             'campaigns' => $this->emailRepository->campaingns($campaigns)
         ];
@@ -284,9 +278,6 @@ class ManageEmailApiController extends ManageApiController
         if ($request->post_id == null) {
             return $this->respondErrorWithStatus("Thiếu post_id");
         }
-
-        $this->user->code = $request->token;
-        $this->user->save();
 
         $comments = getAllCommentFacebook($request->post_id, $request->token);
 

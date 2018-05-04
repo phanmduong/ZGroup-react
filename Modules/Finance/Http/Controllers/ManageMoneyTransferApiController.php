@@ -48,7 +48,7 @@ class ManageMoneyTransferApiController extends ManageApiController
             $transactions = $transactions->where('status', $request->status);
         }
 
-        $transactions = $transactions->where('type', 0)->orderBy('created_at', 'desc')->paginate($limit);
+        $transactions = $transactions->where('type', 0)->orderBy('updated_at', 'desc')->paginate($limit);
 
         $data = [
             "transactions" => $transactions->map(function ($transaction) {
