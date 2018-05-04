@@ -84,8 +84,8 @@ class Calendar extends React.Component {
 
 Calendar.propTypes = {
     id: PropTypes.string.isRequired,
-    calendarEvents: PropTypes.func.isRequired,
-    onDropTime: PropTypes.func.isRequired,
+    calendarEvents: PropTypes.func,
+    onDropTime: PropTypes.func,
     onClick: PropTypes.func.isRequired,
 };
 

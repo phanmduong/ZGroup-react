@@ -356,6 +356,12 @@ class StorePostComponent extends React.Component {
                                                     updateEditor={this.props.updateEditor}
                                                     value={content} />
 
+
+                                                <div id="mini-editor">
+                                                </div>
+                                                <button onClick={()=>this.test()}>+</button>
+
+
                                                 <div className="row">
                                                     {/*????????????????????????/*/}
                                                     <Buttons

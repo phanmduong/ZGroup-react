@@ -33,6 +33,13 @@ class PostModal extends React.Component {
 
     }
 
+    // componentDidMount() {
+    //
+    //     // $("mini-editor").init();
+    //     window.addEventListener('load', function () {
+    //         MinEditor.init('mini-editor');
+    //     });
+    // }
 
     closePostModal() {
         helper.confirm("warning", "Cảnh báo",

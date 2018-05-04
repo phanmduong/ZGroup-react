@@ -18,7 +18,7 @@ import Select from '../../../components/common/Select';
 import PostModal from "./PostModal";
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
-// import KeetoolEditor from "../../../components/common/KeetoolEditor";
+// // import KeetoolEditor from "../../../components/common/KeetoolEditor";
 // import MinEditor from '../../../js/keetool-editor';
 
 
@@ -43,6 +43,8 @@ class BlogsContainer extends React.Component {
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
         this.loadByKinds = this.loadByKinds.bind(this);
+        // this.test = this.test.bind(this);
+
     }
 
 
@@ -58,6 +60,13 @@ class BlogsContainer extends React.Component {
     //         MinEditor.init('mini-editor');
     //     });
     // }
+    // test(){
+    //     let data = {...this.props.post};
+    //     data["content"] = MinEditor.getContent();
+    //     console.log(MinEditor.getContent(), data.content, "test");
+    //     this.props.blogActions.updateFormPost(data);
+    // }
+
     loadPosts(page) {
         this.setState({ page });
         this.props.blogActions.loadPosts(
@@ -196,7 +205,9 @@ class BlogsContainer extends React.Component {
                                             </div>
                                         </div>
 
-                                        {/*<KeetoolEditor/>*/}
+                                        {/*<div id="mini-editor">*/}
+                                        {/*</div>*/}
+                                        <button onClick={()=>this.test()}>+</button>
 
 
                                         <Search
@@ -252,6 +263,7 @@ BlogsContainer.propTypes = {
     isLoadingCategories: PropTypes.bool.isRequired,
     isLoadingLanguages: PropTypes.bool.isRequired,
     blogActions: PropTypes.object.isRequired,
+    post: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     posts: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -267,6 +279,7 @@ function mapStateToProps(state) {
         categories: state.blog.categories,
         isLoadingPosts: state.blog.isLoadingPosts,
         allBlogKinds: state.blog.allBlogKinds,
+        post: state.blog.post,
     };
 }
 

@@ -47,7 +47,7 @@ class App extends React.Component {
                             </div>
                             <div className="info">
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">
-                                    {this.props.user.name}
+                                    {this.props.user&&this.props.user.name}
                                     <b className="caret"/>
                                 </a>
                                 <div className="collapse" id="collapseExample">
