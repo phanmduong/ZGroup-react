@@ -18,8 +18,7 @@
             </div>
             <div class="media-wrapper">
                 <audio id="player2" preload="none" controls style="max-width:100%;">
-                    <source src="{{'https://api.soundcloud.com/tracks/'.$track_id.'/stream' . '?client_id='.config(" app.sound_cloud_client_id
-                        ")}}" type="audio/mp3">
+                    <source src="{{'https://api.soundcloud.com/tracks/'.$track_id.'/stream' . '?client_id='.config("app.sound_cloud_client_id")}}" type="audio/mp3">
                 </audio>
             </div>
             <br>
