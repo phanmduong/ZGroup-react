@@ -35,9 +35,14 @@ class ManageClassApiController extends ManageApiController
     protected $genRepository;
     protected $userRepository;
 
-    public function __construct(ClassRepository $classRepository, ScheduleRepository $scheduleRepository, RoomRepository $roomRepository,
-                                CourseRepository $courseRepository, GenRepository $genRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        ClassRepository $classRepository,
+        ScheduleRepository $scheduleRepository,
+        RoomRepository $roomRepository,
+        CourseRepository $courseRepository,
+        GenRepository $genRepository,
+        UserRepository $userRepository
+    ) {
         parent::__construct();
         $this->classRepository = $classRepository;
         $this->scheduleRepository = $scheduleRepository;
@@ -63,11 +68,14 @@ class ManageClassApiController extends ManageApiController
             $classes = $classes->where('base_id', $request->base_id);
         if ($request->teacher_id)
             $classes = $classes->where(function ($query) use ($request) {
-                $query->where('teacher_id', $request->teacher_id)
-                    ->orWhere('teaching_assistant_id', $request->teacher_id);
-            });
+            $query->where('teacher_id', $request->teacher_id)
+                ->orWhere('teaching_assistant_id', $request->teacher_id);
+        });
 
-        $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
+        if ($limit == -1)
+            $classes = $classes->orderBy('gen_id', 'desc')->get(($limit));
+        else
+            $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
 
         $data = [
             "classes" => $classes->map(function ($class) {
@@ -80,7 +88,10 @@ class ManageClassApiController extends ManageApiController
             'is_create_class' => $this->classRepository->is_create($this->user)
         ];
 
-        return $this->respondWithPagination($classes, $data);
+        if($limit == -1)
+            return $this->respondSuccessWithStatus($classes);
+        else
+            return $this->respondWithPagination($classes, $data);
     }
 
     public function duplicate_class($class_id)
@@ -164,7 +175,7 @@ class ManageClassApiController extends ManageApiController
                     ]
                 ]);
             }
-            
+
             return $this->responseWithError("Có lỗi xảy ra");
         }
 
@@ -332,18 +343,19 @@ class ManageClassApiController extends ManageApiController
         ]);
     }
 
-    public function generateClassLesson($class_id){
+    public function generateClassLesson($class_id)
+    {
         if ($class_id) {
             $class = StudyClass::find($class_id);
-        } 
+        }
 
-        if ($class == null){
-            return $this->respondErrorWithStatus("Lớp không tồn tại"); 
+        if ($class == null) {
+            return $this->respondErrorWithStatus("Lớp không tồn tại");
         }
 
         $this->classRepository->generateClassLesson($class);
 
-        foreach($class->registers as $register){
+        foreach ($class->registers as $register) {
             DB::insert(DB::raw("
             insert into attendances(`register_id`,`checker_id`,class_lesson_id)
             (select registers.id,-1,class_lesson.id
@@ -354,7 +366,7 @@ class ManageClassApiController extends ManageApiController
             "));
         }
 
-        if ($class->schedule_id){
+        if ($class->schedule_id) {
             $this->classRepository->setClassLessonTime($class);
         }
 
@@ -467,8 +479,8 @@ class ManageClassApiController extends ManageApiController
         $class = StudyClass::find($class_id);
         if ($class == null)
             return $this->respondErrorWithStatus([
-                'message' => 'khong ton tai lop'
-            ]);
+            'message' => 'khong ton tai lop'
+        ]);
         $class->link_drive = $request->link_drive;
         $class->save();
         return $this->respondSuccessWithStatus([
