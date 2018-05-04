@@ -52,7 +52,7 @@
                                             <div class="col-md-12">
                                                 <a href="/blog/{{$topBlogs['slug']}}">
                                                     <div class="relative">
-                                                        <img class="zoom" src="{{$topBlogs['url']}}"
+                                                        <img class="zoom" src="{{generate_protocol_url($topBlogs['url'])}}"
                                                              style="width: 100%;height:auto;"/>
                                                         @if($topBlogs['category_name'])
                                                             <div class="product-category absolute"
@@ -72,7 +72,7 @@
                                             <div class="col-md-4">
                                                 <a href="/blog/{{$blog['slug']}}">
                                                     <div class="relative">
-                                                        <img class="zoom" src="{{$blog['url']}}"
+                                                        <img class="zoom" src="{{generate_protocol_url($blog['url'])}}"
                                                              style="width: 100%;height:auto;"/>
                                                         @if($blog['category_name'])
                                                             <div class="product-category absolute"

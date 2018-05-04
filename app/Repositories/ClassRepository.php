@@ -63,7 +63,7 @@ class ClassRepository
         $gen = $this->genRepository->gen($class->gen);
         $course = $this->courseRepository->course($class->course);
         $room = $this->roomRepository->room($class->room);
-
+        $schedule = $class->schedule;
         if ($gen)
             $data['gen'] = $gen;
 
@@ -78,6 +78,19 @@ class ClassRepository
 
         if ($room) {
             $data['room'] = $room;
+        }
+
+        if($schedule) {
+            $data['schedule'] = [
+                'schedule' => $schedule->name,
+                'study_sessions' => $schedule->studySessions->map(function($studySession) {
+                    return [
+                        'start_time' => $studySession->start_time,
+                        'end_time' => $studySession->end_time,
+                        'weekday' => $studySession->weekday
+                    ];
+                })
+            ];
         }
 
         return $data;

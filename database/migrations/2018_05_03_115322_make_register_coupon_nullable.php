@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagNumberTable extends Migration
+class MakeRegisterCouponNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class CreateTagNumberTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_numbers', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::table('registers', function (Blueprint $table) {
+            $table->string('coupon')->nullable()->change();
         });
     }
 
@@ -24,6 +24,6 @@ class CreateTagNumberTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tag_numbers');
+        //
     }
 }

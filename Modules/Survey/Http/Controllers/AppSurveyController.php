@@ -13,8 +13,7 @@ class AppSurveyController extends ManageApiController
 
     public function __construct(
         SurveyService $surveyService
-    )
-    {
+    ) {
         parent::__construct();
         $this->surveyService = $surveyService;
     }
@@ -24,16 +23,18 @@ class AppSurveyController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
 
-        $surveys = Survey::where("active", 1);
+        $surveys = Survey::where('active', 1);
 
         $surveys = $surveys->where('name', 'like', '%' . $search . '%');
 
-        if ($request->user_id)
+        if ($request->user_id) {
             $surveys = $surveys->where('user_id', $request->user_id);
+        }
 
         $surveys = $surveys->orderBy('created_at', 'desc')->paginate($limit);
 
-        return $this->respondWithPagination($surveys,
+        return $this->respondWithPagination(
+            $surveys,
             [
                 'surveys' => $surveys->map(function ($survey) {
                     return $survey->getData();
@@ -41,5 +42,4 @@ class AppSurveyController extends ManageApiController
             ]
         );
     }
-
 }
