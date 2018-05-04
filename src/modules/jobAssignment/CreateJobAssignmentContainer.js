@@ -132,12 +132,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-8">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">assignment</i>
-                                            </div>
-
                                             <div className="card-content">
-                                                <h4 className="card-title">Tạo công việc</h4>
+                                                <h4 className="card-title"><strong>Tạo công việc</strong></h4>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <FormInputText
@@ -175,7 +171,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             updateFormData={this.updateFormData}
                                                             value={this.props.data.cost || 0}
 
-                                                        /></div>
+                                                        /></div><br />
                                                     <div className="col-md-12">
                                                         <FormInputDateTime
                                                             label="Deadline"
@@ -219,7 +215,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         <div className="col-md-12"
                                                             style={{ display: "flex", flexFlow: "row-reverse" }}>
                                                             <button
-                                                                className="btn btn-fill btn-rose"
+                                                                className="btn btn-fill"
                                                                 type="button"
                                                                 onClick={() => {
                                                                     helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
@@ -241,12 +237,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                     </div>
                                     <div className="col-md-4">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">contacts</i>
-                                            </div>
-
                                             <div className="card-content">
-                                                <h4 className="card-title">Người chi trả</h4>
+                                                <h4 className="card-title"><strong>Người chi trả</strong></h4><br />
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <label>
@@ -296,12 +288,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                             </div>
                                         </div>
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose" style={{ zIndex: 0 }}>
-                                                <i className="material-icons">people</i>
-                                            </div>
-
                                             <div className="card-content">
-                                                <h4 className="card-title">Người thực hiện</h4>
+                                                <h4 className="card-title"><strong>Người thực hiện</strong></h4>
                                                 <div className="row">
                                                     <div className="col-sm-12">
                                                         <div className="form-group" hidden={this.props.isLoadingStaffs}>
