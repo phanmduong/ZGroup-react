@@ -112,7 +112,7 @@ class PublicApiController extends NoAuthApiController
         $kinds = Product::pluck('kind');
         $values = array("zxc.start.zxc");
         foreach ($kinds as $kind) {
-            for($i = 1, $i < count($values), $i++)
+            for($i = 1; $i < count($values); $i++)
             {
                 if ($kind == $values[$i]) {
                     break;
