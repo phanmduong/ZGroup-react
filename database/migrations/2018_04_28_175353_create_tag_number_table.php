@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductSubscriptionTable extends Migration
+class CreateTagNumberTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,8 @@ class CreateProductSubscriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_subscriptions', function(Blueprint $table){
+        Schema::create('tag_numbers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('product_id')->unsigned()->index();
-            $table->timestamps();
         });
     }
 
@@ -27,6 +24,6 @@ class CreateProductSubscriptionTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('tag_numbers');
     }
 }
