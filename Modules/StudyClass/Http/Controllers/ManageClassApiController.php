@@ -75,7 +75,7 @@ class ManageClassApiController extends ManageApiController
         $classes = $classes->orderBy('gen_id', 'desc');
 
         if ($limit === -1)
-            $classes = $classes->get();
+            $classes = $classes->paginate($limit);
         else
             $classes = $classes->paginate($limit);
 
