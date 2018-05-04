@@ -91,7 +91,7 @@ class ManageClassApiController extends ManageApiController
         ];
 
         if($limit === -1)
-            return $this->respondSuccessWithStatus($classes);
+            return $this->respondSuccessWithStatus($data);
         else
             return $this->respondWithPagination($classes, $data);
     }
