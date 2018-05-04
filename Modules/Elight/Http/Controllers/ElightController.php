@@ -132,23 +132,25 @@ class ElightController extends Controller
             return view('elight::404-not-found');
         }
 
-        if ($term && $lesson == null)
+        if($term == null)
+            $term = $course->terms()->orderBy('order')->first();
+
+        if ($lesson == null)
             $lesson = $term->lessons()->orderBy('order')->first();
 
-        if ($lesson == null) {
-            $terms = $course->terms()->orderBy('order')->get();
-            foreach ($terms as $term) {
-                $data = $term->lessons()->orderBy('order')->first();
-                if ($data != null) {
-                    $lesson = $data;
-                    break;
-                }
-            }
-        }
+        // if ($lesson == null) {
+        //     $terms = $course->terms()->orderBy('order')->get();
+        //     foreach ($terms as $term) {
+        //         $data = $term->lessons()->orderBy('order')->first();
+        //         if ($data != null) {
+        //             $lesson = $data;
+        //             break;
+        //         }
+        //     }
+        // }
 
-        if ($lesson == null) {
-            return view('elight::404-not-lesson');
-        }
+        if ($lesson == null) 
+            return view('elight::404-not-lesson'); 
 
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
         return view('elight::book', [
