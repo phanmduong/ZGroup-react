@@ -312,7 +312,7 @@ class ManageSmsApiController extends ManageApiController
         } else $classes_gens = null;
 
         ///
-        if ($classes_gens != null || $classes != null) {
+        if ($classes_gens != null || $classes != null || $request->paid_course_quantity) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
                 ->where(function ($query) use ($classes_gens) {
                     if ($classes_gens) {
@@ -335,11 +335,11 @@ class ManageSmsApiController extends ManageApiController
                         }
                     }
                 })->select('users.*')->groupBy('users.id');
+            if ($request->paid_course_quantity) {
+                $users = $users->where('registers.money', '>', 0)->havingRaw('count(*) = ' . $request->paid_course_quantity);
+            }
         }
 
-        if ($request->paid_course_quantity) {
-            $users = $users->where('registers.money', '>', 0)->havingRaw('count(*) = ' . $request->paid_course_quantity);
-        }
 
         $campaign = SmsList::find($campaignId);
         $group_id = $campaign->group->id;
