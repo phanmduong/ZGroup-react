@@ -20,6 +20,7 @@ use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Sms;
 
 class ManageSmsApiController extends ManageApiController
 {
@@ -372,6 +373,34 @@ class ManageSmsApiController extends ManageApiController
         return $this->respondWithPagination($users, [
             'users' => $users->map(function ($user) {
                 return $user->getReceivers();
+            })
+        ]);
+    }
+
+    public function getHistory($campaignId, Request $request)
+    {
+        $histories = Sms::where('campaign_id', '=', $campaignId);
+        $limit = $request->limit ? intval($request->limit) : 20;
+        $search = trim($request->search);
+        $histories = $histories->join('users', 'users.id', '=', 'sms.user_id')
+            ->where(function ($query) use ($search) {
+                if ($search) {
+                    $query->where('users.name', 'like', "%$search%")->orWhere('users.phone', 'like', "%$search%");
+                }
+            })->select('sms.*');
+
+        if ($limit == -1) {
+            $histories = $histories->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'histories' => $histories->map(function ($history) {
+                    return $history->getHistories();
+                })
+            ]);
+        }
+        $histories = $histories->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($histories, [
+            'histories' => $histories->map(function ($history) {
+                return $history->getHistories();
             })
         ]);
     }

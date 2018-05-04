@@ -16,7 +16,7 @@ $routes = function () {
         Route::put("/template-types/{templateTypeId}", "ManageSmsApiController@editTemplateType");
         Route::get("/user-list/{campaignId}", "ManageSmsApiController@getReceiversChoice");
         Route::post("/user-list/{campaignId}", "ManageSmsApiController@addUsersIntoCampaign");
-        Route::get("/history/");
+        Route::get("/history/{campaignId}", "ManageSmsApiController@getHistory");
     });
 };
 
