@@ -311,35 +311,9 @@ class ManageSmsApiController extends ManageApiController
                 })->get()->toArray();
         } else $classes_gens = null;
 
-
-//        if ($classes_gens != null || $classes != null)
-//            $users = $users->join('registers', 'registers.user_id', '=', 'users.id')->select('users.*')
-//                ->where(function ($query) use ($classes_gens) {
-//                    if ($classes_gens) {
-//                        for ($index = 0; $index < count($classes_gens); ++$index) {
-//                            $class_id = $classes_gens[$index]['id'];
-//                            if ($index == 0)
-//                                $query->where('registers.class_id', '=', $class_id);
-//                            else
-//                                $query->orWhere('registers.class_id', '=', $class_id);
-//                        }
-//                    }
-//                })->where(function ($query) use ($classes) {
-//                    if ($classes) {
-//                        for ($index = 0; $index < count($classes); ++$index) {
-//                            $class_id = $classes[$index]->value;
-//                            if ($index == 0)
-//                                $query->where('registers.class_id', '=', $class_id);
-//                            else
-//                                $query->orWhere('registers.class_id', '=', $class_id);
-//                        }
-//                    }
-//                })->groupBy("users.id");
-
         ///
-        if ($request->paid_course_quantity || $classes_gens != null || $classes != null) {
+        if ($classes_gens != null || $classes != null) {
             $users = $users->join('registers', 'registers.user_id', '=', 'users.id')
-                ->where('registers.money', '>', 0)
                 ->where(function ($query) use ($classes_gens) {
                     if ($classes_gens) {
                         for ($index = 0; $index < count($classes_gens); ++$index) {
@@ -360,11 +334,12 @@ class ManageSmsApiController extends ManageApiController
                                 $query->orWhere('registers.class_id', '=', $class_id);
                         }
                     }
-                })
-                ->select('users.*')
-                ->groupBy('users.id')->havingRaw('count(*) = ' . $request->paid_course_quantity);
+                })->select('users.*')->groupBy('users.id');
         }
-        //
+
+        if ($request->paid_course_quantity) {
+            $users = $users->where('registers.money', '>', 0)->havingRaw('count(*) = ' . $request->paid_course_quantity);
+        }
 
         $campaign = SmsList::find($campaignId);
         $group_id = $campaign->group->id;
