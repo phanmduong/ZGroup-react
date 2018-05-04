@@ -112,11 +112,8 @@ class CreateRequestMoneyContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-8">
                                             <div className="card">
-                                                <div className="card-header card-header-icon" data-background-color="rose">
-                                                    <i className="material-icons">attach_money</i>
-                                                </div>
                                                 <div className="card-content">
-                                                    <h4 className="card-title">Xin tạm ứng</h4>
+                                                    <h4 className="card-title"><strong>Xin tạm ứng</strong></h4>
                                                     <div className="row">
                                                         <div className="col-md-6">
                                                             <div className="col-md-12">
@@ -135,7 +132,7 @@ class CreateRequestMoneyContainer extends React.Component {
                                                             </div>
                                                             <div className="col-md-12" />
                                                             <div className="col-md-12">Hình thức</div>
-                                                            <div className="col-md-6">
+                                                            <div className="col-md-6 col-sm-6">
                                                                 <CheckBoxMaterial
                                                                     label="Chuyển khoản"
                                                                     name="type_atm"
@@ -145,7 +142,7 @@ class CreateRequestMoneyContainer extends React.Component {
                                                                 />
                                                             </div>
 
-                                                            <div className="col-md-6">
+                                                            <div className="col-md-6 col-sm-6">
                                                                 <CheckBoxMaterial
                                                                     label="Tiền mặt"
                                                                     name="type_cash"
@@ -197,11 +194,8 @@ class CreateRequestMoneyContainer extends React.Component {
                                         </div>
                                         <div className="col-md-4">
                                             <div className="card">
-                                                <div className="card-header card-header-icon" data-background-color="rose">
-                                                    <i className="material-icons">info</i>
-                                                </div>
                                                 <div className="card-content">
-                                                    <h4 className="card-title">Thông tin</h4>
+                                                    <h4 className="card-title"><strong>Thông tin</strong></h4>
                                                     <div className="row">
                                                         <div className="col-md-12">
                                                             <Avatar

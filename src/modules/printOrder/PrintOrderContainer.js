@@ -1,15 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 //import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import * as printOrderActions from "./printOrderActions";
 import ListPrintOrder from "./ListPrintOrder";
-import {Link} from "react-router";
-import {Panel} from 'react-bootstrap';
+import { Link } from "react-router";
+import { Panel } from 'react-bootstrap';
 import ReactSelect from 'react-select';
-import {PRINT_ORDER_STATUS} from '../../constants/constants';
+import { PRINT_ORDER_STATUS } from '../../constants/constants';
+import TooltipButton from '../../components/common/TooltipButton';
 
 class PrintOrderContainer extends React.Component {
     constructor(props, context) {
@@ -41,20 +42,20 @@ class PrintOrderContainer extends React.Component {
     //     console.log(nextProps);
     // }
 
-    loadAllData(page,command_code, good_id, status){
-        this.props.printOrderActions.loadPrintOrders(page,command_code, good_id, status);
+    loadAllData(page, command_code, good_id, status) {
+        this.props.printOrderActions.loadPrintOrders(page, command_code, good_id, status);
     }
 
-    openFilterPanel(){
-        let {openFilterPanel} = this.state;
-        this.setState({openFilterPanel: !openFilterPanel});
+    openFilterPanel() {
+        let { openFilterPanel } = this.state;
+        this.setState({ openFilterPanel: !openFilterPanel });
     }
 
-    changeCodeFilter(e){
-        if(!e) e={id: '', value: '', code:'', label:''};
-        this.setState({selectedCode: e.value});
-        let {paginator} = this.props;
-        let {selectedProduct,selectedStatus,selectedDate} = this.state;
+    changeCodeFilter(e) {
+        if (!e) e = { id: '', value: '', code: '', label: '' };
+        this.setState({ selectedCode: e.value });
+        let { paginator } = this.props;
+        let { selectedProduct, selectedStatus, selectedDate } = this.state;
         this.loadAllData(
             paginator.current_page,
             e.id == '' ? '' : e.code,
@@ -64,11 +65,11 @@ class PrintOrderContainer extends React.Component {
         );
     }
 
-    changeStatus(e){
-        if(!e) e={id: '', value: '', code:'', label:''};
-        this.setState({selectedStatus: e.value});
-        let {paginator} = this.props;
-        let {selectedProduct,selectedCode, selectedDate} = this.state;
+    changeStatus(e) {
+        if (!e) e = { id: '', value: '', code: '', label: '' };
+        this.setState({ selectedStatus: e.value });
+        let { paginator } = this.props;
+        let { selectedProduct, selectedCode, selectedDate } = this.state;
         this.loadAllData(
             paginator.current_page,
             selectedCode,
@@ -78,11 +79,11 @@ class PrintOrderContainer extends React.Component {
         );
     }
 
-    changeProduct(e){
-        if(!e) e={id: '', value: '', code:'', label:''};
-        this.setState({selectedProduct: e.value});
-        let {paginator} = this.props;
-        let {selectedStatus,selectedCode, selectedDate} = this.state;
+    changeProduct(e) {
+        if (!e) e = { id: '', value: '', code: '', label: '' };
+        this.setState({ selectedProduct: e.value });
+        let { paginator } = this.props;
+        let { selectedStatus, selectedCode, selectedDate } = this.state;
         this.loadAllData(
             paginator.current_page,
             selectedCode,
@@ -92,12 +93,12 @@ class PrintOrderContainer extends React.Component {
         );
     }
 
-    changeDate(e){
+    changeDate(e) {
         //this.setState({selectedDate: e.target.value});
         //this.state.selectedDate = e.target.value;
 
-        let {paginator} = this.props;
-        let {selectedStatus,selectedCode, selectedProduct} = this.state;
+        let { paginator } = this.props;
+        let { selectedStatus, selectedCode, selectedProduct } = this.state;
         this.loadAllData(
             paginator.current_page,
             selectedCode,
@@ -108,45 +109,50 @@ class PrintOrderContainer extends React.Component {
     }
 
     render() {
-        let {paginator, printOrderActions, codes, isLoading, goods} = this.props;
-        let {selectedProduct,selectedStatus, selectedCode, selectedDate} = this.state;
+        let { paginator, printOrderActions, codes, isLoading, goods } = this.props;
+        let { selectedProduct, selectedStatus, selectedCode, selectedDate } = this.state;
         return (
             <div className="content">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">print</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách đặt in</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-sm-3">
-                                                <Link to="/business/print-order/create" className="btn btn-rose"
-                                                      style={{width: "100%"}}>
-                                                    <i className="material-icons">print</i>
-                                                    Đặt In
+                                    <div>
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong>Danh sách đặt in</strong></h4>
+                                            <div>
+                                                <Link to="/business/print-order/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <strong>+</strong>
                                                 </Link>
-                                            </div>
-                                            <div className="col-sm-3">
-                                                <button className="btn btn-rose"
-                                                       style={{width: "100%"}}
-                                                        onClick={this.openFilterPanel}>
-                                                    <i className="material-icons">filter_list</i>
-                                                    Lọc
-                                                </button>
-                                            </div>
 
+                                            </div>
+                                            <div>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openFilterPanel}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <Panel collapsible expanded={this.state.openFilterPanel}>
                                         <div className="row">
                                             <div className="col-md-3">
-                                                <label style={{color: "#4c4a46"}}>
+                                                <label style={{ color: "#4c4a46" }}>
                                                     Mã giao dịch
                                                 </label>
                                                 <ReactSelect
@@ -159,7 +165,7 @@ class PrintOrderContainer extends React.Component {
                                                 />
                                             </div>
                                             <div className="col-md-3">
-                                                <label style={{color: "#4c4a46"}}>
+                                                <label style={{ color: "#4c4a46" }}>
                                                     Tên sách
                                                 </label>
                                                 <ReactSelect
@@ -172,7 +178,7 @@ class PrintOrderContainer extends React.Component {
                                                 />
                                             </div>
                                             <div className="col-md-3">
-                                                <label style={{color: "#4c4a46"}}>
+                                                <label style={{ color: "#4c4a46" }}>
                                                     Trạng thái
                                                 </label>
                                                 <ReactSelect
@@ -188,22 +194,22 @@ class PrintOrderContainer extends React.Component {
 
 
                                     </Panel>
-                                    
-                                            <ListPrintOrder
-                                                changeCodeFilter={this.changeCodeFilter}
-                                                changeProduct={this.changeProduct}
-                                                changeStatus={this.changeStatus}
-                                                changeDate={this.changeDate}
-                                                selectedCode={selectedCode}
-                                                selectedProduct={selectedProduct}
-                                                selectedStatus={selectedStatus}
-                                                selectedDate={selectedDate}
-                                            />
-                                    
+
+                                    <ListPrintOrder
+                                        changeCodeFilter={this.changeCodeFilter}
+                                        changeProduct={this.changeProduct}
+                                        changeStatus={this.changeStatus}
+                                        changeDate={this.changeDate}
+                                        selectedCode={selectedCode}
+                                        selectedProduct={selectedProduct}
+                                        selectedStatus={selectedStatus}
+                                        selectedDate={selectedDate}
+                                    />
+
                                     <Pagination
                                         currentPage={paginator.current_page}
                                         totalPages={paginator.total_pages}
-                                        loadDataPage={printOrderActions.loadPrintOrders}/>
+                                        loadDataPage={printOrderActions.loadPrintOrders} />
                                 </div>
                             </div>
                         </div>
@@ -215,8 +221,8 @@ class PrintOrderContainer extends React.Component {
 }
 
 function getStatusArr() {
-    let res = PRINT_ORDER_STATUS.map((obj,id) => {return {value:id,label:obj};});
-    return [{value: '', label:'Tất cả'},...res];
+    let res = PRINT_ORDER_STATUS.map((obj, id) => { return { value: id, label: obj }; });
+    return [{ value: '', label: 'Tất cả' }, ...res];
 }
 
 PrintOrderContainer.propTypes = {

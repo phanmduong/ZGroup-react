@@ -13,6 +13,7 @@ import { Modal, Panel } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import FormInputText from "../../../../components/common/FormInputText";
 import FormInputDate from "../../../../components/common/FormInputDate";
+import TooltipButton from "../../../../components/common/TooltipButton";
 import * as helper from "../../../../helpers/helper";
 //import * as helper from "../../../../helpers/helper";
 
@@ -155,6 +156,7 @@ class RequestVacationContainer extends React.Component {
     }
 
     render() {
+        const filterClass = "col-md-3 col-sm-6 col-xs-6";
         let { isLoading, requestVacations, paginator, user } = this.props;
         let { showConfirmModal, showInfoModal, currentRequest, showLoadingModal, showPanel, filter, } = this.state;
         return (
@@ -177,32 +179,63 @@ class RequestVacationContainer extends React.Component {
                         <div className="col-md-12">
 
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">local_hotel</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách xin nghỉ phép</h4>
-                                    <div style={{ display: "flex" }}>
-                                        <div style={{ marginRight: 5 }}>
-                                            <Link className="btn btn-rose" to="/administration/request/vacation/create">
-                                                <i className="material-icons">add</i>Xin nghỉ phép</Link>
+                                    <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong>Danh sách xin nghỉ phép</strong></h4>
+                                            <div>
+                                                <Link to="/administration/request/vacation/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <strong>+</strong>
+                                                </Link>
 
+                                            </div>
+                                            <div>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openPanel}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
-                                        <div style={{ marginRight: 5 }}>
-                                            <button className="btn btn-rose" onClick={this.openLoadingModal} >Xuất file excel</button>
-                                        </div>
-                                        <div style={{ marginRight: 5 }}>
-                                            <button className="btn btn-rose" onClick={this.openPanel} >
-                                                <i className="material-icons">filter_list</i>
-                                                Lọc</button>
+                                        <div className="flex-end">
+                                            <div>
+                                                <TooltipButton text="Xuất thành file excel" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openLoadingModal}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >file_download</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
                                     </div>
                                     <Panel collapsible expanded={showPanel} bsStyle="primary">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="row">
-                                                    <div className="col-md-3">
+                                                    <div className={filterClass}>
                                                         <label>Trạng thái</label>
                                                         <ReactSelect
                                                             options={statusFilter || []}
@@ -214,7 +247,7 @@ class RequestVacationContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-                                                    <div className="col-md-3">
+                                                    <div className={filterClass}>
                                                         <label>Lương</label>
                                                         <ReactSelect
                                                             options={typesFilter || []}
@@ -226,7 +259,7 @@ class RequestVacationContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-                                                    <div className="col-md-3">
+                                                    <div className={filterClass}>
                                                         <FormInputText
                                                             name="command_code"
                                                             value={filter.command_code}
@@ -235,9 +268,7 @@ class RequestVacationContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-
-
-                                                    <div className="col-md-3">
+                                                    <div className={filterClass}>
                                                         <FormInputText
                                                             name="staff_name"
                                                             value={filter.staff_name}
@@ -248,7 +279,7 @@ class RequestVacationContainer extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-3 col-sm-6 col-xs-6">
                                                         <FormInputDate
                                                             name="start_time"
                                                             id="start_time"
@@ -258,7 +289,7 @@ class RequestVacationContainer extends React.Component {
                                                             disabled={isLoading}
                                                         />
                                                     </div>
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-3 col-sm-6 col-xs-6">
                                                         <FormInputDate
                                                             name="end_time"
                                                             id="end_time"
@@ -311,9 +342,9 @@ class RequestVacationContainer extends React.Component {
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
                                                                                 <td>
-                                                                                    <a onClick={() => this.openConfirmModal(true, obj)}>
+                                                                                    <b style={{ cursor: "pointer" }} onClick={() => this.openConfirmModal(true, obj)}>
                                                                                         {obj.command_code}
-                                                                                    </a>
+                                                                                    </b>
                                                                                 </td>
                                                                                 <td>{moment(obj.request_date).format("D/M/YYYY")}</td>
                                                                                 <td>{obj.staff.name}</td>

@@ -9,7 +9,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 import { Modal } from 'react-bootstrap';
 import ReactSelect from 'react-select';
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 
 const textAlign = { textAlign: "right" };
 const btnStyle = { marginRight: 10 };
@@ -117,7 +117,7 @@ class CreateExportOrderContainer extends React.Component {
 
     addGood() {
         if ($('#form-good').valid()) {
-            if(!this.state.addModalData.warehouse.id){
+            if (!this.state.addModalData.warehouse.id) {
                 helper.showErrorNotification("Vui lòng chọn kho xuất!");
                 return;
             }
@@ -149,47 +149,47 @@ class CreateExportOrderContainer extends React.Component {
 
         let selectedAllWareHouse = true;
         data.goods.forEach(obj => {
-            if(!obj.warehouse || !obj.warehouse.id) {
-                
+            if (!obj.warehouse || !obj.warehouse.id) {
+
                 selectedAllWareHouse = false;
                 return;
             }
         });
-        
-        if(!selectedAllWareHouse){
+
+        if (!selectedAllWareHouse) {
             helper.showErrorMessage("Vui lòng chọn kho xuất cho tất cả sản phẩm");
             return;
         }
-            this.props.exportOrderActions.createExportOrder(
-                {
-                    ...data,
-                    goods: JSON.stringify(data.goods.map(
-                        (obj)=>{
-                            if(!obj.warehouse || !obj.warehouse.id) return;
-                            return ({
-                                id: obj.id,
-                                price: obj.price,
-                                quantity: obj.quantity,
-                                export_quantity: obj.export_quantity,
-                                warehouse_id: obj.warehouse.id,
-                            });
-                        })
-                    ) ,
-                    staff_id: this.props.user.id,
-                    total_price: data.price * data.quantity,
-                });
-        
+        this.props.exportOrderActions.createExportOrder(
+            {
+                ...data,
+                goods: JSON.stringify(data.goods.map(
+                    (obj) => {
+                        if (!obj.warehouse || !obj.warehouse.id) return;
+                        return ({
+                            id: obj.id,
+                            price: obj.price,
+                            quantity: obj.quantity,
+                            export_quantity: obj.export_quantity,
+                            warehouse_id: obj.warehouse.id,
+                        });
+                    })
+                ),
+                staff_id: this.props.user.id,
+                total_price: data.price * data.quantity,
+            });
+
     }
 
-    updateWareHouseFormAdd(e){
-        if(!e) return;
+    updateWareHouseFormAdd(e) {
+        if (!e) return;
         let newdata = this.state.addModalData;
-        this.setState({addModalData: {...newdata, warehouse: e}});
+        this.setState({ addModalData: { ...newdata, warehouse: e } });
     }
 
     render() {
         let { data, addModalData, showAddModal } = this.state;
-        let { orderedGoods, isLoading, isCommitting, warehouses, params,user} = this.props;
+        let { orderedGoods, isLoading, isCommitting, warehouses, params, user } = this.props;
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
         //console.log(this.state);
@@ -201,12 +201,9 @@ class CreateExportOrderContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">event_available</i>
-                                        </div>
 
                                         <div className="card-content">
-                                            <h4 className="card-title">Sản phẩm</h4>
+                                            <h4 className="card-title"><strong>Sản phẩm</strong></h4>
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <thead className="text-rose">
@@ -219,7 +216,7 @@ class CreateExportOrderContainer extends React.Component {
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Kho xuất</th>
                                                             <th style={textAlign}>Thành tiền</th>
-                                                            <th/>
+                                                            <th />
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
@@ -236,8 +233,8 @@ class CreateExportOrderContainer extends React.Component {
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{obj.export_quantity}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
-                                                                            <td style={{...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red"}}>
-                                                                            {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
+                                                                            <td style={{ ...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red" }}>
+                                                                                {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price * obj.export_quantity)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
@@ -257,7 +254,7 @@ class CreateExportOrderContainer extends React.Component {
 
                                                     }
 
-                                                    <tfoot style={{ fontWeight: "bolder" , fontSize: "1.1em"}}>
+                                                    <tfoot style={{ fontWeight: "bolder", fontSize: "1.1em" }}>
                                                         <tr>
                                                             <td />
                                                             <td>Tổng</td>
@@ -270,13 +267,13 @@ class CreateExportOrderContainer extends React.Component {
                                                 </table>
                                             </div>
                                             {isCommitting ?
-                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginRight: 30, marginTop:40 }}>
+                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginRight: 30, marginTop: 40 }}>
                                                     <button style={btnStyle} className="btn btn-rose disabled" type="button" disabled>
                                                         <i className="fa fa-spinner fa-spin" /> Đang lưu...
                                                                 </button>
                                                 </div>
                                                 :
-                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse" , marginRight: 10, marginTop:40}}>
+                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginRight: 10, marginTop: 40 }}>
                                                     <button
                                                         className="btn btn-fill" type="button"
                                                         style={btnStyle}
@@ -304,13 +301,9 @@ class CreateExportOrderContainer extends React.Component {
                                 </div>
                                 <div className="col-md-4">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">local_shipping</i>
-                                        </div>
-
                                         <div className="card-content">
-                                            <h4 className="card-title">Thông tin</h4>
-
+                                            <h4 className="card-title"><strong>Thông tin</strong></h4>
+                                            <br />
                                             <div>
                                                 <label>Chọn mã đặt hàng</label>
                                                 <ReactSelect
@@ -321,10 +314,10 @@ class CreateExportOrderContainer extends React.Component {
                                                     name="order"
                                                     defaultMessage="Chọn mã"
                                                 /></div>
-                                            <div><br/>
+                                            <div><br />
                                                 <div>
-                                                    <div><label>Người tạo đơn hàng</label><br/>{data.staff ? data.staff.name : user.name }</div><br/>
-                                                    <div><label>Người xuất hàng</label><br/>{ user.name }</div><br/>
+                                                    <div><label>Người tạo đơn hàng</label><br />{data.staff ? data.staff.name : user.name}</div><br />
+                                                    <div><label>Người xuất hàng</label><br />{user.name}</div><br />
                                                     <FormInputText name="" label="Nhà phân phối" value={data.company.name} disabled />
                                                     <FormInputText name="" label="SĐT liên hệ" value={data.company.phone || "Không có"} disabled />
                                                 </div>
@@ -379,7 +372,7 @@ class CreateExportOrderContainer extends React.Component {
                                 label="Số lượng đặt"
                                 value={addModalData.quantity}
                                 minValue="0"
-                                updateFormData={()=>{}}
+                                updateFormData={() => { }}
                                 placeholder="Nhập số lượng"
                                 disabled
                             />

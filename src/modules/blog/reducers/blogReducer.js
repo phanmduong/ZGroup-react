@@ -1,7 +1,7 @@
 /**
  * Created by Kiyoshitaro on 15/04/2018.
  */
-import types from '../constants/actionTypes';
+import types from "../constants/actionTypes";
 
 let blogInitState = {
     isLoadingPosts: false,
@@ -16,18 +16,18 @@ let blogInitState = {
     postId: 0,
     post: {
         title: "",
-        description: '',
-        content: '',
-        imageUrl: '',
-        tags: '',
+        description: "",
+        content: "",
+        imageUrl: "",
+        tags: "",
         categories: [],
         isUpdatingImage: false,
-        slug: '',
-        meta_title: '',
-        keyword: '',
-        meta_description: '',
-        language: '',
-        kind: '',
+        slug: "",
+        meta_title: "",
+        keyword: "",
+        meta_description: "",
+        language: "",
+        kind: "",
     },
     language: {
         name: "",
@@ -39,17 +39,16 @@ let blogInitState = {
     isCreatingLanguage: false,
     isCreatingCategory: false,
     allBlogKinds: [
-        { value: '', label: 'Tất cả' },
-        { value: 'blog', label: 'Blog' },
-        { value: 'post', label: 'Post' },
-        { value: 'promotion', label: 'Ưu đãi' },
-        { value: 'tutorial', label: 'Hướng dẫn' },
+        { value: "", label: "Tất cả" },
+        { value: "blog", label: "Blog" },
+        { value: "post", label: "Post" },
+        { value: "promotion", label: "Ưu đãi" },
+        { value: "resource", label: "Tài nguyên" },
+        { value: "tutorial", label: "Hướng dẫn" },
     ],
-
 };
 export default function blogReducer(state = blogInitState, action) {
     switch (action.type) {
-
         // case types.RESET_FORM_POST_BLOG:
         //     return {
         //         ...state,
@@ -59,7 +58,6 @@ export default function blogReducer(state = blogInitState, action) {
         //             },
         //         },
         //     };
-
 
         case types.LOADED_POSTS_ERROR:
             return {
@@ -79,7 +77,6 @@ export default function blogReducer(state = blogInitState, action) {
                 isLoadingPosts: true,
             };
 
-
         case types.BEGIN_LOAD_CATEGORIES:
             return {
                 ...state,
@@ -96,7 +93,6 @@ export default function blogReducer(state = blogInitState, action) {
                 ...state,
                 isLoadingCategories: false,
             };
-
 
         case types.CHANGE_STATUS:
             return {
@@ -123,14 +119,13 @@ export default function blogReducer(state = blogInitState, action) {
                     tags: "",
                     categories: [],
                     isUpdatingImage: false,
-                    slug: '',
-                    meta_title: '',
-                    keyword: '',
-                    meta_description: '',
-                    language_id: '',
+                    slug: "",
+                    meta_title: "",
+                    keyword: "",
+                    meta_description: "",
+                    language_id: "",
                 },
             };
-
 
         case types.BEGIN_LOAD_POST:
             return {
@@ -149,13 +144,11 @@ export default function blogReducer(state = blogInitState, action) {
                 isLoadingPost: false,
             };
 
-
         case types.DELETE_POST_SUCCESS:
             return {
                 ...state,
                 posts: state.posts.filter(post => post.id !== action.postId),
             };
-
 
         case types.LOADED_LANGUAGES_SUCCESS:
             return {
@@ -174,7 +167,6 @@ export default function blogReducer(state = blogInitState, action) {
                 ...state,
                 isLoadingLanguages: true,
             };
-
 
         case types.BEGIN_UPLOAD_IMAGE:
             return {
@@ -205,13 +197,11 @@ export default function blogReducer(state = blogInitState, action) {
                 },
             };
 
-
         case types.UPDATE_FORM_POST:
             return {
                 ...state,
                 post: action.post,
             };
-
 
         case types.BEGIN_SAVE_POST:
             return {
@@ -242,7 +232,6 @@ export default function blogReducer(state = blogInitState, action) {
                 },
             };
 
-
         case types.BEGIN_PRE_SAVE_POST:
             return {
                 ...state,
@@ -272,7 +261,6 @@ export default function blogReducer(state = blogInitState, action) {
                 },
             };
 
-
         case types.CREATE_LANGUAGE_SUCCESS:
             return {
                 ...state,
@@ -290,7 +278,6 @@ export default function blogReducer(state = blogInitState, action) {
                 isCreatingLanguage: false,
             };
 
-
         case types.CLOSE_ADD_LANGUAGE_MODAL:
             return {
                 ...state,
@@ -302,7 +289,6 @@ export default function blogReducer(state = blogInitState, action) {
                 isOpenLanguageModal: true,
             };
 
-
         case types.UPDATE_FORM_CREATE_LANGUAGE:
             return {
                 ...state,
@@ -312,7 +298,6 @@ export default function blogReducer(state = blogInitState, action) {
                     encoding: action.language.encoding,
                 },
             };
-
 
         case types.CLOSE_ADD_CATEGORY_MODAL:
             return {
@@ -325,12 +310,10 @@ export default function blogReducer(state = blogInitState, action) {
                 isOpenCategoryModal: true,
             };
 
-
         case types.BEGIN_CREATE_CATEGORY:
             return {
                 ...state,
                 isCreatingCategory: true,
-
             };
         case types.CREATE_CATEGORY_SUCCESS:
             return {
@@ -344,7 +327,6 @@ export default function blogReducer(state = blogInitState, action) {
                 isCreatingCategory: false,
             };
 
-
         case types.UPDATE_FORM_CREATE_CATEGORY:
             return {
                 ...state,
@@ -353,7 +335,6 @@ export default function blogReducer(state = blogInitState, action) {
                     name: action.category.name,
                 },
             };
-
 
         default:
             return state;
@@ -395,8 +376,9 @@ function prefixDataPost(posts) {
 
 function addSelectValue(post) {
     return {
-        ...post, categories: post.categories.map(item => {
+        ...post,
+        categories: post.categories.map(item => {
             return { value: item.id, label: item.name };
-        })
+        }),
     };
 }
