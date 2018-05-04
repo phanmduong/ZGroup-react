@@ -72,10 +72,12 @@ class ManageClassApiController extends ManageApiController
                 ->orWhere('teaching_assistant_id', $request->teacher_id);
         });
 
+        $classes = $classes->orderBy('gen_id', 'desc');
+
         if ($limit === -1)
-            $classes = $classes->orderBy('gen_id', 'desc')->get();
+            $classes = $classes->get();
         else
-            $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
+            $classes = $classes->paginate($limit);
 
         $data = [
             "classes" => $classes->map(function ($class) {
