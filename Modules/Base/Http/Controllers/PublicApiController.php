@@ -74,7 +74,7 @@ class PublicApiController extends NoAuthApiController
                 });
             })->groupBy('room_id')->pluck('room_id')->toArray();
 
-        $rooms = Room::whereNotIn('id', $bookedRoomIds)->get();
+        $rooms = Room::where('base_id', $baseId)->whereNotIn('id', $bookedRoomIds)->get();
 
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
