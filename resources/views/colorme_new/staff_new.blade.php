@@ -66,10 +66,8 @@
         100% { transform: rotate(360deg); }
     }
 
-    .overlay{
-        display: none;
-        transition: opacity 200ms;
-    }
+
+
 </style>
 <div class="navbar navbar-default" id="nav-bar">
     <div class="container-fluid">
@@ -124,7 +122,7 @@
         <div class="product-wrapper">
             <div class="product-item">
                 <div class="colorme-img">
-                    <a href="#{{ $product['id'] }}">
+                    <a data-toggle="modal" data-target="#{{ $product['id'] }}">
                         <div class="colorme-link" style="background-image: url({{ $product['url'] }});
                                     background-size: cover;
                                     background-position: center center;">
@@ -184,9 +182,9 @@
                 </div>
             </div>
         </div>
-        <div id="{{ $product['id'] }}" data-reactroot="" class="overlay ReactModal__Overlay ReactModal__Overlay--after-open ProductOverlayClass">
+        <div id="{{ $product['id'] }}" data-reactroot="" class="modal fade ReactModal__Overlay ReactModal__Overlay--after-open ProductOverlayClass">
             <div class="ReactModal__Content ReactModal__Content--after-open ProductModalClass" tabindex="-1">
-                <a id="btn-close-modal">x</a>
+                <a data-dismiss="modal" id="btn-close-modal">x</a>
                 <div class="container" style="width: 100%; padding: 20px 120px;">
                     <a href="/profile/{{ $product['author']['email'] }}">
                         <div style="background: url({{ $product['author']['avatar_url'] }}) center center / cover; width: 80px; height: 80px; border-radius: 40px; margin: auto;"></div>
@@ -213,7 +211,7 @@
                     </div>
                     <div class="product-content">
                         <p>
-                            {{ $product['content'] }}
+                            {!! $product['content'] !!}
                         </p>
                     </div>
                     <div style="padding: 25px 0px;"></div>
@@ -321,7 +319,10 @@
     <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
 
     <script>
-        
+        $('#btn-close-modal').click(function (e) { 
+            e.preventDefault();
+            $('.overlay').hide();
+        });
         
         function count(arr){
             var count = 0;
