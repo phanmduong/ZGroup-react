@@ -82,7 +82,7 @@ class PublicApiController extends NoAuthApiController
 //        $tag = $request->tag;
         $blogs = Product::where([['type', '=', 2], ['kind', '=', $kind], ['category_id', '=', $category_id,]])->orderBy('created_at', 'desc')->get();
         $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
-        $blogs = $blogs->paginate($limit);
+        $blogs = $blogs->paginate(6);
         return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             $data['status'] = $blog->status;
