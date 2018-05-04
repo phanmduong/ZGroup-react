@@ -38,7 +38,7 @@
     <link href="{{url('config.css')}}" rel="stylesheet">
     @if (Auth::check())
     <script>
-            localStorage.setItem("token", JWTAuth::refresh(JWTAuth::getToken()));
+            localStorage.setItem("token", {{JWTAuth::refresh(JWTAuth::getToken())}});
     </script>
     @endif
 </head>
