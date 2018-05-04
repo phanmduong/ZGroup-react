@@ -114,7 +114,7 @@ class PublicApiController extends NoAuthApiController
         foreach ($kinds as $kind) {
             if ($kind == $values[count($values) - 1]) {
                 continue;
-            } else array_push($values, $goodCategory->id);
+            } else array_push($values, $kind);
         }
         array_shift($values);
         return $this->respondSuccessWithStatus([
