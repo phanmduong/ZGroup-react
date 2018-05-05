@@ -5,6 +5,7 @@ $userManageApiRoutes = function () {
     Route::get('detail-profile/class-lesson', 'UserManageApiController@teacherClassLessons');
     Route::get('detail-profile/work-shift', 'UserManageApiController@userWorkShifts');
     Route::get('detail-profile/shift', 'UserManageApiController@userShifts');
+    Route::get('user/schedule', '');
 };
 
 
