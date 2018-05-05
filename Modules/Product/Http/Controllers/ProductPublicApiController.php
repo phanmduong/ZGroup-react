@@ -53,7 +53,7 @@ class ProductPublicApiController extends PublicApiController
         return date('d-m-Y', strtotime($time));
     }
 
-    public function blogs($kind, $request)
+    public function blogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 6;
 
