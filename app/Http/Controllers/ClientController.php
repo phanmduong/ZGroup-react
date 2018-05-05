@@ -100,7 +100,7 @@ class ClientController extends Controller
     }
 
     public function teaching()
-    {
+    { 
         return view('client.teaching');
     }
 

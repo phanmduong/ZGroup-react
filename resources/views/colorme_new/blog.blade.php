@@ -166,7 +166,9 @@
                                 <div class="col-md-8 title-wrapper">
                                     @if($blog['category_name'])
                                         <span style=" text-transform: uppercase; font-size: 14px; padding-bottom:20px">
-                                            <a class="a-hover-underline" style="color: white;" href = "/blogs"><span>/BLOGS</span></a><a class="a-hover-underline" style="color: white;" href = "/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
+                                            <a class="a-hover-underline" style="color: white;" href="/blogs"><span>/BLOGS</span></a><a
+                                                    class="a-hover-underline" style="color: white;"
+                                                    href="/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
                                         </span>
                                     @endif
 
@@ -176,11 +178,11 @@
                                             {{$blog['title']}}</p></div>
                                     <div>
                                     </div>
-                                        <div style="color:white">
-                                            <div style="">{{$blog['time']}}
-                                                · {{$blog['views']}} Lượt xem
-                                            </div>
+                                    <div style="color:white">
+                                        <div style="">{{$blog['time']}}
+                                            · {{$blog['views']}} Lượt xem
                                         </div>
+                                    </div>
                                     <a href="/profile/{{$blog['author']['username']}}" style="display:flex; "
                                        class="flex flex-row flex-row-center">
                                         <div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 20px; height: 20px; border-radius: 40px; "></div>
@@ -205,7 +207,7 @@
                                                 <div class="product-content"><p>{{$blog['description']}}</p></div>
                                             </div>
                                             <div class="product-content">
-                                                {!!$blog['content']!!}
+                                                {!!convertShareToDownload($blog['content'])!!}
                                                 <hr>
                                             </div>
                                             <div style="height: 40px;">
@@ -297,8 +299,8 @@
                                             </div>
                                             <div style="width: 130%;  margin-top: 40px;">
                                                 <div style="margin-top: 20px;">
-                                                    <a <a href="/profile/{{$blog['author']['username']}}"
-                                                       class="more-products">
+                                                    <a href="/profile/{{$blog['author']['username']}}"
+                                                          class="more-products">
                                                         <h5>
                                                             Bài viết khác từ
                                                             {{$blog['author']['name']}}
@@ -403,5 +405,30 @@
                     }.bind(this));
             });
         });
+
+        var vueShareToDown = new Vue({
+            el: "#vue-share-to-download",
+            data: {
+                shared: false
+            }
+        });
+
+        function shareOnFB() {
+            FB.ui({
+                method: "feed",
+                link: "{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}",
+                name: "{!! htmlspecialchars($blog['meta_title']) !!}",
+                caption: 'colorme.vn',
+                description: "{!! htmlspecialchars($blog['description']) !!}"
+            }, function (t) {
+                var str = JSON.stringify(t);
+                var obj = JSON.parse(str);
+                if (obj.post_id != '') {
+                    vueShareToDown.shared = true;
+                }
+            });
+        }
+
+
     </script>
 @endpush

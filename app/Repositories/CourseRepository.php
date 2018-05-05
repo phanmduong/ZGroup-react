@@ -21,6 +21,7 @@ class CourseRepository
                 'name' => $course->name,
                 'icon_url' => $course->icon_url,
                 'duration' => $course->duration,
+                'color' => $course->color
             ];
     }
 

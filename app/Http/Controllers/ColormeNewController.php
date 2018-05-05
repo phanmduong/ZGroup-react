@@ -408,9 +408,21 @@ class ColormeNewController extends CrawlController
         $subscription->save();
     }
 
-    public function blogsByCategory($category_name) {
-        $category = CategoryProduct::where('name',$category_name)->first();
-        $blogs = Product::where('category_id',$category->id);
+    public function blogsByCategory($category_name)
+    {
+        $category = CategoryProduct::where('name', $category_name)->first();
+        $blogs = Product::where('category_id', $category->id);
         return $this->queryProducts('blog', $blogs);
     }
+
+    public function addShareToDown($content)
+    {
+
+        if (strpos($content, '[[share_to_download]]') && strpos($content, '[[/share_to_download]]')) {
+//            $content =
+        }
+
+        return $content;
+    }
+
 }
