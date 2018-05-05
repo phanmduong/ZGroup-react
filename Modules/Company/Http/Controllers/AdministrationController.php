@@ -358,32 +358,32 @@ class AdministrationController extends ManageApiController
 
     public function showReports(Request $request)
     {
+        
         $limit = $request->limit ? $request->limit :20;
-        $search = $request->search;
+        $search = trim($request->search);
+        $reports = Report::join('users', 'reports.staff_id', "=", "users.id");
+        // dd($reports);
         if($search){
-            $reports = Report::where('content','like', '%' . $search . '%')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
-        }
+            $reports = $reports->where(function ($q) use ($search) {
+                $q->where('reports.report', 'like', "%$search%")
+                    ->orWhere('users.name', 'like', "%$search%");
+            });
 
-        if($this->user->role == 2) {
-            $reports = Report::orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
-        } else {
-            $reports = Report::where('staff_id',$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
+            // dd($reports);
         }
+        
+        if($this->user->role == 2) {
+            // dd($reports);
+            $reports = $reports->paginate($limit);
+        } else {
+            $reports = $reports->where('staff_id',$this->user->id)->paginate($limit);
+        }
+        // dd($this);
+        return $this->respondWithPagination($reports, [
+            "reports" => $reports->map(function ($report) {
+                return $report->transform();
+            })
+        ]);
     }
 
     public function deleteReport(Request $request, $id)
