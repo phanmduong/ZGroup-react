@@ -37,10 +37,10 @@ class Company extends Model
             "user_contact1" => $this->user_contact1,
             "user_contact_phone1" =>$this->user_contact_phone1,
             "user_contact2" => $this->user_contact2,
-            "user_contact_phone2" =>$this->user_contact_phone2,
             "type" => $this->type,
             "partner_code" =>$this->partner_code,
-
+            "discount_comic" => $this->discount_comic,
+            "discount_text" => $this->discount_text,
         ];
     }
 }
