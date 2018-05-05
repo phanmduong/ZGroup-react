@@ -180,6 +180,7 @@ class LessonsContainer extends React.Component {
                                             handleFileUpload={this.uploadLessonIcon}
                                             tooltipText="Chọn ảnh icon"
                                             image_url={this.props.data.image_url}
+                                            image_size={2}
                                         />
                                     </div>
                                     <div className="col-md-12">
