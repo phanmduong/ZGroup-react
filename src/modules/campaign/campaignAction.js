@@ -1,7 +1,7 @@
 import * as types from './CampaignActionTypes';
 import * as campaignApi from './campaignApi';
 import { DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING } from '../../constants/actionTypes';
-import { showNotification, showTypeNotification } from '../../helpers/helper';
+import { showNotification, showTypeNotification, showErrorNotification } from '../../helpers/helper';
 
 export function showAddMessageModal() {
 	return {
@@ -192,6 +192,31 @@ export function chooseReceivers(campaignId, users) {
 				type: types.TOGGLE_CHOOSE_RECEIVERS
 			});
 			showNotification('Đã thêm người nhận vào chiến dịch');
+			dispatch({
+				type: HIDE_GLOBAL_LOADING
+			});
+		});
+	};
+}
+
+export function removeUserFromCampaign(campaignId, user) {
+	return function(dispatch) {
+		dispatch({
+			type: DISPLAY_GLOBAL_LOADING
+		});
+		dispatch({
+			type: types.TOGGLE_CHOOSE_RECEIVERS
+		});
+		showTypeNotification('Đang xóa người dùng khỏi chiến dịch', 'info');
+		campaignApi.removeUserFromCampaign(campaignId, user).then((res) => {
+			if (res.data.status) {
+				showNotification('Đã xóa người nhận khỏi chiến dịch');
+			} else {
+				showErrorNotification(res.data.message.message);
+			}
+			dispatch({
+				type: types.TOGGLE_CHOOSE_RECEIVERS
+			});
 			dispatch({
 				type: HIDE_GLOBAL_LOADING
 			});

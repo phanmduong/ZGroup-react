@@ -10,17 +10,20 @@ import { Link } from "react-router";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import ReactSelect from 'react-select';
 import moment from "moment";
+import TooltipButton from '../../../components/common/TooltipButton';
+import { Panel } from 'react-bootstrap';
 
-const filterStyle = { fontSize: 12 };
 
 class OrderedGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedCompany: ''
+            selectedCompany: '',
+            openFilterPanel: false,
         };
         this.confirm = this.confirm.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
+        this.openFilterPanel = this.openFilterPanel.bind(this);
     }
 
     componentWillMount() {
@@ -47,9 +50,14 @@ class OrderedGoodContainer extends React.Component {
     }
 
     changeCompany(e) {
-        if(!e) e = {id:''};
+        if (!e) e = { id: '' };
         this.setState({ selectedCompany: e.id });
         this.props.orderedGoodActions.loadAllOrderedGood(this.props.paginator.current_page, e.id);
+    }
+
+    openFilterPanel() {
+        let { openFilterPanel } = this.state;
+        this.setState({ openFilterPanel: !openFilterPanel });
     }
 
     render() {
@@ -64,25 +72,54 @@ class OrderedGoodContainer extends React.Component {
                         <div className="col-md-12">
 
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">event_note</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách đơn hàng</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-sm-4">
-                                                <Link to="/business/ordered-good/create" className="btn btn-rose" style={{ width: "100%" }}>
-                                                    <i className="material-icons">add</i> Tạo đơn hàng
+
+                                    <div>
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong>Danh sách đơn hàng</strong></h4>
+                                            <div>
+                                                <Link to="/business/ordered-good/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <strong>+</strong>
                                                 </Link>
+
                                             </div>
-                                            {/* <Search className="col-sm-9" placeholder="Tìm kiếm"
-                                                    value={this.state.query}
-                                                    onChange={()=>{}}
-                                            /> */}
+                                            <div>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openFilterPanel}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <Panel collapsible expanded={this.state.openFilterPanel}>
+                                        <div className="row">
+                                            <div className="col-lg-2 col-md-3 col-sm-4">
+                                                <label>Đối tác</label>
+                                                <ReactSelect
+                                                    disabled={isLoading}
+                                                    className=""
+                                                    options={companies}
+                                                    onChange={this.changeCompany}
+                                                    value={selectedCompany}
+                                                    name="filter_class"
+                                                />
+                                            </div>
+                                        </div>
+                                    </Panel>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="table-responsive">
@@ -99,22 +136,7 @@ class OrderedGoodContainer extends React.Component {
                                                             <th>Giá trị</th>
                                                             <th />
                                                         </tr>
-                                                        <tr>
-                                                            <th/>
-                                                            <th style={filterStyle}> <ReactSelect
-                                                                disabled={isLoading}
-                                                                className=""
-                                                                options={companies}
-                                                                onChange={this.changeCompany}
-                                                                value={selectedCompany}
-                                                                name="filter_class"
-                                                            /></th>
-                                                            <th />
-                                                            <th />
-                                                            <th />
-                                                            <th />
-                                                            <th />
-                                                        </tr>
+
                                                     </thead>
                                                     <tbody>
                                                         {orderedList.map((order, index) => {

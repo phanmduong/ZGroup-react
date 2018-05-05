@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {isEmptyInput} from "../../helpers/helper";
-import {NO_AVATAR} from "../../constants/env";
+import { validateLinkImage } from "../../helpers/helper";
 
-const Avatar = ({url, size, className, distance, style}) => {
+const Avatar = ({ url, size, className, distance, style }) => {
     let marginRight = 5;
-    if (distance || distance ===0) {
+    if (distance || distance === 0) {
         marginRight = distance;
     }
-    if(isEmptyInput(url)){
-        url = NO_AVATAR;
-    }
+    url = validateLinkImage(url);
     return (
         <div className={className || ""} style={{
             width: size,
@@ -21,7 +18,7 @@ const Avatar = ({url, size, className, distance, style}) => {
             borderRadius: 4,
             backgroundImage: `url(${url})`,
             ...style
-        }}/>
+        }} />
     );
 };
 

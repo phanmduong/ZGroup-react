@@ -69,11 +69,20 @@ class FilmComponent extends React.Component {
                                         </p>
                                     </div>
                                     <div>
-                                        {film.rate}<i className="material-icons" style={{color:'#56004F'}}>star</i>
+                                        <b>{film.rate}</b><i className="material-icons"
+                                                             style={{color: '#56004F', fontSize: "14px"}}>star</i>
                                         {
-                                            film.film_status == 0 ?
-                                                <span>Chưa sử dụng
-                                                </span> : ""
+                                            film.film_status == 1 ? "" : <span style={{float: "right"}}>
+                                                {film.film_status == 0 ?
+                                                    <b  onClick={()=>this.props.filmAction.editStatus(film.id,2)}
+                                                        className="text-paly">
+                                                        <i className="material-icons">done</i>Chưa dùng
+                                                    </b> :
+                                                    <b onClick={()=>this.props.filmAction.editStatus(film.id,0)}
+                                                        style={{cursor:"pointer"}}>
+                                                        <i className="material-icons">done_all</i>Sắp chiếu
+                                                    </b>}
+                                            </span>
                                         }
                                     </div>
 

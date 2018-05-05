@@ -1,12 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
-import  * as exportOrderActions from "./exportOrderActions";
+import * as exportOrderActions from "./exportOrderActions";
 //import Search from "../../../components/common/Search";
-import {Link} from "react-router";
+import { Link } from "react-router";
 import ListExportGood from "./ListExportOrder";
 
 class ExportOrderContainer extends React.Component {
@@ -28,41 +28,31 @@ class ExportOrderContainer extends React.Component {
 
 
     render() {
-       let {isLoading, paginator, exportOrderActions} = this.props;
+        let { isLoading, paginator, exportOrderActions } = this.props;
         return (
             <div className="content">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">local_shipping</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách xuất hàng</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-sm-3">
-                                                <Link to="/business/export-order/create" className="btn btn-rose" style={{width: "100%"}}>
-                                                <i className="material-icons">eject</i> Xuất hàng
-                                                </Link>
-                                            </div>
-                                            {/* <Search className="col-sm-9" placeholder="Tìm kiếm"
-                                                    value={this.state.query}
-                                                    onChange={()=>{}}
-                                            /> */}
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title"><strong>Danh sách xuất hàng</strong></h4>
+                                        <div>
+                                            <Link to="/business/export-order/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                <strong>+</strong>
+                                            </Link>
                                         </div>
                                     </div>
+
                                     {
-                                        isLoading ? <Loading/> :
-                                            <ListExportGood/>
+                                        isLoading ? <Loading /> :
+                                            <ListExportGood />
                                     }
                                     <Pagination
                                         currentPage={paginator.current_page}
                                         totalPages={paginator.total_pages}
-                                        loadDataPage={exportOrderActions.loadExportOrders}/>
+                                        loadDataPage={exportOrderActions.loadExportOrders} />
                                 </div>
                             </div>
                         </div>

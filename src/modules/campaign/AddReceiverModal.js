@@ -102,6 +102,7 @@ class AddReceiverModal extends React.Component {
 		time[field] = event.target.value;
 		if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
 			this.props.campaignAction.getReceiversModal(
+				this.campaignId,
 				1,
 				this.state.gens,
 				this.state.classes,

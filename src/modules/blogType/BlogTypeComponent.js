@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import TooltipButton from "../../components/common/TooltipButton";
+
 
 class BlogTypeComponent extends React.Component{
     constructor(props, context) {
@@ -25,23 +27,25 @@ class BlogTypeComponent extends React.Component{
                                         {blogType.name}
                                     </td>
                                     <td>
-                                        <div className="btn-group-action">
+                                        <div className="btn-group-action" style={{float:"right"}}>
+                                            <TooltipButton
+                                                placement="top"
+                                                text="Sửa">
                                             <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Sửa"
                                                 onClick={() => this.props.showEditBlogTypeModal(blogType)}
                                             >
                                                 <i className="material-icons">edit</i>
                                             </a>
+                                            </TooltipButton>
+                                            <TooltipButton
+                                                placement="top"
+                                                text="Xoá">
                                             <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Xoá"
                                                 onClick={() => this.props.deleteBlogType(blogType)}
                                             >
                                                 <i className="material-icons">delete</i>
                                             </a>
+                                            </TooltipButton>
                                         </div>
                                     </td>
                                 </tr>
