@@ -49,4 +49,35 @@ class Work extends Model
             })
         ];
     }
+    public function DetailTransform(){
+        return[
+            "id" => $this->id,
+            "name" => $this->name,
+            "type" => $this->type,
+            "cost" => $this->cost,
+            "status"=> $this->status,
+            "deadline" => $this->deadline,
+            "bonus_value" => $this->bonus_value,
+            "hired_status" => $this->hired_status,
+            "currency" => $this->currency ? $this->currency->transform() : [],
+            "payer" =>$this->payer ? [
+                "id" => $this->payer->id,
+                "name" => $this->payer->name,
+                "avatar_url" => $this->payer->avatar_url,
+            ] : [],
+            "staffs" => $this->staffs->map(function ($staff) {
+                $work_staff = WorkStaff::where('work_id',$this->id)->where('staff_id',$staff->id)->first();
+                return [
+                    "id" => $staff->id,
+                    "name" => $staff->name,
+                    "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl(),
+                    "status" => $work_staff->status,
+                    'cost' => $work_staff->cost,
+                    'rate_star' => $work_staff->rate_star,
+                    'rate_description' => $work_staff->rate_description,
+                    'penalty' => $work_staff->penalty,
+                ];
+            })
+        ];
+    }
 }

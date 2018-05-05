@@ -73,6 +73,10 @@ class ManageDashboardApiController extends ManageApiController
             $registers_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('gen_id', $gen_id)
                 ->whereIn("class_id", $classes_id)
+                ->where(function ($query) {
+                    $query->where('status', 0)
+                        ->orWhere('money', '>', 0);
+                })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
@@ -141,13 +145,8 @@ class ManageDashboardApiController extends ManageApiController
             $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
             $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
-            if (!empty($dataClass['teacher'])) {
-                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson, $dataClass['teacher']['id']);
-            }
-
-            if (!empty($dataClass['teacher_assistant'])) {
-                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson, $dataClass['teacher_assistant']['id']);
-            }
+            $dataClass['attendance_teachers'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
+            $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             return $dataClass;
         });
 
@@ -161,6 +160,10 @@ class ManageDashboardApiController extends ManageApiController
         $di = 0;
 
         $total_money_registers = 0;
+
+        $now = date('Y-m-d');
+
+        $money_today = 0;
 
         foreach ($date_array as $date) {
 
@@ -182,10 +185,17 @@ class ManageDashboardApiController extends ManageApiController
             } else {
                 $money_by_date[$di] = 0;
             }
+
+            if ($date == $now) {
+                $money_today = $money_by_date[$di];
+            }
+
             $di += 1;
         }
 
         $total_paid_personal = $this->user->sale_registers()->where('gen_id', $gen->id)->where('money', '>', '0')->count();
+        $sum_paid_personal = $this->user->sale_registers()->where('gen_id', $gen->id)->where('money', '>', '0')->select(DB::raw("sum(money) as sum_personal_money"))->first()->sum_personal_money;
+        // dd($sum_paid_personal);
         // tính bonus tiền
         $bonus = compute_sale_bonus_array($total_paid_personal)[0];
 
@@ -199,14 +209,15 @@ class ManageDashboardApiController extends ManageApiController
 
         $target_revenue = 0;
         foreach ($classes->get() as $class) {
-            $target_revenue += $class->target * $class->course->price * 0.55;
+
+            $target_revenue += $class->target * $class->course()->withTrashed()->first()->price * 0.55;
         }
 
         $target_revenue = round($target_revenue);
         $courses = $classes->select('course_id', DB::raw('count(*) as total_classes'))->groupBy('course_id')->get();
 
         $courses = $courses->map(function ($c) {
-            $course = Course::find($c->course_id);
+            $course = Course::where('id', $c->course_id)->withTrashed()->first();
             return [
                 'total_classes' => $c->total_classes,
                 'id' => $course->id,
@@ -274,8 +285,9 @@ class ManageDashboardApiController extends ManageApiController
         $data['paid_by_date'] = $paid_by_date;
         $data['date_array'] = $date_array;
         $data['money_by_date'] = $money_by_date;
-
-
+        $data['money_today'] = $money_today;
+        $data["sum_paid_personal"] = currency_vnd_format((int)$sum_paid_personal);
+        
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
 
@@ -302,6 +314,7 @@ class ManageDashboardApiController extends ManageApiController
 
         $data['time'] = strtotime(date("Y-m-d H:i:s"));
         $data['current_date'] = format_vn_date(strtotime(date("Y-m-d H:i:s")));
+        $data['end_time_gen'] = format_vn_date(strtotime($gen->end_time));
 
         return $this->respondSuccessWithStatus($data);
     }
@@ -388,12 +401,8 @@ class ManageDashboardApiController extends ManageApiController
             $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
             $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
-            if (!empty($dataClass['teacher'])) {
-                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
-            }
-            if (!empty($dataClass['teacher_assistant'])) {
-                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
-            }
+            $dataClass['attendance_teachers'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
+            $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             return $dataClass;
         });
 

@@ -31,7 +31,6 @@
 |
 */
 
-
 Route::post('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
@@ -40,11 +39,12 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-//Route::get('/login/secret', 'AuthenticateController@secretLogin');
-
-//Route::post('/api/topic/{topicId}/images','PublicController@_images');
-//Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
+    Route::post('/login', 'AuthenticateController@login');
+    Route::get('/logout', 'AuthenticateController@logout');
+
+    Route::get('/login-free-trial', 'ClientController@loginFreeTrial');
+
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
@@ -56,9 +56,17 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/base/{path}', 'ClientController@base')
         ->where('path', '.*');
 
+    Route::get('/business/{path}', 'ClientController@base')
+        ->where('path', '.*');
+
     Route::get('/book/{path}', 'ClientController@book')
         ->where('path', '.*');
 
+    Route::get('/administration/{path}', 'ClientController@administration')
+        ->where('path', '.*');
+
+    Route::get('/business/{path}', 'ClientController@business')
+        ->where('path', '.*');
 
     Route::get('/hr/{path}', 'ClientController@hr')
         ->where('path', '.*');
@@ -71,7 +79,6 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
 
     Route::get('/order/{path}', 'ClientController@order')
         ->where('path', '.*');
-
 
     Route::get('/project/{path}', 'ClientController@work')
         ->where('path', '.*');
@@ -87,7 +94,15 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
         ->where('path', '.*');
     Route::get('/work-shift/{path}', 'ClientController@workShift')
         ->where('path', '.*');
+    Route::get('/notification/{path}', 'ClientController@notification')
+        ->where('path', '.*');
     Route::get('/landingpage/{path}', 'ClientController@landingPage')
+        ->where('path', '.*');
+    Route::get('/customer-services/{path}', 'ClientController@customerServices')
+        ->where('path', '.*');
+    Route::get('/sales/{path}', 'ClientController@sales')
+        ->where('path', '.*');
+    Route::get('/telesales/{path}', 'ClientController@telesales')
         ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
@@ -105,8 +120,7 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //
 //});
 
-
-Route::group(['domain' => "www." . config('app.domain')], function () {
+Route::group(['domain' => 'www.' . config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
     Route::get('/', 'PublicController@redirect');
 });
@@ -116,12 +130,11 @@ Route::group(['domain' => 'keetool2.xyz'], function () {
     Route::get('/', 'PublicController@redirectKeetool');
 });
 
-Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
-
+$manageApiRoutes = function () {
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
     Route::post('/login', 'AuthenticateController@login');
-    Route::get('/all-tabs', "ManageTabApiController@get_all");
+    Route::get('/all-tabs', 'ManageTabApiController@get_all');
     // End tab api
 
     // Begin role api
@@ -133,13 +146,14 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // End role api
 
     // Begin staff api
-    Route::get('/staff/get-all-user', "ManageStaffApiController@get_all_user_not_staff");
-    Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
-    Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
-    Route::post('delete-staff', "ManageStaffApiController@delete_staff");
+    Route::get('/staff/get-all-user', 'ManageStaffApiController@get_all_user_not_staff');
+    Route::get('/staff/{staffId}', 'ManageStaffApiController@get_staff');
+    Route::get('/my-staff', 'ManageStaffApiController@get_staff');
+    Route::post('/staff/{staffId}/edit', 'ManageStaffApiController@edit_staff');
+    Route::post('delete-staff', 'ManageStaffApiController@delete_staff');
     Route::post('change-role-staff', 'ManageStaffApiController@change_role');
     Route::post('change-base-staff', 'ManageStaffApiController@change_base');
-    Route::post('add-staff', "ManageStaffApiController@add_staff");
+    Route::post('add-staff', 'ManageStaffApiController@add_staff');
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
     Route::post('/create-avatar', 'ManageStaffApiController@create_avatar');
     Route::post('/reset-password', 'ManageStaffApiController@reset_password');
@@ -147,15 +161,15 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // End staff api
 
     // Begin Base api
-    Route::get('/bases', "ManageBaseApiController@bases");
-    Route::get('/base/all', "ManageBaseApiController@get_base_all");
-    Route::get('/base/center/all', "ManageBaseApiController@get_base_center_all");
-    Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
-    Route::post('/base/create', "ManageBaseApiController@createBase");
-    Route::get('/base/rooms', "ManageBaseApiController@getRooms");
-    Route::post('/base/room', "ManageBaseApiController@storeRoom");
+    Route::get('/bases', 'ManageBaseApiController@bases');
+    Route::get('/base/all', 'ManageBaseApiController@get_base_all');
+    Route::get('/base/center/all', 'ManageBaseApiController@get_base_center_all');
+    Route::post('/set-default-base/{baseId}', 'ManageBaseApiController@setDefaultBase');
+    Route::post('/base/create', 'ManageBaseApiController@createBase');
+    Route::get('/base/rooms', 'ManageBaseApiController@getRooms');
+    Route::post('/base/room', 'ManageBaseApiController@storeRoom');
 //    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
-    Route::get('/base/{baseId}', "ManageBaseApiController@base");
+    Route::get('/base/{baseId}', 'ManageBaseApiController@base');
     // End Base api
 
     //Begin upload api
@@ -166,8 +180,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
-    Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
-    Route::get('/post/categories','ManageBlogController@getAllCategory');
+    Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');
+    Route::get('/post/categories', 'ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
@@ -182,6 +196,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     //Begin user api
     Route::get('/profile', 'ManageUserApiController@get_profile');
+    // Route::get('/detail-profile', 'ManageUserApiController@getDetailProfile');
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
     Route::post('/change-password', 'ManageUserApiController@change_password');
@@ -239,9 +254,21 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
 
+    Route::put('/register/{registerId}', 'StudentApiController@editRegister');
+};
+
+Route::group(['domain' => 'manageapi.' . config('app.domain')], $manageApiRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], $manageApiRoutes);
+
+Route::group(['domain' => config('app.domain'), 'prefix' => '/v3/api'], function () {
+    Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
+    Route::get('search-registers', 'MoneyManageApiController@search_registers');
+    Route::post('pay-register', 'MoneyManageApiController@pay_register');
+    Route::post('activate-class', 'ManageClassApiController@activate_class');
+    Route::post('change-class-status', 'ManageClassApiController@change_class_status');
 });
 
-Route::group(['domain' => 'api.' . config('app.domain')], function () {
+$apiRoutes = function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
@@ -264,8 +291,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/submit-survey', 'SurveyApiController@submit_survey');
 
     Route::get('/class/{classId}/students', 'ClassApiController@students');
-    Route::get('/class/{classId}', '
-    @studyClass');
+    Route::get('/class/{classId}', 'ClassApiController@studyClass');
     Route::post('class/{classId}/form', 'ClassApiController@form');
     Route::post('/class/{classId}/enroll', 'ClassApiController@enroll');
     Route::get('/current-study-class', 'ClassApiController@currentStudyClass');
@@ -313,6 +339,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');
+    Route::post('/upload-image-public', 'PublicApiController@upload_image_public');
     Route::post('/upload-file-froala', 'PublicApiController@upload_file_froala');
     Route::post('/delete-image-froala', 'PublicApiController@delete_image_froala');
     Route::post('/upload-video', 'UserApiController@upload_video');
@@ -350,14 +377,14 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::get('/tcv-api/user', 'TopCVPublicApiController@user');
     Route::post('/tcv-api/user/cvs', 'TopCVPublicApiController@cvs');
 
-    Route::post('/request-cv', "UserApiController@request_cv");
-    Route::get('/create-cv/{user_id}', "PublicApiController@create_cv");
-    Route::get('/cvs', "UserApiController@cvs");
-    Route::post('/set-current-cv/{cv_id}', "UserApiController@set_current_cv");
+    Route::post('/request-cv', 'UserApiController@request_cv');
+    Route::get('/create-cv/{user_id}', 'PublicApiController@create_cv');
+    Route::get('/cvs', 'UserApiController@cvs');
+    Route::post('/set-current-cv/{cv_id}', 'UserApiController@set_current_cv');
 
-    Route::get('/search-user-to-add', "UserPublicApiController@search_users");
-    Route::post('/add-user-to-group', "UserApiController@add_user_to_group");
-    Route::post('/join-topic', "UserApiController@join_topic");
+    Route::get('/search-user-to-add', 'UserPublicApiController@search_users');
+    Route::post('/add-user-to-group', 'UserApiController@add_user_to_group');
+    Route::post('/join-topic', 'UserApiController@join_topic');
 
     // begin api qu???n l?? ca tr???c
     Route::get('current-shifts', 'ShiftApiController@get_current_shifts');
@@ -369,16 +396,19 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::get('register-list', 'StudentApiController@registerlist');
     Route::get('call-history', 'StudentApiController@callHistory');
 
+    Route::post('manage/child1', 'ManageInfoController@getInfo');
+};
 
-    Route::post("manage/child1", 'ManageInfoController@getInfo');
+Route::group(['domain' => 'api.' . config('app.domain')], $apiRoutes);
 
-
-});
+Route::group([config('app.domain'), 'prefix' => 'api/v3'], $apiRoutes);
 
 Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
-
     Route::post('/login-social', 'AuthenticateController@loginSocial');
     Route::post('/register-social', 'AuthenticateController@registerSocial');
+    Route::post('/register-confirm-email', 'AuthenticateController@confirmEmail');
+    Route::get('/confirm-email-success', 'ColormeNewController@confirmEmailSuccess');
+    Route::post('/store-advisory', 'PublicApiController@storeAdvisory');
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
@@ -387,14 +417,13 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('/sign-in', 'PublicController@beta');
         Route::get('/upload-post', 'PublicController@beta');
         Route::get('/course/{LinkId}', 'PublicController@beta');
-        Route::get('/profile/{username}', 'PublicController@beta');
+        Route::get('/profile/{username}', 'PublicController@beta`');
         Route::get('/profile/{username}/progress', 'PublicController@beta');
         Route::get('/profile/{username}/info', 'PublicController@beta');
         Route::get('resource/linkId}/lesson/{lessonId}', 'PublicController@beta');
         Route::get('/mua-sach', 'PublicController@beta');
     });
     Route::group(['prefix' => 'api'], function () {
-
         Route::post('createstudysession', 'ManageClassController@createStudySession');
         Route::get('studysessions', 'ManageClassController@getStudySessions');
         Route::get('schedules', 'ManageClassController@schedules');
@@ -423,7 +452,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('/topic/{topicId}/upvote', 'GroupController@upvote');
         Route::get('/topic/{topicId}/downvote', 'GroupController@downvote');
 
-
         Route::get('/class/{classId}', 'GroupController@studyClass');
         Route::get('/class/{classId}/students', 'GroupController@students');
 
@@ -440,7 +468,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('get-bases', 'ManageShiftController@get_bases');
         Route::get('shifts-progress/{gen_id?}', 'ManageShiftController@shifts_progress');
         Route::get('shift-picks', 'ManageShiftController@get_shift_picks');
-        Route::post('register-shift', 'ManageShiftController@register_shift');
+        Route::post('register-shift', 'ManageShiftController0@register_shift');
 
         Route::post('remove-shift-regis', 'ManageShiftController@remove_shift_regis');
 
@@ -451,7 +479,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::post('send-sms', 'ManageSmsController@sendSms');
         Route::get('sms-templates', 'ManageSmsController@smsTemplates');
         Route::get('sms-classes', 'ManageSmsController@smsClasses');
-
     });
 
     Route::get('/code-form', 'PublicController@codeForm');
@@ -470,16 +497,23 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/posts/{popular}', 'ColormeNewController@social');
     Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
+    Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
+    Route::get('/blogs', 'ColormeNewController@blogs');
+    Route::get('/blog/category/{category}', 'ColormeNewController@blogsFilter');
+    Route::get('/khuyen-mai', 'ColormeNewController@promotions');
+    Route::get('/tai-nguyen', 'ColormeNewController@resources');
+    Route::get('/blog/{slug}', 'ColormeNewController@blog');
+    Route::get('/api/v3/extract', 'ColormeNewController@extract');
+    Route::post('/api/v3/sign-up', 'ColormeNewController@register');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
-//    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
     Route::get('/sign-in', 'ColormeNewController@social');
     Route::get('/upload-post', 'ColormeNewController@social');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
     Route::get('/profile/{username}', 'ColormeNewController@profileProcess');
-    Route::get('/profile/{username}/attendance', 'ColormeNewController@profile');
-    Route::get('/profile/{username}/info', 'ColormeNewController@profile');
-    Route::get('/profile/{username}/project', 'ColormeNewController@profile');
+    Route::get('/profile/{username}/attendance', 'ColormeNewController@profileAttendance');
+    Route::get('/profile/{username}/info', 'ColormeNewController@profileInfo');
+    Route::get('/profile/{username}/project', 'ColormeNewController@profileProject');
     Route::get('resource/{linkId}/lesson/{lessonId}', 'ColormeNewController@social');
 
     Route::get('manage/changeclass/{registerId}', 'ManageStudentController@change_class');
@@ -488,16 +522,14 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/comment', 'ManagePostController@posts');
     Route::get('manage/comment-list', 'ManagePostController@staff_comment_list');
 
-
-    Route::get("manage/sms", 'ManageSmsController@sms');
-    Route::get("manage/sendsms/{smsId}", 'ManageSmsController@sms');
-    Route::get("manage/createsms", 'ManageSmsController@sms');
-
+    Route::get('manage/sms', 'ManageSmsController@sms');
+    Route::get('manage/sendsms/{smsId}', 'ManageSmsController@sms');
+    Route::get('manage/createsms', 'ManageSmsController@sms');
 
     Route::get('download/danh-sach-hoc-vien-dong-tien', 'HomeController@download_paid_students');
 //    Route::get('fire', function () {
 //        // this fires the event
-////        event(new App\Events\RealtimeNotification());
+    ////        event(new App\Events\RealtimeNotification());
 //        $data = [
 //            'event' => 'test',
 //            'data' => [
@@ -523,15 +555,14 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
 
     Route::get('/manage/downloadsurveyclass', 'SurveyController@download_survey_class');
 
-    Route::get("group/class/{classId}", "GroupController@index");
-    Route::get("group/classes", "GroupController@group_classes");
+    Route::get('group/class/{classId}', 'GroupController@index');
+    Route::get('group/classes', 'GroupController@group_classes');
 
-    Route::get("manage/quan-li-nhan-su", "RoleController@index");
+    Route::get('manage/quan-li-nhan-su', 'RoleController@index');
 
-
-    Route::get("classes/{classId}/students", "ClassController@students");
-    Route::get("loadnotifications", "StudentController@load_notifications");
-    Route::get("compute-certificate/{classId}", "ClassController@compute_certificate");
+    Route::get('classes/{classId}/students', 'ClassController@students');
+    Route::get('loadnotifications', 'StudentController@load_notifications');
+    Route::get('compute-certificate/{classId}', 'ClassController@compute_certificate');
 
     Route::get('manage/new_subscriber', 'EmailController@new_subscriber');
     Route::post('manage/store_subscriber', 'EmailController@store_subscriber');
@@ -542,7 +573,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('manage/storetransaction', 'MoneyController@store_transaction');
     Route::get('manage/spendlist', 'MoneyController@spend_list')->middleware(['is_admin']);
     Route::get('ajax/spendlistloadmore', 'MoneyController@ajax_spend_list_load_more');
-
 
     // begin quan ly marketing
     Route::get('manage/sales', 'ManageMarketingController@manage_sales');
@@ -628,7 +658,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     $this->post('password/reset', 'Auth\PasswordController@reset');
 
-
     Route::get('dashboard', 'HomeController@index');
     Route::get('manage/getdashboarddata/{base_id?}/{gen_id?}', 'HomeController@get_dashboard_data');
 
@@ -711,7 +740,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('getcomment', 'PublicController@get_comment');
 
     Route::post('getproduct', 'PublicController@get_product');
-
 
     //student routes
     Route::get('student/user-info/{id}', 'PublicController@get_user_info');
@@ -817,7 +845,138 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/delete-marketing-campaign/{campaign_id}', 'ManageMarketingController@delete_marketing_campaign');
     Route::get('/manage/staff/add-staff', 'RoleController@add_staff');
 
-
     //Route graphics
 });
 
+//new api routes
+
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], function () {
+    // Begin tab api
+    Route::get('/tabs', 'ManageTabApiController@get_tabs');
+    Route::post('/login', 'AuthenticateController@login');
+    Route::get('/all-tabs', 'ManageTabApiController@get_all');
+    // End tab api
+
+    // Begin role api
+    Route::get('/get-roles', 'ManageStaffApiController@get_roles');
+    Route::get('/role/{roleId}', 'ManageRoleApiController@get_role');
+    Route::post('/create-role', 'ManageRoleApiController@store_role');
+    Route::post('/edit-role', 'ManageRoleApiController@store_role');
+    Route::post('/delete-role', 'ManageRoleApiController@delete_role');
+    // End role api
+
+    // Begin staff api
+    Route::get('/staff/get-all-user', 'ManageStaffApiController@get_all_user_not_staff');
+    Route::get('/staff/{staffId}', 'ManageStaffApiController@get_staff');
+    Route::post('/staff/{staffId}/edit', 'ManageStaffApiController@edit_staff');
+    Route::post('delete-staff', 'ManageStaffApiController@delete_staff');
+    Route::post('change-role-staff', 'ManageStaffApiController@change_role');
+    Route::post('change-base-staff', 'ManageStaffApiController@change_base');
+    Route::post('add-staff', 'ManageStaffApiController@add_staff');
+    Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
+    Route::post('/create-avatar', 'ManageStaffApiController@create_avatar');
+    Route::post('/reset-password', 'ManageStaffApiController@reset_password');
+    Route::get('/convert-data-user', 'ManageStaffApiController@convertDataUser');
+    // End staff api
+
+    // Begin Base api
+    Route::get('/bases', 'ManageBaseApiController@bases');
+    Route::get('/base/all', 'ManageBaseApiController@get_base_all');
+    Route::get('/base/center/all', 'ManageBaseApiController@get_base_center_all');
+    Route::post('/set-default-base/{baseId}', 'ManageBaseApiController@setDefaultBase');
+    Route::post('/base/create', 'ManageBaseApiController@createBase');
+    Route::get('/base/rooms', 'ManageBaseApiController@getRooms');
+    Route::post('/base/room', 'ManageBaseApiController@storeRoom');
+//    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
+    Route::get('/base/{baseId}', 'ManageBaseApiController@base');
+    // End Base api
+
+    //Begin upload api
+    Route::post('/upload-image-editor', 'ManageUploadApiController@upload_image_editor');
+    //End upload api
+
+    //Begin blog api
+    Route::post('/create-category', 'ManageBlogController@create_category');
+    Route::put('/category/{id}', 'ManageBlogController@editCategory');
+    Route::delete('/category/{id}', 'ManageBlogController@deleteCategory');
+    Route::post('/save-post', 'ManageBlogController@save_post');
+    Route::get('/posts', 'ManageBlogController@get_posts');
+    Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');
+    Route::get('/post/categories', 'ManageBlogController@getAllCategory');
+    Route::get('/post/{postId}', 'ManageBlogController@get_post');
+    Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
+    //End blog api
+
+    //Begin register students api
+    Route::get('/history-call-student', 'ManageRegisterStudentApiController@history_call_student');
+    Route::post('/change-call-status-student', 'ManageRegisterStudentApiController@change_call_status');
+    Route::post('/delete-register-student', 'ManageRegisterStudentApiController@delete_register');
+    Route::get('/register-student/{registerId}/classes', 'ManageRegisterStudentApiController@get_classes');
+    Route::post('/register-student/confirm-change-class', 'ManageRegisterStudentApiController@confirm_change_class');
+    //End register students api
+
+    //Begin user api
+    Route::get('/profile', 'ManageUserApiController@get_profile');
+    Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
+    Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
+    Route::post('/change-password', 'ManageUserApiController@change_password');
+    Route::post('/change-password-student', 'ManageUserApiController@change_password_student');
+    //End user api
+
+    //Begin study session api
+    Route::get('/study-session', 'ManageStudySessionApiController@get_study_session');
+    Route::post('/study-session/add', 'ManageStudySessionApiController@add_study_session');
+    Route::post('/delete-study-session', 'ManageStudySessionApiController@delete_study_session');
+    Route::post('/study-session/{studySessionId}/edit', 'ManageStudySessionApiController@edit_study_session');
+    //End study session api
+
+    //Begin schedule class api
+    Route::get('/schedule-classes', 'ManageScheduleClassApiController@get_schedules');
+    Route::post('/schedule-class/add', 'ManageScheduleClassApiController@add_schedule');
+    Route::post('/delete-schedule-class', 'ManageScheduleClassApiController@delete_schedule');
+    Route::post('/schedule-class/{scheduleClassId}/edit', 'ManageScheduleClassApiController@edit_schedule');
+    //End schedule class api
+
+    //Begin gens api
+    Route::get('/gens', 'ManageGenApiController@get_gens');
+    Route::get('/gen/all', 'ManageGenApiController@get_all_gens');
+    Route::post('/gen/add', 'ManageGenApiController@add_gen');
+    Route::post('/gen/{genId}/edit', 'ManageGenApiController@edit_gen');
+    Route::post('/delete-gen', 'ManageGenApiController@delete_gen');
+    Route::post('/gen/change-status', 'ManageGenApiController@change_status');
+    Route::post('/gen/change-teach-status', 'ManageGenApiController@change_teach_status');
+    //End gens api
+
+    //Begin student api
+    Route::get('/student/{studentId}', 'ManageStudentApiController@get_info_student');
+    Route::get('/student/{studentId}/registers', 'ManageStudentApiController@get_registers');
+    Route::get('/student/{studentId}/history-calls', 'ManageStudentApiController@history_calls');
+    Route::get('/student/{studentId}/progress', 'ManageStudentApiController@get_progress');
+    Route::post('/student/{studentId}/edit', 'ManageStudentApiController@edit_student');
+    //End student api
+
+    //Begin dashboard api
+    Route::get('/gens/{gen_id}/dashboard/{base_id?}', 'ManageDashboardApiController@dashboard');
+    Route::post('/gens/{gen_id}/attendance-shifts/{base_id?}', 'ManageDashboardApiController@get_attendance_shift');
+    Route::post('/gens/{gen_id}/attendance-classes/{base_id?}', 'ManageDashboardApiController@get_attendance_class');
+    Route::post('/change-class-status', 'ManageDashboardApiController@change_class_status');
+    //End dashboard api
+
+    //Begin collect money api
+    Route::get('/collect-money/search-registers', 'ManageCollectMoneyApiController@search_registers');
+    Route::post('/collect-money/pay-money', 'ManageCollectMoneyApiController@pay_money');
+    Route::get('/collect-money/history', 'ManageCollectMoneyApiController@history_collect_money');
+    //End collect money api
+
+    //Begin history call api
+    Route::get('/history-calls', 'ManageHistoryCallApiController@history_calls');
+    //End history call api
+
+    Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
+
+
+});
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

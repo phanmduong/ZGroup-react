@@ -1,7 +1,7 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
     <div class="card-block" style="background-color:#FFF; margin-bottom: 20px">
-        <form action="/manage/transfermoney" method="post">
+        <form action="/manage/transfermoney" method="post" enctype="multipart/form-data">
             @if(count($errors) > 0)
                 @include("errors.validate")
                 <script>
@@ -89,7 +89,20 @@
                         </div>
                     </div>
                 </div>
-                <textarea class="form-control border-input" placeholder="Nội dung..." name="note"
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input type="file" name="image" id = "proof">
+                        </div>
+                    </div>                   
+                </div>
+                <div style="margin-top: 20px; display: none" class="proof" id = "show_proof" >
+                    <img  id="blah" src="#" alt="gửi bằng chứng của bạn" class="img_proof"   />
+                    <div class="top_right">
+                        <i id = "remove" class="fa fa-times" style="font-size: 2em;"></i>
+                    </div>
+                </div>
+                <textarea style = "margin-top: 20px"class="form-control border-input" placeholder="Nội dung..." name="note"
                           rows="6">{{old("note")}}</textarea>
                 <button type="submit" style="margin-top: 20px" class="btn">Gửi thông tin chuyển tiền</button>
             </div>
@@ -105,6 +118,7 @@
                     <th>Ngân hàng</th>
                     <th>Nội dung</th>
                     <th>Trạng thái</th>
+                    <th>Ảnh</th>
                 </tr>
                 <tbody>
                 @foreach($transfers as $transfer)
@@ -132,13 +146,23 @@
                                 {{$transfer->bankAccount->bank_name}}
                             </div>
                         </td>
-                        <td class="text-right">{{$transfer->note}}</td>
+                        <td style="max-width:120px">{{$transfer->note}}</td>
                         <td style="min-width: 120px;">
                             <div class="label"
-                                 style="background-color: {{$transfer->status()["color"]}}">
-                                {{$transfer->status()["text"]}}
+                                 style="background-color: {{\App\TransferMoney::$STATUS_COLOR[$transfer->status]}}">
+                                {{\App\TransferMoney::$STATUS[$transfer->status]}}
                             </div>
                         </td>
+                       <td class="text-center">
+                           @if($transfer->img_proof)
+                               <a download="custom-filename.jpg" href="{{generate_protocol_url($transfer->img_proof)}}" title="ImageName">
+                                   <img src="{{generate_protocol_url($transfer->img_proof)}}" class="img-responsive" style="width : 80px" />
+
+                               </a>
+                             @else
+                               <text>Chưa có ảnh</text>
+                               @endif
+                       </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -148,11 +172,37 @@
     </div>
     <script type="text/javascript">
         var oldId = 0;
-        $("#bank-account").change(function () {
-            var bankId = $(this).val();
-            $("#bank" + oldId).css("display", "none");
-            $("#bank" + bankId).css("display", "block");
-            oldId = bankId;
-        })
+        $(document).ready(function() {
+            $("#bank-account").change(function () {
+                var bankId = $(this).val();
+                $("#bank" + oldId).css("display", "none");
+                $("#bank" + bankId).css("display", "block");
+                oldId = bankId;
+            })
+        });
+        
+        
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#show_proof').css("display", "block");
+                    $('#blah').attr('src', e.target.result);
+
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#remove").click(function(){
+                                    $("#show_proof").css("display", "none");
+                                 });
+        $("#proof").change(function() {
+            readURL(this);
+        });
+        
+
     </script>
 @endsection

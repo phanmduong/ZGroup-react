@@ -24,16 +24,8 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
-    <style>
-        .content {
-            float: right;
-        }
-
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-    </style>
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
+    <link href="/assets/css/nhatquangshop.css" rel="stylesheet">
     <script>
         var navVue = {};
         window.url = "{{url("/")}}";
@@ -95,32 +87,30 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
-<body class="profile" style="background:#fafafa">
+<body class="profile" style="background:#efefef">
 <script>
-    var recaptchaCallBack = function (response) {
-        navVue.captcha = response;
-    };
-
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '{{config("app.facebook_app_id")}}',
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v2.11'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+        var recaptchaCallBack = function (response) {
+            navVue.captcha = response;
+        };
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '{{config("app.facebook_app_id")}}',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v2.11'
+            });
+        };
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
 
 <div class="modal fade" id="loginFailNoticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -219,11 +209,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 
 
     @if(isset($user))
@@ -384,6 +369,7 @@
                        style="display: flex; align-content: center;">
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
+
                         Giỏ hàng
                         <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
                         background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
@@ -396,8 +382,116 @@
     </div>
 </nav>
 
-@yield('content')
 
+
+<div id="modalBuy" class="modal fade">
+    <div class="modal-dialog modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Giỏ hàng</h2>
+            </div>
+            <div class="modal-body" id="modal-buy-body">
+                <br>
+                <div v-if="isLoading">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div v-for="good in goods">
+                    <div class="row" style="margin-bottom:20px;">
+                        <div class="col-md-1 h-center">
+                            <img class="shadow-image"
+                                 v-bind:src="good.avatar_url">
+                        </div>
+                        <div class="col-md-2">
+                            <p><b style="font-weight:600;">@{{good.name}}</b></p>
+                            <p>@{{ good.description }}</p>
+                        </div>
+                        <div class="col-md-2 h-center">
+                            <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            &nbsp
+                            <button v-on:click="plusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            &nbsp
+                            <b style="font-weight:600;"> @{{ good.number }}</b>
+                        </div>
+                        <div class="col-md-3 h-center">
+                            <p>@{{ formatPrice(good.price)}}</p>
+                            <p v-if="good.discount_value"> - @{{ formatPrice(good.discount_value)}}</p>
+                        </div>
+                        <div class="col-md-2 h-center">
+                            <p><b style="font-weight:600;">@{{formatPrice((good.price -
+                                    good.discount_value)*good.number)}}</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="text-left"><b>Tổng</b></h4>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="text-right"><b>@{{ formatPrice(total_order_price) }}</b></h4>
+                    </div>
+                </div>
+                <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Chương trình khuyến mãi:</div>
+                        <div v-for="coupon_program in coupon_programs">
+                            @{{ coupon_program.content }}
+                        </div>
+                    </div>
+                </div>
+                <div v-if="isLoadingCoupons">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="coupon_codes_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Mã khuyến mãi:</div>
+                        <div v-for="coupon_code in coupon_codes">
+                            @{{ coupon_code.content }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input v-model="coupon_code" type="text" value="" placeholder="Mã giảm giá"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" v-on:click="addCoupon" class="btn btn-danger btn-round">
+                                Thêm mã giảm giá
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                <button id="btn-purchase"
+                        v-on:click="openPurchaseModal()"
+                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="fa fa-angle-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
 
@@ -519,7 +613,8 @@
                             <p v-if="good.discount_value"> - @{{ formatPrice(good.discount_value)}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{formatPrice((good.price - good.discount_value)*good.number)}}</b>
+                            <p><b style="font-weight:600;">@{{formatPrice((good.price -
+                                    good.discount_value)*good.number)}}</b>
                             </p>
                         </div>
                     </div>
@@ -561,7 +656,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input v-model="coupon_code" type="text" value="" placeholder="Mã giảm giá" class="form-control">
+                                <input v-model="coupon_code" type="text" value="" placeholder="Mã giảm giá"
+                                       class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -615,131 +711,126 @@
             </div>
 
             <div class="modal-body">
-                <div v-if="isLoadingCurrency" style="text-align: center;width: 100%;;padding: 15px;"><i
-                            class='fa fa-spin fa-spinner'></i>
-                </div>
-                <div v-if="isShowCurrency">
-                    <div v-for="(order, index) in fastOrders">
-                        <div style="margin-bottom: 10px;">
-                            <span class="label label-success">Sản phẩm @{{order.id}}</span>
-                            <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
-                                    data-placement="top" title="" data-original-title="Remove"
-                                    class="btn btn-danger btn-link btn-sm">
-                                <i class="fa fa-times"></i>
-                            </button>
+                <div v-if="isLoadingCurrency">
+                    <div style="text-align: center;width: 100%;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
                         </div>
-                        <div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" v-model="order.link" placeholder="Link sản phẩm" class="form-control">
+                    </div>
+                </div>
+                <div v-else="isLoadingCurrency">
+                    <div v-if="isOrdering">
+                        <div v-for="(order, index) in fastOrders">
+                            <div style="margin-bottom: 10px;">
+                                <span class="label label-success">Sản phẩm @{{order.id}}</span>
+                                <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
+                                        data-placement="top" title="" data-original-title="Remove"
+                                        class="btn btn-danger btn-link btn-sm">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" v-model="order.link" placeholder="Link sản phẩm"
+                                                   class="form-control">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <input type="text" v-model="order.price" placeholder="Giá bán" class="form-control">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="text" v-model="order.price" placeholder="Giá bán"
+                                                   class="form-control">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <select
-                                            v-model="order.currencyId"
-                                            v-on:change="changeCurrency(index)"
-                                            class="form-control" placeholder="Đơn vị tiền">
-                                        <option value="">Đơn vị tiền</option>
-                                            <option v-for="(currency, index) in currencies"  v-bind:value="index">
-                                                @{{currency.name}}
+                                    <div class="col-md-3">
+                                        <select v-model="order.currencyId"
+                                                class="form-control" placeholder="Đơn vị tiền">
+                                            <option value="0" selected>Đơn vị tiền</option>
+                                            <option v-for="currency in currencies" v-bind:value="currency.id">
+                                                @{{currency.name}}: 1 @{{ currency.notation }} = @{{ formatPrice(currency.ratio) }}
                                             </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" v-model="order.size" placeholder="Size" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" v-model="order.color" placeholder="Mã màu bạn chọn"
+                                               class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" v-model="order.number" placeholder="Số lượng"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control"
+                                            id="bank-account"
+                                            data-style="btn btn-default"
+                                            v-model="order.tax"
+                                            style="display: block !important;">
+                                        <option value="false" selected>Giá chưa thuế</option>
+                                        <option value="true">Giá có thuế</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" v-if="order.showRatio">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div>1 @{{ order.currency.name }}: <strong>@{{ order.currency.ratio }} đ</strong></div>
-                                        </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="text" v-model="order.size" placeholder="Size" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="text" v-model="order.color" placeholder="Mã màu bạn chọn" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <select class="form-control"
-                                        v-model="order.number"
-                                        data-style="btn btn-default" name="bank_account_id"
-                                        style="display: block !important;">
-                                    <option disabled="" selected="">Số lượng</option>
-                                    @for ($i = 0; $i < 50; $i++)
-                                        <option value="{{$i+1}}">{{$i+1}}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control"
-                                        id="bank-account"
-                                        data-style="btn btn-default"
-                                        v-model="order.tax"
-                                        style="display: block !important;">
-                                    <option value="Giá chưa thuế"  selected="">Giá chưa thuế</option>
-                                    <option value="Giá có thuế">Giá có thuế</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <input type="text" v-model="order.description" placeholder="Mô tả" class="form-control">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" v-model="order.description" placeholder="Mô tả"
+                                               class="form-control">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
+                        <button type="button" v-on:click="plusOrder" class="btn btn-danger btn-round">
+                            Đặt thêm sản phẩm
+                        </button>
                     </div>
                 </div>
-
-                <button type="button" v-on:click="plusOrder" class="btn btn-danger btn-round">
-                    Đặt thêm sản phẩm
-                </button>
-                <div v-if="loading" style="text-align: center;width: 100%;;padding: 15px;"><i
-                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                <div v-if="isLoading">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row" v-if="check" style="margin-top: 10px; text-align: center">
+                <div class="row" v-if="showFailMessage" style="margin-top: 10px; text-align: center">
                     <div class="col-sm-12">
-                        <div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>
+                        <div class='alert alert-danger'>@{{ failMessage }}</div>
                     </div>
                 </div>
-                <div class="row"  v-if="success" style="margin-top: 20px; text-align: center; border-radius: 15px">
+                <div class="row" v-if="showSuccessMessage"
+                     style="margin-top: 20px; text-align: center; border-radius: 15px">
                     <div class="col-sm-12">
                         <div class='alert alert-success'>@{{ message }}</div>
                     </div>
                 </div>
-                <div class="row" v-if="fail">
-                    <div class="col-sm-12" style="text-align: center">
-                        <div v-if="success" class='alert alert-success'>Bạn vui lòng kiểm tra lại đơn hàng hoặc kết nối mạng</div>
-                    </div>
-                </div>
-
-
             </div>
-            <div class="modal-footer">
+            <div v-if="isOrdering" class="modal-footer">
                 <div class="left-side">
-                    <button type="button" class="btn btn-default btn-link"  v-on:click="submitFastOrder">Đặt hàng</button>
+                    <button type="button" class="btn btn-default btn-link" v-on:click="submitFastOrder">Đặt hàng
+                    </button>
                 </div>
-                <div class="divider"></div>ast
+                <div class="divider"></div>
                 <div class="right-side">
                     <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
                 </div>
+            </div>
+            <div v-else="isOrdering" class="modal-footer">
+                <button type="button" class="btn btn-default btn-link" v-on:click="continueOrdering">Tiếp tục đặt hàng
+                </button>
             </div>
         </div>
 
@@ -747,8 +838,7 @@
 
 </div>
 
-
-
+@yield('content')
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
@@ -907,41 +997,34 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?68689"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
-<script>
-    window.fbMessengerPlugins = window.fbMessengerPlugins || {
-        init: function () {
-            FB.init({
-                appId: '1678638095724206',
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v2.10'
-            });
-        }, callable: []
-    };
-    window.fbAsyncInit = window.fbAsyncInit || function () {
-        window.fbMessengerPlugins.callable.forEach(function (item) {
-            item();
-        });
-        window.fbMessengerPlugins.init();
-    };
-    setTimeout(function () {
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
+<script src="/assets/js/jquery.elevateZoom-3.0.8.min.js"></script>
+<script type="text/javascript">
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
             }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    }, 0);
+            page = pageData;
+        }
+
+        return page;
+    }
 </script>
-
-<div
-        class="fb-customerchat"
-        page_id="537987856382181"
-        ref="">
-</div>
-
+@stack('scripts')
 </html>

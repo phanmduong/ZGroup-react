@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'products';
@@ -39,14 +38,20 @@ class Product extends Model
         return $this->hasMany('App\Notification', 'product_id');
     }
 
-    // public function views()
-    // {
-    //     return $this->hasMany('App\View', 'product_id');
-    // }
-
     public function category()
     {
         return $this->belongsTo(CategoryProduct::class, 'category_id');
+    }
+
+    public function productCategories()
+    {
+        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id')
+            ->withPivot('id');
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class, 'language_id');
     }
 
     public function images()
@@ -64,45 +69,54 @@ class Product extends Model
         return $this->hasOne(TopicAttendance::class, 'product_id', 'id');
     }
 
+    public function languages()
+    {
+        return $this->belongsToMany(LanguageProduct::class, 'language_product', 'product_id', 'language_id');
+    }
+
     public function blogTransform()
     {
+        $category = $this->productCategories()->first();
         return [
-            "id" => $this->id,
-            "url" => $this->url,
-            "share_url" => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
-            "description" => $this->description,
-            "author" => [
-                "id" => $this->author->id,
-                "name" => $this->author->name,
-                "avatar_url" => $this->author->avatar_url
+            'id' => $this->id,
+            'url' => $this->url,
+            'share_url' => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
+            'description' => $this->description,
+            'created_at' => $this->created_at,
+            'author' => [
+                'id' => $this->author->id,
+                'name' => $this->author->name,
+                'avatar_url' => strpos($this->author->avatar_url, config('app.protocol')) === false ? config('app.protocol') . $this->author->avatar_url : $this->author->avatar_url,
+                'email' => $this->author->email,
+                'username' => $this->author->username,
             ],
-            "title" => $this->title
+            'title' => $this->title,
+            'category' => $this->category ? $this->category->name : "",
+            'category_name' => $category ? $category->name : "",
+            'thumb_url' => $this->thumb_url,
+            'slug' => $this->slug,
+            'kind' => $this->kind,
+            'meta_description' => $this->meta_description ? $this->meta_description :"",
+            'meta_title' => $this->meta_title ? $this->meta_title : "",
+            'keyword' => $this->keyword,
+            // 'created_at' => time_remain_string($this->created_at),
+            'views' => $this->views,
         ];
     }
 
     public function blogDetailTransform()
     {
         $data = $this->blogTransform();
-        if ($this->author) {
-            $data["author"] = [
-                "id" => $this->author->id,
-                "email" => $this->author->email,
-                "name" => $this->author->name,
-                "avatar_url" => $this->author->avatar_url
-            ];
-        }
 
-        if ($this->category) {
-            $data["category"] = $this->category->name;
-        }
+        $data['categories'] = $this->productCategories;
+        $data['language_id'] = $this->language ? $this->language->id : 0;
 
-        $data["created_at"] = format_date($this->created_at);
-        $data["content"] = $this->content;
-        $data['tags'] = $this->tags;
-        $data["related_posts"] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
+        $data['created_at'] = format_date($this->created_at);
+        $data['content'] = $this->content ? $this->content : "";
+        $data['tags'] = $this->tags ? $this->tags : "";
+        $data['related_blogs'] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
             return $post->blogTransform();
         });
         return $data;
     }
-
 }

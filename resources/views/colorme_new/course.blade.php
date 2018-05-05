@@ -1,5 +1,13 @@
 @extends('colorme_new.layouts.master')
 
+@section("meta")
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{$course->name}}" />
+<meta property="og:description" content="{{$course->description}}" />
+<meta property="og:site_name" content="Color ME" />
+<meta property="og:image" content="{{$course->image_url}}" />
+@endsection
+
 @section('content')
     @foreach($pixels as $pixel)
         {!! $pixel->code !!}
@@ -151,6 +159,13 @@
                                 <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại"
                                        v-model="user.phone"
                                        required>
+                            </div>
+                            <div class="form-group" v-model="user.coupon">
+                                <label for="coupon">Mã ưu đãi
+                                </label>
+                                <input type="text" class="form-control" name="coupon" placeholder="Nhập số mã ưu đãi"
+                                       v-model="user.coupon"
+                                       >
                             </div>
                         </form>
                     </div>

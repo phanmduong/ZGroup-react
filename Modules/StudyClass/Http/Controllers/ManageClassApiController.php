@@ -4,6 +4,7 @@ namespace Modules\StudyClass\Http\Controllers;
 
 use App\ClassLesson;
 use App\ClassLessonChange;
+use App\ClassPosition;
 use App\Course;
 use App\Gen;
 use App\Group;
@@ -23,6 +24,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ManageClassApiController extends ManageApiController
 {
@@ -33,9 +35,14 @@ class ManageClassApiController extends ManageApiController
     protected $genRepository;
     protected $userRepository;
 
-    public function __construct(ClassRepository $classRepository, ScheduleRepository $scheduleRepository, RoomRepository $roomRepository,
-                                CourseRepository $courseRepository, GenRepository $genRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        ClassRepository $classRepository,
+        ScheduleRepository $scheduleRepository,
+        RoomRepository $roomRepository,
+        CourseRepository $courseRepository,
+        GenRepository $genRepository,
+        UserRepository $userRepository
+    ) {
         parent::__construct();
         $this->classRepository = $classRepository;
         $this->scheduleRepository = $scheduleRepository;
@@ -50,8 +57,7 @@ class ManageClassApiController extends ManageApiController
 
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
-        if ($request->limit)
-            $limit = $request->limit;
+
         $classes = StudyClass::query();
         if ($search)
             $classes = $classes->where('name', 'like', '%' . $search . '%');
@@ -61,11 +67,16 @@ class ManageClassApiController extends ManageApiController
             $classes = $classes->where('base_id', $request->base_id);
         if ($request->teacher_id)
             $classes = $classes->where(function ($query) use ($request) {
-                $query->where('teacher_id', $request->teacher_id)
-                    ->orWhere('teaching_assistant_id', $request->teacher_id);
-            });
+            $query->where('teacher_id', $request->teacher_id)
+                ->orWhere('teaching_assistant_id', $request->teacher_id);
+        });
 
-        $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
+        $classes = $classes->orderBy('gen_id', 'desc');
+
+        if ($limit == -1)
+            $classes = $classes->get();
+        else
+            $classes = $classes->paginate($limit);
 
         $data = [
             "classes" => $classes->map(function ($class) {
@@ -78,7 +89,10 @@ class ManageClassApiController extends ManageApiController
             'is_create_class' => $this->classRepository->is_create($this->user)
         ];
 
-        return $this->respondWithPagination($classes, $data);
+        if($limit == -1)
+            return $this->respondSuccessWithStatus($data);
+        else
+            return $this->respondWithPagination($classes, $data);
     }
 
     public function duplicate_class($class_id)
@@ -94,8 +108,21 @@ class ManageClassApiController extends ManageApiController
         $group->creator_id = $this->user->id;
         $group->save();
 
-        // auto generate time for class lesson
-        generate_class_lesson($new_class);
+        $class_positions = ClassPosition::where('class_id', $class_id)->get();
+
+        $class_positions->map(function ($class_position) use ($new_class) {
+            $new_class_postition = new ClassPosition();
+            $new_class_postition->user_id = $class_position->user_id;
+            $new_class_postition->position_id = $class_position->position_id;
+            $new_class_postition->class_id = $new_class->id;
+            $new_class_postition->save();
+        });
+
+        $this->classRepository->generateClassLesson($new_class);
+
+        if ($new_class->schedule_id) {
+            $this->classRepository->setClassLessonTime($new_class);
+        }
 
         // create class lessons
         set_class_lesson_time($new_class);
@@ -149,6 +176,7 @@ class ManageClassApiController extends ManageApiController
                     ]
                 ]);
             }
+
             return $this->responseWithError("Có lỗi xảy ra");
         }
 
@@ -233,7 +261,54 @@ class ManageClassApiController extends ManageApiController
         $class->status = ($request->status == null) ? 0 : 1;
         $class->type = $request->type ? $request->type : "active";
 
+        $teachers = $class->teachers()->pluck('user_id')->toArray();
+        $teachersData = $request->teachers;
+
         $class->save();
+
+        foreach ($teachers as $teacher) {
+            if (!in_array($teacher, $teachersData)) {
+                $class->teachers()->where('user_id', $teacher)->first()->delete();
+            }
+        }
+
+        if ($teachersData != null) {
+            foreach ($teachersData as $teacher) {
+                if (!in_array($teacher, $teachers)) {
+                    if (!empty($teacher)) {
+                        $classPosition = new ClassPosition();
+                        $classPosition->position_id = 1;
+                        $classPosition->user_id = $teacher;
+                        $classPosition->class_id = $class->id;
+                        $classPosition->save();
+                    }
+                }
+            }
+        }
+
+        $teaching_assistants = $class->teaching_assistants()->pluck('user_id')->toArray();
+        $teachingAssistantsData = $request->teaching_assistants;
+
+        foreach ($teaching_assistants as $teaching_assistant) {
+            if (!in_array($teaching_assistant, $teachingAssistantsData)) {
+                $class->teaching_assistants()->where('user_id', $teaching_assistant)->first()->delete();
+            }
+        }
+
+        if ($teachingAssistantsData != null) {
+            foreach ($teachingAssistantsData as $teachingAssistant) {
+                if (!in_array($teachingAssistant, $teaching_assistants)) {
+                    if (!empty($teachingAssistant)) {
+                        $classPosition = new ClassPosition();
+                        $classPosition->position_id = 2;
+                        $classPosition->user_id = $teachingAssistant;
+                        $classPosition->class_id = $class->id;
+                        $classPosition->save();
+                    }
+                }
+            }
+        }
+
 
         if ($request->id) {
             $group = Group::where("class_id", $class->id)->first();
@@ -251,9 +326,6 @@ class ManageClassApiController extends ManageApiController
             $group->avatar_url = $class->course->icon_url;
             $group->link = extract_class_name($class->name);
             $group->save();
-
-            $this->classRepository->generateClassLesson($class);
-
         }
 
         if ($request->schedule_id) {
@@ -270,6 +342,36 @@ class ManageClassApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'class' => $data
         ]);
+    }
+
+    public function generateClassLesson($class_id)
+    {
+        if ($class_id) {
+            $class = StudyClass::find($class_id);
+        }
+
+        if ($class == null) {
+            return $this->respondErrorWithStatus("Lớp không tồn tại");
+        }
+
+        $this->classRepository->generateClassLesson($class);
+
+        foreach ($class->registers as $register) {
+            DB::insert(DB::raw("
+            insert into attendances(`register_id`,`checker_id`,class_lesson_id)
+            (select registers.id,-1,class_lesson.id
+            from class_lesson
+            join registers on registers.class_id = class_lesson.class_id
+            where registers.id = $register->id
+            )
+            "));
+        }
+
+        if ($class->schedule_id) {
+            $this->classRepository->setClassLessonTime($class);
+        }
+
+        return $this->respondSuccess("success");
     }
 
     public function change_class_lesson(Request $request)
@@ -378,12 +480,80 @@ class ManageClassApiController extends ManageApiController
         $class = StudyClass::find($class_id);
         if ($class == null)
             return $this->respondErrorWithStatus([
-                'message' => 'khong ton tai lop'
-            ]);
+            'message' => 'khong ton tai lop'
+        ]);
         $class->link_drive = $request->link_drive;
         $class->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
+    }
+
+    public function getClassTeachings($class_id)
+    {
+        $class = StudyClass::find($class_id);
+        if ($class == null) {
+            return $this->respondErrorWithStatus("Lớp không tồn tại");
+        }
+
+        $data = [
+            'teachers' => $this->classRepository->get_teachers($class),
+            'teaching_assistants' => $this->classRepository->get_teaching_assistants($class),
+        ];
+        return $this->respondSuccessWithStatus($data);
+    }
+
+    public function getTeachersLesson($class_lesson_id)
+    {
+        $teachers = TeachingLesson::whereNotNull('class_position_id')->where('class_lesson_id', $class_lesson_id)
+            ->join("class_position", "teaching_lessons.class_position_id", "=", "class_position.id")
+            ->where("class_position.position_id", 1)->get();
+
+        $teachers = $teachers->map(function ($teacher) {
+            return $this->userRepository->staff($teacher->staff);
+        });
+
+        return $this->respondSuccessWithStatus([
+            'teaching' => $teachers
+        ]);
+    }
+
+    public function getTeachingAssisLesson($class_lesson_id)
+    {
+        $teachers = TeachingLesson::whereNotNull('class_position_id')->where('class_lesson_id', $class_lesson_id)
+            ->join("class_position", "teaching_lessons.class_position_id", "=", "class_position.id")
+            ->where("class_position.position_id", 2)->get();
+
+        $teachers = $teachers->map(function ($teacher) {
+            return $this->userRepository->staff($teacher->staff);
+        });
+
+        return $this->respondSuccessWithStatus([
+            'teaching' => $teachers
+        ]);
+    }
+
+    public function changeTeachingLesson(Request $request)
+    {
+        if ($request->class_lesson_id == null && $request->teaching_id == null) {
+            return $this->respondErrorWithStatus("Thiếu params");
+        }
+        $teachingLesson = TeachingLesson::where('class_lesson_id', $request->class_lesson_id)->where('teaching_id', $request->old_teaching_id)->first();
+
+
+        $teachingLessonChange = new TeachingLessonChange();
+        $teachingLessonChange->class_lesson_id = $request->class_lesson_id;
+        $teachingLessonChange->old_user_id = $teachingLesson->teaching_id;
+        $teachingLessonChange->new_user_id = $request->new_teaching_id;
+        $teachingLessonChange->actor_id = $this->user->id;
+        $teachingLessonChange->note = $request->note;
+        $teachingLessonChange->role = $teachingLesson->class_position->position_id;
+        $teachingLessonChange->save();
+
+        $teachingLesson->teaching_id = $request->new_teaching_id;
+        $teachingLesson->save();
+
+        return $this->respondSuccess("Sửa thành công");
+
     }
 }

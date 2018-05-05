@@ -7,7 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $table = 'orders';
+    public static $STATUS_COLOR = [
+        "place_order" => "#51bcda",
+        "sent_price" => "#6bd098",
+        "confirm_order" => "#f5593d",
+        "ordered"       => "#659bf2",
+        "arrived"       => "#6af265",
+        "ship"          => "#f2da65",
+        "completed"     => "#65b5f2",
+        "cancel"        => "#c1140b",
+    ];
 
+    public static $STATUS = [
+      "place_order" => "Đơn mới",
+        "sent_price" => "Đã báo giá",
+        "confirm_order" => "Đã Xác nhận",
+        "ordered"       =>  "Đã đặt hàng",
+        "arrived"       =>  "Đã có VN",
+        "ship"          => "giao hàng",
+        "completed"     => "hoàn thành",
+        "cancel"        => "Huỷ"
+
+    ];
     public function good()
     {
         return $this->belongsTo('App\Good', 'good_id');
@@ -135,6 +156,7 @@ class Order extends Model
     public function detailedTransform()
     {
         $data = [
+            'id' => $this->id,
             'code' => $this->code,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'note' => $this->note,

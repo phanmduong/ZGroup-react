@@ -2,6 +2,12 @@ function formatPrice(price) {
     return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
 }
 
+function addGood(goodId){
+    $('#modalBuy').modal('show');
+    modalBuy.addGoodToCart(goodId);
+}
+
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
@@ -261,13 +267,12 @@ var modalPurchase = new Vue({
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
-                    name = "";
-                    phone = "";
-                    email = "";
-                    address = "";
-                    payment = "";
-                })
-
+                    this.name = "";
+                    this.phone = "";
+                    this.email = "";
+                    this.address = "";
+                    this.payment = "";
+                }.bind(this))
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -288,22 +293,21 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
-                showRatio: false,
-                currency : {},
-                currencyId : 0,
+                tax:false,
+                description: "",
+                currencyId: 0
             },
         ],
         ratio: "",
-        isShowCurrency: false,
-        loading: false,
-        check: false,
-        success: false,
-        fail: false,
+        isLoading: false,
+        showFailMessage: false,
+        showSuccessMessage: false,
+        failMessage: "",
         message: "",
-        currencies: [],
+        currencies: [
+        ],
         isLoadingCurrency: false,
+        isOrdering: true,
     },
     methods: {
         getCurrencies: function () {
@@ -312,11 +316,8 @@ var fastOrder = new Vue({
                 .then(function (response) {
                     this.currencies = response.data.currencies;
                     this.isLoadingCurrency = false;
-                    this.isShowCurrency = true;
-                    console.log(response);
                 }.bind(this))
                 .catch(function (error) {
-
 
                 });
         },
@@ -329,41 +330,70 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
-                showRatio : false,
+                tax: false,
+                description: "",
+                currencyId: 0,
             });
-        },
-        changeCurrency: function (index) {
-            this.fastOrders[index].showRatio = true;
-            this.fastOrders[index].currency = this.currencies[this.fastOrders[index].currencyId];
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
         },
         submitFastOrder: function () {
-            this.loading = true;
-            this.success = false;
-            axios.post(window.url + '/manage/save-fast-order', {
+            this.isLoading = true;
+            this.showSuccessMessage = false;
+            this.showFailMessage = false;
+            axios.post(window.url + '/manage/save-delivery-order', {
                 fastOrders: JSON.stringify(this.fastOrders)
             }).then(function (response) {
-                // $("#submitFastOrder").modal("hide");
-                // $("#modal-fast-order").modal("hide");
-                this.loading = false;
-                // this.check=false;
-                this.success = true;
-                // this.fail = false;
-                this.message = response.data.message.message;
+                this.isLoading = false;
+                if (response.data.status === 1) {
+                    this.showSuccessMessage = true;
+                    this.message = response.data.message;
+                    this.isOrdering = false;
+                }
+                else {
+                    this.showFailMessage = true;
+                    this.failMessage = response.data.message;
+                }
             }.bind(this))
                 .catch(function (error) {
-                    console.log(error);
+                    this.failMessage = "Xin bạn vui lòng kiểm tra kết nối mạng";
                     this.fail = true;
                 }.bind(this))
+        },
+        continueOrdering: function () {
+            this.isOrdering = true;
+            this.showSuccessMessage = false;
+            this.showFailMessage = false;
+            this.fastOrders = [];
+            this.fastOrders.push({
+                id: this.fastOrders.length + 1,
+                seen: false,
+                link: "",
+                price: "",
+                size: "",
+                color: "",
+                number: 1,
+                tax: false,
+                description: "",
+                currencyId: 0,
+            });
         }
     },
     mounted: function () {
         this.getCurrencies();
     }
+});
 
-
+var productInfo = new Vue({
+    el : "#product_info",
+    data : {
+        good : 1
+    },
+    methods : {
+        openBuyModal: function (goodId) {
+            $('#modalBuy').modal('show');
+            modalBuy.addGoodToCart(goodId);
+        },
+       },
 });

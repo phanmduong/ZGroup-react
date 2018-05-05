@@ -1,6 +1,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Nokia Home: Your summer getaway essential</title>
+    <title></title>
     <!--[if !mso]><!-- -->
     <link href="https://media-cdn.withings.com/email/permanent/template/font-nokia-2.css" rel="stylesheet"
           type="text/css">
@@ -234,7 +234,7 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
                                         <tr>
-                                            <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                            <td style="padding: 20px; color: #4D5766!important; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
                                                 <p>Chào {{$user->name}},</p>
                                                 <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
                                                     tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
@@ -264,7 +264,7 @@
                                                                 <br>{{$good->properties()->where("name","short_description")->first() ? $good->properties()->where("name","short_description")->first()->value : ""}}
                                                             </td>
                                                             <td>
-                                                                {{currency_vnd_format((1 - $good->coupon_value) * $good->price)}}
+                                                                {{currency_vnd_format($good->price)}}
                                                                 <br/>
                                                                 {{$good->coupon_value ? "-".($good->coupon_value * 100)."%" :"" }}
                                                             </td>
@@ -287,9 +287,9 @@
                                                         khoản</b> dưới đây là thông tin chuyển
                                                     khoản:</p>
                                                 <p>
-                                                    Tên tài khoản: VU CHI CONG<br/>
-                                                    Số tài khoản: 04 51 00 04 27 664 <br/>
-                                                    Ngân hàng: Vietcombank Thành Công.
+                                                    Tên tài khoản: NGUYEN QUANG HUNG<br/>
+                                                    Số tài khoản: 09 91 00 00 39 263 <br/>
+                                                    Ngân hàng: Vietcombank Tây Hồ.
                                                 </p>
                                                 <p>
                                                     Rất cám ơn sự ủng hộ của bạn đối với Graphics. Chúc bạn một ngày tốt

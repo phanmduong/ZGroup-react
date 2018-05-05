@@ -9,6 +9,17 @@ use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
 use Illuminate\Support\Facades\Redis;
 
+function generateRandomString($length = 10)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 function generate_protocol_url($url)
 {
     if ($url) {
@@ -196,6 +207,11 @@ function format_time_to_mysql($time)
 function format_vn_short_datetime($time)
 {
     return rebuild_date('H:i d-m-Y', $time);
+}
+
+function format_vn_datetime($time)
+{
+    return rebuild_date('H:i:s d-m-Y', $time);
 }
 
 function format_vn_date($time)
@@ -483,27 +499,6 @@ function RGBToHex($r, $g, $b)
     return $hex;
 }
 
-//
-//function extract_dominant_color($image_url)
-//{
-//    $ext = pathinfo($image_url, PATHINFO_EXTENSION);
-//
-//    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
-//        $image = Image::make($image_url);
-//        return [
-//            'width' => $image->width(),
-//            'height' => $image->height(),
-//            'color' => $image->pickColor(0, 0, 'hex')
-//        ];
-//    } else {
-//        return [
-//            'width' => 0,
-//            'height' => 0,
-//            'color' => 'white'
-//        ];
-//    }
-//}
-
 function deleteFileFromS3($file_name)
 {
     $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
@@ -527,6 +522,37 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
                     $constraint->aspectRatio();
                 });
             }
+            $img->save($image->getRealPath());
+        } else {
+            $imageFileName = time() . random(15, true) . '.' . $image->getClientOriginalExtension();
+        }
+        $filePath = '/images/' . $imageFileName;
+        $s3->getDriver()->put($filePath, fopen($image, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
+//        if ($oldfile != null) {
+//            $s3->delete($oldfile);
+//        }
+        return $filePath;
+    }
+    return null;
+}
+
+function uploadImageToS3(\Illuminate\Http\Request $request, $fileField, $size, $oldfile = null)
+{
+    $image = $request->file($fileField);
+
+    if ($image != null) {
+        $mimeType = $image->guessClientExtension();
+        $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
+
+
+        if ($mimeType != 'image/gif') {
+            $imageFileName = time() . random(15, true) . '.jpg';
+            $img = Image::make($image->getRealPath())->encode('jpg', 90)->interlace();
+//            if ($img->width() > $size) {
+//                $img->resize($size, null, function ($constraint) {
+//                    $constraint->aspectRatio();
+//                });
+//            }
             $img->save($image->getRealPath());
         } else {
             $imageFileName = time() . random(15, true) . '.' . $image->getClientOriginalExtension();
@@ -589,6 +615,7 @@ function uploadLargeFileToS3(\Illuminate\Http\Request $request, $fileField, $old
 
         $fileName = time() . random(15, true) . '.' . $file->getClientOriginalExtension();
         $filePath = '/files/' . $fileName;
+        // dd($file);
         $s3->getDriver()->put($filePath, fopen($file, 'r+'),
             ['ContentType' => $mimeType, 'visibility' => 'public']);
         if ($oldfile != null) {
@@ -1105,6 +1132,21 @@ function send_push_notification($data)
     return $data;
 }
 
+function getDevicesNotification($appId, $appKey)
+{
+    $app_id = $appId;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/players?app_id=" . $app_id . '&limit=50000');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
+        'Authorization: Basic ' . $appKey));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response)->players;
+}
+
 function random_color_part()
 {
     return str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
@@ -1425,6 +1467,11 @@ function defaultAvatarUrl()
     return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/user.png");
 }
 
+function emptyImageUrl()
+{
+    return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg");
+}
+
 function abbrev($s)
 {
     $v = "";
@@ -1520,4 +1567,87 @@ function sound_cloud_track_id($url)
     }
 
     return '';
+}
+
+function getCommentPostFacebook($url)
+{
+    $r = curl_init();
+
+    curl_setopt($r, CURLOPT_URL, $url);
+    curl_setopt($r, CURLOPT_POST, FALSE);
+    curl_setopt($r, CURLOPT_RETURNTRANSFER, 1);
+    $data = curl_exec($r);
+    $httpcode = curl_getinfo($r, CURLINFO_HTTP_CODE);
+    curl_close($r);
+    return [
+        'data' => json_decode($data),
+        'status' => $httpcode == 200 ? 1 : 0
+    ];
+}
+
+function getAllCommentFacebook($post_id, $token)
+{
+    $url = "https://graph.facebook.com/v1.0/$post_id/comments?access_token=$token&limit=10000";
+    $comments = array();
+    do {
+        $data = getCommentPostFacebook($url);
+        if ($data['status'] == 0 || count($data['data']->data) <= 0) {
+            break;
+        }
+        foreach ($data['data']->data as $item) {
+            $comments[] = $item;
+        }
+        if (isset($data['data']->paging->next)) {
+            $url = $data['data']->paging->next;
+        } else {
+            break;
+        }
+
+    } while (true);
+
+    return $comments;
+}
+
+function getEmailFromText($text)
+{
+    preg_match_all("/[._a-zA-Z0-9-]+@[._a-zA-Z0-9-]+/i", $text, $matches);
+    return !empty($matches[0]) ? $matches[0][0] : "";
+}
+
+function convertShareToDownload($content)
+{
+    $str1 = "<div id=\"vue-share-to-download\">
+        <a class=\"btn btn-success btn-round\"
+           style=\"color:white; display: flex;align-items: center;justify-content: center;background-color:#3b5998!important; border-color:#3b5998!important\"
+           onclick=\"shareOnFB()\" v-if=\"!shared\">
+            <span class=\"glyphicon glyphicon-share\"
+                  style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspChia sẻ để tải<span></a>
+        <a class=\"btn btn-success btn-round\" v-if=\"shared\"
+           style=\"color:white; display: flex;align-items: center;justify-content: center;\" href=\"";
+    $str2 = "\">
+
+
+            <span class=\"glyphicon glyphicon-download\"
+                  style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspTải xuống<span></a>
+    </div>";
+
+    $data = $content;
+
+    if ((strpos($content, '[[share_to_download]]') && strpos($content, '[[/share_to_download]]')) || (strpos($content, '[[SHARE_TO_DOWNLOAD]]') && strpos($content, '[[/SHARE_TO_DOWNLOAD]]'))) {
+        $searchReplaceArray = array(
+            '[[share_to_download]]' => $str1,
+            '[[/share_to_download]]' => $str2,
+            '[[SHARE_TO_DOWNLOAD]]' => $str1,
+            '[[/SHARE_TO_DOWNLOAD]]' => $str2,
+        );
+
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray),
+            $content);
+    }
+    return $data;
 }

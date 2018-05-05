@@ -1,0 +1,16 @@
+{
+    "name": "Password",
+    "alias": "password",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Password\\Providers\\PasswordServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -27,10 +27,11 @@
                         <div class="row">
                             <div class="col-md-10 offset-md-1">
                                 <div class="text-center">
-                                    @if($post->category)
+                                    @foreach($categories as $category)
                                         <span class="label label-warning main-tag"
-                                              style="background: #c50000">{{$post->category->name}}</span>
-                                    @endif
+                                              style="background: #138edc">{{$category->name}}</span>
+                                        &nbsp;
+                                    @endforeach
                                     <h3 class="title">{{$post->description}}</h3>
                                     <h6 class="title-uppercase">{{format_date($post->created_at)}}</h6>
                                 </div>
@@ -43,7 +44,18 @@
                                 <div class="article-content">
                                     {!!$post->content !!}
                                 </div>
+                                <br>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Đăng ký tại đây</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="article-footer">
+                                    <br>
                                     <div class="container">
                                         <div class="row">
 
@@ -83,6 +95,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                
                                     <div class="comments media-area">
                                         <div class="fb-comments"
                                              data-href="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"

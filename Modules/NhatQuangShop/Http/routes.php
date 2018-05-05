@@ -18,9 +18,18 @@ $nhatquangShopRoute = function () {
     Route::post('/save-order', "NhatQuangShopController@saveOrder");
     Route::get('/product/new', "NhatQuangShopController@productNew");
     Route::get('/product/feature', "NhatQuangShopController@productFeature");
-    Route::get('/product/detail', "NhatQuangShopController@productDetail");
-    Route::get('/test', 'NhatQuangShopController@test');
+    Route::get('/su-kien', 'NhatQuangShopController@event');
+    Route::get('/events/{slug}',['as' => 'detail', 'uses' => 'NhatQuangShopController@eventDetail']);
+    Route::get('events/{slug}/sign-up-form',['as' => 'event-form', 'uses' => 'NhatQuangShopController@eventSignUpForm']);
 
+    Route::get('/product/detail/{good_id}', "NhatQuangShopController@productDetail");
+    Route::get('/category/{categoryid}', "NhatQuangShopController@goodsByCategory");
+    Route::post('/search', "NhatQuangShopController@searchGood");
+    Route::get('/category/test/s', "NhatQuangShopController@categoryTest");
+
+
+    Route::get('/test', 'NhatQuangShopController@test');
+   
     //modals
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
     Route::get('/count-books-from-session/v2', 'NhatQuangApiController@countGoodsFromSession');
@@ -36,12 +45,14 @@ $nhatquangShopRoute = function () {
     Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
     Route::get('/ward/{districtId}', 'NhatQuangApiController@wards');
     Route::get("/logout", "NhatQuangShopController@logout");
+    Route::get('/currency', 'NhatQuangApiController@getCurrencies');
+    
+
     Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
     Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
-    Route::post('/manage/save-fast-order', "NhatQuangShopController@saveFastOrder");
-   Route::get('/currency', 'NhatQuangApiController@getCurrencies');
-
+    
+    Route::post('/manage/save-delivery-order', "NhatQuangShopManageController@saveDeliveryOrder");
     //login
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");
@@ -49,6 +60,8 @@ $nhatquangShopRoute = function () {
     Route::put("/api/user", "NhatQuangShopManageApiController@updateUserInfo");
 
     //e-banking
+    Route::get('/manage/delivery_orders', 'NhatQuangShopManageController@userDeliveryOrders');
+    Route::post('/manage/delivery_orders', 'NhatQuangShopManageController@filterDeliveryOrders');
     Route::get("/manage/account", "NhatQuangShopManageController@account_information");
     Route::get("/manage/account_change", "NhatQuangShopManageController@get_account_change_information");
     Route::post("/manage/account_change", "NhatQuangShopManageController@account_change_information");
@@ -56,6 +69,7 @@ $nhatquangShopRoute = function () {
     Route::post("/manage/password_change", "NhatQuangShopManageController@password_change");
     Route::post("/manage/transfermoney", "NhatQuangTransferController@createTransfer");
     Route::get("/manage/transfermoney", "NhatQuangTransferController@transferMoneys");
+    Route::put("/manage/delivery_orders/{order_id}", "NhatQuangShopManageController@editDeliveryOrder");
 };
 
 

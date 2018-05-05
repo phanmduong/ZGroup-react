@@ -32,7 +32,8 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     | ACL Methods
     |--------------------------------------------------------------------------
-    */
+     */
+
     /**
      * Checks a Permission
      *
@@ -54,7 +55,7 @@ class User extends Authenticatable
         return !is_null($tab) && $this->checkPermissionTab($tab);
     }
 
-    protected function checkPermissionTab($tab)
+    public function checkPermissionTab($tab)
     {
         $tabs = $this->roles->tabs->pluck('id')->toArray();
 
@@ -79,7 +80,7 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this
-            ->belongsToMany(Task::class, "user_task", "user_id", "task_id")
+            ->belongsToMany(Task::class, 'user_task', 'user_id', 'task_id')
             ->withTimestamps();
     }
 
@@ -90,7 +91,7 @@ class User extends Authenticatable
 
     public function department()
     {
-        return $this->belongsTo("App\Department", "department_id");
+        return $this->belongsTo("App\Department", 'department_id');
     }
 
     public function works()
@@ -131,7 +132,6 @@ class User extends Authenticatable
         $permissions = $this->roles->load('permissions')->fetch('permissions')->toArray();
         return array_map('strtolower', array_unique(array_flatten(array_map(function ($permission) {
             return array_fetch($permission, 'permission_slug');
-
         }, $permissions))));
     }
 
@@ -147,10 +147,20 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     | Relationship Methods
     |--------------------------------------------------------------------------
-    */
+     */
     public function orders()
     {
-        return $this->hasMany(Order::class, 'user_id');
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'order');
+    }
+
+    public function deliveryOrders()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery');
+    }
+
+    public function allOrders()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery')->orWhere('type', 'order');
     }
 
     public function roles()
@@ -285,21 +295,23 @@ class User extends Authenticatable
 
     public function cards()
     {
-        return $this->belongsToMany(Card::class, "card_user", "user_id", "card_id");
+        return $this->belongsToMany(Card::class, 'card_user', 'user_id', 'card_id');
     }
 
     public function calendarEvents()
     {
-        return $this->hasMany(CalendarEvent::class, "user_id");
+        return $this->hasMany(CalendarEvent::class, 'user_id');
     }
 
     public function projects()
     {
         return $this->belongsToMany(
             Project::class,
-            'project_user', 'user_id',
-            'project_id')
-            ->withPivot('role', "adder_id")
+            'project_user',
+            'user_id',
+            'project_id'
+        )
+            ->withPivot('role', 'adder_id')
             ->withTimestamps();
     }
 
@@ -310,7 +322,7 @@ class User extends Authenticatable
 
     public function checkInCheckOuts()
     {
-        return $this->hasMany(CheckInCheckOut::class, "user_id");
+        return $this->hasMany(CheckInCheckOut::class, 'user_id');
     }
 
     public function followings()
@@ -328,25 +340,29 @@ class User extends Authenticatable
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
+            'avatar_url' => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
+            'phone' => $this->phone ? $this->phone : '',
+            'color' => $this->color,
         ];
     }
 
     public function personalEmails()
     {
-        return $this->hasMany(PersonalEmail::class, "user_id");
+        return $this->hasMany(PersonalEmail::class, 'user_id');
     }
 
     public function transformAuth()
     {
         return [
-            "id" => $this->id,
-            "avatar_url" => generate_protocol_url($this->avatar_url),
-            "name" => $this->name ? $this->name : "",
-            "first_login" => $this->first_login,
-            "email" => $this->email ? $this->email : "",
-            "phone" => $this->phone ? $this->phone : "",
-            "facebook_id" => $this->facebook_id ? $this->facebook_id : ""
+            'id' => $this->id,
+            'avatar_url' => generate_protocol_url($this->avatar_url),
+            'name' => $this->name ? $this->name : '',
+            'first_login' => $this->first_login,
+            'email' => $this->email ? $this->email : '',
+            'phone' => $this->phone ? $this->phone : '',
+            'facebook_id' => $this->facebook_id ? $this->facebook_id : ''
         ];
     }
 
@@ -360,8 +376,7 @@ class User extends Authenticatable
                 'link' => '/course/' . convert_vi_to_en($register->studyClass->course->name),
                 'saler_name' => $register->saler ? $register->saler->name : null,
             ];
-        }
-        );
+        });
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -378,8 +393,12 @@ class User extends Authenticatable
 
     public function transfromCustomer()
     {
-        $orders = Order::where("user_id", $this->id)->get();
-        if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
+        $orders = Order::where('user_id', $this->id)->get();
+        if (count($orders) > 0) {
+            $canDelete = 'false';
+        } else {
+            $canDelete = 'true';
+        }
         $totalMoney = 0;
         $totalPaidMoney = 0;
         $lastOrder = 0;
@@ -403,21 +422,77 @@ class User extends Authenticatable
             'email' => $this->email,
             'address' => $this->address,
             'birthday' => $this->dob,
-            "first_login" => $this->first_login,
+            'first_login' => $this->first_login,
             'gender' => $this->gender,
-            'avatar_url' => $this->avatar_url ? $this->avatar_url : "http://api.colorme.vn/img/user.png",
-            'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
+            'avatar_url' => $this->avatar_url ? $this->avatar_url : 'http://colorme.vn/img/user.png',
+            'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : 'Chưa có',
             'total_money' => $totalMoney,
             'total_paid_money' => $totalPaidMoney,
             'debt' => $totalMoney - $totalPaidMoney,
             'can_delete' => $canDelete
         ];
     }
-   public function transferMoneys(){
-        return $this->hasMany(TransferMoney::class, 'user_id');
-   }
-   public function bank_count(){
-        return $this->hasMany(BankAccount::class, 'user_id');
-   }
-}
 
+    public function transferMoneys()
+    {
+        return $this->hasMany(TransferMoney::class, 'user_id');
+    }
+
+    public function bank_count()
+    {
+        return $this->hasMany(BankAccount::class, 'user_id');
+    }
+
+    public function userLessonSurveys()
+    {
+        return $this->hasMany(UserLessonSurvey::class, 'user_id');
+    }
+
+    public function classes()
+    {
+        return $this->belongsToMany(StudyClass::class, 'registers', 'user_id', 'class_id');
+    }
+
+    public function smsGroup()
+    {
+        return $this->belongsToMany(Group::class, 'groups_users', 'user_id', 'group_id');
+    }
+
+    public function getReceivers()
+    {
+        $registers = $this->registers()->where('status', 1)->get();
+        return [
+            'id' => $this->id,
+            'avatar_url' => $this->avatar_url,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'sent_quantity' => 0,
+            'paid_money' => $registers->map(function ($register) {
+                $course = $register->studyClass->course;
+                return [
+                    'id' => $course->id,
+                    'name' => $course->name,
+                    'image_url' => $course->image_url,
+                ];
+            }),
+            'time' => format_vn_short_datetime(strtotime($this->created_at)),
+            'carer' => [
+                'id' => head($this->getCarer->toArray())['id'],
+                'name' => head($this->getCarer->toArray())['name'],
+                'color' => head($this->getCarer->toArray())['color'],
+            ],
+            'rate' => $this->rate,
+        ];
+    }
+
+    public function getCaredUsers()
+    {
+        return $this->belongsToMany(User::class, 'user_carer', 'carer_id', 'user_id');
+    }
+
+    public function getCarer()
+    {
+        return $this->belongsToMany(User::class, 'user_carer', 'user_id', 'carer_id');
+    }
+}

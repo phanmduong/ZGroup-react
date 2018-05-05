@@ -21,6 +21,18 @@ class TransferMoney extends Model
         "pay_good" => "#51bcda"
     ];
 
+    public static $STATUS_COLOR = [
+        "pending" => "#51bcda",
+        "accept" => "#6bd098",
+        "cancel" => "#f5593d"
+    ];
+
+    public static $STATUS = [
+        "pending" => "Đang chờ",
+        "accept" => "Xác nhận",
+        "cancel" => "Huỷ"
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -31,18 +43,6 @@ class TransferMoney extends Model
         return $this->belongsTo(BankAccount::class, "bank_account_id");
     }
 
-    public function status()
-    {
-        switch ($this->status) {
-            case "pending":
-                return [
-                    "color" => "#51bcda",
-                    "text" => "Đang chờ"
-                ];
-            default:
-                return "";
-        }
-    }
 
     public function transform()
     {
@@ -53,8 +53,9 @@ class TransferMoney extends Model
             "note" => $this->note,
             "purpose" => $this->purpose,
             "status" => $this->status,
+            "img_proof" => $this->img_proof,
             "bank_account" => $this->bankAccount,
-            "customer" => $this->user->transformAuth()
+            "customer" => $this->user->transformAuth(),
         ];
     }
 }

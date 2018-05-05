@@ -1,0 +1,16 @@
+{
+    "name": "UpCoworkingSpace",
+    "alias": "upcoworkingspace",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\UpCoworkingSpace\\Providers\\UpCoworkingSpaceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -15,7 +15,7 @@
                     <div class="product-wrapper">
                         <a href="/course/{{convert_vi_to_en($course['name'])}}">
                             <div class="product-item">
-                                <div style="background-image: url({{$course['icon_url']}}); background-size: cover; background-position: center center; padding-bottom: 70%">
+                                <div style="background-image: url({{$course['image_url']}}); background-size: cover; background-position: center center; padding-bottom: 70%">
                                 </div>
                                 <div class="w3-light-grey" style="background: rgba(39,187,42,0.33)!important">
                                     <div class="w3-grey"

@@ -36,7 +36,7 @@ class CheckStaff
                 $forbid_urls = [];
 
                 if ($user->role != 2){
-                    $forbid_urls[] = 'manage/quan-li-nhan-su';
+                    $forbid_urls[] = 'hr/manage/quan-li-nhan-su';
                 };
 
                 $allow_urls = $tabs->pluck('url')->toArray();

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ManageApiController extends Controller
@@ -46,7 +45,6 @@ class ManageApiController extends Controller
         ]);
     }
 
-
     public function respondSuccess($message)
     {
         return $this->respond([
@@ -54,7 +52,6 @@ class ManageApiController extends Controller
             'status' => 1
         ]);
     }
-
 
     public function getStatusCode()
     {
@@ -65,6 +62,12 @@ class ManageApiController extends Controller
     {
         $this->statusCode = $statusCode;
         return $this;
+    }
+
+    public function respondSuccessV2($data)
+    {
+        $data['status'] = 1;
+        return $data;
     }
 
     public function respond($data, $headers = [])
@@ -85,10 +88,23 @@ class ManageApiController extends Controller
         return $this->respond($data);
     }
 
+    protected function respondWithSimplePagination(Paginator $items, $data)
+    {
+        $data = array_merge($data, [
+            'paginator' => [
+                'total_count' => $items->perPage(),
+                'total_pages' => $items->currentPage(),
+                'current_page' => $items->currentPage(),
+                'limit' => $items->perPage()
+            ]
+        ]);
+        return $this->respond($data);
+    }
+
     public function responseWithError($message)
     {
         return response()->json([
-            "error" => $message
+            'error' => $message
         ], $this->getStatusCode());
     }
 

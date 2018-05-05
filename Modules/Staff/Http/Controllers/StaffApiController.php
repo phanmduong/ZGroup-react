@@ -2,8 +2,10 @@
 
 namespace Modules\Staff\Http\Controllers;
 
+use App\Currency;
 use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
+use App\UserCurrency;
 use App\Work;
 use App\WorkStaff;
 use Illuminate\Http\Request;
@@ -63,6 +65,13 @@ class StaffApiController extends ManageApiController
         $salary->revenue = $request->revenue ? $request->revenue : 0;
         $salary->allowance = $request->allowance ? $request->allowance : 0;
         $salary->save();
+        $currencies = Currency::all();
+        foreach ($currencies as $currency) {
+            $user_currency = new UserCurrency;
+            $user_currency->user_id = $user->id;
+            $user_currency->currency_id = $currency->id;
+            $user_currency->save();
+        }
         return $this->respondSuccessWithStatus([
             "user" => $user
         ]);
@@ -75,8 +84,13 @@ class StaffApiController extends ManageApiController
             $limit = (int)$request->limit;
         }
         $staffs = User::where("role", ">", 0)->orderBy("name");
+        if ($request->search)
+            $staffs = $staffs->where('name', 'like', "%$request->search%");
+        if ($request->base_id)
+            $staffs = $staffs->where('base_id', $request->base_id);
+        if ($request->department_id)
+            $staffs = $staffs->where('department_id', $request->department_id);
         if ($limit === -1) {
-
             $staffs = $staffs->get();
             return $this->respond([
                 "status" => 1,
@@ -88,23 +102,16 @@ class StaffApiController extends ManageApiController
                     ];
                 })
             ]);
-        } else {
-            $staffs = $staffs->paginate($limit);
-            return $this->respondWithPagination(
-                $staffs,
-                [
-                    "staffs" => $staffs->map(function ($staff) {
-                        return [
-                            "id" => $staff->id,
-                            "name" => $staff->name,
-                            "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl()
-                        ];
-                    })
-                ]
-            );
         }
-
-
+        $staffs = $staffs->paginate($limit);
+        return $this->respondWithPagination(
+            $staffs,
+            [
+                "staffs" => $staffs->map(function ($staff) {
+                    return $staff->getData();
+                })
+            ]
+        );
     }
 
     public function changeStatusInWork($staffId, $workId, Request $request)
@@ -161,12 +168,13 @@ class StaffApiController extends ManageApiController
             "message" => "Gia hạn công việc thành công"
         ]);
     }
-    public function hireWork($staffId,$workId,Request $request){
+    public function hireWork($staffId, $workId, Request $request)
+    {
         $staff = User::find($staffId);
         $work = Work::find($workId);
         if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
         if (!$staff) return $this->respondErrorWithStatus("Không tồn tại nhân viên");
-        if($work->payer_id != $staffId) return $this->respondErrorWithStatus("Bạn không có quyền chi tiền");
+        if ($work->payer_id != $staffId) return $this->respondErrorWithStatus("Bạn không có quyền chi tiền");
         $work->hired_status = 1;
         $work->save();
         $count_staff = WorkStaff::where('work_id', $workId)->count();

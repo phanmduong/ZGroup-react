@@ -2,6 +2,7 @@
 
 namespace Modules\XHH\Http\Controllers;
 
+use App\CategoryProduct;
 use App\Good;
 use App\Product;
 use Faker\Provider\DateTime;
@@ -39,7 +40,9 @@ class XHHController extends Controller
             $newestTop3 = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         }
         $blogSection1 = Product::where('type', 2)->where('status', 1)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
-        $blogSection2 = Product::where('type', 2)->where('status', 1)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
+        $blogSection2 = Product::where('type', 2)->where('status', 1)->where(function ($q) {
+            $q->where('category_id', 3)->orWhere('category_id', 13);
+        })->orderBy('created_at', 'desc')->limit(3)->get();
         $newestBlog2 = Product::where('type', 2)->where('status', 1)->where('category_id', 7)->orderBy('created_at', 'desc')->first();
         if ($newestBlog2) {
             $blogSection4 = Product::where('type', 2)->where('status', 1)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
@@ -64,21 +67,29 @@ class XHHController extends Controller
         $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
+        $type = $request->type;
+        $type_name = CategoryProduct::find($type);
+        $type_name = $type_name ? $type_name->name : '';
 
         if ($search) {
             $blogs = $blogs->where('title', 'like', '%' . $search . '%');
         }
 
+        if ($type) {
+            $blogs = $blogs->where('category_id', $type);
+        }
+
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
 
-        $display = "";
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
+        $categories = CategoryProduct::orderBy('name')->get();
 
+
+        $this->data['type'] = $type;
+        $this->data['type_name'] = $type_name;
         $this->data['blogs'] = $blogs;
-        $this->data['page_id'] = $page_id;
         $this->data['display'] = $blogs;
         $this->data['search'] = $search;
+        $this->data['categories'] = $categories;
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();

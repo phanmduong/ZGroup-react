@@ -10,8 +10,6 @@ use App\Register;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 class MarketingCampaignController extends ManageApiController
@@ -23,30 +21,28 @@ class MarketingCampaignController extends ManageApiController
 
     public function getAll(Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
 
-        if (!$request->limit)
-            $limit = 20;
-        else
-            $limit = $request->limit;
+        if ($limit == -1) {
+            $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'marketing_campaigns' => $marketingCampaigns->map(function ($marketingCampaign) {
+                    return $marketingCampaign->getData();
+                })
+            ]);
+        }
 
         $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->paginate($limit);
 
-        $data = $marketingCampaigns->map(function ($marketingCampaign) {
-            return [
-                'id' => $marketingCampaign->id,
-                'name' => $marketingCampaign->name,
-                'color' => $marketingCampaign->color,
-            ];
-        });
-
         return $this->respondWithPagination($marketingCampaigns, [
-            'marketing_campaigns' => $data
+            'marketing_campaigns' => $marketingCampaigns->map(function ($marketingCampaign) {
+                return $marketingCampaign->getData();
+            })
         ]);
     }
 
     public function storeMarketingCampaign(Request $request)
     {
-
         if ($request->id) {
             $marketingCampaign = MarketingCampaign::find($request->id);
         } else {
@@ -65,22 +61,20 @@ class MarketingCampaignController extends ManageApiController
 
     public function summaryMarketingCampaign(Request $request)
     {
-
         $startTime = $request->start_time;
-        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+        $endTime = date('Y-m-d', strtotime('+1 day', strtotime($request->end_time)));
 
         $summary = Register::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
             ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('status', 1)->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
         if ($startTime && $endTime) {
-            $summary->whereBetween('created_at', array($startTime, $endTime));
+            $summary->whereBetween('created_at', [$startTime, $endTime]);
         } else {
             if ($request->gen_id && $request->gen_id != 0) {
                 $summary->where('gen_id', $request->gen_id);
             }
         }
-
 
         if ($request->base_id && $request->base_id != 0) {
             $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
@@ -88,7 +82,6 @@ class MarketingCampaignController extends ManageApiController
         }
 
         $summary = $summary->get()->map(function ($item) {
-
             $data = [
                 'total_registers' => $item->total_registers,
                 'campaign' => [
@@ -117,10 +110,10 @@ class MarketingCampaignController extends ManageApiController
     public function summaryMarketingRegister(Request $request)
     {
         $startTime = $request->start_time;
-        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+        $endTime = date('Y-m-d', strtotime('+1 day', strtotime($request->end_time)));
         $registers = Register::query();
         if ($startTime && $endTime) {
-            $registers = $registers->whereBetween('created_at', array($startTime, $endTime));
+            $registers = $registers->whereBetween('created_at', [$startTime, $endTime]);
         }
 
         $registers = $registers->select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
@@ -128,7 +121,6 @@ class MarketingCampaignController extends ManageApiController
             ->groupBy('campaign_id', 'saler_id')->get();
 
         $registers = $registers->map(function ($item) {
-
             $data = [
                 'total_registers' => $item->total_registers,
                 'campaign' => [
@@ -148,7 +140,6 @@ class MarketingCampaignController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'data' => $registers
         ]);
-
     }
 
     public function summarySales(Request $request)
@@ -165,24 +156,22 @@ class MarketingCampaignController extends ManageApiController
         $end_time = $request->end_time;
 
         if ($startTime && $end_time) {
-            $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
-            $all_registers = Register::whereBetween('created_at', array($startTime, $endTime));
+            $endTime = date('Y-m-d', strtotime('+1 day', strtotime($end_time)));
+            $all_registers = Register::whereBetween('created_at', [$startTime, $endTime]);
         } else {
             $all_registers = $current_gen->registers();
         }
 
         $startTime = $request->start_time ? $request->start_time : $current_gen->start_time;
         $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
-        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+        $endTime = date('Y-m-d', strtotime('+1 day', strtotime($end_time)));
         $date_array = createDateRangeArray(strtotime($startTime), strtotime($end_time));
 
-
 //        if ($request->base_id && $request->base_id != 0) {
-////            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
-////            $all_registers = $all_registers->whereIn('class_id', $class_ids);
+        ////            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
+        ////            $all_registers = $all_registers->whereIn('class_id', $class_ids);
 //
 //        }
-
 
         $saler_ids = $all_registers->pluck('saler_id');
 
@@ -208,23 +197,23 @@ class MarketingCampaignController extends ManageApiController
                     ->orWhere('money', '>', 0);
             })->count();
 
-
             $data['total_paid_registers'] = $saler_registers->where('status', 1)->where('money', '>', 0)->count();
+            $sum_paid_personal = $saler_registers->where('status', 1)->where('money', '>', 0)->select(DB::raw('sum(money) as sum_personal_money'))->first()->sum_personal_money;
+            $data['sum_paid_personal'] = currency_vnd_format((int)$sum_paid_personal);
 
             $bonus = 0;
-            $courses = array();
+            $courses = [];
 
             $di = 0;
 
-
             $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
-                ->whereBetween('paid_time', array($startTime, $endTime))
+                ->whereBetween('paid_time', [$startTime, $endTime])
                 ->where('saler_id', $saler->id)
                 ->where('money', '>', 0)
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
             $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->whereBetween('created_at', array($startTime, $endTime))
+                ->whereBetween('created_at', [$startTime, $endTime])
                 ->where('saler_id', $saler->id)
                 ->where(function ($query) {
                     $query->where('status', 0)
@@ -232,11 +221,10 @@ class MarketingCampaignController extends ManageApiController
                 })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $registers_by_date_personal = array();
-            $paid_by_date_personal = array();
+            $registers_by_date_personal = [];
+            $paid_by_date_personal = [];
 
             foreach ($date_array as $date) {
-
                 if (isset($registers_by_date_personal_temp[$date])) {
                     $registers_by_date_personal[$di] = $registers_by_date_personal_temp[$date];
                 } else {
@@ -256,7 +244,6 @@ class MarketingCampaignController extends ManageApiController
             $data['date_array'] = $date_array;
 
             foreach (Course::all() as $course) {
-
 //                if ($request->base_id && $request->base_id != 0) {
 //                    $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
 //                    $class_ids = $course->classes()->whereIn('id', $class_ids)->pluck('id')->toArray();
@@ -267,7 +254,7 @@ class MarketingCampaignController extends ManageApiController
                 if ($request->start_time && $request->end_time) {
                     $count = $saler->sale_registers()->where('money', '>', '0')
                         ->whereIn('class_id', $class_ids)
-                        ->whereBetween('created_at', array($startTime, $endTime))
+                        ->whereBetween('created_at', [$startTime, $endTime])
                         ->count();
                 } else {
                     $count = $saler->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')
@@ -277,7 +264,6 @@ class MarketingCampaignController extends ManageApiController
 
                 $money = $course->sale_bonus * $count;
 
-
                 $courses[] = [
                     'id' => $course->id,
                     'name' => $course->name,
@@ -286,13 +272,10 @@ class MarketingCampaignController extends ManageApiController
                 ];
 
                 $bonus += $money;
-
-
             };
 
             $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))->where('campaign_id', '<>', 0)
                 ->whereNotNull('campaign_id')->groupBy('campaign_id')->get();
-
 
             $data['campaigns'] = $campaigns->map(function ($campaign) {
                 return [
@@ -309,7 +292,11 @@ class MarketingCampaignController extends ManageApiController
         });
 
         return $this->respondSuccessWithStatus(['summary_sales' => $salers]);
-
     }
 
+    // public function user(Request $request)
+    // {
+    //     $user = User::join('registers', 'users.id', '=', 'registers.user_id');
+        
+    // }
 }

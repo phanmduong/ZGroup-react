@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
+use App\Coupon;
 use App\Gen;
 use App\Register;
 use App\Services\EmailService;
@@ -54,7 +55,6 @@ class StudentApiController extends ApiController
                     ->orWhere('phone', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%');
             })->paginate($limit);
-
         $newest_code = Register::orderBy('code', 'desc')->first()->code;
         return $this->respondWithPagination($students,
             [
@@ -75,11 +75,11 @@ class StudentApiController extends ApiController
         $code = $request->code;
 
         $register = Register::find($register_id);
-
+        if ($register == null)
+            return $this->respondErrorWithStatus('Không tồn tại đăng ký');
         if ($register->status == 1) {
             return $this->responseBadRequest('Học viên này đã đóng tiền rồi');
         }
-
         $register->money = $money;
 
         $register->paid_time = format_time_to_mysql(time());
@@ -143,11 +143,7 @@ class StudentApiController extends ApiController
 
     public function registerlist(Request $request)
     {
-        if ($request->gen_id) {
-            $gen = Gen::find($request->gen_id);
-        } else {
-            $gen = Gen::getCurrentGen();
-        }
+        $gen = Gen::find($request->gen_id);
 
         if ($request->limit) {
             $limit = $request->limit;
@@ -155,6 +151,11 @@ class StudentApiController extends ApiController
             $limit = 20;
         }
 
+        if ($gen != null) {
+            $registers = $gen->registers();
+        } else {
+            $registers = Register::query();
+        }
 
         $search = $request->search;
 
@@ -162,9 +163,28 @@ class StudentApiController extends ApiController
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
-            $registers = $gen->registers()->whereIn('user_id', $users_id);
-        } else {
-            $registers = $gen->registers();
+            $registers = $registers->whereIn('user_id', $users_id);
+        }
+        $search_coupon = $request->search_coupon;
+
+        if ($search_coupon){
+            $registers = $registers->where('coupon', 'like', '%' . $search_coupon.'%');
+        }
+
+        if ($request->base_id != null) {
+            if ($gen != null) {
+                $classes = StudyClass::where('gen_id', $gen->id);
+            } else {
+                $classes = StudyClass::query();
+            }
+            $classeIds = $classes->where('base_id', $request->base_id)->pluck('id')->toArray();
+            $registers = $registers->whereIn('class_id', $classeIds);
+        }
+
+        if ($request->appointment_payment != null) {
+            $tele_call_user_ids = TeleCall::whereRaw('appointment_payment = \'' . $request->appointment_payment . '\'')
+                ->pluck('student_id')->toArray();
+            $registers = $registers->whereIn('user_id', $tele_call_user_ids);
         }
 
         if ($request->class_id != null) {
@@ -206,9 +226,6 @@ class StudentApiController extends ApiController
         else
             $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
-        $registers->map(function ($register) {
-
-        });
         foreach ($registers as &$register) {
             $register->study_time = 1;
             $user = $register->user;
@@ -231,18 +248,65 @@ class StudentApiController extends ApiController
             $register->is_delete = is_delete_register($this->user, $register);
         }
         if ($limit == -1) {
+            $registers = $this->registerTransformer->transformCollection($registers);
+            $registers = $registers->map(function ($register) {
+                $data = $register;
+                $data['editable'] = true;
+                $data['editable_money'] = $this->user->role == 2;
+                return $data;
+            });
             return $this->respondSuccessWithStatus([
-                'registers' => $this->registerTransformer->transformCollection($registers),
+                'registers' => $registers,
                 'gen' => [
-                    'id' => $gen->id
+                    'id' => $gen ? $gen->id : 0
                 ]
             ]);
         }
         return $this->respondWithPagination($registers, [
-            'registers' => $this->registerTransformer->transformCollection($registers),
+            'registers' => $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+                $data = $register;
+                $data['editable'] = true;
+                $data['editable_money'] = $this->user->role == 2;
+                return $data;
+            }),
             'gen' => [
-                'id' => $gen->id
+                'id' => $gen ? $gen->id : 0
             ]
+        ]);
+    }
+
+    public function editRegister($register_id, Request $request)
+    {
+        $register = Register::where('id', '<>', $register_id)->where('code', $request->code)->first();
+        if ($register !== null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Trung code'
+            ]);
+        $register = Register::find($register_id);
+
+        if ($request->money === null || $request->code === null)
+
+            return $this->respondErrorWithStatus([
+                'message' => 'Thieu money hoac code'
+            ]);
+
+        $oldCode = $register->code;
+
+        $register->code = $request->code;
+
+        if ($register->status == 0)
+            $register->money = 0;
+        else
+            $register->money = $request->money;
+
+        $register->save();
+
+        if ($register->code != $oldCode) {
+            $this->emailService->send_mail_confirm_change_code($register, $oldCode);
+        }
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 

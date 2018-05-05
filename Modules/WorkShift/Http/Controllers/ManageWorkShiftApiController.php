@@ -190,8 +190,17 @@ class ManageWorkShiftApiController extends ManageApiController
 
         $shift = WorkShift::find($workShiftId);
 
+
         if (in_array($this->user->id, $shift->users()->pluck('user_id')->toArray())) {
             return $this->respondSuccess("Bạn đã đăng kí ca làm việc này");
+        }
+
+        $date = new \DateTime();
+        $date->modify('-1000 hours');
+        $datetime = strtotime($date->format('Y-m-d H:i:s'));
+
+        if (strtotime($shift->created_at) < $datetime) {
+            return $this->respondErrorWithStatus("Không đăng kí được ca này");
         }
 
         $shift->users()->attach($this->user->id);
@@ -212,6 +221,14 @@ class ManageWorkShiftApiController extends ManageApiController
 
         if (!in_array($this->user->id, $shift->users()->pluck('user_id')->toArray())) {
             return $this->respondSuccess("Bạn chưa đăng kí ca làm việc này");
+        }
+
+        $date = new \DateTime();
+        $date->modify('-1000 hours');
+        $datetime = strtotime($date->format('Y-m-d H:i:s'));
+
+        if (strtotime($shift->created_at) < $datetime) {
+            return $this->respondErrorWithStatus("Không hủy được ca đăng kí này");
         }
 
         $shift->users()->detach($this->user->id);

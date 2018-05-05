@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Session\Middleware\StartSession::class,
         \App\Http\Middleware\HttpsProtocol::class,
     ];
 
@@ -38,6 +39,9 @@ class Kernel extends HttpKernel
         ],
         'manageapi' => [
             'throttle:60,1',
+        ],
+        'up' => [
+            \App\Http\Middleware\Language::class
         ]
     ];
 
@@ -60,6 +64,7 @@ class Kernel extends HttpKernel
         'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
         'from_topcv' => \App\Http\Middleware\checkTopCVToken::class,
         'is_keetool_server' => \App\Http\Middleware\IsKeetoolServer::class,
-        'permission_tab' => \App\Http\Middleware\PermissionTab::class
+        'permission_tab' => \App\Http\Middleware\PermissionTab::class,
+        'permission_tab_react' => \App\Http\Middleware\PermissionTabReact::class
     ];
 }
