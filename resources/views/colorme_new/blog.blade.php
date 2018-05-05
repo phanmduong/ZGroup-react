@@ -207,7 +207,7 @@
                                                 <div class="product-content"><p>{{$blog['description']}}</p></div>
                                             </div>
                                             <div class="product-content">
-                                                {!!$blog['content']!!}
+                                                {!!convertShareToDownload($blog['content'])!!}
                                                 <hr>
                                             </div>
                                             <div style="height: 40px;">
@@ -299,7 +299,7 @@
                                             </div>
                                             <div style="width: 130%;  margin-top: 40px;">
                                                 <div style="margin-top: 20px;">
-                                                    <a <a href="/profile/{{$blog['author']['username']}}"
+                                                    <a href="/profile/{{$blog['author']['username']}}"
                                                           class="more-products">
                                                         <h5>
                                                             Bài viết khác từ
@@ -352,21 +352,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="vue-share-to-download">
-        <a class="btn btn-success btn-round"
-           style="color:white; display: flex;align-items: center;justify-content: center;background-color:#3b5998!important; border-color:#3b5998!important"
-           onclick="shareOnFB()" v-if="!shared">
-            <span class="glyphicon glyphicon-share"
-                  style=" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important"></span><span
-                    style="margin:5px 0!important;font-family:Roboto!important; "> &nbspChia sẻ để tải<span></a>
-        <a class="btn btn-success btn-round" v-if="shared"
-           style="color:white; display: flex;align-items: center;justify-content: center;" href="linkdownload">
-
-
-            <span class="glyphicon glyphicon-download"
-                  style=" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important"></span><span
-                    style="margin:5px 0!important;font-family:Roboto!important; "> &nbspTải xuống<span></a>
     </div>
 @endsection
 
