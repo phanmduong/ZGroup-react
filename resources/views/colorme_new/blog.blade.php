@@ -353,7 +353,21 @@
             </div>
         </div>
     </div>
-    <button onclick="shareOnFB()">share facebook</button>
+    <div id="vue-share-to-download">
+        <a class="btn btn-success btn-round"
+           style="color:white; display: flex;align-items: center;justify-content: center;background-color:#3b5998!important; border-color:#3b5998!important"
+           onclick="shareOnFB()" v-if="!shared">
+            <span class="glyphicon glyphicon-share"
+                  style=" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important"></span><span
+                    style="margin:5px 0!important;font-family:Roboto!important; "> &nbspChia sẻ để tải<span></a>
+        <a class="btn btn-success btn-round" v-if="shared"
+           style="color:white; display: flex;align-items: center;justify-content: center;" href="linkdownload">
+
+
+            <span class="glyphicon glyphicon-download"
+                  style=" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important"></span><span
+                    style="margin:5px 0!important;font-family:Roboto!important; "> &nbspTải xuống<span></a>
+    </div>
 @endsection
 
 @push('scripts')
@@ -407,6 +421,13 @@
             });
         });
 
+        var vueShareToDown = new Vue({
+            el: "#vue-share-to-download",
+            data: {
+                shared: false
+            }
+        });
+
         function shareOnFB() {
             FB.ui({
                 method: "feed",
@@ -418,10 +439,11 @@
                 var str = JSON.stringify(t);
                 var obj = JSON.parse(str);
                 if (obj.post_id != '') {
-                    console.log("ok");
-                    //after successful sharing, you can show your download content here
+                    vueShareToDown.shared = true;
                 }
             });
         }
+
+
     </script>
 @endpush
