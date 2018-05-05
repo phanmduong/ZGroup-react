@@ -1622,7 +1622,7 @@ function convertShareToDownload($content)
            onclick=\"shareOnFB()\" v-if=\"!shared\">
             <span class=\"glyphicon glyphicon-share\"
                   style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
-                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspChia sẻ để tải (@{{share_count}})<span></a>
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspChia sẻ để tải ({{share_count}})<span></a>
         <a class=\"btn btn-success btn-round\" v-if=\"shared\"
            style=\"color:white; display: flex;align-items: center;justify-content: center;\" href=\"";
     $str2 = "\">

@@ -434,6 +434,7 @@
                 var str = JSON.stringify(t);
                 var obj = JSON.parse(str);
                 if (obj.post_id != '') {
+                    console.log(obj);
                     vueShareToDown.shared = true;
                 }
             });
