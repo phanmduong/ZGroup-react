@@ -1147,6 +1147,8 @@ export default {
     historyCalls: {
         currentPage: 1,
         totalPages: 1,
+        totalCount: 1,
+        limit: 20,
         teleCalls: [],
         isLoading: false,
         error: false
