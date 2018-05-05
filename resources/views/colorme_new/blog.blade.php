@@ -166,7 +166,9 @@
                                 <div class="col-md-8 title-wrapper">
                                     @if($blog['category_name'])
                                         <span style=" text-transform: uppercase; font-size: 14px; padding-bottom:20px">
-                                            <a class="a-hover-underline" style="color: white;" href = "/blogs"><span>/BLOGS</span></a><a class="a-hover-underline" style="color: white;" href = "/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
+                                            <a class="a-hover-underline" style="color: white;" href="/blogs"><span>/BLOGS</span></a><a
+                                                    class="a-hover-underline" style="color: white;"
+                                                    href="/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
                                         </span>
                                     @endif
 
@@ -176,11 +178,11 @@
                                             {{$blog['title']}}</p></div>
                                     <div>
                                     </div>
-                                        <div style="color:white">
-                                            <div style="">{{$blog['time']}}
-                                                · {{$blog['views']}} Lượt xem
-                                            </div>
+                                    <div style="color:white">
+                                        <div style="">{{$blog['time']}}
+                                            · {{$blog['views']}} Lượt xem
                                         </div>
+                                    </div>
                                     <a href="/profile/{{$blog['author']['username']}}" style="display:flex; "
                                        class="flex flex-row flex-row-center">
                                         <div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 20px; height: 20px; border-radius: 40px; "></div>
@@ -298,7 +300,7 @@
                                             <div style="width: 130%;  margin-top: 40px;">
                                                 <div style="margin-top: 20px;">
                                                     <a <a href="/profile/{{$blog['author']['username']}}"
-                                                       class="more-products">
+                                                          class="more-products">
                                                         <h5>
                                                             Bài viết khác từ
                                                             {{$blog['author']['name']}}
@@ -351,6 +353,7 @@
             </div>
         </div>
     </div>
+    <button onclick="shareOnFB()">share facebook</button>
 @endsection
 
 @push('scripts')
@@ -403,5 +406,22 @@
                     }.bind(this));
             });
         });
+
+        function shareOnFB() {
+            FB.ui({
+                method: "feed",
+                link: "{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}",
+                name: "{!! htmlspecialchars($blog['meta_title']) !!}",
+                caption: 'colorme.vn',
+                description: "{!! htmlspecialchars($blog['description']) !!}"
+            }, function (t) {
+                var str = JSON.stringify(t);
+                var obj = JSON.parse(str);
+                if (obj.post_id != '') {
+                    console.log("ok");
+                    //after successful sharing, you can show your download content here
+                }
+            });
+        }
     </script>
 @endpush
