@@ -484,789 +484,46 @@
                         <div class="fw-tabs movies ui-tabs ui-widget ui-widget-content ui-corner-all">
                             <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"
                                 role="tablist">
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="Mon"
-                                    aria-labelledby="ui-id-1" aria-selected="false" aria-expanded="false">
-                                    <a href="#Mon" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                <li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="Today"
+                                    aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true">
+                                    <a href="#Today" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-1">
-                                        Mon </a>
+                                        TODAY </a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="Tue"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-1-day"
                                     aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false">
-                                    <a href="#Tue" class="ui-tabs-anchor" role="presentation" tabindex="-1"
-                                       id="ui-id-2">
-                                        Tue </a>
+                                    <a href="#after-1-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                       id="ui-id-2"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top " role="tab" tabindex="-1" aria-controls="Wed"
+                                <li class="ui-state-default ui-corner-top " role="tab" tabindex="-1" aria-controls="after-2-day"
                                     aria-labelledby="ui-id-3" aria-selected="false" aria-expanded="false">
-                                    <a href="#Wed" class="ui-tabs-anchor" role="presentation" tabindex="-1"
-                                       id="ui-id-3">Wed</a>
+                                    <a href="#after-2-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                       id="ui-id-3"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="Thu"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-3-day"
                                     aria-labelledby="ui-id-4" aria-selected="false" aria-expanded="false">
-                                    <a href="#Thu" class="ui-tabs-anchor" role="presentation" tabindex="-1"
-                                       id="ui-id-4">
-                                        Thu </a>
+                                    <a href="#after-3-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                       id="ui-id-4"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab"
-                                    tabindex="0" aria-controls="Fri"
-                                    aria-labelledby="ui-id-5" aria-selected="true" aria-expanded="true">
-                                    <a href="#Fri" class="ui-tabs-anchor" role="presentation" tabindex="0"
-                                       id="ui-id-5">
-                                        Today </a>
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="0" aria-controls="after-4-day"
+                                    aria-labelledby="ui-id-5" aria-selected="false" aria-expanded="false">
+                                    <a href="#after-4-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                       id="ui-id-5"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="Sat"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-5-day"
                                     aria-labelledby="ui-id-6" aria-selected="false" aria-expanded="false">
-                                    <a href="#Sat" class="ui-tabs-anchor" role="presentation" tabindex="-1"
-                                       id="ui-id-6">
-                                        Sat </a>
+                                    <a href="#after-5-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                       id="ui-id-6"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="Sun"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-6-day"
                                     aria-labelledby="ui-id-7" aria-selected="false" aria-expanded="false">
-                                    <a href="#Sun" class="ui-tabs-anchor" role="presentation" tabindex="-1"
-                                       id="ui-id-7">
-                                        Sun </a>
+                                    <a href="#after-6-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
+                                       id="ui-id-7"></a>
                                 </li>
                             </ul>
 
-                            <div id="Mon" aria-labelledby="ui-id-1"
-                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
-                                 aria-hidden="true" style="display: none;">
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-7-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-6-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="Tue" aria-labelledby="ui-id-2"
-                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
-                                 aria-hidden="true" style="display: none;">
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-7-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-6-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="Wed" aria-labelledby="ui-id-3"
-                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
-                                 aria-hidden="true">
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-4-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-6-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-7-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="Thu" aria-labelledby="ui-id-4"
-                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
-                                 aria-hidden="true" style="display: none;">
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-7-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-6-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="Fri" aria-labelledby="ui-id-5"
+                            <div id="Today" aria-labelledby="ui-id-1"
                                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
                                  aria-hidden="true" style="display: none;">
                                 @foreach($todaySessions as $session)
@@ -1314,397 +571,336 @@
 
                             </div>
 
-                            <div id="Sat" aria-labelledby="ui-id-6"
+                            <div id="after-1-day" aria-labelledby="ui-id-2"
                                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
                                  aria-hidden="true" style="display: none;">
+                                @foreach($after1DaySessions as $session)
+                                    <div class="row movie-tabs">
+                                        <div class="col-md-2 col-sm-3">
+                                            <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="Hush">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <span class="title">{{$session->film->film_genre}}</span>
+                                            <header>
+                                                <h3 class="no-underline">{{$session->film->name}}</h3>
+                                            </header>
+                                            <p>{{$session->film->summary}}</p>
+                                            <p><a href="http://specto.klevermedia.co.uk/movies/hush/"
+                                                  class="arrow-button">
+                                                    Chi tiết</a></p>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-9">
+                                                    <hr class="space-10">
+                                                    <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
+                                                    <div class="time-wrap" style="display: inline-block;">
+                                                        @if($session->film->sessions)
+                                                            @foreach($session->film->sessions as $subsession)
+                                                                <span class="time">{{$subsession->start_time}}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="time ">11:30</span>
+                                                            <span class="time ">13:00</span>
+                                                        @endif
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
+                                                <div class="col-md-4 col-sm-3 running-time">
+                                                    <hr class="space-10">
+                                                    {{$session->film->running_time}} <span
+                                                            class="certificate">{{$session->film_quality}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-7-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-6-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
-                            <div id="Sun" aria-labelledby="ui-id-7"
+                            <div id="after-2-day" aria-labelledby="ui-id-3"
                                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
                                  aria-hidden="true" style="display: none;">
+                                @foreach($after2DaySessions as $session)
+                                    <div class="row movie-tabs">
+                                        <div class="col-md-2 col-sm-3">
+                                            <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="Hush">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <span class="title">{{$session->film->film_genre}}</span>
+                                            <header>
+                                                <h3 class="no-underline">{{$session->film->name}}</h3>
+                                            </header>
+                                            <p>{{$session->film->summary}}</p>
+                                            <p><a href="http://specto.klevermedia.co.uk/movies/hush/"
+                                                  class="arrow-button">
+                                                    Chi tiết</a></p>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-9">
+                                                    <hr class="space-10">
+                                                    <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
+                                                    <div class="time-wrap" style="display: inline-block;">
+                                                        @if($session->film->sessions)
+                                                            @foreach($session->film->sessions as $subsession)
+                                                                <span class="time">{{$subsession->start_time}}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="time ">11:30</span>
+                                                            <span class="time ">13:00</span>
+                                                        @endif
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-4-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
+                                                <div class="col-md-4 col-sm-3 running-time">
+                                                    <hr class="space-10">
+                                                    {{$session->film->running_time}} <span
+                                                            class="certificate">{{$session->film_quality}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-6-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
+                            </div>
+
+                            <div id="after-3-day" aria-labelledby="ui-id-4"
+                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
+                                 aria-hidden="true" style="display: none;">
+                                @foreach($after3DaySessions as $session)
+                                    <div class="row movie-tabs">
+                                        <div class="col-md-2 col-sm-3">
+                                            <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="Hush">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <span class="title">{{$session->film->film_genre}}</span>
+                                            <header>
+                                                <h3 class="no-underline">{{$session->film->name}}</h3>
+                                            </header>
+                                            <p>{{$session->film->summary}}</p>
+                                            <p><a href="http://specto.klevermedia.co.uk/movies/hush/"
+                                                  class="arrow-button">
+                                                    Chi tiết</a></p>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-9">
+                                                    <hr class="space-10">
+                                                    <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
+                                                    <div class="time-wrap" style="display: inline-block;">
+                                                        @if($session->film->sessions)
+                                                            @foreach($session->film->sessions as $subsession)
+                                                                <span class="time">{{$subsession->start_time}}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="time ">11:30</span>
+                                                            <span class="time ">13:00</span>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
+                                                <div class="col-md-4 col-sm-3 running-time">
+                                                    <hr class="space-10">
+                                                    {{$session->film->running_time}} <span
+                                                            class="certificate">{{$session->film_quality}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
+                            </div>
+
+                            <div id="after-4-day" aria-labelledby="ui-id-5"
+                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
+                                 aria-hidden="true" style="display: none;">
+                                @foreach($after4DaySessions as $session)
+                                    <div class="row movie-tabs">
+                                        <div class="col-md-2 col-sm-3">
+                                            <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="Hush">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <span class="title">{{$session->film->film_genre}}</span>
+                                            <header>
+                                                <h3 class="no-underline">{{$session->film->name}}</h3>
+                                            </header>
+                                            <p>{{$session->film->summary}}</p>
+                                            <p><a href="http://specto.klevermedia.co.uk/movies/hush/"
+                                                  class="arrow-button">
+                                                    Chi tiết</a></p>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-9">
+                                                    <hr class="space-10">
+                                                    <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
+                                                    <div class="time-wrap" style="display: inline-block;">
+                                                        @if($session->film->sessions)
+                                                            @foreach($session->film->sessions as $subsession)
+                                                                <span class="time">{{$subsession->start_time}}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="time ">11:30</span>
+                                                            <span class="time ">13:00</span>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
+                                                <div class="col-md-4 col-sm-3 running-time">
+                                                    <hr class="space-10">
+                                                    {{$session->film->running_time}} <span
+                                                            class="certificate">{{$session->film_quality}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-7-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
+                            </div>
+
+                            <div id="after-5-day" aria-labelledby="ui-id-6"
+                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
+                                 aria-hidden="true" style="display: none;">
+                                @foreach($after5DaySessions as $session)
+                                    <div class="row movie-tabs">
+                                        <div class="col-md-2 col-sm-3">
+                                            <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="Hush">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <span class="title">{{$session->film->film_genre}}</span>
+                                            <header>
+                                                <h3 class="no-underline">{{$session->film->name}}</h3>
+                                            </header>
+                                            <p>{{$session->film->summary}}</p>
+                                            <p><a href="http://specto.klevermedia.co.uk/movies/hush/"
+                                                  class="arrow-button">
+                                                    Chi tiết</a></p>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-9">
+                                                    <hr class="space-10">
+                                                    <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
+                                                    <div class="time-wrap" style="display: inline-block;">
+                                                        @if($session->film->sessions)
+                                                            @foreach($session->film->sessions as $subsession)
+                                                                <span class="time">{{$subsession->start_time}}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="time ">11:30</span>
+                                                            <span class="time ">13:00</span>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
+                                                <div class="col-md-4 col-sm-3 running-time">
+                                                    <hr class="space-10">
+                                                    {{$session->film->running_time}} <span
+                                                            class="certificate">{{$session->film_quality}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="row movie-tabs">
-                                    <div class="col-md-2 col-sm-3">
-                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
-                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb1-270x340.jpg"
-                                                 alt="Hush">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-9">
-                                        <span class="title"> Action, Adventure, Fantasy</span>
-                                        <header>
-                                            <h3 class="no-underline">Hush</h3>
-                                        </header>
-                                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
-                                            lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum
-                                            claram, anteposuerit litterarum formas humanitatis per seacula quarta decima
-                                            et quinta decima.</p>
-                                        <p><a href="http://specto.klevermedia.co.uk/movies/hush/" class="arrow-button">
-                                                Full synopsis</a></p>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-9">
-                                                <hr class="space-10">
-                                                <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
-                                                <div class="time-wrap" style="display: inline-block;">
-                                                    <span class="time ">11:30</span>
-                                                    <span class="time ">13:00</span>
-                                                    <span class="time ">18:00</span>
+                            </div>
+
+                            <div id="after-6-day" aria-labelledby="ui-id-7"
+                                 class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel"
+                                 aria-hidden="true" style="display: none;">
+                                @foreach($after6DaySessions as $session)
+                                    <div class="row movie-tabs">
+                                        <div class="col-md-2 col-sm-3">
+                                            <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="Hush">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <span class="title">{{$session->film->film_genre}}</span>
+                                            <header>
+                                                <h3 class="no-underline">{{$session->film->name}}</h3>
+                                            </header>
+                                            <p>{{$session->film->summary}}</p>
+                                            <p><a href="http://specto.klevermedia.co.uk/movies/hush/"
+                                                  class="arrow-button">
+                                                    Chi tiết</a></p>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-9">
+                                                    <hr class="space-10">
+                                                    <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
+                                                    <div class="time-wrap" style="display: inline-block;">
+                                                        @if($session->film->sessions)
+                                                            @foreach($session->film->sessions as $subsession)
+                                                                <span class="time">{{$subsession->start_time}}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="time ">11:30</span>
+                                                            <span class="time ">13:00</span>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-3 running-time">
-                                                <hr class="space-10">
-                                                105 mins <span class="certificate">PG</span>
+                                                <div class="col-md-4 col-sm-3 running-time">
+                                                    <hr class="space-10">
+                                                    {{$session->film->running_time}} <span
+                                                            class="certificate">{{$session->film_quality}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
+
                             </div>
 
                         </div>
 
                         <script>
                             jQuery(function ($) {
+
                                 $('.movies').tabs({
-                                    active: 4
+                                    active: 0
                                 });
 
-                                $('.movies ul li.ui-tabs-active a').each(function (index, el) {
-                                    $(this).text('Today');
-                                });
+                                // $('.movies ul li.ui-tabs-active a').each(function (index, el) {
+                                //     $(this).text('Today');
+                                // });
 
-                                $('.movies #Mon').find('.mon-time').css('display', 'inline-block');
-                                $('.movies #Tue').find('.tue-time').css('display', 'inline-block');
-                                $('.movies #Wed').find('.wed-time').css('display', 'inline-block');
-                                $('.movies #Thu').find('.thu-time').css('display', 'inline-block');
-                                $('.movies #Fri').find('.fri-time').css('display', 'inline-block');
-                                $('.movies #Sat').find('.sat-time').css('display', 'inline-block');
-                                $('.movies #Sun').find('.sun-time').css('display', 'inline-block');
+                                $('.movies #Today').find('.mon-time').css('display', 'inline-block');
+                                $('.movies #after-1-day').find('.tue-time').css('display', 'inline-block');
+                                $('.movies #after-2-day').find('.wed-time').css('display', 'inline-block');
+                                $('.movies #after-3-day').find('.thu-time').css('display', 'inline-block');
+                                $('.movies #after-4-day').find('.fri-time').css('display', 'inline-block');
+                                $('.movies #after-5-day').find('.sat-time').css('display', 'inline-block');
+                                $('.movies #after-6-day').find('.sun-time').css('display', 'inline-block');
 
                             });
+                            var d1 = new Date();
+                            var d2 = new Date();
+                            var d3 = new Date();
+                            var d4 = new Date();
+                            var d5 = new Date();
+                            var d6 = new Date();
+                            d1.setDate(d1.getDate() + 1);
+                            d2.setDate(d2.getDate() + 2);
+                            d3.setDate(d3.getDate() + 3);
+                            d4.setDate(d4.getDate() + 4);
+                            d5.setDate(d5.getDate() + 5);
+                            d6.setDate(d6.getDate() + 6);
+                            console.log(d2.getDay());
+                            var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+                            document.getElementById("ui-id-1").innerHTML = days[d1.getDay()];
+                            document.getElementById("ui-id-2").innerHTML = days[d2.getDay()];
+                            document.getElementById("ui-id-3").innerHTML = days[d3.getDay()];
+                            document.getElementById("ui-id-4").innerHTML = days[d4.getDay()];
+                            document.getElementById("ui-id-5").innerHTML = days[d5.getDay()];
+                            document.getElementById("ui-id-6").innerHTML = days[d6.getDay()];
                         </script>
                     </div>
                 </div>

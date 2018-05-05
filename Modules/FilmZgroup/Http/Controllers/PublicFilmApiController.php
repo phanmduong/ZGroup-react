@@ -74,7 +74,7 @@ class PublicFilmApiController extends NoAuthApiController
         $to_date = $request->to_date;
         $film_id = $request->film_id;
         $limit = $request->limit;
-        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at');
+        $sessions = FilmSession::orderBy('created_at','desc');
         if ($session_id) {
             $sessions = $sessions->where('id', '=', $session_id);
         }
@@ -121,7 +121,7 @@ class PublicFilmApiController extends NoAuthApiController
 
     public function getSessionsNowShowing(Request $request)
     {
-        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at');
+        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at','desc');
         $limit = $request->limit;
 
         if ($limit == -1 or !$limit) {
