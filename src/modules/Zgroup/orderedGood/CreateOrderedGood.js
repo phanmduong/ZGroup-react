@@ -99,6 +99,10 @@ class CreateOrderedGood extends React.Component {
                 helper.showErrorNotification("Vui lòng chọn sản phẩm");
                 return;
             }
+            if (this.state.addModalData.discount > 100) {
+                helper.showErrorNotification("Chiết khâu không thể > 100");
+                return;
+            }
         } else { return; }
         let { goods } = this.state.data;
         // let good = this.props.goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
@@ -153,14 +157,26 @@ class CreateOrderedGood extends React.Component {
             company_id: data.company.id,
             goods: JSON.stringify(data.goods.map(
                 (obj) => {
+                    let pr = obj.price * obj.quantity * 1;
+                    switch (obj.type) {
+                        case "book_comic": {
+                            pr -= data.company.discount_comic * pr / 100;
+                            break;
+                        }
+                        case "book_text": {
+                            pr -= data.company.discount_text * pr / 100;
+                            break;
+                        }
+                    }
                     return ({
                         id: obj.id,
-                        price: obj.price,
-                        quantity: obj.quantity,
+                        price: obj.price || 0,
+                        quantity: obj.quantity || 0,
+                        discount: obj.discount || 0,
+                        total_price: pr,
                     });
                 })
             ),
-
         };
         if (params.orderedGoodId)
             this.props.orderedGoodActions.editOrderedGood(res);
@@ -189,8 +205,7 @@ class CreateOrderedGood extends React.Component {
                                                         <button style={{ float: "right" }}
                                                             className="btn btn-rose btn-round btn-xs button-add none-margin"
                                                             type="button"
-                                                            onClick={() => this.openAddModal(null)}
-                                                        >
+                                                            onClick={() => this.openAddModal(null)}>
                                                             <strong>+</strong>
                                                         </button>
                                                     </TooltipButton>
@@ -214,30 +229,30 @@ class CreateOrderedGood extends React.Component {
                                                             {data.goods.map(
                                                                 (obj, index) => {
                                                                     let pr = obj.price * obj.quantity * 1, typeGood = "Khác";
-                                                                    sumPrice += pr;
-                                                                    sumQuantity += obj.quantity * 1;
+
+
 
                                                                     switch (obj.type) {
                                                                         case "book_comic": {
-                                                                            if (data.company.discount_comic)
-                                                                                sumPrice -= pr * data.company.discount_comic / 100;
                                                                             typeGood = "Truyện tranh";
+                                                                            pr -= data.company.discount_comic * pr / 100;
                                                                             break;
                                                                         }
                                                                         case "book_text": {
-                                                                            if (data.company.discount_text)
-                                                                                sumPrice -= pr * data.company.discount_text / 100;
                                                                             typeGood = "Truyện chữ";
+                                                                            pr -= data.company.discount_text * pr / 100;
                                                                             break;
                                                                         }
                                                                     }
-
+                                                                    sumPrice += pr;
+                                                                    sumQuantity += obj.quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{typeGood}</td>
+
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(pr)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
@@ -296,7 +311,7 @@ class CreateOrderedGood extends React.Component {
                                                         className="btn btn-fill btn-rose "
                                                         style={btnStyle}
                                                         type="button"
-                                                        onClick={this.commitData}
+                                                        onClick={() => this.commitData(sumPrice)}
                                                         disabled={isCommitting}
                                                     ><i className="material-icons">add</i>  Lưu</button>
                                                 </div>
@@ -389,6 +404,14 @@ class CreateOrderedGood extends React.Component {
                                 placeholder="Nhập số lượng"
                                 required
                             />
+                            {/* <FormInputText
+                                name="discount" type="number"
+                                label="Chiết khấu (%)"
+                                value={addModalData.discount}
+                                minValue="0"
+                                updateFormData={this.updateFormAdd}
+                                placeholder="Nhập chiết khấu"
+                            /> */}
                             <FormInputText
                                 name="price" type="number"
                                 label="Đơn giá"
@@ -398,6 +421,7 @@ class CreateOrderedGood extends React.Component {
                                 placeholder="Nhập giá"
                                 disabled
                             />
+
                             <FormInputText
                                 name="" type="number"
                                 label="Thành tiền"
@@ -458,7 +482,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderedGood);
 
 const defaultData = {
-    company: { id: "", name: "" },
+    company: { id: "", name: "", discount_comic: 0, discount_text: 0, },
     goods: [],
     note: "",
 };
@@ -466,4 +490,5 @@ const defaultAddModalData = {
     id: "",
     quantity: 0,
     price: 0,
+    discount: 0,
 };

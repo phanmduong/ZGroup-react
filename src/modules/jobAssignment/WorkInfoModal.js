@@ -54,13 +54,8 @@ class WorkInfoModal extends React.Component {
                                         <div className="row">
                                             <div className="col-md-8">
                                                 <div className="card">
-                                                    <div className="card-header card-header-icon"
-                                                        data-background-color="rose">
-                                                        <i className="material-icons">assignment</i>
-                                                    </div>
-
                                                     <div className="card-content">
-                                                        <h4 className="card-title">Thông tin công việc</h4>
+                                                        <h4 className="card-title"><strong>Thông tin công việc</strong></h4>
                                                         <div className="row">
                                                             <div className="col-md-12">
                                                                 <FormInputText
@@ -116,12 +111,8 @@ class WorkInfoModal extends React.Component {
                                             </div>
                                             <div className="col-md-4">
                                                 <div className="card">
-                                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                                        <i className="material-icons">contacts</i>
-                                                    </div>
-
                                                     <div className="card-content">
-                                                        <h4 className="card-title">Người chi trả</h4>
+                                                        <h4 className="card-title"><strong>Người chi trả</strong></h4>
                                                         <ListGroup>
                                                             <ListGroupItem
                                                                 onClick={(e) => {
@@ -152,12 +143,8 @@ class WorkInfoModal extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="card">
-                                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                                        <i className="material-icons">people</i>
-                                                    </div>
-
                                                     <div className="card-content">
-                                                        <h4 className="card-title">Người thực hiện</h4>
+                                                        <h4 className="card-title"><strong>Người thực hiện</strong></h4>
                                                         <div className="row">
                                                             <ListStaffs
                                                                 staffs={data.staffs || []}

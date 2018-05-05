@@ -8,7 +8,7 @@ import { showErrorNotification, showNotification, showTypeNotification } from ".
 /*eslint no-console: 0 */
 
 export function changeInfoStudent(info, success) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_INFO_STUDENT,
         });
@@ -39,7 +39,7 @@ export function changeInfoStudent(info, success) {
 }
 
 export function loadBaseFilter() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BASE_FILTER,
         });
@@ -61,7 +61,7 @@ export function loadBaseFilter() {
 }
 
 export function loadClassFilter(genid) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASS_FILTER,
         });
@@ -83,7 +83,7 @@ export function loadClassFilter(genid) {
 }
 
 export function loadSalerFilter() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SALER_FILTER,
         });
@@ -105,7 +105,7 @@ export function loadSalerFilter() {
 }
 
 export function loadCampaignFilter() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CAMPAIGN_FILTER,
         });
@@ -140,7 +140,7 @@ export function loadRegisterStudent(
     baseId,
     appointment_payment,
 ) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
@@ -158,8 +158,8 @@ export function loadRegisterStudent(
                 endTime,
                 baseId,
                 appointment_payment,
-            )
-            .then(function(res) {
+        )
+            .then(function (res) {
                 dispatch(loadDataSuccessful(res));
             })
             .catch(error => {
@@ -186,7 +186,7 @@ export function loadAllRegisterStudent(
     appointment_payment,
     exportExcel,
 ) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
         });
@@ -204,21 +204,21 @@ export function loadAllRegisterStudent(
                 endTime,
                 baseId,
                 appointment_payment,
-            )
-            .then(function(res) {
+        )
+            .then(function (res) {
                 dispatch({
                     type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,
                     excel: res.data.data,
                 });
                 exportExcel();
-            })
-            .catch(error => {
-                console.log(error);
-                showErrorNotification("Lỗi kết nối mạng!");
-                dispatch({
-                    type: types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR,
-                });
             });
+        // .catch(error => {
+        //     console.log(error);
+        //     showErrorNotification("Lỗi kết nối mạng!");
+        //     dispatch({
+        //         type: types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR,
+        //     });
+        // });
     };
 }
 
@@ -237,7 +237,7 @@ export function loadDataSuccessful(res) {
 }
 
 export function loadGensData() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({ type: types.BEGIN_LOAD_GENS_REGISTER_STUDENT });
         registerStudentsApi
             .loadGens()
@@ -257,7 +257,7 @@ export function loadGensData() {
 }
 
 export function loadHistoryCallStudent(studentId, registerId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_CALL_STUDENT,
         });
@@ -289,7 +289,7 @@ export function changeCallStatusStudent(
     callerId,
     appointmentPayment,
 ) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT,
         });
@@ -302,7 +302,7 @@ export function changeCallStatusStudent(
                 note,
                 callerId,
                 appointmentPayment,
-            )
+        )
             .then(res => {
                 closeModal();
                 dispatch({
@@ -322,7 +322,7 @@ export function changeCallStatusStudent(
 }
 
 export function deleteRegisterStudent(registerId) {
-    return function(dispatch) {
+    return function (dispatch) {
         showTypeNotification("Đang xóa đăng kí", "info");
         dispatch({
             type: types.BEGIN_DELETE_REGISTER_STUDENT,
@@ -353,7 +353,7 @@ export function deleteRegisterStudent(registerId) {
 }
 
 export function loadClasses(registerId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT,
         });
@@ -374,7 +374,7 @@ export function loadClasses(registerId) {
 }
 
 export function loadRegisterByStudent(studentId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT,
         });
@@ -395,7 +395,7 @@ export function loadRegisterByStudent(studentId) {
 }
 
 export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CONFIRM_CHANGE_CLASS_REGISTER_STUDENT,
         });

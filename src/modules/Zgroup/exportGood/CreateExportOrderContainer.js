@@ -192,6 +192,18 @@ class CreateExportOrderContainer extends React.Component {
         let { orderedGoods, isLoading, isCommitting, warehouses, params, user } = this.props;
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
+        let modalDiscount = 0;
+        switch (addModalData.good.type) {
+            case "book_comic": {
+                modalDiscount = data.company.discount_comic;
+                break;
+            }
+            case "book_text": {
+                modalDiscount = data.company.discount_text;
+                break;
+            }
+        }
+
         //console.log(this.state);
         return (
             <div className="content">
@@ -210,7 +222,7 @@ class CreateExportOrderContainer extends React.Component {
                                                         <tr>
                                                             <th style={{ width: "10%" }}>STT</th>
                                                             <th style={{ width: "40%" }}>Tên</th>
-                                                            <th style={textAlign}>Mã</th>
+                                                            <th style={textAlign}>Phân loại</th>
                                                             <th style={textAlign}>Số lượng đặt</th>
                                                             <th style={textAlign}>Số lượng xuất</th>
                                                             <th style={textAlign}>Đơn giá</th>
@@ -223,19 +235,37 @@ class CreateExportOrderContainer extends React.Component {
                                                         <tbody>
                                                             {data.goods.map(
                                                                 (obj, index) => {
-                                                                    sumPrice += obj.price * obj.export_quantity;
+                                                                    let pr = obj.price * obj.export_quantity * 1, typeGood = "Khác";
+
+
+
+                                                                    switch (obj.good.type) {
+                                                                        case "book_comic": {
+                                                                            typeGood = "Truyện tranh";
+                                                                            pr -= data.company.discount_comic * pr / 100;
+                                                                            break;
+                                                                        }
+                                                                        case "book_text": {
+                                                                            typeGood = "Truyện chữ";
+                                                                            pr -= data.company.discount_text * pr / 100;
+                                                                            break;
+                                                                        }
+                                                                    }
+
+                                                                    sumPrice += pr;
                                                                     sumQuantity += obj.export_quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.good.name}</td>
-                                                                            <td style={textAlign}>{obj.good.code}</td>
+                                                                            {/* <td style={textAlign}>{obj.good.code}</td> */}
+                                                                            <td style={textAlign}>{typeGood}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{obj.export_quantity}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={{ ...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red" }}>
                                                                                 {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
-                                                                            <td style={textAlign}>{helper.dotNumber(obj.price * obj.export_quantity)}</td>
+                                                                            <td style={textAlign}>{helper.dotNumber(pr)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
                                                                                     onClick={() => {
@@ -257,10 +287,9 @@ class CreateExportOrderContainer extends React.Component {
                                                     <tfoot style={{ fontWeight: "bolder", fontSize: "1.1em" }}>
                                                         <tr>
                                                             <td />
-                                                            <td>Tổng</td>
-                                                            <td style={textAlign}>{sumQuantity}</td>
                                                             <td />
-                                                            <td colSpan={2} style={textAlign}>{helper.dotNumber(sumPrice)}</td>
+                                                            <td colSpan={3} style={textAlign}>Số lượng xuất: {sumQuantity}</td>
+                                                            <td colSpan={3} style={textAlign}>Thành tiền: {helper.dotNumber(sumPrice)}</td>
                                                             <td />
                                                         </tr>
                                                     </tfoot>
@@ -386,6 +415,15 @@ class CreateExportOrderContainer extends React.Component {
                                 required
                             />
                             <FormInputText
+                                name="discount" type="number"
+                                label="Chiết khấu (%)"
+                                value={modalDiscount + "%"}
+                                minValue="0"
+                                updateFormData={() => { }}
+                                placeholder="Chiết khấu"
+                                disabled
+                            />
+                            <FormInputText
                                 name="price" type="number"
                                 label="Đơn giá"
                                 value={addModalData.price}
@@ -397,7 +435,7 @@ class CreateExportOrderContainer extends React.Component {
                             <FormInputText
                                 name="" type="number"
                                 label="Thành tiền"
-                                value={addModalData.price * addModalData.quantity}
+                                value={addModalData.price * addModalData.export_quantity / 100 * (100 - modalDiscount)}
                                 updateFormData={() => { }}
                                 placeholder="Thành tiền"
                                 disabled
@@ -479,4 +517,5 @@ let defaultData = {
 const defaultAddModalData = {
     good: {},
     warehouse: {},
+    export_quantity: 0,
 };

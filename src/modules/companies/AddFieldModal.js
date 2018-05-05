@@ -48,15 +48,12 @@ class AddFieldModal extends React.Component {
                 <Modal.Header closeButton/>
                 <Modal.Body>
                     <form role="form" id="form-field" onSubmit={(e) => e.preventDefault()}>
-                        <div className="row">
+
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">home</i>
-                                    </div>
 
                                     <div className="card-content">
-                                        <h4 className="card-title">Thêm lĩnh vực</h4>
+                                        <h4 className="card-title"><strong> Thêm lĩnh vực</strong> </h4>
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <FormInputText
@@ -102,7 +99,7 @@ class AddFieldModal extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                     </form>
                 </Modal.Body>
             </Modal>

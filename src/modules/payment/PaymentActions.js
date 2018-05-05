@@ -4,7 +4,7 @@ import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-export function loadPayments(page = 1, receiver_id, payer_id) {
+export function loadPayments(page = 1, receiver_id = null, payer_id = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PAYMENTS,
@@ -88,12 +88,12 @@ export function addPayment(object) {
     };
 }
 
-export function editPayment(id,object){
+export function editPayment(id, object) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_EDIT_PAYMENT,
         });
-        PaymentApi.editPayment(id,object)
+        PaymentApi.editPayment(id, object)
             .then(() => {
                 helper.showNotification('Sửa thành công');
                 dispatch({
@@ -109,7 +109,7 @@ export function editPayment(id,object){
     };
 }
 
-export function uploadImage(file,pp){
+export function uploadImage(file, pp) {
     return function (dispatch) {
         const error = () => {
             helper.showErrorNotification("Có lỗi xảy ra");
@@ -138,12 +138,12 @@ export function uploadImage(file,pp){
     };
 }
 
-export function changeStatus(id,status){
-    return function (dispatch){
+export function changeStatus(id, status) {
+    return function (dispatch) {
         dispatch({
-           type: types.BEGIN_CHANGE_STATUS_PAYMENT,
+            type: types.BEGIN_CHANGE_STATUS_PAYMENT,
         });
-        PaymentApi.changeStatus(id,status)
+        PaymentApi.changeStatus(id, status)
             .then(() => {
                 helper.showNotification('Duyệt thành công');
                 dispatch({
@@ -151,9 +151,9 @@ export function changeStatus(id,status){
                     id: id,
                 });
             }).catch(() => {
-              dispatch({
-                 type: types.CHANGE_STATUS_PAYMENT_ERROR
-              });
+            dispatch({
+                type: types.CHANGE_STATUS_PAYMENT_ERROR
+            });
         });
 
     };
@@ -163,12 +163,13 @@ export function updateFormData(data) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_DATA_CREATE_PAYMENT,
-            data : data,
+            data: data,
         });
     };
 }
-export function resetDataPayment(){
-    return function (dispatch){
+
+export function resetDataPayment() {
+    return function (dispatch) {
         dispatch({
             type: types.RESET_DATA_PAYMENT,
         });

@@ -1,23 +1,23 @@
 export default {
 
-    session:{
-        isLoadingAllSessions:false,
-        isLoadingShowingSession:false,
-        allFilms:[],isLoadingFilms: false,
-        allSessions:[],
-        showingSession:[],
-        comingSession:[],
-        daySession:[],
+    session: {
+        isLoadingAllSessions: false,
+        isLoadingShowingSession: false,
+        allFilms: [], isLoadingFilms: false,
+        allSessions: [],
+        showingSession: [],
+        comingSession: [],
+        daySession: [],
         isSavingSession: false,
         isSaving: false,
         addEditSessionModal: false,
-        sessionModal:{},
+        sessionModal: {},
     },
-    film:{
+    film: {
         isLoading: false,
-        isSaving:false,
-        allFilms:[],
-        allFilmsHavePagination:[],
+        isSaving: false,
+        allFilms: [],
+        allFilmsHavePagination: [],
         currentPage: 0,
         limit: 0,
         totalCount: 0,
@@ -28,7 +28,7 @@ export default {
         isUploadingImage: false,
         percent: 0,
         isSavingFilm: false,
-        filmModal:{},
+        filmModal: {},
         //*************
     },
 
@@ -243,7 +243,7 @@ export default {
         isLoading: false,
         editPasswordModal: false,
         isUpdatingEditModal: false,
-        passwordEditModal: {password: ''},
+        passwordEditModal: { password: '' },
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,
@@ -935,14 +935,14 @@ export default {
             isPreSaving: false,
             preSaveError: false,
             id: '',
-            language : 0,
+            language: 0,
         },
-        language:{
-            name : "",
-            encoding : "",
+        language: {
+            name: "",
+            encoding: "",
         },
-        isCreatingLanguage : false,
-        languages:[],
+        isCreatingLanguage: false,
+        languages: [],
         categories: {
             categories: [],
             isLoading: false,
@@ -1001,7 +1001,7 @@ export default {
         isCommittingInfoStudent: false,
         isLoadingBaseFilter: false,
         baseFilter: [],
-        isSavingRegister:false,
+        isSavingRegister: false,
 
     },
 
@@ -1861,7 +1861,7 @@ export default {
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
             currency_value: 0,
-            ship_price : 0,
+            ship_price: 0,
         },
         coupon: {
             name: '',
@@ -1938,7 +1938,7 @@ export default {
             email: '',
             phone: '',
             address: '',
-            customer_id:0,
+            customer_id: 0,
         },
         infoOrder: {
             payment: "",
@@ -1952,8 +1952,8 @@ export default {
         totalGoodPages: 0,
         warehouse: 0,
         isSaving: false,
-        customers :[],
-        isLoadingCustomers : false,
+        customers: [],
+        isLoadingCustomers: false,
     },
 
     historyExtension: {
@@ -2024,7 +2024,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        companyList:[],
+        companyList: [],
         company: {
             name: "",
             registered_business_address: "",
@@ -2042,6 +2042,8 @@ export default {
             user_contact: "",
             user_contact_phone: "",
             type: "",
+            discount_comic: 0,
+            discount_text: 0,
         },
         summay_money: 0,
         fields: [],
@@ -2076,7 +2078,7 @@ export default {
             },
             description: "",
         },
-        listPayment:[],
+        listPayment: [],
         company: [],
         paginator: {
             total_count: 0,
@@ -2094,7 +2096,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: {x: [0, 600], y: [0, 400]}
+        domain: { x: [0, 600], y: [0, 400] }
     },
     printOrder: {
         isLoading: false,
@@ -2110,14 +2112,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        codes: [{value: '', label: ''}],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        codes: [{ value: '', label: '' }],
         properties: [],
         data: {
-            company: {id: 0, name: ""},
-            staff: {id: 0, name: ""},
-            good: {id: 0, name: ""},
+            company: { id: 0, name: "" },
+            staff: { id: 0, name: "" },
+            good: { id: 0, name: "" },
             quantity: 1,
             command_code: "",
             core1: {
@@ -2196,16 +2198,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: {id: 0, name: "noname"},
-            warehouse: {id: 0, name: "noname"},
-            company: {id: "", name: "noname"},
+            good: { id: 0, name: "noname" },
+            warehouse: { id: 0, name: "noname" },
+            company: { id: "", name: "noname" },
             price: 0,
             quantity: 0,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
-        orderedGoods: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
+        orderedGoods: [{ id: 1, name: "" },],
     },
     notificationTypes: {
         isLoading: false,
@@ -2328,9 +2330,9 @@ export default {
         },
         itemOrders: [],
         importOrders: [],
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
     },
     moneyTransfer: {
         isCreatingTransaction: false,
@@ -2427,9 +2429,11 @@ export default {
     },
     zWarehouse: {
         isLoading: false,
+        isLoadingGoodAll: false,
         isLoadingHisotry: false,
         goods: [],
         historyGood: [],
+        goodAll: [],
         paginator: {
             current_page: 1,
             limit: 20,
