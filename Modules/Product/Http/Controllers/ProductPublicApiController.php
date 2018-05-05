@@ -4,14 +4,35 @@ namespace Modules\Product\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\ManageApiController;
 use App\CategoryProduct;
+use App\Http\Controllers\PublicApiController;
+use App\Services\EmailService;
+use App\Product;
 
-class ProductManageApiController extends ManageApiController
+class ProductPublicApiController extends PublicApiController
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
     {
         parent::__construct();
+        $this->emailService = $emailService;
+    }
+
+    public function mailViews($views)
+    {
+        if ($views < 10) {
+            return false;
+        }
+        while ($views != 0) {
+            if ($views > 10 && $views % 10 != 0) {
+                return false;
+            }
+            if ($views < 10 && ($views == 1 || $views == 2 || $views == 5)) {
+                return true;
+            }
+            $views /= 10;
+        }
     }
 
     public function timeCal($time)
@@ -32,7 +53,7 @@ class ProductManageApiController extends ManageApiController
         return date('d-m-Y', strtotime($time));
     }
 
-    public function allBlogs($kind, $request)
+    public function blogs($kind, $request)
     {
         $limit = $request->limit ? $request->limit : 6;
 
@@ -53,6 +74,25 @@ class ProductManageApiController extends ManageApiController
                 $data['time'] = $this->timeCal(date($blog->created_at));
                 return $data;
             })
+        ]);
+    }
+
+    public function blog($slug, Request $request)
+    {
+        $blog = Product::where('slug', $slug)->first();
+        $blog->views += 1;
+        $blog->save();
+        if ($this->mailViews($blog->views) === true) {
+            $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
+        }
+        $data = $blog->blogDetailTransform();
+        $data['time'] = $this->timeCal(date($blog->created_at));
+        $relatedBlogs = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
+            ->limit(4)->get();
+
+        return $this->respondSuccessWithStatus([
+            'blog' => $data,
+            'related_blogs' => $relatedBlogs,
         ]);
     }
 }
