@@ -431,10 +431,11 @@
                 caption: 'colorme.vn',
                 description: "{!! htmlspecialchars($blog['description']) !!}"
             }, function (t) {
+                console.log(t);
                 var str = JSON.stringify(t);
                 var obj = JSON.parse(str);
                 if (obj.post_id != '') {
-                    console.log(obj);
+
                     vueShareToDown.shared = true;
                 }
             });
