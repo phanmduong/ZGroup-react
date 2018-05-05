@@ -20,6 +20,7 @@ use App\Comment;
 use App\Services\EmailService;
 use Carbon\Carbon;
 use App\ProductSubscription;
+use Illuminate\Support\Facades\Auth;
 
 class ColormeNewController extends CrawlController
 {
@@ -329,6 +330,17 @@ class ColormeNewController extends CrawlController
         if($request->page){
             return $products;
         };
+
+        if(Auth::user()){
+            dd(1);
+            $products = $products->map(function ($product) {
+                $data = $product->personalTransform();
+                
+                $data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+                return $data;
+            });
+            
+        }
 
         $cources = Course::all();
 
