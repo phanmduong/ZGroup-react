@@ -4,8 +4,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import * as blogActions from "../actions/blogActions";
 
 
@@ -19,8 +19,7 @@ import PostModal from "./PostModal";
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
 // // import KeetoolEditor from "../../../components/common/KeetoolEditor";
-import MinEditor from '../../../js/keetool-editor';
-
+// import MinEditor from '../../../js/keetool-editor';
 
 
 class BlogsContainer extends React.Component {
@@ -43,7 +42,7 @@ class BlogsContainer extends React.Component {
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
         this.loadByKinds = this.loadByKinds.bind(this);
-        this.test = this.test.bind(this);
+        // this.test = this.test.bind(this);
 
     }
 
@@ -53,22 +52,23 @@ class BlogsContainer extends React.Component {
         this.props.blogActions.loadLanguages();
         this.loadPosts(1);
     }
-    componentDidMount() {
 
-        // $("mini-editor").init();
-        window.addEventListener('load', function () {
-            MinEditor.init('mini-editor');
-        });
-    }
-    test(){
-        let data = {...this.props.post};
-        data["content"] = MinEditor.getContent();
-        console.log(MinEditor.getContent(), data.content, "test");
-        this.props.blogActions.updateFormPost(data);
-    }
+    // componentDidMount() {
+    //
+    //     // $("mini-editor").init();
+    //     window.addEventListener('load', function () {
+    //         MinEditor.init('mini-editor');
+    //     });
+    // }
+    // test(){
+    //     let data = {...this.props.post};
+    //     data["content"] = MinEditor.getContent();
+    //     console.log(MinEditor.getContent(), data.content, "test");
+    //     this.props.blogActions.updateFormPost(data);
+    // }
 
     loadPosts(page) {
-        this.setState({ page });
+        this.setState({page});
         this.props.blogActions.loadPosts(
             page,
             this.state.query,
@@ -76,6 +76,7 @@ class BlogsContainer extends React.Component {
             this.state.kind,
         );
     }
+
     loadByText(value) {
         this.setState({
             page: 1,
@@ -96,8 +97,9 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
+
     loadByCategories(category_id) {
-        this.setState({ category_id });
+        this.setState({category_id});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -113,8 +115,9 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
+
     loadByKinds(kind) {
-        this.setState({ kind });
+        this.setState({kind});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -130,12 +133,11 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
+
     openCreatePostModal(e) {
         this.props.blogActions.openCreatePostModal();
         e.preventDefault();
     }
-
-
 
 
     render() {
@@ -149,108 +151,91 @@ class BlogsContainer extends React.Component {
         return (
             <div className="container-fluid">
                 {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages ? (
-                    <Loading />
+                    <Loading/>
                 ) : (
-                        <div>
-                            <div className="row">
-                                <div className="col-md-2">
+                    <div>
+                        <div className="row">
+                            <div className="col-md-2">
 
-                                    <Select
-                                        className="btn-round"
-                                        name="board-id"
-                                        value={this.state.category_id}
-                                        options={
-                                            [
-                                                { key: 0, value: "Tất cả" },
-                                                ...this.props.categories ? this.props.categories.map((category) => {
-                                                    return {
-                                                        ...category,
-                                                        key: category.id,
-                                                        value: category.name
-                                                    };
-                                                }) : []]
-                                        }
-                                        onChange={this.loadByCategories}
-                                    />
-                                </div>
-                                <div className="col-md-2">
-
-                                    <Select
-                                        className="btn-round"
-                                        name="board-id"
-                                        value={this.state.kind}
-                                        options={
-                                            this.props.allBlogKinds.map((obj) => {
-                                                return { key: obj.value, value: obj.label };
-                                            })
-                                        }
-                                        onChange={this.loadByKinds}
-                                    />
-                                </div>
+                                <Select
+                                    className="btn-round"
+                                    name="board-id"
+                                    value={this.state.category_id}
+                                    options={
+                                        [
+                                            {key: 0, value: "Tất cả"},
+                                            ...this.props.categories ? this.props.categories.map((category) => {
+                                                return {
+                                                    ...category,
+                                                    key: category.id,
+                                                    value: category.name
+                                                };
+                                            }) : []]
+                                    }
+                                    onChange={this.loadByCategories}
+                                />
                             </div>
-                            <div className="card">
-                                <div className="card-content">
-                                    <div className="tab-content">
-                                        <div className="flex-row flex">
-                                            <h4 className="card-title">
-                                                <strong>Danh sách bài viết</strong>
-                                            </h4>
-                                            <div>
-                                                <button
-                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                                    type="button" onClick={
-                                                        (e) => { this.openCreatePostModal(e); }}>
-                                                    <strong>+</strong>
-                                                </button>
-                                            </div>
+                            <div className="col-md-2">
+
+                                <Select
+                                    className="btn-round"
+                                    name="board-id"
+                                    value={this.state.kind}
+                                    options={
+                                        this.props.allBlogKinds.map((obj) => {
+                                            return {key: obj.value, value: obj.label};
+                                        })
+                                    }
+                                    onChange={this.loadByKinds}
+                                />
+                            </div>
+                        </div>
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách bài viết</strong>
+                                        </h4>
+                                        <div>
+                                            <button
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                type="button" onClick={
+                                                (e) => {
+                                                    this.openCreatePostModal(e);
+                                                }}>
+                                                <strong>+</strong>
+                                            </button>
                                         </div>
-
-                                        <div id="mini-editor">
-                                        </div>
-                                        <button onClick={()=>this.test()}>+</button>
-
-
-                                        <Search
-                                            onChange={this.loadByText}
-                                            value={this.state.query}
-                                            placeholder="Tìm kiếm tiêu đề"
-                                        />
                                     </div>
 
-                                    <ListPost />
-                                    <Pagination
-                                        totalPages={this.props.totalPages}
-                                        currentPage={this.state.page}
-                                        loadDataPage={this.loadPosts}
+                                    {/*<div id="mini-editor">*/}
+                                    {/*</div>*/}
+                                    {/*<button onClick={()=>this.test()}>+</button>*/}
+
+
+                                    <Search
+                                        onChange={this.loadByText}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm tiêu đề"
                                     />
                                 </div>
 
                                 <ListPost/>
-
-                                <div className="row float-right">
-                                    <div className="col-md-12"
-                                         style={{textAlign: "right"}}
-                                    >
-                                        {/*<b style={{marginRight: "15px"}}>*/}
-                                            {/*Hiển thị kêt quả từ {first} -{" "}*/}
-                                            {/*{end}/{this.props.totalPages}*/}
-                                        {/*</b>*/}
-                                        <br/>
-                                        <Pagination
-                                            totalPages={this.props.totalPages}
-                                            currentPage={this.state.page}
-                                            loadDataPage={this.loadPosts}
-                                        />
-                                    </div>
-                                </div>
+                                <Pagination
+                                    totalPages={this.props.totalPages}
+                                    currentPage={this.state.page}
+                                    loadDataPage={this.loadPosts}
+                                />
                             </div>
                         </div>
+                    </div>
                 )}
 
 
-                <PostModal />
-                <AddLanguageModal />
-                <AddCategoryModal />
+                <PostModal/>
+                <AddLanguageModal/>
+                <AddCategoryModal/>
 
 
             </div>
