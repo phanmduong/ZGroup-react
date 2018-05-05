@@ -88,7 +88,9 @@ class ProductPublicApiController extends PublicApiController
         $data = $blog->blogDetailTransform();
         $data['time'] = $this->timeCal(date($blog->created_at));
         $data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
-            ->limit(4)->get();
+            ->limit(4)->get()->map(function ($related_blog) {
+                return $related_blog->blogTransform();
+            });
 
         return $this->respondSuccessWithStatus([
             'blog' => $data,
