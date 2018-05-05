@@ -27,8 +27,8 @@ class FilmZgroupController extends Controller
         $after5DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
         $after6DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
         $filmsComing = Film::where('film_status',2);
-        $sessionsShowing = FilmSession::where('start_date','>=',date('Y-m-d'))->orderBy('start_date','desc');
-
+        $sessionsShowing = FilmSession::where('start_date','>=',date('Y-m-d'))->orderBy('start_date','desc')->get();
+//        dd($sessionsShowing);
         $this->data = [
             'filmsComing' => $filmsComing,
             'sessionsShowing' => $sessionsShowing,

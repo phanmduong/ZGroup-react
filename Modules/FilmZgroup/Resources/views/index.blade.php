@@ -165,9 +165,12 @@
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner" role="listbox">
                                     <!-- Slides -->
-                                    @foreach($sessionsShowing->take(3) as $session)
-                                    <div class="item"
-                                         style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2018/03/hero.jpg&quot;); padding-top: 0px;">
+                                    <?php $i = 0;$classes = array('item', 'item active','item');?>
+
+                                @foreach($sessionsShowing->take(3) as $session)
+                                    <?php  $class = $classes[$i++ % 3]?>
+                                        <div class="{{$class}}"
+                                         style="background-image: url({{$session->film->avatar_url}}); padding-top: 0px;">
 
                                         <div class="container">
                                             <div class="row blurb">
@@ -179,8 +182,7 @@
                                                     <p>{{$session->film->summary}}</p>
 
                                                     <div class="buttons">
-										<span class="certificate">
-											PG										</span>
+										<span class="certificate">{{$session->film_quality}}</span>
                                                         <a href="{{$session->film->trailer_url}}" data-vbtype="video"
                                                            class="venobox btn btn-default vbox-item">
 
