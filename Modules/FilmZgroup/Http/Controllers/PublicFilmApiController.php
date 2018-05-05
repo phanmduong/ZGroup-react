@@ -33,11 +33,11 @@ class PublicFilmApiController extends NoAuthApiController
         $limit = $request->limit;
         $search = $request->search;
         $id = $request->id;
-        $filmsR = Film::orderBy('created_at','desc')->get();
+        $filmsR = Film::orderBy('created_at', 'desc')->get();
         foreach ($filmsR as $film) {
             $this->reloadFilmStatus($film);
         }
-        $films = Film::orderBy('created_at','desc');
+        $films = Film::orderBy('created_at', 'desc');
 
         if ($search) {
             $films = $films->where('name', 'LIKE', '%' . trim($search) . '%');
@@ -49,17 +49,16 @@ class PublicFilmApiController extends NoAuthApiController
 
         if ($limit == -1 or !$limit) {
             $films = $films->get();
-            $data = [
+            $films = [
                 "films" => $films,
             ];
 
-            return $this->respondSuccessWithStatus($data);
+            return $films;
         } else {
 
             $films = $films->paginate($limit);
             return $this->respondWithPagination($films, ['films' => $films->map(function ($film) {
-                $data['film'] = $film;
-                return $data;
+                return $film;
             })]);
         }
     }
@@ -86,8 +85,8 @@ class PublicFilmApiController extends NoAuthApiController
             $sessions = $sessions->where('film_id', $film_id);
         }
         if ($film_name) {
-            $sessions = $sessions->whereHas('film',function($query) use ($film_name){
-                $query->where('name', 'LIKE', '%' .$film_name. '%');
+            $sessions = $sessions->whereHas('film', function ($query) use ($film_name) {
+                $query->where('name', 'LIKE', '%' . $film_name . '%');
             });
         }
         if ($start_date) {
@@ -102,22 +101,20 @@ class PublicFilmApiController extends NoAuthApiController
 
         if ($limit == -1 or !$limit) {
             $sessions = $sessions->get();
-            $data = [
-                "sessions" => $sessions->map(function ($session) {
-                    $data['session'] = $session;
+            $sessions = [
+                'sessions' => $sessions->map(function ($session) {
                     $session['film'] = $session->film;
-                    return $data;
+                    return $session;
                 })
             ];
 
-            return $this->respondSuccessWithStatus($data);
+            return $sessions;
         } else {
 
             $sessions = $sessions->paginate($limit);
             return $this->respondWithPagination($sessions, ['sessions' => $sessions->map(function ($session) {
-                $data['session'] = $session;
                 $session['film'] = $session->film;
-                return $data;
+                return $session;
             })]);
         }
     }
@@ -129,44 +126,41 @@ class PublicFilmApiController extends NoAuthApiController
 
         if ($limit == -1 or !$limit) {
             $sessions = $sessions->get();
-            $data = [
+            $sessions = [
                 "sessions" => $sessions->map(function ($session) {
-                    $data['session'] = $session;
                     $session['film'] = $session->film;
-                    return $data;
+                    return $session;
                 })
             ];
 
-            return $this->respondSuccessWithStatus($data);
+            return $sessions;
         } else {
 
             $sessions = $sessions->paginate($limit);
             return $this->respondWithPagination($sessions, ['sessions' => $sessions->map(function ($session) {
-                $data['session'] = $session;
                 $session['film'] = $session->film;
-                return $data;
+                return $session;
             })]);
         }
     }
 
-    public function getFilmComingSoon(Request $request)
+    public function getFilmsComingSoon(Request $request)
     {
         $limit = $request->limit;
         $films = Film::where('film_status', 2);
 
         if ($limit == -1 or !$limit) {
             $films = $films->get();
-            $data = [
-                "films" => $films,
+            $films = [
+                'films' => $films
             ];
 
-            return $this->respondSuccessWithStatus($data);
+            return $films;
         } else {
 
             $films = $films->paginate($limit);
             return $this->respondWithPagination($films, ['films' => $films->map(function ($film) {
-                $data['film'] = $film;
-                return $data;
+                return $film;
             })]);
         }
     }
