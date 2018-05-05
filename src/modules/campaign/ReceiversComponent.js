@@ -8,6 +8,7 @@ import OverlappedCircles from '../../components/common/OverlappedCircles';
 import * as campaignAction from './campaignAction';
 import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
+import { confirm } from '../../helpers/helper';
 
 class ReceiversComponent extends React.Component {
 	constructor(props, context) {
@@ -20,6 +21,7 @@ class ReceiversComponent extends React.Component {
 		this.timeOut = null;
 		this.loadOrders = this.loadOrders.bind(this);
 		this.templatesSearchChange = this.templatesSearchChange.bind(this);
+		this.removeUserFromCampaign = this.removeUserFromCampaign.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -54,6 +56,12 @@ class ReceiversComponent extends React.Component {
 	loadOrders(page = 1) {
 		this.setState({ page: page });
 		this.props.campaignAction.loadAllReceiver(this.campaignId, page, this.state.query);
+	}
+
+	removeUserFromCampaign(user) {
+		confirm('error', 'Xóa người dùng', 'Bạn có chắc muốn xóa người dùng này', () => {
+			this.props.campaignAction.removeUserFromCampaign(this.campaignId, user);
+		});
 	}
 
 	render() {
@@ -92,17 +100,14 @@ class ReceiversComponent extends React.Component {
 							<tbody>
 								{this.props.allReceiver &&
 									this.props.allReceiver.map((receiver, index) => {
-                                        const image = receiver.avatar_url
+										const image = receiver.avatar_url
 											? receiver.avatar_url
 											: 'http://farm9.staticflickr.com/8130/29541772703_6ed8b50c47_b.jpg';
 										return (
 											<tr key={index}>
 												<td>
 													<div>
-														<img
-															className="circle-avatar"
-															src={image}
-														/>
+														<img className="circle-avatar" src={image} />
 													</div>
 												</td>
 												<td>
@@ -176,7 +181,9 @@ class ReceiversComponent extends React.Component {
 															</a>
 														</TooltipButton>
 														<TooltipButton placement="top" text="Xóa">
-															<a>
+															<a
+																onClick={() =>
+																	this.removeUserFromCampaign(receiver)}>
 																<i className="material-icons">delete</i>
 															</a>
 														</TooltipButton>

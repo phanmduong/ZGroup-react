@@ -108,7 +108,8 @@ export default {
         isLoadingReceiversModal: false,
         gens: [],
         classes: [],
-        isChoosingReceivers: false
+        isChoosingReceivers: false,
+        //isUpdatingReceivers: false
     },
 
     labelManage: {
