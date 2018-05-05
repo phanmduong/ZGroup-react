@@ -34,7 +34,7 @@ class ManageHistoryCallApiController extends ManageApiController
             $teleCalls = $teleCalls->join('users', 'users.id', '=', 'tele_calls.student_id')
                 ->where(function ($query) use ($search) {
                     $query->where('users.name', 'like', "%$search%")->orWhere('users.phone', 'like', "%$search%")
-                        ->orWhere('users.email', 'like', "%$search%");
+                        ->orWhere('users.email', 'like', "%$search%")->orWhere('tele_calls.note', 'like', "%$search%");
                 })->select('tele_calls.*');
         $teleCalls = $teleCalls->orderBy("tele_calls.created_at", "desc")->paginate($limit);
 
