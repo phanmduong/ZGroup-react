@@ -91,7 +91,7 @@ class BarcodeController extends ManageApiController
             $barcodes = $barcodes->join('goods', 'goods.id', '=', 'barcode.good_id')
                 ->where(function ($query) use ($search) {
                     $query->where('barcode.value', 'like', "%$search%")->orWhere('goods.name', 'like', "%$search%");
-                })->select("barcodes.*");
+                })->select("barcode.*");
         $barcodes = $barcodes->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($barcodes, [
             'barcodes' => $barcodes->map(function ($barcode) {
