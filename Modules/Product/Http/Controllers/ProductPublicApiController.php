@@ -80,6 +80,8 @@ class ProductPublicApiController extends PublicApiController
     public function blog($slug, Request $request)
     {
         $blog = Product::where('slug', $slug)->first();
+        if($blog == null)
+            return $this->respondErrorWithStatus('Không tồn tại bài viết');
         $blog->views += 1;
         $blog->save();
         if ($this->mailViews($blog->views) === true) {
