@@ -3,6 +3,7 @@
 namespace Modules\Base\Http\Controllers;
 
 use App\Base;
+use App\CategoryProduct;
 use App\District;
 use App\Http\Controllers\NoAuthApiController;
 use App\Product;
@@ -74,6 +75,7 @@ class PublicApiController extends NoAuthApiController
                 });
             })->groupBy('room_id')->pluck('room_id')->toArray();
 
+
         $rooms = Room::where('base_id', $baseId)->whereNotIn('id', $bookedRoomIds)->get();
 
         return $this->respondSuccessWithStatus([
@@ -84,12 +86,20 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function getAllBlogs(Request $request)
+    public function getBlogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc');
-        $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
-        $blogs = $blogs->paginate(6);
+        $category_id = $request->category_id;
+        $kind = $request->kind;
+//        $tag = $request->tag;
+        $blogs = Product::where('type',2)->where('title', 'like', '%' . trim($request->search) . '%')->orderBy('created_at', 'desc');
+        if($category_id) {
+            $blogs = $blogs->where('category_id',$category_id);
+        }
+        if($kind) {
+            $blogs = $blogs->where('kind',$kind);
+        }
+        $blogs = $blogs->paginate($limit);
         return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             $data['status'] = $blog->status;
@@ -107,4 +117,35 @@ class PublicApiController extends NoAuthApiController
             'product' => $product->blogDetailTransform()
         ]);
     }
+
+    public function productCategories()
+    {
+        $categories = CategoryProduct::orderBy('id')->get();
+        return $this->respondSuccessWithStatus([
+            'categories' => $categories
+        ]);
+    }
+
+    public function productKinds()
+    {
+        $kinds = Product::pluck('kind');
+        $values = array("zxc.start.zxc");
+        foreach ($kinds as $kind) {
+            for($i = 1; $i < count($values); $i++)
+            {
+                if ($kind == $values[$i]) {
+                    break;
+                }
+            }
+            if($i == count($values)) {
+                array_push($values, $kind);
+            }
+        }
+        array_shift($values);
+        return $this->respondSuccessWithStatus([
+            'kinds' => $values
+        ]);
+    }
+
+
 }

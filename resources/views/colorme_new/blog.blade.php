@@ -4,7 +4,7 @@
     <meta property="og:title" content="{!!htmlspecialchars($blog['title'])!!}"/>
     <meta property="og:description"
           content="{!! htmlspecialchars($blog['description']) !!}"/>
-    <meta property="og:image" content="{{$blog['url']}}"/>
+    <meta property="og:image" content="{{generate_protocol_url($blog['url'])}}"/>
 
 
     <meta name="title" content="{!! htmlspecialchars($blog['meta_title']) !!}">
@@ -166,7 +166,7 @@
                                 <div class="col-md-8 title-wrapper">
                                     @if($blog['category_name'])
                                         <span style=" text-transform: uppercase; font-size: 14px; padding-bottom:20px">
-                                            <a style="color: white;" href = "/blogs">/BLOGS</a><a style="color: white;" href = "#"><span>/{{$blog['category_name']}}</span></a>
+                                            <a class="a-hover-underline" style="color: white;" href = "/blogs"><span>/BLOGS</span></a><a class="a-hover-underline" style="color: white;" href = "/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
                                         </span>
                                     @endif
 

@@ -25,7 +25,7 @@
                     <option  selected="" value = "completed"> Hoàn thành </option>
                     <option  selected="" value = "cancel"> Huỷ đơn </option>
 
-                    <option  selected="">Trạng thái</option>
+                    <option  selected="" value = "">Trạng thái</option>
                 </select>
         </div>
     </div>

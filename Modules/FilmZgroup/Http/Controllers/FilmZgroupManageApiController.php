@@ -25,19 +25,6 @@ class FilmZgroupManageApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function getAllFilms()
-    {
-        $films = Film::orderBy("id", "desc")->get();
-        foreach ($films as $film) {
-            $this->reloadFilmStatus($film);
-        }
-        $films = Film::orderBy("id", "desc")->paginate(24);
-        $this->data['total_pages'] = ceil($films->total() / $films->perPage());
-        $this->data['current_page'] = $films->currentPage();
-        $this->data["films"] = $films;
-
-        return $this->respondSuccessWithStatus($this->data);
-    }
 
     public function addFilm(Request $request)
     {
@@ -123,15 +110,6 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccess('xoa thanh cong');
     }
 
-    public function changeSeatStatus(Request $request, $session_id)
-    {
-        $seat = SessionSeat::where([['session_id', '=', $session_id], ['seat_id', '=', $request->seat_id]])->first();
-        $seat->seat_status = $request->seat_status;
-        $seat->save();
-
-        return $this->respondSuccess('doi trang thai ghe thanh cong');
-    }
-
     public function addSession(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -190,36 +168,18 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccess('Xoa thanh cong');
     }
 
-    public function getAllSessions()
+    public function changeSeatStatus(Request $request, $session_id)
     {
-        $sessions = FilmSession::orderBy('start_date', 'desc')->paginate(20);
-        $this->data['total_pages'] = ceil($sessions->total() / $sessions->perPage());
-        $this->data['current_page'] = $sessions->currentPage();
-        $this->data["sessions"] = $sessions;
+        $seat = SessionSeat::where([['session_id', '=', $session_id], ['seat_id', '=', $request->seat_id]])->first();
+        $seat->seat_status = $request->seat_status;
+        $seat->save();
 
-        return $this->respondSuccessWithStatus($this->data);
+        return $this->respondSuccess('doi trang thai ghe thanh cong');
     }
 
-    public function reloadFilmStatus(Film $film)
+    public function changeFilmStatus(Request $request,$id)
     {
-        if (count($film->film_sessions) > 0) {
-            $sessions = $film->film_sessions()->where('start_date', '>=',date('Y-m-d'))->get();
-            if (count($sessions) == 0 && $film->film_status == 1) {
-                $film->film_status = 0;
-                $film->save();
-            } elseif (count($sessions) > 0) {
-                $film->film_status = 1;
-                $film->save();
-            }
-        } elseif ($film->film_status == 1) {
-            $film->film_status = 0;
-            $film->save();
-        }
-    }
-
-    public function changeFilmStatus(Request $request)
-    {
-        $film = Film::find($request->film_id);
+        $film = Film::find($id);
         $film->film_status = $request->film_status;
         $film->save();
 

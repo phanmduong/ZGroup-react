@@ -358,32 +358,31 @@ class AdministrationController extends ManageApiController
 
     public function showReports(Request $request)
     {
+        
         $limit = $request->limit ? $request->limit :20;
         $search = $request->search;
+        $reports = Report::orderBy('created_at','desc');
         if($search){
-            $reports = Report::where('content','like', '%' . $search . '%')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
+            $reports = $reports->where('report','like', '%' . $search . '%');
+            // dd($reports);
+            if(!$reports->get()){
+                return $this->respondErrorWithStatus([
+                    "message" => "Không tìm thấy bài viết"
+                ]);
+            }
         }
-
+        
         if($this->user->role == 2) {
-            $reports = Report::orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
+            // dd($reports);
+            $reports = $reports->paginate($limit);
         } else {
-            $reports = Report::where('staff_id',$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
+            $reports = $reports->where('staff_id',$this->user->id)->paginate($limit);
         }
+        return $this->respondWithPagination($reports, [
+            "reports" => $reports->map(function ($report) {
+                return $report->transform();
+            })
+        ]);
     }
 
     public function deleteReport(Request $request, $id)
