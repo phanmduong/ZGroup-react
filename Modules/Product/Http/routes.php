@@ -11,7 +11,7 @@ $productCategoryRoutes = function () {
 
 $productPublicApiRoutes = function () {
     Route::group(['prefix' => 'v2'], function () {
-        Route::get('/blog', 'ProductPublicApiController@allBlogs');
+        Route::get('/blog', 'ProductPublicApiController@blogs');
         Route::get('/blog/{slug}', 'ProductPublicApiController@allBlogs');
     });
 };
