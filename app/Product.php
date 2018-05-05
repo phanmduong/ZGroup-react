@@ -119,4 +119,25 @@ class Product extends Model
         });
         return $data;
     }
+
+    public function personalTransform()
+    {
+        return [
+            'id' => $this->id,
+            'url' => $this->url,
+            'author' => [
+                'id' => $this->author->id,
+                'name' => $this->author->name,
+                'avatar_url' => strpos($this->author->avatar_url, config('app.protocol')) === false ? config('app.protocol') . $this->author->avatar_url : $this->author->avatar_url,
+                'email' => $this->author->email,
+                'username' => $this->author->username,
+            ],
+            'content' => $this->content,
+            'title' => $this->title,
+            'thumb_url' => $this->thumb_url,
+            'slug' => $this->slug,
+            'views' => $this->views,
+            // 'comments' => $this->comments->
+        ];
+    }
 }

@@ -3,6 +3,7 @@
 $routes = function () {
     //En
     Route::get('/en', 'UpCoworkingSpaceController@index');
+    Route::get('/en/vietnamese-startup-news', 'UpCoworkingSpaceController@blog');
     Route::get('/en/mission-and-vision', 'UpCoworkingSpaceController@missionAndVision');
     Route::get('/en/media-partner', 'UpCoworkingSpaceController@media');
     Route::get('/en/faqs', 'UpCoworkingSpaceController@faqs');
@@ -14,6 +15,18 @@ $routes = function () {
     Route::get('/en/up-s-mentors', 'UpCoworkingSpaceController@mentors');
     Route::get('/en/contact-us', 'UpCoworkingSpaceController@contact_us');
     Route::get('/en/book-a-tour', 'UpCoworkingSpaceController@tour');
+    Route::get('/en/strategic-partner', 'UpCoworkingSpaceController@partner');
+    Route::get('/en/private-office','UpCoworkingSpaceController@private_room');
+    Route::get('/en/virtual-office','UpCoworkingSpaceController@virtual_office');
+    Route::get('/en/accounting','UpCoworkingSpaceController@accounting');
+    Route::get('/en/legal-consulting','UpCoworkingSpaceController@legal_consulting');
+    Route::get('/en/up-luong-yen','UpCoworkingSpaceController@luong_yen');
+    Route::get('/en/up-bach-khoa-ha-noi','UpCoworkingSpaceController@bach_khoa');
+    Route::get('/en/up-kim-ma','UpCoworkingSpaceController@kim_ma');
+    Route::get('/en/up-lang-ha','UpCoworkingSpaceController@lang_ha');
+    Route::get('/en/coworking-space-ho-chi-minh','UpCoworkingSpaceController@hcm');
+    Route::get('/en/creative-lab-up-maker-space','UpCoworkingSpaceController@up_lab');
+    Route::get('/en/up-s-members','UpCoworkingSpaceController@members');
 
     //Vi
     Route::get('/', 'UpCoworkingSpaceController@index');
@@ -35,6 +48,17 @@ $routes = function () {
     Route::get('/up-founders', 'UpCoworkingSpaceController@founders');
     Route::get('/up-s-mentors', 'UpCoworkingSpaceController@mentors');
     Route::get('/dang-ky-trai-nghiem', 'UpCoworkingSpaceController@tour');
+    Route::get('/thue-phong-lam-viec','UpCoworkingSpaceController@private_room');
+    Route::get('/van-phong-ao','UpCoworkingSpaceController@virtual_office');
+    Route::get('/accounting','UpCoworkingSpaceController@accounting');
+    Route::get('/tu-van-doanh-nghiep','UpCoworkingSpaceController@legal_consulting');
+    Route::get('/up-luong-yen','UpCoworkingSpaceController@luong_yen');
+    Route::get('/up-bach-khoa-ha-noi','UpCoworkingSpaceController@bach_khoa');
+    Route::get('/up-kim-ma','UpCoworkingSpaceController@kim_ma');
+    Route::get('/up-lang-ha','UpCoworkingSpaceController@lang_ha');
+    Route::get('/coworking-space-ho-chi-minh','UpCoworkingSpaceController@hcm');
+    Route::get('/creative-lab-up-maker-space','UpCoworkingSpaceController@up_lab');
+    Route::get('/up-s-members','UpCoworkingSpaceController@members');
 
     Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
 };
