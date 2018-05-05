@@ -300,7 +300,7 @@
                                             <div style="width: 130%;  margin-top: 40px;">
                                                 <div style="margin-top: 20px;">
                                                     <a href="/profile/{{$blog['author']['username']}}"
-                                                          class="more-products">
+                                                       class="more-products">
                                                         <h5>
                                                             Bài viết khác từ
                                                             {{$blog['author']['name']}}
@@ -409,9 +409,19 @@
         var vueShareToDown = new Vue({
             el: "#vue-share-to-download",
             data: {
-                shared: false
+                shared: false,
+                share_count: 0
             }
         });
+
+        function analyticsDownLoad() {
+            axios.get("https://graph.facebook.com/?id={{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}")
+                .then(function (res) {
+                    vueShareToDown.share_count = res.data.share.share_count
+                })
+        }
+
+        analyticsDownLoad();
 
         function shareOnFB() {
             FB.ui({
@@ -421,9 +431,11 @@
                 caption: 'colorme.vn',
                 description: "{!! htmlspecialchars($blog['description']) !!}"
             }, function (t) {
+                console.log(t);
                 var str = JSON.stringify(t);
                 var obj = JSON.parse(str);
                 if (obj.post_id != '') {
+
                     vueShareToDown.shared = true;
                 }
             });
