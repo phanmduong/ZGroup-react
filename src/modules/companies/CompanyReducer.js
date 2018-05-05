@@ -2,14 +2,14 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function companyReducer(state = initialState.companies, action) {
-    switch (action.type){
+    switch (action.type) {
         case types.BEGIN_LOAD_COMPANIES:
-            return{
+            return {
                 ...state,
                 isLoadingCompanies: true,
             };
         case types.LOAD_COMPANIES_SUCCESS: {
-            let data=[];
+            let data = [];
             data = action.data;
             return {
                 ...state,
@@ -19,28 +19,28 @@ export default function companyReducer(state = initialState.companies, action) {
             };
         }
         case types.LOAD_COMPANIES_ERROR:
-            return{
+            return {
                 ...state,
                 isLoadingCompanies: false,
             };
         case types.BEGIN_LOAD_COMPANY:
-            return{
+            return {
                 ...state,
                 isLoadingCompany: true,
             };
         case types.LOAD_COMPANY_SUCCESS:
-            return{
+            return {
                 ...state,
                 isLoadingCompany: false,
                 company: action.data,
             };
         case types.LOAD_COMPANY_ERROR:
-            return{
+            return {
                 ...state,
                 isLoadingCompany: false,
             };
         case types.BEGIN_LOAD_FIELDS:
-            return{
+            return {
                 ...state,
                 isLoadingFields: true,
             };
@@ -52,47 +52,47 @@ export default function companyReducer(state = initialState.companies, action) {
             };
         }
         case types.BEGIN_ADD_COMPANY:
-            return{
+            return {
                 ...state,
                 isSavingCompany: true,
             };
         case types.ADD_COMPANY_SUCCESS:
-            return{
+            return {
                 ...state,
                 isSavingCompany: false,
             };
         case types.ADD_COMPANY_ERROR:
-            return{
+            return {
                 ...state,
                 isSavingCompany: false,
             };
         case types.BEGIN_EDIT_COMPANY:
-            return{
+            return {
                 ...state,
                 isSavingCompany: true,
             };
         case types.EDIT_COMPANY_SUCCESS:
-            return{
+            return {
                 ...state,
                 isSavingCompany: false,
             };
         case types.EDIT_COMPANY_ERROR:
-            return{
+            return {
                 ...state,
                 isSavingCompany: false,
             };
         case types.BEGIN_ADD_FIELD:
-            return{
+            return {
                 ...state,
                 isSavingField: true,
             };
         case types.ADD_FIELD_SUCCESS:
-            return{
+            return {
                 ...state,
                 isSavingField: false,
             };
         case types.ADD_FIELD_ERROR:
-            return{
+            return {
                 ...state,
                 isSavingField: false,
             };
@@ -104,8 +104,8 @@ export default function companyReducer(state = initialState.companies, action) {
                 company: action.data,
             };
         }
-        case types.RESET_DATA_COMPANY:{
-            let defaultdata={
+        case types.RESET_DATA_COMPANY: {
+            let defaultdata = {
                 name: "",
                 registered_business_address: "",
                 office_address: "",
@@ -115,15 +115,17 @@ export default function companyReducer(state = initialState.companies, action) {
                 account_number: "",
                 bank_name: "",
                 bank_branch: "",
-                field:{
-                  id: 0,
-                  name: "",
+                discount_comic: 0,
+                discount_text: 0,
+                field: {
+                    id: 0,
+                    name: "",
                 },
                 user_contact: "",
                 user_contact_phone: "",
                 type: "",
             };
-            return{
+            return {
                 ...state,
                 isLoadingCompany: false,
                 company: defaultdata,

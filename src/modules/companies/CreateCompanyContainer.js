@@ -1,14 +1,15 @@
 import React from "react";
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
+import TooltipButton from "../../components/common/TooltipButton";
 import * as CompanyActions from '../companies/CompanyActions';
 import ReactSelect from 'react-select';
 import * as helper from '../../helpers/helper';
 import AddFieldModal from "./AddFieldModal";
 import PropTypes from 'prop-types';
-import {browserHistory} from "react-router";
+import { browserHistory } from "react-router";
 
 class CreateCompanyContainer extends React.Component {
     constructor(props, context) {
@@ -45,11 +46,11 @@ class CreateCompanyContainer extends React.Component {
     }
 
     openAddFieldModal() {
-        this.setState({showAddField: true});
+        this.setState({ showAddField: true });
     }
 
     closeAddFieldModal() {
-        this.setState({showAddField: false});
+        this.setState({ showAddField: false });
     }
 
     changeFields() {
@@ -63,10 +64,9 @@ class CreateCompanyContainer extends React.Component {
         return data;
     }
 
-    cancel(){
+    cancel() {
         helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này?", () => {
             browserHistory.push("business/companies");
-
         });
     }
 
@@ -75,14 +75,14 @@ class CreateCompanyContainer extends React.Component {
         if (!e) return;
         let field = e.target.name;
         let value = e.target.value;
-        let newdata = {...this.props.data, [field]: value};
+        let newdata = { ...this.props.data, [field]: value };
         this.props.CompanyActions.updateFormData(newdata);
     }
 
     updateFormDataType(e) {
         if (!e) return;
         let value = e.value;
-        let newdata = {...this.props.data, type: value};
+        let newdata = { ...this.props.data, type: value };
         this.props.CompanyActions.updateFormData(newdata);
     }
 
@@ -117,7 +117,7 @@ class CreateCompanyContainer extends React.Component {
                 />
 
                 <div className="container-fluid">{
-                    (this.props.isLoadingCompany) ? <Loading/> :
+                    (this.props.isLoadingCompany) ? <Loading /> :
                         <div className="row">
                             <div className="col-md-12">
                                 <form role="form" id="form-company" onSubmit={(e) => e.preventDefault()}>
@@ -241,9 +241,9 @@ class CreateCompanyContainer extends React.Component {
                                                                 required
                                                                 disabled={false}
                                                                 options={[
-                                                                    {value: 'provided', label: 'Cung cấp',},
-                                                                    {value: 'share', label: 'Phân phối',},
-                                                                    {value: 'different', label: 'Khác',},
+                                                                    { value: 'provided', label: 'Cung cấp', },
+                                                                    { value: 'share', label: 'Phân phối', },
+                                                                    { value: 'different', label: 'Khác', },
                                                                 ]}
                                                                 onChange={this.updateFormDataType}
                                                                 value={this.props.data.type || ""}
@@ -272,17 +272,37 @@ class CreateCompanyContainer extends React.Component {
                                                             />
                                                         </div>
                                                         <div className="col-md-2">
-                                                            <button
-                                                                className="btn btn-danger btn-round btn-fab btn-fab-mini"
-                                                                type="button"
-                                                                data-toggle="tooltip" title="Thêm lĩnh vực"
-                                                                onClick={() => this.openAddFieldModal()}
-                                                            >
-                                                                <i className="material-icons keetool-card">add</i>
-                                                            </button>
+                                                            <TooltipButton text="Thêm lĩnh vực" placement="top">
+                                                                <button
+                                                                    className="btn btn-rose btn-round btn-xs button-add none-margin" type="button"
+                                                                    onClick={() => this.openAddFieldModal()}
+                                                                >
+                                                                    <strong>+</strong>
+                                                                </button>
+                                                            </TooltipButton>
                                                         </div>
 
 
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Chiết khấu truyện tranh"
+                                                                type="number"
+                                                                name="discount_comic"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.discount_comic || ""}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Chiết khấu truyện chữ"
+                                                                type="number"
+                                                                minValue="0"
+                                                                name="discount_text"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.discount_text || ""}
+
+                                                            />
+                                                        </div>
                                                         <div className="col-md-6">
                                                             <FormInputText
                                                                 label="Người liên lạc 1"
@@ -346,29 +366,29 @@ class CreateCompanyContainer extends React.Component {
                                                             />
                                                         </div>
                                                         <div className="col-md-12"
-                                                             style={{display: "flex", flexFlow: "row-reverse"}}>
+                                                            style={{ display: "flex", flexFlow: "row-reverse" }}>
                                                             {this.props.isSavingCompany ?
-                                                               <div>
-                                                                <button disabled className="btn btn-rose  disabled"
+                                                                <div>
+                                                                    <button disabled className="btn btn-rose  disabled"
                                                                         type="button">
-                                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                                        <i className="fa fa-spinner fa-spin" /> Đang tải lên
                                                                 </button>
-                                                                   <button className="btn btn-danger  disabled"
-                                                                           type="button">
-                                                                       Hủy
+                                                                    <button className="btn  disabled"
+                                                                        type="button">
+                                                                        Hủy
                                                                    </button>
-                                                               </div>
+                                                                </div>
                                                                 :
-                                                               <div>
-                                                                <button onClick={this.submit}
+                                                                <div>
+                                                                    <button onClick={this.submit}
                                                                         className="btn btn-rose"
-                                                                >Lưu</button>
-                                                                   <button className="btn btn-danger"
-                                                                           onClick={this.cancel}
-                                                                           type="button">
-                                                                       Hủy
+                                                                    >Lưu</button>
+                                                                    <button className="btn"
+                                                                        onClick={this.cancel}
+                                                                        type="button">
+                                                                        Hủy
                                                                    </button>
-                                                               </div>
+                                                                </div>
                                                             }
 
                                                         </div>

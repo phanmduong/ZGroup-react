@@ -157,15 +157,26 @@ class CreateOrderedGood extends React.Component {
             company_id: data.company.id,
             goods: JSON.stringify(data.goods.map(
                 (obj) => {
+                    let pr = obj.price * obj.quantity * 1;
+                    switch (obj.type) {
+                        case "book_comic": {
+                            pr -= data.company.discount_comic * pr / 100;
+                            break;
+                        }
+                        case "book_text": {
+                            pr -= data.company.discount_text * pr / 100;
+                            break;
+                        }
+                    }
                     return ({
                         id: obj.id,
                         price: obj.price || 0,
                         quantity: obj.quantity || 0,
                         discount: obj.discount || 0,
+                        total_price: pr,
                     });
                 })
             ),
-
         };
         if (params.orderedGoodId)
             this.props.orderedGoodActions.editOrderedGood(res);
@@ -194,8 +205,7 @@ class CreateOrderedGood extends React.Component {
                                                         <button style={{ float: "right" }}
                                                             className="btn btn-rose btn-round btn-xs button-add none-margin"
                                                             type="button"
-                                                            onClick={() => this.openAddModal(null)}
-                                                        >
+                                                            onClick={() => this.openAddModal(null)}>
                                                             <strong>+</strong>
                                                         </button>
                                                     </TooltipButton>
@@ -210,7 +220,6 @@ class CreateOrderedGood extends React.Component {
                                                             <th style={{ width: "40%" }}>Tên</th>
                                                             <th style={textAlign}>Số lượng</th>
                                                             <th style={textAlign}>Phân loại</th>
-                                                            <th style={textAlign}>Chiếu khấu</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Thành tiền</th>
                                                         </tr>
@@ -219,29 +228,31 @@ class CreateOrderedGood extends React.Component {
                                                         <tbody>
                                                             {data.goods.map(
                                                                 (obj, index) => {
-                                                                    let pr = (obj.price - 100 * obj.discount) * obj.quantity * 1, typeGood = "Khác";
-                                                                    sumPrice += pr;
-                                                                    sumQuantity += obj.quantity * 1;
+                                                                    let pr = obj.price * obj.quantity * 1, typeGood = "Khác";
+
 
 
                                                                     switch (obj.type) {
                                                                         case "book_comic": {
                                                                             typeGood = "Truyện tranh";
+                                                                            pr -= data.company.discount_comic * pr / 100;
                                                                             break;
                                                                         }
                                                                         case "book_text": {
                                                                             typeGood = "Truyện chữ";
+                                                                            pr -= data.company.discount_text * pr / 100;
                                                                             break;
                                                                         }
                                                                     }
-
+                                                                    sumPrice += pr;
+                                                                    sumQuantity += obj.quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{typeGood}</td>
-                                                                            <td style={textAlign}>{obj.discount}</td>
+
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(pr)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
@@ -300,7 +311,7 @@ class CreateOrderedGood extends React.Component {
                                                         className="btn btn-fill btn-rose "
                                                         style={btnStyle}
                                                         type="button"
-                                                        onClick={this.commitData}
+                                                        onClick={() => this.commitData(sumPrice)}
                                                         disabled={isCommitting}
                                                     ><i className="material-icons">add</i>  Lưu</button>
                                                 </div>
@@ -330,8 +341,8 @@ class CreateOrderedGood extends React.Component {
                                                 <div><label>Người tạo đơn hàng</label><br />{data.staff ? data.staff.name : user.name}</div><br />
                                                 <div><label>Địa chỉ</label><br />{data.company.office_address}</div><br />
                                                 <div><label>SĐT liên hệ</label><br />{data.company.phone_company}</div><br />
-                                                {/* <div><label>Chiết khấu truyện tranh</label><br />{data.company.discount_comic || 0}%</div><br />
-                                                <div><label>Chiết khấu truyện chữ</label><br />{data.company.discount_text || 0}%</div><br /> */}
+                                                <div><label>Chiết khấu truyện tranh</label><br />{data.company.discount_comic || 0}%</div><br />
+                                                <div><label>Chiết khấu truyện chữ</label><br />{data.company.discount_text || 0}%</div><br />
                                             </div>
                                             <div>
                                                 <label>Ghi chú</label>
@@ -393,14 +404,14 @@ class CreateOrderedGood extends React.Component {
                                 placeholder="Nhập số lượng"
                                 required
                             />
-                            <FormInputText
+                            {/* <FormInputText
                                 name="discount" type="number"
                                 label="Chiết khấu (%)"
                                 value={addModalData.discount}
                                 minValue="0"
                                 updateFormData={this.updateFormAdd}
                                 placeholder="Nhập chiết khấu"
-                            />
+                            /> */}
                             <FormInputText
                                 name="price" type="number"
                                 label="Đơn giá"
@@ -414,7 +425,7 @@ class CreateOrderedGood extends React.Component {
                             <FormInputText
                                 name="" type="number"
                                 label="Thành tiền"
-                                value={addModalData.price * addModalData.quantity / 100 * (100 - addModalData.discount)}
+                                value={addModalData.price * addModalData.quantity}
                                 updateFormData={() => { }}
                                 placeholder="Thành tiền"
                                 disabled
@@ -471,7 +482,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderedGood);
 
 const defaultData = {
-    company: { id: "", name: "" },
+    company: { id: "", name: "", discount_comic: 0, discount_text: 0, },
     goods: [],
     note: "",
 };
