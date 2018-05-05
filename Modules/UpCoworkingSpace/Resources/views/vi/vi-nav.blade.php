@@ -167,7 +167,6 @@
         .dropdown.show .dropdown-menu{
             transform: translate3d(0px, -15px, 0px) !important;
         }
-
     </style>
 
     <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
