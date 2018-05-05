@@ -24,9 +24,10 @@ class ManageHistoryCallApiController extends ManageApiController
     {
         $limit = 40;
         $search = $request->search;
+        $teleCalls = TeleCall::query();
 
         if ($request->caller_id) {
-            $teleCalls = TeleCall::where('tele_calls.caller_id', $request->caller_id);
+            $teleCalls = $teleCalls->where('tele_calls.caller_id', $request->caller_id);
         };
 
         if ($request->search)
