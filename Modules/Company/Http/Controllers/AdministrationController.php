@@ -360,16 +360,16 @@ class AdministrationController extends ManageApiController
     {
         
         $limit = $request->limit ? $request->limit :20;
-        $search = $request->search;
-        $reports = Report::orderBy('created_at','desc');
+        $search = trim($request->search);
+        $reports = Report::join('users', 'reports.staff_id', "=", "users.id");
+        // dd($reports);
         if($search){
-            $reports = $reports->where('report','like', '%' . $search . '%');
+            $reports = $reports->where(function ($q) use ($search) {
+                $q->where('reports.report', 'like', "%$search%")
+                    ->orWhere('users.name', 'like', "%$search%");
+            });
+
             // dd($reports);
-            if(!$reports->get()){
-                return $this->respondErrorWithStatus([
-                    "message" => "Không tìm thấy bài viết"
-                ]);
-            }
         }
         
         if($this->user->role == 2) {
@@ -378,6 +378,7 @@ class AdministrationController extends ManageApiController
         } else {
             $reports = $reports->where('staff_id',$this->user->id)->paginate($limit);
         }
+        // dd($this);
         return $this->respondWithPagination($reports, [
             "reports" => $reports->map(function ($report) {
                 return $report->transform();
