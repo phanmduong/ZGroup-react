@@ -8,6 +8,7 @@ use App\CategoryProduct;
 use App\Http\Controllers\PublicApiController;
 use App\Services\EmailService;
 use App\Product;
+use Carbon\Carbon;
 
 class ProductPublicApiController extends PublicApiController
 {
@@ -15,7 +16,7 @@ class ProductPublicApiController extends PublicApiController
 
     public function __construct(EmailService $emailService)
     {
-        parent::__construct();
+        // parent::__construct();
         $this->emailService = $emailService;
     }
 
@@ -53,12 +54,11 @@ class ProductPublicApiController extends PublicApiController
         return date('d-m-Y', strtotime($time));
     }
 
-    public function blogs($kind, $request)
+    public function blogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 6;
-
         $blogs = Product::where('kind', 'blog')->where('status', 1)
-            ->where('title', 'like', "%$request->search%")->orderBy('created_at', 'desc');
+            ->where('title', 'like', "%$request->search%");
 
         if ($request->tag)
             $blogs = $blogs->where('tags', 'like', "%$request->tag%");
@@ -66,9 +66,9 @@ class ProductPublicApiController extends PublicApiController
             $blogs = $blogs->where('author_id', $request->author_id);
         if ($request->category_id)
             $blogs = $blog->where('category_id', $request->category_id);
-        $blog = $blogs->paginate($limit);
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
 
-        return $this->respondSuccessWithStatus([
+        return $this->respondWithPagination($blogs, [
             'blogs' => $blogs->map(function ($blog) {
                 $data = $blog->blogTransform();
                 $data['time'] = $this->timeCal(date($blog->created_at));
@@ -88,7 +88,9 @@ class ProductPublicApiController extends PublicApiController
         $data = $blog->blogDetailTransform();
         $data['time'] = $this->timeCal(date($blog->created_at));
         $data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
-            ->limit(4)->get();
+            ->limit(4)->get()->map(function ($related_blog) {
+                return $related_blog->blogTransform();
+            });
 
         return $this->respondSuccessWithStatus([
             'blog' => $data,
