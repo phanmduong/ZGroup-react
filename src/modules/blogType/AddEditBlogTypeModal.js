@@ -46,7 +46,7 @@ class AddEditBlogTypeModal extends React.Component {
                     onClick={() => this.props.blogTypeAction.showBlogTypeModal()}
                     id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title className="modal-title">Thông tin loại khóa học</Modal.Title>
+                    <Modal.Title className="modal-title">Quản lý loại bài viết</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">

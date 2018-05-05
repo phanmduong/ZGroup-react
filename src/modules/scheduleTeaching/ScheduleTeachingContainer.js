@@ -55,8 +55,8 @@ class ScheduleClassContainer extends Component {
                         class_id: _class.id,
                         start: schedule.start_time,
                         end: schedule.end_time,
-                        color: "#ff4444",
-                        // color: "#" + _class.teacher && _class.teacher.color,
+                        // color: "#ff4444",
+                        color: _class.course && _class.course.color,
                         overlay: 1,
                     };
                 });

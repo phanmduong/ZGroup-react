@@ -126,11 +126,8 @@ class CreateRequestVacationContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-8">
                                             <div className="card">
-                                                <div className="card-header card-header-icon" data-background-color="rose">
-                                                    <i className="material-icons">local_hotel</i>
-                                                </div>
                                                 <div className="card-content">
-                                                    <h4 className="card-title">Xin nghỉ phép</h4>
+                                                    <h4 className="card-title"><strong>Xin nghỉ phép</strong></h4>
                                                     <div className="row">
                                                         <div className="col-md-6">
 
@@ -215,11 +212,8 @@ class CreateRequestVacationContainer extends React.Component {
                                         </div>
                                         <div className="col-md-4">
                                             <div className="card">
-                                                <div className="card-header card-header-icon" data-background-color="rose">
-                                                    <i className="material-icons">info</i>
-                                                </div>
                                                 <div className="card-content">
-                                                    <h4 className="card-title">Thông tin</h4>
+                                                    <h4 className="card-title"><strong>Thông tin</strong></h4>
                                                     <div className="row">
                                                         <div className="col-md-12">
                                                             <Avatar

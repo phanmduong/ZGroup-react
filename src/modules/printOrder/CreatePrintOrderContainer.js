@@ -12,6 +12,7 @@ import { browserHistory } from 'react-router';
 import * as helper from "../../helpers/helper";
 import FormInputSelect from "../../components/common/FormInputSelect";
 import AddPropertyModal from "./AddPropertyModal";
+import TooltipButton from '../../components/common/TooltipButton';
 
 const nonSelectStyle = { marginTop: 44 };
 
@@ -207,20 +208,25 @@ class CreatePrintOrderContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">assignment</i>
-                                        </div>
-
                                         <div className="card-content">
-                                            <h4 className="card-title">Chất liệu</h4>
-                                            <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-                                                <button className="btn btn-fill btn-rose" type="button"
-                                                    onClick={this.openAddPropertyModal}
-                                                    disabled={isCommitting || isLoading || isLoadingPropers}
-                                                >
-                                                    <i className="material-icons">add</i>Thêm thuộc tính
-                                                </button>
+
+                                            <div>
+                                                <div className="flex-row flex">
+                                                    <h4 className="card-title"><strong>Chất liệu</strong></h4>
+                                                    <TooltipButton text="Thêm thuộc tính" placement="top">
+                                                        <button
+                                                            className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                            onClick={this.openAddPropertyModal}
+                                                            disabled={isCommitting || isLoading || isLoadingPropers}
+                                                        >
+                                                            <i className="material-icons">library_add</i>
+                                                        </button>
+
+                                                    </TooltipButton>
+
+                                                </div>
                                             </div>
+
                                             <div className="table-responsive">
                                                 <table id="datatables" className="table table-no-bordered"
                                                     cellSpacing="0" width="100%" style={{ width: "100%" }}>
@@ -611,12 +617,8 @@ class CreatePrintOrderContainer extends React.Component {
 
                                 <div className="col-md-4">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">contacts</i>
-                                        </div>
-
                                         <div className="card-content">
-                                            <h4 className="card-title">Thông tin </h4>
+                                            <h4 className="card-title"><strong>Thông tin</strong></h4><br />
                                             <div className="row">
                                                 <div className="col-md-12">
                                                     <label>Nhà cung cấp</label>
@@ -662,7 +664,6 @@ class CreatePrintOrderContainer extends React.Component {
                                                             }}
                                                             placeholder="Nhập ghi chú"
                                                             className="comment-input"
-                                                            required
                                                             style={{
                                                                 width: "100%",
                                                                 margin: "10px",
@@ -677,12 +678,8 @@ class CreatePrintOrderContainer extends React.Component {
 
                                     </div>
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">contacts</i>
-                                        </div>
-
                                         <div className="card-content">
-                                            <h4 className="card-title">Kết quả</h4>
+                                            <h4 className="card-title"><strong>Kết quả</strong></h4>
                                             <div className="row">
                                                 <div className="col-md-12">
                                                     <FormInputText
@@ -746,7 +743,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                         > Lưu
                                                         </button>
                                                         <button
-                                                            className="btn btn-fill btn-rose"
+                                                            className="btn btn-fill"
                                                             type="button"
                                                             onClick={() => {
                                                                 helper.confirm("warning", "Thoát", "Bạn có chắc muốn hủy không?", () => {

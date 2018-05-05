@@ -34,10 +34,18 @@ class RoomControlComponent extends React.Component {
         super(props, context);
         this.path = '';
         this.state = {
+            select_day:{},
             roomId: 1,
             rooms:[{id:1,name:"8 h - Room 1"},{id:2,name:" 9h - Room 2"},{id:3,name:"7h - Room 3"},{id:4,name:"6h - Room 4"}]
         };
         this.changeRoom = this.changeRoom.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
+    }
+    updateFormData(event){
+        const field = event.target.name;
+        let select_day = {...this.state.select_day};
+        select_day[field] = event.target.value;
+        this.setState({select_day: select_day});
     }
     changeRoom(value) {
         this.setState({ roomId: value });
@@ -50,11 +58,11 @@ class RoomControlComponent extends React.Component {
                     <div className="row">
                         <div className="col-md-6">
                             <FormInputDate
-                                name="send_time"
-                                id="send_time"
+                                name="name"
+                                id="select_day"
                                 label="Ngày chiếu"
-                                value={new Date().toLocaleDateString()}
-                                updateFormData=""
+                                value={this.state.select_day.name}
+                                updateFormData={this.updateFormData}
                             />
 
                         </div>

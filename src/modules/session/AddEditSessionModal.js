@@ -67,7 +67,12 @@ class AddEditSessionModal extends React.Component{
         let session = this.props.sessionModal;
         return(
             <Modal show={this.props.addEditSessionModal}
-                   onHide={() => this.props.sessionAction.toggleSessionModal()}
+                   onHide={() => {
+                       helper.confirm("warning", "Quay lại", "Bạn có chắc muốn quay lại, dữ liệu hiện tại sẽ không được cập nhật", () => {
+                           this.props.sessionAction.toggleSessionModal();
+                       });
+
+                   }}
             >
                 <a onClick={() => this.props.sessionAction.toggleSessionModal()}
                    id="btn-close-modal"/>
@@ -150,7 +155,7 @@ class AddEditSessionModal extends React.Component{
                                                 data-dismiss="modal"
                                                 onClick={this.submit}
                                         >
-                                            <i className="material-icons">check</i> Duyệt
+                                            <i className="material-icons">check</i> Xác Nhận
                                         </button>
                                         &ensp;
                                         <button rel="tooltip" data-placement="toxp"

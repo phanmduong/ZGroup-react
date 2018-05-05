@@ -15,6 +15,7 @@ import StorePostComponent from "../components/StorePostComponent";
 // import AddLanguageModal     from "./AddLanguageModal";
 // import AddCategoryModal     from "./AddCategoryModal";
 
+
 class PostModal extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -33,13 +34,6 @@ class PostModal extends React.Component {
 
     }
 
-    // componentDidMount() {
-    //
-    //     // $("mini-editor").init();
-    //     window.addEventListener('load', function () {
-    //         MinEditor.init('mini-editor');
-    //     });
-    // }
 
     closePostModal() {
         helper.confirm("warning", "Cảnh báo",

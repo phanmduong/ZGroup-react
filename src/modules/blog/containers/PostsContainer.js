@@ -19,7 +19,7 @@ import PostModal from "./PostModal";
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
 // // import KeetoolEditor from "../../../components/common/KeetoolEditor";
-// import MinEditor from '../../../js/keetool-editor';
+import MinEditor from '../../../js/keetool-editor';
 
 
 
@@ -43,7 +43,7 @@ class BlogsContainer extends React.Component {
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
         this.loadByKinds = this.loadByKinds.bind(this);
-        // this.test = this.test.bind(this);
+        this.test = this.test.bind(this);
 
     }
 
@@ -53,19 +53,19 @@ class BlogsContainer extends React.Component {
         this.props.blogActions.loadLanguages();
         this.loadPosts(1);
     }
-    // componentDidMount() {
-    //
-    //     // $("mini-editor").init();
-    //     window.addEventListener('load', function () {
-    //         MinEditor.init('mini-editor');
-    //     });
-    // }
-    // test(){
-    //     let data = {...this.props.post};
-    //     data["content"] = MinEditor.getContent();
-    //     console.log(MinEditor.getContent(), data.content, "test");
-    //     this.props.blogActions.updateFormPost(data);
-    // }
+    componentDidMount() {
+
+        // $("mini-editor").init();
+        window.addEventListener('load', function () {
+            MinEditor.init('mini-editor');
+        });
+    }
+    test(){
+        let data = {...this.props.post};
+        data["content"] = MinEditor.getContent();
+        console.log(MinEditor.getContent(), data.content, "test");
+        this.props.blogActions.updateFormPost(data);
+    }
 
     loadPosts(page) {
         this.setState({ page });
@@ -205,8 +205,8 @@ class BlogsContainer extends React.Component {
                                             </div>
                                         </div>
 
-                                        {/*<div id="mini-editor">*/}
-                                        {/*</div>*/}
+                                        <div id="mini-editor">
+                                        </div>
                                         <button onClick={()=>this.test()}>+</button>
 
 
