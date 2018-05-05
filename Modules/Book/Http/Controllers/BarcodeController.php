@@ -85,7 +85,7 @@ class BarcodeController extends ManageApiController
             $type = 'book';
         }
 
-        $barcodes = Barcode::where('type', $type);
+        $barcodes = Barcode::where('barcode.type', $type);
 
         if ($request->search)
             $barcodes = $barcodes->join('goods', 'goods.id', '=', 'barcode.good_id')
