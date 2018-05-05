@@ -16,6 +16,7 @@ import "../modules/tasks/task.css";
 import "../styles/react-select.css";
 import "../styles/react-draft-wysiwyg.css";
 import "../styles/styles.scss";
+import "../styles/editor.scss";
 // import { syncHistoryWithStore } from 'react-router-redux';
 
 import blogRootReducer from "../reducers/blog";
