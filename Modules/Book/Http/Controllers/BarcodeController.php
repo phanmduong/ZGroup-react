@@ -74,7 +74,7 @@ class BarcodeController extends ManageApiController
     public function barcodes(Request $request)
     {
         $limit = 20;
-        $search = $request->search;
+        $search = trim($request->search);
         if ($request->limit) {
             $limit = intval($request->limit);
         }
