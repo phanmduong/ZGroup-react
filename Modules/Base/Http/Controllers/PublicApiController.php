@@ -41,7 +41,7 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function bases(Request $request) 
+    public function bases(Request $request)
     {
         $bases = Base::query();
         $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
@@ -60,7 +60,7 @@ class PublicApiController extends NoAuthApiController
         // $rooms = $base->rooms;
         $rooms = Room::leftJoin('room_service_register_room', 'room_service_register_room.room_id', '=', 'rooms.id')
             ->where('rooms.base_id', '=', $base->id)
-            ->where(function($query) use ($request){
+            ->where(function ($query) use ($request) {
                 $query->where('room_service_register_room.start_time', '>', $request->end_time)
                     ->orWhere('room_service_register_room.end_time', '<', $request->start_time)
                     ->orWhere('room_service_register_room.end_time', '=', null);
@@ -74,12 +74,20 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function getAllBlogs(Request $request)
+    public function getBlogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc');
-        $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
-        $blogs = $blogs->paginate(6);
+        $category_id = $request->category_id;
+        $kind = $request->kind;
+//        $tag = $request->tag;
+        $blogs = Product::where('type',2)->where('title', 'like', '%' . trim($request->search) . '%')->orderBy('created_at', 'desc');
+        if($category_id) {
+            $blogs = $blogs->where('category_id',$category_id);
+        }
+        if($kind) {
+            $blogs = $blogs->where('kind',$kind);
+        }
+        $blogs = $blogs->paginate($limit);
         return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             $data['status'] = $blog->status;
@@ -98,38 +106,33 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function getBlogsByCategory(Request $request, $category_name)
+    public function productCategories()
     {
-        $limit = $request->limit ? $request->limit : 6;
-        $category = CategoryProduct::where('name',$category_name)->first();
-        $blogs = Product::where('category_id',$category->id)->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['status'] = $blog->status;
-            return $data;
-        })]);
+        $categories = CategoryProduct::orderBy('id')->get();
+        return $this->respondSuccessWithStatus([
+            'categories' => $categories
+        ]);
     }
 
-    public function getBlogsByKind(Request $request, $kind)
+    public function productKinds()
     {
-        $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('kind',$kind)->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['status'] = $blog->status;
-            return $data;
-        })]);
-    }
-
-    public function getBlogsByTag(Request $request, $tag)
-    {
-        $limit = $request->limit ? $request->limit : 6;
-        $blogs = Product::where('tag',$tag)->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
-            $data = $blog->blogTransform();
-            $data['status'] = $blog->status;
-            return $data;
-        })]);
+        $kinds = Product::pluck('kind');
+        $values = array("zxc.start.zxc");
+        foreach ($kinds as $kind) {
+            for($i = 1; $i < count($values); $i++)
+            {
+                if ($kind == $values[$i]) {
+                    break;
+                }
+            }
+            if($i == count($values)) {
+                array_push($values, $kind);
+            }
+        }
+        array_shift($values);
+        return $this->respondSuccessWithStatus([
+            'kinds' => $values
+        ]);
     }
 
 

@@ -17,9 +17,12 @@ class FilmZgroupController extends Controller
 
     public function index()
     {
-        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d').' 00:00:00')->get();
+        $todaySessions = FilmSession::where('start_date', '=', date('Y-m-d'))->get();
+        $films = Film::orderBy('created_at','desc')->get();
         $this->data = [
-            "sessions" => $sessions,
+            "films" => $films,
+            "todaySessions" => $todaySessions
+
         ];
 
         return view('filmzgroup::index', $this->data);
