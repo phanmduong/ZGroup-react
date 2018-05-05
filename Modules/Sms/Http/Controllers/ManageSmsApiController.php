@@ -417,11 +417,10 @@ class ManageSmsApiController extends ManageApiController
                 'message' => 'Bạn chưa chọn người dùng'
             ]);
         $group = $campaign->group;
-        $group_user = GroupUser::where('group_id',$group->id)->where('user_id',$request->user_id)->get();
+        $group_user = GroupUser::where('group_id',$group->id)->where('user_id',$request->user_id)->first();
         $group_user->delete();
         return $this->respondSuccessWithStatus([
             'message' => 'Đã xóa người nhận khỏi chiến dịch'
         ]);
     }
-
 }
