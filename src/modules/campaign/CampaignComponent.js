@@ -141,12 +141,14 @@ class CampaignComponent extends React.Component {
 														<div style={{ display: 'inline-block' }}>
 															<TooltipButton placement="top" text={`Sửa`}>
 																<a
-																	onClick={() =>
-																		this.showAddMessageModal2({
+																	onClick={() => {
+																		this.props.campaignAction.showAddMessageModal();
+																		this.props.campaignAction.upMessage({
 																			...message,
 																			sms_template_type_id:
 																				message.sms_template_type.id
-																		})}>
+																		});
+																	}}>
 																	<i className="material-icons">edit</i>
 																</a>
 															</TooltipButton>

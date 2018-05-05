@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as filmAction from "./filmAction";
 import ImageUploader from "../../components/common/ImageUploader";
-import UploadManyImages from "../../components/common/UploadManyImages";
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from "../../helpers/helper";
@@ -95,7 +94,7 @@ class AddEditFilmModal extends React.Component {
 
                         <form role="form">
                             <div className="row">
-                                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div className="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                     <div className="card-content">
                                         <label style={{marginBottom:15}}>Ảnh đại diện</label>
                                         <ImageUploader handleFileUpload={this.handleUpload}
@@ -103,15 +102,13 @@ class AddEditFilmModal extends React.Component {
                                                        image_url={this.props.filmModal.avatar_url}/>
                                     </div>
                                 </div>
-                                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div className="card-content">
-                                        <div className="form-group">
-                                        <label>Thêm ảnh mô tả</label>
-                                            <UploadManyImages images_url=""
-                                                              handleFileUpload={this.handleImages}
-                                                              box="box-images-website-create"/>
-                                        </div>
-                                    </div>
+                                <br/><br/>
+                                <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <iframe width="480px" height="270px"
+                                        //https://www.youtube.com/watch?v=
+                                            src={helper.isEmptyInput(this.props.filmModal.trailer_url)?"":"https://www.youtube.com/embed/"+this.props.filmModal.trailer_url.slice(32,44)}
+                                            frameBorder="0"
+                                            allowFullScreen/>
                                 </div>
                             </div>
                             <div className="row">
@@ -126,7 +123,7 @@ class AddEditFilmModal extends React.Component {
                                 </div>
                                 <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
                                     <FormInputText
-                                        label="Trailer <Chèn link youtube>"
+                                        label="Trailer (Nhập link youtube)"
                                         name="trailer_url"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.trailer_url || ''}
@@ -202,15 +199,18 @@ class AddEditFilmModal extends React.Component {
                                         name="film_rated" type="number"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.film_rated || ''}
+                                        minValue={1}
                                     />
                                 </div>
                                 <div  className="col-lg-6 col-md-6 col-sm-6 col-xs-6" style={{marginLeft:0}}>
                                     <FormInputText
-                                        label="Đánh giá"
-                                        name="rate"
+                                        label="Đánh giá (Nhập điểm 1 -> 10)"
+                                        name="rate" type="number"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.rate || ''}
                                         required
+                                        minValue={1}
+                                        maxValue={10}
                                     />
                                 </div>
                             </div>

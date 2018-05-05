@@ -66,7 +66,8 @@ export function loadAllFilmsApi() {
     let url = env.MANAGE_API_URL + "/films";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "?token=" + token + "?limit=-1";
     }
     return axios.get(url);
 }
+

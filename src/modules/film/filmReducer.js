@@ -15,6 +15,16 @@ export default function filmReducer(state = initialState.film, action) {
                 allFilms: action.allFilms,
                 isLoading: false
             };
+        case types.LOAD_ALL_FILMS_HAVE_PAGINATION_SUCCESS:
+            return{
+                ...state,
+                allFilmsHavePagination: action.allFilms,
+                isLoading: false,
+                currentPage: action.currentPage,
+                limit: action.limit,
+                totalCount: action.totalCount,
+                totalPages: action.totalPages
+            };
         case types.SHOW_ADD_EDIT_FILM_MODAL:
             return{
                 ...state,

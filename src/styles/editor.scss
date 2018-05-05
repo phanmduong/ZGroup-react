@@ -1,0 +1,19 @@
+.editor-toolbar-menu {
+    position: relative;
+    padding: 1px 18px 17px;
+    margin: 0 -20px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+}
+.editor-button {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.editor-button[data-active="true"] {
+    color: black;
+}
+
+.keetool-editor-image.active {
+    border: 2px solid blue;
+}
