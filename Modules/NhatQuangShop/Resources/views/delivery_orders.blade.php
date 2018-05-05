@@ -24,7 +24,7 @@
                         <option  selected="" value = "ship"> giao hàng </option>
                         <option  selected="" value = "completed"> Hoàn thành </option>
                         <option  selected="" value = "cancel "> Huỷ đơn </option>
-                        <option  selected="">Trạng thái</option>
+                        <option  selected="" value = "">Trạng thái</option>
                     </select>
                 </div>
             </div>
@@ -53,23 +53,21 @@
     <div class="table-responsive" style="margin-top: 20px">
         <table class="table">
             <tr>
-                <th class="text-center">#</th>
-                <th>OrderCode</th>
+                <th class="text-center">Mã đơn</th>
                 <th class="text-center">Màu</th>
                 <th class="text-center">Size</th>
                 <th class="text-center">Số lượng</th>
                 <th class="text-center">Giá trị</th>
                 <th class ="text-center">Trạng thái</th>
-                <th class="text-right">Actions</th>
+                <th class="text-center">Chỉnh sửa</th>
             </tr>
             <tbody>
             @if (count($deliveryOrders) > 0)
                 @foreach($deliveryOrders as $order)
                     <tr>
-                        <td class="text-center">{{$order->id}}</td>
-                        <td>
+                        <td class="text-center" style = "width:15%">
                             @if($order->code != null )
-                                <a href="delivery_orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                <a href="javascript:void(0)" class="btn btn-round btn-twitter">
                                     {{$order->code}}
                                 </a>
                             @endif
@@ -78,19 +76,14 @@
                         <td class="text-center">{{json_decode($order->attach_info)->color}}</td>
                         <td class="text-center">{{json_decode($order->attach_info)->size}}</td>
                         <td class="text-center">{{$order->quantity}}</td>
-                        <td class="text-center">{{$order->price}} đ</td>
+                        <td class="text-center">{{$order->vnd_price}}</td>
                         <td class="text-center">{{$order->status}}</td>
-                        <td class="td-actions text-right">
-
-                            <button type="button" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="View Profile" class="btn btn-info btn-link btn-sm">
-                                <i class="fa fa-user"></i>
-                            </button>
-                            <button type="button" data-toggle="tooltip" data-placement="top" title=""
+                        <td class="td-actions text-center" style = "width:13s%">
+                            <!-- <button type="button" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Xoá" class="btn btn-danger btn-link btn-sm">
                                 <i class="fa fa-times"></i>
-                            </button>
-                            @if($order->status == "place_order" || $order->status == "sent_price")
+                            </button> -->
+                            @if($order->en_status == "place_order" || $order->end_status == "sent_price")
                             <button   data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Điều chỉnh" class ="btn btn-success btn-link btn-sm" onclick="edit({{$order->id}})" >
                                 <i class="fa fa-edit"></i>
