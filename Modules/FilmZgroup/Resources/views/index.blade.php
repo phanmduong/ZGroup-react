@@ -165,26 +165,23 @@
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner" role="listbox">
                                     <!-- Slides -->
-
+                                    @foreach($sessionsShowing->take(3) as $session)
                                     <div class="item"
                                          style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2018/03/hero.jpg&quot;); padding-top: 0px;">
 
                                         <div class="container">
                                             <div class="row blurb">
                                                 <div class="col-md-8 col-sm-12 blurb-content">
-                                                    <span class="title">ACTION, ADVENTURE, FANTASY</span>
+                                                    <span class="title">{{$session->film->film_genre}}</span>
                                                     <header>
-                                                        <h1>Up in smoke: The remake</h1>
+                                                        <h1>{{$session->film->name}}</h1>
                                                     </header>
-                                                    <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                        consuetudium lectorum. Mirum est notare quam littera gothica,
-                                                        quam nunc putamus parum claram, anteposuerit litterarum formas
-                                                        humanitatis per seacula quarta decima et quinta decima.</p>
+                                                    <p>{{$session->film->summary}}</p>
 
                                                     <div class="buttons">
 										<span class="certificate">
 											PG										</span>
-                                                        <a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"
+                                                        <a href="{{$session->film->trailer_url}}" data-vbtype="video"
                                                            class="venobox btn btn-default vbox-item">
 
                                                             <i class="fa fa-play"></i>
@@ -196,68 +193,69 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endforeach
 
-                                    <div class="item active"
-                                         style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-2-1.jpg&quot;); padding-top: 0px;">
+                                    {{--<div class="item active"--}}
+                                         {{--style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-2-1.jpg&quot;); padding-top: 0px;">--}}
 
-                                        <div class="container">
-                                            <div class="row blurb">
-                                                <div class="col-md-8 col-sm-12 blurb-content">
-                                                    <span class="title">Action, Adventure, Sci-Fi</span>
-                                                    <header>
-                                                        <h1>Fight club: Round 2</h1>
-                                                    </header>
-                                                    <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                        consuetudium lectorum. Mirum est notare quam littera gothica,
-                                                        quam nunc putamus parum claram, anteposuerit litterarum formas
-                                                        humanitatis per seacula quarta decima et quinta decima.</p>
+                                        {{--<div class="container">--}}
+                                            {{--<div class="row blurb">--}}
+                                                {{--<div class="col-md-8 col-sm-12 blurb-content">--}}
+                                                    {{--<span class="title">Action, Adventure, Sci-Fi</span>--}}
+                                                    {{--<header>--}}
+                                                        {{--<h1>Fight club: Round 2</h1>--}}
+                                                    {{--</header>--}}
+                                                    {{--<p>Claritas est etiam processus dynamicus, qui sequitur mutationem--}}
+                                                        {{--consuetudium lectorum. Mirum est notare quam littera gothica,--}}
+                                                        {{--quam nunc putamus parum claram, anteposuerit litterarum formas--}}
+                                                        {{--humanitatis per seacula quarta decima et quinta decima.</p>--}}
 
-                                                    <div class="buttons">
-										<span class="certificate">
-											12A										</span>
-                                                        <a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"
-                                                           class="venobox btn btn-default vbox-item">
+                                                    {{--<div class="buttons">--}}
+										{{--<span class="certificate">--}}
+											{{--12A										</span>--}}
+                                                        {{--<a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"--}}
+                                                           {{--class="venobox btn btn-default vbox-item">--}}
 
-                                                            <i class="fa fa-play"></i>
+                                                            {{--<i class="fa fa-play"></i>--}}
 
-                                                            <span>Play trailer</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                            {{--<span>Play trailer</span>--}}
+                                                        {{--</a>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
-                                    <div class="item"
-                                         style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2018/03/hero-2.jpg&quot;); padding-top: 0px;">
+                                    {{--<div class="item"--}}
+                                         {{--style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2018/03/hero-2.jpg&quot;); padding-top: 0px;">--}}
 
-                                        <div class="container">
-                                            <div class="row blurb">
-                                                <div class="col-md-8 col-sm-12 blurb-content">
-                                                    <span class="title">Action, Adventure, Comedy</span>
-                                                    <header>
-                                                        <h1>Behind enemy lines</h1>
-                                                    </header>
-                                                    <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                        consuetudium lectorum. Mirum est notare quam littera gothica,
-                                                        quam nunc putamus parum claram, anteposuerit litterarum formas
-                                                        humanitatis per seacula quarta decima et quinta decima.</p>
+                                        {{--<div class="container">--}}
+                                            {{--<div class="row blurb">--}}
+                                                {{--<div class="col-md-8 col-sm-12 blurb-content">--}}
+                                                    {{--<span class="title">Action, Adventure, Comedy</span>--}}
+                                                    {{--<header>--}}
+                                                        {{--<h1>Behind enemy lines</h1>--}}
+                                                    {{--</header>--}}
+                                                    {{--<p>Claritas est etiam processus dynamicus, qui sequitur mutationem--}}
+                                                        {{--consuetudium lectorum. Mirum est notare quam littera gothica,--}}
+                                                        {{--quam nunc putamus parum claram, anteposuerit litterarum formas--}}
+                                                        {{--humanitatis per seacula quarta decima et quinta decima.</p>--}}
 
-                                                    <div class="buttons">
-										<span class="certificate">
-											PG-13										</span>
-                                                        <a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"
-                                                           class="venobox btn btn-default vbox-item">
+                                                    {{--<div class="buttons">--}}
+										{{--<span class="certificate">--}}
+											{{--PG-13										</span>--}}
+                                                        {{--<a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"--}}
+                                                           {{--class="venobox btn btn-default vbox-item">--}}
 
-                                                            <i class="fa fa-play"></i>
+                                                            {{--<i class="fa fa-play"></i>--}}
 
-                                                            <span>Play trailer</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                            {{--<span>Play trailer</span>--}}
+                                                        {{--</a>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <!-- Slides end -->
                                 </div>
                             </div>
@@ -295,29 +293,29 @@
 
                         <div class="slick-slider" style="margin-left: -15px; margin-right: -15px">
                             <div id="current-film" class="owl-carousel slick-carousel slick-initialized">
-                                @foreach($films as $film)
+                                @foreach($sessionsShowing as $session)
                                     <div class="slick-slide">
                                         <div class="movie-poster">
                                             <aside>
                                                 <div>
-                                                    <a href="{{$film->trailer_url}}" data-vbtype="video"
+                                                    <a href="{{$session->film->trailer_url}}" data-vbtype="video"
                                                        class="venobox play vbox-item" tabindex="-1">
                                                         <i class="fa fa-play"></i>
                                                     </a>
                                                     <a href="http://specto.klevermedia.co.uk/movies/its-over/"
                                                        title="It’s over" class="read-more" tabindex="-1">
                                                         Read more </a>
-                                                    <span class="date">{{$film->release_date}}</span>
+                                                    <span class="date">{{$session->film->release_date}}</span>
                                                 </div>
                                             </aside>
                                             <a href="http://specto.klevermedia.co.uk/movies/its-over/" title="It’s over"
                                                tabindex="-1">
-                                                <img src="{{$film->avatar_url}}"
-                                                     alt="{{$film->name}}">
+                                                <img src="{{$session->film->avatar_url}}"
+                                                     alt="{{$session->film->name}}">
                                             </a>
                                         </div>
                                         <header>
-                                            <h4 class="no-underline">{{$film->name}}</h4>
+                                            <h4 class="no-underline">{{$session->film->name}}</h4>
                                         </header>
                                         <div class="star-rating">
                                             <i class="fa fa-star"></i>

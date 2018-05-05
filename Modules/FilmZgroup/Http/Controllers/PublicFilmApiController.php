@@ -33,6 +33,7 @@ class PublicFilmApiController extends NoAuthApiController
         $limit = $request->limit;
         $search = $request->search;
         $id = $request->id;
+        $status = $request->status;
         $filmsR = Film::orderBy('created_at', 'desc')->get();
         foreach ($filmsR as $film) {
             $this->reloadFilmStatus($film);
@@ -45,7 +46,9 @@ class PublicFilmApiController extends NoAuthApiController
         if ($id) {
             $films = $films->where('id', $id);
         }
-
+        if ($status) {
+            $films = $films->where('status', $status);
+        }
 
         if ($limit == -1 or !$limit) {
             $films = $films->get();
@@ -66,7 +69,7 @@ class PublicFilmApiController extends NoAuthApiController
 
     public function getSessionsFilter(Request $request)
     {
-        $film_name = $request->film_name;
+        $search = $request->search;
         $session_id = $request->session_id;
         $room_id = $request->room_id;
         $start_date = $request->start_date;
@@ -84,9 +87,9 @@ class PublicFilmApiController extends NoAuthApiController
         if ($film_id) {
             $sessions = $sessions->where('film_id', $film_id);
         }
-        if ($film_name) {
-            $sessions = $sessions->whereHas('film', function ($query) use ($film_name) {
-                $query->where('name', 'LIKE', '%' . $film_name . '%');
+        if ($search) {
+            $sessions = $sessions->whereHas('film', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
             });
         }
         if ($start_date) {
@@ -122,8 +125,14 @@ class PublicFilmApiController extends NoAuthApiController
     public function getSessionsNowShowing(Request $request)
     {
         $sessions = FilmSession::where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at','desc');
+        $search = $request->search;
         $limit = $request->limit;
 
+        if ($search) {
+            $sessions = $sessions->whereHas('film', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
         if ($limit == -1 or !$limit) {
             $sessions = $sessions->get();
             $sessions = [
@@ -144,24 +153,5 @@ class PublicFilmApiController extends NoAuthApiController
         }
     }
 
-    public function getFilmsComingSoon(Request $request)
-    {
-        $limit = $request->limit;
-        $films = Film::where('film_status', 2);
 
-        if ($limit == -1 or !$limit) {
-            $films = $films->get();
-            $films = [
-                'films' => $films
-            ];
-
-            return $films;
-        } else {
-
-            $films = $films->paginate($limit);
-            return $this->respondWithPagination($films, ['films' => $films->map(function ($film) {
-                return $film;
-            })]);
-        }
-    }
 }
