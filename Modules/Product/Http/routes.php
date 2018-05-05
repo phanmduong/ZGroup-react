@@ -2,8 +2,6 @@
 
 $productCategoryRoutes = function () {
     Route::group(['prefix' => 'v2'], function () {
-        Route::get('/blog', 'ProductPublicApiController@allBlogs');
-        Route::get('/blog/{slug}', 'ProductPublicApiController@allBlogs');
         Route::get('/product-category', 'ProductCategoryController@allProductCategories');
         Route::post('/product-category', 'ProductCategoryController@createProductCategory');
         Route::put('/product-category/{productCategoryId}', 'ProductCategoryController@editProductCategory');
@@ -11,4 +9,12 @@ $productCategoryRoutes = function () {
     });
 };
 
+$productPublicApiRoutes = function () {
+    Route::group(['prefix' => 'v2'], function () {
+        Route::get('/blog', 'ProductPublicApiController@allBlogs');
+        Route::get('/blog/{slug}', 'ProductPublicApiController@allBlogs');
+    });
+};
+
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi/v3', 'namespace' => 'Modules\Product\Http\Controllers'], $productCategoryRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => 'api/v3', 'namespace' => 'Modules\Product\Http\Controllers'], $productPublicApiRoutes);
