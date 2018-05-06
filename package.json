@@ -68,6 +68,8 @@
     "build:customerServices": "npm run lint && rimraf ./dist/customerServices && mkdir dist/customerServices && MODULE=customerServices babel-node tools/build/module.js",
     "start:sales": "MODULE=sales npm-run-all --parallel open:src lint:watch",
     "build:sales": "npm run lint && rimraf ./dist/sales && mkdir dist/sales && MODULE=sales babel-node tools/build/module.js",
+    "start:event": "MODULE=event npm-run-all --parallel open:src lint:watch",
+    "build:event": "npm run lint && rimraf ./dist/event && mkdir dist/event && MODULE=event babel-node tools/build/module.js",
     "start:telesales": "MODULE=telesales npm-run-all --parallel open:src lint:watch",
     "build:telesales": "npm run lint && rimraf ./dist/telesales && mkdir dist/telesales && MODULE=telesales babel-node tools/build/module.js",
     "start:film": "MODULE=film npm-run-all --parallel open:src lint:watch",

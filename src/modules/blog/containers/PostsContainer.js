@@ -18,6 +18,7 @@ import Select from '../../../components/common/Select';
 import PostModal from "./PostModal";
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 // // import KeetoolEditor from "../../../components/common/KeetoolEditor";
 // import MinEditor from '../../../js/keetool-editor';
 
@@ -141,6 +142,8 @@ class BlogsContainer extends React.Component {
 
 
     render() {
+        const Add = <Tooltip id="tooltip">Thêm bài viết</Tooltip>;
+
         // let first = this.props.totalPages
         //     ? (this.state.page - 1) * this.state.limit + 1
         //     : 0;
@@ -198,14 +201,19 @@ class BlogsContainer extends React.Component {
                                             <strong>Danh sách bài viết</strong>
                                         </h4>
                                         <div>
-                                            <button
-                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                                type="button" onClick={
-                                                (e) => {
-                                                    this.openCreatePostModal(e);
-                                                }}>
-                                                <strong>+</strong>
-                                            </button>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Add}
+                                            >
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    type="button" onClick={
+                                                    (e) => {
+                                                        this.openCreatePostModal(e);
+                                                    }}>
+                                                    <strong>+</strong>
+                                                </button>
+                                            </OverlayTrigger>
                                         </div>
                                     </div>
 

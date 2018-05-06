@@ -104,7 +104,7 @@ class GroupCustomerModal extends React.Component {
                                     <div className="form-group label-floating is-empty">
                                         <label className="control-label"/>
                                         <FormInputText
-                                            label="Giá đặt hàng (đ)"
+                                            label="Tỉ giá (đ)"
                                             name="currency_value"
                                             updateFormData={this.editFormData}
                                             type="number"
@@ -122,7 +122,7 @@ class GroupCustomerModal extends React.Component {
                                     <div className="form-group label-floating is-empty">
                                         <label className="control-label"/>
                                         <FormInputText
-                                            label="Tỉ giá (đ)"
+                                            label="Giá đặt hàng (đ)"
                                             name="ship_price"
                                             updateFormData={this.editFormData}
                                             type="number"
