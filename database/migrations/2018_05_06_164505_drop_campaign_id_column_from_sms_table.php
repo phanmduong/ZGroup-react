@@ -12,7 +12,9 @@ class DropCampaignIdColumnFromSmsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('sms', function (Blueprint $table) {
+            $table->dropColumn("campaign_id");
+        });
     }
 
     /**
