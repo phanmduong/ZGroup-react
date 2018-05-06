@@ -74,8 +74,9 @@ class BarcodeController extends ManageApiController
     public function barcodes(Request $request)
     {
         $limit = 20;
+        $search = trim($request->search);
         if ($request->limit) {
-            $limit = $request->limit;
+            $limit = intval($request->limit);
         }
 
         if ($request->type) {
@@ -84,8 +85,14 @@ class BarcodeController extends ManageApiController
             $type = 'book';
         }
 
-        $barcodes = Barcode::where('type', $type)->orderBy('created_at', 'desc')->paginate($limit);
+        $barcodes = Barcode::where('barcode.type', $type);
 
+        if ($request->search)
+            $barcodes = $barcodes->join('goods', 'goods.id', '=', 'barcode.good_id')
+                ->where(function ($query) use ($search) {
+                    $query->where('barcode.value', 'like', "%$search%")->orWhere('goods.name', 'like', "%$search%");
+                })->select("barcode.*");
+        $barcodes = $barcodes->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($barcodes, [
             'barcodes' => $barcodes->map(function ($barcode) {
                 return $barcode->transform();
