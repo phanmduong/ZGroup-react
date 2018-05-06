@@ -252,9 +252,127 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
-    public function social()
+    public function social1(Request $request)
     {
-        return view('colorme_new.colorme_react', $this->data);
+        $limit = $request->limit ? $request->limit : 20;
+
+        $products = Product::where('created_at', '>=', Carbon::today())
+                            ->orderBy('rating', 'desc')->paginate($limit);
+
+        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        // $this->data['total_pages'] = 5;
+        $this->data['current_page'] = $products->currentPage();
+
+        $products = $products->map(function ($product) {
+            $data = $product->personalTransform();
+            $data['time'] = $this->timeCal(date($product->created_at));
+            $data['comment'] = count(Product::find($product['id'])->comments);
+            $data['like'] = count(Product::find($product['id'])->likes);
+            return $data;
+        });
+
+        // axios called
+        if($request->page){
+            return $products;
+        };
+
+        $cources = Course::all();
+
+        $this->data['products'] = $products;
+        $this->data['cources'] = $cources;
+        return view('colorme_new.staff_1day', $this->data);
+    }
+
+    public function social7(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+
+        $date = Carbon::today()->subDays(6);
+        $products = Product::where('created_at', '>=', $date)
+                            ->orderBy('rating', 'desc')->paginate($limit);
+
+        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        // $this->data['total_pages'] = 5;
+        $this->data['current_page'] = $products->currentPage();
+
+        $products = $products->map(function ($product) {
+            $data = $product->personalTransform();
+            $data['time'] = $this->timeCal(date($product->created_at));
+            $data['comment'] = count(Product::find($product['id'])->comments);
+            $data['like'] = count(Product::find($product['id'])->likes);
+            return $data;
+        });
+
+        // axios called
+        if($request->page){
+            return $products;
+        };
+
+        $cources = Course::all();
+
+        $this->data['products'] = $products;
+        $this->data['cources'] = $cources;
+        return view('colorme_new.staff_7days', $this->data);
+    }
+
+    public function social30(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $date = Carbon::today()->subDays(30);
+        $products = Product::where('created_at', '>=', $date)
+                            ->orderBy('rating', 'desc')->paginate($limit);
+
+        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        // $this->data['total_pages'] = 5;
+        $this->data['current_page'] = $products->currentPage();
+
+        $products = $products->map(function ($product) {
+            $data = $product->personalTransform();
+            $data['time'] = $this->timeCal(date($product->created_at));
+            $data['comment'] = count(Product::find($product['id'])->comments);
+            $data['like'] = count(Product::find($product['id'])->likes);
+            return $data;
+        });
+
+        // axios called
+        if($request->page){
+            return $products;
+        };
+
+        $cources = Course::all();
+
+        $this->data['products'] = $products;
+        $this->data['cources'] = $cources;
+        return view('colorme_new.staff_30days', $this->data);
+    }
+
+    public function socialnew(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $products = Product::orderBy('created_at', 'desc')->paginate($limit);
+
+        $this->data['total_pages'] = ceil($products->total() / $products->perPage());
+        // $this->data['total_pages'] = 5;
+        $this->data['current_page'] = $products->currentPage();
+
+        $products = $products->map(function ($product) {
+            $data = $product->personalTransform();
+            $data['time'] = $this->timeCal(date($product->created_at));
+            $data['comment'] = count(Product::find($product['id'])->comments);
+            $data['like'] = count(Product::find($product['id'])->likes);
+            return $data;
+        });
+
+        // axios called
+        if($request->page){
+            return $products;
+        };
+
+        $cources = Course::all();
+
+        $this->data['products'] = $products;
+        $this->data['cources'] = $cources;
+        return view('colorme_new.staff_new', $this->data);
     }
 
     public function timeCal($time)

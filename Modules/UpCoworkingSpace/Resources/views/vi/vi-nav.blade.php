@@ -167,7 +167,6 @@
         .dropdown.show .dropdown-menu{
             transform: translate3d(0px, -15px, 0px) !important;
         }
-
     </style>
 
     <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
@@ -203,22 +202,38 @@
                             <a href="/thong-tin-tuyen-dung" class="dropdown-item">Tuyển dụng</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link hover-change" href="/goi-thanh-vien-up-coworking-space" data-scroll="true">GÓI THÀNH
-                            VIÊN</a>
+                    <li class="dropdown nav-item">
+                        <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown"  data-scroll="true">Sản Phẩm</a>
+                        <div class="dropdown-menu">
+                            <a href="/goi-thanh-vien-up-coworking-space" class="dropdown-item">Gói thành viên </a>
+                            <a href="/thue-phong-lam-viec" class="dropdown-item">Văn phòng riêng </a>
+                            <a href="/phong-hop" class="dropdown-item">Phòng họp</a>
+                            <a href="/van-phong-ao" class="dropdown-item">Văn phòng ảo </a>
+                            <a href="/accounting" class="dropdown-item">Kế toán doanh nghiệp </a>
+                            <a href="/tu-van-doanh-nghiep" class="dropdown-item">Tư vấn doanh nghiệp </a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-change" href="/su-kien" data-scroll="true">SỰ
                             KIỆN</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link hover-change" href="/phong-hop" data-scroll="true">Phòng họp</a>
+                    <li class="dropdown nav-item">
+                        <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown"  data-scroll="true">Vị trí </a>
+                        <div class="dropdown-menu">
+                            <a href="/up-luong-yen" class="dropdown-item">Lương Yên </a>
+                            <a href="/up-bach-khoa-ha-noi" class="dropdown-item">UP Bách Khoa Hà Nội  </a>
+                            <a href="/up-kim-ma" class="dropdown-item">UP Kim Mã</a>
+                            <a href="/up-lang-ha" class="dropdown-item">UP Láng Hạ  </a>
+                            <a href="/coworking-space-ho-chi-minh" class="dropdown-item">UP Hồ Chí Minh</a>
+                            <a href="/creative-lab-up-maker-space" class="dropdown-item">Creative Lab by UP</a>
+                        </div>
                     </li>
                     <li class="dropdown nav-item">
                         <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true">Cộng đồng up</a>
                         <div class="dropdown-menu">
                             <a href="/up-founders" class="dropdown-item">Đội ngũ sáng lập</a>
                             <a href="/up-s-mentors" class="dropdown-item">UP Mentor</a>
+                            <a href="/up-s-members" class="dropdown-item">UP Thành viên</a>
                         </div>
                     </li>
                     <li class="nav-item">
