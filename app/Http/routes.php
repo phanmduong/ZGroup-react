@@ -31,7 +31,7 @@
 |
 */
 
-Route::post('uploadfile', 'PublicController@upload_file');
+Route::get('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
