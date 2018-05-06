@@ -868,9 +868,9 @@ a.btn-seat.active {
 }
 
 .button-add {
-    margin-left: 15px !important;
-    padding: 0px 8px !important;
-    font-size: 16px !important;
+  margin-left: 15px !important;
+  padding: 0px 8px !important;
+  font-size: 16px !important;
 }
 
 .Select-control {
@@ -914,13 +914,13 @@ a.btn-seat.active {
 
 // Loi them Class :
 .button-plus {
-    border-radius: 50%;
-    border: none;
-    background-color: #0b82fb;
-    color: white;
-    line-height: 0;
-    padding: 0px;
-    margin-left: 12px;
+  border-radius: 50%;
+  border:none; 
+  background-color: #0b82fb; 
+  color: white; 
+  line-height: 0; 
+  padding: 0px;
+  margin-left: 12px
 }
 
 
@@ -948,6 +948,20 @@ a.btn-seat.active {
     font-weight: bold;
 }
 
+.campaign-message-type {
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    cursor: auto;
+}
+.campaign-message-type > span {
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+
+}
 .fileinput {
     width: 100%;
 }
@@ -966,27 +980,13 @@ a.btn-seat.active {
 }
 
 .modal-content .modal-footer button {
-    padding: 12px 30px;
+    padding : 12px 30px
 }
 
 .height-100 {
     height: 100% !important;
 }
 
-.campaign-message-type,
-.campaign-message-type:hover {
-    width: 130px;
-    height: 40px;
-    border-radius: 5px;
-    display: flex;
-    cursor: auto;
-}
-.campaign-message-type > span {
-    margin: auto;
-    font-weight: 600;
-    color: white;
-    font-size: 12px;
-}
 .circle-avatar {
     height: 35px;
     width: 35px;
@@ -1001,4 +1001,33 @@ a.btn-seat.active {
     margin-top: 5px;
     background-color: #74d512;
     cursor: auto;
+}
+
+.card-content .card-top {
+    display: flex;
+    justify-content: space-between
+}
+
+.card-content .card-top .btn-round {
+    display: flex;
+    margin: 0px 0px 0px 15px;
+    padding: 0px!important;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    background: rgba(197, 0, 0, 1)!important;
+    border-color: rgba(197, 0, 0, 1)!important;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(197, 0, 0, 0.4)!important;
+}
+.flex-end {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    justify-content: flex-end;
+}
+.card-content .card-top .btn-round i{
+    font-weight: bold;
+    font-size: 18px;
+    margin: auto;
+    top: 0px;
 }
