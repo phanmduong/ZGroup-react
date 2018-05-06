@@ -828,6 +828,20 @@ class RegisterListContainer extends React.Component {
                     <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
+<<<<<<< HEAD
+                                <div className="flex" style={{justifyContent: "space-between"}}>
+                                <div className="flex">
+                                    <h4 className="card-title">
+                                        <strong>{this.state.cardTitle}</strong>
+                                    </h4>
+                                    <div>
+                                        <button 
+                                            onClick={this.openCreateRegisterModal}
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button">
+                                            <strong>+</strong>
+                                        </button>
+=======
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
                                     <div style={{display: "flex"}}>
                                         <h4 className="card-title">
@@ -892,7 +906,25 @@ class RegisterListContainer extends React.Component {
                                                 >file_download</i>
                                             </button>
                                         </OverlayTrigger>
+>>>>>>> f6b4ec24829b180a9052c72634ca1a20d4baeefc
                                     </div>
+                                    <div>
+                                        <button 
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button" style={{display:"flex", padding:0}}>
+                                            <i className="material-icons" style={{margin: "auto"}}>filter_list</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex" style={{justifyContent: "flex-end"}}>    
+                                    <div>
+                                        <button 
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button">
+                                            <i className="material-icons" style={{margin:"0px -4px", top:0}}>file_download</i>
+                                        </button>
+                                    </div>
+                                </div>    
                                 </div>
                                 {this.props.isLoadingGens ? <Loading/> :
                                     <div>

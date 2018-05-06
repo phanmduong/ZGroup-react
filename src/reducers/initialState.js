@@ -1059,7 +1059,8 @@ export default {
         isEditing: false,
         errorEdit: false,
         currentPage: 1,
-        totalPages: 1
+        totalPages: 1,
+        totalCount:0
     },
 
     personalCalendar: {
@@ -1160,6 +1161,8 @@ export default {
         isLoadingExcel: false,
         currentPage: 1,
         totalPages: 1,
+        totalCount: 1,
+        limit: 1,
         classes: [],
         gens: [],
         isLoading: false,
@@ -1727,6 +1730,10 @@ export default {
             classes: [],
 
         },
+        totalCount:1,
+        totalPages:1,
+        limit:1,
+        currentPage:1,
         class: [],
         lesson: [],
         bases: [],

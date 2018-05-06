@@ -22,7 +22,8 @@ export default function genssReducer(state = initialState.gens, action) {
                     error: false,
                     gens: action.gens,
                     currentPage: action.currentPage,
-                    totalPages: action.totalPages
+                    totalPages: action.totalPages,
+                    totalCount: action.totalCount
                 }
             };
         case types.LOAD_GENS_ERROR:
