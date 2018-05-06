@@ -62,7 +62,11 @@ export function loadClasses(search ="", page="", teacherId="", baseid='' , genid
             .then((res) => {
                 dispatch({
                     type: types.ATTENDANCE_LOAD_CLASS_DATA_SUCCESS,
-                    data: res.data
+                    data: res.data,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages,
+                    totalCount: res.data.paginator.total_count,
+                    limit: res.data.paginator.limit
                 });
             }).catch((err) => {
             helper.showErrorNotification(err);

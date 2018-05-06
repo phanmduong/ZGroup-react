@@ -1,5 +1,5 @@
 /**
- * Created by phanmduong on 9/10/17.
+ * Created by kiyoshitaro .
  */
 import React from 'react';
 import {connect} from 'react-redux';
@@ -19,6 +19,7 @@ class ClassContainer extends React.Component {
     }
 
     render() {
+        // console.log(this.props.class,"class");
         if (this.props.isLoadingClass) {
             return (
                 <Loading/>

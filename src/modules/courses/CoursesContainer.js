@@ -7,8 +7,9 @@ import {bindActionCreators}     from 'redux';
 import {Link}                   from 'react-router';
 import Loading                  from "../../components/common/Loading";
 import Search                   from "../../components/common/Search";
-import _                        from 'lodash';
+// import _                        from 'lodash';
 import * as helper              from '../../helpers/helper';
+import Pagination               from "../../components/common/Pagination";
 
 class CoursesContainer extends React.Component {
     constructor(props, context) {
@@ -116,27 +117,20 @@ class CoursesContainer extends React.Component {
                                                 query={this.state.query}
                                             />
                                         }
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, this.props.paginator.total_pages + 1).map(page => {
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => {
-                                                                this.loadCourses(page);
-                                                            }}>{page}</a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => {
-                                                                this.loadCourses(page);
-                                                            }}>{page}</a>
-                                                        </li>
-                                                    );
-                                                }
-                                            })}
-                                        </ul>
+                                        
+                                        <br/>
+                                        <div className="row">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
+                                                <b style={{marginRight: '15px'}}>
+                                                        Hiển thị kêt quả từ {this.props.paginator.total_count ? (this.props.paginator.current_page - 1) * this.props.paginator.limit + 1 : 0}
+                                                        - {this.props.paginator.current_page < this.props.paginator.total_pages ? this.props.paginator.current_page * this.props.paginator.limit : this.props.paginator.total_count}/{this.props.paginator.total_count}</b><br/>
+                                                <Pagination
+                                                    totalPages={this.props.paginator.total_pages}
+                                                    currentPage={this.props.paginator.current_page}
+                                                    loadDataPage={this.loadCourses || 0}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

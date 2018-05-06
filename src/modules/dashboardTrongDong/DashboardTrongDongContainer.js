@@ -79,6 +79,7 @@ class DashboardTrongDongContainer extends Component {
     }
 
     render() {
+        // console.log(store.registerRooms,"registerRooms");
         return (
             <div>
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
@@ -114,6 +115,7 @@ class DashboardTrongDongContainer extends Component {
                             {store.isLoading ? (
                                 <Loading />
                             ) : (
+
                                     store.registerRooms &&
                                     store.registerRooms.map((room, index) => {
                                         const registers = room.register_rooms.map(register => {
@@ -153,6 +155,7 @@ class DashboardTrongDongContainer extends Component {
                                                 overlay: 1
                                             };
                                         });
+                                        // console.log(registers,"registers");
 
                                         return (
                                             <div className="card" key={index}>
@@ -187,6 +190,7 @@ class DashboardTrongDongContainer extends Component {
                                             </div>
                                         );
                                     })
+
                                 )}
                         </div>
                     )}

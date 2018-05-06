@@ -127,12 +127,12 @@ class CampaignComponent extends React.Component {
 												</td>
 												<td>
 													<a
-														className="campaign-message-type"
+														className="btn btn-main btn-sm"
 														style={{
 															backgroundColor: message.sms_template_type.color
 														}}>
 														<span>
-															{message.sms_template_type.name.toUpperCase()}
+															{message.sms_template_type.name}
 														</span>
 													</a>
 												</td>

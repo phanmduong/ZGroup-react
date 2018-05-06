@@ -38,7 +38,11 @@ class DatetimeModal extends React.Component {
                     bsStyle="primary"
                     onHide={this.closeDatetimeModal}
                 >
-                    <Modal.Header/>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Thời gian</strong>
+                        </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <div className="row">
                             <div className="col-md-6">

@@ -3,7 +3,7 @@ import * as env from "../../../constants/env";
 // import { register } from "../../workShiftRegisters/workShiftRegisterApi";
 
 export function getRooms(baseId) {
-    let url = `${env.MANAGE_API_URL}/base/${baseId}/rooms`;
+    let url = `${env.MANAGE_API_URL}/v2/base/${baseId}/rooms`;
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;

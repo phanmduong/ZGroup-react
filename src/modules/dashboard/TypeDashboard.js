@@ -6,7 +6,7 @@ import DashboardContainer from "./DashboardContainer";
 import OrdersContainer from "../eCommerceDashboard/OrdersContainer";
 import DashboardXHHContainer from "../dashboardXHH/DashboardXHHContainer";
 import DashBoardUpContainer from "../dashboardUp/DashBoardUpContainer";
-// import DashboardTrongDong from "../dashboardTrongDong/DashboardTrongDongContainer";
+import DashboardTrongDong from "../dashboardTrongDong/DashboardTrongDongContainer";
 
 /*eslint-disable */
 class TypeDashboard extends React.Component {

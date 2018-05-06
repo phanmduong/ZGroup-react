@@ -102,6 +102,10 @@ export default function attendanceReducer(state = initialState.attendance, actio
                 ...{
                     isLoading: false,
                     data: action.data,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages,
+                    totalCount: action.totalCount,
+                    limit: action.limit
                 }
             };
         case types.ATTENDANCE_LOAD_CLASS_DATA_ERROR:

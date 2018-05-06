@@ -26,7 +26,6 @@ class CallModal extends React.Component {
         let register = this.props.register;
         return (
             <div>
-
                 <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
                     {register.user &&

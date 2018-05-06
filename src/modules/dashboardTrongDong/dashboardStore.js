@@ -23,6 +23,7 @@ export default new class DashboardTrongDongStore {
             .then(res => {
                 this.registerRooms = res.data.data.rooms;
                 this.isLoading = false;
+                // console.log(this.registerRooms,"store");
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");

@@ -3,7 +3,7 @@
  */
 import * as types from "../../constants/actionTypes";
 import * as registerStudentsApi from "./registerStudentsApi";
-import { showErrorNotification, showNotification, showTypeNotification } from "../../helpers/helper";
+import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
@@ -126,20 +126,20 @@ export function loadCampaignFilter() {
     };
 }
 
-export function loadRegisterStudent(
-    page,
-    genId,
-    search,
-    salerId,
-    campaignId,
-    classId,
-    paid_status,
-    class_status,
-    startTime,
-    endTime,
-    baseId,
-    appointment_payment,
-) {
+export function loadRegisterStudent(page,
+                                    limit,
+                                    genId,
+                                    search,
+                                    salerId,
+                                    campaignId,
+                                    classId,
+                                    paid_status,
+                                    class_status,
+                                    startTime,
+                                    endTime,
+                                    baseId,
+                                    appointment_payment,
+                                    query_coupon,) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
@@ -147,6 +147,7 @@ export function loadRegisterStudent(
         registerStudentsApi
             .getRegisterStudent(
                 page,
+                limit,
                 genId,
                 search,
                 salerId,
@@ -158,7 +159,8 @@ export function loadRegisterStudent(
                 endTime,
                 baseId,
                 appointment_payment,
-        )
+                query_coupon,
+            )
             .then(function (res) {
                 dispatch(loadDataSuccessful(res));
             })
@@ -171,21 +173,19 @@ export function loadRegisterStudent(
     };
 }
 
-export function loadAllRegisterStudent(
-    page,
-    genId,
-    search,
-    salerId,
-    campaignId,
-    classId,
-    paid_status,
-    class_status,
-    startTime,
-    endTime,
-    baseId,
-    appointment_payment,
-    exportExcel,
-) {
+export function loadAllRegisterStudent(page,
+                                       genId,
+                                       search,
+                                       salerId,
+                                       campaignId,
+                                       classId,
+                                       paid_status,
+                                       class_status,
+                                       startTime,
+                                       endTime,
+                                       baseId,
+                                       appointment_payment,
+                                       exportExcel,) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
@@ -204,7 +204,7 @@ export function loadAllRegisterStudent(
                 endTime,
                 baseId,
                 appointment_payment,
-        )
+            )
             .then(function (res) {
                 dispatch({
                     type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,
@@ -238,7 +238,7 @@ export function loadDataSuccessful(res) {
 
 export function loadGensData() {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_GENS_REGISTER_STUDENT });
+        dispatch({type: types.BEGIN_LOAD_GENS_REGISTER_STUDENT});
         registerStudentsApi
             .loadGens()
             .then(res => {
@@ -251,7 +251,7 @@ export function loadGensData() {
                 });
             })
             .catch(() => {
-                dispatch({ type: types.LOAD_GENS_REGISTER_STUDENT_ERROR });
+                dispatch({type: types.LOAD_GENS_REGISTER_STUDENT_ERROR});
             });
     };
 }
@@ -279,16 +279,14 @@ export function loadHistoryCallStudent(studentId, registerId) {
     };
 }
 
-export function changeCallStatusStudent(
-    callStatus,
-    studentId,
-    telecallId,
-    genId,
-    note,
-    closeModal,
-    callerId,
-    appointmentPayment,
-) {
+export function changeCallStatusStudent(callStatus,
+                                        studentId,
+                                        telecallId,
+                                        genId,
+                                        note,
+                                        closeModal,
+                                        callerId,
+                                        appointmentPayment,) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT,
@@ -302,7 +300,7 @@ export function changeCallStatusStudent(
                 note,
                 callerId,
                 appointmentPayment,
-        )
+            )
             .then(res => {
                 closeModal();
                 dispatch({

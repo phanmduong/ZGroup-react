@@ -1,4 +1,5 @@
 import ScheduleClassContainer from "../modules/scheduleClass/ScheduleClassContainer";
+import ScheduleTeachingContainer from "../modules/scheduleTeaching/ScheduleTeachingContainer";
 import GensContainer from "../modules/gens/GensContainer";
 import CoursesContainer from "../modules/courses/CoursesContainer";
 import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
@@ -32,6 +33,12 @@ import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesCont
  * Tab Teaching
  */
 export default [
+
+    {
+        path: "/teaching/schedule-teaching",
+        // path: "/manage/scheduleclass",
+        component: ScheduleTeachingContainer
+    },
     {
         path: "/teaching/scheduleclass",
         // path: "/manage/scheduleclass",

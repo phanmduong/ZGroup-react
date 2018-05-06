@@ -4,8 +4,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import * as blogActions from "../actions/blogActions";
 
 
@@ -18,9 +18,9 @@ import Select from '../../../components/common/Select';
 import PostModal from "./PostModal";
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
-// import KeetoolEditor from "../../../components/common/KeetoolEditor";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
+// // import KeetoolEditor from "../../../components/common/KeetoolEditor";
 // import MinEditor from '../../../js/keetool-editor';
-
 
 
 class BlogsContainer extends React.Component {
@@ -43,6 +43,8 @@ class BlogsContainer extends React.Component {
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
         this.loadByKinds = this.loadByKinds.bind(this);
+        // this.test = this.test.bind(this);
+
     }
 
 
@@ -51,6 +53,7 @@ class BlogsContainer extends React.Component {
         this.props.blogActions.loadLanguages();
         this.loadPosts(1);
     }
+
     // componentDidMount() {
     //
     //     // $("mini-editor").init();
@@ -58,8 +61,15 @@ class BlogsContainer extends React.Component {
     //         MinEditor.init('mini-editor');
     //     });
     // }
+    // test(){
+    //     let data = {...this.props.post};
+    //     data["content"] = MinEditor.getContent();
+    //     console.log(MinEditor.getContent(), data.content, "test");
+    //     this.props.blogActions.updateFormPost(data);
+    // }
+
     loadPosts(page) {
-        this.setState({ page });
+        this.setState({page});
         this.props.blogActions.loadPosts(
             page,
             this.state.query,
@@ -67,6 +77,7 @@ class BlogsContainer extends React.Component {
             this.state.kind,
         );
     }
+
     loadByText(value) {
         this.setState({
             page: 1,
@@ -87,8 +98,9 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
+
     loadByCategories(category_id) {
-        this.setState({ category_id });
+        this.setState({category_id});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -104,8 +116,9 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
+
     loadByKinds(kind) {
-        this.setState({ kind });
+        this.setState({kind});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -121,101 +134,116 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
+
     openCreatePostModal(e) {
         this.props.blogActions.openCreatePostModal();
         e.preventDefault();
     }
 
 
-
-
     render() {
+        const Add = <Tooltip id="tooltip">Thêm bài viết</Tooltip>;
+
+        // let first = this.props.totalPages
+        //     ? (this.state.page - 1) * this.state.limit + 1
+        //     : 0;
+        // let end =
+        //     this.state.page < this.props.totalPages
+        //         ? this.state.page * this.state.limit
+        //         : this.props.totalPages;
         return (
             <div className="container-fluid">
                 {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages ? (
-                    <Loading />
+                    <Loading/>
                 ) : (
-                        <div>
-                            <div className="row">
-                                <div className="col-md-2">
+                    <div>
+                        <div className="row">
+                            <div className="col-md-2">
 
-                                    <Select
-                                        className="btn-round"
-                                        name="board-id"
-                                        value={this.state.category_id}
-                                        options={
-                                            [
-                                                { key: 0, value: "Tất cả" },
-                                                ...this.props.categories ? this.props.categories.map((category) => {
-                                                    return {
-                                                        ...category,
-                                                        key: category.id,
-                                                        value: category.name
-                                                    };
-                                                }) : []]
-                                        }
-                                        onChange={this.loadByCategories}
-                                    />
-                                </div>
-                                <div className="col-md-2">
-
-                                    <Select
-                                        className="btn-round"
-                                        name="board-id"
-                                        value={this.state.kind}
-                                        options={
-                                            this.props.allBlogKinds.map((obj) => {
-                                                return { key: obj.value, value: obj.label };
-                                            })
-                                        }
-                                        onChange={this.loadByKinds}
-                                    />
-                                </div>
+                                <Select
+                                    className="btn-round"
+                                    name="board-id"
+                                    value={this.state.category_id}
+                                    options={
+                                        [
+                                            {key: 0, value: "Tất cả"},
+                                            ...this.props.categories ? this.props.categories.map((category) => {
+                                                return {
+                                                    ...category,
+                                                    key: category.id,
+                                                    value: category.name
+                                                };
+                                            }) : []]
+                                    }
+                                    onChange={this.loadByCategories}
+                                />
                             </div>
-                            <div className="card">
-                                <div className="card-content">
-                                    <div className="tab-content">
-                                        <div className="flex-row flex">
-                                            <h4 className="card-title">
-                                                <strong>Danh sách bài viết</strong>
-                                            </h4>
-                                            <div>
+                            <div className="col-md-2">
+
+                                <Select
+                                    className="btn-round"
+                                    name="board-id"
+                                    value={this.state.kind}
+                                    options={
+                                        this.props.allBlogKinds.map((obj) => {
+                                            return {key: obj.value, value: obj.label};
+                                        })
+                                    }
+                                    onChange={this.loadByKinds}
+                                />
+                            </div>
+                        </div>
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách bài viết</strong>
+                                        </h4>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Add}
+                                            >
                                                 <button
                                                     className="btn btn-primary btn-round btn-xs button-add none-margin "
                                                     type="button" onClick={
-                                                        (e) => { this.openCreatePostModal(e); }}>
+                                                    (e) => {
+                                                        this.openCreatePostModal(e);
+                                                    }}>
                                                     <strong>+</strong>
                                                 </button>
-                                            </div>
+                                            </OverlayTrigger>
                                         </div>
-
-                                        {/*<KeetoolEditor/>*/}
-
-
-                                        <Search
-                                            onChange={this.loadByText}
-                                            value={this.state.query}
-                                            placeholder="Tìm kiếm tiêu đề"
-                                        />
                                     </div>
 
-                                    <ListPost />
-                                    <Pagination
-                                        totalPages={this.props.totalPages}
-                                        currentPage={this.state.page}
-                                        loadDataPage={this.loadPosts}
+                                    {/*<div id="mini-editor">*/}
+                                    {/*</div>*/}
+                                    {/*<button onClick={()=>this.test()}>+</button>*/}
+
+
+                                    <Search
+                                        onChange={this.loadByText}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm tiêu đề"
                                     />
                                 </div>
 
+                                <ListPost/>
+                                <Pagination
+                                    totalPages={this.props.totalPages}
+                                    currentPage={this.state.page}
+                                    loadDataPage={this.loadPosts}
+                                />
                             </div>
-
                         </div>
-                    )}
+                    </div>
+                )}
 
 
-                <PostModal />
-                <AddLanguageModal />
-                <AddCategoryModal />
+                <PostModal/>
+                <AddLanguageModal/>
+                <AddCategoryModal/>
 
 
             </div>
@@ -228,6 +256,7 @@ BlogsContainer.propTypes = {
     isLoadingCategories: PropTypes.bool.isRequired,
     isLoadingLanguages: PropTypes.bool.isRequired,
     blogActions: PropTypes.object.isRequired,
+    post: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     posts: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -243,6 +272,7 @@ function mapStateToProps(state) {
         categories: state.blog.categories,
         isLoadingPosts: state.blog.isLoadingPosts,
         allBlogKinds: state.blog.allBlogKinds,
+        post: state.blog.post,
     };
 }
 
