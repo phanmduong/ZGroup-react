@@ -470,7 +470,7 @@
     <script>
         window.onload = function(e) {
             var kind = "{{$blog['kind']}}";
-            console.log(vueData.isLogin);
+            console.log(vueData);
             if(kind == 'resource') 
                 if(vueData.isLogin == false){
                     setTimeout(function () {
@@ -564,6 +564,8 @@
                             phone: "Vui lòng nhập số điện thoại",
                         },
                     });
+                    this.user.product_id = {{$blog['id']}};
+                    console.log(this.user);
                     if ($("#form-register form").valid()) {
                         var url = "/register-confirm-email";
                         this.isLoading = true;
@@ -588,19 +590,6 @@
                                         this.hasError = true;
                                         toastr.error(res.data.error);
                                     }
-                                    // if (res.data.user) {
-                                    //     $("#modalLogin").modal("toggle");
-                                    //     vueData.isLogin = true;
-                                    //     vueData.user = res.data.user;
-                                    //     localStorage.setItem(
-                                    //         "auth",
-                                    //         JSON.stringify(res.data),
-                                    //     );
-                                    //     location.reload();
-                                    // } else {
-                                    //     this.hasError = true;
-                                    //     toastr.error(res.data.error);
-                                    // }
                                 }.bind(this)
                             )
                             .catch(

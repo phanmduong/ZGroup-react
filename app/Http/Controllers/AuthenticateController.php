@@ -11,6 +11,7 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\EmailService;
+use App\ProductSubscription;
 
 class AuthenticateController extends Controller
 {
@@ -125,8 +126,8 @@ class AuthenticateController extends Controller
 
         $token = Hash::make($name . $email . $phone . $hash);
 
-        $this->emailService->send_mail_confirm_email($email, $name, $hash, $phone, $token);
-
+        $this->emailService->send_mail_confirm_email($email, $name, $hash, $phone, $token, $request->product_id); 
+        
         return [
             'status' => 1,
             'message' => 'Color Me đã gửi email xác nhận vào hòm thư "' . $email . '". Bạn vui lòng kiểm tra email để hoàn thành đăng kí'

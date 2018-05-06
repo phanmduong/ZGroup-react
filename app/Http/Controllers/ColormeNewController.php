@@ -117,6 +117,12 @@ class ColormeNewController extends CrawlController
             $user->password = $hash;
 
             $user->save();
+            if ($request->product_id) {
+                $subscription = new ProductSubscription();
+                $subscription->user_id = $user->id;
+                $subscription->product_id = $request->blog_id;
+                $subscription->save();
+            }
             return view('colorme_new.email_verified', $this->data);
         } else {
             return 'Đường link không chính xác';
@@ -388,11 +394,6 @@ class ColormeNewController extends CrawlController
         }
         $user->rate = 5;
         $user->save();
-
-        $subscription = new ProductSubscription();
-        $subscription->user_id = $user->id;
-        $subscription->product_id = $request->blog_id;
-        $subscription->save();
 
         $this->emailService->send_mail_welcome($user);
         return [
