@@ -800,7 +800,8 @@ class RegisterListContainer extends React.Component {
                     <div className="card" style={{marginTop:20}}>
                         <div className="card-content">
                             <div className="tab-content">
-                                <div className="flex flex-row">
+                                <div className="flex" style={{justifyContent: "space-between"}}>
+                                <div className="flex">
                                     <h4 className="card-title">
                                         <strong>{this.state.cardTitle}</strong>
                                     </h4>
@@ -810,9 +811,25 @@ class RegisterListContainer extends React.Component {
                                             className="btn btn-primary btn-round btn-xs button-add none-margin" 
                                             type="button">
                                             <strong>+</strong>
-                                            <div className="ripple-container"/>
                                         </button>
                                     </div>
+                                    <div>
+                                        <button 
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button" style={{display:"flex", padding:0}}>
+                                            <i className="material-icons" style={{margin: "auto"}}>filter_list</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex" style={{justifyContent: "flex-end"}}>    
+                                    <div>
+                                        <button 
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                            type="button">
+                                            <i className="material-icons" style={{margin:"0px -4px", top:0}}>file_download</i>
+                                        </button>
+                                    </div>
+                                </div>    
                                 </div>
                                 {this.props.isLoadingGens ? <Loading/> :
                                     <div>
