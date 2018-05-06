@@ -84,9 +84,9 @@ class ClassRepository
         if($lessons)
             $data['lessons'] = $lessons->map(function($lesson){
                 return [
-                    'time' => $lesson->pivot_time,
-                    'start_time' => $lesson->pivot_start_time,
-                    'end_time' => $lesson->pivot_end_time,
+                    'time' => $lesson->pivot->time,
+                    'start_time' => $lesson->pivot->start_time,
+                    'end_time' => $lesson->pivot->end_time,
                     'name' => $lesson->name,
                 ];
             });

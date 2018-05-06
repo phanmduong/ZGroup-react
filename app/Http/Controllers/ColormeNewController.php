@@ -524,13 +524,9 @@ class ColormeNewController extends CrawlController
     {
         // dd('asdsad');
         $class = StudyClass::find(1490);
-        dd($class->$lessons->map(function($lesson){
-            return [
-                'time' => $lesson->pivot_time,
-                'start_time' => $lesson->pivot_start_time,
-                'end_time' => $lesson->pivot_end_time,
-                'name' => $lesson->name,
-            ];
+        // dd($class->lessons);
+        dd($class->lessons->map(function($lesson){
+            return $lesson->pivot->time;
         }));
     }
 
