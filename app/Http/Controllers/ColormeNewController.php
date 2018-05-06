@@ -376,23 +376,21 @@ class ColormeNewController extends CrawlController
         // axios called
         if($request->page){
             return $products;
+            
         };
 
         if(Auth::user()){
-            // dd(Register::where('user_id',Auth::user()->id)->get());
+            dd(Register::where('money','>',0)->where('user_id',Auth::user()->id)->get());
             $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
             $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
             $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
                                                 ->where('author_id',Auth::user()->id)
                                                 ->count();
-            // $this->data['user_registers'] = Register::where('user_id','=',Auth::user()->id)->get();
-            // dd($this->data['user_views']);
-            // $temps = Product::where('author_id', Auth::user()->id)->get();
-            // $comments = 0;
-            // foreach($temps as $temp){
-            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
-            // }
-            // $this->data['user_comments'] = $comments;
+            $this->data['user_registers'] = Register::where('money','>',0)
+                                                ->where('user_id',Auth::user()->id)->get();
+            
+
+            
         }
 
         $cources = Course::all();
