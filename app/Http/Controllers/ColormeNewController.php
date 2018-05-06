@@ -366,7 +366,7 @@ class ColormeNewController extends CrawlController
         $data = $blog->blogDetailTransform();
         $data['time'] = $this->timeCal(date($blog->created_at));
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
-            ->limit(4)->get();
+            ->limit(3)->get();
         $this->data['blog'] = $data;
 
         return view('colorme_new.blog', $this->data);
@@ -375,6 +375,8 @@ class ColormeNewController extends CrawlController
     public function register(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
+        if ($user == null)
+            $user = User::where('username', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;

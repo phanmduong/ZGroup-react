@@ -12,8 +12,6 @@
     <meta id="metakeywords" name="keywords" content="{!! htmlspecialchars($blog['keyword']) !!}"/>
     <meta id="newskeywords" name="news_keywords" content="{!! htmlspecialchars($blog['keyword']) !!}"/>
     <link rel="canonical" href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"/>
-
-
 @endsection
 
 @extends('colorme_new.layouts.master') @section('content')
@@ -242,6 +240,7 @@
                                                 </div>
                                             </div>
                                             <div class="product-content">
+                                                @if($blog['kind'] != 'resource')
                                                 <hr>
                                                 <div class="row form-register">
                                                     <div class="col-md-12">
@@ -288,7 +287,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                @endif
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
                                                          data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}"
@@ -353,10 +352,269 @@
             </div>
         </div>
     </div>
+    <!-- a -->
+    <div id="modalLoginClone" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding-bottom: 0px">
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px"
+                        v-if="modalLogin">
+                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
+                        <h2 style="font-weight: 600">Nhận quà hàng tuần</h2>
+                        <p>Đăng kí để nhận một template mỗi tuần từ colorME</p>
+                        <br>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%" type="text" v-model="user.email"
+                                placeholder="Tên đăng nhập/Email"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                v-model="user.password"
+                                type="password"
+                                v-on:keyup.enter="login"
+                                placeholder="Mật khẩu"/>
+                        </div>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                :disabled="user.email ==='' || user.password === '' || isLoading"
+                                v-if="!isLoading"
+                                v-on:click="login">Đăng nhập
+                        </button>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                :disabled="isLoading"
+                                v-if="isLoading"
+                        ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang đăng nhập
+                        </button>
+                        <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;"
+                                v-on:click="changeModal">Tạo tài khoản
+                        </button>
+                        <a style="width: 100%; margin: 10px; padding: 15px; color: #484848; text-align: center"
+                        href="/password/reset">Quên mật
+                            khẩu</a>
+                    </div>
+                    <div id="form-register"
+                        style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px"
+                        v-if="!modalLogin">
+                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
+                        <h2 style="font-weight: 600">Tạo tài khoản</h2>
+                        <p>Chào mừng bạn đến với colorME.</p>
+                        <br>
+                        <form v-if="showRegisterForm" style="width: 100%">
+                            <div class="form-group" style="width: 100%;">
+                                <input class="form-control" style="height: 50px" width="100%"
+                                    v-model="user.name"
+                                    type="text"
+                                    name="name"
+                                    placeholder="Họ và tên" required/>
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <input class="form-control" style="height: 50px" width="100%"
+                                    v-model="user.email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="Email" required/>
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <input class="form-control" style="height: 50px" width="100%"
+                                    v-model="user.password"
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Mật khẩu" required/>
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <input class="form-control" style="height: 50px" width="100%"
+                                    v-model="user.confirm_password"
+                                    type="password"
+                                    name="confirm_password"
+                                    placeholder="Nhập lại mật khẩu" required/>
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <input class="form-control" style="height: 50px" width="100%"
+                                    v-model="user.phone"
+                                    type="text"
+                                    name="phone"
+                                    v-on:keyup.enter="register"
+                                    placeholder="Số điện thoại" required/>
+                            </div>
+                        </form>
+
+                        <div v-if="!!message" style="width:100%" class="alert alert-success">
+                            @{{message}}
+                        </div>
+
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                :disabled="isLoading"
+                                v-if="!isLoading"
+                                v-on:click="register">
+                            Tạo tài khoản
+                        </button>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                :disabled="isLoading"
+                                v-if="isLoading"
+                        ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang tạo tài khoản
+                        </button>
+                        <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;"
+                                v-on:click="changeModal">Đăng nhập
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        window.onload = function(e) {
+            var kind = "{{$blog['kind']}}";
+            console.log(vueData.isLogin);
+            if(kind == 'resource') 
+                if(vueData.isLogin == false){
+                    setTimeout(function () {
+                        $("#modalLoginClone").modal("toggle");
+                        modalLoginClone.user.email = "";
+                        modalLoginClone.user.password = "";
+                        modalLoginClone.isClose = false;
+                    }, 30000);
+                }
+        }
+
+        var modalLoginClone = new Vue({
+            el: "#modalLoginClone",
+            data: {
+                user: {
+                    email: "",
+                    password: "",
+                },
+                isLoading: false,
+                hasError: false,
+                isClose: false,
+                modalLogin: true,
+                showRegisterForm: true,
+                message: ""
+            },
+            methods: {
+                login: function () {
+                    var url = "/login-social";
+                    this.isLoading = true;
+                    this.hasError = false;
+                    this.isClose = true;
+                    axios
+                        .post(url, this.user)
+                        .then(
+                            function (res) {
+                                this.isLoading = false;
+                                this.isClose = false;
+                                if (res.data.user) {
+                                    $("#modalLogin").modal("toggle");
+                                    vueData.isLogin = true;
+                                    vueData.user = res.data.user;
+                                    localStorage.setItem(
+                                        "auth",
+                                        JSON.stringify(res.data)
+                                    );
+                                    location.reload();
+                                } else {
+                                    this.hasError = true;
+                                    toastr.error(res.data.error);
+                                }
+                            }.bind(this)
+                        )
+                        .catch(
+                            function (error) {
+                                this.isLoading = false;
+                                this.hasError = true;
+                                toastr.error(error.response.data.error);
+                            }.bind(this)
+                        );
+                },
+                changeModal: function () {
+                    this.showRegisterForm = true;
+                    this.message = "";
+                    this.modalLogin = !this.modalLogin;
+                },
+                register: function () {
+                    $("#form-register form").validate({
+                        rules: {
+                            email: "required",
+                            name: "required",
+                            phone: "required",
+                            password: "required",
+                            confirm_password: {
+                                required: true,
+                                equalTo: "#password",
+                            },
+                        },
+                        messages: {
+                            email: {
+                                required: "Vui lòng nhập email",
+                                email: "Vui lòng nhập đúng email",
+                            },
+                            password: {
+                                required: "Vui lòng nhập mật khẩu",
+                            },
+                            confirm_password: {
+                                required: "Vui lòng xác nhận mật khẩu",
+                                equalTo: "Mật khẩu không trùng",
+                            },
+                            name: "Vui lòng nhập họ và tên",
+                            phone: "Vui lòng nhập số điện thoại",
+                        },
+                    });
+                    if ($("#form-register form").valid()) {
+                        var url = "/register-confirm-email";
+                        this.isLoading = true;
+                        this.hasError = false;
+                        this.isClose = true;
+                        axios
+                            .post(url, this.user)
+                            .then(
+                                function (res) {
+                                    this.isLoading = false;
+                                    this.isClose = false;
+                                    this.message = "";
+
+                                    if (Number(res.data.status) === 1) {
+                                        this.message = res.data.message;
+                                        this.showRegisterForm = false;
+                                        this.user = {
+                                            email: "",
+                                            password: "",
+                                        };
+                                    } else {
+                                        this.hasError = true;
+                                        toastr.error(res.data.error);
+                                    }
+                                    // if (res.data.user) {
+                                    //     $("#modalLogin").modal("toggle");
+                                    //     vueData.isLogin = true;
+                                    //     vueData.user = res.data.user;
+                                    //     localStorage.setItem(
+                                    //         "auth",
+                                    //         JSON.stringify(res.data),
+                                    //     );
+                                    //     location.reload();
+                                    // } else {
+                                    //     this.hasError = true;
+                                    //     toastr.error(res.data.error);
+                                    // }
+                                }.bind(this)
+                            )
+                            .catch(
+                                function (error) {
+                                    this.isLoading = false;
+                                    this.hasError = true;
+                                    toastr.error(error.response.data.error);
+                                }.bind(this)
+                            );
+                    }
+                },
+            },
+        });
+
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
@@ -369,7 +627,6 @@
                 var name = $('#name').val();
                 var email = $('#email').val();
                 var phone = $('#phone').val();
-                console.log(name + phone + email);
                 var ok = 0;
                 if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
 
