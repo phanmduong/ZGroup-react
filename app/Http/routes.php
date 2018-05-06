@@ -496,6 +496,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/search', 'ColormeNewController@social');
     Route::get('/courses', 'ColormeNewController@social');
     Route::get('/notifications-list', 'ColormeNewController@social');
+    Route::get('/posts/{popular}', 'ColormeNewController@social');
     Route::get('/posts/1', 'ColormeNewController@social1');
     Route::get('/posts/7', 'ColormeNewController@social7');
     Route::get('/posts/30', 'ColormeNewController@social30');
