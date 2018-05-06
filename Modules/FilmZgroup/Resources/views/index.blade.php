@@ -887,23 +887,50 @@
                             <div class="row comingSoon-slides">
                                 <div class="col-sm-12">
 
-                                    <header><h2> Coming soon</h2></header>
+                                    <header><h2>PHIM SẮP CHIẾU</h2></header>
                                     <?php $i = 0; $classes = array('0');
-                                        for($j=1; $j<count($filmsComing); $j++){
-                                            array_push($classes,$j);
-                                        }
+                                    for ($j = 1; $j < count($filmsComing); $j++) {
+                                        array_push($classes, $j);
+                                    }
+                                    $limit_summary = 200;
                                     ?>
 
-                                    @foreach($filmsComing as $filmComing)
-                                            <?php  $class = $classes[$i++ % 3]?>
-                                        <div class="row single-slide .{{$class}}"
-                                             style="opacity: 1; height: auto; padding-bottom: 40px;">
+                                    <div class="row single-slide 0" style="opacity: 1; height: auto; padding-bottom: 40px;">
+                                        <div class="bg" style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-news.jpg);"></div>
+                                        <div class="col-sm-5 col-xs-12 slide-content">
+                                            <span class="title">Fantasy, Sci-fi, Action</span>
+                                            <header>
+                                                <h3 class="no-underline">Colliding plantes</h3>
+                                            </header>
+                                            <div class="star-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="date">
+                                                <i class="fa fa-calendar-o"></i> 2 October, 2019						</div>
+                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p>						<p><a href="http://specto.klevermedia.co.uk/movies/colliding-plantes/" class="arrow-button">
+                                                    More info						</a></p>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
+                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video" class="venobox video vbox-item">
+                                                <i class="fa fa-play"></i>
+                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-1-555x335.png" alt="Colliding plantes">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @foreach($filmsComing as $film)
+                                        <?php  $class = $classes[$i++ % count($filmsComing)]?>
+                                        <div class="row single-slide {{$class}}"
+                                             style="opacity: 0; height: 0px; padding-bottom: 0px;">
                                             <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-news.jpg);"></div>
+                                                 style="background-image: url({{$film->avatar_url}});"></div>
                                             <div class="col-sm-5 col-xs-12 slide-content">
-                                                <span class="title">Fantasy, Sci-fi, Action</span>
+                                                <span class="title">{{$film->film_genre}}</span>
                                                 <header>
-                                                    <h3 class="no-underline">Colliding plantes</h3>
+                                                    <h3 class="no-underline">{{$film->name}}</h3>
                                                 </header>
                                                 <div class="star-rating">
                                                     <i class="fa fa-star"></i>
@@ -913,22 +940,18 @@
                                                     <i class="fa fa-star"></i>
                                                 </div>
                                                 <div class="date">
-                                                    <i class="fa fa-calendar-o"></i> 2 October, 2019
+                                                    <i class="fa fa-calendar-o"></i> {{$film->release_date}}
                                                 </div>
-                                                <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                    consuetudium lectorum. Mirum est notare quam littera gothica, quam
-                                                    nunc
-                                                    putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                    seacula quarta decima et quinta decima.</p>
-                                                <p><a href="http://specto.klevermedia.co.uk/movies/colliding-plantes/"
+                                                <p>{{substr($film->summary, 0, $limit_summary) . '...'}}</p>
+                                                <p><a href="#"
                                                       class="arrow-button">
                                                         More info </a></p>
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                                <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
+                                                <a href="{{$film->trailer_url}}" data-vbtype="video"
                                                    class="venobox video vbox-item">
                                                     <i class="fa fa-play"></i>
-                                                    <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-1-555x335.png"
+                                                    <img src="{{$film->avatar_url}}"
                                                          alt="Colliding plantes">
                                                 </a>
                                             </div>
@@ -987,68 +1010,20 @@
                         <div style="margin-right: -15px;margin-left: -15px" class="slick-slider">
 
                             <div id="comingSoon" class="owl-carousel slick-carousel slick-initialized">
-
-                                <div data-dynamicclass="1" class="slick-slide slick-cloned" data-slick-index="1"
-                                     aria-hidden="true" tabindex="-1" style="opacity: 1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/lurking-in-the-dark/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-16.jpg"
-                                             alt="Lurking in the dark">
-                                    </a>
-                                    <header><h5 class="left no-underline">Lurking in the dark</h5></header>
-                                    <span class="release-date">11 August, 2018</span>
-                                </div>
-
-                                <div data-dynamicclass="2" class="slick-slide slick-cloned" data-slick-index="2"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-lone-soldier-behind-enemy-lines/"
-                                       tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-13.jpg"
-                                             alt="The lone soldier: Behind enemy lines">
-                                    </a>
-                                    <header><h5 class="left no-underline">The lone soldier: Behind enemy lines</h5>
-                                    </header>
-                                    <span class="release-date">30 July, 2020</span>
-                                </div>
-
-                                <div data-dynamicclass="3" class="slick-slide slick-cloned" data-slick-index="3"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-vendetta/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-3.jpg"
-                                             alt="The vendetta">
-                                    </a>
-                                    <header><h5 class="left no-underline"> The vendetta </h5></header>
-                                    <span class="release-date">14 April, 2019</span>
-                                </div>
-
-                                <div data-dynamicclass="4" class="slick-slide slick-cloned" data-slick-index="4"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-executioner/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-15.jpg"
-                                             alt="The executioner">
-                                    </a>
-                                    <header><h5 class="left no-underline">The executioner</h5></header>
-                                    <span class="release-date">26 May, 2019</span>
-                                </div>
-
-                                <div data-dynamicclass="5" class="slick-slide slick-cloned" data-slick-index="5"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/sudden-death/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-10.jpg"
-                                             alt="Sudden death">
-                                    </a>
-                                    <header><h5 class="left no-underline">Sudden death</h5></header>
-                                    <span class="release-date">8 March, 2019</span>
-                                </div>
-
-                                <div data-dynamicclass="6" class="slick-slide slick-cloned" data-slick-index="6"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-vendetta/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-14.jpg"
-                                             alt="The vendetta">
-                                    </a>
-                                    <header><h5 class="left no-underline"> The vendetta </h5></header>
-                                    <span class="release-date">14 April, 2019</span>
-                                </div>
+                                <?php $i=0;?>
+                                @foreach($filmsComing as $film)
+                                    <div data-dynamicclass="{{$i}}" class="slick-slide slick-cloned" data-slick-index="{{$i}}"
+                                         aria-hidden="true" tabindex="-1" style="opacity: 1">
+                                        <a href="#"
+                                           tabindex="-1">
+                                            <img src="{{$film->avatar_url}}"
+                                                 alt="{{$film->name}}">
+                                        </a>
+                                        <header><h5 class="left no-underline">{{$film->name}}</h5></header>
+                                        <span class="release-date">{{$film->release_date}}</span>
+                                    </div>
+                                        <?php $i++?>
+                                @endforeach
 
                             </div>
                         </div>
