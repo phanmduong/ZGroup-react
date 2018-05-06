@@ -32,7 +32,9 @@ class CampaignListComponent extends React.Component {
 										? campaign.name
 										: campaign.name.substring(0, 14) + '...';
 								const image = campaign.user.avatar_url
-									? campaign.user.avatar_url
+									? campaign.user.avatar_url.substring(0, 4) === 'http'
+										? campaign.user.avatar_url
+										: 'http://' + campaign.user.avatar_url
 									: 'http://farm9.staticflickr.com/8130/29541772703_6ed8b50c47_b.jpg';
 								const description =
 									campaign.description.length < 25
@@ -100,7 +102,7 @@ class CampaignListComponent extends React.Component {
 												</div>
 											</div>
 										</td>
-										<td>fuck</td>
+										<td>1.000.000</td>
 										<td>
 											<Switch
 												onChange={(value) =>

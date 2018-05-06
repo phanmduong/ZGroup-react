@@ -375,7 +375,7 @@ class StorePostComponent extends React.Component {
 
 
                                             <div id="mini-editor"/>
-                                        
+
                                             <button onClick={() => this.test()}>+</button>
 
 
