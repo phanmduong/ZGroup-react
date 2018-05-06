@@ -120,7 +120,7 @@ class ColormeNewController extends CrawlController
             if ($request->product_id) {
                 $subscription = new ProductSubscription();
                 $subscription->user_id = $user->id;
-                $subscription->product_id = $request->blog_id;
+                $subscription->product_id = $request->product_id;
                 $subscription->save();
             }
             return view('colorme_new.email_verified', $this->data);
