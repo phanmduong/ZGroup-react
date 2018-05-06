@@ -4,6 +4,7 @@ import { observable } from "mobx";
 import { store } from "../dashboardStaffStore";
 import { dotNumber, formatPhone } from "../../../helpers/helper";
 import TooltipButton from "../../../components/common/TooltipButton";
+import PropTypes from 'prop-types';
 
 @observer
 export default class componentName extends Component {
@@ -143,11 +144,11 @@ export default class componentName extends Component {
                                                             <div className="ripple-container" />
                                                         </button>
                                                     ) : (
-                                                        <button className="btn btn-xs btn-main no-data">
-                                                            Không có
+                                                            <button className="btn btn-xs btn-main no-data">
+                                                                Không có
                                                             <div className="ripple-container" />
-                                                        </button>
-                                                    )}
+                                                            </button>
+                                                        )}
                                                 </td>
                                                 <td className="text-center">
                                                     {register.paid_status ? (
@@ -161,8 +162,8 @@ export default class componentName extends Component {
                                                             {dotNumber(register.money)} vnd
                                                         </div>
                                                     ) : (
-                                                        "Chưa nộp"
-                                                    )}
+                                                            "Chưa nộp"
+                                                        )}
                                                 </td>
                                                 <td>
                                                     <div
@@ -193,3 +194,8 @@ export default class componentName extends Component {
         );
     }
 }
+
+componentName.propTypes = {
+    genId: PropTypes.number.isRequired,
+
+};

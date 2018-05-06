@@ -2,115 +2,150 @@
  * Created by phanmduong on 9/8/17.
  */
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as historyCallActions from './historyCallActions';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+//import _ from 'lodash';
 import Loading from '../../components/common/Loading';
 import ListCall from './ListCall';
+import Search from '../../components/common/Search';
+import Pagination from '../../components/common/Pagination';
 
 class HistoryCallsContainer extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            page: 1,
-            callerId: '',
-        };
-        this.timeOut = null;
-    }
+	constructor(props, context) {
+		super(props, context);
+		this.state = {
+			page: 1,
+			callerId: '',
+			query: ''
+		};
+		this.timeOut = null;
+		this.customersSearchChange = this.customersSearchChange.bind(this);
+		this.loadOrders = this.loadOrders.bind(this);
+	}
 
-    componentWillMount() {
-        if (this.props.params.callerId) {
-            this.setState({
-                callerId: this.props.params.callerId
-            });
-            this.loadHistoryCalls(1, this.props.params.callerId);
-        } else {
-            this.loadHistoryCalls();
-        }
+	componentWillMount() {
+		if (this.props.params.callerId) {
+			this.setState({
+				callerId: this.props.params.callerId
+			});
+			this.props.historyCallActions.historyCalls(1, this.props.params.callerId, null);
+		} else {
+			this.props.historyCallActions.historyCalls();
+		}
+	}
 
-    }
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.params.callerId !== this.props.params.callerId) {
+			this.setState({
+				callerId: nextProps.params.callerId
+			});
+			this.props.historyCallActions.historyCalls(1, nextProps.params.callerId, null);
+		}
+	}
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.params.callerId !== this.props.params.callerId) {
-            this.setState({
-                callerId: nextProps.params.callerId
-            });
-            this.loadHistoryCalls(1, nextProps.params.callerId);
-        }
-    }
+	customersSearchChange(value) {
+		this.setState({
+			query: value,
+			page: 1
+		});
+		if (this.timeOut !== null) {
+			clearTimeout(this.timeOut);
+		}
+		this.timeOut = setTimeout(
+			function() {
+				this.props.historyCallActions.historyCalls(this.state.page, this.state.callerId, value);
+			}.bind(this),
+			500
+		);
+	}
 
-    loadHistoryCalls(page = 1, callerId = '') {
-        this.setState({page});
-        this.props.historyCallActions.historyCalls(page, callerId);
-    }
+	loadOrders(page = 1) {
+		this.setState({ page: page });
+		this.props.historyCallActions.historyCalls(page, this.state.callerId, this.state.query);
+	}
 
-    render() {
-        return (
-            <div className="container-fluid">
-                <div className="card">
-                    <div className="card-content">
-                        <div className="tab-content">
-                            <h4 className="card-title"><strong style={{marginLeft:6}}>Lịch sử gọi</strong></h4>
-                            <br/>
-                            {this.props.isLoading ? <Loading/> :
-                                <div>
-                                    <ListCall
-                                        teleCalls={this.props.teleCalls}
-                                    />
-                                </div>
-                            }
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                    if (Number(this.state.page) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.loadHistoryCalls(page, this.state.callerId)}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.loadHistoryCalls(page, this.state.callerId)}>{page}</a>
-                                            </li>
-                                        );
-                                    }
+	render() {
+		let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
+		let end =
+			this.props.currentPage < this.props.totalPages
+				? this.props.currentPage * this.props.limit
+				: this.props.totalCount;
 
-                                })}
-                            </ul>
-                        </div>    
-                    </div>
-                </div>
-            </div>
-        );
-    }
+		return (
+			<div className="container-fluid">
+				<div className="card">
+					<div className="card-content">
+						<div className="tab-content">
+							<h4 className="card-title">
+								<strong style={{ marginLeft: 6 }}>Lịch sử gọi</strong>
+							</h4>
+							<Search
+								onChange={this.customersSearchChange}
+								value={this.state.query}
+								placeholder="Nhập tên, số điện thoại, email khách hàng hoặc nội dung ghi chú để tìm"
+							/>
+							<br />
+							{this.props.isLoading ? (
+								<Loading />
+							) : (
+								<div>
+									<ListCall teleCalls={this.props.teleCalls} />
+								</div>
+							)}
+							<div className="row float-right">
+								<div
+									className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+									style={{ textAlign: 'right' }}>
+									<b style={{ marginRight: '15px' }}>
+										Hiển thị kêt quả từ {first}
+										- {end}/{this.props.totalCount}
+									</b>
+									<br />
+									<Pagination
+										totalPages={this.props.totalPages}
+										currentPage={this.props.currentPage}
+										loadDataPage={this.loadOrders}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 HistoryCallsContainer.propTypes = {
-    currentPage: PropTypes.number.isRequired,
+	currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
-    teleCalls: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    historyCallActions: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+	teleCalls: PropTypes.array.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	historyCallActions: PropTypes.object.isRequired,
+	location: PropTypes.object.isRequired,
+	route: PropTypes.object.isRequired,
+	params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
-    return {
-        currentPage: state.historyCalls.currentPage,
+	return {
+		currentPage: state.historyCalls.currentPage,
         totalPages: state.historyCalls.totalPages,
-        teleCalls: state.historyCalls.teleCalls,
-        isLoading: state.historyCalls.isLoading
-    };
+        totalCount: state.historyCalls.totalCount,
+        limit: state.historyCalls.limit,
+		teleCalls: state.historyCalls.teleCalls,
+		isLoading: state.historyCalls.isLoading
+	};
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        historyCallActions: bindActionCreators(historyCallActions, dispatch)
-    };
+	return {
+		historyCallActions: bindActionCreators(historyCallActions, dispatch)
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryCallsContainer);

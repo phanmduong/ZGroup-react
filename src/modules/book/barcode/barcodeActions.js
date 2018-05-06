@@ -38,12 +38,12 @@ export function updateBarcodeFormData(barcode) {
     };
 }
 
-export function loadBarcodes(page = 1, type = "book") {
+export function loadBarcodes(page = 1, type = "book", search) {
     return dispatch => {
         dispatch({
             type: types.BEGIN_LOAD_BARCODES,
         });
-        barcodeApi.loadBarcodes(page, type).then(res => {
+        barcodeApi.loadBarcodes(page, type, search).then(res => {
             dispatch({
                 type: types.LOAD_BARCODES_SUCCESS,
                 barcodes: res.data.barcodes,

@@ -33,9 +33,9 @@ class RegisterManageRoomContainer extends React.Component {
             openFilterPanel: false,
             time: {
                 startTime: "",
-                endTime: "",
+                endTime: ""
             },
-            month: { year: 0, month: 0 },
+            month: { year: 0, month: 0 }
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -43,9 +43,7 @@ class RegisterManageRoomContainer extends React.Component {
         this.salersSearchChange = this.salersSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
         this.filterBySaler = this.filterBySaler.bind(this);
-        this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
-            this,
-        );
+        this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(this);
         this.filterByStatus = this.filterByStatus.bind(this);
 
         this.openFilterPanel = this.openFilterPanel.bind(this);
@@ -53,7 +51,7 @@ class RegisterManageRoomContainer extends React.Component {
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
-        this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
+        // this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
     componentWillMount() {
@@ -64,12 +62,9 @@ class RegisterManageRoomContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (
-            nextProps.isLoadingBases !== this.props.isLoadingBases &&
-            !nextProps.isLoadingBases
-        ) {
+        if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
             this.setState({
-                bases: this.getBases(nextProps.bases),
+                bases: this.getBases(nextProps.bases)
             });
         }
     }
@@ -94,7 +89,7 @@ class RegisterManageRoomContainer extends React.Component {
             this.state.selectBaseId,
             startTime,
             endTime,
-            () => this.setState({ month: value }),
+            () => this.setState({ month: value })
         );
         let time = { ...this.state.time };
         time["startTime"] = startTime;
@@ -111,16 +106,16 @@ class RegisterManageRoomContainer extends React.Component {
         let baseData = bases.map(function(base) {
             return {
                 key: base.id,
-                value: base.name,
+                value: base.name
             };
         });
         this.setState({ selectBaseId: 0 });
         return [
             {
                 key: 0,
-                value: "Tất cả",
+                value: "Tất cả"
             },
-            ...baseData,
+            ...baseData
         ];
     }
 
@@ -135,7 +130,7 @@ class RegisterManageRoomContainer extends React.Component {
             this.state.campaign_id,
             value,
             this.state.startTime,
-            this.state.endTime,
+            this.state.endTime
         );
     }
 
@@ -155,7 +150,7 @@ class RegisterManageRoomContainer extends React.Component {
             this.state.campaign_id,
             this.state.selectBaseId,
             this.state.startTime,
-            this.state.endTime,
+            this.state.endTime
         );
         this.props.registerManageRoomAction.hideGlobalLoading();
         const wsData = res.data.data.room_service_registers;
@@ -181,7 +176,7 @@ class RegisterManageRoomContainer extends React.Component {
         const sheetName = "Danh sách đăng kí đặt phòng";
         let workbook = {
             SheetNames: [],
-            Sheets: {},
+            Sheets: {}
         };
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
@@ -191,7 +186,7 @@ class RegisterManageRoomContainer extends React.Component {
     registersSearchChange(value) {
         this.setState({
             page: 1,
-            query: value,
+            query: value
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -207,10 +202,10 @@ class RegisterManageRoomContainer extends React.Component {
                     this.state.campaign_id,
                     this.state.selectBaseId,
                     this.state.startTime,
-                    this.state.endTime,
+                    this.state.endTime
                 );
             }.bind(this),
-            500,
+            500
         );
     }
 
@@ -218,7 +213,7 @@ class RegisterManageRoomContainer extends React.Component {
         if (value) {
             this.setState({
                 saler_id: value.value,
-                page: 1,
+                page: 1
             });
             this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
@@ -229,12 +224,12 @@ class RegisterManageRoomContainer extends React.Component {
                 this.state.campaign_id,
                 this.state.selectBaseId,
                 this.state.startTime,
-                this.state.endTime,
+                this.state.endTime
             );
         } else {
             this.setState({
                 saler_id: null,
-                page: 1,
+                page: 1
             });
             this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
@@ -245,7 +240,7 @@ class RegisterManageRoomContainer extends React.Component {
                 this.state.campaign_id,
                 this.state.selectBaseId,
                 this.state.startTime,
-                this.state.endTime,
+                this.state.endTime
             );
         }
     }
@@ -254,26 +249,26 @@ class RegisterManageRoomContainer extends React.Component {
         if (value) {
             this.setState({
                 status: value.value,
-                page: 1,
+                page: 1
             });
             this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
                 1,
                 this.state.query,
                 this.state.saler_id,
-                value.value,
+                value.value
             );
         } else {
             this.setState({
                 status: null,
-                page: 1,
+                page: 1
             });
             this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
                 1,
                 this.state.query,
                 this.state.saler_id,
-                null,
+                null
             );
         }
     }
@@ -289,7 +284,7 @@ class RegisterManageRoomContainer extends React.Component {
             campaign_id,
             this.state.selectBaseId,
             this.state.startTime,
-            this.state.endTime,
+            this.state.endTime
         );
     }
 
@@ -304,7 +299,7 @@ class RegisterManageRoomContainer extends React.Component {
             this.state.campaign_id,
             this.state.selectBaseId,
             this.state.startTime,
-            this.state.endTime,
+            this.state.endTime
         );
     }
 
@@ -319,13 +314,13 @@ class RegisterManageRoomContainer extends React.Component {
             this.state.campaign_id,
             this.state.selectBaseId,
             this.state.startTime,
-            this.state.endTime,
+            this.state.endTime
         );
     }
 
     closeModal() {
         this.setState({
-            showModal: false,
+            showModal: false
         });
     }
 
@@ -334,13 +329,11 @@ class RegisterManageRoomContainer extends React.Component {
             return {
                 ...saler,
                 value: saler.id,
-                label: saler.name,
+                label: saler.name
             };
         });
         SALER = [{ value: 0, label: "Tất cả" }, ...SALER];
-        let first = this.props.totalCount
-            ? (this.props.currentPage - 1) * this.props.limit + 1
-            : 0;
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end =
             this.props.currentPage < this.props.totalPages
                 ? this.props.currentPage * this.props.limit
@@ -367,8 +360,7 @@ class RegisterManageRoomContainer extends React.Component {
                             <div className="col-sm-3 col-xs-5">
                                 <SelectCommon
                                     defaultMessage={"Chọn cơ sở"}
-                                    options={this.state.bases}
-                                    // disableRound
+                                    options={this.state.bases} // disableRound
                                     value={this.state.selectBaseId}
                                     onChange={this.onChangeBase}
                                 />
@@ -377,11 +369,8 @@ class RegisterManageRoomContainer extends React.Component {
                                 <button
                                     style={{ width: "100%" }}
                                     onClick={this.openFilterPanel}
-                                    className="btn btn-info btn-rose btn-round"
-                                >
-                                    <i className="material-icons">
-                                        filter_list
-                                    </i>
+                                    className="btn btn-info btn-rose btn-round">
+                                    <i className="material-icons">filter_list</i>
                                     Lọc
                                 </button>
                             </div>
@@ -389,20 +378,14 @@ class RegisterManageRoomContainer extends React.Component {
                                 <button
                                     onClick={this.exportRegistersResultExcel}
                                     className="btn btn-info btn-rose btn-round"
-                                    style={{ float: "right" }}
-                                >
-                                    <i className="material-icons">
-                                        file_download
-                                    </i>
+                                    style={{ float: "right" }}>
+                                    <i className="material-icons">file_download</i>
                                     Xuất ra Excel
                                 </button>
                             </div>
                         </div>
 
-                        <Panel
-                            collapsible
-                            expanded={this.state.openFilterPanel}
-                        >
+                        <Panel collapsible expanded={this.state.openFilterPanel}>
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
@@ -417,14 +400,9 @@ class RegisterManageRoomContainer extends React.Component {
                                                             Tìm theo saler
                                                         </label>
                                                         <Select
-                                                            value={
-                                                                this.state.saler_id
-                                                            }
+                                                            value={this.state.saler_id}
                                                             options={SALER}
-                                                            onChange={
-                                                                this
-                                                                    .salersSearchChange
-                                                            }
+                                                            onChange={this.salersSearchChange}
                                                         />
                                                     </div>
                                                     <div className="form-group col-md-4">
@@ -432,19 +410,13 @@ class RegisterManageRoomContainer extends React.Component {
                                                             Tìm theo trạng thái
                                                         </label>
                                                         <Select
-                                                            value={
-                                                                this.state.status
-                                                            }
-                                                            options={
-                                                                REGISTER_STATUS
-                                                            }
-                                                            onChange={
-                                                                this.filterByStatus
-                                                            }
+                                                            value={this.state.status}
+                                                            options={REGISTER_STATUS}
+                                                            onChange={this.filterByStatus}
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -462,32 +434,23 @@ class RegisterManageRoomContainer extends React.Component {
                                         value={this.state.query}
                                         placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
                                     />
-                                    <ListOrder
-                                        openChooseSeatModal={
-                                            this.openChooseSeatModal
-                                        }
+                                    <ListOrder // openChooseSeatModal={
+                                        //     this.openChooseSeatModal
+                                        // }
                                         registers={this.props.registers}
                                         isLoading={this.props.isLoading}
                                         filterBySaler={this.filterBySaler}
                                         filterByCampaign={this.filterByCampaign}
                                     />
                                     <div className="row float-right">
-                                        <div
-                                            className="col-md-12"
-                                            style={{ textAlign: "right" }}
-                                        >
+                                        <div className="col-md-12" style={{ textAlign: "right" }}>
                                             <b style={{ marginRight: "15px" }}>
-                                                Hiển thị kêt quả từ {first} -{" "}
-                                                {end}/{this.props.totalCount}
+                                                Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}
                                             </b>
                                             <br />
                                             <Pagination
-                                                totalPages={
-                                                    this.props.totalPages
-                                                }
-                                                currentPage={
-                                                    this.props.currentPage
-                                                }
+                                                totalPages={this.props.totalPages}
+                                                currentPage={this.props.currentPage}
                                                 loadDataPage={this.loadOrders}
                                             />
                                         </div>
@@ -512,7 +475,7 @@ RegisterManageRoomContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
-    bases: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -525,19 +488,14 @@ function mapStateToProps(state) {
         currentPage: state.registerManageRoom.currentPage,
         salers: state.registerManageRoom.salers,
         isLoadingBases: state.registerManageRoom.isLoadingBases,
-        bases: state.registerManageRoom.bases,
+        bases: state.registerManageRoom.bases
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerManageRoomAction: bindActionCreators(
-            registerManageRoomAction,
-            dispatch,
-        ),
+        registerManageRoomAction: bindActionCreators(registerManageRoomAction, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-    RegisterManageRoomContainer,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterManageRoomContainer);

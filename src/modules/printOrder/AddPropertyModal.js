@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import FormInputText from "../../components/common/FormInputText";
 import PropTypes from 'prop-types';
 import * as helper from "../../helpers/helper";
@@ -33,7 +33,7 @@ class AddPropertyModal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({data: nextProps.data});
+        this.setState({ data: nextProps.data });
     }
 
     close() {
@@ -49,7 +49,7 @@ class AddPropertyModal extends React.Component {
     onChangeInput(e) {
 
         let value = e.target.value;
-        this.setState({inputText: value});
+        this.setState({ inputText: value });
     }
 
     add() {
@@ -57,8 +57,8 @@ class AddPropertyModal extends React.Component {
         if (!name || helper.isEmptyInput(this.state.inputText)) return;
         this.modified = true;
         let newdata = this.state.data[name + "s"];
-        newdata = [...newdata, {name: this.state.inputText}];
-        this.setState({data: {...this.state.data, [name + "s"]: newdata}, inputText: ""});
+        newdata = [...newdata, { name: this.state.inputText }];
+        this.setState({ data: { ...this.state.data, [name + "s"]: newdata }, inputText: "" });
     }
 
     remove(index) {
@@ -68,14 +68,14 @@ class AddPropertyModal extends React.Component {
                 this.modified = true;
                 let data = this.state.data[name + "s"];
                 let newdata = [...data.slice(0, index), ...data.slice(index + 1, data.length)];
-                this.setState({data: {...this.state.data, [name + "s"]: newdata}});
-            }.bind(this));        
+                this.setState({ data: { ...this.state.data, [name + "s"]: newdata } });
+            }.bind(this));
     }
 
     save() {
         this.modified = false;
-        let {data} = this.state;
-        let {materials, colors, packings, sizes} = data;
+        let { data } = this.state;
+        let { materials, colors, packings, sizes } = data;
         this.props.editProperty(1, materials);
         this.props.editProperty(2, colors);
         this.props.editProperty(3, packings);
@@ -84,8 +84,8 @@ class AddPropertyModal extends React.Component {
     }
 
     getCurrentArray() {
-        let {data} = this.state;
-        let {materials, colors, packings, sizes} = data;
+        let { data } = this.state;
+        let { materials, colors, packings, sizes } = data;
         switch (this.state.currentTab) {
             case 1:
                 return materials;
@@ -99,13 +99,13 @@ class AddPropertyModal extends React.Component {
     }
 
     onChangeTab(e) {
-        this.setState({currentTab: e.value, inputText: ""});
+        this.setState({ currentTab: e.value, inputText: "" });
     }
 
     render() {
 
-        let {isCommitting} = this.props;
-        let {currentTab, inputText} = this.state;
+        let { isCommitting } = this.props;
+        let { currentTab, inputText } = this.state;
         return (
             <Modal
 
@@ -119,10 +119,10 @@ class AddPropertyModal extends React.Component {
                     <Select
                         value={currentTab}
                         options={[
-                            {value: 1, label: "Chất liệu"},
-                            {value: 2, label: "Màu sắc"},
-                            {value: 3, label: "Đóng gói"},
-                            {value: 4, label: "Khổ in"},
+                            { value: 1, label: "Chất liệu" },
+                            { value: 2, label: "Màu sắc" },
+                            { value: 3, label: "Đóng gói" },
+                            { value: 4, label: "Khổ in" },
                         ]}
                         onChange={this.onChangeTab}
                         name="tabSelect"
@@ -132,14 +132,15 @@ class AddPropertyModal extends React.Component {
                             <FormInputText
                                 label="Nhập tên"
                                 name=""
-                                className="col-md-12"
+                                style={{ width: "100%" }}
+                                className="col-md-10 col-sm-10"
                                 value={inputText}
                                 updateFormData={this.onChangeInput}
                             /></div>
-                        <div className="col-md-3">
+                        <div className="col-md-2 col-sm-2">
                             <button
-                                style={{width: "100%", marginTop: 15}}
-                                className="btn btn-fill btn-rose" type="button"
+                                style={{ width: "100%", marginTop: 25 }}
+                                className="btn btn-fill btn-rose btn-xs" type="button"
                                 onClick={this.add}
                             >Thêm
                             </button>
@@ -148,28 +149,28 @@ class AddPropertyModal extends React.Component {
                     <div className="table-responsive">
                         <table className="table">
                             <thead className="text-rose">
-                            <tr>
-                                <th style={{width: "10%"}}>STT</th>
-                                <th>Tên</th>
-                                <th style={{width: "10%"}}/>
-                            </tr>
+                                <tr>
+                                    <th style={{ width: "10%" }}>STT</th>
+                                    <th>Tên</th>
+                                    <th style={{ width: "10%" }} />
+                                </tr>
                             </thead>
                             <tbody>
-                            {this.getCurrentArray().map(
-                                (obj, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{obj.name}</td>
-                                            <td><ButtonGroupAction
-                                                delete={() => {
-                                                    return this.remove(index);
-                                                }}
-                                                disabledEdit
-                                            /></td>
-                                        </tr>
-                                    );
-                                })}
+                                {this.getCurrentArray().map(
+                                    (obj, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{obj.name}</td>
+                                                <td><ButtonGroupAction
+                                                    delete={() => {
+                                                        return this.remove(index);
+                                                    }}
+                                                    disabledEdit
+                                                /></td>
+                                            </tr>
+                                        );
+                                    })}
                             </tbody>
                         </table>
                     </div>
@@ -177,18 +178,18 @@ class AddPropertyModal extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     {this.props.isCommitting ?
-                        <button className="btn btn-rose disabled" type="button" style={{width: "25%", float: "right"}}>
-                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                        <button className="btn btn-rose disabled" type="button" style={{ width: "25%", float: "right" }}>
+                            <i className="fa fa-spinner fa-spin" /> Đang tải lên
                         </button>
                         :
-                        <div style={{display: "flex", justifyContent: "flex-end"}}>
-                            <div className="col-md-3"><button style={{width: "100%"}}
+                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                            <div className="col-md-3"><button style={{ width: "100%" }}
                                 disabled={isCommitting}
                                 className="btn btn-fill btn-rose" type="button"
                                 onClick={this.save}
                             ><i className="material-icons">check</i> Lưu
                             </button></div>
-                            <div className="col-md-3"><button style={{width: "100%"}}
+                            <div className="col-md-3"><button style={{ width: "100%" }}
                                 disabled={isCommitting}
                                 className="btn btn-fill" type="button"
                                 onClick={this.close}

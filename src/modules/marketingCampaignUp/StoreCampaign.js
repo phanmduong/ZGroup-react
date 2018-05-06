@@ -54,9 +54,10 @@ class StoreCampaign extends React.Component {
                               color={this.state.color}
                               onChangeComplete={this.changeColor}
                 />
-                <div className="row">
+
+                <div className="modal-footer">
                     {this.props.isStoringCampaign ?
-                        <div className="col-md-12">
+                        <div>
                             <button className="btn btn-fill btn-rose disabled">
                                 <i className="fa fa-spinner fa-spin disabled"/>Đang thêm
                             </button>
@@ -65,7 +66,7 @@ class StoreCampaign extends React.Component {
                             </button>
                         </div>
                         :
-                        <div className="col-md-12">
+                        <div>
 
                             <button className="btn btn-success" onClick={this.storeMarketingCampaign}>
                                 <i className="material-icons">save</i> Thêm
@@ -76,6 +77,7 @@ class StoreCampaign extends React.Component {
                         </div>
                     }
                 </div>
+
             </form>
         );
     }

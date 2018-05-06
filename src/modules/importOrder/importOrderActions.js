@@ -83,12 +83,12 @@ export function editImportOrder(data) {
     };
 }
 
-export function loadAllImportOrder(page) {
+export function loadAllImportOrder(page,id = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_IMPORT_ORDER,
         });
-        importOrderApi.loadAllImportOrder(page)
+        importOrderApi.loadAllImportOrder(page,id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_IMPORT_ORDER_SUCCESS,

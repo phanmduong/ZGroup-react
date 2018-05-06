@@ -28,7 +28,7 @@ class StorePostComponent extends React.Component {
         $(".blog-buttons").css("top", topButtons);
     }
 
-    componentDidUpdate() {}
+    componentDidUpdate() { }
 
     render() {
         return (
@@ -36,45 +36,46 @@ class StorePostComponent extends React.Component {
                 {this.props.isSaving ? (
                     <Loading />
                 ) : (
-                    <div>
-                        <button
-                            onClick={this.props.close}
-                            type="button"
-                            className="btn btn-fill btn-danger"
-                        >
-                            Đóng
+                        <div>
+
+
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                disabled={this.props.disabled}
+                                onClick={this.props.save}
+                            >
+                                Lưu
                         </button>
 
-                        <button
-                            className="btn btn-fill btn-success"
-                            type="button"
-                            disabled={this.props.disabled}
-                            onClick={this.props.save}
-                        >
-                            Lưu
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                disabled={this.props.disabled}
+                                onClick={this.props.preSave}
+                            >
+                                Lưu và xem thử
                         </button>
 
-                        <button
-                            className="btn btn-fill btn-default"
-                            type="button"
-                            disabled={this.props.disabled}
-                            onClick={this.props.preSave}
-                        >
-                            Lưu và xem thử
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                disabled={this.props.disabled}
+                                onClick={() => {
+                                    this.props.publish();
+                                }}
+                            >
+                                Đăng bài
                         </button>
-
-                        <button
-                            className="btn btn-fill btn-rose"
-                            type="button"
-                            disabled={this.props.disabled}
-                            onClick={() => {
-                                this.props.publish();
-                            }}
-                        >
-                            Đăng bài
+                            <button
+                                onClick={this.props.close}
+                                type="button"
+                                className="btn btn-fill"
+                            >
+                                Đóng
                         </button>
-                    </div>
-                )}
+                        </div>
+                    )}
             </div>
         );
     }

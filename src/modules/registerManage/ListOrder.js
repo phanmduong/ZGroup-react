@@ -319,7 +319,11 @@ class ListOrder extends React.Component {
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
-                    <Modal.Header/>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Cuộc gọi</strong>
+                        </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}
@@ -332,7 +336,11 @@ class ListOrder extends React.Component {
                     bsStyle="primary"
                     onHide={this.closePaymentModal}
                 >
-                    <Modal.Header/>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Thu tiền</strong>
+                        </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <PaymentModal
                             register={this.state.register}
@@ -345,7 +353,11 @@ class ListOrder extends React.Component {
                     show={this.state.isOpenUserpackModal}
                     onHide={this.closeUserpackModal}
                 >
-                    <Modal.Header/>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Đặt chỗ</strong>
+                        </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <UserpackModal
                             register={this.state.register}

@@ -201,6 +201,7 @@ class ScheduleClassContainer extends React.Component {
                                                                 required={true}
                                                                 type="text"
                                                             />
+                                                            <br/>
                                                             <Select
                                                                 name="form-field-name"
                                                                 value={this.props.scheduleClass.studySessionIds}

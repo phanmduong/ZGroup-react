@@ -1,18 +1,20 @@
 /**
  * Created by Kiyoshitaro on 15/04/2018.
  */
-import React                    from "react";
-import PropTypes                from "prop-types";
+import React from "react";
+import PropTypes from "prop-types";
 
-import FormInputText            from "../../../components/common/FormInputText";
-import Loading                  from "../../../components/common/Loading";
-import {linkUploadImageEditor}  from "../../../constants/constants";
-import ReactEditor              from "../../../components/common/ReactEditor";
-import * as helper              from "../../../helpers/helper";
-import {NO_IMAGE}               from "../../../constants/env";
-import TooltipButton            from "../../../components/common/TooltipButton";
-import Buttons                  from "../../event/components/Buttons";
-import ReactSelect              from "react-select";
+import FormInputText from "../../../components/common/FormInputText";
+import Loading from "../../../components/common/Loading";
+import {linkUploadImageEditor} from "../../../constants/constants";
+import ReactEditor from "../../../components/common/ReactEditor";
+import * as helper from "../../../helpers/helper";
+import {NO_IMAGE} from "../../../constants/env";
+import TooltipButton from "../../../components/common/TooltipButton";
+import Buttons from "../../event/components/Buttons";
+import ReactSelect from "react-select";
+// import MinEditor from '../../../js/keetool-editor';
+
 
 function addCategories(categories) {
     return categories.map(item => {
@@ -32,16 +34,31 @@ class StorePostComponent extends React.Component {
         super(props, context);
         this.generateFromTitle = this.generateFromTitle.bind(this);
         this.invalid = this.invalid.bind(this);
+        // this.test = this.test.bind(this);
     }
+
 
     componentDidMount() {
         helper.setFormValidation("#form-post");
         helper.setFormValidation("#form-category");
+        // window.addEventListener('load', function () {
+        //     MinEditor.init('mini-editor');
+        // });
     }
+
 
     componentDidUpdate() {
         $("#tags").tagsinput();
+
     }
+
+    // test(e) {
+    //     e.preventDefault();
+    //     let data = {...this.props.post};
+    //     data["content"] = MinEditor.getContent();
+    //     console.log(MinEditor.getContent(), data.content, "test");
+    //     // this.props.blogActions.updateFormPost(data);
+    // }
 
     generateFromTitle() {
         if (this.props.post.title === "") {
@@ -52,7 +69,6 @@ class StorePostComponent extends React.Component {
         }
 
     }
-
 
 
     invalid() {
@@ -75,6 +91,7 @@ class StorePostComponent extends React.Component {
             keyword,
             meta_description,
             language_id,
+            kind,
         } = this.props.post;
 
         return (
@@ -125,7 +142,7 @@ class StorePostComponent extends React.Component {
                                                                 boxShadow:
                                                                     " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
                                                                 borderRadius: "10px",
-                                                            }}/>
+                                                            }}>
                                                         <input
                                                             type="file"
                                                             accept=".jpg,.png,.gif"
@@ -140,8 +157,9 @@ class StorePostComponent extends React.Component {
                                                                 bottom: 0,
                                                                 right: 0,
                                                                 width: "100%",
-                                                                height: "100%",
+                                                                height: "33%",
                                                             }}/>
+                                                        </img>
                                                     </a>
                                                 </TooltipButton>
                                             )}
@@ -153,8 +171,30 @@ class StorePostComponent extends React.Component {
                                                 updateFormData={this.props.updateFormPostData}
                                                 value={title}
                                             />
+                                            <label className="label-control">
+                                                Loại bài viết
+                                            </label>
+                                            <div className="row">
+                                                <div
+                                                    className="col-md-12"
+                                                    style={{display: "flex"}}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            width: "-webkit-fill-available",
+                                                            marginRight: 10,
+                                                        }}>
+                                                        <ReactSelect
+                                                            value={kind}
+                                                            options={this.props.allBlogKinds}
+                                                            onChange={this.props.updateKind}
+                                                            placeholder="Chọn loại bài viết"
+                                                        />
+                                                    </div>
 
-
+                                                </div>
+                                            </div>
+                                            <br/>
                                             <label className="label-control">
                                                 Ngôn ngữ
                                             </label>
@@ -164,7 +204,8 @@ class StorePostComponent extends React.Component {
                                                     <div
                                                         style={{
                                                             width: "-webkit-fill-available",
-                                                            marginRight: 10,}}>
+                                                            marginRight: 10,
+                                                        }}>
                                                         <ReactSelect
                                                             value={language_id}
                                                             options={addLanguage(this.props.languages)}
@@ -191,11 +232,7 @@ class StorePostComponent extends React.Component {
                                             </div>
 
 
-                                            {/*<div*/}
-                                                {/*id="mini-editor"*/}
-                                            {/*>*/}
-                                            {/*</div>*/}
-
+                                            <br/>
                                             <FormInputText
                                                 height="100%"
                                                 label="Slug"
@@ -209,7 +246,7 @@ class StorePostComponent extends React.Component {
                                                     Tự động tạo từ tiêu đề
                                                 </a>
                                             </FormInputText>
-
+                                            <br/>
                                             <label className="label-control">
                                                 Nhóm bài viết
                                             </label>
@@ -237,13 +274,22 @@ class StorePostComponent extends React.Component {
                                                             placement="top"
                                                             text="Thêm nhóm bài viết">
                                                             <a className="btn btn-rose btn-sm"
-                                                                onClick={() => {this.props.openAddCategoryModal();}}>
+                                                               onClick={() => {
+                                                                   this.props.openAddCategoryModal();
+                                                               }}>
                                                                 <i className="material-icons">control_point</i>
                                                             </a>
                                                         </TooltipButton>
                                                     </div>
                                                 </div>
                                             </div>
+
+
+                                            {/*<div*/}
+                                                {/*id="mini-editor"*/}
+                                            {/*>*/}
+                                            {/*</div>*/}
+                                            {/*<button onClick={(e) => this.test(e)}>+</button>*/}
 
                                             <div className="form-group">
                                                 <label className="control-label">
@@ -306,10 +352,9 @@ class StorePostComponent extends React.Component {
                                             {/*????????????????????????/*/}
 
 
-
                                         </div>
                                     )}
-                                    {/*????????????????????????/*/}
+                                {/*????????????????????????/*/}
 
 
                                 <div className="row">
@@ -327,6 +372,11 @@ class StorePostComponent extends React.Component {
                                                 scrollerId="#store-post-modal"
                                                 updateEditor={this.props.updateEditor}
                                                 value={content}/>
+
+
+                                            <div id="mini-editor"/>
+                                            <button onClick={() => this.test()}>+</button>
+
 
                                             <div className="row">
                                                 {/*????????????????????????/*/}
@@ -372,31 +422,32 @@ class StorePostComponent extends React.Component {
                 </form>
 
 
-
             </div>
         );
     }
 }
 
 StorePostComponent.propTypes = {
-    post                : PropTypes.object.isRequired,
-    isLoadingPost       : PropTypes.bool.isRequired,
-    isLoadingLanguages  : PropTypes.bool.isRequired,
-    handleFileUpload    : PropTypes.func.isRequired,
-    generateFromTitle   : PropTypes.func.isRequired,
-    updateFormPostData  : PropTypes.func.isRequired,
-    languages           : PropTypes.array.isRequired,
-    updateLanguage      : PropTypes.func.isRequired,
-    updateEditor        : PropTypes.func.isRequired,
-    preSavePost         : PropTypes.func.isRequired,
-    savePost            : PropTypes.func.isRequired,
+    post: PropTypes.object.isRequired,
+    isLoadingPost: PropTypes.bool.isRequired,
+    isLoadingLanguages: PropTypes.bool.isRequired,
+    handleFileUpload: PropTypes.func.isRequired,
+    generateFromTitle: PropTypes.func.isRequired,
+    updateFormPostData: PropTypes.func.isRequired,
+    languages: PropTypes.array.isRequired,
+    updateLanguage: PropTypes.func.isRequired,
+    updateEditor: PropTypes.func.isRequired,
+    updateKind: PropTypes.func.isRequired,
+    preSavePost: PropTypes.func.isRequired,
+    savePost: PropTypes.func.isRequired,
     openAddLanguageModal: PropTypes.func.isRequired,
-    isSaving            : PropTypes.bool.isRequired,
-    isPreSaving         : PropTypes.bool.isRequired,
-    updateCategory      : PropTypes.func.isRequired,
-    categories          : PropTypes.array.isRequired,
-    closePostModal      : PropTypes.func.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isPreSaving: PropTypes.bool.isRequired,
+    updateCategory: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    closePostModal: PropTypes.func.isRequired,
     openAddCategoryModal: PropTypes.func.isRequired,
+    allBlogKinds: PropTypes.array.isRequired,
 
 
 };

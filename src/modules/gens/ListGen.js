@@ -11,7 +11,7 @@ class ListGen extends React.Component {
     render() {
         return (
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table-striped">
                     <thead className="text-rose">
                     <tr>
                         <th>Tên</th>

@@ -41,8 +41,8 @@ class CreateOrderGood extends React.Component {
         let id = this.props.params.orderGoodId;
         if (id) {
             this.props.orderGoodActions.loadOrderGood(id, (data) => {
-                let arr = data.goods.map((obj)=>{
-                    return {...obj, id : obj.good.id, real_quantity: obj.quantity};
+                let arr = data.goods.map((obj) => {
+                    return { ...obj, id: obj.good.id, real_quantity: obj.quantity };
                 });
                 data.goods = arr;
                 this.setState({ data });
@@ -78,8 +78,8 @@ class CreateOrderGood extends React.Component {
         if (!e) return;
         let { addModalData } = this.state;
         if (!e.target) {
-            addModalData = {...e};
-        } else{
+            addModalData = { ...e };
+        } else {
             let name = e.target.name;
             let value = e.target.value;
             addModalData = { ...addModalData, [name]: value };
@@ -129,7 +129,7 @@ class CreateOrderGood extends React.Component {
 
     commitData() {
         let { data } = this.state;
-        let {user,params} = this.props;
+        let { user, params } = this.props;
         if (!data.company || helper.isEmptyInput(data.company.id)) {
             helper.showErrorNotification("Vui lòng chọn nhà cung cấp!");
             return;
@@ -153,19 +153,19 @@ class CreateOrderGood extends React.Component {
                 })
             ),
         };
-        if(params.orderGoodId)
-        this.props.orderGoodActions.editOrderGood(res);
+        if (params.orderGoodId)
+            this.props.orderGoodActions.editOrderGood(res);
         else
-        this.props.orderGoodActions.createOrderGood(res);
+            this.props.orderGoodActions.createOrderGood(res);
     }
 
-    onChangeNote(e){
+    onChangeNote(e) {
         let note = e.target.value;
-        this.setState({data: {...this.state.data,note}});
+        this.setState({ data: { ...this.state.data, note } });
     }
 
     render() {
-        let { isLoading, goods, companies, isCommitting ,user} = this.props;
+        let { isLoading, goods, companies, isCommitting, user } = this.props;
         let { data, showAddModal, addModalData } = this.state;
         let sumQuantity = 0, sumPrice = 0;
         //console.log(this.state);
@@ -177,12 +177,22 @@ class CreateOrderGood extends React.Component {
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">event_available</i>
-                                        </div>
-
                                         <div className="card-content">
-                                            <h4 className="card-title">Sản phẩm</h4>
+                                            <div className="flex-row flex">
+                                                <h4 className="card-title"><strong>Sản phẩm</strong></h4>
+                                                <div>
+                                                    <TooltipButton text="Thêm sản phẩm" placement="top">
+                                                        <button style={{ float: "right" }}
+                                                            className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                            type="button"
+                                                            onClick={() => this.openAddModal(null)}
+                                                        >
+                                                            <strong>+</strong>
+                                                        </button>
+                                                    </TooltipButton>
+                                                </div>
+                                            </div>
+
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <thead className="text-rose">
@@ -193,16 +203,6 @@ class CreateOrderGood extends React.Component {
                                                             <th style={textAlign}>Phân loại</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Thành tiền</th>
-                                                            <th>
-                                                                <TooltipButton text="Thêm sản phẩm" placement="top">
-                                                                    <button style={{ float: "right" }}
-                                                                        className="btn btn-fill btn-rose btn-sm"
-                                                                        type="button"
-                                                                        onClick={() => this.openAddModal(null)}
-                                                                    ><i className="material-icons">add</i>
-                                                                    </button>
-                                                                </TooltipButton>
-                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
@@ -289,13 +289,8 @@ class CreateOrderGood extends React.Component {
                                 </div>
                                 <div className="col-md-4">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">local_shipping</i>
-                                        </div>
-
                                         <div className="card-content">
-                                            <h4 className="card-title">Nhà cung cấp</h4>
-
+                                            <h4 className="card-title"><strong>Nhà cung cấp</strong></h4>
                                             <div>
                                                 <label>Chọn nhà cung cấp</label>
                                                 <ReactSelect

@@ -162,6 +162,8 @@ export default function registerReducer(state = initialState.registerStudents, a
                     registers: action.registers,
                     currentPage: action.currentPage,
                     totalPages: action.totalPages,
+                    totalCount: action.totalCount,
+                    limit: action.limit,
                     genId: action.genId
                 }
             };

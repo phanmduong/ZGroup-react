@@ -10,18 +10,22 @@ import * as helper from "../../../helpers/helper";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import ReactSelect from 'react-select';
 import moment from "moment";
+import TooltipButton from '../../../components/common/TooltipButton';
+import { Panel } from 'react-bootstrap';
 
-const filterStyle = { fontSize: 12 };
+
 
 
 class OrderGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedCompany:'',
+            selectedCompany: '',
+            openFilterPanel: false,
         };
         this.confirm = this.confirm.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
+        this.openFilterPanel = this.openFilterPanel.bind(this);
     }
 
     componentWillMount() {
@@ -46,17 +50,22 @@ class OrderGoodContainer extends React.Component {
             }
         );
     }
-    
-    changeCompany(e){
-        if(!e) e = {id:''};
+
+    changeCompany(e) {
+        if (!e) e = { id: '' };
         this.props.orderGoodActions.loadAllOrderGood(this.props.paginator.current_page, e.id);
-        this.setState({selectedCompany:e.id});
+        this.setState({ selectedCompany: e.id });
+    }
+
+    openFilterPanel() {
+        let { openFilterPanel } = this.state;
+        this.setState({ openFilterPanel: !openFilterPanel });
     }
 
     render() {
-        let { isLoading, paginator, orderGoodActions, orderList,companies } = this.props;
-        let {selectedCompany} = this.state;
-        companies = [{id:'',name:"Tất cả",label:"Tất cả"},...companies];
+        let { isLoading, paginator, orderGoodActions, orderList, companies } = this.props;
+        let { selectedCompany } = this.state;
+        companies = [{ id: '', name: "Tất cả", label: "Tất cả" }, ...companies];
         //console.log(this.props);
         return (
             <div className="content">
@@ -65,25 +74,53 @@ class OrderGoodContainer extends React.Component {
                         <div className="col-md-12">
 
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">event_note</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách đặt hàng</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-sm-3">
-                                                <Link to="/business/order-good/create" className="btn btn-rose" style={{ width: "100%" }}>
-                                                    <i className="material-icons">add</i> Đặt hàng
+                                    <div >
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong>Danh sách đặt hàng</strong></h4>
+                                            <div>
+                                                <Link to="/business/order-good/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <strong>+</strong>
                                                 </Link>
                                             </div>
-                                            {/* <Search className="col-sm-9" placeholder="Tìm kiếm"
-                                                    value={this.state.query}
-                                                    onChange={()=>{}}
-                                            /> */}
+                                            <div>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openFilterPanel}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons"
+                                                            style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <Panel collapsible expanded={this.state.openFilterPanel}>
+                                        <div className="row">
+                                            <div className="col-lg-2 col-md-3 col-sm-4">
+                                                <label>Đối tác</label>
+                                                <ReactSelect
+                                                    disabled={isLoading}
+                                                    className=""
+                                                    options={companies}
+                                                    onChange={this.changeCompany}
+                                                    value={selectedCompany}
+                                                    name="filter_company"
+                                                />
+                                            </div>
+                                        </div>
+                                    </Panel>
                                     {
                                         isLoading ? <Loading /> :
                                             <div className="table-responsive">
@@ -100,28 +137,12 @@ class OrderGoodContainer extends React.Component {
                                                             <th>Giá trị</th>
                                                             <th />
                                                         </tr>
-                                                        <tr>
-                                                            <th />
-                                                            <th style={filterStyle}>
-                                                                <ReactSelect
-                                                                    disabled={isLoading}
-                                                                    className=""
-                                                                    options={companies}
-                                                                    onChange={this.changeCompany}
-                                                                    value={selectedCompany}
-                                                                    name="filter_class"
-                                                                /></th>
-                                                            <th />
-                                                            <th />
-                                                            <th />
-                                                            <th />
-                                                            <th />
-                                                        </tr>
+
                                                     </thead>
                                                     <tbody>
                                                         {orderList.map((order, index) => {
                                                             let date = moment(order.created_at.date);
-                                                            
+
                                                             return (
                                                                 <tr key={index}>
                                                                     <td>{index + 1}</td>
@@ -198,7 +219,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(OrderGoodContainer);
 function getTotalPrice(arr) {
     let sum = 0;
     arr.forEach(e => {
-        sum += e.price*e.quantity;
+        sum += e.price * e.quantity;
     });
     return sum;
 }

@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -7,77 +7,175 @@ import Loading from "../../components/common/Loading";
 import ImportItemOrderList from "./ImportItemOrderList";
 import PropTypes from "prop-types";
 import Pagination from "../../components/common/Pagination";
+import * as helper from "../../helpers/helper";
+import {Panel} from "react-bootstrap";
+import ReactSelect from 'react-select';
 
-class ItemOrderContainer extends React.Component{
+class ItemOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state ={
-           page:1,
+        this.state = {
+            page: 1,
+            openFilter: false,
+            companyId: null,
         };
         this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
-        this.loadImportOrder = this.loadImportOrder.bind(this);
+        //this.loadImportOrders = this.loadImportOrders.bind(this);
+        this.changeDataCompanies = this.changeDataCompanies.bind(this);
+        this.searchByCompany = this.searchByCompany.bind(this);
     }
+
     componentWillMount() {
         this.props.importOrderActions.loadAllImportOrder(1);
+        this.props.importOrderActions.loadAllCompanies();
     }
-    loadImportOrder(page){
-        this.setState({page: page});
-        this.props.importOrderActions.loadAllImportOrder(page);
-    }
-    changeStatus(id, success){
-        this.props.importOrderActions.changeStatusImportOrder(id, ()=>{
-            success();
-            
+
+    // loadImportOrders(page) {
+    //     console.log(page);
+    //     this.setState({page: page});
+    //     this.props.importOrderActions.loadAllImportOrder(page);
+    // }
+
+    changeStatus(id) {
+        // this.props.importOrderActions.changeStatusImportOrder(id, () => {
+        //     success();
+        //
+        //     this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
+        // });
+        helper.confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
+            this.props.importOrderActions.changeStatusImportOrder(id);
             this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
+
         });
     }
-    loadHistoryImportOrder(page,id){
-        this.props.importOrderActions.loadHistoryImportOrder(page,id);
+
+    changeDataCompanies() {
+        let data = [];
+        data = this.props.companies.map((pp) => {
+            return {
+                ...pp,
+                value: pp.id,
+                label: pp.name,
+            };
+        });
+        return data;
     }
-    render(){
+
+    loadHistoryImportOrder(page, id) {
+        this.props.importOrderActions.loadHistoryImportOrder(page, id);
+    }
+    searchByCompany(e){
+        if(!e){
+            this.setState({companyId: null});
+            this.props.importOrderActions.loadAllImportOrder(1);
+            return;
+        }
+        this.setState({companyId: e.value});
+        this.props.importOrderActions.loadAllImportOrder(1,e.value);
+    }
+
+    render() {
         return (
             <div>
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="col-md-3">
-                            <Link className="btn btn-rose" to="/business/import-order/item/create">
-                                <i className="material-icons">add
-                                </i>
-                                    Tạo đơn nhập hàng
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="col-md-12">
-                    {
-                        this.props.isLoadingItemOrder ? <Loading/> :
-                            <div>
-                                <ImportItemOrderList
-                                    data={this.props.importOrders}
-                                    page={this.state.page}
-                                    loadImportOrder={this.loadImportOrder}
-                                    changeStatus={this.changeStatus}
-                                    loadHistoryImportOrder={this.loadHistoryImportOrder}
-                                    historyImportOrder={this.props.historyImportOrder}
-                                    paginator={this.props.paginator_history}
+                <div className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-12">
 
-                                />
-                                <div className="card-content">
-                                    <Pagination
-                                        totalPages={this.props.paginator.total_pages}
-                                        currentPage={this.state.page}
-                                        loadDataPage={this.loadImportOrders}
-                                    />
+                                <div className="card">
+
+                                    <div className="card-content">
+                                        <div className="flex" style={{justifyContent: "space-between"}}>
+                                            <div className="flex">
+                                                <h4 className="card-title">
+                                                    <strong>Quản lý nhập hàng</strong>
+                                                </h4>
+                                                <div style={{
+                                                    display: "inline-block"
+                                                }}>
+                                                    {/*<div className="dropdown">*/}
+                                                    <Link
+                                                        className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
+                                                        type="button"
+                                                        data-toggle="tooltip"
+                                                        rel="tootip"
+                                                        title="Tạo đơn nhập hàng"
+                                                        to="/business/import-order/item/create"
+                                                    >
+                                                        <strong>+</strong>
+                                                    </Link>
+                                                    {/*</div>*/}
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                        data-toggle="tooltip"
+                                                        rel="tooltip"
+                                                        data-original-title="Lọc"
+                                                        onClick={() => this.setState({openFilter: !this.state.openFilter})}
+                                                        type="button">
+                                                        <i className="material-icons"
+                                                           style={{margin: "0px -4px", top: 0}}>filter_list</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div>
+                                            <Panel collapsible expanded={this.state.openFilter}>
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <div className="col-md-4">
+                                                            <label> Công ty </label>
+                                                            <ReactSelect
+                                                                options={this.changeDataCompanies()}
+                                                                onChange={this.searchByCompany}
+                                                                 value={this.state.companyId}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Panel>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                {
+                                                    this.props.isLoadingItemOrder ? <Loading/> :
+                                                        <div>
+                                                            <ImportItemOrderList
+                                                                data={this.props.importOrders}
+                                                                page={this.state.page}
+                                                                loadImportOrder={this.loadImportOrder}
+                                                                changeStatus={this.changeStatus}
+                                                                loadHistoryImportOrder={this.loadHistoryImportOrder}
+                                                                historyImportOrder={this.props.historyImportOrder}
+                                                                paginator={this.props.paginator_history}
+
+                                                            />
+                                                            <div>
+                                                                <Pagination
+                                                                    totalPages={this.props.paginator.total_pages}
+                                                                    currentPage={this.props.paginator.current_page}
+                                                                    loadDataPage={this.props.importOrderActions.loadAllImportOrder}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                    }
-
+                        </div>
                     </div>
                 </div>
             </div>
         );
     }
 }
+
 ItemOrderContainer.propTypes = {
     isLoadingItemOrder: PropTypes.bool,
     importOrders: PropTypes.array,
@@ -85,7 +183,9 @@ ItemOrderContainer.propTypes = {
     historyImportOrder: PropTypes.array,
     paginator_history: PropTypes.object,
     importOrderActions: PropTypes.object,
+    companies: PropTypes.array,
 };
+
 function mapStateToProps(state) {
     return {
         isLoadingItemOrder: state.importOrder.isLoadingItemOrder,
@@ -93,6 +193,7 @@ function mapStateToProps(state) {
         paginator: state.importOrder.paginator,
         paginator_history: state.importOrder.paginator_history,
         historyImportOrder: state.importOrder.historyImportOrder,
+        companies: state.importOrder.companies,
     };
 }
 
@@ -103,4 +204,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps) (ItemOrderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemOrderContainer);

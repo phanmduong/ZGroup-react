@@ -17,8 +17,8 @@ class CollapsePanel extends React.Component {
                     <div className="panel-heading">
 
                         <a href={"#" + this.props.id}
-                           role="button" data-toggle="collapse" data-parent="#accordion"
-                           aria-expanded="false" aria-controls="collapseOne" className="collapsed"
+                            role="button" data-toggle="collapse" data-parent="#accordion"
+                            aria-expanded="false" aria-controls="collapseOne" className="collapsed"
                         >
                             <h4 className="panel-title">
                                 {this.props.title}
@@ -27,8 +27,8 @@ class CollapsePanel extends React.Component {
                         </a>
                     </div>
                     <div id={this.props.id} className="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="headingOne" aria-expanded="false"
-                         style={this.props.style}
+                        aria-labelledby="headingOne" aria-expanded="false"
+                        style={this.props.style}
                     >
                         {this.props.children}
                     </div>
@@ -40,8 +40,8 @@ class CollapsePanel extends React.Component {
                     <div className="panel-heading">
 
                         <a href={"#" + this.props.id}
-                           role="button" data-toggle="collapse" data-parent="#accordion"
-                           aria-expanded="false" aria-controls="collapseOne" className="collapsed"
+                            role="button" data-toggle="collapse" data-parent="#accordion"
+                            aria-expanded="false" aria-controls="collapseOne" className="collapsed"
                         >
                             <h4 className="panel-title">
                                 {this.props.title}
@@ -50,8 +50,8 @@ class CollapsePanel extends React.Component {
                         </a>
                     </div>
                     <div id={this.props.id} className="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="headingOne" aria-expanded="false"
-                         style={this.props.style}
+                        aria-labelledby="headingOne" aria-expanded="false"
+                        style={this.props.style}
                     >
                         {this.props.children}
                     </div>
@@ -64,7 +64,7 @@ class CollapsePanel extends React.Component {
 CollapsePanel.propTypes = {
     isMultiSelect: PropTypes.bool.isRequired,
     content: PropTypes.object,
-    children : PropTypes.element,
+    children: PropTypes.element,
     title: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     style: PropTypes.object,

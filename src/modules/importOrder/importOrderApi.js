@@ -37,11 +37,14 @@ export function editImportOrder(data){
     return axios.post(url,data);
 }
 
-export function loadAllImportOrder(page){
+export function loadAllImportOrder(page,id){
     let url = env.MANAGE_API_URL + '/company/import-order/all';
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token + "&page=" + page + "&limit=20";
+    }
+    if(id) {
+        url += "&company_id=" + id;
     }
     return axios.get(url);
 }
@@ -81,3 +84,4 @@ export function changeStatusImportOrder(id){
     }
     return axios.post(url);
 }
+
