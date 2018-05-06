@@ -97,15 +97,15 @@
                     <div style="display: inline-block; text-align: left;">
                         <div>
                             <span class="glyphicon glyphicon glyphicon-book" aria-hidden="true" style="color: rgb(53, 131, 195); margin-right: 10px;"></span>
-                            <strong>28090</strong>Bài đăng
+                            <strong>{{ $user_posts }} </strong>Bài đăng
                         </div>
                         <div>
                             <span class="glyphicon glyphicon glyphicon-heart" aria-hidden="true" style="color: red; margin-right: 10px;"></span>
-                            <strong>28090</strong>lượt thích
+                            <strong>{{ $user_likes }} </strong>lượt thích
                         </div>
                         <div>
                             <span class="glyphicon glyphicon glyphicon-eye-open" aria-hidden="true" style="color: green; margin-right: 10px;"></span>
-                            <strong>28090</strong>lượt xem
+                            <strong>{{ $user_views }} </strong>lượt xem
                         </div>
                     </div>
                 </div>
@@ -205,8 +205,8 @@
                     <div>Xin bạn vui lòng:</div>
                 </div>
                 <div>
-                    <a class="btn sign-in">Đăng nhập</a>
-                    <a class="btn sign-up">Tạo tài khoản</a>
+                    <a v-on:click="openModalLogin" class="btn sign-in">Đăng nhập</a>
+                    <a v-on:click="openModalRegister" class="btn sign-up">Tạo tài khoản</a>
                 </div>
             </div>
             @endif
@@ -229,6 +229,51 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div id="modalRegister" role="dialog" class="modal fade" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" style="padding-bottom: 0px;">
+                            <!---->
+                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px;"
+                                id="form-register">
+                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px; height: 50px;">
+                                <h2 style="font-weight: 600;">Tạo tài khoản</h2>
+                                <p>Chào mừng bạn đến với colorME.</p>
+                                <br>
+                                <form style="width: 100%;">
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="text" name="name" placeholder="Họ và tên" required="required" class="form-control"
+                                            style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" name="email" type="email" placeholder="Email" required="required" class="form-control"
+                                            style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="password" name="password" id="password" placeholder="Mật khẩu" required="required"
+                                            class="form-control" style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" required="required"
+                                            class="form-control" style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="text" name="phone" placeholder="Số điện thoại" required="required" class="form-control"
+                                            style="height: 50px;">
+                                    </div>
+                                </form>
+                                <!---->
+                                <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;">
+                                    Tạo tài khoản
+                                </button>
+                                <!---->
+                                <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;">Đăng nhập
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -377,6 +422,8 @@
     <div id="loader"></div>
     <button v-on:click="loadmore" id="load-button" type="button" class="btn btn-upload">Tải thêm</button>
 </div>
+
+
 @endsection
 
 @push('scripts')
@@ -434,11 +481,6 @@
     <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
 
     <script>
-        $('#btn-close-modal').click(function (e) { 
-            e.preventDefault();
-            $('.overlay').hide();
-        });
-        
         function count(arr){
             var count = 0;
             for(var i = 0; i < arr.length; ++i){
@@ -639,6 +681,32 @@
                 window.removeEventListener('scroll', this.handleScroll);
             }
         });
+
+        var vueData = {
+            isLogin: false,
+            user: {},
+        };
+
+        var vueLeftPanel = new Vue({
+            el: "#left-panel-wrapper",
+            data: vueData,
+            methods: {
+                openModalLogin: function () {
+                    $("#modalLogin").modal("toggle");
+                    modalLogin.user.email = "";
+                    modalLogin.user.password = "";
+                    modalLogin.isClose = false;
+                },
+                logout: function () {
+                    localStorage.removeItem("auth");
+                },
+                openModalRegister: function() {
+                    $("#modalRegister").modal("toggle");
+                    // $('#modalRegister').css('display', 'block');
+                }
+            },
+        });
+
     </script>
 
 @endpush

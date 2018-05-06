@@ -21,6 +21,7 @@ use App\Services\EmailService;
 use Carbon\Carbon;
 use App\ProductSubscription;
 use Illuminate\Support\Facades\Auth;
+use App\Register;
 
 class ColormeNewController extends CrawlController
 {
@@ -239,6 +240,21 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
+        if(Auth::user()){
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
+        }
+
         $cources = Course::all();
 
         $this->data['products'] = $products;
@@ -271,6 +287,21 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
+        if(Auth::user()){
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
+        }
+
         $cources = Course::all();
 
         $this->data['products'] = $products;
@@ -302,6 +333,21 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
+        if(Auth::user()){
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
+        }
+
         $cources = Course::all();
 
         $this->data['products'] = $products;
@@ -320,6 +366,7 @@ class ColormeNewController extends CrawlController
 
         $products = $products->map(function ($product) {
             $data = $product->personalTransform();
+            // dd($data);
             $data['time'] = $this->timeCal(date($product->created_at));
             $data['comment'] = count(Product::find($product['id'])->comments);
             $data['like'] = count(Product::find($product['id'])->likes);
@@ -332,18 +379,24 @@ class ColormeNewController extends CrawlController
         };
 
         if(Auth::user()){
-            dd(1);
-            $products = $products->map(function ($product) {
-                $data = $product->personalTransform();
-                
-                $data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
-                return $data;
-            });
-            
+            // dd(Register::where('user_id',Auth::user()->id)->get());
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // $this->data['user_registers'] = Register::where('user_id','=',Auth::user()->id)->get();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
         }
 
         $cources = Course::all();
-
+        // dd($this->data['user_posts']);
         $this->data['products'] = $products;
         $this->data['cources'] = $cources;
         return view('colorme_new.staff_new', $this->data);

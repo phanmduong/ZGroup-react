@@ -82,6 +82,120 @@
 <div class="home-page-wrapper" style="padding-top: 70px;">
     <div>
         <div class="left-panel-wrapper" id="left-panel-wrapper">
+            @if (Auth::check())
+            <div class="left-panel" id="left-panel-user">
+                <div class="hi-wrapper">
+                    <img src="{{ Auth::user()->avatar_url }}" class="media-object img-circle"
+                        style="width: 70px; height: 70px; margin: auto;">
+                </div>
+                <a href="/profile/{{ Auth::user()->email }}">
+                    <strong style="color: rgb(68, 68, 68); font-size: 18px;">{{ Auth::user()->name }}</strong>
+                    <div style="color: rgb(153, 153, 153); font-size: 12px;">Chỉnh sửa thông tin</div>
+                </a>
+                <div>
+                    <button class="btn btn-success">Tạo CV</button>
+                </div>
+                <div style="padding: 5px; font-size: 12px; color: rgb(105, 105, 105);">
+                    <div style="display: inline-block; text-align: left;">
+                        <div>
+                            <span class="glyphicon glyphicon glyphicon-book" aria-hidden="true" style="color: rgb(53, 131, 195); margin-right: 10px;"></span>
+                            <strong>{{ $user_posts }} </strong>Bài đăng
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon glyphicon-heart" aria-hidden="true" style="color: red; margin-right: 10px;"></span>
+                            <strong>{{ $user_likes }} </strong>lượt thích
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon glyphicon-eye-open" aria-hidden="true" style="color: green; margin-right: 10px;"></span>
+                            <strong>{{ $user_views }} </strong>lượt xem
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-panel-lower" id="left-panel-progress">
+                <h5 style="font-weight: 600;">TIẾN ĐỘ HỌC TẬP</h5>
+                <div>
+                    <div class="media" style="font-size: 12px; margin-top: 0px;">
+                        <div class="media-left media-middle">
+                            <img class="media-object img-circle" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
+                                alt="PS 9.4" style="width: 35px; height: 35px;">
+                        </div>
+                        <div class="media-body" style="padding-top: 12px;">
+                            <strong>
+                                Lớp PS 9.4
+                            </strong>
+                            <div style="clear: both;">
+                                <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">0/16</span>
+                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Điểm danh">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div style="clear: both;">
+                                <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/0</span>
+                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Bài đã nộp">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media" style="font-size: 12px; margin-top: 0px;">
+                        <div class="media-left media-middle">
+                            <img class="media-object img-circle" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
+                                alt="PS 9.4" style="width: 35px; height: 35px;">
+                        </div>
+                        <div class="media-body" style="padding-top: 12px;">
+                            <strong>
+                                Lớp PS 9.4
+                            </strong>
+                            <div style="clear: both;">
+                                <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">0/16</span>
+                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Điểm danh">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div style="clear: both;">
+                                <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/0</span>
+                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Bài đã nộp">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media" style="font-size: 12px; margin-top: 0px;">
+                        <div class="media-left media-middle">
+                            <img class="media-object img-circle" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
+                                alt="PS 23.11 (Sài Gòn)" style="width: 35px; height: 35px;">
+                        </div>
+                        <div class="media-body" style="padding-top: 12px;">
+                            <strong>
+                                Lớp PS 23.11 (Sài Gòn)
+                            </strong>
+                            <div style="clear: both;">
+                                <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">1/8</span>
+                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Điểm danh">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 12.5%;"></div>
+                                </div>
+                            </div>
+                            <div style="clear: both;">
+                                <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/8</span>
+                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Bài đã nộp">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
             <div class="left-panel" id="left-panel-hi">
                 <div class="hi-wrapper">
                     <div class="hi">HI!</div>
@@ -97,6 +211,7 @@
                     <a class="btn sign-up">Tạo tài khoản</a>
                 </div>
             </div>
+            @endif
             <div class="left-panel-lower" id="left-panel-courses">
                 <h5 style="font-weight: 600;">ĐĂNG KÍ HỌC</h5>
                 @foreach ($cources as $cource)
