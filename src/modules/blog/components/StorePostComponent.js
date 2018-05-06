@@ -6,27 +6,27 @@ import PropTypes from "prop-types";
 
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import { linkUploadImageEditor } from "../../../constants/constants";
+import {linkUploadImageEditor} from "../../../constants/constants";
 import ReactEditor from "../../../components/common/ReactEditor";
 import * as helper from "../../../helpers/helper";
-import { NO_IMAGE } from "../../../constants/env";
+import {NO_IMAGE} from "../../../constants/env";
 import TooltipButton from "../../../components/common/TooltipButton";
 import Buttons from "../../event/components/Buttons";
 import ReactSelect from "react-select";
+// import MinEditor from '../../../js/keetool-editor';
+
 
 function addCategories(categories) {
     return categories.map(item => {
-        return { value: item.id, label: item.name };
+        return {value: item.id, label: item.name};
     });
 }
 
 function addLanguage(languages) {
     return languages.map(item => {
-        return { value: item.id, label: item.name };
+        return {value: item.id, label: item.name};
     });
 }
-
-
 
 
 class StorePostComponent extends React.Component {
@@ -34,16 +34,31 @@ class StorePostComponent extends React.Component {
         super(props, context);
         this.generateFromTitle = this.generateFromTitle.bind(this);
         this.invalid = this.invalid.bind(this);
+        // this.test = this.test.bind(this);
     }
+
 
     componentDidMount() {
         helper.setFormValidation("#form-post");
         helper.setFormValidation("#form-category");
+        // window.addEventListener('load', function () {
+        //     MinEditor.init('mini-editor');
+        // });
     }
+
 
     componentDidUpdate() {
         $("#tags").tagsinput();
+
     }
+
+    // test(e) {
+    //     e.preventDefault();
+    //     let data = {...this.props.post};
+    //     data["content"] = MinEditor.getContent();
+    //     console.log(MinEditor.getContent(), data.content, "test");
+    //     // this.props.blogActions.updateFormPost(data);
+    // }
 
     generateFromTitle() {
         if (this.props.post.title === "") {
@@ -56,9 +71,8 @@ class StorePostComponent extends React.Component {
     }
 
 
-
     invalid() {
-        const { title, slug, imageUrl } = this.props.post;
+        const {title, slug, imageUrl} = this.props.post;
         return !title || !slug || !imageUrl;
     }
 
@@ -88,66 +102,67 @@ class StorePostComponent extends React.Component {
                             <div className="col-md-12">
                                 {this.props.isLoadingPost
                                     ? (
-                                        <Loading />
+                                        <Loading/>
                                     ) : (
                                         <div className="row">
                                             <label className="label-control">
                                                 Ảnh đại diện
                                             </label>
                                             {isUpdatingImage ? (
-                                                <Loading />
+                                                <Loading/>
                                             ) : (
-                                                    <TooltipButton
-                                                        text="Chọn ảnh đại diện"
-                                                        placement="top">
-                                                        <a
-                                                            type="button"
+                                                <TooltipButton
+                                                    text="Chọn ảnh đại diện"
+                                                    placement="top">
+                                                    <a
+                                                        type="button"
+                                                        style={{
+                                                            width: "100%",
+                                                            marginBottom: "10px",
+                                                            textAlign: "center",
+                                                            verticalAlign: "middle",
+                                                            border: "0 none",
+                                                            display: "inline-block",
+                                                        }}>
+                                                        <img
+                                                            src={
+                                                                helper.isEmptyInput(
+                                                                    imageUrl,
+                                                                )
+                                                                    ? NO_IMAGE
+                                                                    : imageUrl
+                                                            }
                                                             style={{
+                                                                lineHeight: "164px",
+                                                                height: "auto",
                                                                 width: "100%",
-                                                                marginBottom: "10px",
-                                                                textAlign: "center",
-                                                                verticalAlign: "middle",
-                                                                border: "0 none",
-                                                                display: "inline-block",
+                                                                display: "block",
+                                                                backgroundSize: "cover",
+                                                                backgroundPosition: "center",
+                                                                boxShadow:
+                                                                    " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+                                                                borderRadius: "10px",
                                                             }}>
-                                                            <img
-                                                                src={
-                                                                    helper.isEmptyInput(
-                                                                        imageUrl,
-                                                                    )
-                                                                        ? NO_IMAGE
-                                                                        : imageUrl
-                                                                }
-                                                                style={{
-                                                                    lineHeight: "164px",
-                                                                    height: "auto",
-                                                                    width: "100%",
-                                                                    display: "block",
-                                                                    backgroundSize: "cover",
-                                                                    backgroundPosition: "center",
-                                                                    boxShadow:
-                                                                        " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
-                                                                    borderRadius: "10px",
-                                                                }} />
-                                                            <input
-                                                                type="file"
-                                                                accept=".jpg,.png,.gif"
-                                                                onChange={
-                                                                    this.props.handleFileUpload}
-                                                                style={{
-                                                                    cursor: "pointer",
-                                                                    opacity: "0.0",
-                                                                    position: "absolute",
-                                                                    top: 0,
-                                                                    left: 0,
-                                                                    bottom: 0,
-                                                                    right: 0,
-                                                                    width: "100%",
-                                                                    height: "100%",
-                                                                }} />
-                                                        </a>
-                                                    </TooltipButton>
-                                                )}
+                                                        <input
+                                                            type="file"
+                                                            accept=".jpg,.png,.gif"
+                                                            onChange={
+                                                                this.props.handleFileUpload}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                opacity: "0.0",
+                                                                position: "absolute",
+                                                                top: 0,
+                                                                left: 0,
+                                                                bottom: 0,
+                                                                right: 0,
+                                                                width: "100%",
+                                                                height: "33%",
+                                                            }}/>
+                                                        </img>
+                                                    </a>
+                                                </TooltipButton>
+                                            )}
 
                                             <FormInputText
                                                 label="Tên bài viết"
@@ -162,7 +177,7 @@ class StorePostComponent extends React.Component {
                                             <div className="row">
                                                 <div
                                                     className="col-md-12"
-                                                    style={{ display: "flex" }}
+                                                    style={{display: "flex"}}
                                                 >
                                                     <div
                                                         style={{
@@ -179,13 +194,13 @@ class StorePostComponent extends React.Component {
 
                                                 </div>
                                             </div>
-                                            <br />
+                                            <br/>
                                             <label className="label-control">
                                                 Ngôn ngữ
                                             </label>
                                             <div className="row">
                                                 <div className="col-md-12"
-                                                    style={{ display: "flex" }}>
+                                                     style={{display: "flex"}}>
                                                     <div
                                                         style={{
                                                             width: "-webkit-fill-available",
@@ -199,7 +214,7 @@ class StorePostComponent extends React.Component {
                                                         />
                                                     </div>
                                                     <div
-                                                        style={{ marginTop: -6, }}>
+                                                        style={{marginTop: -6,}}>
 
                                                         <TooltipButton
                                                             placement="top"
@@ -217,11 +232,7 @@ class StorePostComponent extends React.Component {
                                             </div>
 
 
-                                            {/*<div*/}
-                                            {/*id="mini-editor"*/}
-                                            {/*>*/}
-                                            {/*</div>*/}
-                                            <br />
+                                            <br/>
                                             <FormInputText
                                                 height="100%"
                                                 label="Slug"
@@ -230,19 +241,19 @@ class StorePostComponent extends React.Component {
                                                 updateFormData={this.props.updateFormPostData}
                                                 value={slug}>
                                                 <a
-                                                    style={{ color: "blue" }}
+                                                    style={{color: "blue"}}
                                                     onClick={this.generateFromTitle}>
                                                     Tự động tạo từ tiêu đề
                                                 </a>
                                             </FormInputText>
-                                            <br />
+                                            <br/>
                                             <label className="label-control">
                                                 Nhóm bài viết
                                             </label>
                                             <div className="row">
                                                 <div
                                                     className="col-md-12"
-                                                    style={{ display: "flex" }}>
+                                                    style={{display: "flex"}}>
                                                     <div
                                                         style={{
                                                             width: "-webkit-fill-available",
@@ -253,7 +264,7 @@ class StorePostComponent extends React.Component {
                                                             value={categories}
                                                             options={addCategories(this.props.categories)}
                                                             onChange={this.props.updateCategory}
-                                                            placeholder="Chọn nhóm" />
+                                                            placeholder="Chọn nhóm"/>
                                                     </div>
                                                     <div
                                                         style={{
@@ -263,7 +274,9 @@ class StorePostComponent extends React.Component {
                                                             placement="top"
                                                             text="Thêm nhóm bài viết">
                                                             <a className="btn btn-rose btn-sm"
-                                                                onClick={() => { this.props.openAddCategoryModal(); }}>
+                                                               onClick={() => {
+                                                                   this.props.openAddCategoryModal();
+                                                               }}>
                                                                 <i className="material-icons">control_point</i>
                                                             </a>
                                                         </TooltipButton>
@@ -272,6 +285,11 @@ class StorePostComponent extends React.Component {
                                             </div>
 
 
+                                            {/*<div*/}
+                                                {/*id="mini-editor"*/}
+                                            {/*>*/}
+                                            {/*</div>*/}
+                                            {/*<button onClick={(e) => this.test(e)}>+</button>*/}
 
                                             <div className="form-group">
                                                 <label className="control-label">
@@ -282,7 +300,7 @@ class StorePostComponent extends React.Component {
                                                     name="description"
                                                     rows="3"
                                                     value={description}
-                                                    onChange={this.props.updateFormPostData} />
+                                                    onChange={this.props.updateFormPostData}/>
                                             </div>
 
                                             <div className="form-group">
@@ -294,7 +312,7 @@ class StorePostComponent extends React.Component {
                                                     name="meta_title"
                                                     rows="3"
                                                     value={meta_title}
-                                                    onChange={this.props.updateFormPostData} />
+                                                    onChange={this.props.updateFormPostData}/>
                                             </div>
                                             <div className="form-group">
                                                 <label className="control-label">
@@ -305,7 +323,7 @@ class StorePostComponent extends React.Component {
                                                     name="meta_description"
                                                     rows="3"
                                                     value={meta_description}
-                                                    onChange={this.props.updateFormPostData} />
+                                                    onChange={this.props.updateFormPostData}/>
                                             </div>
 
                                             <div className="form-group">
@@ -334,7 +352,6 @@ class StorePostComponent extends React.Component {
                                             {/*????????????????????????/*/}
 
 
-
                                         </div>
                                     )}
                                 {/*????????????????????????/*/}
@@ -344,61 +361,66 @@ class StorePostComponent extends React.Component {
                                     <label className="control-label">
                                         Nội dung
                                     </label>
-                                    <star style={{ color: "red" }}>*</star>
+                                    <star style={{color: "red"}}>*</star>
                                     {this.props.isLoadingPost ? (
-                                        <Loading />
+                                        <Loading/>
                                     ) : (
-                                            <div>
-                                                <ReactEditor
-                                                    urlPost={linkUploadImageEditor()}
-                                                    fileField="image"
-                                                    scrollerId="#store-post-modal"
-                                                    updateEditor={this.props.updateEditor}
-                                                    value={content} />
+                                        <div>
+                                            <ReactEditor
+                                                urlPost={linkUploadImageEditor()}
+                                                fileField="image"
+                                                scrollerId="#store-post-modal"
+                                                updateEditor={this.props.updateEditor}
+                                                value={content}/>
 
-                                                <div className="row">
-                                                    {/*????????????????????????/*/}
-                                                    <Buttons
-                                                        isSaving={
-                                                            this.props.post
-                                                                .isSaving ||
-                                                            this.props.post
-                                                                .isPreSaving
-                                                        }
-                                                        save={() =>
-                                                            this.props.preSavePost(
-                                                                false,
-                                                            )
-                                                        }
-                                                        preSave={() =>
-                                                            this.props.preSavePost(
-                                                                true,
-                                                            )
-                                                        }
-                                                        publish={
-                                                            this.props.savePost
-                                                        }
-                                                        style={{
-                                                            width:
-                                                                "calc(100% + 48px)",
-                                                            marginLeft: "-9px",
-                                                        }}
-                                                        height={235}
-                                                        close={
-                                                            this.props.closePostModal
-                                                        }
-                                                        scrollerId="#store-post-modal"
-                                                        disabled={this.invalid()}
-                                                    />
-                                                </div>
+
+                                            <div id="mini-editor">
                                             </div>
-                                        )}
+                                            <button onClick={() => this.test()}>+</button>
+
+
+                                            <div className="row">
+                                                {/*????????????????????????/*/}
+                                                <Buttons
+                                                    isSaving={
+                                                        this.props.post
+                                                            .isSaving ||
+                                                        this.props.post
+                                                            .isPreSaving
+                                                    }
+                                                    save={() =>
+                                                        this.props.preSavePost(
+                                                            false,
+                                                        )
+                                                    }
+                                                    preSave={() =>
+                                                        this.props.preSavePost(
+                                                            true,
+                                                        )
+                                                    }
+                                                    publish={
+                                                        this.props.savePost
+                                                    }
+                                                    style={{
+                                                        width:
+                                                            "calc(100% + 48px)",
+                                                        marginLeft: "-9px",
+                                                    }}
+                                                    height={235}
+                                                    close={
+                                                        this.props.closePostModal
+                                                    }
+                                                    scrollerId="#store-post-modal"
+                                                    disabled={this.invalid()}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-
 
 
             </div>

@@ -59,7 +59,7 @@ class ListRegisters extends React.Component {
                             <th>Bắt đầu chính thức</th>
                             <th>Kết thúc chính thức</th>
                             <th>Đăng ký</th>
-                            <th>Thời gian còn lại</th>
+                            <th/>
                         </tr>
                         </thead>
                         <tbody>
@@ -128,7 +128,7 @@ class ListRegisters extends React.Component {
                                             // > register.extra_time ?
                                                 <OverlayTrigger placement="top"
                                                                 overlay={TopupTooltip}>
-                                                    <a
+                                                    <a  style={{color: "#888"}}
                                                         onClick={() => this.openPaymentModal(register)}
                                                     >
                                                         <i className="material-icons">attach_money</i>

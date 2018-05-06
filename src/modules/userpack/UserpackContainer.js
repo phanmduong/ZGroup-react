@@ -120,13 +120,13 @@ class UserpackContainer extends React.Component {
                 <div className="card">
                     <div className="card-content">
                         <div className="tab-content">
-                           
+
                             <div className="flex-row flex">
                                 <h5 className="card-title">
                                     <strong>Danh sách gói người dùng</strong>
                                 </h5>
                                 <div>
-                                    <button className="btn btn-primary btn-round btn-xs button-add none-margin" 
+                                    <button className="btn btn-primary btn-round btn-xs button-add none-margin"
                                             type="button" onClick={() => this.openModalAdd()}>
                                         <strong>+</strong>
                                     </button>
@@ -153,30 +153,35 @@ class UserpackContainer extends React.Component {
                     </div>
 
 
-                    <div className="card-content">
-                        <Pagination
-                            totalPages={this.props.totalPagesPacks}
-                            currentPage={this.state.page}
-                            loadDataPage={this.loadUserpacks}
-                        />
+                    <div className="row float-right">
+                        <div
+                            className="col-md-12"
+                            style={{textAlign: "right"}}
+                        >
+                            <Pagination
+                                totalPages={this.props.totalPagesPacks}
+                                currentPage={this.state.page}
+                                loadDataPage={this.loadUserpacks}
+                            />
+                        </div>
                     </div>
                 </div>
 
 
-                <Modal show={this.state.isOpenModalAdd}  bsStyle="primary" onHide={this.closeModalAdd}>
+                <Modal show={this.state.isOpenModalAdd} bsStyle="primary" onHide={this.closeModalAdd}>
                     <Modal.Header closeButton>
                         <Modal.Title>
                             <strong>Gói khách hàng</strong>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form  id="form-add-userpack">
+                        <form id="form-add-userpack">
 
-                        <AddUserpackModal
-                            userpack={this.props.userpack}
-                            updateFormUserpack={this.updateFormUserpack}
-                            handleFileUpload={this.handleFileUpload}
-                        />
+                            <AddUserpackModal
+                                userpack={this.props.userpack}
+                                updateFormUserpack={this.updateFormUserpack}
+                                handleFileUpload={this.handleFileUpload}
+                            />
 
                         </form>
                         <div className="row">

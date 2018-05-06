@@ -15,6 +15,7 @@ import StorePostComponent from "../components/StorePostComponent";
 // import AddLanguageModal     from "./AddLanguageModal";
 // import AddCategoryModal     from "./AddCategoryModal";
 
+
 class PostModal extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -131,11 +132,10 @@ class PostModal extends React.Component {
                     id="store-post-modal"
                     show={this.props.isOpenPostModal}
                     bsStyle="primary"
-                    closeButton
                     onHide={this.closePostModal}
                     animation={false}
                 >
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title>
                             <strong>Bài viết</strong>
                         </Modal.Title>

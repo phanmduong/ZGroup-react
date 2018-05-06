@@ -63,18 +63,22 @@ class MarketingCampaignContainerUp extends React.Component {
 
 
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Chiến dịch marketing</h4>
-
-                            <div style={{marginTop: "15px"}}>
-                                <button className="btn btn-rose" onClick={() => this.openModalStoreCampaign()}>
-                                    Thêm chiến dịch
-                                </button>
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Chiến dịch marketing</strong>
+                                    </h4>
+                                    <div>
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                            type="button"
+                                            onClick={() => this.openModalStoreCampaign()}
+                                        >
+                                            <strong>+</strong>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             {
                                 this.props.isLoading ? <Loading/> :
@@ -93,8 +97,12 @@ class MarketingCampaignContainerUp extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.showModalStoreCampaign} bsSize="lg">
-                    <Modal.Header closeButton onHide={this.closeModalStoreCampaign} closeLabel="Đóng">
+                <Modal
+                    show={this.state.showModalStoreCampaign}
+                    // bsSize="lg"
+                    onHide={this.closeModalStoreCampaign}
+                >
+                    <Modal.Header closeButton>
                         <Modal.Title>{this.state.edit ? "Sửa chiến dịch" : "Thêm chiến dịch"}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

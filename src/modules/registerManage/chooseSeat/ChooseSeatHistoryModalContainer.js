@@ -83,8 +83,16 @@ class ChooseSeatHistoryModalContainer extends React.Component {
                                     </tbody>
 
                                 </table>
-                                <Pagination currentPage={currentPage} totalPages={this.props.totalHistoryPages}
-                                            loadDataPage={this.loadChooseSeatHistory}/>
+                                <div className="float-right">
+                                    <div
+                                        style={{textAlign: "right"}}
+                                    >
+                                        <Pagination
+                                            currentPage={currentPage} totalPages={this.props.totalHistoryPages}
+                                            loadDataPage={this.loadChooseSeatHistory}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                     }
 
