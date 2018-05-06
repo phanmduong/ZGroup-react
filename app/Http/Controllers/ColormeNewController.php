@@ -29,6 +29,7 @@ class ColormeNewController extends CrawlController
     protected $courseTransformer;
     protected $courseRepository;
     protected $emailService;
+    protected $classRepository;
 
     public function __construct(EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
     {
@@ -380,6 +381,7 @@ class ColormeNewController extends CrawlController
         };
 
         if(Auth::user()){
+            // dd(Auth::user()->id);
             dd(Register::where('money','>',0)->where('user_id',Auth::user()->id)->get());
             $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
             $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
@@ -389,7 +391,7 @@ class ColormeNewController extends CrawlController
             $this->data['user_registers'] = Register::where('money','>',0)
                                                 ->where('user_id',Auth::user()->id)->get();
             
-
+            
             
         }
 
