@@ -87,7 +87,7 @@ class ClassRepository
                     'time' => $lesson->time,
                     'start_time' => $lesson->start_time,
                     'end_time' => $lesson->end_time,
-                    'name' => $lesson->name,
+                    'name' => $lesson->name,d
                 ];
             });
         // if($schedule) {
