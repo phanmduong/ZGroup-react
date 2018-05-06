@@ -104,6 +104,8 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
         ->where('path', '.*');
     Route::get('/telesales/{path}', 'ClientController@telesales')
         ->where('path', '.*');
+    Route::get('/sms/{path}', 'ClientController@sms')
+        ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
 });
