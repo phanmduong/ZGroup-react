@@ -22,6 +22,9 @@ use Carbon\Carbon;
 use App\ProductSubscription;
 use Illuminate\Support\Facades\Auth;
 use App\Register;
+use App\Repositories\ClassRepository;
+use App\StudyClass;
+use App\Attendance;
 
 class ColormeNewController extends CrawlController
 {
@@ -31,13 +34,14 @@ class ColormeNewController extends CrawlController
     protected $emailService;
     protected $classRepository;
 
-    public function __construct(EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
+    public function __construct(ClassRepository $classRepository, EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
     {
         parent::__construct();
         $this->productTransformer = $productTransformer;
         $this->courseTransformer = $courseTransformer;
         $this->courseRepository = $courseRepository;
         $this->emailService = $emailService;
+        $this->classRepository = $classRepository;
         $bases = Base::orderBy('created_at')->get();
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
@@ -382,19 +386,45 @@ class ColormeNewController extends CrawlController
 
         if(Auth::user()){
             // dd(Auth::user()->id);
-            dd(Register::where('money','>',0)->where('user_id',Auth::user()->id)->get());
+            // dd(Register::where('money','>',0)->where('user_id',Auth::user()->id)->get());
             $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
             $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
             $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
                                                 ->where('author_id',Auth::user()->id)
                                                 ->count();
-            $this->data['user_registers'] = Register::where('money','>',0)
+            $registers = Register::where('money','>',0)
                                                 ->where('user_id',Auth::user()->id)->get();
-            
-            
+            // dd($registers);
+
+            $data_registers = array();
+            foreach($registers as $register){
+                $class = StudyClass::find($register['class_id']);
+    
+                $data = $this->classRepository->get_class($class);
+                $registers = $this->classRepository->get_student($class);
+                $attendances = $this->classRepository->get_attendances_class($class);
+        
+                if (isset($data['teacher']))
+                    $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
+        
+                if (isset($data['teacher_assistant']))
+                    $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
+        
+                if ($registers) {
+                    $data['registers'] = $registers;
+                }
+        
+                if ($attendances) {
+                    $data['attendances'] = $attendances;
+                    $data['all_attendances'] = Attendance::where('class_lesson_id', $register['class_id'])->count();
+                }
+                $data_registers[] = $data;
+            }
+            dd($data_registers);
+            $this->data['user_registers'] = $data_registers;
             
         }
-
+        // dd($this->data['user_registers']);
         $cources = Course::all();
         // dd($this->data['user_posts']);
         $this->data['products'] = $products;

@@ -113,84 +113,36 @@
             <div class="left-panel-lower" id="left-panel-progress">
                 <h5 style="font-weight: 600;">TIẾN ĐỘ HỌC TẬP</h5>
                 <div>
+                    @foreach ($user_registers as $item)
                     <div class="media" style="font-size: 12px; margin-top: 0px;">
                         <div class="media-left media-middle">
-                            <img class="media-object img-circle" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                alt="PS 9.4" style="width: 35px; height: 35px;">
+                            <img class="media-object img-circle" src="{{ $item['course']['icon_url'] }}"
+                                alt="{{ $item['name'] }}" style="width: 35px; height: 35px;">
                         </div>
                         <div class="media-body" style="padding-top: 12px;">
                             <strong>
-                                Lớp PS 9.4
+                                {{ $item['name'] }}
                             </strong>
                             <div style="clear: both;">
                                 <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">0/16</span>
-                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                <div class="progress" data-toggle="tooltip" data-placement="top" title="Điểm danh" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
                                     data-original-title="Điểm danh">
                                     <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
                                 </div>
                             </div>
                             <div style="clear: both;">
                                 <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/0</span>
-                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                <div class="progress" data-toggle="tooltip" data-placement="top" title="Bài đã nộp" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
                                     data-original-title="Bài đã nộp">
-                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"></div>
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" role="progressbar" aria-valuenow="40"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="media" style="font-size: 12px; margin-top: 0px;">
-                        <div class="media-left media-middle">
-                            <img class="media-object img-circle" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                alt="PS 9.4" style="width: 35px; height: 35px;">
-                        </div>
-                        <div class="media-body" style="padding-top: 12px;">
-                            <strong>
-                                Lớp PS 9.4
-                            </strong>
-                            <div style="clear: both;">
-                                <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">0/16</span>
-                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
-                                    data-original-title="Điểm danh">
-                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                                </div>
-                            </div>
-                            <div style="clear: both;">
-                                <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/0</span>
-                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
-                                    data-original-title="Bài đã nộp">
-                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media" style="font-size: 12px; margin-top: 0px;">
-                        <div class="media-left media-middle">
-                            <img class="media-object img-circle" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                alt="PS 23.11 (Sài Gòn)" style="width: 35px; height: 35px;">
-                        </div>
-                        <div class="media-body" style="padding-top: 12px;">
-                            <strong>
-                                Lớp PS 23.11 (Sài Gòn)
-                            </strong>
-                            <div style="clear: both;">
-                                <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">1/8</span>
-                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
-                                    data-original-title="Điểm danh">
-                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 12.5%;"></div>
-                                </div>
-                            </div>
-                            <div style="clear: both;">
-                                <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/8</span>
-                                <div class="progress" data-toggle="tooltip" title="" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
-                                    data-original-title="Bài đã nộp">
-                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: 0%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+                    
                 </div>
             </div>
             @else
