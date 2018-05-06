@@ -1304,7 +1304,7 @@ function send_sms_general($register, $content)
 
 }
 
-function send_sms($user_id, $phone, $content, $purpose, $campaign_id = null)
+function send_sms($user_id, $phone, $content, $purpose, $sms_template_id = null)
 {
     if (empty(config('app.sms_key')) || empty(config('app.brand_sms'))) return 0;
     $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
@@ -1332,7 +1332,7 @@ function send_sms($user_id, $phone, $content, $purpose, $campaign_id = null)
     $sms->content = convert_vi_to_en_not_url($content);
     $sms->user_id = $user_id;
     $sms->purpose = $purpose;
-    $sms->campaign_id = $campaign_id ? $campaign_id : 0;
+    $sms->sms_template_id = $sms_template_id ? $sms_template_id : 0;
     if ($status == 1) {
         $sms->status = "success";
     } else {
