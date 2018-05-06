@@ -253,6 +253,10 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
+    public function social(Request $request){
+        return view('colorme_new.colorme_react', $this->data);
+    }
+
     public function social1(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
