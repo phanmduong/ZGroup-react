@@ -110,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <div class="left-panel-lower" id="left-panel-progress">
+            {{-- <div class="left-panel-lower" id="left-panel-progress">
                 <h5 style="font-weight: 600;">TIẾN ĐỘ HỌC TẬP</h5>
                 <div>
                     @foreach ($user_registers as $item)
@@ -144,7 +144,7 @@
                     @endforeach
                     
                 </div>
-            </div>
+            </div> --}}
             @else
             <div class="left-panel" id="left-panel-hi">
                 <div class="hi-wrapper">

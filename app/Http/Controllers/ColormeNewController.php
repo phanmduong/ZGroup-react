@@ -25,6 +25,7 @@ use App\Register;
 use App\Repositories\ClassRepository;
 use App\StudyClass;
 use App\Attendance;
+use App\ClassLesson;
 
 class ColormeNewController extends CrawlController
 {
@@ -396,32 +397,34 @@ class ColormeNewController extends CrawlController
                                                 ->where('user_id',Auth::user()->id)->get();
             // dd($registers);
 
-            $data_registers = array();
-            foreach($registers as $register){
-                $class = StudyClass::find($register['class_id']);
+            // $data_registers = array();
+            // foreach($registers as $register){
+            //     $class = StudyClass::find($register['class_id']);
     
-                $data = $this->classRepository->get_class($class);
-                $registers = $this->classRepository->get_student($class);
-                $attendances = $this->classRepository->get_attendances_class($class);
+            //     $data = $this->classRepository->get_class($class);
+            //     $registers = $this->classRepository->get_student($class);
+            //     $attendances = $this->classRepository->get_attendances_class($class);
         
-                if (isset($data['teacher']))
-                    $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
+            //     if (isset($data['teacher']))
+            //         $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
         
-                if (isset($data['teacher_assistant']))
-                    $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
+            //     if (isset($data['teacher_assistant']))
+            //         $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
         
-                if ($registers) {
-                    $data['registers'] = $registers;
-                }
+            //     if ($registers) {
+            //         $data['registers'] = $registers;
+            //     }
         
-                if ($attendances) {
-                    $data['attendances'] = $attendances;
-                    $data['all_attendances'] = Attendance::where('class_lesson_id', $register['class_id'])->count();
-                }
-                $data_registers[] = $data;
-            }
-            dd($data_registers);
-            $this->data['user_registers'] = $data_registers;
+            //     if ($attendances) {
+            //         $data['attendances'] = $attendances;
+            //         // dd($register['class_id']);
+            //         // dd(Attendance::where('class_lesson_id', $register['class_id'])->get());
+            //         // $data['all_attendances'] = Attendance::where('register_id', $register['id'])->count();
+            //     }
+            //     $data_registers[] = $data;
+            // }
+            // // dd($data_registers);
+            // $this->data['user_registers'] = $data_registers;
             
         }
         // dd($this->data['user_registers']);
