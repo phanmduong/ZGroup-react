@@ -688,11 +688,11 @@ td.rdtMonth:hover, td.rdtYear:hover {
 }
 
 body {
-    font-family: Montserrat, sans-serif
+    font-family: 'Roboto', sans-serif
 }
 
 strong {
-    font-weight: 600
+    font-weight: 700
 }
 
 nav.navbar {
@@ -1068,12 +1068,12 @@ a.navbar-brand img {
 .noti-footer {
     border-top: 1px solid #d9d9d9;
     text-align: center;
-    font-weight: 600
+    font-weight: 700
 }
 
 .noti-title {
     color: #444;
-    font-weight: 600;
+    font-weight: 700;
     padding-left: 10px
 }
 
@@ -1411,7 +1411,7 @@ span.comment {
     vertical-align: baseline;
     border: 0;
     background: transparent;
-    font-weight: 600
+    font-weight: 700
 }
 
 .colorme-author:hover {
@@ -1611,25 +1611,26 @@ a.like-count:hover {
     margin-bottom: 20px;
 
 }
+
 .product-content span {
     text-align: justify;
     font-family: Tinos !important;
     font-size: 20px !important;
-    margin-bottom: 15px!important;
+    margin-bottom: 15px !important;
     display: inline-block !important;
 }
+
 .product-content strong {
     text-align: justify;
     font-family: Tinos !important;
     font-size: 20px !important;
-    margin-bottom: 15px!important;
+    margin-bottom: 15px !important;
     display: inline-block !important;
     font-weight: 700 !important;
 }
 
 .image-wrapper, .product-content iframe, .product-content img, .product-content video {
     width: 130% !important;
-    margin-left: -15%;
     margin-top: 20px;
     margin-bottom: 20px
 }
@@ -1873,9 +1874,9 @@ a.more-products {
 }
 
 .bl-title, .bl-title-big {
-    font-family: Montserrat, sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding-top: 15px;
-    font-weight: 600;
+    font-weight: 700;
     padding-bottom: 15px
 }
 
@@ -1884,7 +1885,7 @@ a.more-products {
 }
 
 .bl-sub-title {
-    font-family: Montserrat, sans-serif
+    font-family: 'Roboto', sans-serif
 }
 
 .book-landing-section {
@@ -2258,7 +2259,7 @@ ul.dashed > li:before {
 }
 
 .hi, .left-panel h5 {
-    font-weight: 600
+    font-weight: 700
 }
 
 .hi {
@@ -2669,7 +2670,7 @@ section {
 
 .landing-title {
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 35px;
 }
 
@@ -2703,7 +2704,7 @@ section {
 
 .mb-3 {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     margin-top: 30px;
 }
 
@@ -2870,6 +2871,12 @@ Pricint fiv
     }
 }
 
+@media (min-width: 768px) {
+    #modalLoginClone .modal-dialog {
+        width: 400px !important;
+    }
+}
+
 input, textarea {
     outline: none;
     border: none;
@@ -3009,10 +3016,9 @@ div#app {
 }
 
 .pagination-area > ul {
-    justify-content: center!important;
+    justify-content: center !important;
     margin: 0 5px;
 }
-
 
 .nav-pills-primary > li > a,
 .pagination-primary > li > a,
@@ -3067,44 +3073,175 @@ div#app {
   margin: 0 2px;
   min-width: 36px;
   padding: 7px 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, .1);
     border-color: #F1EAE0;
 }
 
 .pagination-area {
     display: flex;
-    justify-content: center!important;
+    justify-content: center !important;
 }
 
 .zoom {
     transition: transform .2s; /* Animation */
-    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 .zoom:hover {
     transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
+
 .blog-title {
-    text-align: center !important; font-size: 26px !important; padding: 15px !important; font-weight: 600 !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
 }
+
 @media only screen and (max-width: 600px) {
     .blog-title {
-        text-align: center  !important; font-size: 20px !important; padding: 15px 0 !important; font-weight: 600 !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        margin-top: 10px;
     }
 
 }
+
 .blog-body {
     font-family: Tinos;
 }
 
 .form-register {
     font-family: Montserrat !important;
+}
+
+#myFooter ul {
+    padding-left: 0;
+}
+
+#myFooter .btn {
+    color: white;
+    background-color: #c50000;
+    border-radius: 20px;
+    border: none;
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    line-height: 25px;
+}
+
+#myFooter .social-networks a {
+    font-size: 32px;
+    color: #f9f9f9;
+    padding: 10px;
+    transition: 0.2s;
+}
+
+#myFooter {
+    background-color: #232323;
+    color: white;
+    padding-top: 30px;
+    font-size: 13px
+}
+
+#myFooter {
+    flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+}
+
+#myFooter .social-networks {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 16px;
+}
+
+#myFooter h5 {
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+#myFooter .footer-copyright {
+    background-color: #333333;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+}
+
+#myFooter .footer-copyright p {
+    margin: 10px;
+    color: #ccc;
+}
+
+#myFooter .row {
+    margin-bottom: 60px;
+    font-family: 'Roboto' !important;
+}
+
+#myFooter a {
+    color: white;
+}
+
+.flex-row-center {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-justify-content-center {
+    justify-content: center;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex {
+    display: flex !important;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-wrap {
+    flex-wrap: wrap !important;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.margin-hr {
+    margin-top: 30px;
+    margin-bottom: 30px
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.tag-header-blogs{
+    color: white!important;
+    border: solid 1px;
+    font-size: 12px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: 20px 20px 0px 0px;
+    display: inline-block;
+}
+.a-hover-underline :hover{
+    text-decoration: underline !important;
 }

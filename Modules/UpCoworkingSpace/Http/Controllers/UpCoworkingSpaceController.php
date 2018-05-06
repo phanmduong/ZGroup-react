@@ -353,4 +353,92 @@ class UpCoworkingSpaceController extends Controller
             default: return view('upcoworkingspace::en.tour');
         }
     }
+
+    public function virtual_office(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.virtual_office');
+            case 'en': return view('upcoworkingspace::en.virtual_office');
+            default: return view('upcoworkingspace::en.virtual_office');
+        }
+    }
+
+    public function accounting(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.accounting');
+            case 'en': return view('upcoworkingspace::en.accounting');
+            default: return view('upcoworkingspace::en.accounting');
+        }
+    }
+
+    public function private_room(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.private_room');
+            case 'en': return view('upcoworkingspace::en.private_room');
+            default: return view('upcoworkingspace::en.private_room');
+        }
+    }
+
+    public function legal_consulting(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.legal_consulting');
+            case 'en': return view('upcoworkingspace::en.legal_consulting');
+            default: return view('upcoworkingspace::en.legal_consulting');
+        }
+    }
+
+    public function luong_yen(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.luong_yen');
+            case 'en': return view('upcoworkingspace::en.luong_yen');
+            default: return view('upcoworkingspace::en.luong_yen');
+        }
+    }
+
+    public function bach_khoa(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.bach_khoa');
+            case 'en': return view('upcoworkingspace::en.bach_khoa');
+            default: return view('upcoworkingspace::en.bach_khoa');
+        }
+    }
+
+    public function kim_ma(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.kim_ma');
+            case 'en': return view('upcoworkingspace::en.kim_ma');
+            default: return view('upcoworkingspace::en.kim_ma');
+        }
+    }
+
+    public function lang_ha(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.lang_ha');
+            case 'en': return view('upcoworkingspace::en.lang_ha');
+            default: return view('upcoworkingspace::en.lang_ha');
+        }
+    }
+
+    public function hcm(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.hcm');
+            case 'en': return view('upcoworkingspace::en.hcm');
+            default: return view('upcoworkingspace::en.hcm');
+        }
+    }
+
+    public function up_lab(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.up_lab');
+            case 'en': return view('upcoworkingspace::en.up_lab');
+            default: return view('upcoworkingspace::en.up_lab');
+        }
+    }
+
+    public function members(){
+        switch($this->lang){
+            case 'vi': return view('upcoworkingspace::vi.members');
+            case 'en': return view('upcoworkingspace::en.members');
+            default: return view('upcoworkingspace::en.members');
+        }
+    }
 }

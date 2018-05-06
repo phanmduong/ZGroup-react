@@ -100,7 +100,7 @@ class ClientController extends Controller
     }
 
     public function teaching()
-    {
+    { 
         return view('client.teaching');
     }
 
@@ -192,5 +192,9 @@ class ClientController extends Controller
     public function telesales()
     {
         return view('client.telesales');
+    }
+    public function sms()
+    {
+        return view('client.sms');
     }
 }

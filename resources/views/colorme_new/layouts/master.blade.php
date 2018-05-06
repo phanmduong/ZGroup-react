@@ -15,13 +15,15 @@
     <link href="https://fonts.googleapis.com/css?family=Tinos:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
           rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
 
     <script src="https://connect.facebook.net/signals/config/296964117457250?v=2.8.6&amp;r=stable" async=""></script>
     <script src="https://connect.facebook.net/signals/plugins/iwl.js?v=2.8.6" async=""></script>
     <script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
     <script id="facebook-jssdk"
-            src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.8&amp;appId=1787695151450379"></script>
+            src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.8&amp;appId=466191530479765"></script>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 
     <!-- Include Font Awesome. -->
@@ -42,11 +44,15 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-74966893-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'UA-74966893-1');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-74966893-1');
     </script>
 </head>
 <body>
@@ -54,6 +60,7 @@
 
 <div style="">
     <div data-reactroot="" style="height: 100%;">
+
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
             <div class="container-fluid" style="padding-left: 0px;">
                 <div class="navbar-header">
@@ -116,10 +123,18 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <!-- <li class=""><a href="/about-us">Về chúng tôi</a></li> -->
-                        <li class=""><a href="/blogs">Blog 
-                        <span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Mới</span>
-                        </a></li>
-                        
+                        <li class="">
+                            <a href="/blogs">Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/khuyen-mai">Khuyến mãi</a>
+                        </li>
+                        <li>
+                            <a href="/tai-nguyen">Tài nguyên<span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Beta</span></a>
+
+                        </li>
+
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
                                             class="glyphicon glyphicon-cloud-upload"></span>
@@ -184,48 +199,103 @@
         <div style="margin-top: 50px;">
             @yield('content')
         </div>
-        <div class="container-fluid " id="footer">
-            <div class="row">
-                <div class="col-xs-12 col-sm-2"><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
-                                                     width="40"><h4>colorME</h4>
-                    <div>Trường học thiết kế</div>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                    @foreach($bases as $base)
-                        <p>{{$base->name}}<br>
-                            {{$base->address}}</p>
-                    @endforeach
-                </div>
-                <div>
-                    <ul class="col-xs-12 col-sm-6 col-md-4">
-                        @foreach($courses as $course)
-                            <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
-                        @endforeach
-                    </ul>
+        <footer id="myFooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2">
+                        <h2 class="logo"><a href="#">
+
+                                <div><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
+                                          width="40"><h4>colorME</h4>
+                                    <div style="font-size:13px">Trường học thiết kế</div>
+
+                            </a></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>CƠ SỞ</h5>
+                        <ul>
+
+                            @foreach($bases as $base)
+                                <li>
+                                    {{$base->name}}<br>
+                                    {{$base->address}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-12  col-sm-3">
+                        <h5>CÁC KHÓA HỌC</h5>
+                        <ul>
+                            @foreach($courses as $course)
+                                <li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-12  col-sm-3">
+                        <div class="social-networks">
+                            <a href="https://www.facebook.com/ColorME.Hanoi/?fref=ts" class="facebook"><i
+                                        class="fa fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/colorme.hanoi/" class="instagram"><i
+                                        class="fa fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w" class="youtube"><i
+                                        class="fa fa-youtube"></i></a>
+                        </div>
+                        <a href="#">
+                            <button type="button" class="btn btn-default">Đăng kí học</button>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="padding-top: 20px;">
-                <div class="col-xs-12">Copyright © 2015 –
-                    <script>document.write(new Date().getFullYear())</script>
-                    KEE Education. All screenshots and videos © their
-                    respective owners.
-                </div>
-                <div class="col-xs-12"><a class="social-button"
-                                          href="https://www.facebook.com/ColorME.Hanoi/?fref=ts"
-                                          target="_blank"><img
-                                src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867660z8twlU93Fm0PF2R.jpg"></a><a
-                            class="social-button" target="_blank"
-                            href="https://www.instagram.com/colorme.hanoi/"><img
-                                src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867650jPSNvMfYhve7Xm0.jpg"></a><a
-                            class="social-button" target="_blank"
-                            href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w"><img
-                                src="https://maxcdn.icons8.com/windows8/PNG/26/Social_Networks/youtube_copyrighted-26.png"
-                                title="YouTube"></a><a class="social-button" href="http://colorme.vn/"
-                                                       target="_blank"><img
-                                src="https://maxcdn.icons8.com/Android/PNG/24/Network/domain-24.png" title="Domain"></a>
-                </div>
+            <div class="footer-copyright">
+                <p>Copyright © 2015 – 2018 KEE Education. All screenshots and videos © their respective owners.</p>
             </div>
-        </div>
+        </footer>
+
+
+        {{--<div class="container-fluid " id="footer">--}}
+        {{--<div class="row">--}}
+        {{--<div class="col-xs-12 col-sm-2"><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"--}}
+        {{--width="40"><h4>colorME</h4>--}}
+        {{--<div>Trường học thiết kế</div>--}}
+        {{--</div>--}}
+        {{--<div class="col-xs-12 col-sm-4">--}}
+        {{--@foreach($bases as $base)--}}
+        {{--<p>{{$base->name}}<br>--}}
+        {{--{{$base->address}}</p>--}}
+        {{--@endforeach--}}
+        {{--</div>--}}
+        {{--<div>--}}
+        {{--<ul class="col-xs-12 col-sm-6 col-md-4">--}}
+        {{--@foreach($courses as $course)--}}
+        {{--<li><a href="/course/{{convert_vi_to_en($course->name)}}">{{$course->name}}</a></li>--}}
+        {{--@endforeach--}}
+        {{--</ul>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="row" style="padding-top: 20px;">--}}
+        {{--<div class="col-xs-12">Copyright © 2015 –--}}
+        {{--<script>document.write(new Date().getFullYear())</script>--}}
+        {{--KEE Education. All screenshots and videos © their--}}
+        {{--respective owners.--}}
+        {{--</div>--}}
+        {{--<div class="col-xs-12"><a class="social-button"--}}
+        {{--href="https://www.facebook.com/ColorME.Hanoi/?fref=ts"--}}
+        {{--target="_blank"><img--}}
+        {{--src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867660z8twlU93Fm0PF2R.jpg"></a><a--}}
+        {{--class="social-button" target="_blank"--}}
+        {{--href="https://www.instagram.com/colorme.hanoi/"><img--}}
+        {{--src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1473867650jPSNvMfYhve7Xm0.jpg"></a><a--}}
+        {{--class="social-button" target="_blank"--}}
+        {{--href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w"><img--}}
+        {{--src="https://maxcdn.icons8.com/windows8/PNG/26/Social_Networks/youtube_copyrighted-26.png"--}}
+        {{--title="YouTube"></a><a class="social-button" href="http://colorme.vn/"--}}
+        {{--target="_blank"><img--}}
+        {{--src="https://maxcdn.icons8.com/Android/PNG/24/Network/domain-24.png" title="Domain"></a>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+
     </div>
 </div>
 <div id="modalLogin" class="modal fade" role="dialog">
@@ -348,7 +418,6 @@
              data-tabs="messages"
              data-width="360"
              data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
-        <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
        href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '01627175613'}}"
@@ -361,7 +430,11 @@
         <div class="bubble">1</div>
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
     </a></div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script
+        src="http://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous">
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
@@ -423,6 +496,71 @@
         return page;
     }
 </script>
+
 @stack("scripts")
+<script>
+    
+
+    $(document).ready(function () {
+
+        var iFrame = document.getElementById("survey");
+
+        if (iFrame) {
+
+            function iframeLoaded() {
+                var height = iFrame.contentWindow.document.body.scrollHeight + 40 + 'px';
+                iFrame.style.height = height;
+            }
+            // Opera 8.0+
+            var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+            // Firefox 1.0+
+            var isFirefox = typeof InstallTrigger !== 'undefined';
+
+            // Safari 3.0+ "[object HTMLElementConstructor]"
+            var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) {
+                return p.toString() === "[object SafariRemoteNotification]";
+            })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+
+            // Internet Explorer 6-11
+            var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+            // Edge 20+
+            var isEdge = !isIE && !!window.StyleMedia;
+
+            // Chrome 1+
+            var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+            // Blink engine detection
+            var isBlink = (isChrome || isOpera) && !!window.CSS;
+            if (isSafari || isOpera) {
+                iFrame.onload = function () {
+                    setTimeout(iframeLoaded, 0);
+                };
+
+                var iSource = iFrame.src;
+                iFrame.src = '';
+                iFrame.src = iSource;
+
+                // for (var i = 0, j = iFrames.length; i < j; i++) {
+                //         var iSource = iFrames[i].src;
+                //         iFrames[i].src = '';
+                //         iFrames[i].src = iSource;
+                // }
+
+            } else {
+                iFrame.onload = iframeLoaded;
+            }
+        }
+
+    });
+
+
+</script>
+    
+    
+
+
+</script>
 </body>
 </html>

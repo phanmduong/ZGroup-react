@@ -57,6 +57,8 @@ class CompanyController extends ManageApiController
         $company->user_contact_phone1 = $request->user_contact_phone1;
         $company->user_contact2 = $request->user_contact2;
         $company->user_contact_phone2 = $request->user_contact_phone2;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -105,6 +107,8 @@ class CompanyController extends ManageApiController
         $company->user_contact_phone1 = $request->user_contact_phone1;
         $company->user_contact2 = $request->user_contact2;
         $company->user_contact_phone2 = $request->user_contact_phone2;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -595,7 +599,7 @@ class CompanyController extends ManageApiController
             $historyDebt->value = $value;
             $historyDebt->total_value = $pre_value + $value;
             $historyDebt->date = $date;
-            $historyDebt->type = "import";
+            $historyDebt->type = "export";
             $historyDebt->company_id = $printOrder->company_id;
             $company = Company::find($historyDebt->company_id);
             $company->account_value = $historyDebt->value;
@@ -704,8 +708,9 @@ class CompanyController extends ManageApiController
             $exportOrder->company_id = $order->company_id;
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
+            $exportOrder->discount = $good->discount ? $good->discount : 0;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $request->total_price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -736,8 +741,9 @@ class CompanyController extends ManageApiController
             $exportOrder->company_id = $order->company_id;
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
+            $exportOrder->discount = $good->discount;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $good->total_price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -946,8 +952,11 @@ class CompanyController extends ManageApiController
         $importOrders = ItemOrder::query();
 
         $importOrders = $importOrders->where('type', '<>', 'be-ordered')
-            ->where('status', '>', 1)
-            ->orderBy('created_at', 'desc')->paginate($limit);
+            ->where('status', '>', 1);
+
+        if($request->company_id)
+            $importOrders = $importOrders->where('company_id',$request->company_id);
+        $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($importOrders, [
             "import-orders" => $importOrders->map(function ($importOrder) {
                 return $importOrder->importTransform();
@@ -964,13 +973,13 @@ class CompanyController extends ManageApiController
         $date = $order->created_at;
         if ($request->status == 3) {
             if ($order->type == "order") {
-                $type = "import";
+                $type = "export";
                 $p = 1;
                 $goods_value = $order->importOrder->reduce(function ($total, $good) {
                     return $total + $good->imported_quantity * $good->price;
                 }, 0);
             } else {
-                $type = "export";
+                $type = "import";
                 $p = -1;
                 $goods_value = $order->exportOrder->reduce(function ($total, $good) {
                     return $total + $good->export_quantity * $good->price;
@@ -990,22 +999,24 @@ class CompanyController extends ManageApiController
             $company = Company::find($historyDebt->company_id);
             $company->account_value = $historyDebt->value;
             $historyDebt->save();
-
-            $p = $p * (-1);
-            $n = HistoryDebt::where('company_id', 1)->count();
-            $historyDebts = HistoryDebt::where('company_id', 1)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
-            else $pre_value = 0;
-            $value = $goods_value;
-            $historyDebt = new HistoryDebt;
-            $historyDebt->value = $value * $p;
-            $historyDebt->total_value = $pre_value + $value * $p;
-            $historyDebt->date = $date;
-            $historyDebt->type = $type;
-            $historyDebt->company_id = 1;
-            $company = Company::find($historyDebt->company_id);
-            $company->account_value = $historyDebt->value;
-            $historyDebt->save();
+            if($order->company_id !=1) {
+                if($type == 'export') $type = "import"; else $type = "export";
+                $p = $p * (-1);
+                $n = HistoryDebt::where('company_id', 1)->count();
+                $historyDebts = HistoryDebt::where('company_id', 1)->get();
+                if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+                else $pre_value = 0;
+                $value = $goods_value;
+                $historyDebt = new HistoryDebt;
+                $historyDebt->value = $value * $p;
+                $historyDebt->total_value = $pre_value + $value * $p;
+                $historyDebt->date = $date;
+                $historyDebt->type = $type;
+                $historyDebt->company_id = 1;
+                $company = Company::find($historyDebt->company_id);
+                $company->account_value = $historyDebt->value;
+                $historyDebt->save();
+            }
 
         }
 

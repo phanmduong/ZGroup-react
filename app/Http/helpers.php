@@ -9,7 +9,8 @@ use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
 use Illuminate\Support\Facades\Redis;
 
-function generateRandomString($length = 10) {
+function generateRandomString($length = 10)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -497,27 +498,6 @@ function RGBToHex($r, $g, $b)
 
     return $hex;
 }
-
-//
-//function extract_dominant_color($image_url)
-//{
-//    $ext = pathinfo($image_url, PATHINFO_EXTENSION);
-//
-//    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
-//        $image = Image::make($image_url);
-//        return [
-//            'width' => $image->width(),
-//            'height' => $image->height(),
-//            'color' => $image->pickColor(0, 0, 'hex')
-//        ];
-//    } else {
-//        return [
-//            'width' => 0,
-//            'height' => 0,
-//            'color' => 'white'
-//        ];
-//    }
-//}
 
 function deleteFileFromS3($file_name)
 {
@@ -1632,4 +1612,42 @@ function getEmailFromText($text)
 {
     preg_match_all("/[._a-zA-Z0-9-]+@[._a-zA-Z0-9-]+/i", $text, $matches);
     return !empty($matches[0]) ? $matches[0][0] : "";
+}
+
+function convertShareToDownload($content)
+{
+    $str1 = "<div id=\"vue-share-to-download\">
+        <a class=\"btn btn-success btn-round\"
+           style=\"color:white; display: flex;align-items: center;justify-content: center;background-color:#3b5998!important; border-color:#3b5998!important\"
+           onclick=\"shareOnFB()\" v-if=\"!shared\">
+            <span class=\"glyphicon glyphicon-share\"
+                  style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspChia sẻ để tải ({{share_count}})<span></a>
+        <a class=\"btn btn-success btn-round\" v-if=\"shared\"
+           style=\"color:white; display: flex;align-items: center;justify-content: center;\" href=\"";
+    $str2 = "\">
+
+
+            <span class=\"glyphicon glyphicon-download\"
+                  style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspTải xuống<span></a>
+    </div>";
+
+    $data = $content;
+
+    if ((strpos($content, '[[share_to_download]]') && strpos($content, '[[/share_to_download]]')) || (strpos($content, '[[SHARE_TO_DOWNLOAD]]') && strpos($content, '[[/SHARE_TO_DOWNLOAD]]'))) {
+        $searchReplaceArray = array(
+            '[[share_to_download]]' => $str1,
+            '[[/share_to_download]]' => $str2,
+            '[[SHARE_TO_DOWNLOAD]]' => $str1,
+            '[[/SHARE_TO_DOWNLOAD]]' => $str2,
+        );
+
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray),
+            $content);
+    }
+    return $data;
 }

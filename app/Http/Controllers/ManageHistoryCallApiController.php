@@ -20,17 +20,26 @@ class ManageHistoryCallApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function history_calls(Request $request){
+    public function history_calls(Request $request)
+    {
         $limit = 40;
+        $search = $request->search;
+        $teleCalls = TeleCall::query();
 
-        if ($request->caller_id){
-            $teleCalls = TeleCall::where('caller_id',$request->caller_id)->orderBy("created_at", "desc")->paginate($limit);
-        } else {
-            $teleCalls = TeleCall::orderBy("created_at", "desc")->paginate($limit);
+        if ($request->caller_id) {
+            $teleCalls = $teleCalls->where('tele_calls.caller_id', $request->caller_id);
         };
 
+        if ($request->search)
+            $teleCalls = $teleCalls->join('users', 'users.id', '=', 'tele_calls.student_id')
+                ->where(function ($query) use ($search) {
+                    $query->where('users.name', 'like', "%$search%")->orWhere('users.phone', 'like', "%$search%")
+                        ->orWhere('users.email', 'like', "%$search%")->orWhere('tele_calls.note', 'like', "%$search%");
+                })->select('tele_calls.*');
+        $teleCalls = $teleCalls->orderBy("tele_calls.created_at", "desc")->paginate($limit);
+
         $data = [
-            "tele_calls" => $teleCalls->map(function ($teleCall){
+            "tele_calls" => $teleCalls->map(function ($teleCall) {
                 return [
                     'id' => $teleCall->id,
                     'student' => [
@@ -45,8 +54,8 @@ class ManageHistoryCallApiController extends ManageApiController
                         'name' => $teleCall->caller->name,
                         'color' => $teleCall->caller->color,
                     ],
-                    'note'=> $teleCall->note,
-                    'call_time' =>format_date_full_option($teleCall->created_at),
+                    'note' => $teleCall->note,
+                    'call_time' => format_date_full_option($teleCall->created_at),
                     'appointment_payment' => $teleCall->appointment_payment ? date_shift(strtotime($teleCall->appointment_payment)) : '',
                 ];
             })
