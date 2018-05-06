@@ -113,6 +113,7 @@ class Good extends Model
             'cover_url' => $this->cover_url,
             'code' => $this->code,
             'barcode' => $this->barcode,
+            'kind' => $this->kind,
         ];
 
         if ($this->goodCategory)

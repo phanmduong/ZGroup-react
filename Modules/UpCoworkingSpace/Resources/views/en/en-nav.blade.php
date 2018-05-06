@@ -197,26 +197,47 @@
                         UP</a>
                     <div class="dropdown-menu">
                         <a href="/en/mission-and-vision" class="dropdown-item">Mission and Vision</a>
+                        <a href="/en/strategic-partner" class="dropdown-item">Strategic Partner</a>
                         <a href="/en/media-partner" class="dropdown-item">Media Partner</a>
                         <a href="/en/faqs" class="dropdown-item">FAQs/</a>
                         <a href="/en/jobs-vacancies" class="dropdown-item">JOBS & Vacancies</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/en/membership" data-scroll="true">Membership</a>
+                <li class="dropdown nav-item">
+                    <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown"  data-scroll="true">Services</a>
+                    <div class="dropdown-menu">
+                        <a href="/en/membership" class="dropdown-item">Membership </a>
+                        <a href="/en/private-office" class="dropdown-item">Private Office</a>
+                        <a href="/en/meeting-room" class="dropdown-item">Meeting Room</a>
+                        <a href="/en/virtual-office" class="dropdown-item">Virtual Office</a>
+                        <a href="/en/accounting" class="dropdown-item">Corporate Accounting</a>
+                        <a href="/en/legal-consulting" class="dropdown-item">Legal Consulting</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link hover-change" href="/en/event" data-scroll="true">Events</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/en/meeting-room" data-scroll="true">Meeting room</a>
+                <li class="dropdown nav-item">
+                    <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown"  data-scroll="true">Location</a>
+                    <div class="dropdown-menu">
+                        <a href="/en/up-luong-yen" class="dropdown-item">Luong Yen </a>
+                        <a href="/en/up-bach-khoa-ha-noi" class="dropdown-item">UP Bach Khoa Ha Noi  </a>
+                        <a href="/en/up-kim-ma" class="dropdown-item">UP Kim Ma</a>
+                        <a href="/en/up-lang-ha" class="dropdown-item">UP Lang Ha  </a>
+                        <a href="/en/coworking-space-ho-chi-minh" class="dropdown-item">UP Ho Chi Minh</a>
+                        <a href="/en/creative-lab-up-maker-space" class="dropdown-item">Creative Lab by UP</a>
+                    </div>
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true">UP's Community</a>
                     <div class="dropdown-menu">
                         <a href="/en/up-founder" class="dropdown-item">Founders</a>
                         <a href="/en/up-s-mentors" class="dropdown-item">UP Mentor</a>
+                        <a href="/en/up-s-members" class="dropdown-item">UP Members</a>
                     </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link hover-change" href="/en/vietnamese-startup-news" data-scroll="true">News</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link hover-change" href="/en/contact-us" data-scroll="true">Contact us</a>
