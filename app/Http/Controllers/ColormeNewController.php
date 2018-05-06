@@ -514,6 +514,11 @@ class ColormeNewController extends CrawlController
         $user->rate = 5;
         $user->save();
 
+        $subscription = new ProductSubscription();
+        $subscription->user_id = $user->id;
+        $subscription->product_id = $request->blog_id;
+        $subscription->save();
+
         $this->emailService->send_mail_welcome($user);
         return [
             'message' => 'success'
@@ -522,12 +527,9 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        // dd('asdsad');
         $class = StudyClass::find(1490);
-        // dd($class->lessons);
-        dd($class->lessons->map(function($lesson){
-            return $lesson->pivot->time;
-        }));
+        $users = ProductSubscription::select(DB::raw('distinct user_id'), 'created_at')->get();
+        dd($users);
     }
 
     public function blogsByCategory($category_name)
