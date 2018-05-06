@@ -22,6 +22,13 @@ use App\Comment;
 use App\Services\EmailService;
 use Carbon\Carbon;
 use App\ProductSubscription;
+use Illuminate\Support\Facades\Auth;
+use App\Register;
+use App\Repositories\ClassRepository;
+use App\StudyClass;
+use App\Attendance;
+use App\ClassLesson;
+
 
 class ColormeNewController extends CrawlController
 {
@@ -29,14 +36,16 @@ class ColormeNewController extends CrawlController
     protected $courseTransformer;
     protected $courseRepository;
     protected $emailService;
+    protected $classRepository;
 
-    public function __construct(EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
+    public function __construct(ClassRepository $classRepository, EmailService $emailService, ProductTransformer $productTransformer, CourseTransformer $courseTransformer, CourseRepository $courseRepository)
     {
         parent::__construct();
         $this->productTransformer = $productTransformer;
         $this->courseTransformer = $courseTransformer;
         $this->courseRepository = $courseRepository;
         $this->emailService = $emailService;
+        $this->classRepository = $classRepository;
         $bases = Base::orderBy('created_at')->get();
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
@@ -117,6 +126,12 @@ class ColormeNewController extends CrawlController
             $user->password = $hash;
 
             $user->save();
+            if ($request->product_id) {
+                $subscription = new ProductSubscription();
+                $subscription->user_id = $user->id;
+                $subscription->product_id = $request->product_id;
+                $subscription->save();
+            }
             return view('colorme_new.email_verified', $this->data);
         } else {
             return 'Đường link không chính xác';
@@ -246,6 +261,10 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
+    public function social(Request $request){
+        return view('colorme_new.colorme_react', $this->data);
+    }
+
     public function social1(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -269,6 +288,21 @@ class ColormeNewController extends CrawlController
         if($request->page){
             return $products;
         };
+
+        if(Auth::user()){
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
+        }
 
         $cources = Course::all();
 
@@ -302,6 +336,21 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
+        if(Auth::user()){
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
+        }
+
         $cources = Course::all();
 
         $this->data['products'] = $products;
@@ -333,6 +382,21 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
+        if(Auth::user()){
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            // dd($this->data['user_views']);
+            // $temps = Product::where('author_id', Auth::user()->id)->get();
+            // $comments = 0;
+            // foreach($temps as $temp){
+            //     $comments .= Comment::where('product_id', '=', $temp->id)->count();
+            // }
+            // $this->data['user_comments'] = $comments;
+        }
+
         $cources = Course::all();
 
         $this->data['products'] = $products;
@@ -351,6 +415,7 @@ class ColormeNewController extends CrawlController
 
         $products = $products->map(function ($product) {
             $data = $product->personalTransform();
+            // dd($data);
             $data['time'] = $this->timeCal(date($product->created_at));
             $data['comment'] = count(Product::find($product['id'])->comments);
             $data['like'] = count(Product::find($product['id'])->likes);
@@ -360,10 +425,54 @@ class ColormeNewController extends CrawlController
         // axios called
         if($request->page){
             return $products;
+            
         };
 
-        $cources = Course::all();
+        if(Auth::user()){
+            // dd(Auth::user()->id);
+            // dd(Register::where('money','>',0)->where('user_id',Auth::user()->id)->get());
+            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
+                                                ->where('author_id',Auth::user()->id)
+                                                ->count();
+            $registers = Register::where('money','>',0)
+                                                ->where('user_id',Auth::user()->id)->get();
+            // dd($registers);
 
+            // $data_registers = array();
+            // foreach($registers as $register){
+            //     $class = StudyClass::find($register['class_id']);
+    
+            //     $data = $this->classRepository->get_class($class);
+            //     $registers = $this->classRepository->get_student($class);
+            //     $attendances = $this->classRepository->get_attendances_class($class);
+        
+            //     if (isset($data['teacher']))
+            //         $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
+        
+            //     if (isset($data['teacher_assistant']))
+            //         $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
+        
+            //     if ($registers) {
+            //         $data['registers'] = $registers;
+            //     }
+        
+            //     if ($attendances) {
+            //         $data['attendances'] = $attendances;
+            //         // dd($register['class_id']);
+            //         // dd(Attendance::where('class_lesson_id', $register['class_id'])->get());
+            //         // $data['all_attendances'] = Attendance::where('register_id', $register['id'])->count();
+            //     }
+            //     $data_registers[] = $data;
+            // }
+            // // dd($data_registers);
+            // $this->data['user_registers'] = $data_registers;
+            
+        }
+        // dd($this->data['user_registers']);
+        $cources = Course::all();
+        // dd($this->data['user_posts']);
         $this->data['products'] = $products;
         $this->data['cources'] = $cources;
         return view('colorme_new.staff_new', $this->data);
@@ -484,7 +593,7 @@ class ColormeNewController extends CrawlController
         $data = $blog->blogDetailTransform();
         $data['time'] = $this->timeCal(date($blog->created_at));
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
-            ->limit(4)->get();
+            ->limit(3)->get();
         $this->data['blog'] = $data;
 
         return view('colorme_new.blog', $this->data);
@@ -493,6 +602,8 @@ class ColormeNewController extends CrawlController
     public function register(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
+        if ($user == null)
+            $user = User::where('username', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
@@ -518,12 +629,9 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        // $blog = Product::find(7785);
-        // $this->emailService->send_mail_blog($blog, $blog->author, $blog->views);
-        $subscription = new ProductSubscription();
-        $subscription->user_id = 2;
-        $subscription->product_id = 30121;
-        $subscription->save();
+        $class = StudyClass::find(1490);
+        $users = ProductSubscription::select(DB::raw('distinct user_id'), 'created_at')->get();
+        dd($users);
     }
 
     public function blogsByCategory($category_name)

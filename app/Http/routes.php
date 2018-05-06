@@ -31,7 +31,7 @@
 |
 */
 
-Route::post('uploadfile', 'PublicController@upload_file');
+Route::get('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
@@ -500,6 +500,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/posts/7', 'ColormeNewController@social7');
     Route::get('/posts/30', 'ColormeNewController@social30');
     Route::get('/posts/new', 'ColormeNewController@socialnew');
+    Route::get('/posts/{popular}', 'ColormeNewController@social');
     Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');

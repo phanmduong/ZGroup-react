@@ -12,8 +12,6 @@
     <meta id="metakeywords" name="keywords" content="{!! htmlspecialchars($blog['keyword']) !!}"/>
     <meta id="newskeywords" name="news_keywords" content="{!! htmlspecialchars($blog['keyword']) !!}"/>
     <link rel="canonical" href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"/>
-
-
 @endsection
 
 @extends('colorme_new.layouts.master') @section('content')
@@ -242,6 +240,7 @@
                                                 </div>
                                             </div>
                                             <div class="product-content">
+                                                @if($blog['kind'] != 'resource')
                                                 <hr>
                                                 <div class="row form-register">
                                                     <div class="col-md-12">
@@ -288,7 +287,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                @endif
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
                                                          data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}"
@@ -353,10 +352,66 @@
             </div>
         </div>
     </div>
+    <!-- a -->
+    <div id="modalRegister" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding-bottom: 0px">
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px">
+                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
+                        <h2 style="font-weight: 600">Nhận quà hàng tuần</h2>
+                        <p>Đăng kí để nhận một template mỗi tuần từ colorME</p>
+                        <br>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%" 
+                                id="nameModal"
+                                type="text" 
+                                placeholder="Họ và tên"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                type="text"
+                                id="phoneModal"
+                                placeholder="Số điện thoại"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                type="text" 
+                                id="emailModal"
+                                placeholder="Email"/>
+                        </div>
+                        <div id="alertModal"
+                            style="font-size: 14px"></div>
+                        <div class="row">
+                            <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;" id="submitModal">Đăng kí
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        window.onload = function(e) {
+            var kind = "{{$blog['kind']}}";
+            console.log(vueData);
+            if(kind == 'resource') 
+                if(vueData.isLogin == false){
+                    setTimeout(function () {
+                        $("#modalRegister").modal("toggle");
+                    }, 30000);
+                }
+        }
+
+        // function openModal() {
+        //     $("#modalRegister").modal("toggle");
+        // }
+
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
@@ -369,7 +424,6 @@
                 var name = $('#name').val();
                 var email = $('#email').val();
                 var phone = $('#phone').val();
-                console.log(name + phone + email);
                 var ok = 0;
                 if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
 
@@ -390,6 +444,48 @@
                 $("#submit").css("display", "none");
 
                 var url = "";
+                $("#modalSuccess").modal("show");
+                var data = {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    blog_id: {{$blog['id']}},
+                    _token: "{{csrf_token()}}"
+                };
+                axios.post("/api/v3/sign-up", data)
+                    .then(function () {
+                    }.bind(this))
+                    .catch(function () {
+                    }.bind(this));
+            });
+
+            $("#submitModal").click(function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var name = $('#nameModal').val();
+                var email = $('#emailModal').val();
+                var phone = $('#phoneModal').val();
+                var ok = 0;
+                if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
+
+                if (!name || !email || !phone || ok == 1) {
+                    $("#alertModal").html(
+                        "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>"
+                    );
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    $("#alertModal").html(
+                        "<div class='alert alert-danger'>Bạn vui lòng kiểm tra lại email</div>"
+                    );
+                    return;
+                }
+                var message = "ColorMe đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+                $("#alertModal").html("<div class='alert alert-success'>" + message + "</div>");
+                $("#submitModal").css("display", "none");
+
+                var url = "";
+                $("#modalRegister").modal("hide");
                 $("#modalSuccess").modal("show");
                 var data = {
                     name: name,

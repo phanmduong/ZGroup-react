@@ -132,7 +132,6 @@
                         </li>
                         <li>
                             <a href="/tai-nguyen">Tài nguyên<span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Beta</span></a>
-
                         </li>
 
                         @if (isset($user))

@@ -2871,6 +2871,12 @@ Pricint fiv
     }
 }
 
+@media (min-width: 768px) {
+    #modalRegister .modal-dialog {
+        width: 400px !important;
+    }
+}
+
 input, textarea {
     outline: none;
     border: none;
