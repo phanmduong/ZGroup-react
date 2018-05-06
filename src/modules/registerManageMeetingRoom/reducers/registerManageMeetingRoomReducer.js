@@ -20,6 +20,8 @@ let conferenceRoomInitState = {
     isChangingOfficialTime: false,
     isOpenPaymentModal: false,
     isOpenDatetimeModal: false,
+    isOpenAddRegisterModal: false,
+
 };
 
 export default function registerConferenceRoomReducers(state = conferenceRoomInitState, action) {
@@ -44,8 +46,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
-
-
         case types.BEGIN_LOAD_SALERS:
             return {
                 ...state,
@@ -62,8 +62,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
                 ...state,
                 isLoadingSalers: false,
             };
-
-
 
 
         case types.BEGIN_LOAD_REGISTERS:
@@ -88,8 +86,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
-
-
         case types.BEGIN_SAVE_PAYMENT:
             return {
                 ...state,
@@ -106,8 +102,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
                 ...state,
                 isSavingPayment: false,
             };
-
-
 
 
         case types.BEGIN_CHANGE_OFFICIAL_TIME:
@@ -129,8 +123,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
-
-
         case types.CLOSE_DATE_TIME_MODAL:
             return {
                 ...state,
@@ -144,10 +136,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
                 isOpenDatetimeModal: true,
                 register: action.register,
             };
-
-
-
-
 
 
         case types.CLOSE_PAYMENT_MODAL:
@@ -165,8 +153,18 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+        case types.CLOSE_ADD_REGISTER_MODAL:
+            return {
+                ...state,
+                isOpenAddRegisterModal: false,
+                register: {},
+            };
 
-
+        case types.OPEN_ADD_REGISTER_MODAL:
+            return {
+                ...state,
+                isOpenAddRegisterModal: true,
+            };
 
 
         case types.UPDATE_REGISTER:
@@ -202,18 +200,18 @@ function prefixRegisters(registers) {
     return registers.map((register) => {
         return {
             ...register,
-            price : register.room_history.length !== 0 ?
+            price: register.room_history.length !== 0 ?
                 !register.is_member ?
                     register.room_history[register.room_history.length - 1].room.room_type.price :
                     register.room_history[register.room_history.length - 1].room.room_type.member_price
                 : 0, // note
-            official_start_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].start_time:
+            official_start_time: register.room_history.length !== 0 ? register.room_history[register.room_history.length - 1].start_time :
                 // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
-            register.start_time
+                register.start_time
             ,
-            official_end_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].end_time:
+            official_end_time: register.room_history.length !== 0 ? register.room_history[register.room_history.length - 1].end_time :
                 // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
-            register.end_time
+                register.end_time
             ,
         };
     });

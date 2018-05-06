@@ -14,6 +14,9 @@ import SelectMonthBox from "../../../components/common/SelectMonthBox";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
 import {OverlayTrigger, Panel, Tooltip} from "react-bootstrap";
+import DatetimeModal from "./DatetimeModal";
+import PaymentModal from "./PaymentModal";
+import AddRegisterModal from "./AddRegisterModal";
 
 function getBaseData(datas) {
     let selectData = datas.map(function (data) {
@@ -102,7 +105,6 @@ class RegisterManageRoomContainer extends React.Component {
             });
         }
     }
-
 
 
     onChangeBase(value) {
@@ -248,6 +250,7 @@ class RegisterManageRoomContainer extends React.Component {
 
     render() {
         const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
+        const Add = <Tooltip id="tooltip">Thêm đăng kí</Tooltip>;
         let first = this.props.totalCount
             ? (this.props.currentPage - 1) * this.props.limit + 1
             : 0;
@@ -305,6 +308,20 @@ class RegisterManageRoomContainer extends React.Component {
                                                 <strong>Danh sách đăng kí phòng họp</strong>
                                             </h4>
                                             <div>
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={Add}
+                                                >
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                        type="button" onClick={
+                                                        (e) => {
+                                                            e.preventDefault();
+                                                            this.props.registerManageMeetingRoomAction.openAddRegisterModal();
+                                                        }}>
+                                                        <strong>+</strong>
+                                                    </button>
+                                                </OverlayTrigger>
                                                 <OverlayTrigger
                                                     placement="top"
                                                     overlay={Filter}
@@ -385,6 +402,9 @@ class RegisterManageRoomContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <DatetimeModal/>
+                        <PaymentModal/>
+                        <AddRegisterModal/>
                     </div>
 
                 )}

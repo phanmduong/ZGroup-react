@@ -373,7 +373,7 @@ class RegisterManageContainer extends React.Component {
                 ) : (
                     <div>
                         <div className="row">
-                            <div className="col-sm-3 col-xs-5">
+                            <div className="col-sm-2 col-xs-3">
                                 <SelectMonthBox
                                     theme="light"
                                     isHide={false}
@@ -385,7 +385,7 @@ class RegisterManageContainer extends React.Component {
                                     closeBox={this.handleAMonthDismiss}
                                 />
                             </div>
-                            <div className="col-sm-3 col-xs-5">
+                            <div className="col-sm-2 col-xs-3">
                                 <SelectCommon
                                     defaultMessage={"Chọn cơ sở"}
                                     options={this.state.bases}
