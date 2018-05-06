@@ -63,7 +63,9 @@ class ClassRepository
         $gen = $this->genRepository->gen($class->gen);
         $course = $this->courseRepository->course($class->course);
         $room = $this->roomRepository->room($class->room);
-        $schedule = $class->schedule;
+        // $schedule = $class->schedule;
+        $lessons = $class->lessons;
+
         if ($gen)
             $data['gen'] = $gen;
 
@@ -76,22 +78,30 @@ class ClassRepository
         if ($teacher_assistant)
             $data['teacher_assistant'] = $teacher_assistant;
 
-        if ($room) {
+        if ($room) 
             $data['room'] = $room;
-        }
 
-        if($schedule) {
-            $data['schedule'] = [
-                'schedule' => $schedule->name,
-                'study_sessions' => $schedule->studySessions->map(function($studySession) {
-                    return [
-                        'start_time' => $studySession->start_time,
-                        'end_time' => $studySession->end_time,
-                        'weekday' => $studySession->weekday
-                    ];
-                })
-            ];
-        }
+        if($lessons)
+            $data['lessons'] = $lessons->map(function($lesson){
+                return [
+                    'time' => $lesson->time,
+                    'start_time' => $lesson->start_time,
+                    'end_time' => $lesson->end_time,
+                    'name' => $lesson->name,
+                ];
+            });
+        // if($schedule) {
+        //     $data['schedule'] = [
+        //         'schedule' => $schedule->name,
+        //         'study_sessions' => $schedule->studySessions->map(function($studySession) {
+        //             return [
+        //                 'start_time' => $studySession->start_time,
+        //                 'end_time' => $studySession->end_time,
+        //                 'weekday' => $studySession->weekday
+        //             ];
+        //         })
+        //     ];
+        // }
 
         return $data;
     }
