@@ -120,9 +120,6 @@ class SubscriptionModal extends React.Component {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                <label className="label-control">
-                                    {this.props.isEdit ? "Chỉnh sửa gói đăng kí  " : "Thêm gói đăng kí  "}
-                                </label>
                                 <div className="row">
                                     <FormInputText
                                         type="number"

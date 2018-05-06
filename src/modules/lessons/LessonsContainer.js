@@ -8,6 +8,7 @@ import ReactEditor from '../../components/common/ReactEditor';
 import FormInputText from '../../components/common/FormInputText';
 import { Link } from 'react-router';
 import Loading from "../../components/common/Loading";
+import ImageUploader from "../../components/common/ImageUploader";
 import * as helper from '../../helpers/helper';
 import { NO_IMAGE } from "../../constants/env";
 import ReactSelect from 'react-select';
@@ -93,10 +94,9 @@ class LessonsContainer extends React.Component {
         return false;
     }
 
-    uploadLessonIcon(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2))
-            this.props.lessonsActions.uploadLessonIcon(file);
+    uploadLessonIcon(url) {
+
+        this.props.lessonsActions.uploadLessonIcon(url);
     }
 
 
@@ -132,7 +132,7 @@ class LessonsContainer extends React.Component {
                                         <h4 className="card-title">
                                             <strong>Nội dung giáo trình</strong>
                                         </h4>
-                                        <br/>
+                                        <br />
                                         {this.props.isLoading ? <Loading /> :
                                             <ReactEditor
                                                 urlPost={linkUploadImageEditor()}
@@ -142,7 +142,7 @@ class LessonsContainer extends React.Component {
                                                 value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
                                             />
                                         }
-                                    </div>    
+                                    </div>
                                 </div>
 
                             </div>
@@ -170,53 +170,18 @@ class LessonsContainer extends React.Component {
 
                     <div className="col-md-4">
                         <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">announcement</i>
-                            </div>
                             <div className="card-content">
-                                <h4 className="card-title">Thông tin về form </h4>
+                                <h4 className="card-title"><strong>Thông tin</strong></h4>
                                 <div className="row">
+
                                     <div className="col-md-12">
-                                        <img
-                                            width={"100%"}
-                                            src={
-                                                helper.isEmptyInput(this.props.data.image_url)
-                                                    ?
-                                                    NO_IMAGE
-                                                    :
-                                                    this.props.data.image_url}
+
+                                        <ImageUploader
+                                            handleFileUpload={this.uploadLessonIcon}
+                                            tooltipText="Chọn ảnh icon"
+                                            image_url={this.props.data.image_url}
+                                            image_size={2}
                                         />
-                                    </div>
-                                    <div className="col-md-12">
-                                        {this.props.isUploadingLessonIcon ?
-                                            (
-                                                <button className="btn btn-rose disabled" type="button" style={{ width: "100%" }}>
-                                                    <i className="fa fa-spinner fa-spin" /> Đang tải lên
-                                            </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-fill btn-rose" type="button"
-                                                    disabled={this.props.isUploadingLessonIcon || this.props.isLoading} style={{ width: "100%" }}>
-                                                    Chọn ảnh icon
-                                                <input type="file"
-                                                        accept=".jpg,.png,.gif"
-                                                        onChange={this.uploadLessonIcon}
-                                                        style={{
-                                                            cursor: 'pointer',
-                                                            opacity: "0.0",
-                                                            position: "absolute",
-                                                            top: 0,
-                                                            left: 0,
-                                                            bottom: 0,
-                                                            right: 0,
-                                                            width: "100%",
-                                                            height: "100%"
-                                                        }}
-                                                    />
-                                                </button>
-                                            )
-                                        }
                                     </div>
                                     <div className="col-md-12">
                                         <FormInputText
@@ -270,14 +235,15 @@ class LessonsContainer extends React.Component {
                                             disabled={this.props.isLoading}
                                             className=""
                                             options={getTerm(terms)}
-                                            onChange={(e) => { 
-                                            if(e) 
-                                            return this.updateFormData({
-                                                target: {
-                                                    name: "term_id",
-                                                    value: e.id
-                                                }
-                                            });}}
+                                            onChange={(e) => {
+                                                if (e)
+                                                    return this.updateFormData({
+                                                        target: {
+                                                            name: "term_id",
+                                                            value: e.id
+                                                        }
+                                                    });
+                                            }}
                                             value={this.props.data.term_id || ""}
                                             name="term_id"
                                         />
@@ -300,7 +266,7 @@ class LessonsContainer extends React.Component {
                                             onClick={this.commitData}
                                             disabled={this.props.isLoading}
                                         > Lưu </button>
-                                        <Link className="btn btn-rose" to={`/teaching/courses/edit/${this.props.data.course_id}/curriculum`}
+                                        <Link className="btn" to={`/teaching/courses/edit/${this.props.data.course_id}/curriculum`}
                                             disabled={this.props.isLoading}>
                                             Huỷ
                                         </Link>

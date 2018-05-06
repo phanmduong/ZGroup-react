@@ -10,7 +10,7 @@ import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import Select from './SelectGen';
 import ReactSelect from 'react-select';
-import {Modal, Panel} from 'react-bootstrap';
+import {Modal, OverlayTrigger, Panel, Tooltip} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
@@ -19,11 +19,16 @@ import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
 
+// import TooltipButton from '../../components/common/TooltipButton';
+
+import Pagination from "../../components/common/Pagination";
+
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             page: 1,
+            limit: 20,
             query: "",
             gens: [],
             selectGenId: '',
@@ -62,7 +67,7 @@ class RegisterListContainer extends React.Component {
             },
             allClassFilter: [],
             selectedStudent: {},
-
+            query_coupon: "",
         };
 
         this.isWaitListPage = false;
@@ -94,6 +99,8 @@ class RegisterListContainer extends React.Component {
         this.closeModalChangeInfoStudent = this.closeModalChangeInfoStudent.bind(this);
         this.onBaseFilterChange = this.onBaseFilterChange.bind(this);
         this.openCreateRegisterModal = this.openCreateRegisterModal.bind(this);
+        this.searchByCoupon = this.searchByCoupon.bind(this);
+        this.loadRegisterStudent = this.loadRegisterStudent.bind(this);
     }
 
     componentWillMount() {
@@ -185,6 +192,7 @@ class RegisterListContainer extends React.Component {
         if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 Number(nextProps.params.salerId),
@@ -196,6 +204,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
             this.setState({
                 page: 1,
@@ -274,6 +283,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.selectedClassId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -285,6 +295,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({selectedClassId: res, page: 1});
     }
@@ -297,6 +308,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.selectedBaseId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -308,6 +320,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 obj ? obj.value : '',
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({
             selectedBaseId: res,
@@ -325,6 +338,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.selectedSalerId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 obj ? obj.value : '',
@@ -336,6 +350,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({selectedSalerId: res, page: 1});
     }
@@ -351,6 +366,7 @@ class RegisterListContainer extends React.Component {
         if (res != this.state.campaignId)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -362,6 +378,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({campaignId: res, page: 1});
     }
@@ -371,6 +388,7 @@ class RegisterListContainer extends React.Component {
         if (this.state.selectedMoneyFilter != res)
             this.props.registerActions.loadRegisterStudent(
                 1,//page
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -382,6 +400,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
             );
         this.setState({selectedMoneyFilter: res, page: 1});
     }
@@ -396,6 +415,7 @@ class RegisterListContainer extends React.Component {
         }
         this.props.registerActions.loadRegisterStudent(
             1,//page
+            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
@@ -407,6 +427,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
 
         this.setState({
@@ -439,6 +460,7 @@ class RegisterListContainer extends React.Component {
             this.setState({time: time, page: 1});
             this.props.registerActions.loadRegisterStudent(
                 1,
+                this.state.limit,
                 this.state.selectGenId,
                 this.state.query,
                 this.state.selectedSalerId,
@@ -450,6 +472,7 @@ class RegisterListContainer extends React.Component {
                 time.endTime,
                 this.state.selectedBaseId,
                 time.appointmentPayment,
+                this.state.query_coupon,
             );
         } else {
             this.setState({time: time});
@@ -553,15 +576,16 @@ class RegisterListContainer extends React.Component {
         this.onCampaignFilterChange({value: campaignId});
     }
 
-    loadRegisterStudent(page, campaignid) {
+    loadRegisterStudent(page) {
         this.setState({
             page,
         });
         this.props.registerActions.loadRegisterStudent(page,
+            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
-            campaignid ? campaignid : this.state.campaignId,
+            this.state.campaignId,
             this.state.selectedClassId,
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
@@ -569,6 +593,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
     }
 
@@ -582,6 +607,7 @@ class RegisterListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.registerActions.loadRegisterStudent(1,
+                this.state.limit,
                 this.state.selectGenId,
                 value,
                 this.state.selectedSalerId,
@@ -593,6 +619,34 @@ class RegisterListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
+                this.state.query_coupon,
+            );
+        }.bind(this), 500);
+    }
+
+    searchByCoupon(value) {
+        this.setState({
+            page: 1,
+            query_coupon: value,
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.registerActions.loadRegisterStudent(1,
+                this.state.limit,
+                this.state.selectGenId,
+                this.state.query,
+                this.state.selectedSalerId,
+                this.state.campaignId,
+                this.state.selectedClassId,
+                this.state.selectedMoneyFilter,
+                this.state.selectedClassStatus,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
+                value,
             );
         }.bind(this), 500);
     }
@@ -602,7 +656,9 @@ class RegisterListContainer extends React.Component {
             page: 1,
             selectGenId: value
         });
-        this.props.registerActions.loadRegisterStudent(1, value,
+        this.props.registerActions.loadRegisterStudent(1,
+            this.state.limit,
+            value,
             this.state.query,
             this.state.selectedSalerId,
             this.state.campaignId,
@@ -613,6 +669,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
         this.props.registerActions.loadClassFilter(value);
     }
@@ -634,6 +691,7 @@ class RegisterListContainer extends React.Component {
     showLoadingModal() {
         this.props.registerActions.loadAllRegisterStudent(
             '',//page
+            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
@@ -642,10 +700,11 @@ class RegisterListContainer extends React.Component {
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
             this.state.time.startTime,
-            
+
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
             this.closeLoadingModal
         );
     }
@@ -698,7 +757,7 @@ class RegisterListContainer extends React.Component {
                     ? (gen[0] ? ` - Khóa ${gen[0].name}` : '')
                     :
                     (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
-                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)  }`)
+                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)}`)
             )
         );
     }
@@ -735,6 +794,7 @@ class RegisterListContainer extends React.Component {
             this.state.time.endTime,
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
+            this.state.query_coupon,
         );
 
     }
@@ -744,6 +804,9 @@ class RegisterListContainer extends React.Component {
     }
 
     render() {
+        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
+        const Export = <Tooltip id="tooltip">Xuất file excel</Tooltip>;
+        const Add = <Tooltip id="tooltip">Thêm</Tooltip>;
         return (
             <div id="page-wrapper">
                 <div className="row">
@@ -760,46 +823,12 @@ class RegisterListContainer extends React.Component {
                             />
                         }
                     </div>
-                    <div className="col-sm-2 col-xs-5">
-                        <button
-                            style={{width: '100%'}}
-                            onClick={this.openFilterPanel}
-                            className="btn btn-info btn-rose btn-round"
-                            disabled={
-                                this.props.isLoadingGens ||
-                                this.props.isLoadingClassFilter ||
-                                this.props.isLoadingBaseFilter ||
-                                this.props.isLoading ||
-                                this.props.isLoadingRegisters
-                            }
-                        >
-                            <i className="material-icons">filter_list</i>
-                            Lọc
-                        </button>
-                    </div>
-                    <div className="col-sm-2 col-xs-5">
-                        <button
-                            style={{width: '100%'}}
-                            onClick={this.showLoadingModal}
-                            className="btn btn-info btn-rose btn-round"
-                            disabled={
-                                this.props.isLoadingGens ||
-                                this.props.isLoadingClassFilter ||
-                                this.props.isLoading ||
-                                this.props.isLoadingRegisters ||
-                                this.props.isLoadingBaseFilter ||
-                                this.props.isLoadingExcel
-                            }
-                        >
-                            <i className="material-icons">file_download</i>
-                            Xuất ra Excel
-                        </button>
-                    </div>
                 </div>
-                <div>        
-                    <div className="card" style={{marginTop:20}}>
+                <div>
+                    <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
+<<<<<<< HEAD
                                 <div className="flex" style={{justifyContent: "space-between"}}>
                                 <div className="flex">
                                     <h4 className="card-title">
@@ -812,6 +841,72 @@ class RegisterListContainer extends React.Component {
                                             type="button">
                                             <strong>+</strong>
                                         </button>
+=======
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{display: "flex"}}>
+                                        <h4 className="card-title">
+                                            <strong>{this.state.cardTitle}</strong>
+                                        </h4>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Add}
+                                            >
+                                                <button
+                                                    onClick={this.openCreateRegisterModal}
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button">
+                                                    <strong>+</strong>
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Filter}
+                                            >
+                                                <button
+                                                    onClick={this.openFilterPanel}
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    disabled={
+                                                        this.props.isLoadingGens ||
+                                                        this.props.isLoadingClassFilter ||
+                                                        this.props.isLoadingBaseFilter ||
+                                                        this.props.isLoading ||
+                                                        this.props.isLoadingRegisters
+                                                    }
+                                                >
+                                                    <i className="material-icons"
+                                                       style={{margin: "0px -4px", top: 0}}
+                                                    >filter_list</i>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={Export}
+                                        >
+                                            <button
+                                                onClick={this.showLoadingModal}
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                disabled={
+                                                    this.props.isLoadingGens ||
+                                                    this.props.isLoadingClassFilter ||
+                                                    this.props.isLoading ||
+                                                    this.props.isLoadingRegisters ||
+                                                    this.props.isLoadingBaseFilter ||
+                                                    this.props.isLoadingExcel
+                                                }
+                                            >
+                                                <i className="material-icons"
+                                                   style={{margin: "0px -4px", top: 0}}
+                                                >file_download</i>
+                                            </button>
+                                        </OverlayTrigger>
+>>>>>>> f6b4ec24829b180a9052c72634ca1a20d4baeefc
                                     </div>
                                     <div>
                                         <button 
@@ -936,7 +1031,6 @@ class RegisterListContainer extends React.Component {
                                                         id="form-end-time"
                                                         value={this.state.time.endTime}
                                                         minDate={this.state.time.startTime}
-
                                                     />
                                                 </div>
                                                 <div className="col-md-3 form-group">
@@ -961,6 +1055,14 @@ class RegisterListContainer extends React.Component {
                                                         value={this.state.time.appointmentPayment}
                                                     />
                                                 </div>
+                                                <div className="col-md-3">
+                                                    <Search
+                                                        className="col-sm-12"
+                                                        onChange={this.searchByCoupon}
+                                                        value={this.state.query_coupon}
+                                                        placeholder="Tìm kiếm theo coupon"
+                                                    />
+                                                </div>
                                             </div>
 
                                         </Panel>
@@ -979,27 +1081,43 @@ class RegisterListContainer extends React.Component {
                                                     openModalChangeInfoStudent={this.openModalChangeInfoStudent}
                                                 />
                                         }
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
-                                                        </li>
-                                                    );
-                                                }
+                                        <div className="row float-right">
+                                            <div
+                                                className="col-md-12"
+                                                style={{textAlign: "right"}}
+                                            >
+                                                <Pagination
+                                                    totalPages={
+                                                        this.props.totalPages
+                                                    }
+                                                    currentPage={
+                                                        this.state.page
+                                                    }
+                                                    loadDataPage={this.loadRegisterStudent}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/*<ul className="pagination pagination-primary">*/}
+                                        {/*{_.range(1, this.props.totalPages + 1).map(page => {*/}
+                                        {/*if (Number(this.state.page) === page) {*/}
+                                        {/*return (*/}
+                                        {/*<li key={page} className="active">*/}
+                                        {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
+                                        {/*</li>*/}
+                                        {/*);*/}
+                                        {/*} else {*/}
+                                        {/*return (*/}
+                                        {/*<li key={page}>*/}
+                                        {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
+                                        {/*</li>*/}
+                                        {/*);*/}
+                                        {/*}*/}
 
-                                            })}
-                                        </ul>
+                                        {/*})}*/}
+                                        {/*</ul>*/}
                                     </div>
                                 }
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1012,20 +1130,30 @@ class RegisterListContainer extends React.Component {
                     {this.state.register.name &&
                     <Modal.Body>
 
-                        <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div className="panel-group" id="accordion"
+                             role="tablist" aria-multiselectable="true">
                             <div className="panel panel-default">
-                                <div className="panel-heading" role="tab" id="headingOne">
+                                <div className="panel-heading" role="tab"
+                                     id="headingOne">
 
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                       aria-expanded="false" aria-controls="collapseOne" className="collapsed">
+                                    <a role="button" data-toggle="collapse"
+                                       data-parent="#accordion"
+                                       href="#collapseOne"
+                                       aria-expanded="false"
+                                       aria-controls="collapseOne"
+                                       className="collapsed">
                                         <h4 className="panel-title">
                                             Thông tin học viên
                                             <i className="material-icons">keyboard_arrow_down</i>
                                         </h4>
                                     </a>
                                 </div>
-                                <div id="collapseOne" className="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingOne" aria-expanded="false" style={{height: '0px'}}>
+                                <div id="collapseOne"
+                                     className="panel-collapse collapse"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne"
+                                     aria-expanded="false"
+                                     style={{height: '0px'}}>
                                     <div className="panel-body">
                                         <div className="flex-row-center"><i
                                             className="material-icons">account_circle</i><b>&nbsp; &nbsp; {this.state.register.name} </b>
@@ -1041,154 +1169,206 @@ class RegisterListContainer extends React.Component {
                                             className="material-icons">account_balance</i>&nbsp; &nbsp; {this.state.register.university}
                                         </div>
                                         }
-
                                     </div>
-                                </div>
-                            </div>
-                            <div className="panel panel-default">
-                                <div className="panel-heading" role="tab" id="headingTwo">
-                                    <a className="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
-                                       aria-controls="collapseTwo">
-                                        <h4 className="panel-title">
-                                            Thông tin lớp học
-                                            <i className="material-icons">keyboard_arrow_down</i>
-                                        </h4>
-                                    </a>
-                                </div>
-                                <div id="collapseTwo" className="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingTwo" aria-expanded="false" style={{height: '0px'}}>
-                                    <div className="panel-body">
-                                        <div className="flex-row-center">
-                                            <i className="material-icons">class</i>
-                                            <b>&nbsp; &nbsp;{this.state.register.class.name.trim()} </b></div>
-                                        <div className="flex-row-center">
-                                            <i className="material-icons">access_time</i>
-                                            <b>&nbsp; &nbsp; {this.state.register.class.study_time} </b>
-                                        </div>
-                                        <div className="flex-row-center">
-                                            <i className="material-icons">home</i>&nbsp; &nbsp;
-                                            {this.state.register.class.room + ' - ' + this.state.register.class.base}
-                                        </div>
-                                        <div className="flex-row-center">
-                                            <i className="material-icons">date_range</i>&nbsp; &nbsp; {this.state.register.class.description}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="panel panel-default">
-                                <div className="panel-heading" role="tab" id="headingThree">
-                                    <a className="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordion" href="#collapseThree" aria-expanded="false"
-                                       aria-controls="collapseThree">
-                                        <h4 className="panel-title">
-                                            Thông tin đăng kí
-                                            <i className="material-icons">keyboard_arrow_down</i>
-                                        </h4>
-                                    </a>
-                                </div>
-
-                                <div id="collapseThree" className="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingThree" aria-expanded="false" style={{height: '0px'}}>
-                                    {
-                                        this.props.isLoadingRegistersByStudent ? <Loading/> :
-                                            <ul className="timeline timeline-simple">
-                                                {
-                                                    this.props.registersByStudent.map(function (register, index) {
-                                                        return (
-                                                            <li className="timeline-inverted" key={index}>
-                                                                <div className="timeline-badge">
-                                                                    <img className="circle size-40-px"
-                                                                         src={register.class.avatar_url} alt=""/>
-                                                                </div>
-                                                                <div className="timeline-panel">
-                                                                    <h4>
-                                                                        <b>{register.class.name}</b>
-                                                                    </h4>
-                                                                    <div className="timeline-body">
-                                                                        <div className="flex-row-center">
-                                                                            <i className="material-icons">access_time</i>
-                                                                            <b>&nbsp; &nbsp; {register.class.study_time} </b>
-                                                                        </div>
-                                                                        <div className="flex-row-center">
-                                                                            <i className="material-icons">home</i>&nbsp; &nbsp;
-                                                                            {register.class.room && register.class.room + ' - '}
-                                                                            {register.class.base}
-                                                                        </div>
-                                                                        <div className="flex-row-center">
-                                                                            <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        );
-                                                    })
-                                                }
-                                            </ul>
-                                    }
-                                </div>
-                            </div>
-                            <div className="panel panel-default">
-                                <div className="panel-heading" role="tab" id="headingFour">
-                                    <a className="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordion" href="#collapseFour" aria-expanded="false"
-                                       aria-controls="collapseFour">
-                                        <h4 className="panel-title">
-                                            Lịch sử gọi điện
-                                            <i className="material-icons">keyboard_arrow_down</i>
-                                        </h4>
-                                    </a>
-                                </div>
-
-                                <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingFour" aria-expanded="false" style={{height: '0px'}}>
-                                    {
-                                        this.props.isLoadingHistoryCall ? <Loading/> :
-                                            <ul className="timeline timeline-simple">
-                                                {
-                                                    this.props.historyCall.map((history, index) => {
-                                                        let btn = '';
-                                                        if (history.call_status === 'success') {
-                                                            btn = ' success';
-                                                        }
-                                                        else if (history.call_status === 'failed') {
-                                                            btn = ' danger';
-                                                        } else if (history.call_status === 'calling') {
-                                                            btn = ' info';
-                                                        }
-
-                                                        return (
-                                                            <li className="timeline-inverted" key={index}>
-                                                                <div className={"timeline-badge " + btn}>
-                                                                    <i className="material-icons">phone</i>
-                                                                </div>
-                                                                <div className="timeline-panel">
-                                                                    <div className="timeline-heading">
-                                                                        <span className="label label-default"
-                                                                              style={{backgroundColor: '#' + history.caller.color}}>
-                                                                            {history.caller.name}</span> <span
-                                                                        className="label label-default">{history.updated_at}</span>
-                                                                    </div>
-                                                                    <div className="timeline-body">
-                                                                        {history.note}
-                                                                    </div>
-                                                                    {
-                                                                        history.appointment_payment &&
-                                                                        <div className="timeline-body">
-                                                                            Hẹn nộp tiền: {history.appointment_payment}
-                                                                        </div>
-                                                                    }
-
-                                                                </div>
-                                                            </li>
-                                                        );
-                                                    })
-                                                }
-                                            </ul>
-                                    }
                                 </div>
                             </div>
                         </div>
+                        <div className="panel panel-default">
+                            <div className="panel-heading" role="tab"
+                                 id="headingTwo">
+                                <a className="collapsed" role="button"
+                                   data-toggle="collapse"
+                                   data-parent="#accordion"
+                                   href="#collapseTwo" aria-expanded="false"
+                                   aria-controls="collapseTwo">
+                                    <h4 className="panel-title">
+                                        Thông tin lớp học
+                                        <i className="material-icons">keyboard_arrow_down</i>
+                                    </h4>
+                                </a>
+                            </div>
+                            <div id="collapseTwo"
+                                 className="panel-collapse collapse"
+                                 role="tabpanel"
+                                 aria-labelledby="headingTwo"
+                                 aria-expanded="false"
+                                 style={{height: '0px'}}>
+                                <div className="panel-body">
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">class</i>
+                                        <b>&nbsp; &nbsp;{this.state.register.class.name.trim()} </b>
+                                    </div>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">access_time</i>
+                                        <b>&nbsp; &nbsp; {this.state.register.class.study_time} </b>
+                                    </div>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">home</i>&nbsp; &nbsp;
+                                        {this.state.register.class.room + ' - ' + this.state.register.class.base}
+                                    </div>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {this.state.register.class.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="panel panel-default">
+                            <div className="panel-heading" role="tab"
+                                 id="headingThree">
+                                <a className="collapsed" role="button"
+                                   data-toggle="collapse"
+                                   data-parent="#accordion"
+                                   href="#collapseThree"
+                                   aria-expanded="false"
+                                   aria-controls="collapseThree">
+                                    <h4 className="panel-title">
+                                        Thông tin đăng kí
+                                        <i className="material-icons">keyboard_arrow_down</i>
+                                    </h4>
+                                </a>
+                            </div>
+
+                            <div id="collapseThree"
+                                 className="panel-collapse collapse"
+                                 role="tabpanel"
+                                 aria-labelledby="headingThree"
+                                 aria-expanded="false"
+                                 style={{height: '0px'}}>
+                                {
+                                    this.props.isLoadingRegistersByStudent ?
+                                        <Loading/> :
+                                        <ul className="timeline timeline-simple">
+                                            {
+                                                this.props.registersByStudent.map(function (register, index) {
+                                                    return (
+                                                        <li className="timeline-inverted"
+                                                            key={index}>
+                                                            <div
+                                                                className="timeline-badge">
+                                                                <img
+                                                                    className="circle size-40-px"
+                                                                    src={register.class.avatar_url}
+                                                                    alt=""/>
+                                                            </div>
+                                                            <div
+                                                                className="timeline-panel">
+                                                                <h4>
+                                                                    <b>{register.class.name}</b>
+                                                                </h4>
+                                                                <div
+                                                                    className="timeline-body">
+                                                                    <div
+                                                                        className="flex-row-center">
+                                                                        <i className="material-icons">access_time</i>
+                                                                        <b>&nbsp; &nbsp; {register.class.study_time} </b>
+                                                                    </div>
+                                                                    <div
+                                                                        className="flex-row-center">
+                                                                        <i className="material-icons">home</i>&nbsp; &nbsp;
+                                                                        {register.class.room && register.class.room + ' - '}
+                                                                        {register.class.base}
+                                                                    </div>
+                                                                    <div
+                                                                        className="flex-row-center">
+                                                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    );
+                                                })
+                                            }
+                                        </ul>
+                                }
+                            </div>
+                        </div>
+                        < div className="panel panel-default">
+                            <div className="panel-heading" role="tab"
+                                 id="headingFour">
+                                <a className="collapsed" role="button"
+                                   data-toggle="collapse"
+                                   data-parent="#accordion"
+                                   href="#collapseFour"
+                                   aria-expanded="false"
+                                   aria-controls="collapseFour">
+                                    <h4 className="panel-title">
+                                        Lịch sử gọi điện
+                                        <i className="material-icons">keyboard_arrow_down</i>
+                                    </h4>
+                                </a>
+                            </div>
+
+                            <div id="collapseFour"
+                                 className="panel-collapse collapse"
+                                 role="tabpanel"
+                                 aria-labelledby="headingFour"
+                                 aria-expanded="false"
+                                 style={{height: '0px'}}>
+                                {
+                                    this.props.isLoadingHistoryCall ?
+                                        <Loading/> :
+                                        <ul className="timeline timeline-simple">
+                                            {
+                                                this.props.historyCall.map((history, index) => {
+                                                    let btn = '';
+                                                    if (history.call_status === 'success') {
+                                                        btn = ' success';
+                                                    }
+                                                    else if (history.call_status === 'failed') {
+                                                        btn = ' danger';
+                                                    } else if (history.call_status === 'calling') {
+                                                        btn = ' info';
+                                                    }
+
+                                                    return (
+                                                        <li className="timeline-inverted"
+                                                            key={index}>
+                                                            <div
+                                                                className={"timeline-badge " + btn}>
+                                                                <i className="material-icons">phone</i>
+                                                            </div>
+                                                            <div
+                                                                className="timeline-panel">
+                                                                <div
+                                                                    className="timeline-heading">
+                                                                                    <span
+                                                                                        className="label label-default"
+                                                                                        style={{backgroundColor: '#' + history.caller.color}}>
+                                                                                        {history.caller.name}</span>
+                                                                    <span
+                                                                        className="label label-default">{history.updated_at}</span>
+                                                                </div>
+                                                                <div
+                                                                    className="timeline-body">
+                                                                    {history.note}
+                                                                </div>
+                                                                {
+                                                                    history.appointment_payment &&
+                                                                    <div
+                                                                        className="timeline-body">
+                                                                        Hẹn
+                                                                        nộp
+                                                                        tiền: {history.appointment_payment}
+                                                                    </div>
+                                                                }
+                                                                {
+                                                                    history.appointment_payment &&
+                                                                    <div className="timeline-body">
+                                                                        Hẹn nộp tiền: {history.appointment_payment}
+                                                                    </div>
+                                                                }
+
+                                                            </div>
+
+                                                        </li>
+                                                    );
+                                                })
+                                            }
+                                        </ul>
+                                }
+                            </div>
+                        </div>
+
                         <br/>
                         <div className="form-group label-floating is-empty">
                             <label className="control-label">Ghi chú</label>
@@ -1209,15 +1389,19 @@ class RegisterListContainer extends React.Component {
                         {this.props.isChangingStatus ?
                             (
                                 <div>
-                                    <button type="button" className="btn btn-success btn-round disabled"
+                                    <button type="button"
+                                            className="btn btn-success btn-round disabled"
                                             data-dismiss="modal"
                                     >
-                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                        <i className="fa fa-spinner fa-spin"/>
+                                        Đang cập nhật
                                     </button>
-                                    <button type="button" className="btn btn-danger btn-round disabled"
+                                    <button type="button"
+                                            className="btn btn-danger btn-round disabled"
                                             data-dismiss="modal"
                                     >
-                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                        <i className="fa fa-spinner fa-spin"/>
+                                        Đang cập nhật
                                     </button>
                                 </div>
 
@@ -1227,12 +1411,15 @@ class RegisterListContainer extends React.Component {
                                 this.props.isLoadingHistoryCall ?
                                     (
                                         <div>
-                                            <button type="button" className="btn btn-success btn-round disabled"
+                                            <button type="button"
+                                                    className="btn btn-success btn-round disabled"
                                                     data-dismiss="modal"
-                                            ><i className="material-icons">phone</i>
+                                            >
+                                                <i className="material-icons">phone</i>
                                                 Gọi thành công
                                             </button>
-                                            <button type="button" className="btn btn-danger btn-round disabled"
+                                            <button type="button"
+                                                    className="btn btn-danger btn-round disabled"
                                                     data-dismiss="modal"
                                             >
                                                 <i className="material-icons">phone</i>
@@ -1243,7 +1430,9 @@ class RegisterListContainer extends React.Component {
                                     :
                                     (
                                         <div>
-                                            <button type="button" className="btn btn-success btn-round"
+                                            <button type="button"
+                                                    className="btn btn-success btn-round"
+
                                                     data-dismiss="modal"
                                                     onClick={() => {
                                                         this.changeCallStatusStudent(1, this.state.register.student_id);
@@ -1251,7 +1440,8 @@ class RegisterListContainer extends React.Component {
                                                 <i className="material-icons">phone</i>
                                                 Gọi thành công
                                             </button>
-                                            <button type="button" className="btn btn-danger btn-round"
+                                            <button type="button"
+                                                    className="btn btn-danger btn-round"
                                                     data-dismiss="modal"
                                                     onClick={() => {
                                                         this.changeCallStatusStudent(0, this.state.register.student_id);
@@ -1309,6 +1499,7 @@ class RegisterListContainer extends React.Component {
                     info={this.state.selectedStudent}
                     isCommitting={this.props.isCommittingInfoStudent}
                 />
+                <CreateRegisterModalContainer/>
 
             </div>
         );
@@ -1328,6 +1519,8 @@ RegisterListContainer.propTypes = {
     registerActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
     telecallId: PropTypes.number.isRequired,
     isLoadingRegisters: PropTypes.bool.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
@@ -1364,6 +1557,8 @@ function mapStateToProps(state) {
         classes: state.registerStudents.classes,
         totalPages: state.registerStudents.totalPages,
         currentPage: state.registerStudents.currentPage,
+        totalCount: state.registerStudents.totalCount,
+        limit: state.registerStudents.limit,
         telecallId: state.registerStudents.telecallId,
         gens: state.registerStudents.gens,
         registersByStudent: state.registerStudents.registersByStudent,

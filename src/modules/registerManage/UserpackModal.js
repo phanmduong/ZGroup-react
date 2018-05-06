@@ -71,7 +71,6 @@ class UserpackModal extends React.Component {
     }
 
     updateFormData(event) {
-        //console.log("updateFormData",event.target.name);
         const field = event.target.name;
         let select = {...this.props.select};
         select[field] = event.target.value;
@@ -84,124 +83,122 @@ class UserpackModal extends React.Component {
     }
 
     render() {
-        // const {subscriptions} =     this.props.select;
         return (
-            <div className="card">
-                <div className="card-header card-header-icon " data-background-color="rose">
-                    <i className="material-icons">people</i>
-                </div>
-                {this.props.isLoadingUserpack ? <Loading/> :
-                    <div className="card-content">
-                        <h4 className="card-title">Đặt chỗ</h4>
-                        <div className="row">
-                            <div className="form-group">
-                                <label className="label-control">Gói khách hàng</label>
-                                <Select
-                                    name="userpack"
-                                    value={this.props.select ? this.props.select.userpack_id : ""}
-                                    options={this.props.select && this.props.userpacks.map(userpack => {
-                                        // console.log("aaaaa");
-                                        return {
-                                            ...userpack,
-                                            value: userpack.id,
-                                            label: userpack.name
-                                        };
-                                    })}
-                                    onChange={this.onChangeUserpack}
-                                    clearable={false}
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-12">
+                        {this.props.isLoadingUserpack ? <Loading/> :
+                            <div>
+                                <div className="row">
+                                    <div className="form-group">
+                                        <label className="label-control">Gói khách hàng</label>
+                                        <Select
+                                            name="userpack"
+                                            value={this.props.select ? this.props.select.userpack_id : ""}
+                                            options={this.props.select && this.props.userpacks.map(userpack => {
+                                                // console.log("aaaaa");
+                                                return {
+                                                    ...userpack,
+                                                    value: userpack.id,
+                                                    label: userpack.name
+                                                };
+                                            })}
+                                            onChange={this.onChangeUserpack}
+                                            clearable={false}
+                                        />
+                                    </div>
+                                    {this.props.select.subscriptions ?
+                                        <div className="form-group">
+                                            <label className="label-control">Gói đăng kí</label>
+                                            <Select
+                                                name="subscription"
+                                                value={this.props.select ? this.props.select.subscription_id : ""}
+                                                options={this.props.select && this.props.select.subscriptions.map(subscription => {
+                                                    // console.log("bbbbbbbb");
+                                                    return {
+                                                        ...subscription,
+                                                        value: subscription.id,
+                                                        label: subscription.subcription_kind.name,
+                                                    };
+                                                })}
+                                                onChange={this.onChangeSubscription}
+                                                clearable={false}
+                                            />
+                                        </div> : null
+                                    }
+
+                                </div>
+
+
+                                <FormInputText
+                                    label="Thời gian khuyến mãi"
+                                    name="extra_time"
+                                    type="number"
+                                    value={this.props.select.extra_time}
+                                    updateFormData={this.updateFormData}
+                                    minValue="0"
                                 />
-                            </div>
-                            {this.props.select.subscriptions ?
-                                <div className="form-group">
-                                    <label className="label-control">Gói đăng kí</label>
-                                    <Select
-                                        name="subscription"
-                                        value={this.props.select ? this.props.select.subscription_id : ""}
-                                        options={this.props.select && this.props.select.subscriptions.map(subscription => {
-                                            // console.log("bbbbbbbb");
-                                            return {
-                                                ...subscription,
-                                                value: subscription.id,
-                                                label: subscription.subcription_kind.name,
-                                            };
-                                        })}
-                                        onChange={this.onChangeSubscription}
-                                        clearable={false}
-                                    />
-                                </div> : null
-                            }
 
-                        </div>
-
-
-                        <FormInputText
-                            label="Thời gian khuyến mãi"
-                            name="extra_time"
-                            type="number"
-                            value={this.props.select.extra_time}
-                            updateFormData={this.updateFormData}
-                            minValue="0"
-                        />
-
-                        <FormInputText
-                            label="Ghi chú"
-                            name="note"
-                            type="text"
-                            value={this.props.select.note}
-                            updateFormData={this.updateFormData}
-                        />
-                        <div className="row">
-                            <div className="col-md-6">
-                                <FormInputDateTime
-                                    format={DATETIME_FORMAT_SQL}
-                                    name="start_time"
-                                    id="start_time"
-                                    label="Từ ngày"
-                                    value={this.props.select.start_time}
+                                <FormInputText
+                                    label="Ghi chú"
+                                    name="note"
+                                    type="text"
+                                    value={this.props.select.note}
                                     updateFormData={this.updateFormData}
                                 />
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="control-label">
-                                        Đến ngày
-                                    </label>
-                                    <div>
-                                        <input
-                                            value={this.props.select.end_time}
-                                            disabled={true}
-                                            className="form-control"
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <FormInputDateTime
+                                            format={DATETIME_FORMAT_SQL}
+                                            name="start_time"
+                                            id="start_time"
+                                            label="Từ ngày"
+                                            value={this.props.select.start_time}
+                                            updateFormData={this.updateFormData}
                                         />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            <label className="control-label">
+                                                Đến ngày
+                                            </label>
+                                            <div>
+                                                <input
+                                                    value={this.props.select.end_time}
+                                                    disabled={true}
+                                                    className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{display : "flex" , justifyContent : "flex-end"}}>
+                                    <div >
+                                        {this.props.isSavingSubscription ?
+                                            (
+                                                <button className="btn btn-fill btn-rose disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/>
+                                                    {'Đang lưu'}
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button className="btn btn-fill btn-rose" type="button"
+                                                        onClick={(e) => {
+                                                            this.addSubscription(e);
+                                                        }}>
+                                                    <i className="material-icons">save</i>
+                                                    {'Lưu'}
+                                                </button>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-8"/>
-                            <div className="col-md-4">
-                                {this.props.isSavingSubscription ?
-                                    (
-                                        <button className="btn btn-fill btn-rose disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            {'Đang lưu'}
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-fill btn-rose" type="button"
-                                                onClick={(e) => {
-                                                    this.addSubscription(e);
-                                                }}>
-                                            <i className="material-icons">save</i>
-                                            {'Lưu'}
-                                        </button>
-                                    )
-                                }
-                            </div>
-                        </div>
+                        }
                     </div>
-                }
+                </div>
             </div>
         );
     }

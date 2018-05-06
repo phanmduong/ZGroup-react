@@ -64,12 +64,10 @@ class HistoryDebtContainer extends React.Component {
                         <div className="col-md-12">
 
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">home</i>
-                                </div>
+
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Quản lý công nợ</h4>
+                                    <h4 className="card-title"><strong> Quản lý công nợ</strong> </h4>
                                     <div>
                                         {
                                             this.props.isLoadingCompanies ? <Loading/> :

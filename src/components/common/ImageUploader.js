@@ -5,9 +5,11 @@ import {
     isEmptyInput,
     showNotification,
     showErrorNotification,
+    checkFileSize,
 } from "../../helpers/helper";
-import { NO_IMAGE,MANAGE_API_URL } from "../../constants/env";
+import { NO_IMAGE, MANAGE_API_URL } from "../../constants/env";
 import { ProgressBar } from "react-bootstrap";
+
 
 function uploadImage(file, completeHandler, progressHandler, error) {
     let url = MANAGE_API_URL + "/file/upload";
@@ -56,6 +58,7 @@ class ImageUploader extends React.Component {
 
     handleFileUpload(event) {
         const file = event.target.files[0];
+        if ((this.props.image_size && !checkFileSize(file, this.props.image_size))) return;
         this.setState({
             percent: 0,
             isUploading: true,
@@ -63,6 +66,7 @@ class ImageUploader extends React.Component {
         uploadImage(file, this.completeHandler, this.progressHandler, () => {
             showErrorNotification("Có lỗi xảy ra");
         });
+
     }
     render() {
         const { props } = this;
@@ -126,23 +130,23 @@ class ImageUploader extends React.Component {
                                 />{" "}
                             </div>
                         ) : (
-                            <input
-                                type="file"
-                                accept=".jpg,.png,.gif"
-                                onChange={this.handleFileUpload}
-                                style={{
-                                    cursor: "pointer",
-                                    opacity: "0.0",
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    bottom: 0,
-                                    right: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            />
-                        )}
+                                <input
+                                    type="file"
+                                    accept=".jpg,.png,.gif"
+                                    onChange={this.handleFileUpload}
+                                    style={{
+                                        cursor: "pointer",
+                                        opacity: "0.0",
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        right: 0,
+                                        width: "100%",
+                                        height: "100%",
+                                    }}
+                                />
+                            )}
                     </a>
                 </TooltipButton>
             </div>
@@ -154,6 +158,7 @@ ImageUploader.propTypes = {
     handleFileUpload: PropTypes.func.isRequired,
     tooltipText: PropTypes.string.isRequired,
     image_url: PropTypes.string.isRequired,
+    image_size: PropTypes.number,
 };
 
 export default ImageUploader;

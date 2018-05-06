@@ -3,12 +3,12 @@
  */
 import * as types from "../../constants/actionTypes";
 import * as registerStudentsApi from "./registerStudentsApi";
-import { showErrorNotification, showNotification, showTypeNotification } from "../../helpers/helper";
+import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
 export function changeInfoStudent(info, success) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_INFO_STUDENT,
         });
@@ -39,7 +39,7 @@ export function changeInfoStudent(info, success) {
 }
 
 export function loadBaseFilter() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BASE_FILTER,
         });
@@ -61,7 +61,7 @@ export function loadBaseFilter() {
 }
 
 export function loadClassFilter(genid) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASS_FILTER,
         });
@@ -83,7 +83,7 @@ export function loadClassFilter(genid) {
 }
 
 export function loadSalerFilter() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SALER_FILTER,
         });
@@ -105,7 +105,7 @@ export function loadSalerFilter() {
 }
 
 export function loadCampaignFilter() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CAMPAIGN_FILTER,
         });
@@ -126,27 +126,28 @@ export function loadCampaignFilter() {
     };
 }
 
-export function loadRegisterStudent(
-    page,
-    genId,
-    search,
-    salerId,
-    campaignId,
-    classId,
-    paid_status,
-    class_status,
-    startTime,
-    endTime,
-    baseId,
-    appointment_payment,
-) {
-    return function(dispatch) {
+export function loadRegisterStudent(page,
+                                    limit,
+                                    genId,
+                                    search,
+                                    salerId,
+                                    campaignId,
+                                    classId,
+                                    paid_status,
+                                    class_status,
+                                    startTime,
+                                    endTime,
+                                    baseId,
+                                    appointment_payment,
+                                    query_coupon,) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
         registerStudentsApi
             .getRegisterStudent(
                 page,
+                limit,
                 genId,
                 search,
                 salerId,
@@ -158,8 +159,9 @@ export function loadRegisterStudent(
                 endTime,
                 baseId,
                 appointment_payment,
+                query_coupon,
             )
-            .then(function(res) {
+            .then(function (res) {
                 dispatch(loadDataSuccessful(res));
             })
             .catch(error => {
@@ -171,22 +173,20 @@ export function loadRegisterStudent(
     };
 }
 
-export function loadAllRegisterStudent(
-    page,
-    genId,
-    search,
-    salerId,
-    campaignId,
-    classId,
-    paid_status,
-    class_status,
-    startTime,
-    endTime,
-    baseId,
-    appointment_payment,
-    exportExcel,
-) {
-    return function(dispatch) {
+export function loadAllRegisterStudent(page,
+                                       genId,
+                                       search,
+                                       salerId,
+                                       campaignId,
+                                       classId,
+                                       paid_status,
+                                       class_status,
+                                       startTime,
+                                       endTime,
+                                       baseId,
+                                       appointment_payment,
+                                       exportExcel,) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
         });
@@ -205,20 +205,20 @@ export function loadAllRegisterStudent(
                 baseId,
                 appointment_payment,
             )
-            .then(function(res) {
+            .then(function (res) {
                 dispatch({
                     type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,
                     excel: res.data.data,
                 });
                 exportExcel();
-            })
-            .catch(error => {
-                console.log(error);
-                showErrorNotification("Lỗi kết nối mạng!");
-                dispatch({
-                    type: types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR,
-                });
             });
+        // .catch(error => {
+        //     console.log(error);
+        //     showErrorNotification("Lỗi kết nối mạng!");
+        //     dispatch({
+        //         type: types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR,
+        //     });
+        // });
     };
 }
 
@@ -229,14 +229,16 @@ export function loadDataSuccessful(res) {
         genId: res.data.gen.id,
         currentPage: res.data.paginator.current_page,
         totalPages: res.data.paginator.total_pages,
+        totalCount: res.data.paginator.total_count,
+        limit: res.data.paginator.limit,
         isLoading: false,
         error: false,
     };
 }
 
 export function loadGensData() {
-    return function(dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_GENS_REGISTER_STUDENT });
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_GENS_REGISTER_STUDENT});
         registerStudentsApi
             .loadGens()
             .then(res => {
@@ -249,13 +251,13 @@ export function loadGensData() {
                 });
             })
             .catch(() => {
-                dispatch({ type: types.LOAD_GENS_REGISTER_STUDENT_ERROR });
+                dispatch({type: types.LOAD_GENS_REGISTER_STUDENT_ERROR});
             });
     };
 }
 
 export function loadHistoryCallStudent(studentId, registerId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_CALL_STUDENT,
         });
@@ -277,17 +279,15 @@ export function loadHistoryCallStudent(studentId, registerId) {
     };
 }
 
-export function changeCallStatusStudent(
-    callStatus,
-    studentId,
-    telecallId,
-    genId,
-    note,
-    closeModal,
-    callerId,
-    appointmentPayment,
-) {
-    return function(dispatch) {
+export function changeCallStatusStudent(callStatus,
+                                        studentId,
+                                        telecallId,
+                                        genId,
+                                        note,
+                                        closeModal,
+                                        callerId,
+                                        appointmentPayment,) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT,
         });
@@ -320,7 +320,7 @@ export function changeCallStatusStudent(
 }
 
 export function deleteRegisterStudent(registerId) {
-    return function(dispatch) {
+    return function (dispatch) {
         showTypeNotification("Đang xóa đăng kí", "info");
         dispatch({
             type: types.BEGIN_DELETE_REGISTER_STUDENT,
@@ -351,7 +351,7 @@ export function deleteRegisterStudent(registerId) {
 }
 
 export function loadClasses(registerId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT,
         });
@@ -372,7 +372,7 @@ export function loadClasses(registerId) {
 }
 
 export function loadRegisterByStudent(studentId) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT,
         });
@@ -393,7 +393,7 @@ export function loadRegisterByStudent(studentId) {
 }
 
 export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_CONFIRM_CHANGE_CLASS_REGISTER_STUDENT,
         });

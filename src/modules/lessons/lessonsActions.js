@@ -1,14 +1,14 @@
-import * as types       from '../../constants/actionTypes';
-import * as lessonsApi   from './lessonsApi';
-import * as helper      from '../../helpers/helper';
-import {browserHistory}  from 'react-router';
+import * as types from '../../constants/actionTypes';
+import * as lessonsApi from './lessonsApi';
+import * as helper from '../../helpers/helper';
+import { browserHistory } from 'react-router';
 // import * as courseApi from "../courses/courseApi";
 
 
 export function loadLessonData(id) {
 
     return function (dispatch) {
-        dispatch({type: types.BEGIN_LOAD_DATA_LESSON});
+        dispatch({ type: types.BEGIN_LOAD_DATA_LESSON });
         lessonsApi.loadLessonDetail(id)
             .then((res) => {
                 dispatch({
@@ -17,7 +17,7 @@ export function loadLessonData(id) {
                 });
             })
             .catch(() => {
-                dispatch({type: types.LOAD_DATA_LESSON_ERROR});
+                dispatch({ type: types.LOAD_DATA_LESSON_ERROR });
             });
     };
 }
@@ -39,7 +39,7 @@ export function clearData(course_id) {
             type: types.CLEAR_DATA_LESSON,
             data: {
                 id: null,
-                course_id:course_id,
+                course_id: course_id,
                 name: "",
                 description: "",
                 detail: "",
@@ -59,7 +59,7 @@ export function clearData(course_id) {
 
 export function createLesson(data, courseid) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_CREATE_LESSON, data: data});
+        dispatch({ type: types.BEGIN_CREATE_LESSON, data: data });
         helper.showNotification("Đang tạo...");
         lessonsApi.createLesson(data)
             .then(res => {
@@ -72,13 +72,13 @@ export function createLesson(data, courseid) {
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
-                dispatch({type: types.CREATE_LESSON_ERROR});
+                dispatch({ type: types.CREATE_LESSON_ERROR });
             });
     };
 }
 export function editLesson(data) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_EDIT_LESSON, data: data});
+        dispatch({ type: types.BEGIN_EDIT_LESSON, data: data });
         helper.showNotification("Đang sửa...");
         lessonsApi.editLesson(data)
             .then(res => {
@@ -91,13 +91,13 @@ export function editLesson(data) {
             })
             .catch((err) => {
                 helper.sweetAlertError("Có lỗi xảy ra! " + err);
-                dispatch({type: types.EDIT_LESSON_ERROR});
+                dispatch({ type: types.EDIT_LESSON_ERROR });
             });
     };
 }
 export function loadTerms(courseId) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_LOAD_TERMS});
+        dispatch({ type: types.BEGIN_LOAD_TERMS });
         lessonsApi.loadTerms(courseId)
             .then(res => {
                 dispatch({
@@ -106,24 +106,19 @@ export function loadTerms(courseId) {
                 });
             })
             .catch(() => {
-                dispatch({type: types.LOAD_TERMS_ERROR});
+                dispatch({ type: types.LOAD_TERMS_ERROR });
             });
     };
 }
 
-export function uploadLessonIcon(file) {
+export function uploadLessonIcon(url) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_UPLOAD_ICON_LESSON});
-        lessonsApi.uploadImage(file, function (event) {
-            helper.showNotification("Đăng ảnh thành công.");
-            let data = JSON.parse(event.currentTarget.response);
-            dispatch({
-                type: types.UPLOAD_ICON_LESSON_SUCCESS,
-                url: data.link,
-            });
-        }, () => {
-            helper.showErrorNotification("Đăng ảnh thất bại.");
-            dispatch({type: types.UPLOAD_ICON_LESSON_FAILED});
+
+
+        dispatch({
+            type: types.UPLOAD_ICON_LESSON_SUCCESS,
+            url,
         });
+
     };
 }

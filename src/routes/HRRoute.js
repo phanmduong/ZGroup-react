@@ -10,7 +10,7 @@ import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssi
 import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
 import ProfileContainer from "../modules/profile/ProfileContainer";
 import HistoryExtensionWorkContainer from "../modules/historyExtensionWork/HistoryExtensionWorkContainer";
-import SummaryStaffContainer from "../modules/summaryStaff/SummaryStaffContainer";
+import summaryStaffContainer from "../modules/summaryStaff/SummaryStaffContainer";
 /**
  * Tab Nhân sự
  */
@@ -88,6 +88,6 @@ export default [
     },
     {
         path: "/hr/job-assignment/summary-staff",
-        component: SummaryStaffContainer,
+        component: summaryStaffContainer,
     },
 ];

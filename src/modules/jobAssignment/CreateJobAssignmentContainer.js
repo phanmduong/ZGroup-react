@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
@@ -12,19 +12,19 @@ import ListStaffs from './ListStaffs';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import * as helper from '../../helpers/helper';
 import moment from "moment/moment";
-import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../constants/constants";
 import MemberReactSelectOption from "../tasks/board/filter/MemberReactSelectOption";
-import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
+import { ListGroup, ListGroupItem, Modal } from "react-bootstrap";
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 import Avatar from "../../components/common/Avatar";
-import {browserHistory} from "react-router";
+import { browserHistory } from "react-router";
 
 class CreateJobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state={
-          staffId: null,
-          show: false,
+        this.state = {
+            staffId: null,
+            show: false,
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.updateFormDataType = this.updateFormDataType.bind(this);
@@ -35,62 +35,62 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     componentWillMount() {
-//        console.log(this.props);
+        //        console.log(this.props);
         helper.setFormValidation('#form-job-assignment');
         this.props.jobAssignmentAction.loadCurrencies();
         this.props.jobAssignmentAction.loadStaffs();
-        if(this.props.params.workId)
+        if (this.props.params.workId)
             this.props.jobAssignmentAction.loadWork(this.props.params.workId);
         else this.props.jobAssignmentAction.resetDataCreate();
     }
 
     componentWillReceiveProps(nextProps) {
         //console.log("next",nextProps);
-        if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs)
-            if(this.props.params.workId)
+        if (this.props.isLoadingStaffs && !nextProps.isLoadingStaffs)
+            if (this.props.params.workId)
                 this.props.jobAssignmentAction.loadWork(this.props.params.workId);
             else this.props.jobAssignmentAction.resetDataCreate();
 
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         helper.setFormValidation('#form-job-assignment');
     }
 
-    updateFormData(e){
-        if(!e) return;
+    updateFormData(e) {
+        if (!e) return;
         let feild = e.target.name;
         let value = e.target.value;
-        let newdata = {...this.props.data,[feild] : value};
+        let newdata = { ...this.props.data, [feild]: value };
         this.props.jobAssignmentAction.updateFormData(newdata);
     }
 
-    updateFormDataType(e){
-        if(!e) return;
+    updateFormDataType(e) {
+        if (!e) return;
         let value = e.value;
-        let newdata = {...this.props.data,type : value};
+        let newdata = { ...this.props.data, type: value };
         this.props.jobAssignmentAction.updateFormData(newdata);
     }
 
-    updateFormDataBonusType(e){
-        if(!e) return;
-        let newdata = {...this.props.data,currency : e};
+    updateFormDataBonusType(e) {
+        if (!e) return;
+        let newdata = { ...this.props.data, currency: e };
         this.props.jobAssignmentAction.updateFormData(newdata);
     }
 
 
-    checkValid(){
+    checkValid() {
         let data = this.props.data;
         if ($('#form-job-assignment').valid()) {
-            if(data.deadline == "0000-00-00 00:00:00"){
+            if (data.deadline == "0000-00-00 00:00:00") {
                 helper.showErrorNotification("Vui lòng chọn ngày!");
                 return false;
             }
-            if(data.staffs && data.staffs.length == 0){
+            if (data.staffs && data.staffs.length == 0) {
                 helper.showErrorNotification("Vui lòng chọn ít nhất một nhân viên!");
                 return false;
             }
-            if(!data.payer.id){
+            if (!data.payer.id) {
                 helper.showErrorNotification("Vui lòng chọn người chi trả!");
                 return false;
             }
@@ -99,25 +99,25 @@ class CreateJobAssignmentContainer extends React.Component {
         return false;
     }
 
-    submit(){
+    submit() {
         if (this.checkValid()) {
             helper.showNotification("Đang lưu...");
-            if(!this.props.params.workId)
+            if (!this.props.params.workId)
                 this.props.jobAssignmentAction.createWork(this.props.data);
             else this.props.jobAssignmentAction.editWork(this.props.data);
         }
     }
 
-    onPayerChange(payer){
-        if(!payer) return;
-        let newdata = {...this.props.data, payer};
+    onPayerChange(payer) {
+        if (!payer) return;
+        let newdata = { ...this.props.data, payer };
         this.props.jobAssignmentAction.updateFormData(newdata);
     }
 
     render() {
-        let {payer} = this.props.data;
-        let time = moment(this.props.data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
-        
+        let { payer } = this.props.data;
+        let time = moment(this.props.data.deadline || "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+        payer = payer ? payer : {};
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -126,18 +126,14 @@ class CreateJobAssignmentContainer extends React.Component {
                         (this.props.isLoading || this.props.isLoadingStaffs)
 
                             ?
-                            <Loading/> :
+                            <Loading /> :
 
                             <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
                                 <div className="row">
                                     <div className="col-md-8">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">assignment</i>
-                                            </div>
-
                                             <div className="card-content">
-                                                <h4 className="card-title">Tạo công việc</h4>
+                                                <h4 className="card-title"><strong>Tạo công việc</strong></h4>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <FormInputText
@@ -156,9 +152,9 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         <ReactSelect
                                                             disabled={this.props.isLoading}
                                                             options={[
-                                                                {value: 'personal', label: 'Cá nhân',},
-                                                                {value: 'team', label: 'Nhóm',},
-                                                                {value: 'person_project', label: 'Dự án riêng',},
+                                                                { value: 'personal', label: 'Cá nhân', },
+                                                                { value: 'team', label: 'Nhóm', },
+                                                                { value: 'person_project', label: 'Dự án riêng', },
                                                             ]}
                                                             onChange={this.updateFormDataType}
                                                             value={this.props.data.type || ""}
@@ -175,7 +171,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             updateFormData={this.updateFormData}
                                                             value={this.props.data.cost || 0}
 
-                                                        /></div>
+                                                        /></div><br />
                                                     <div className="col-md-12">
                                                         <FormInputDateTime
                                                             label="Deadline"
@@ -204,22 +200,22 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             onChange={this.updateFormDataBonusType}
                                                             value={this.props.data.currency || ""}
                                                             defaultMessage="Đơn vị"
-                                                            style={{marginTop: "20px", width: "100%"}}
+                                                            style={{ marginTop: "20px", width: "100%" }}
                                                         /></div>
 
                                                     {this.props.isSaving ?
                                                         <div className="col-md-12"
-                                                             style={{display: "flex", flexFlow: "row-reverse"}}>
+                                                            style={{ display: "flex", flexFlow: "row-reverse" }}>
                                                             <button disabled className="btn btn-rose  disabled"
-                                                                    type="button">
-                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                                type="button">
+                                                                <i className="fa fa-spinner fa-spin" /> Đang tải lên
                                                             </button>
                                                         </div>
                                                         :
                                                         <div className="col-md-12"
-                                                             style={{display: "flex", flexFlow: "row-reverse"}}>
+                                                            style={{ display: "flex", flexFlow: "row-reverse" }}>
                                                             <button
-                                                                className="btn btn-fill btn-rose"
+                                                                className="btn btn-fill"
                                                                 type="button"
                                                                 onClick={() => {
                                                                     helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
@@ -231,7 +227,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             > Hủy
                                                             </button>
                                                             <button onClick={this.submit}
-                                                                    className="btn btn-rose">Lưu
+                                                                className="btn btn-rose">Lưu
                                                             </button>
                                                         </div>
                                                     }
@@ -241,12 +237,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                     </div>
                                     <div className="col-md-4">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">contacts</i>
-                                            </div>
-
                                             <div className="card-content">
-                                                <h4 className="card-title">Người chi trả</h4>
+                                                <h4 className="card-title"><strong>Người chi trả</strong></h4><br />
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <label>
@@ -254,7 +246,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         </label>
                                                         <ReactSelect
                                                             placeholder="Nhập tên để tìm kiếm"
-                                                            style={{width: "100%"}}
+                                                            style={{ width: "100%" }}
                                                             value={payer}
                                                             name="payer"
                                                             multi={false}
@@ -265,7 +257,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <br/>
+                                                <br />
                                                 <ListGroup>
                                                     <ListGroupItem
                                                         onClick={(e) => {
@@ -276,18 +268,18 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             justifyContent: "space-between",
                                                             lineHeight: "30px"
                                                         }}>
-                                                            <div style={{display: "flex"}}>
+                                                            <div style={{ display: "flex" }}>
                                                                 <Avatar size={30}
-                                                                        url={helper.validateLinkImage(payer.avatar_url)}/>
-                                                                {payer.id ? (payer.label ||payer.name) :  "Chưa chọn nhân viên"}
+                                                                    url={helper.validateLinkImage(payer.avatar_url)} />
+                                                                {payer.id ? (payer.label || payer.name) : "Chưa chọn nhân viên"}
                                                             </div>
-                                                            <div style={{display: "flex"}}>{
+                                                            <div style={{ display: "flex" }}>{
                                                                 payer.id ?
                                                                     <div onClick={() => {
-                                                                        return this.setState({show: true,staffId: payer.id});
+                                                                        return this.setState({ show: true, staffId: payer.id });
                                                                     }}><i className="material-icons">info</i></div>
                                                                     :
-                                                                    <div/>
+                                                                    <div />
                                                             }</div>
 
                                                         </div>
@@ -296,12 +288,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                             </div>
                                         </div>
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose" style={{zIndex: 0}}>
-                                                <i className="material-icons">people</i>
-                                            </div>
-
                                             <div className="card-content">
-                                                <h4 className="card-title">Người thực hiện</h4>
+                                                <h4 className="card-title"><strong>Người thực hiện</strong></h4>
                                                 <div className="row">
                                                     <div className="col-sm-12">
                                                         <div className="form-group" hidden={this.props.isLoadingStaffs}>
@@ -313,13 +301,13 @@ class CreateJobAssignmentContainer extends React.Component {
                                                                 optionRenderer={(option) => {
                                                                     return (
                                                                         <ItemReactSelect label={option.label}
-                                                                                         url={helper.validateLinkImage(option.avatar_url)}/>
+                                                                            url={helper.validateLinkImage(option.avatar_url)} />
                                                                     );
                                                                 }}
                                                                 valueRenderer={(option) => {
                                                                     return (
                                                                         <ItemReactSelect label={option.label}
-                                                                                         url={helper.validateLinkImage(option.avatar_url)}/>
+                                                                            url={helper.validateLinkImage(option.avatar_url)} />
                                                                     );
                                                                 }}
                                                                 placeholder="Chọn nhân viên"
@@ -330,7 +318,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     </div>
                                                     <ListStaffs staffs={this.props.data.staffs} remove={(e) => {
                                                         this.props.jobAssignmentAction.removeStaff(e);
-                                                    }}/>
+                                                    }} />
 
 
                                                 </div>
@@ -343,10 +331,10 @@ class CreateJobAssignmentContainer extends React.Component {
                 </div>
                 <Modal
                     show={this.state.show}
-                    onHide={()=>{this.setState({show: false});}}
+                    onHide={() => { this.setState({ show: false }); }}
                     bsSize="large"
                 >
-                    <Modal.Header closeButton/>
+                    <Modal.Header closeButton />
                     <Modal.Body>
                         <InfoStaffContainer staffId={this.state.staffId} />
                     </Modal.Body>
@@ -369,12 +357,12 @@ CreateJobAssignmentContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading : state.jobAssignment.isLoading,
-        isLoadingStaffs : state.jobAssignment.isLoadingStaffs,
-        isSaving : state.jobAssignment.isSaving,
-        data : state.jobAssignment.data,
-        staffs : state.jobAssignment.staffs,
-        currencies : state.jobAssignment.currencies,
+        isLoading: state.jobAssignment.isLoading,
+        isLoadingStaffs: state.jobAssignment.isLoadingStaffs,
+        isSaving: state.jobAssignment.isSaving,
+        data: state.jobAssignment.data,
+        staffs: state.jobAssignment.staffs,
+        currencies: state.jobAssignment.currencies,
     };
 }
 

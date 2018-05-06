@@ -1,22 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
 import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
 import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 import ReactSelect from 'react-select';
-import {NO_IMAGE} from "../../../constants/env";
-import {CirclePicker} from 'react-color';
+import { CirclePicker } from 'react-color';
 import ReactEditor from '../../../components/common/ReactEditor';
-import {linkUploadImageEditor} from '../../../constants/constants';
+import { linkUploadImageEditor } from '../../../constants/constants';
 import Loading from "../../../components/common/Loading";
+import ImageUploader from "../../../components/common/ImageUploader";
 
-const btn = {
-    width: "100%",
-};
 
 class coursesCreateEditGeneral extends React.Component {
     constructor(props, context) {
@@ -48,34 +45,25 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     updateEditor(content) {
-        let data = {...this.props.data};
+        let data = { ...this.props.data };
         data.detail = content;
         this.props.coursesActions.updateData(data);
     }
 
-    uploadAvatar(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2))
-            this.props.coursesActions.uploadAvatar(file);
+    uploadAvatar(url) {
+        this.props.coursesActions.uploadAvatar(url);
     }
 
-    uploadLogo(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2)) {
-            this.props.coursesActions.uploadLogo(file);
-
-        }
-
+    uploadLogo(url) {
+        this.props.coursesActions.uploadLogo(url);
     }
 
-    uploadCover(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2))
-            this.props.coursesActions.uploadCover(file);
+    uploadCover(url) {
+        this.props.coursesActions.uploadCover(url);
     }
 
     changeColor(color) {
-        let data = {...this.props.data};
+        let data = { ...this.props.data };
         data.color = color.hex;
         this.props.coursesActions.updateData(data);
     }
@@ -89,7 +77,7 @@ class coursesCreateEditGeneral extends React.Component {
             feild = "type_id";
             value = e.id;
         }
-        let data = {...this.props.data};
+        let data = { ...this.props.data };
         data[feild] = value;
         this.props.coursesActions.updateData(data);
     }
@@ -202,7 +190,7 @@ class coursesCreateEditGeneral extends React.Component {
                                             </label>
                                             <ReactSelect
                                                 placeholder="Nhập nhãn"
-                                                style={{width: "100%"}}
+                                                style={{ width: "100%" }}
                                                 value={this.props.data.categories}
                                                 name="categories"
                                                 multi={true}
@@ -230,7 +218,7 @@ class coursesCreateEditGeneral extends React.Component {
 
                                     {this.props.isCommitting ?
                                         <button className="btn btn-rose btn-fill disabled" type="button">
-                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                            <i className="fa fa-spinner fa-spin" /> Đang tải lên
                                         </button>
                                         :
                                         <button
@@ -245,120 +233,64 @@ class coursesCreateEditGeneral extends React.Component {
 
                         </div>
                     </div>
+                    <div className="">
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <h4 className="card-title"><strong>Chi tiết khoá học</strong>
+                                    </h4><br />
+                                    {this.props.isLoading ? <Loading /> :
+                                        <ReactEditor
+                                            urlPost={linkUploadImageEditor()}
+                                            fileField="image"
+                                            name="detail"
+                                            updateEditor={this.updateEditor}
+                                            value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
+                                        />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-4">
                     <div className="card">
                         <div className="card-content">
-                            {/*<div className="tab-content">*/}
-                            {/*/!*<h4 className="card-title">*!/*/}
-                            {/*/!*<strong>Thông tin về form</strong>*!/*/}
-                            {/*/!*</h4>*!/*/}
-                            {/*</div>  */}
-                            {/*<br/>  */}
-                            <img
-                                src={helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url}/>
-                            {this.props.isUpdatingLogo ?
-                                (
-                                    <button className="btn btn-rose  disabled" type="button" style={btn}>
-                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button className="btn btn-fill btn-rose" type="button" style={btn}>
-                                        Chọn ảnh icon
-                                        <input type="file"
-                                               accept=".jpg,.png,.gif"
-                                               onChange={this.uploadLogo}
-                                               style={{
-                                                   cursor: 'pointer',
-                                                   opacity: "0.0",
-                                                   position: "absolute",
-                                                   top: 0,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0,
-                                                   width: "100%",
-                                                   height: "100%"
-                                               }}
-                                        />
-                                    </button>
-                                )
-                            }
-                            <img
-                                src={helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url}/>
-                            {this.props.isUpdatingAvatar ?
-                                (
-                                    <button className="btn btn-rose  disabled" type="button" style={btn}>
-                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button className="btn btn-fill btn-rose" type="button" style={btn}>
-                                        Chọn ảnh đại diện
-                                        <input type="file"
-                                               accept=".jpg,.png,.gif"
-                                               onChange={this.uploadAvatar}
-                                               style={{
-                                                   cursor: 'pointer',
-                                                   opacity: "0.0",
-                                                   position: "absolute",
-                                                   top: 0,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0,
-                                                   width: "100%",
-                                                   height: "100%"
-                                               }}
-                                        />
-                                    </button>
-                                )
-                            }
-                            <img
-                                src={helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url}/>
-                            {this.props.isUpdatingCover ?
-                                (
-                                    <button className="btn btn-rose  disabled" type="button" style={btn}>
-                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button className="btn btn-fill btn-rose" type="button" style={btn}>
-                                        Chọn cover
-                                        <input type="file"
-                                               accept=".jpg,.png,.gif"
-                                               onChange={this.uploadCover}
-                                               style={{
-                                                   cursor: 'pointer',
-                                                   opacity: "0.0",
-                                                   position: "absolute",
-                                                   top: 0,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0,
-                                                   width: "100%",
-                                                   height: "100%"
-                                               }}
-                                        />
-                                    </button>
-                                )
-                            }
+                            <ImageUploader
+                                handleFileUpload={this.uploadLogo}
+                                tooltipText="Chọn ảnh icon"
+                                image_url={this.props.data.icon_url}
+                                image_size={2}
+                            />
+
+                            <ImageUploader
+                                handleFileUpload={this.uploadAvatar}
+                                tooltipText="Chọn ảnh đại diện"
+                                image_url={this.props.data.image_url}
+                                image_size={2}
+                            />
+
+                            <ImageUploader
+                                handleFileUpload={this.uploadCover}
+                                tooltipText="Chọn ảnh cover"
+                                image_url={this.props.data.cover_url}
+                                image_size={2}
+                            />
+
 
                             <div className="card-content">
                                 <div className="tab-content"><h4 className="card-title"><strong>Chọn màu</strong>
                                 </h4></div>
-                                <br/>
+                                <br />
                                 <CirclePicker width="100%"
-                                              color={this.props.data.color}
-                                              onChangeComplete={this.changeColor}
+                                    color={this.props.data.color}
+                                    onChangeComplete={this.changeColor}
                                 />
                             </div>
 
                             {this.props.isCommitting ?
                                 <button className="btn btn-rose  disabled" type="button">
-                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                    <i className="fa fa-spinner fa-spin" /> Đang tải lên
                                 </button>
                                 :
 
@@ -375,25 +307,25 @@ class coursesCreateEditGeneral extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="">
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <h4 className="card-title"><strong>Chi tiết khoá học</strong>
-                                </h4><br/>
-                                {this.props.isLoading ? <Loading/> :
-                                    <ReactEditor
-                                        urlPost={linkUploadImageEditor()}
-                                        fileField="image"
-                                        name="detail"
-                                        updateEditor={this.updateEditor}
-                                        value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
-                                    />
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="">*/}
+                {/*<div className="card">*/}
+                {/*<div className="card-content">*/}
+                {/*<div className="tab-content">*/}
+                {/*<h4 className="card-title"><strong>Chi tiết khoá học</strong>*/}
+                {/*</h4><br/>*/}
+                {/*{this.props.isLoading ? <Loading/> :*/}
+                {/*<ReactEditor*/}
+                {/*urlPost={linkUploadImageEditor()}*/}
+                {/*fileField="image"*/}
+                {/*name="detail"*/}
+                {/*updateEditor={this.updateEditor}*/}
+                {/*value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}*/}
+                {/*/>*/}
+                {/*}*/}
+                {/*</div>*/}
+                {/*</div>*/}
+                {/*</div>*/}
+                {/*</div>*/}
             </div>
 
         );

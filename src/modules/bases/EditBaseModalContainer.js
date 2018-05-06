@@ -36,10 +36,6 @@ class EditBaseModalContainer extends React.Component {
         this.props.baseListActions.handleBaseEditModal(base);
     }
 
-    changeAvatar(e) {
-        const file = e.target.files[0];
-        this.props.baseListActions.changeAvatar(file);
-    }
 
     handleImages(e) {
         const fileList = e.target.files;

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import Chart from "./SummaryMaketingCampaignComponent";
 import * as helper from '../../helpers/helper';
-import {Panel} from 'react-bootstrap';
+import {OverlayTrigger, Panel, Tooltip} from 'react-bootstrap';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment/moment";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
@@ -37,7 +37,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                 startTime: startTime,
                 endTime: endTime,
             },
-            month: {year: year, month:  month},
+            month: {year: year, month: month},
         };
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadSummary = this.loadSummary.bind(this);
@@ -110,10 +110,9 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
         this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(value);
     }
 
-    loadSummary(
-        // startTime,endTime
+    loadSummary(// startTime,endTime
     ) {
-        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(this.state.selectBaseId,this.state.time.startTime,this.state.time.endTime);
+        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(this.state.selectBaseId, this.state.time.startTime, this.state.time.endTime);
     }
 
     openFilterPanel() {
@@ -139,6 +138,8 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
     }
 
     exportExcel() {
+
+
         let wb = helper.newWorkBook();
         let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10},];//độ rộng cột
         let summary = helper.groupBy(this.props.summary, item => item.campaign.id, ["campaign_id", "registers"]);
@@ -175,13 +176,17 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
 
 
     render() {
+        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
+        const NotFilter = <Tooltip id="tooltip">Tắt lọc</Tooltip>;
+        const Export = <Tooltip id="tooltip">Xuất file excel</Tooltip>;
+
         return (
             <div>
                 {this.props.isLoadingBases ? <Loading/> :
                     (
                         <div>
                             <div className="row">
-                                <div className="col-sm-3 col-xs-5">
+                                <div className="col-sm-2 col-xs-5">
 
                                     <SelectMonthBox
                                         theme="light"
@@ -194,59 +199,83 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                         closeBox={this.handleAMonthDismiss}
                                     />
                                 </div>
-                                <div className="col-sm-3 col-xs-5">
+                                <div className="col-sm-2 col-xs-5">
                                     <Select
+                                        className="btn-round"
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
-                                <div className="col-sm-2 col-xs-5">
-
-                                    {
-                                        this.state.isShowMonthBox ?
-                                            <button
-                                                style={{width: '100%'}}
-                                                className="btn btn-info btn-rose disabled"
-                                            >
-                                                <i className="material-icons disabled">filter_list</i>
-                                                Lọc
-                                            </button>
-                                            :
-                                            <button
-                                                style={{width: '100%'}}
-                                                onClick={this.openFilterPanel}
-                                                className="btn btn-info btn-rose "
-                                            >
-                                                <i className="material-icons">filter_list</i>
-                                                Lọc
-                                            </button>
-                                    }
-                                </div>
-
-                                <div className="col-sm-3 col-xs-5">
-                                    <button className="btn btn-fill btn-rose"
-                                            onClick={this.exportExcel}
-                                    >
-                                        Xuất ra Excel
-                                        <div className="ripple-container"/>
-                                    </button>
-                                </div>
-
                             </div>
-                            <Panel collapsible expanded={this.state.openFilterPanel}>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
-                                            <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
+
+
+                            <div className="card">
+                                <div className="card-content">
+                                    <div className="tab-content">
+                                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                                            <div style={{display: "flex"}}>
+                                                <h4 className="card-title">
+                                                    <strong>Tổng kết chiến dịch Marketing</strong>
                                                 </h4>
+                                            </div>
+                                            <div>
+                                                {
+                                                    this.state.isShowMonthBox ?
+                                                        <OverlayTrigger
+                                                            placement="top"
+                                                            overlay={NotFilter}
+                                                        >
+                                                            <button
+                                                                className="btn btn-primary btn-round btn-xs button-add none-margin disabled"
+                                                            >
+                                                                <i className="material-icons disabled"
+                                                                   style={{margin: "0px -4px", top: 0}}
+                                                                >
+                                                                    filter_list
+                                                                </i>
+                                                            </button>
+                                                        </OverlayTrigger>
+                                                        :
+                                                        <OverlayTrigger
+                                                            placement="top"
+                                                            overlay={Filter}
+                                                        >
+                                                            <button
+                                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                                onClick={this.openFilterPanel}
+                                                            >
+                                                                <i className="material-icons"
+                                                                   style={{margin: "0px -4px", top: 0}}
+                                                                >
+                                                                    filter_list
+                                                                </i>
+                                                            </button>
+                                                        </OverlayTrigger>
+
+                                                }
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={Export}
+                                                >
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                        onClick={this.exportExcel}
+                                                    >
+                                                        <i className="material-icons"
+                                                           style={{margin: "0px -4px", top: 0}}
+                                                        >
+                                                            file_download
+                                                        </i>
+                                                    </button>
+                                                </OverlayTrigger>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <Panel collapsible expanded={this.state.openFilterPanel}>
+                                        <div className="row">
+                                            <div className="form-group col-md-4">
                                                 <div className="row">
                                                     <div className="col-md-3 col-xs-5">
                                                         <FormInputDate
@@ -272,13 +301,13 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Panel>
+                                    <Chart
+                                        {...this.props}
+                                        loadSummary={this.loadSummary}
+                                    />
                                 </div>
-                            </Panel>
-                            <Chart
-                                {...this.props}
-                                loadSummary={this.loadSummary}
-                            />
+                            </div>
                         </div>
                     )
                 }

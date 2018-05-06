@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class BankAccountComponent extends React.Component {
     constructor(props, context) {
@@ -12,7 +13,7 @@ class BankAccountComponent extends React.Component {
                 <div className="table-responsive">
                     <table className="table table-hover table-striped">
                         <thead className="text-rose">
-                        <tr className="text-zrose">
+                        <tr className="text-rose">
                             <th>Tên ngân hàng</th>
                             <th>Tên tài khoản</th>
                             <th>Số tài khoản</th>
@@ -43,14 +44,15 @@ class BankAccountComponent extends React.Component {
                                         </td>
                                         <td>
                                             <div className="btn-group-action">
+                                                <TooltipButton
+                                                    placement="top"
+                                                    text="Sửa">
                                                 <a style={{color: "#878787"}}
-                                                   data-toggle="tooltip" title=""
-                                                   type="button" rel="tooltip"
-                                                   data-original-title="Sửa"
                                                    onClick={() => this.props.showAddEditBankAccountModal(account)}
                                                 >
                                                     <i className="material-icons">edit</i>
                                                 </a>
+                                                </TooltipButton>
                                             </div>
                                         </td>
                                     </tr>

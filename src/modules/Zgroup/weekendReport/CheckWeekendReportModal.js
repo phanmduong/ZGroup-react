@@ -99,11 +99,10 @@ class CheckWeekendReportModal extends React.Component {
                                                                                 title=""
                                                                                 data-original-title="Remove item"
                                                                                 type="button"
-                                                                                className="btn btn-rose"
+                                                                                className="btn"
                                                                                 data-dismiss="modal"
                                                                                 onClick={() => this.props.weekendReportAction.showCheckWeekendReportModal()}
-                                                                        >
-                                                                            <i className="material-icons">check</i> Trở
+                                                                        >   Trở
                                                                             lại
                                                                         </button>
                                                                         &emsp;

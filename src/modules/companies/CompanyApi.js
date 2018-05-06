@@ -5,7 +5,7 @@ export function loadCompanies(page = 1, type, name, phone, address, partner_code
     let url = env.MANAGE_API_URL + "/company/all";
     let token = localStorage.getItem('token');
     if (token)
-        url += "?token=" + token + "&page=" + page + "&type=" + type + "&name=" + name + "&limit=10" + "&phone=" + phone + "&address=" + address + "&partner_code=" + partner_code ;
+        url += "?token=" + token + "&page=" + page + "&type=" + type + "&name=" + name + "&limit=20" + "&phone=" + phone + "&address=" + address + "&partner_code=" + partner_code;
     return axios.get(url);
 
 }
@@ -49,12 +49,12 @@ export function addCompany(object) {
         "user_contact2": object.user_contact2,
         "user_contact_phone2": object.user_contact_phone2,
         "type": object.type,
-        "discount_comic" : object.discount_comic,
-        "discount_text" : object.discount_text,
+        discount_comic: object.discount_comic,
+        discount_text: object.discount_text,
 
     });
 }
-export function editCompany(id,object){
+export function editCompany(id, object) {
     let url = env.MANAGE_API_URL + "/company/";
     let token = localStorage.getItem('token');
     if (token)
@@ -73,14 +73,16 @@ export function editCompany(id,object){
         "user_contact": object.user_contact,
         "user_contact_phone": object.user_contact_phone,
         "type": object.type,
+        discount_comic: object.discount_comic,
+        discount_text: object.discount_text,
     });
 }
-export function addField(name){
+export function addField(name) {
     let url = env.MANAGE_API_URL + "/company/field/create";
     let token = localStorage.getItem('token');
     if (token)
         url += "?token=" + token;
-    return axios.post(url,{
-       "name" : name,
+    return axios.post(url, {
+        "name": name,
     });
 }

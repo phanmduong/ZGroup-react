@@ -218,7 +218,11 @@ class EditUserpackModal extends React.Component {
 
 
                 <Modal show={this.state.isOpenModal} bsStyle="primary" onHide={this.closeModal}>
-                    <Modal.Header closeButton />
+                    <Modal.Header closeButton >
+                            <Modal.Title>
+                                <strong>Gói đăng kí</strong>
+                            </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <SubscriptionModal
                             closeModal={this.closeModal}

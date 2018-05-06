@@ -197,12 +197,9 @@ class CreateItemImportOrderContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">event_available</i>
-                                        </div>
 
                                         <div className="card-content">
-                                            <h4 className="card-title">Sản phẩm</h4>
+                                            <h4 className="card-title"><strong> Sản phẩm </strong></h4>
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <thead className="text-rose">
@@ -212,6 +209,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                         <th style={textAlign}>Số lượng đặt</th>
                                                         <th style={textAlign}>Đơn giá</th>
                                                         <th style={textAlign}>Kho nhập</th>
+                                                        <th style={textAlign}>Ngày nhập</th>
                                                         <th style={textAlign}>Số lượng nhập</th>
                                                         <th style={textAlign}>Thành tiền</th>
 
@@ -238,6 +236,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                                             color: (obj.warehouse && obj.warehouse.id) ? "" : "red"
                                                                         }}>
                                                                             {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
+                                                                        <td style={textAlign}>{(obj.warehouse && obj.warehouse.id) ? obj.created_at : "Chưa có"}</td>
                                                                         <td style={textAlign}>{obj.imported_quantity}</td>
                                                                         <td style={textAlign}>{helper.dotNumber(obj.price * obj.imported_quantity)}</td>
                                                                         <td>{
@@ -333,12 +332,9 @@ class CreateItemImportOrderContainer extends React.Component {
                                 </div>
                                 <div className="col-md-4">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">local_shipping</i>
-                                        </div>
 
                                         <div className="card-content">
-                                            <h4 className="card-title">Thông tin</h4>
+                                            <h4 className="card-title"> <strong>Thông tin </strong> </h4>
 
                                             <div>
                                                 <label>Chọn mã đặt hàng</label>

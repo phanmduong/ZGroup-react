@@ -21,6 +21,10 @@ class SaleGoodContainer extends React.Component {
         this.createSaleGood = this.createSaleGood.bind(this);
     }
 
+    componentWillMount() {
+        this.props.createSaleGoodsActions.loadCustomers();
+    }
+
     changeWarehouse(value){
         this.props.createSaleGoodsActions.changeWarehouse(value.value);
     }

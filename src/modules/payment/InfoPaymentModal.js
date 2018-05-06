@@ -42,12 +42,10 @@ class InfoPaymentModal extends React.Component{
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">home</i>
-                                        </div>
+
 
                                         <div className="card-content">
-                                            <h4 className="card-title">Thông tin hóa đơn</h4>
+                                            <h4 className="card-title"><strong>Thông tin hóa đơn </strong></h4>
                                             <div className="row">{
                                                 (this.props.isLoadingCompanies) ? <Loading/> :
                                                     <div>
@@ -185,15 +183,15 @@ class InfoPaymentModal extends React.Component{
 }
 InfoPaymentModal.propTypes = {
     PaymentActions: PropTypes.object.isRequired,
-    isLoadingCompanies: PropTypes.bool.isRequired,
+    isLoadingCompanies: PropTypes.bool,
     companies: PropTypes.array.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func,
 };
 function mapStateToProps(state) {
     return {
-        isLoandingCompanies: state.payment.isLoadingCompanies,
+        isLoadingCompanies: state.payment.isLoadingCompanies,
         companies: state.payment.company,
     };
 }

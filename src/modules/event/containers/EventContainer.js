@@ -8,6 +8,7 @@ import Pagination from "../../../components/common/Pagination";
 import Loading from "../../../components/common/Loading";
 import Search from "../../../components/common/Search";
 import ListEvents from "../components/ListEvents";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 class EventContainer extends React.Component {
     constructor(props, context) {
@@ -27,8 +28,8 @@ class EventContainer extends React.Component {
         this.loadEvents(this.state.page, this.state.limit);
     }
 
-    openStoreEventModal(id,isEdit) {
-        this.props.eventActions.showStoreEventModal(true,id,isEdit);
+    openStoreEventModal(id, isEdit) {
+        this.props.eventActions.showStoreEventModal(true, id, isEdit);
     }
 
     loadEvents(page = 1) {
@@ -49,32 +50,42 @@ class EventContainer extends React.Component {
             }.bind(this), 500
         );
     }
+
     handleSwitch(id, status, name) {
         this.props.eventActions.changeStatus(id, status, name);
     }
 
     render() {
+        const Add = <Tooltip id="tooltip">Tạo sự kiện</Tooltip>;
         return (
             <div className="container-fluid">
                 {this.props.isLoadingEvents ? <Loading/> :
+
                     <div className="card">
-                        <div
-                            className="card-header card-header-icon"
-                            data-background-color="rose"
-                        >
-                            <i className="material-icons">assignment</i>
-                        </div>
                         <div className="card-content">
-                            <h4 className="card-title">Danh sách sự kiện</h4>
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <a
-                                        onClick={()=>this.openStoreEventModal(0,false)}
-                                        className="btn btn-rose"
-                                    >
-                                        Tạo sự kiện
-                                    </a>
+                            <div className="tab-content">
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{display: "flex"}}>
+                                        <h4 className="card-title">
+                                            <strong>Danh sách sự kiện</strong>
+                                        </h4>
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Add}
+                                            >
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    type="button"
+                                                    onClick={() => this.openStoreEventModal(0, false)}
+                                                >
+                                                    <strong>+</strong>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
 
                             <div className="row">
@@ -89,7 +100,7 @@ class EventContainer extends React.Component {
 
 
                             <ListEvents
-                                handleSwitch = {this.handleSwitch}
+                                handleSwitch={this.handleSwitch}
                                 events={this.props.events}
                                 openStoreEventModal={this.openStoreEventModal}
                             />

@@ -87,12 +87,12 @@ export function loadAllRegisters(limit = 10,
 }
 
 
-export function savePayment(money, note, register_id, user_id, closeModal) {
+export function savePayment(hour, minute,money, note, register_id, user_id, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_PAYMENT,
         });
-        registerManageMeetingRoomApi.savePaymentApi(money, note, register_id, user_id)
+        registerManageMeetingRoomApi.savePaymentApi(hour, minute,money, note, register_id, user_id)
             .then(res => {
                 if (res.data.status) {
                     closeModal();
@@ -105,12 +105,12 @@ export function savePayment(money, note, register_id, user_id, closeModal) {
                 }
                 else {
                     dispatch({type: types.SAVED_PAYMENT_ERROR});
-                    helper.showNotification("Lưu thất bại");
+                    helper.sweetAlertError("Lưu thất bại");
                 }
             })
             .catch(() => {
                 dispatch({type: types.SAVED_PAYMENT_ROOM_ERROR});
-                helper.showNotification("Lưu thất bại");
+                helper.sweetAlertError("Lưu thất bại");
             });
     };
 

@@ -38,7 +38,11 @@ class DatetimeModal extends React.Component {
                     bsStyle="primary"
                     onHide={this.closeDatetimeModal}
                 >
-                    <Modal.Header/>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Thời gian</strong>
+                        </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         <div className="row">
                             <div className="col-md-6">
@@ -53,7 +57,6 @@ class DatetimeModal extends React.Component {
                                 />
                             </div>
                             <div className="col-md-6">
-
                                 <FormInputDateTime
                                     format={DATETIME_FORMAT_SQL}
                                     name="official_end_time"

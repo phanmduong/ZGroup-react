@@ -2,12 +2,12 @@ import * as types from "./zWarehouseActionTypes";
 import * as warehouseApi from "./warehouseApi";
 import * as helper from "../../../helpers/helper";
 
-export function loadSummaryGoods(page) {
+export function loadSummaryGoods(page, goodId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SUMMARY_GOOD,
         });
-        warehouseApi.loadSummaryGoods(page)
+        warehouseApi.loadSummaryGoods(page, goodId)
             .then((res) => {
                     dispatch({
                         type: types.LOAD_SUMMARY_GOOD_SUCCESS,
@@ -37,8 +37,7 @@ export function loadAllSummaryGoods(success) {
                     });
                     success(res.data.data.goods);
                 }
-            
-        );
+            );
     };
 }
 
@@ -62,5 +61,25 @@ export function loadHistoryGood(page, id) {
                 });
             }
         );
+    };
+}
+
+export function loadAllGood() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_GOOD,
+        });
+        warehouseApi.loadAllGoods()
+            .then((res) => {
+                dispatch({
+                    data: res.data.data.goods,
+                    type: types.LOAD_ALL_GOOD_SUCCESS,
+                });
+            }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra.");
+            dispatch({
+                type: types.LOAD_ALL_GOOD_ERROR,
+            });
+        });
     };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
+// import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
@@ -121,9 +121,26 @@ class coursesCreateEditPixel extends React.Component {
                 <div className="card">
                     <div className="card-content">
 
-                        <Link className="btn btn-rose" onClick={this.openModal}>
-                            Thêm Pixel
-                        </Link>
+                        <div className="flex-row flex">
+                            <h5 className="card-title">
+                                <strong>Pixel</strong>
+                            </h5>
+                            <div className="dropdown">
+                                <button
+                                    className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
+                                    type="button"
+                                    data-toggle="tooltip"
+                                    data-original-title="Thêm pixel"
+                                    onClick={this.openModal}
+                                >
+                                    <strong>+</strong>
+                                </button>
+                            </div>
+
+                        </div>
+                        {/*<Link className="btn btn-rose" onClick={this.openModal}>*/}
+                            {/*Thêm Pixel*/}
+                        {/*</Link>*/}
 
 
                         <div className="table-responsive">
@@ -136,7 +153,7 @@ class coursesCreateEditPixel extends React.Component {
                                     <th>Tên pixel</th>
                                     <th>Code</th>
                                     <th>Người tạo</th>
-                                    <th>Actions</th>
+                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>

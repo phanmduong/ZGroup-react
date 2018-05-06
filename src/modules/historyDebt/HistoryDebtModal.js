@@ -11,10 +11,9 @@ class HistoryDebtModal extends React.Component{
         this.state = {
             page: 1,
         };
-
+        this.loadHistoryDebt = this.loadHistoryDebt.bind(this);
     }
     loadHistoryDebt(page){
-        this.setState({page: page});
         this.props.loadHistoryDebt(this.props.id,page);
     }
     render(){
@@ -28,7 +27,7 @@ class HistoryDebtModal extends React.Component{
                 <Modal.Body>
                     <div className="content">
                         <div className="container-fluid">
-                            <h3> Lịch sử công nợ </h3>
+                            <h4> <strong> Lịch sử công nợ </strong> </h4>
                             {this.props.isLoading ? <Loading /> :
                                 <div>
 
@@ -83,14 +82,15 @@ class HistoryDebtModal extends React.Component{
                                     </div>
                                 </div>
                             }
+                            <div className="card-content">
+                                <Pagination
+                                    totalPages={this.props.paginator.total_pages}
+                                    currentPage={this.props.paginator.current_page}
+                                    loadDataPage={this.loadHistoryDebt}
+                                />
+                            </div>
                         </div>
-                        <div className="card-content">
-                            <Pagination
-                                totalPages={this.props.paginator.total_pages}
-                                currentPage={this.state.page}
-                                loadDataPage={this.loadHistoryDebt}
-                            />
-                        </div>
+
                     </div>
                 </Modal.Body>
             </Modal>
@@ -104,7 +104,7 @@ HistoryDebtModal.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     loadHistoryDebt: PropTypes.func.isRequired,
 };
 export default HistoryDebtModal;

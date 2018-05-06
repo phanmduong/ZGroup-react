@@ -1,48 +1,94 @@
 export default {
 
+    session: {
+        isLoadingAllSessions: false,
+        isLoadingShowingSession: false,
+        allFilms: [], isLoadingFilms: false,
+        allSessions: [],
+        showingSession: [],
+        comingSession: [],
+        daySession: [],
+        isSavingSession: false,
+        isSaving: false,
+        addEditSessionModal: false,
+        sessionModal: {},
+    },
+    film: {
+        isLoading: false,
+        isSaving: false,
+        allFilms: [],
+        allFilmsHavePagination: [],
+        currentPage: 0,
+        limit: 0,
+        totalCount: 0,
+        totalPages: 0,
+        //modal ****************
+        addEditFilmModal: false,
+        isUploadingAvatar: false,
+        isUploadingImage: false,
+        percent: 0,
+        isSavingFilm: false,
+        filmModal: {},
+        //*************
+    },
+
     campaignList: {
         campaigns: [],
         isLoading: false,
         limit: 20,
         totalPages: 0,
         currentPage: 0,
-        totalCount: 0
+        totalCount: 0,
+        createEditCampaignModal: false,
+        isSavingCampaign: false,
+        campaignCreateEdit: {},
+        manageTemplateTypesModal: false,
+        templateType: {},
+        templateTypesList: [],
+        totalCountTemplateTypes: 0,
+        totalPagesTemplateTypes: 1,
+        limitTemplateTypes: 20,
+        currentPageTemplateTypes: 1,
+        isLoadingTemplateTypes: false,
+        isSavingTemplateTypes: false,
+        templateTypeSuccess: false
     },
 
-    blogType:{
-        isUpdatingEditModal:false,
-        isLoading:false,
-        isSaving:false,
+    blogType: {
+        isUpdatingEditModal: false,
+        isLoading: false,
+        isSaving: false,
         totalCount: 1,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         addEditBlogTypeModal: false,
-        blogTypes:[],
-        blogTypeModal:{
-            name:'',
+        blogTypes: [],
+        blogTypeModal: {
+            name: '',
         }
     },
 
-    smsCampaign:{
-        allMessage:[],template_types:[],campaignName:'',
-        allReceiver:[],campaign_needed_quantity: 0,
-        allHistory:[],sentMessageName:'',
+
+    smsCampaign: {
+        allMessage: [], template_types: [], campaignName: '',
+        allReceiver: [], campaign_needed_quantity: 0,
+        allHistory: [], sentMessageName: '',
         //Modal Them, sua message
-        message:{
-            name:'',
-            content:'',
+        message: {
+            name: '',
+            content: '',
             sms_template_type_id: '',
             send_time: '',
         },
         addMessageModal: false,
         addReceiverModal: false,
-        isSavingMessage:false,
+        isSavingMessage: false,
         upMessage: false,
-        upReceiver:false,
+        upReceiver: false,
         upHistory: false,
         isLoadingMessage: false,
-        isLoadingReceiver:false,
+        isLoadingReceiver: false,
         isLoadingHistory: false,
         // phan trang cua trang Campaign
         limitMessage: 20,
@@ -54,6 +100,16 @@ export default {
         currentPageReceiver: 1,
         totalPagesReceiver: 1,
         totalCountReceiver: 1,
+        receiversModal: [],
+        currentPageModal: 1,
+        limitModal: 10,
+        totalCountModal: 0,
+        totalPagesModal: 0,
+        isLoadingReceiversModal: false,
+        gens: [],
+        classes: [],
+        isChoosingReceivers: false,
+        //isUpdatingReceivers: false
     },
 
     labelManage: {
@@ -153,8 +209,8 @@ export default {
         currentPage: 1,
         limit: 20,
         totalCount: 1,
-        comment:{
-            comment:'',
+        comment: {
+            comment: '',
         },
         report: [],
         reports: [],
@@ -187,7 +243,7 @@ export default {
         isLoading: false,
         editPasswordModal: false,
         isUpdatingEditModal: false,
-        passwordEditModal: {password: ''},
+        passwordEditModal: { password: '' },
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,
@@ -878,8 +934,15 @@ export default {
             saveError: false,
             isPreSaving: false,
             preSaveError: false,
-            id: ''
+            id: '',
+            language: 0,
         },
+        language: {
+            name: "",
+            encoding: "",
+        },
+        isCreatingLanguage: false,
+        languages: [],
         categories: {
             categories: [],
             isLoading: false,
@@ -897,6 +960,7 @@ export default {
         posts: [],
         categoriesList: [],
         isLoadingCategories: true,
+        isLoadingLanguages: true,
         isLoadingPost: false,
         errorPost: false,
     },
@@ -936,7 +1000,9 @@ export default {
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
         isLoadingBaseFilter: false,
-        baseFilter: []
+        baseFilter: [],
+        isSavingRegister: false,
+
     },
 
     profile: {
@@ -1082,6 +1148,8 @@ export default {
     historyCalls: {
         currentPage: 1,
         totalPages: 1,
+        totalCount: 1,
+        limit: 20,
         teleCalls: [],
         isLoading: false,
         error: false
@@ -1800,6 +1868,7 @@ export default {
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
             currency_value: 0,
+            ship_price: 0,
         },
         coupon: {
             name: '',
@@ -1876,6 +1945,7 @@ export default {
             email: '',
             phone: '',
             address: '',
+            customer_id: 0,
         },
         infoOrder: {
             payment: "",
@@ -1889,6 +1959,8 @@ export default {
         totalGoodPages: 0,
         warehouse: 0,
         isSaving: false,
+        customers: [],
+        isLoadingCustomers: false,
     },
 
     historyExtension: {
@@ -1959,7 +2031,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        companyList:[],
+        companyList: [],
         company: {
             name: "",
             registered_business_address: "",
@@ -1977,6 +2049,8 @@ export default {
             user_contact: "",
             user_contact_phone: "",
             type: "",
+            discount_comic: 0,
+            discount_text: 0,
         },
         summay_money: 0,
         fields: [],
@@ -1997,10 +2071,10 @@ export default {
         link: "",
         percent: 0,
         summary_money: 0,
-        payment: [{
+        payment: {
             id: 0,
             money_value: 0,
-            bill_image_url: "",
+            bill_imiage_url: "",
             payer: {
                 id: 0,
                 account_number: "",
@@ -2010,7 +2084,8 @@ export default {
                 account_number: "",
             },
             description: "",
-        }],
+        },
+        listPayment: [],
         company: [],
         paginator: {
             total_count: 0,
@@ -2028,7 +2103,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: {x: [0, 600], y: [0, 400]}
+        domain: { x: [0, 600], y: [0, 400] }
     },
     printOrder: {
         isLoading: false,
@@ -2044,14 +2119,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        codes: [{value: '', label: ''}],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        codes: [{ value: '', label: '' }],
         properties: [],
         data: {
-            company: {id: 0, name: ""},
-            staff: {id: 0, name: ""},
-            good: {id: 0, name: ""},
+            company: { id: 0, name: "" },
+            staff: { id: 0, name: "" },
+            good: { id: 0, name: "" },
             quantity: 1,
             command_code: "",
             core1: {
@@ -2130,16 +2205,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: {id: 0, name: "noname"},
-            warehouse: {id: 0, name: "noname"},
-            company: {id: "", name: "noname"},
+            good: { id: 0, name: "noname" },
+            warehouse: { id: 0, name: "noname" },
+            company: { id: "", name: "noname" },
             price: 0,
             quantity: 0,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
-        orderedGoods: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
+        orderedGoods: [{ id: 1, name: "" },],
     },
     notificationTypes: {
         isLoading: false,
@@ -2262,9 +2337,9 @@ export default {
         },
         itemOrders: [],
         importOrders: [],
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
     },
     moneyTransfer: {
         isCreatingTransaction: false,
@@ -2360,10 +2435,12 @@ export default {
         errorDistribution: false,
     },
     zWarehouse: {
-        isLoading : false,
-        isLoadingHisotry :false,
+        isLoading: false,
+        isLoadingGoodAll: false,
+        isLoadingHisotry: false,
         goods: [],
         historyGood: [],
+        goodAll: [],
         paginator: {
             current_page: 1,
             limit: 20,
@@ -2376,6 +2453,7 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
+
     },
     dashboardStaff: {
         gens: [],
