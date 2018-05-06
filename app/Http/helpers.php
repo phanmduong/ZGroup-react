@@ -1304,6 +1304,45 @@ function send_sms_general($register, $content)
 
 }
 
+function send_sms($user_id, $phone, $content, $purpose)
+{
+    if (empty(config('app.sms_key')) || empty(config('app.brand_sms'))) return 0;
+    $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
+//    $promise = $client->post("/webapi/sendSMS");
+    $headers = [
+        "Content-Type" => "application/json",
+        "Accept" => "application/json",
+        "Authorization" => "Basic " . config('app.sms_key')
+    ];
+
+
+    $phone = preg_replace('/[^0-9]+/', '', $phone);
+
+    $body = json_encode([
+        "from" => config('app.brand_sms'),
+        "to" => $phone,
+        "text" => convert_vi_to_en_not_url($content)
+    ]);
+
+    $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
+    $response = $client->send($request);
+    $status = json_decode($response->getBody())->status;
+
+    $sms = new \App\Sms();
+    $sms->content = convert_vi_to_en_not_url($content);
+    $sms->user_id = $user_id;
+    $sms->purpose = $purpose;
+    if ($status == 1) {
+        $sms->status = "success";
+    } else {
+        $sms->status = "failed";
+    }
+    $sms->save();
+
+    return $status;
+
+}
+
 function trim_url($url)
 {
     if (substr($url, 0, 7) === 'http://') return substr($url, 7);

@@ -19,6 +19,7 @@ use App\Product;
 use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Services\EmailService;
+use App\SmsTemplate;
 use App\StudyClass;
 use App\Test;
 use App\User;
@@ -38,7 +39,8 @@ class PublicController extends Controller
 
     public function __construct(
         EmailService $emailService
-    ) {
+    )
+    {
         $this->data = [];
         $this->data['rating'] = false;
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
@@ -142,8 +144,7 @@ class PublicController extends Controller
 
     public function classes($course_id = null, $saler_id = null, $campaign_id = null)
     {
-        $course = Course::find($course_id);
-        ;
+        $course = Course::find($course_id);;
         $course_id = $course->id;
         $current_gen = Gen::getCurrentGen();
         $this->data['current_gen_id'] = $current_gen->id;
@@ -350,21 +351,37 @@ class PublicController extends Controller
 
     public function upload_file(Request $request)
     {
-        $owner_id = $request->owner_id;
-        $s3_url = config('app.s3_url');
-
-        $image_name = uploadFileToS3($request, 'upload', 800, null);
-        $url = $s3_url . $image_name;
-
-        $image = new Image;
-        $image->name = $image_name;
-        $image->url = $url;
-        $image->owner_id = $owner_id;
-        $image->save();
-
-        $funcNum = $_GET['CKEditorFuncNum'];
-        $message = 'Tài lên thành công';
-        return "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
+        $smsTemplates = SmsTemplate::where('status', 'pending')->whereRaw('"' . rebuild_date('Y-m-d H:i', time()) . '" = DATE_FORMAT(send_time, "%Y-%m-%d %H:%i")')->get();
+        if ($smsTemplates->count() > 0) {
+            foreach ($smsTemplates as $smsTemplate) {
+                $smsTemplate->status = 'sending';
+                $smsTemplate->save();
+                $users = $smsTemplate->smsList->group->user()->get()->toArray();
+                $users_chunk = array_chunk($users, 10);
+                foreach ($users_chunk as $users_array) {
+                    $job = new \App\Jobs\SendSMSCampaign($users_array, $smsTemplate);
+                    dispatch($job);
+                }
+                $smsTemplate->status = 'sent';
+                $smsTemplate->save();
+            }
+        }
+        return "ok";
+        //        $owner_id = $request->owner_id;
+//        $s3_url = config('app.s3_url');
+//
+//        $image_name = uploadFileToS3($request, 'upload', 800, null);
+//        $url = $s3_url . $image_name;
+//
+//        $image = new Image;
+//        $image->name = $image_name;
+//        $image->url = $url;
+//        $image->owner_id = $owner_id;
+//        $image->save();
+//
+//        $funcNum = $_GET['CKEditorFuncNum'];
+//        $message = 'Tài lên thành công';
+//        return "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
     }
 
     public function profile($code)
