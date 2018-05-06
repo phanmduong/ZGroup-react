@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux';
 import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
-import FormInputText from "../../../../components/common/FormInputText";
+//import FormInputText from "../../../../components/common/FormInputText";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 import Avatar from "../../../../components/common/Avatar";
 import { DATE_FORMAT } from "../../../../constants/constants";
 import moment from "moment";
 import { browserHistory } from 'react-router';
 import * as helper from "../../../../helpers/helper";
+import FormInputMoney from "../../../../components/common/FormInputMoney";
 
 
 
@@ -23,7 +24,7 @@ class CreateRequestMoneyContainer extends React.Component {
                 staff: props.user,
                 request_date: "",
                 type: "cash",
-                money_payment: 0,
+                money_payment: "",
                 reason: "",
 
             },
@@ -78,6 +79,7 @@ class CreateRequestMoneyContainer extends React.Component {
     submitData() {
         let { data } = this.state;
         data.request_date = moment(moment.now()).format(DATE_FORMAT);
+        data.money_payment = helper.convertDotStringNumberToStringNumber(data.money_payment);
         if ($('#form-request-money').valid())
             if (this.props.routeParams.requestId) {
                 this.props.requestActions.editRequestMoney(this.props.routeParams.requestId, data);
@@ -117,13 +119,12 @@ class CreateRequestMoneyContainer extends React.Component {
                                                     <div className="row">
                                                         <div className="col-md-6">
                                                             <div className="col-md-12">
-                                                                <div>Số tiền</div>
-                                                                <div>{helper.dotNumber(data.money_payment)}</div>
-                                                                <FormInputText
+                                                                {/*<div>Số tiền</div>*/}
+                                                                {/*<div>{helper.dotNumber(data.money_payment)}</div>*/}
+                                                                <FormInputMoney
                                                                     name="money_payment"
-                                                                    label=""
-                                                                    type="number"
-                                                                    minValue="0"
+                                                                    label="Số tiền"
+                                                                    //type="number"
                                                                     updateFormData={this.updateFormData}
                                                                     disabled={disableField}
                                                                     value={data.money_payment}
