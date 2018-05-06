@@ -1332,7 +1332,7 @@ function send_sms($user_id, $phone, $content, $purpose, $sms_template_id = null)
     $sms->content = convert_vi_to_en_not_url($content);
     $sms->user_id = $user_id;
     $sms->purpose = $purpose;
-//    $sms->sms_template_id = $sms_template_id ? $sms_template_id : 0;
+    $sms->sms_template_id = $sms_template_id ? $sms_template_id : 0;
     if ($status == 1) {
         $sms->status = "success";
     } else {
