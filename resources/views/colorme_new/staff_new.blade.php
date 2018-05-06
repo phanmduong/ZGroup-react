@@ -80,6 +80,72 @@
 <div class="home-page-wrapper" style="padding-top: 70px;">
     <div>
         <div class="left-panel-wrapper" id="left-panel-wrapper">
+            @if (Auth::check())
+            <div class="left-panel" id="left-panel-user">
+                <div class="hi-wrapper">
+                    <img src="{{ Auth::user()->avatar_url }}" class="media-object img-circle"
+                        style="width: 70px; height: 70px; margin: auto;">
+                </div>
+                <a href="/profile/{{ Auth::user()->email }}">
+                    <strong style="color: rgb(68, 68, 68); font-size: 18px;">{{ Auth::user()->name }}</strong>
+                    <div style="color: rgb(153, 153, 153); font-size: 12px;">Chỉnh sửa thông tin</div>
+                </a>
+                <div>
+                    <button class="btn btn-success">Tạo CV</button>
+                </div>
+                <div style="padding: 5px; font-size: 12px; color: rgb(105, 105, 105);">
+                    <div style="display: inline-block; text-align: left;">
+                        <div>
+                            <span class="glyphicon glyphicon glyphicon-book" aria-hidden="true" style="color: rgb(53, 131, 195); margin-right: 10px;"></span>
+                            <strong>{{ $user_posts }} </strong>Bài đăng
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon glyphicon-heart" aria-hidden="true" style="color: red; margin-right: 10px;"></span>
+                            <strong>{{ $user_likes }} </strong>lượt thích
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon glyphicon-eye-open" aria-hidden="true" style="color: green; margin-right: 10px;"></span>
+                            <strong>{{ $user_views }} </strong>lượt xem
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="left-panel-lower" id="left-panel-progress">
+                <h5 style="font-weight: 600;">TIẾN ĐỘ HỌC TẬP</h5>
+                <div>
+                    @foreach ($user_registers as $item)
+                    <div class="media" style="font-size: 12px; margin-top: 0px;">
+                        <div class="media-left media-middle">
+                            <img class="media-object img-circle" src="{{ $item['course']['icon_url'] }}"
+                                alt="{{ $item['name'] }}" style="width: 35px; height: 35px;">
+                        </div>
+                        <div class="media-body" style="padding-top: 12px;">
+                            <strong>
+                                {{ $item['name'] }}
+                            </strong>
+                            <div style="clear: both;">
+                                <span class="label label-success" style="float: right; margin-left: 5px; margin-top: -2px; width: 30px;">0/16</span>
+                                <div class="progress" data-toggle="tooltip" data-placement="top" title="Điểm danh" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Điểm danh">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            <div style="clear: both;">
+                                <span class="label label-warning" style="margin-left: 5px; float: right; margin-top: -2px; width: 30px;">0/0</span>
+                                <div class="progress" data-toggle="tooltip" data-placement="top" title="Bài đã nộp" style="height: 10px; margin-top: 10px; margin-bottom: 10px;"
+                                    data-original-title="Bài đã nộp">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" role="progressbar" aria-valuenow="40"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    
+                </div>
+            </div> --}}
+            @else
             <div class="left-panel" id="left-panel-hi">
                 <div class="hi-wrapper">
                     <div class="hi">HI!</div>
@@ -91,10 +157,11 @@
                     <div>Xin bạn vui lòng:</div>
                 </div>
                 <div>
-                    <a class="btn sign-in">Đăng nhập</a>
-                    <a class="btn sign-up">Tạo tài khoản</a>
+                    <a v-on:click="openModalLogin" class="btn sign-in">Đăng nhập</a>
+                    <a v-on:click="openModalRegister" class="btn sign-up">Tạo tài khoản</a>
                 </div>
             </div>
+            @endif
             <div class="left-panel-lower" id="left-panel-courses">
                 <h5 style="font-weight: 600;">ĐĂNG KÍ HỌC</h5>
                 @foreach ($cources as $cource)
@@ -114,6 +181,51 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div id="modalRegister" role="dialog" class="modal fade" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" style="padding-bottom: 0px;">
+                            <!---->
+                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px;"
+                                id="form-register">
+                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px; height: 50px;">
+                                <h2 style="font-weight: 600;">Tạo tài khoản</h2>
+                                <p>Chào mừng bạn đến với colorME.</p>
+                                <br>
+                                <form style="width: 100%;">
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="text" name="name" placeholder="Họ và tên" required="required" class="form-control"
+                                            style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" name="email" type="email" placeholder="Email" required="required" class="form-control"
+                                            style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="password" name="password" id="password" placeholder="Mật khẩu" required="required"
+                                            class="form-control" style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" required="required"
+                                            class="form-control" style="height: 50px;">
+                                    </div>
+                                    <div class="form-group" style="width: 100%;">
+                                        <input width="100%" type="text" name="phone" placeholder="Số điện thoại" required="required" class="form-control"
+                                            style="height: 50px;">
+                                    </div>
+                                </form>
+                                <!---->
+                                <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;">
+                                    Tạo tài khoản
+                                </button>
+                                <!---->
+                                <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;">Đăng nhập
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -262,6 +374,8 @@
     <div id="loader"></div>
     <button v-on:click="loadmore" id="load-button" type="button" class="btn btn-upload">Tải thêm</button>
 </div>
+
+
 @endsection
 
 @push('scripts')
@@ -319,11 +433,6 @@
     <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
 
     <script>
-        $('#btn-close-modal').click(function (e) { 
-            e.preventDefault();
-            $('.overlay').hide();
-        });
-        
         function count(arr){
             var count = 0;
             for(var i = 0; i < arr.length; ++i){
@@ -524,6 +633,32 @@
                 window.removeEventListener('scroll', this.handleScroll);
             }
         });
+
+        var vueData = {
+            isLogin: false,
+            user: {},
+        };
+
+        var vueLeftPanel = new Vue({
+            el: "#left-panel-wrapper",
+            data: vueData,
+            methods: {
+                openModalLogin: function () {
+                    $("#modalLogin").modal("toggle");
+                    modalLogin.user.email = "";
+                    modalLogin.user.password = "";
+                    modalLogin.isClose = false;
+                },
+                logout: function () {
+                    localStorage.removeItem("auth");
+                },
+                openModalRegister: function() {
+                    $("#modalRegister").modal("toggle");
+                    // $('#modalRegister').css('display', 'block');
+                }
+            },
+        });
+
     </script>
 
 @endpush
