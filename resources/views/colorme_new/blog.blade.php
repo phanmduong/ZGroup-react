@@ -288,7 +288,6 @@
                                                     </div>
                                                 </div>
                                                 @endif
-                                                <button onclick="openModal()">bam vo day</button>
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
                                                          data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}"
@@ -404,14 +403,14 @@
             if(kind == 'resource') 
                 if(vueData.isLogin == false){
                     setTimeout(function () {
-                        $("#modalLoginClone").modal("toggle");
+                        $("#modalRegister").modal("toggle");
                     }, 30000);
                 }
         }
 
-        function openModal() {
-            $("#modalRegister").modal("toggle");
-        }
+        // function openModal() {
+        //     $("#modalRegister").modal("toggle");
+        // }
 
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
