@@ -253,7 +253,8 @@ class ColormeNewController extends CrawlController
         return redirect('/');
     }
 
-    public function social(Request $request){
+    public function social(Request $request)
+    {
         return view('colorme_new.colorme_react', $this->data);
     }
 
@@ -262,7 +263,7 @@ class ColormeNewController extends CrawlController
         $limit = $request->limit ? $request->limit : 20;
 
         $products = Product::where('created_at', '>=', Carbon::today())
-                            ->orderBy('rating', 'desc')->paginate($limit);
+            ->orderBy('rating', 'desc')->paginate($limit);
 
         $this->data['total_pages'] = ceil($products->total() / $products->perPage());
         // $this->data['total_pages'] = 5;
@@ -277,7 +278,7 @@ class ColormeNewController extends CrawlController
         });
 
         // axios called
-        if($request->page){
+        if ($request->page) {
             return $products;
         };
 
@@ -294,7 +295,7 @@ class ColormeNewController extends CrawlController
 
         $date = Carbon::today()->subDays(6);
         $products = Product::where('created_at', '>=', $date)
-                            ->orderBy('rating', 'desc')->paginate($limit);
+            ->orderBy('rating', 'desc')->paginate($limit);
 
         $this->data['total_pages'] = ceil($products->total() / $products->perPage());
         // $this->data['total_pages'] = 5;
@@ -309,7 +310,7 @@ class ColormeNewController extends CrawlController
         });
 
         // axios called
-        if($request->page){
+        if ($request->page) {
             return $products;
         };
 
@@ -325,7 +326,7 @@ class ColormeNewController extends CrawlController
         $limit = $request->limit ? $request->limit : 20;
         $date = Carbon::today()->subDays(30);
         $products = Product::where('created_at', '>=', $date)
-                            ->orderBy('rating', 'desc')->paginate($limit);
+            ->orderBy('rating', 'desc')->paginate($limit);
 
         $this->data['total_pages'] = ceil($products->total() / $products->perPage());
         // $this->data['total_pages'] = 5;
@@ -340,7 +341,7 @@ class ColormeNewController extends CrawlController
         });
 
         // axios called
-        if($request->page){
+        if ($request->page) {
             return $products;
         };
 
@@ -369,7 +370,7 @@ class ColormeNewController extends CrawlController
         });
 
         // axios called
-        if($request->page){
+        if ($request->page) {
             return $products;
         };
 
@@ -531,9 +532,19 @@ class ColormeNewController extends CrawlController
 
     public function extract(Request $request)
     {
-        $class = StudyClass::find(1490);
-        $users = ProductSubscription::select(DB::raw('distinct user_id'), 'created_at')->get();
-        dd($users);
+        $userIds = ProductSubscription::select(DB::raw('distinct user_id'), 'created_at')->get();
+
+
+        $resourceIds = Product::where('kind', 'resource')->where('status', 1)->pluck('id')->toArray();
+        $resourceCount = count($resourceIds);
+
+        // dd($resourceCount);
+        $userIds = $userIds->map(function ($userId) use ($resourceCount, $resourceIds) {
+            $day = ceil(abs(strtotime($userId->created_at) - strtotime(Carbon::now()->toDateTimeString())) / (60 * 60 * 24));
+            $week_count = (int)ceil($day / 7);
+            return $resourceIds[$week_count % $resourceCount];
+        });
+        dd($userIds);
     }
 
     public function blogsByCategory($category_name)

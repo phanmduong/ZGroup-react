@@ -450,4 +450,17 @@ class EmailService
             $m->to($user->email, $user->name)->subject($subject);
         });
     }
+
+    public function send_mail_resource($blog, $user)
+    {
+        $subject = $user->name . ', asdjasd!';
+        $data = [
+            'blog' => $blog->blogTransform(),
+        ];
+
+        Mail::send('emails.email_resource', $data, function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->to($user->email, $user->name)->subject($subject);
+        });
+    }
 }
