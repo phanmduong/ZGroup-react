@@ -44,7 +44,9 @@ class UsersList extends React.Component {
 								{this.props.users &&
 									this.props.users.map((user, index) => {
 										const image = user.avatar_url
-											? user.avatar_url
+											? user.avatar_url.substring(0, 4) === 'http'
+												? user.avatar_url
+												: 'http://' + user.avatar_url
 											: 'http://farm9.staticflickr.com/8130/29541772703_6ed8b50c47_b.jpg';
 										return (
 											<tr key={index}>
