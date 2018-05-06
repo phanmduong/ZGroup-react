@@ -33,7 +33,7 @@ class SendSMSCampaign extends Job implements ShouldQueue
     public function handle()
     {
         foreach ($this->users as $user) {
-            send_sms($user->id, $user->phone, $this->smsTemplate->content, "campaign");
+            send_sms($user['id'], $user['phone'], $this->smsTemplate->content, "campaign");
         }
     }
 }
