@@ -534,3 +534,50 @@ export const TIME_FORMAT_H_M = "HH:mm";
 export const MAX_USER_SHOW_WORK_SHIFT = 5;
 
 export const PRINT_ORDER_STATUS = ["Chưa duyệt", "Đã duyệt", "Đã nhận"];
+
+
+// nhận diện đầu số
+export const viettel = "data:image/png;base64,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";
+export const mobifone = "http://vnreview.vn/image/59/50/595076.jpg";
+export const vinaphone = "https://chiasewiki.com/wp-content/uploads/2017/02/logo-vinaphone.jpg";
+export const vietnamobile = "http://www.vietnamobile.com.vn/images/logo.png";
+export const gmobile = "https://banthe247.com/upload/files/cach-nap-the-gmobile.jpg";
+
+export const PHONE_HEAD_3 = {
+    "086": viettel,
+    "096": viettel,
+    "097": viettel,
+    "098": viettel,
+    "090": mobifone,
+    "093": mobifone,
+    "091": vinaphone,
+    "094": vinaphone,
+    "092": vietnamobile,
+    "099": gmobile
+};
+
+export const PHONE_HEAD_4 = {
+    "0162": viettel, 
+    "0163": viettel, 
+    "0164": viettel, 
+    "0165": viettel, 
+    "0166": viettel, 
+    "0167": viettel, 
+    "0168": viettel, 
+    "0169": viettel,
+    "0120": mobifone, 
+    "0121": mobifone, 
+    "0122": mobifone, 
+    "0126": mobifone, 
+    "0128": mobifone,
+    "0123": vinaphone, 
+    "0124": vinaphone, 
+    "0125": vinaphone, 
+    "0127": vinaphone, 
+    "0129": vinaphone,
+    "0188": vietnamobile,
+    "0186": vietnamobile,
+    "0199": gmobile
+};
+
+///// 

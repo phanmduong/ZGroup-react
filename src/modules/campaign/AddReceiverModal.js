@@ -397,7 +397,6 @@ class AddReceiverModal extends React.Component {
 
 	onHideModal() {
 		this.props.campaignAction.showAddReceiverModal();
-		this.props.campaignAction.loadAllReceiver(this.campaignId, 1, '');
 		let time = {
 			startTime: '',
 			endTime: ''

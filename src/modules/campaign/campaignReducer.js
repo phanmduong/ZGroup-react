@@ -141,9 +141,24 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
 			};
 		// case types.TOGGLE_UPDATE_RECEIVERS_LIST:
 		// 	return {
-        //         ...state,
-        //         isUpdatingReceivers: !state.isUpdatingReceivers
+		//         ...state,
+		//         isUpdatingReceivers: !state.isUpdatingReceivers
 		// 	};
+		case types.BEGIN_LOAD_HISTORY:
+			return {
+				...state,
+				isLoadingHistory: true
+			};
+		case types.LOAD_HISTORY_SUCCESS:
+			return {
+				...state,
+				isLoadingHistory: false,
+				history: action.history,
+				currentPageHistory: action.currentPageHistory,
+				limitHistory: action.limit,
+				totalCountHistory: action.totalCountHistory,
+				totalPagesHistory: action.totalPagesHistory
+			};
 		default:
 			return state;
 	}

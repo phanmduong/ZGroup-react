@@ -97,24 +97,30 @@ class CampaignComponent extends React.Component {
 														placement="top"
 														text={`${message.sent_quantity} tin nhắn đã gửi`}>
 														<div>
-															<h6>
+															<h7>
 																{message.sent_quantity}/{message.sent_quantity + message.needed_quantity}
-															</h6>
-															<div className="progress progress-line-danger">
+															</h7>
+															<div
+																className="progress"
+																style={{
+																	position: 'relative',
+																	left: 0,
+																	bottom: 0,
+																	width: '100%',
+																	zIndex: '100',
+																	marginBottom: '0'
+																}}>
 																<div
-																	className="progress-bar progress-bar-success"
-																	style={{
-																		width:
-																			message.sent_quantity === 0
-																				? 0
-																				: message.sent_quantity *
-																						100 /
-																						(message.sent_quantity +
-																							message.needed_quantity) +
-																					// 12 * 100 / 22
-																					'%'
-																	}}
-																/>
+																	className="progress-bar"
+																	role="progressbar"
+																	aria-valuenow="70"
+																	aria-valuemin="0"
+																	aria-valuemax="100"
+																	style={{ width: `${50}%` }}>
+																	<span className="sr-only">
+																		{50}% Complete
+																	</span>
+																</div>
 															</div>
 														</div>
 													</TooltipButton>
@@ -126,15 +132,14 @@ class CampaignComponent extends React.Component {
 													</TooltipButton>
 												</td>
 												<td>
-													<a
+													<span
 														className="btn btn-main btn-sm"
 														style={{
-															backgroundColor: message.sms_template_type.color
+															backgroundColor: message.sms_template_type.color,
+															margin: "-10px auto"
 														}}>
-														<span>
-															{message.sms_template_type.name}
-														</span>
-													</a>
+														{message.sms_template_type.name}
+													</span>
 												</td>
 												<td>
 													<div className="btn-group-action">
