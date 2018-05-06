@@ -3,43 +3,39 @@ import * as sessionApi from "./sessionApi";
 import * as helper from "../../helpers/helper";
 
 
-export function loadAllSessions() {
+export function loadAllSessions(page, search) {
     return function (dispatch) {
         dispatch({
            type: types.BEGIN_LOAD_ALL_SESSIONS
         });
-        sessionApi.loadAllSessionsApi()
+        sessionApi.loadAllSessionsApi(page, search)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_SESSIONS_SUCCESS,
-                    allSessions: res.data.data.sessions,
+                    allSessions: res.data.sessions,
+                    currentPageAll: res.data.paginator.current_page,
+                    limitAll: res.data.paginator.limit,
+                    totalCountAll: res.data.paginator.total_count,
+                    totalPagesAll: res.data.paginator.total_pages,
                 });
             });
     };
 }
 
-export function loadShowingSession() {
+export function loadShowingSession(page, search) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SHOWING_SESSION,
         });
-        sessionApi.loadShowingSessionApi()
+        sessionApi.loadShowingSessionApi(page, search)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_SHOWING_SESSION_SUCCESS,
-                    showingSession: res.data.data.sessions
-                });
-            });
-    };
-}
-
-export function loadDaySession(start_date) {
-    return function (dispatch) {
-        sessionApi.loadDaySessionApi(start_date)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_DAY_SESSION_SUCCESS,
-                    daySession: res.data.data.daySession
+                    showingSession: res.data.sessions,
+                    currentPageShowing: res.data.paginator.current_page,
+                    limitShowing: res.data.paginator.limit,
+                    totalCountShowing: res.data.paginator.total_count,
+                    totalPagesShowing: res.data.paginator.total_pages,
                 });
             });
     };
@@ -72,12 +68,6 @@ export function saveSession(session) {
                         type: types.EDIT_FILM_ERROR,
                     });
                 }
-            })
-            .catch(()=>{
-                helper.showErrorNotification("Lỗi sever");
-                dispatch({
-                    type: types.EDIT_FILM_ERROR,
-                });
             });
     };
 }

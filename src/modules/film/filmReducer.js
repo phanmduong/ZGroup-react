@@ -13,7 +13,7 @@ export default function filmReducer(state = initialState.film, action) {
             return {
                 ...state,
                 allFilms: action.allFilms,
-                isLoading: false
+                isLoading: false,
             };
         case types.LOAD_ALL_FILMS_HAVE_PAGINATION_SUCCESS:
             return{
@@ -33,7 +33,8 @@ export default function filmReducer(state = initialState.film, action) {
         case types.DELETE_FILM_SUCCESS:
             return{
                 ...state,
-                allFilms: state.allFilms.filter(film => film.id !== action.film.id)
+                allFilms: state.allFilms.filter(film => film.id !== action.film.id),
+                allFilmsHavePagination: state.allFilmsHavePagination.filter(film => film.id !== action.film.id),
             };
         case types.BEGIN_SAVE_FILM:
             return{
@@ -90,11 +91,33 @@ export default function filmReducer(state = initialState.film, action) {
                 }
                 return film;
             });
+            let film2 = state.allFilmsHavePagination.map((film) => {
+                if (film.id === action.film.id){
+                    return {
+                        ...film,
+                        name:action.film.name,
+                        avatar_url:action.film.avatar_url,
+                        trailer_url:action.film.trailer_url,
+                        director:action.film.director,
+                        cast:action.film.cast,
+                        running_time:action.film.running_time,
+                        release_date:action.film.release_date,
+                        country:action.film.country,
+                        language:action.film.language,
+                        film_genre:action.film.film_genre,
+                        rate:action.film.rate,
+                        summary:action.film.summary,
+                        film_rated:action.film.film_rated,
+                    };
+                }
+                return film;
+            });
             return {
                 ...state,
                 isSavingFilm:false,
                 addEditFilmModal: false,
-                allFilms: film
+                allFilms: film,
+                allFilmsHavePagination: film2
             };
         }
         case types.EDIT_STATUS_SUCCESS:
@@ -108,9 +131,19 @@ export default function filmReducer(state = initialState.film, action) {
                 }
                 return film;
             });
+            let film2 = state.allFilmsHavePagination.map((film) => {
+                if (film.id === action.id){
+                    return {
+                        ...film,
+                        film_status:action.status,
+                    };
+                }
+                return film;
+            });
             return {
                 ...state,
-                allFilms: film
+                allFilms: film,
+                allFilmsHavePagination: film2,
             };
         }
         default:

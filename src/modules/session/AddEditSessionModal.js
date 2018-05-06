@@ -81,7 +81,7 @@ class AddEditSessionModal extends React.Component{
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
-                        <form method="#" action="#">
+                        <div>
                             <div className="row">
                                 <div className="col-md-6"><br/>
                                     <label className="label-control">Tên phim</label>
@@ -145,7 +145,7 @@ class AddEditSessionModal extends React.Component{
                                 <span className="material-input"/>
                             </div>
                             {
-                                this.props.isSavingSession ? <Loading/> :
+                                this.props.isSavingSession ? <Loading/> :(
                                     <div style={{textAlign: "right"}}>
                                         <button rel="tooltip" data-placement="top"
                                                 title=""
@@ -158,7 +158,7 @@ class AddEditSessionModal extends React.Component{
                                             <i className="material-icons">check</i> Xác Nhận
                                         </button>
                                         &ensp;
-                                        <button rel="tooltip" data-placement="toxp"
+                                        <button rel="tooltip" data-placement="top"
                                                 title=""
                                                 data-original-title="Remove item"
                                                 type="button"
@@ -170,9 +170,11 @@ class AddEditSessionModal extends React.Component{
                                         </button>
                                         &emsp;
                                     </div>
+                                    )
+
                             }
 
-                        </form>
+                        </div>
                     </div>
                 </Modal.Body>
             </Modal>

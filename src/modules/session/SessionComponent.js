@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import * as sessionAction from "./sessionAction";
 import {confirm} from "../../helpers/helper";
+import {FULLTIME_FORMAT, TIME_FORMAT_H_M} from "../../constants/constants";
+import moment from "moment/moment";
 
 
 class SessionComponent extends React.Component {
@@ -20,7 +22,7 @@ class SessionComponent extends React.Component {
 
         return (
             <div className="table-responsive">
-                <table className="table table-hover">
+                <table className="table table-hover table-striped">
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th>STT</th>
@@ -49,7 +51,7 @@ class SessionComponent extends React.Component {
                                     {session.start_date}
                                 </td>
                                 <td>
-                                    {session.start_time}
+                                    {moment(session.start_time, FULLTIME_FORMAT).format(TIME_FORMAT_H_M)}
                                 </td>
                                 <td>
                                     {session.film_quality}

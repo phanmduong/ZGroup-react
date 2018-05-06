@@ -7,7 +7,6 @@ import ShowingFilmContainer from "../modules/film/ShowingFilmContainer";
 import SessionContainer from "../modules/session/SessionContainer";
 import AllSessionContainer from "../modules/session/AllSessionContainer";
 import ShowingSessionContainer from "../modules/session/ShowingSessionContainer";
-import DaySessionContainer from "../modules/session/DaySessionContainer";
 
 
 
@@ -48,10 +47,6 @@ export default [
             {
                 path: "showing",
                 component: ShowingSessionContainer
-            },
-            {
-                path: "day",
-                component: DaySessionContainer
             }
         ]
     },

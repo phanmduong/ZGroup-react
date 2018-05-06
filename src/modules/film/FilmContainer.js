@@ -31,6 +31,7 @@ class FilmContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
             this.props.filmAction.loadAllFilmsHavePagination(1);
+            this.props.filmAction.loadAllFilms();
         }
     }
     filmsSearchChange(value){

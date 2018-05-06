@@ -14,6 +14,10 @@ export default function sessionReducer(state = initialState.session, action) {
                 ...state,
                 allSessions: action.allSessions,
                 isLoadingAllSessions: false,
+                currentPageAll: action.currentPageAll,
+                limitAll: action.limitAll,
+                totalCountAll: action.totalCountAll,
+                totalPagesAll: action.totalPagesAll,
             };
         case types.BEGIN_LOAD_SHOWING_SESSION:
             return{
@@ -24,12 +28,11 @@ export default function sessionReducer(state = initialState.session, action) {
             return {
                 ...state,
                 showingSession: action.showingSession,
+                currentPageShowing: action.currentPageShowing,
+                limitShowing: action.limitShowing,
+                totalCountShowing: action.totalCountShowing,
+                totalPagesShowing: action.totalPagesShowing,
                 isLoadingShowingSession: false,
-            };
-        case types.LOAD_DAY_SESSION_SUCCESS:
-            return {
-                ...state,
-                daySession: action.daySession,
             };
         case types.TOGGLE_ADD_EDIT_SESSION_MODAL:
             return {
