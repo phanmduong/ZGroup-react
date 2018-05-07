@@ -190,7 +190,6 @@ class ColormeNewController extends CrawlController
     {
         $user = User::where('username', $username)->first();
 
-//        dd($this->data['paid_courses_user']);
         if ($user) {
             $user->avatar_url = generate_protocol_url($user->avatar_url);
             $this->data['user_profile'] = $user;
@@ -214,7 +213,6 @@ class ColormeNewController extends CrawlController
                 return $data;
             });
             $this->data['paid_courses_user'] = $courses;
-//            dd($this->data['paid_courses_user']);
             return view('colorme_new.profile.process', $this->data);
         }
         return redirect('/');
@@ -549,6 +547,7 @@ class ColormeNewController extends CrawlController
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
         $this->data['topTags'] = $topTags;
+        $this->data['link'] = $kind = 'blog' ? 'blogs' : ($kind = 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
         return view('colorme_new.blogs', $this->data);
     }
 

@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         CheckInCheckOutSMNotification::class,
         WorkShiftsCheckInCheckOutNoti::class,
         SendEmailsResource::class,
-        SendSmsCampaign::class
+        SendSmsCampaign::class,
     ];
 
     /**
