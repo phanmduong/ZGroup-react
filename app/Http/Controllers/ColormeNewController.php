@@ -592,9 +592,9 @@ class ColormeNewController extends CrawlController
         }
         $data = $blog->blogDetailTransform();
         $data['time'] = $this->timeCal(date($blog->created_at));
-        $this->data['auth_related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
+        $this->data['auth_related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', $blog->kind)->where('status', 1)->where('author_id', $blog->author_id)
             ->inRandomOrder()->limit(5)->get();
-        $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)
+        $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', $blog->kind)->where('status', 1)
             ->inRandomOrder()->limit(5)->get();
         $this->data['blog'] = $data;
 
