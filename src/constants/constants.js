@@ -534,3 +534,21 @@ export const TIME_FORMAT_H_M = "HH:mm";
 export const MAX_USER_SHOW_WORK_SHIFT = 5;
 
 export const PRINT_ORDER_STATUS = ["Chưa duyệt", "Đã duyệt", "Đã nhận"];
+
+export const CONTRACT_TYPES = [
+    "Bản quyền trong nước",
+    "Bản quyền nước ngoài",
+    "Dịch giả",
+    "Biên tập",
+    "Minh hoạ",
+    "Nguyên tắc",
+    "Mua bán",
+    "Tăng chiết khấu",
+    "Liên kết xuất bản",
+    "In ấn ba bên",
+    "Truyền thông",
+    "Lao động",
+    "Thuê khoán",
+    "Sử dụng dịch vụ",
+    "Khác",
+];
