@@ -546,6 +546,8 @@ class ColormeNewController extends CrawlController
             $data['time'] = $this->timeCal(date($blog->created_at));
             return $data;
         });
+
+        dd($blogs);
         $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(10)->get();
 
         $categories = Product::where('kind', $kind)->where('status', 1)
