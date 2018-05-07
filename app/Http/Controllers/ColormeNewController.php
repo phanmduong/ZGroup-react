@@ -443,21 +443,21 @@ class ColormeNewController extends CrawlController
             // $data_registers = array();
             // foreach($registers as $register){
             //     $class = StudyClass::find($register['class_id']);
-    
+
             //     $data = $this->classRepository->get_class($class);
             //     $registers = $this->classRepository->get_student($class);
             //     $attendances = $this->classRepository->get_attendances_class($class);
-        
+
             //     if (isset($data['teacher']))
             //         $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
-        
+
             //     if (isset($data['teacher_assistant']))
             //         $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
-        
+
             //     if ($registers) {
             //         $data['registers'] = $registers;
             //     }
-        
+
             //     if ($attendances) {
             //         $data['attendances'] = $attendances;
             //         // dd($register['class_id']);
@@ -501,12 +501,17 @@ class ColormeNewController extends CrawlController
         $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
         $tag = $request->tag;
+        $category = $request->category;
 
         $blogsData = Product::where('kind', $kind)->where('status', 1)
             ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
 
         if ($tag) {
             $blogsData = $blogsData->where('tags', 'like', "%$tag%");
+        }
+
+        if ($category) {
+            $blogsData = $blogsData->where('category_id', $category);
         }
 
         if ($request->page > 1) {
@@ -530,9 +535,7 @@ class ColormeNewController extends CrawlController
                                 WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
                                 GROUP BY tag 
                                 ORDER BY sum_tag DESC
-                                LIMIT 5");
-
-//        dd($topTags[0]->tag);
+                                LIMIT 20");
 
         $blogs = $blogs->paginate($limit);
 
@@ -544,10 +547,20 @@ class ColormeNewController extends CrawlController
             $data['time'] = $this->timeCal(date($blog->created_at));
             return $data;
         });
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(10)->get();
+
+        $categories = Product::where('kind', $kind)->where('status', 1)
+            ->join('category_products', 'category_products.id', '=', 'products.category_id')
+            ->select('category_products.name', 'category_products.id', DB::raw('count(*) as total_blogs'))
+            ->orderBy('total_blogs', 'desc')
+            ->groupBy('products.category_id')
+            ->get();
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
         $this->data['topTags'] = $topTags;
+        $this->data['topViewBlogs'] = $topViewBlogs;
+        $this->data['categories'] = $categories;
         $this->data['link'] = $kind == 'blog' ? 'blogs' : ($kind == 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
         return view('colorme_new.blogs', $this->data);
     }
