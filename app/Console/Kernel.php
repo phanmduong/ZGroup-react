@@ -60,6 +60,6 @@ class Kernel extends ConsoleKernel
                 $schedule->command('create:workShifts')->weekly()->fridays()->at('21:00');
                 $schedule->command('calendarEvent:remind')->everyMinute();
 
-                $schedule->command('emailsSending:resource')->weekly()->mondays()->at('15:25');
+                $schedule->command('emailsSending:resource')->weekly()->mondays()->at('9:00');
         }
 }
