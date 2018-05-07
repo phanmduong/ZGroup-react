@@ -529,7 +529,7 @@ class ColormeNewController extends CrawlController
                                 WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
                                 GROUP BY tag 
                                 ORDER BY sum_tag DESC
-                                LIMIT 5");
+                                LIMIT 20");
 
 //        dd($topTags[0]->tag);
 

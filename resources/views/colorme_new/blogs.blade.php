@@ -138,6 +138,75 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <input placeholder="Tìm kiếm" type="text" style="
+                                    font-size: 16px;
+                                    height: 30px;
+                                    border-radius: 20px;
+                                    padding: 15px;
+                                    /* margin-bottom: 20px; */
+                                    width: 100%;
+                                    border: solid 1px #ded8d8;
+                                "><br><br>
+
+                                <div>
+                                    <b>BÀI VIẾT TƯƠNG TỰ</b>
+
+                                    <hr style="
+                                        border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($related_blogs as $related_blog)
+                                        <a
+                                                href="/blog/{{$related_blog->slug}}"
+                                                style="
+                                                    color: #6d6d6d;
+                                                    margin-bottom: 10px;
+                                                ">
+                                            <p>{{$related_blog->title}}</p>
+                                        </a>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <div>
+                                    <b>BÀI VIẾT CÙNG TÁC GIẢ</b>
+                                    <hr style="
+                                        border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($auth_related_blogs as $related_blog)
+                                        <a
+                                                href="/blog/{{$related_blog->slug}}"
+                                                style="
+                                                    color: #6d6d6d;
+                                                    margin-bottom: 10px;
+                                                ">
+                                            <p>{{$related_blog->title}}</p>
+                                        </a>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <b>TAGS</b>
+                                <hr style="
+                                    border-color: #b3b3b3;
+
+                                ">
+
+                                <div>
+                                    @foreach($topTags as $tag)
+                                        @if(!empty($tag))
+                                            <a href="/blogs?page=1&amp;search=&amp;tag={{$tag}}" title="{{$tag}} "
+                                               class="tag-header-blogs"
+                                               style="color: black!important" ;
+                                            >
+                                                {{$tag}}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <br>
+                                <br>
+                            </div>v
                         </div>
                     </div>
                 </div>
