@@ -3,12 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\ProductSubscription;
 use App\User;
 use App\Product;
 use App\Services\EmailService;
+use Illuminate\Support\Facades\DB;
 
 class SendEmailsResource extends Command
 {
