@@ -547,7 +547,7 @@ class ColormeNewController extends CrawlController
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
         $this->data['topTags'] = $topTags;
-        $this->data['link'] = $kind = 'blog' ? 'blogs' : ($kind = 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
+        $this->data['link'] = $kind == 'blog' ? 'blogs' : ($kind == 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
         return view('colorme_new.blogs', $this->data);
     }
 
