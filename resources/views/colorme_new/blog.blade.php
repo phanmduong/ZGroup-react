@@ -299,24 +299,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="width: 130%;  margin-top: 40px;">
-                                                <div style="margin-top: 20px;">
-                                                    <a href="/profile/{{$blog['author']['username']}}"
-                                                       class="more-products">
-                                                        <h5>
-                                                            Bài viết khác từ
-                                                            {{$blog['author']['name']}}
-                                                        </h5>
-                                                    </a>
-                                                    <div class="more-products-container">
-                                                        @foreach($related_blogs as $related_blog)
-                                                            <a class="more-products-item"
-                                                               style="background-image: url({{$related_blog->url}})"
-                                                               href="/blog/{{$related_blog->slug}}"></a>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
