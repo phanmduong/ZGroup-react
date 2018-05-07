@@ -526,7 +526,7 @@
                     );
                     return;
                 }
-                var message = "ColorMe đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+                var message = "ColorMe đã nhận được thông tin của bạn.";
                 $("#alertModal").html("<div class='alert alert-success'>" + message + "</div>");
                 $("#submitModal").css("display", "none");
 

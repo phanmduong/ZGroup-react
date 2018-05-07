@@ -28,6 +28,7 @@ use App\Repositories\ClassRepository;
 use App\StudyClass;
 use App\Attendance;
 use App\ClassLesson;
+use App\UserCarer;
 
 
 class ColormeNewController extends CrawlController
@@ -622,6 +623,38 @@ class ColormeNewController extends CrawlController
         $subscription->user_id = $user->id;
         $subscription->product_id = $request->blog_id;
         $subscription->save();
+
+        $this->emailService->send_mail_welcome($user);
+        return [
+            'message' => 'success'
+        ];
+    }
+    
+    public function signUpCourse(Request $request)
+    {
+        $user = User::where('email', '=', $request->email)->first();
+        if ($user == null)
+            $user = User::where('username', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        $course = Course::find($request->course_id);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt('123456');
+            $user->username = $request->email;
+            $user->email = $request->email;
+            $user->name = $request->name;
+            $user->phone = $phone;
+        }
+        $user->how_know = $course ? $course->name : '';
+        $user->rate = 5;
+        $user->save();
+        if($request->saler_id) {
+            $userCarer = new UserCarer();
+            $userCarer->carer_id = $request->saler_id;
+            $userCarer->user_id = $user->id;
+            $userCarer->assigner_id = 1;
+            $userCarer->save();
+        }
 
         $this->emailService->send_mail_welcome($user);
         return [
