@@ -1370,3 +1370,14 @@ export function getDurationExceptWeekend(start, end) {
     }
     return res;
 }
+export function dotStringNumber(number) {
+
+        return number.replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    //return number;
+}
+export function convertDotStringNumberToStringNumber(number){
+    while(number.indexOf('.') >-1) {
+        number = number.replace('.', '');
+    }
+    return number;
+}
