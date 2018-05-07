@@ -191,17 +191,6 @@
 
 
                                 </div>
-                                <div class="col-md-4">
-                                    <input placeholder="Tìm kiếm" type="text" style="
-                                    font-size: 16px;
-                                    height: 30px;
-                                    border-radius: 20px;
-                                    padding: 15px;
-                                    /* margin-bottom: 20px; */
-                                    width: 100%;
-                                    border: solid 1px #ded8d8;
-                                ">
-                                </div>
                             </div>
                         </div>
                         <div class="container larger-container" style="margin-top: -50px;">
@@ -333,71 +322,70 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <br><br>
+                                <input placeholder="Tìm kiếm" type="text" style="
+                                    font-size: 16px;
+                                    height: 30px;
+                                    border-radius: 20px;
+                                    padding: 15px;
+                                    /* margin-bottom: 20px; */
+                                    width: 100%;
+                                    border: solid 1px #ded8d8;
+                                "><br><br>
 
                                 <div>
                                     <b>BÀI VIẾT TƯƠNG TỰ</b>
+
                                     <hr style="
-    border-color: #b3b3b3;
-">
-                                    <a style="
-    color: #6d6d6d;
-    margin-bottom: 10px;
-"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
-                                    <p><a style="
-    color: #afafaf;
-    margin-bottom: 10px;
-"></a></p>
-                                    <a style="
-    color: #6d6d6d;
-    margin-bottom: 10px;
-"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
+                                        border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($related_blogs as $related_blog)
+                                        <a
+                                                href="/blog/{{$related_blog->slug}}"
+                                                style="
+                                                    color: #6d6d6d;
+                                                    margin-bottom: 10px;
+                                                ">
+                                            <p>{{$related_blog->title}}</p>
+                                        </a>
+                                    @endforeach
                                     <br>
                                 </div>
                                 <div>
                                     <b>BÀI VIẾT CÙNG TÁC GIẢ</b>
                                     <hr style="
-    border-color: #b3b3b3;
-">
-                                    <a style="
-    color: #6d6d6d;
-    margin-bottom: 10px;
-"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
-                                    <p><a style="
-    color: #afafaf;
-    margin-bottom: 10px;
-"></a></p>
-                                    <a style="
-    color: #6d6d6d;
-    margin-bottom: 10px;
-"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
+                                        border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($auth_related_blogs as $related_blog)
+                                        <a
+                                                href="/blog/{{$related_blog->slug}}"
+                                                style="
+                                                    color: #6d6d6d;
+                                                    margin-bottom: 10px;
+                                                ">
+                                            <p>{{$related_blog->title}}</p>
+                                        </a>
+                                    @endforeach
                                     <br>
                                 </div>
                                 <b>TAGS</b>
                                 <hr style="
     border-color: #b3b3b3;
+
 ">
+
                                 <div>
-                                    <a href="/blogs?page=1&amp;search=&amp;tag=quotesthis " title="quotesthis "
-                                       class="tag-header-blogs">
-                                        quotesthis
-                                    </a>
-                                    <a href="/blogs?page=1&amp;search=&amp;tag=goals " title="goals "
-                                       class="tag-header-blogs">
-                                        goals
-                                    </a>
-                                    <a href="/blogs?page=1&amp;search=&amp;tag=workhard " title="workhard "
-                                       class="tag-header-blogs">
-                                        workhard
-                                    </a>
-                                    <a href="/blogs?page=1&amp;search=&amp;tag=think " title="think "
-                                       class="tag-header-blogs">
-                                        think
-                                    </a>
-                                    <a href="/blogs?page=1&amp;search=&amp;tag=time " title="time "
-                                       class="tag-header-blogs">
-                                        time
-                                    </a>
+                                    @foreach(explode(",", $blog['tags']) as $tag)
+                                        @if(!empty($tag))
+                                            <a href="/blogs?page=1&amp;search=&amp;tag={{$tag}}" title="{{$tag}} "
+                                               class="tag-header-blogs"
+                                               style="color: black!important" ;
+                                            >
+                                                {{$tag}}
+                                            </a>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -482,7 +470,6 @@
     <script>
         window.onload = function (e) {
             var kind = "{{$blog['kind']}}";
-            console.log(vueData);
             if (kind == 'resource')
                 if (vueData.isLogin == false) {
                     setTimeout(function () {
