@@ -453,7 +453,7 @@ class EmailService
 
     public function send_mail_resource($blog, $user)
     {
-        $subject = $user->name . ', asdjasd!';
+        $subject = 'Chào ' . $user->name . ', colorMe gửi tặng bạn món quà đầu tuần!';
         $data = [
             'blog' => $blog->blogTransform(),
         ];

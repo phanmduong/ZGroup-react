@@ -181,10 +181,7 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px; text-align: center;">
-                                                                                    <b>Mọi người đang có phản hồi rất tốt về
-                                                                                        bài viết của bạn và chưa có dấu hiệu
-                                                                                        ngừng lại, bạn đang làm rất tốt công
-                                                                                        việc của mình !</b>
+                                                                                    <b>{{$blog['title']}}</b>
                                                                                     <br/>
                                                                                 </td>
                                                                             </tr>
@@ -201,20 +198,6 @@
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <p>
-                                                                                        Cảm ơn bạn rất nhiều về những đóng góp của mình đến với cộng đồng, chúng tôi rất nóng lòng mong đợi những bài viết tiếp theo
-                                                                                        của bạn.
-                                                                                    </p>
-                                                                                    <p>
-                                                                                        Chúc bạn có một ngày làm việc thật hiệu quả, chúng tôi sẽ cập nhật thêm những thông tin mới về bài viết của các bạn.
-                                                                                    </p>
-                                                                                    <p>
-                                                                                        Đội ngũ COLORME.
-                                                                                    </p>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>

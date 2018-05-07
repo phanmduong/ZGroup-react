@@ -644,10 +644,8 @@ class ColormeNewController extends CrawlController
             $resourceCount = count($resourceIds);
             $resource = Product::find($resourceIds[$week_count % $resourceCount]);
             if ($user && $resource)
-                if ($user->id == 13620){
-                    // dd($user);
+                if ($user->id == 13620)
                     $this->emailService->send_mail_resource($resource, $user);
-                }
         }
     }
 
