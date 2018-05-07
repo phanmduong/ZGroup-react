@@ -371,9 +371,9 @@
                                 </div>
                                 <b>TAGS</b>
                                 <hr style="
-    border-color: #b3b3b3;
+                                    border-color: #b3b3b3;
 
-">
+                                ">
 
                                 <div>
                                     @foreach(explode(",", $blog['tags']) as $tag)
