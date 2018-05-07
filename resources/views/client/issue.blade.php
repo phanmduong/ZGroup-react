@@ -1,0 +1,1 @@
+@extends("client.layout.master") @section("css") <link href="manage/issue/main.6c043a02b3df13d22aba3bc60cfe1b0e.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/issue/main.9e089e187008fb5c0541.js"></script> @endsection

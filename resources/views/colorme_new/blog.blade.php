@@ -299,7 +299,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="width: 130%;  margin-top: 40px;">
+                                            <div style="width:100%;  margin-top: 40px;">
                                                 <div style="margin-top: 20px;">
                                                     <a href="/profile/{{$blog['author']['username']}}"
                                                        class="more-products">
