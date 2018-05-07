@@ -32,7 +32,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="blog-title">
-                                                    {{$topBlogs['title']}}
+                                                    <a href="/blog/{{$topBlogs['slug']}}" style="color:#333">{{$topBlogs['title']}}</a>
                                                 </div>
                                                 <a href="/blog/{{$topBlogs['slug']}}" style="color:black">
                                                     <div style="color: rgb(137, 137, 137);">{{$topBlogs['time']}}
@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="blog-title">
-                                                    {{$blog['title']}}
+                                                <a href="/blog/{{$blog['slug']}}" style="color:#333">{{$blog['title']}}</a>
                                                 </div>
                                                 <a href="/blog/{{$blog['slug']}}" style="color:black">
                                                     <div style="color: rgb(137, 137, 137);">{{$blog['time']}}
