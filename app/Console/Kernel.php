@@ -7,6 +7,7 @@ use App\Console\Commands\RemindCalendarEvent;
 use App\Console\Commands\SendCheckInCheckOutNotification;
 use App\Console\Commands\SendSmsCampaign;
 use App\Console\Commands\WorkShiftsCheckInCheckOutNoti;
+use App\Console\Commands\SendEmailsResource;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

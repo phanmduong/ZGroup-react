@@ -191,6 +191,17 @@
 
 
                                 </div>
+                                <div class="col-md-4">
+                                    <input placeholder="Tìm kiếm" type="text" style="
+                                    font-size: 16px;
+                                    height: 30px;
+                                    border-radius: 20px;
+                                    padding: 15px;
+                                    /* margin-bottom: 20px; */
+                                    width: 100%;
+                                    border: solid 1px #ded8d8;
+                                ">
+                                </div>
                             </div>
                         </div>
                         <div class="container larger-container" style="margin-top: -50px;">
@@ -205,7 +216,7 @@
                                                 <div class="product-content"><p>{{$blog['description']}}</p></div>
                                             </div>
                                             <div class="product-content">
-                                                {!!convertShareToDownload($blog['content'])!!}
+                                                {!!convertContentBlog($blog['content'])!!}
                                                 <hr>
                                             </div>
                                             <div style="height: 40px;">
@@ -241,52 +252,55 @@
                                             </div>
                                             <div class="product-content">
                                                 @if($blog['kind'] != 'resource')
-                                                <hr>
-                                                <div class="row form-register">
-                                                    <div class="col-md-12">
-                                                        <h3 class="card-title text-center">Đăng kí nhận thông tin</h3>
-                                                        <div>
-                                                            <div role="form" id="contact-form" method="post" action="#">
-                                                                <input type="hidden" name="_token"
-                                                                       value="{{ csrf_token() }}">
-                                                                <div class="card-block">
-                                                                    <div class="form-group label-floating">
-                                                                        <input id="name" type="text" name="name"
-                                                                               class="form-control"
-                                                                               placeholder="Họ và tên">
-                                                                    </div>
-                                                                    <div class="form-group label-floating">
-                                                                        <input id="phone" type="text" name="phone"
-                                                                               class="form-control"
-                                                                               placeholder="Số điện thoại">
-                                                                    </div>
-                                                                    <div class="form-group label-floating">
-                                                                        <input id="email" type="text" name="email"
-                                                                               class="form-control" placeholder="Email">
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12">
-                                                                            <div id="alert"
-                                                                                 style="font-size: 14px"></div>
+                                                    <hr>
+                                                    <div class="row form-register">
+                                                        <div class="col-md-12">
+                                                            <h3 class="card-title text-center">Đăng kí nhận thông
+                                                                tin</h3>
+                                                            <div>
+                                                                <div role="form" id="contact-form" method="post"
+                                                                     action="#">
+                                                                    <input type="hidden" name="_token"
+                                                                           value="{{ csrf_token() }}">
+                                                                    <div class="card-block">
+                                                                        <div class="form-group label-floating">
+                                                                            <input id="name" type="text" name="name"
+                                                                                   class="form-control"
+                                                                                   placeholder="Họ và tên">
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
+                                                                        <div class="form-group label-floating">
+                                                                            <input id="phone" type="text" name="phone"
+                                                                                   class="form-control"
+                                                                                   placeholder="Số điện thoại">
                                                                         </div>
-                                                                        <div class="col-md-4">
-                                                                            <a id="submit"
-                                                                               class="btn btn-success btn-round"
-                                                                               style="color:white; display: flex;align-items: center;justify-content: center;">Đăng
-                                                                                kí</a>
+                                                                        <div class="form-group label-floating">
+                                                                            <input id="email" type="text" name="email"
+                                                                                   class="form-control"
+                                                                                   placeholder="Email">
                                                                         </div>
-                                                                    </div>
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <div id="alert"
+                                                                                     style="font-size: 14px"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <a id="submit"
+                                                                                   class="btn btn-success btn-round"
+                                                                                   style="color:white; display: flex;align-items: center;justify-content: center;">Đăng
+                                                                                    kí</a>
+                                                                            </div>
+                                                                        </div>
 
-                                                                    <div class="clearfix"></div>
+                                                                        <div class="clearfix"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 @endif
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
@@ -316,6 +330,74 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <br><br>
+
+                                <div>
+                                    <b>BÀI VIẾT TƯƠNG TỰ</b>
+                                    <hr style="
+    border-color: #b3b3b3;
+">
+                                    <a style="
+    color: #6d6d6d;
+    margin-bottom: 10px;
+"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
+                                    <p><a style="
+    color: #afafaf;
+    margin-bottom: 10px;
+"></a></p>
+                                    <a style="
+    color: #6d6d6d;
+    margin-bottom: 10px;
+"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
+                                    <br>
+                                </div>
+                                <div>
+                                    <b>BÀI VIẾT CÙNG TÁC GIẢ</b>
+                                    <hr style="
+    border-color: #b3b3b3;
+">
+                                    <a style="
+    color: #6d6d6d;
+    margin-bottom: 10px;
+"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
+                                    <p><a style="
+    color: #afafaf;
+    margin-bottom: 10px;
+"></a></p>
+                                    <a style="
+    color: #6d6d6d;
+    margin-bottom: 10px;
+"><p>Đây là tên bài viết, nếu dài quá thì nó sẽ xuống dòng như thế này</p></a>
+                                    <br>
+                                </div>
+                                <b>TAGS</b>
+                                <hr style="
+    border-color: #b3b3b3;
+">
+                                <div>
+                                    <a href="/blogs?page=1&amp;search=&amp;tag=quotesthis " title="quotesthis "
+                                       class="tag-header-blogs">
+                                        quotesthis
+                                    </a>
+                                    <a href="/blogs?page=1&amp;search=&amp;tag=goals " title="goals "
+                                       class="tag-header-blogs">
+                                        goals
+                                    </a>
+                                    <a href="/blogs?page=1&amp;search=&amp;tag=workhard " title="workhard "
+                                       class="tag-header-blogs">
+                                        workhard
+                                    </a>
+                                    <a href="/blogs?page=1&amp;search=&amp;tag=think " title="think "
+                                       class="tag-header-blogs">
+                                        think
+                                    </a>
+                                    <a href="/blogs?page=1&amp;search=&amp;tag=time " title="time "
+                                       class="tag-header-blogs">
+                                        time
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -365,27 +447,28 @@
                         <p>Đăng kí để nhận một template mỗi tuần từ colorME</p>
                         <br>
                         <div class="form-group" style="width: 100%;">
-                            <input class="form-control" style="height: 50px" width="100%" 
-                                id="nameModal"
-                                type="text" 
-                                placeholder="Họ và tên"/>
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   id="nameModal"
+                                   type="text"
+                                   placeholder="Họ và tên"/>
                         </div>
                         <div class="form-group" style="width: 100%;">
                             <input class="form-control" style="height: 50px" width="100%"
-                                type="text"
-                                id="phoneModal"
-                                placeholder="Số điện thoại"/>
+                                   type="text"
+                                   id="phoneModal"
+                                   placeholder="Số điện thoại"/>
                         </div>
                         <div class="form-group" style="width: 100%;">
                             <input class="form-control" style="height: 50px" width="100%"
-                                type="text" 
-                                id="emailModal"
-                                placeholder="Email"/>
+                                   type="text"
+                                   id="emailModal"
+                                   placeholder="Email"/>
                         </div>
                         <div id="alertModal"
-                            style="font-size: 14px"></div>
+                             style="font-size: 14px"></div>
                         <div class="row">
-                            <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;" id="submitModal">Đăng kí
+                            <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                    id="submitModal">Đăng kí
                             </button>
                         </div>
                     </div>
@@ -397,11 +480,11 @@
 
 @push('scripts')
     <script>
-        window.onload = function(e) {
+        window.onload = function (e) {
             var kind = "{{$blog['kind']}}";
             console.log(vueData);
-            if(kind == 'resource') 
-                if(vueData.isLogin == false){
+            if (kind == 'resource')
+                if (vueData.isLogin == false) {
                     setTimeout(function () {
                         $("#modalRegister").modal("toggle");
                     }, 30000);

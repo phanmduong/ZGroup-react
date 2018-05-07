@@ -1691,3 +1691,9 @@ function convertShareToDownload($content)
     }
     return $data;
 }
+
+function convertContentBlog($content)
+{
+    $data = convertShareToDownload($content);
+    return $data;
+}
