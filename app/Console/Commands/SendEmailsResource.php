@@ -9,6 +9,7 @@ use App\User;
 use App\Product;
 use App\Services\EmailService;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SendEmailsResource extends Command
 {
@@ -41,8 +42,7 @@ class SendEmailsResource extends Command
             $resourceCount = count($resourceIds);
             $resource = Product::find($resourceIds[$week_count % $resourceCount]);
             if ($user && $resource)
-                if ($user->id == 13620)
-                    $this->emailService->send_mail_resource($resource, $user);
+                $this->emailService->send_mail_resource($resource, $user);
         }   
     }
 }
