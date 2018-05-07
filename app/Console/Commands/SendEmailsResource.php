@@ -9,6 +9,7 @@ use App\User;
 use App\Product;
 use App\Services\EmailService;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SendEmailsResource extends Command
 {
