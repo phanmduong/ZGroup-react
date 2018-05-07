@@ -548,7 +548,6 @@ class ColormeNewController extends CrawlController
             return $data;
         });
 
-        dd($blogs);
         $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(10)->get();
 
         $categories = Product::where('kind', $kind)->where('status', 1)
