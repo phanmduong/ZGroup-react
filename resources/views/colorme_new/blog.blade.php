@@ -240,7 +240,7 @@
                                                 </div>
                                             </div>
                                             <div class="product-content">
-                                                @if($blog['kind'] != 'resource')
+                                                <!-- @if($blog['kind'] != 'resource')
                                                     <hr>
                                                     <div class="row form-register">
                                                         <div class="col-md-12">
@@ -290,7 +290,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endif
+                                                @endif -->
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
                                                          data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}"
@@ -436,11 +436,9 @@
                         </div>
                         <div id="alertModal"
                              style="font-size: 14px"></div>
-                        <div class="row">
                             <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
                                     id="submitModal">Đăng kí
                             </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -451,13 +449,9 @@
 @push('scripts')
     <script>
         window.onload = function (e) {
-            var kind = "{{$blog['kind']}}";
-            if (kind == 'resource')
-                if (vueData.isLogin == false) {
-                    setTimeout(function () {
-                        $("#modalRegister").modal("toggle");
-                    }, 30000);
-                }
+            setTimeout(function () {
+                $("#modalRegister").modal("toggle");
+            }, 15000);
         }
 
         // function openModal() {
