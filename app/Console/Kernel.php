@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
                 SendCheckInCheckOutNotification::class,
                 CheckInCheckOutSMNotification::class,
                 WorkShiftsCheckInCheckOutNoti::class,
-                // SendEmailsResource::class,
+                SendEmailsResource::class,
                 SendSmsCampaign::class,
         ];
 
@@ -60,6 +60,6 @@ class Kernel extends ConsoleKernel
                 $schedule->command('create:workShifts')->weekly()->fridays()->at('21:00');
                 $schedule->command('calendarEvent:remind')->everyMinute();
 
-                // $schedule->command('emailsSending:resource')->weekly()->mondays()->at('11:35');
+                $schedule->command('emailsSending:resource')->weekly()->mondays()->at('14:25');
         }
 }
