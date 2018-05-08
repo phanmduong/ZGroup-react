@@ -1700,7 +1700,7 @@ function convertContentBlog($content)
 
 function findCourseWithProduct($product)
 {
-    $courses = \App\Course::all();
+    $courses = \App\Course::where('status', 1);
     $product['tags'] = str_replace(", ", ",", $product['tags']);
     $productTags = explode(",", $product['tags']);
     $maxTotalTags = 0;
