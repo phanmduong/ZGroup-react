@@ -110,8 +110,6 @@ class GensContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.totalCount);
-        console.log(this.props);
         return (
             <div>
                 <div className="col-lg-12">

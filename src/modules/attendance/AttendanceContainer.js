@@ -257,13 +257,13 @@ class AttendanceContainer extends React.Component {
                                                         <li className={(this.props.currentPage + 1 > this.props.totalPages) ? 'disabled' : ''}>
                                                             <a onClick={() => {
                                                                 if (this.props.currentPage + 1 <= this.props.totalPages)
-                                                                    this.loadClasses(this.props.currentPage + 1, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)
+                                                                    this.loadClasses(this.props.currentPage + 1, this.state.query, '', this.state.selectBaseId, this.state.selectGenId);
                                                             }}>Tiếp </a>
                                                         </li>
                                                         <li className={((this.props.currentPage === this.props.totalPages)) ? 'disabled' : ''}>
                                                             <a onClick={() => {
                                                                 if (this.props.currentPage !== this.props.totalPages) 
-                                                                    this.loadClasses(this.props.totalPages, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)
+                                                                    this.loadClasses(this.props.totalPages, this.state.query, '', this.state.selectBaseId, this.state.selectGenId);
                                                             }}>Cuối </a>
                                                         </li>
                                                     </ul>   
