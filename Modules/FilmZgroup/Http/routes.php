@@ -2,6 +2,7 @@
 
 $webRoutes = function () {
     Route::get('/', 'FilmZgroupController@index');
+    Route::get('/{id}','FilmZgroupController@film');
 
 };
 $manageApiRoutes = function () {
