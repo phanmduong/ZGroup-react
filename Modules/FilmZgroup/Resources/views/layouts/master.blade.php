@@ -153,6 +153,148 @@
     </style>
 </head>
 <body>
+<div class="navbar banner--clone" role="navigation">
+    <!-- Heading -->
+    <div class="heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="search">
+                        <a href="#">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                    <div class="tel">
+                        <a href="tel:123456789">
+                            <i class="fa fa-phone"></i> 123 456 789 </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="movie-search">
+    <form role="search" method="get" id="searchform" action="http://specto.klevermedia.co.uk/">
+        <div>
+            <input type="text" value="" name="s" id="search" placeholder="Tìm phim">
+            <input type="submit" id="searchsubmit" class="btn btn-default" value="Tìm kiếm">
+            <input type="hidden" name="post_type" value="movie">
+        </div>
+    </form>
+</div>
+<!-- Navigation -->
+<div class="navbar" role="navigation">
+    <!-- Heading -->
+    <div class="heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="search">
+                        <a href="#">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                    <div class="tel">
+                        <a href="tel:123456789">
+                            <i class="fa fa-phone"></i> 123 456 789 </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navbar-header">
+            <a href="Homepage.html" title="Ledahlia" class="logo">
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525421236EE6Two3Gmcm7zec.png" alt="Ledahlia"
+                     style="margin-top: -20px; margin-left: 15px; width: 178px">
+            </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only"></span>
+                <span class="icon-bar top-bar"></span>
+                <span class="icon-bar middle-bar"></span>
+                <span class="icon-bar bottom-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse ">
+            <ul id="menu-main-navigation" class="nav navbar-nav">
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-194 current-menu-item curent_page_item active dropdown">
+                    <a title="Movies" href="Movies.html" class="dropdown-toggle" aria-haspopup="false">Phim mới</a>
+                    <ul role="menu" class="dropdown-menu">
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-246">
+                            <a title="All movies" style="color: white!important" href="All movies.html">Tất cả
+                                phim</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-229"><a title="News"
+                                                                                                      href="News.html">Tin
+                        tức</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-254"><a title="Coffee"
+                                                                                                      href="Coffee.html">Cà
+                        phê</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-254"><a title="Events"
+                                                                                                      href="Events.thml">Sự
+                        kiện</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-210"><a
+                            title="Contact us" href="Contact us.html">Liên hệ</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 @yield('content')
+<footer class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h6>Get in touch</h6>
+                <div class="menu-footer-1-container">
+                    <ul id="menu-footer-1" class="menu">
+                        <li id="menu-item-48"
+                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-48"><a
+                                    href="#">FAQs</a></li>
+                        <li id="menu-item-49"
+                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-49"><a
+                                    href="#">Give us feedback</a></li>
+                        <li id="menu-item-50"
+                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50"><a
+                                    href="#">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <h6>About movie star</h6>
+                <div class="menu-footer-1-container">
+                    <ul id="menu-footer-2" class="menu">
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-48"><a
+                                    href="#">FAQs</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-49"><a
+                                    href="#">Give us feedback</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50"><a
+                                    href="#">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <h6>Legal stuff</h6>
+                <div class="menu-footer-1-container">
+                    <ul id="menu-footer-3" class="menu">
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-48"><a
+                                    href="#">FAQs</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-49"><a
+                                    href="#">Give us feedback</a></li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50"><a
+                                    href="#">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <h6>Connect with us</h6>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>2018 © Specto / <a href="http://www.klevermedia.co.uk">Web design by Klever media</a></p></div>
+    </div>
+</footer>
 </body>
 </html>
