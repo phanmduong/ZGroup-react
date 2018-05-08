@@ -256,7 +256,8 @@
                                             <div class="col-md-4">
                                                 <a href="/blog/{{$related_blog['slug']}}">
                                                     <div class="relative">
-                                                        <img class="zoom" src="{{generate_protocol_url($related_blog['url'])}}"
+                                                        <img class="zoom"
+                                                             src="{{generate_protocol_url($related_blog['url'])}}"
                                                              style="width: 100%;height:auto;"/>
                                                         @if($related_blog['category_name'])
                                                             <div class="product-category absolute"
@@ -270,7 +271,8 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="blog-title">
-                                                <a href="/blog/{{$related_blog['slug']}}" style="color:#333">{{$related_blog['title']}}</a>
+                                                    <a href="/blog/{{$related_blog['slug']}}"
+                                                       style="color:#333">{{$related_blog['title']}}</a>
                                                 </div>
                                                 <a href="/blog/{{$related_blog['slug']}}" style="color:black">
                                                     <div style="color: rgb(137, 137, 137);">{{$related_blog['time']}}
@@ -301,6 +303,20 @@
                                     width: 100%;
                                     border: solid 1px #ded8d8;
                                 "><br><br>
+                                @if(isset($course))
+                                <a href="/course/{{convert_vi_to_en($course->name)}}">
+                                    <div style="background-image: url({{$course->image_url}}); background-size: cover; background-position: center center; padding-bottom: 70%">
+                                    </div>
+                                    <br>
+                                    <div style="background-color: #4dca00;height:50px;padding:15px;text-align: center;border-radius: 3px;">
+                                        <p style="
+                                        font-size: 16px;
+                                        color: white;
+                                    ">ĐĂNG KÍ NGAY</p>
+                                    </div>
+                                </a>
+                                <br>
+                                @endif
 
                                 <div>
                                     <b>BÀI VIẾT TƯƠNG TỰ</b>
@@ -426,9 +442,9 @@
                         </div>
                         <div id="alertModal"
                              style="font-size: 14px"></div>
-                            <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
-                                    id="submitModal">Đăng kí
-                            </button>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                id="submitModal">Đăng kí
+                        </button>
                     </div>
                 </div>
             </div>
