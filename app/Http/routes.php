@@ -31,7 +31,7 @@
 |
 */
 
-Route::post('uploadfile', 'PublicController@upload_file');
+Route::get('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
@@ -103,6 +103,8 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/sales/{path}', 'ClientController@sales')
         ->where('path', '.*');
     Route::get('/telesales/{path}', 'ClientController@telesales')
+        ->where('path', '.*');
+    Route::get('/sms/{path}', 'ClientController@sms')
         ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
@@ -494,10 +496,12 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/search', 'ColormeNewController@social');
     Route::get('/courses', 'ColormeNewController@social');
     Route::get('/notifications-list', 'ColormeNewController@social');
-    Route::get('/posts/1', 'ColormeNewController@social1');
-    Route::get('/posts/7', 'ColormeNewController@social7');
-    Route::get('/posts/30', 'ColormeNewController@social30');
-    Route::get('/posts/new', 'ColormeNewController@socialnew');
+    Route::get('/posts/{popular}', 'ColormeNewController@social');
+    // Route::get('/posts/1', 'ColormeNewController@social1');
+    // Route::get('/posts/7', 'ColormeNewController@social7');
+    // Route::get('/posts/30', 'ColormeNewController@social30');
+    // Route::get('/posts/new', 'ColormeNewController@socialnew');
+    
     Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
@@ -508,6 +512,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/blog/{slug}', 'ColormeNewController@blog');
     Route::get('/api/v3/extract', 'ColormeNewController@extract');
     Route::post('/api/v3/sign-up', 'ColormeNewController@register');
+    Route::post('/api/v3/sign-up-course', 'ColormeNewController@signUpCourse');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
     Route::get('/sign-in', 'ColormeNewController@social');

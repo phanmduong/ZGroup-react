@@ -23,7 +23,7 @@
     <script src="https://connect.facebook.net/signals/plugins/iwl.js?v=2.8.6" async=""></script>
     <script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
     <script id="facebook-jssdk"
-            src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.8&amp;appId=1787695151450379"></script>
+            src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.8&amp;appId=466191530479765"></script>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 
     <!-- Include Font Awesome. -->
@@ -132,7 +132,6 @@
                         </li>
                         <li>
                             <a href="/tai-nguyen">Tài nguyên<span style="padding: 0px 5px;background-color: rgb(197, 0, 0);color: white;text-transform: uppercase;font-size: 10px;display: inline-block;margin-left: 5px;border-radius: 3px;">Beta</span></a>
-
                         </li>
 
                         @if (isset($user))
@@ -418,7 +417,6 @@
              data-tabs="messages"
              data-width="360"
              data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
-        <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
        href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '01627175613'}}"

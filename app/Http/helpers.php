@@ -9,7 +9,8 @@ use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
 use Illuminate\Support\Facades\Redis;
 
-function generateRandomString($length = 10) {
+function generateRandomString($length = 10)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -1303,6 +1304,46 @@ function send_sms_general($register, $content)
 
 }
 
+function send_sms($user_id, $phone, $content, $purpose, $sms_template_id = null)
+{
+    if (empty(config('app.sms_key')) || empty(config('app.brand_sms'))) return 0;
+    $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
+//    $promise = $client->post("/webapi/sendSMS");
+    $headers = [
+        "Content-Type" => "application/json",
+        "Accept" => "application/json",
+        "Authorization" => "Basic " . config('app.sms_key')
+    ];
+
+
+    $phone = preg_replace('/[^0-9]+/', '', $phone);
+
+    $body = json_encode([
+        "from" => config('app.brand_sms'),
+        "to" => $phone,
+        "text" => convert_vi_to_en_not_url($content)
+    ]);
+
+    $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
+    $response = $client->send($request);
+    $status = json_decode($response->getBody())->status;
+
+    $sms = new \App\Sms();
+    $sms->content = convert_vi_to_en_not_url($content);
+    $sms->user_id = $user_id;
+    $sms->purpose = $purpose;
+    $sms->sms_template_id = $sms_template_id ? $sms_template_id : 0;
+    if ($status == 1) {
+        $sms->status = "success";
+    } else {
+        $sms->status = "failed";
+    }
+    $sms->save();
+
+    return $status;
+
+}
+
 function trim_url($url)
 {
     if (substr($url, 0, 7) === 'http://') return substr($url, 7);
@@ -1611,4 +1652,48 @@ function getEmailFromText($text)
 {
     preg_match_all("/[._a-zA-Z0-9-]+@[._a-zA-Z0-9-]+/i", $text, $matches);
     return !empty($matches[0]) ? $matches[0][0] : "";
+}
+
+function convertShareToDownload($content)
+{
+    $str1 = "<div id=\"vue-share-to-download\">
+        <a class=\"btn btn-success btn-round\"
+           style=\"color:white; display: flex;align-items: center;justify-content: center;background-color:#3b5998!important; border-color:#3b5998!important\"
+           onclick=\"shareOnFB()\" v-if=\"!shared\">
+            <span class=\"glyphicon glyphicon-share\"
+                  style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspChia sẻ để tải ({{share_count}})<span></a>
+        <a class=\"btn btn-success btn-round\" v-if=\"shared\"
+           style=\"color:white; display: flex;align-items: center;justify-content: center;\" href=\"";
+    $str2 = "\">
+
+
+            <span class=\"glyphicon glyphicon-download\"
+                  style=\" margin:3px 0 7px 0!important;font-family:Glyphicons Halflings!important\"></span><span
+                    style=\"margin:5px 0!important;font-family:Roboto!important; \"> &nbspTải xuống<span></a>
+    </div>";
+
+    $data = $content;
+
+    if ((strpos($content, '[[share_to_download]]') && strpos($content, '[[/share_to_download]]')) || (strpos($content, '[[SHARE_TO_DOWNLOAD]]') && strpos($content, '[[/SHARE_TO_DOWNLOAD]]'))) {
+        $searchReplaceArray = array(
+            '[[share_to_download]]' => $str1,
+            '[[/share_to_download]]' => $str2,
+            '[[SHARE_TO_DOWNLOAD]]' => $str1,
+            '[[/SHARE_TO_DOWNLOAD]]' => $str2,
+        );
+
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray),
+            $content);
+    }
+    return $data;
+}
+
+function convertContentBlog($content)
+{
+    $data = convertShareToDownload($content);
+    return $data;
 }

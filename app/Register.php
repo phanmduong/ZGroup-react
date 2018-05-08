@@ -107,4 +107,5 @@ class Register extends Model
     {
         return $this->belongsTo('App\MarketingCampaign', 'campaign_id');
     }
+
 }
