@@ -240,57 +240,6 @@
                                                 </div>
                                             </div>
                                             <div class="product-content">
-                                                <!-- @if($blog['kind'] != 'resource')
-                                                    <hr>
-                                                    <div class="row form-register">
-                                                        <div class="col-md-12">
-                                                            <h3 class="card-title text-center">Đăng kí nhận thông
-                                                                tin</h3>
-                                                            <div>
-                                                                <div role="form" id="contact-form" method="post"
-                                                                     action="#">
-                                                                    <input type="hidden" name="_token"
-                                                                           value="{{ csrf_token() }}">
-                                                                    <div class="card-block">
-                                                                        <div class="form-group label-floating">
-                                                                            <input id="name" type="text" name="name"
-                                                                                   class="form-control"
-                                                                                   placeholder="Họ và tên">
-                                                                        </div>
-                                                                        <div class="form-group label-floating">
-                                                                            <input id="phone" type="text" name="phone"
-                                                                                   class="form-control"
-                                                                                   placeholder="Số điện thoại">
-                                                                        </div>
-                                                                        <div class="form-group label-floating">
-                                                                            <input id="email" type="text" name="email"
-                                                                                   class="form-control"
-                                                                                   placeholder="Email">
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-sm-12">
-                                                                                <div id="alert"
-                                                                                     style="font-size: 14px"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-4">
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <a id="submit"
-                                                                                   class="btn btn-success btn-round"
-                                                                                   style="color:white; display: flex;align-items: center;justify-content: center;">Đăng
-                                                                                    kí</a>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="clearfix"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif -->
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
                                                          data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}"
@@ -301,6 +250,45 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <h3 style="color:#333; margin-top: 0px; margin-bottom: 30px">BÀI VIẾT TƯƠNG TỰ</h3>
+                                    @foreach($related_blogs as $related_blog)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <a href="/blog/{{$related_blog['slug']}}">
+                                                    <div class="relative">
+                                                        <img class="zoom" src="{{generate_protocol_url($related_blog['url'])}}"
+                                                             style="width: 100%;height:auto;"/>
+                                                        @if($related_blog['category_name'])
+                                                            <div class="product-category absolute"
+                                                                 style="text-align: center; bottom: 10px; right: 10px"><span
+                                                                        style=" padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                </a>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="blog-title">
+                                                <a href="/blog/{{$related_blog['slug']}}" style="color:#333">{{$related_blog['title']}}</a>
+                                                </div>
+                                                <a href="/blog/{{$related_blog['slug']}}" style="color:black">
+                                                    <div style="color: rgb(137, 137, 137);">{{$related_blog['time']}}
+                                                        · {{$related_blog['views']}} lượt xem
+                                                    </div>
+                                                </a>
+                                                <a href="/profile/{{$related_blog['author']['username']}}"
+                                                   class="flex flex-row flex-row-center">
+                                                    <div style="background: url({{$related_blog['author']['avatar_url']}}) center center / cover; width: 20px; height: 20px; border-radius: 40px; "></div>
+
+                                                    <div style="padding: 10px; color: rgb(68, 68, 68); font-size: 16px;">
+                                                        {{$related_blog['author']['name']}}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <hr class="margin-hr">
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="col-md-4">
