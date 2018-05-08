@@ -979,7 +979,3 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
 
 
 });
-
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
