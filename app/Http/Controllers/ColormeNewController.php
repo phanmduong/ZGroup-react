@@ -612,6 +612,7 @@ class ColormeNewController extends CrawlController
         $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', $blog->kind)->where('status', 1)
             ->inRandomOrder()->limit(5)->get();
         $this->data['blog'] = $data;
+        $this->data['course'] = findCourseWithProduct($blog);
 
         return view('colorme_new.blog', $this->data);
     }
@@ -630,7 +631,7 @@ class ColormeNewController extends CrawlController
             $user->name = $request->name;
             $user->phone = $phone;
         }
-        $user->rate = 5;
+        $user->rate = 2;
         $user->how_know = $request->blog_id;
         $user->save();
 
@@ -644,7 +645,7 @@ class ColormeNewController extends CrawlController
             'message' => 'success'
         ];
     }
-    
+
     public function signUpCourse(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
@@ -663,7 +664,7 @@ class ColormeNewController extends CrawlController
         $user->how_know = $course ? $course->name : '';
         $user->rate = 5;
         $user->save();
-        if($request->saler_id) {
+        if ($request->saler_id) {
             $userCarer = new UserCarer();
             $userCarer->carer_id = $request->saler_id;
             $userCarer->user_id = $user->id;
@@ -702,16 +703,6 @@ class ColormeNewController extends CrawlController
         $category = CategoryProduct::where('name', $category_name)->first();
         $blogs = Product::where('category_id', $category->id);
         return $this->queryProducts('blog', $blogs);
-    }
-
-    public function addShareToDown($content)
-    {
-
-        if (strpos($content, '[[share_to_download]]') && strpos($content, '[[/share_to_download]]')) {
-//            $content =
-        }
-
-        return $content;
     }
 
 }

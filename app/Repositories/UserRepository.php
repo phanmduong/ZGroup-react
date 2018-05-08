@@ -53,6 +53,8 @@ class UserRepository
             'facebook' => $student->facebook,
             'university' => $student->university,
             'how_know' => $student->how_know,
+            'status' => $student->status,
+            'note' => $student->note,
         ];
     }
 
