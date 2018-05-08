@@ -245,7 +245,7 @@ class CompanyController extends ManageApiController
             $payment->receiver_id = $this->user->id;
             $payment->register_id = $request->register_id;
             $payment->time = $request->time;
-            $payment->type = "done";
+            $payment->type = "payment";
             $payment->save();
 
             $register->money += $request->money_value;
@@ -259,8 +259,7 @@ class CompanyController extends ManageApiController
             ]);
         } else {
             if ($request->payer_id === null || $request->receiver_id === null ||
-                $request->money_value === null || trim($request->money_value) == '' ||
-                $request->bill_image_url === null || trim($request->bill_image_url) == '')
+                $request->money_value === null || trim($request->money_value) == '')
                 return $this->respondErrorWithStatus("Thiếu trường");
             $payment = new Payment;
             $payment->bill_image_url = $request->bill_image_url;
@@ -268,7 +267,9 @@ class CompanyController extends ManageApiController
             $payment->money_value = $request->money_value;
             $payment->payer_id = $request->payer_id;
             $payment->receiver_id = $request->receiver_id;
-            $payment->type = "done";
+            $payment->staff_id = $this->user->id;
+            $payment->deadline = $request->deadline;
+            $payment->type = $request->type;
             $payment->save();
             return $this->respondSuccessWithStatus([
                 "message" => "Thành công"
@@ -282,14 +283,17 @@ class CompanyController extends ManageApiController
         $payment = Payment::find($paymentId);
         if (!$payment) return $this->respondErrorWithStatus("Không tồn tại");
         if ($request->payer_id === null || !$request->receiver_id === null ||
-            $request->money_value === null || trim($request->money_value) == '' ||
-            $request->bill_image_url === null || trim($request->bill_image_url) == '')
+            $request->money_value === null || trim($request->money_value) == '')
+
             return $this->respondErrorWithStatus("Thiếu trường");
         $payment->bill_image_url = $request->bill_image_url;
         $payment->description = $request->description;
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
+        $payment->staff_id = $this->user->id;
+        $payment->deadline = $request->deadline;
+        $payment->type = $request->type;
         $payment->save();
 
         return $this->respondSuccessWithStatus([
@@ -347,6 +351,7 @@ class CompanyController extends ManageApiController
         if ($payer_id) {
             $payments = $payments->where('payer_id', $payer_id);
         }
+        $payments = $payments->where('type',$request->type);
         $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($payments, [
             "payment" => $payments->map(function ($payment) {
@@ -595,7 +600,7 @@ class CompanyController extends ManageApiController
             $historyDebt->value = $value;
             $historyDebt->total_value = $pre_value + $value;
             $historyDebt->date = $date;
-            $historyDebt->type = "import";
+            $historyDebt->type = "export";
             $historyDebt->company_id = $printOrder->company_id;
             $company = Company::find($historyDebt->company_id);
             $company->account_value = $historyDebt->value;
@@ -967,13 +972,13 @@ class CompanyController extends ManageApiController
         $date = $order->created_at;
         if ($request->status == 3) {
             if ($order->type == "order") {
-                $type = "import";
+                $type = "export";
                 $p = 1;
                 $goods_value = $order->importOrder->reduce(function ($total, $good) {
                     return $total + $good->imported_quantity * $good->price;
                 }, 0);
             } else {
-                $type = "export";
+                $type = "import";
                 $p = -1;
                 $goods_value = $order->exportOrder->reduce(function ($total, $good) {
                     return $total + $good->export_quantity * $good->price;
@@ -993,22 +998,24 @@ class CompanyController extends ManageApiController
             $company = Company::find($historyDebt->company_id);
             $company->account_value = $historyDebt->value;
             $historyDebt->save();
-
-            $p = $p * (-1);
-            $n = HistoryDebt::where('company_id', 1)->count();
-            $historyDebts = HistoryDebt::where('company_id', 1)->get();
-            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
-            else $pre_value = 0;
-            $value = $goods_value;
-            $historyDebt = new HistoryDebt;
-            $historyDebt->value = $value * $p;
-            $historyDebt->total_value = $pre_value + $value * $p;
-            $historyDebt->date = $date;
-            $historyDebt->type = $type;
-            $historyDebt->company_id = 1;
-            $company = Company::find($historyDebt->company_id);
-            $company->account_value = $historyDebt->value;
-            $historyDebt->save();
+            if($order->company_id !=1) {
+                if($type == 'export') $type = "import"; else $type = "export";
+                $p = $p * (-1);
+                $n = HistoryDebt::where('company_id', 1)->count();
+                $historyDebts = HistoryDebt::where('company_id', 1)->get();
+                if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value;
+                else $pre_value = 0;
+                $value = $goods_value;
+                $historyDebt = new HistoryDebt;
+                $historyDebt->value = $value * $p;
+                $historyDebt->total_value = $pre_value + $value * $p;
+                $historyDebt->date = $date;
+                $historyDebt->type = $type;
+                $historyDebt->company_id = 1;
+                $company = Company::find($historyDebt->company_id);
+                $company->account_value = $historyDebt->value;
+                $historyDebt->save();
+            }
 
         }
 
