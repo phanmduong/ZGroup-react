@@ -76,7 +76,7 @@ class Product extends Model
 
     public function blogTransform()
     {
-        $category = $this->productCategories()->first();
+        $category = $this->category;
         return [
             'id' => $this->id,
             'url' => $this->url,
@@ -96,7 +96,7 @@ class Product extends Model
             'thumb_url' => $this->thumb_url,
             'slug' => $this->slug,
             'kind' => $this->kind,
-            'meta_description' => $this->meta_description ? $this->meta_description :"",
+            'meta_description' => $this->meta_description ? $this->meta_description : "",
             'meta_title' => $this->meta_title ? $this->meta_title : "",
             'keyword' => $this->keyword,
             // 'created_at' => time_remain_string($this->created_at),

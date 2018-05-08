@@ -12,13 +12,16 @@
                                                 style="font-size: 40px; margin-top: 0px; color: rgb(255, 255, 255);">
                                             Bài viết</h1><span>Chia sẻ kiến thức về đồ họa</span></div>
                                     <div>
-                                        @foreach($topTags as $tagItem)
-                                            <a href="{{"/" . "$link" . "?page=1&search=&tag=$tagItem->tag"}}"
-                                               title="{{$tagItem->tag}}"
-                                               class="tag-header-blogs">
-                                                {{$tagItem->tag}}
-                                            </a>
-                                        @endforeach
+                                        @for($i = 0; $i < min(count($topTags), 5); $i++)
+                                            @if(!empty($topTags[$i]->tag))
+                                                <a href="{{"/" . $link . "?page=1&search=&tag=".$topTags[$i]->tag}}"
+                                                   title="{{$topTags[$i]->tag}}"
+                                                   class="tag-header-blogs"
+                                                >
+                                                    {{$topTags[$i]->tag}}
+                                                </a>
+                                            @endif
+                                        @endfor
                                     </div>
 
                                 </div>
@@ -52,7 +55,8 @@
                                             <div class="col-md-12">
                                                 <a href="/blog/{{$topBlogs['slug']}}">
                                                     <div class="relative">
-                                                        <img class="zoom" src="{{generate_protocol_url($topBlogs['url'])}}"
+                                                        <img class="zoom"
+                                                             src="{{generate_protocol_url($topBlogs['url'])}}"
                                                              style="width: 100%;height:auto;"/>
                                                         @if($topBlogs['category_name'])
                                                             <div class="product-category absolute"
@@ -137,6 +141,79 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input placeholder="Tìm kiếm" type="text" style="
+                                    font-size: 16px;
+                                    height: 30px;
+                                    border-radius: 20px;
+                                    padding: 15px;
+                                    /* margin-bottom: 20px; */
+                                    width: 100%;
+                                    border: solid 1px #ded8d8;
+                                "><br><br>
+
+                                <div>
+                                    <b>NHÓM BÀI VIẾT</b>
+
+                                    <hr style="
+                                    border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($categories as $category)
+                                        <a
+                                                href="{{"/" . $link . "?page=1&search=&tag=&category=".$category->id}}"
+                                                style="
+                                                color: #404040;
+                                                margin-bottom: 10px;
+                                                font-weight: 500;
+                                                "
+                                                class="flex flex-row flex-space-between"
+                                        >
+                                            <p>/{{$category->name}}</p>
+                                            <p>{{$category->total_blogs}}</p>
+                                        </a>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <div>
+                                    <b>BÀI VIẾT NỔI BẬT</b>
+                                    <hr style="
+                                border-color: #b3b3b3;
+                                ">
+
+                                    @foreach($topViewBlogs as $blog)
+                                        <a
+                                                href="/blog/{{$blog->slug}}"
+                                                style="
+                                color: #6d6d6d;
+                                margin-bottom: 10px;
+                                ">
+                                            <p>{{$blog->title}}</p>
+                                        </a>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <b>TAGS</b>
+                                <hr style="
+                                    border-color: #b3b3b3!important;
+                                    ">
+
+                                <div>
+                                    @foreach($topTags as $tag)
+                                        @if(!empty($tag->tag))
+                                            <a href="{{"/" . $link . "?page=1&search=&tag=".$tag->tag}}"
+                                               title="{{$tag->tag}}"
+                                               class="tag-header-blogs"
+                                               style="color: black!important;"
+                                            >
+                                                {{$tag->tag}}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <br>
+                                <br>
                             </div>
                         </div>
                     </div>
