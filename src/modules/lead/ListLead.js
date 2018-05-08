@@ -68,6 +68,7 @@ class ListLead extends React.Component {
                                     <th>Họ tên</th>
                                     <th>Email</th>
                                     <th>Số điện thoại</th>
+                                    <th>Nguồn</th>
                                     <th>Đã đóng tiền</th>
                                     <th>Đánh giá</th>
 
@@ -127,6 +128,7 @@ class ListLead extends React.Component {
                                                     {lead.email}
                                                 </td>
                                                 <td>{lead.phone}</td>
+                                                <td>{lead.how_know}</td>
                                                 <td>
                                                     {
                                                         lead.courses && lead.courses.map((course,index) => {
