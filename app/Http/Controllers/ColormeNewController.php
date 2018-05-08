@@ -630,7 +630,7 @@ class ColormeNewController extends CrawlController
             $user->name = $request->name;
             $user->phone = $phone;
         }
-        $user->rate = 5;
+        $user->rate = 2;
         $user->how_know = $request->blog_id;
         $user->save();
 
