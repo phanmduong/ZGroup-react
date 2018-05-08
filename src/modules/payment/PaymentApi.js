@@ -13,6 +13,7 @@ export function createPayment(object){
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
         'description': object.description,
+        'type': "payment",
     });
 
 }
@@ -28,6 +29,7 @@ export function editPayment(id,object){
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
         'description': object.description,
+        'type': "payment",
     });
 
 }
@@ -35,7 +37,7 @@ export function loadPayments(page,receiver_id, payer_id){
     let url = env.MANAGE_API_URL + '/company/payment/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&limit=15";
+        url += "?token=" + token + "&page=" + page + "&limit=15" + "&type=payment";
     }
     if(receiver_id){
         url += "&receiver_id=" + receiver_id;
