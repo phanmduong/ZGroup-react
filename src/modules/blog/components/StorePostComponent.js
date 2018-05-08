@@ -374,9 +374,9 @@ class StorePostComponent extends React.Component {
                                                 value={content}/>
 
 
-                                            <div id="mini-editor">
-                                            </div>
-                                            <button onClick={() => this.test()}>+</button>
+                                            {/*<div id="mini-editor">*/}
+                                            {/*</div>*/}
+                                            {/*<button onClick={() => this.test()}>+</button>*/}
 
 
                                             <div className="row">

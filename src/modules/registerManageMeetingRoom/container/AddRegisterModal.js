@@ -50,7 +50,7 @@ class AddRegisterModal extends React.Component {
         return (
             <Modal
                 show={this.props.isOpenAddRegisterModal}
-                bsSize="sm"
+                // bsSize="sm"
                 bsStyle="primary"
                 onHide={this.closeAddRegisterModal}>
                 <Modal.Header closeButton>
