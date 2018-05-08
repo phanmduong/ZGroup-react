@@ -240,7 +240,7 @@
                             <a href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w" class="youtube"><i
                                         class="fa fa-youtube"></i></a>
                         </div>
-                        <a href="#">
+                        <a href="/">
                             <button type="button" class="btn btn-default">Đăng kí học</button>
                         </a>
                     </div>

@@ -218,7 +218,7 @@
                         <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
                         <h2 style="font-weight: 600">Nhận tư vấn trực tiếp</h2>
                         <p style="text-align:center">Bạn có thể để lại các thông tin bên dưới, 
-                            <br>colorME sẽ gọi lại ngay cho bạn để tư vấn trực tiếp</p>
+                            <br>colorME sẽ gọi lại ngay cho bạn để tư vấn miễn phí</p>
                         <br>
                         <div class="form-group" style="width: 100%;">
                             <input class="form-control" style="height: 50px" width="100%"

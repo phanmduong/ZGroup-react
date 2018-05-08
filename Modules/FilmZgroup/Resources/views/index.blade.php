@@ -165,25 +165,58 @@
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner" role="listbox">
                                     <!-- Slides -->
-                                    <?php $i = 0;$classes = array('item', 'item active','item');?>
+                                    <?php $i = 0;$classes = array('item', 'item active', 'item');?>
 
-                                @foreach($sessionsShowing->take(3) as $session)
-                                    <?php  $class = $classes[$i++ % 3]?>
+                                    @foreach($sessionsShowing->take(3) as $session)
+                                        <?php  $class = $classes[$i++ % 3]?>
                                         <div class="{{$class}}"
-                                         style="background-image: url({{$session->film->avatar_url}}); padding-top: 0px;">
+                                             style="background-image: url({{$session->film->avatar_url}}); padding-top: 0px;">
+
+                                            <div class="container">
+                                                <div class="row blurb">
+                                                    <div class="col-md-8 col-sm-12 blurb-content">
+                                                        <span class="title">{{$session->film->film_genre}}</span>
+                                                        <header>
+                                                            <h1>{{$session->film->name}}</h1>
+                                                        </header>
+                                                        <p>{{$session->film->summary}}</p>
+
+                                                        <div class="buttons">
+                                                            <span class="certificate">{{$session->film_quality}}</span>
+                                                            <a href="{{$session->film->trailer_url}}"
+                                                               data-vbtype="video"
+                                                               class="venobox btn btn-default vbox-item">
+
+                                                                <i class="fa fa-play"></i>
+
+                                                                <span>Play trailer</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <div class="item active"
+                                         style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-2-1.jpg&quot;); padding-top: 0px;">
 
                                         <div class="container">
                                             <div class="row blurb">
                                                 <div class="col-md-8 col-sm-12 blurb-content">
-                                                    <span class="title">{{$session->film->film_genre}}</span>
+                                                    <span class="title">Action, Adventure, Sci-Fi</span>
                                                     <header>
-                                                        <h1>{{$session->film->name}}</h1>
+                                                        <h1>Fight club: Round 2</h1>
                                                     </header>
-                                                    <p>{{$session->film->summary}}</p>
+                                                    <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
+                                                        consuetudium lectorum. Mirum est notare quam littera gothica,
+                                                        quam nunc putamus parum claram, anteposuerit litterarum formas
+                                                        humanitatis per seacula quarta decima et quinta decima.</p>
 
                                                     <div class="buttons">
-										<span class="certificate">{{$session->film_quality}}</span>
-                                                        <a href="{{$session->film->trailer_url}}" data-vbtype="video"
+                                <span class="certificate">
+                                12A										</span>
+                                                        <a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"
                                                            class="venobox btn btn-default vbox-item">
 
                                                             <i class="fa fa-play"></i>
@@ -195,69 +228,37 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
 
-                                    {{--<div class="item active"--}}
-                                         {{--style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-2-1.jpg&quot;); padding-top: 0px;">--}}
+                                    <div class="item"
+                                         style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2018/03/hero-2.jpg&quot;); padding-top: 0px;">
 
-                                        {{--<div class="container">--}}
-                                            {{--<div class="row blurb">--}}
-                                                {{--<div class="col-md-8 col-sm-12 blurb-content">--}}
-                                                    {{--<span class="title">Action, Adventure, Sci-Fi</span>--}}
-                                                    {{--<header>--}}
-                                                        {{--<h1>Fight club: Round 2</h1>--}}
-                                                    {{--</header>--}}
-                                                    {{--<p>Claritas est etiam processus dynamicus, qui sequitur mutationem--}}
-                                                        {{--consuetudium lectorum. Mirum est notare quam littera gothica,--}}
-                                                        {{--quam nunc putamus parum claram, anteposuerit litterarum formas--}}
-                                                        {{--humanitatis per seacula quarta decima et quinta decima.</p>--}}
+                                        <div class="container">
+                                            <div class="row blurb">
+                                                <div class="col-md-8 col-sm-12 blurb-content">
+                                                    <span class="title">Action, Adventure, Comedy</span>
+                                                    <header>
+                                                        <h1>Behind enemy lines</h1>
+                                                    </header>
+                                                    <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
+                                                        consuetudium lectorum. Mirum est notare quam littera gothica,
+                                                        quam nunc putamus parum claram, anteposuerit litterarum formas
+                                                        humanitatis per seacula quarta decima et quinta decima.</p>
 
-                                                    {{--<div class="buttons">--}}
-										{{--<span class="certificate">--}}
-											{{--12A										</span>--}}
-                                                        {{--<a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"--}}
-                                                           {{--class="venobox btn btn-default vbox-item">--}}
+                                                    <div class="buttons">
+                                <span class="certificate">
+                                PG-13										</span>
+                                                        <a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"
+                                                           class="venobox btn btn-default vbox-item">
 
-                                                            {{--<i class="fa fa-play"></i>--}}
+                                                            <i class="fa fa-play"></i>
 
-                                                            {{--<span>Play trailer</span>--}}
-                                                        {{--</a>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-
-                                    {{--<div class="item"--}}
-                                         {{--style="background-image: url(&quot;http://specto.klevermedia.co.uk/wp-content/uploads/2018/03/hero-2.jpg&quot;); padding-top: 0px;">--}}
-
-                                        {{--<div class="container">--}}
-                                            {{--<div class="row blurb">--}}
-                                                {{--<div class="col-md-8 col-sm-12 blurb-content">--}}
-                                                    {{--<span class="title">Action, Adventure, Comedy</span>--}}
-                                                    {{--<header>--}}
-                                                        {{--<h1>Behind enemy lines</h1>--}}
-                                                    {{--</header>--}}
-                                                    {{--<p>Claritas est etiam processus dynamicus, qui sequitur mutationem--}}
-                                                        {{--consuetudium lectorum. Mirum est notare quam littera gothica,--}}
-                                                        {{--quam nunc putamus parum claram, anteposuerit litterarum formas--}}
-                                                        {{--humanitatis per seacula quarta decima et quinta decima.</p>--}}
-
-                                                    {{--<div class="buttons">--}}
-										{{--<span class="certificate">--}}
-											{{--PG-13										</span>--}}
-                                                        {{--<a href="https://youtu.be/RhFMIRuHAL4" data-vbtype="video"--}}
-                                                           {{--class="venobox btn btn-default vbox-item">--}}
-
-                                                            {{--<i class="fa fa-play"></i>--}}
-
-                                                            {{--<span>Play trailer</span>--}}
-                                                        {{--</a>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
+                                                            <span>Play trailer</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- Slides end -->
                                 </div>
                             </div>
@@ -328,138 +329,138 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                {{--<div class="slick-slide">--}}
-                                {{--<div class="movie-poster">--}}
-                                {{--<aside>--}}
-                                {{--<div>--}}
-                                {{--<a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"--}}
-                                {{--class="venobox play vbox-item" tabindex="-1">--}}
-                                {{--<i class="fa fa-play"></i>--}}
-                                {{--</a>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/locked-in/"--}}
-                                {{--title="Locked in" class="read-more" tabindex="-1">--}}
-                                {{--Read more </a>--}}
-                                {{--<span class="date">--}}
-                                {{--Released:                                   10 August, 2017                                 </span>--}}
-                                {{--</div>--}}
-                                {{--</aside>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/locked-in/" title="Locked in"--}}
-                                {{--tabindex="-1">--}}
-                                {{--<img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"--}}
-                                {{--alt="Locked in">--}}
-                                {{--</a>--}}
-                                {{--</div>--}}
-                                {{--<header>--}}
-                                {{--<h4 class="no-underline">It’s over</h4>--}}
-                                {{--</header>--}}
-                                {{--<div class="star-rating">--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="slick-slide">
+                                    <div class="movie-poster">
+                                        <aside>
+                                            <div>
+                                                <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
+                                                   class="venobox play vbox-item" tabindex="-1">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                                <a href="http://specto.klevermedia.co.uk/movies/locked-in/"
+                                                   title="Locked in" class="read-more" tabindex="-1">
+                                                    Read more </a>
+                                                <span class="date">
+                                Released:                                   10 August, 2017                                 </span>
+                                            </div>
+                                        </aside>
+                                        <a href="http://specto.klevermedia.co.uk/movies/locked-in/" title="Locked in"
+                                           tabindex="-1">
+                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
+                                                 alt="Locked in">
+                                        </a>
+                                    </div>
+                                    <header>
+                                        <h4 class="no-underline">It’s over</h4>
+                                    </header>
+                                    <div class="star-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star grey"></i>
+                                        <i class="fa fa-star grey"></i>
+                                    </div>
+                                </div>
 
-                                {{--<div class="slick-slide">--}}
-                                {{--<div class="movie-poster">--}}
-                                {{--<aside>--}}
-                                {{--<div>--}}
-                                {{--<a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"--}}
-                                {{--class="venobox play vbox-item" tabindex="-1">--}}
-                                {{--<i class="fa fa-play"></i>--}}
-                                {{--</a>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"--}}
-                                {{--class="read-more" tabindex="-1">--}}
-                                {{--Read more </a>--}}
-                                {{--<span class="date">--}}
-                                {{--Released:                                   7 March, 2018                               </span>--}}
-                                {{--</div>--}}
-                                {{--</aside>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"--}}
-                                {{--tabindex="-1">--}}
-                                {{--<img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-4-270x340.jpg"--}}
-                                {{--alt="Hush">--}}
-                                {{--</a>--}}
-                                {{--</div>--}}
-                                {{--<header>--}}
-                                {{--<h4 class="no-underline">It’s over</h4>--}}
-                                {{--</header>--}}
-                                {{--<div class="star-rating">--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="slick-slide">
+                                    <div class="movie-poster">
+                                        <aside>
+                                            <div>
+                                                <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
+                                                   class="venobox play vbox-item" tabindex="-1">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                                <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"
+                                                   class="read-more" tabindex="-1">
+                                                    Read more </a>
+                                                <span class="date">
+                                Released:                                   7 March, 2018                               </span>
+                                            </div>
+                                        </aside>
+                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"
+                                           tabindex="-1">
+                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-4-270x340.jpg"
+                                                 alt="Hush">
+                                        </a>
+                                    </div>
+                                    <header>
+                                        <h4 class="no-underline">It’s over</h4>
+                                    </header>
+                                    <div class="star-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star grey"></i>
+                                        <i class="fa fa-star grey"></i>
+                                    </div>
+                                </div>
 
-                                {{--<div class="slick-slide">--}}
-                                {{--<div class="movie-poster">--}}
-                                {{--<aside>--}}
-                                {{--<div>--}}
-                                {{--<a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"--}}
-                                {{--class="venobox play vbox-item" tabindex="-1">--}}
-                                {{--<i class="fa fa-play"></i>--}}
-                                {{--</a>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"--}}
-                                {{--class="read-more" tabindex="-1">--}}
-                                {{--Read more </a>--}}
-                                {{--<span class="date">--}}
-                                {{--Released:                                   7 March, 2018                               </span>--}}
-                                {{--</div>--}}
-                                {{--</aside>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"--}}
-                                {{--tabindex="-1">--}}
-                                {{--<img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-4-270x340.jpg"--}}
-                                {{--alt="Hush">--}}
-                                {{--</a>--}}
-                                {{--</div>--}}
-                                {{--<header>--}}
-                                {{--<h4 class="no-underline">It’s over</h4>--}}
-                                {{--</header>--}}
-                                {{--<div class="star-rating">--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="slick-slide">
+                                    <div class="movie-poster">
+                                        <aside>
+                                            <div>
+                                                <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
+                                                   class="venobox play vbox-item" tabindex="-1">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                                <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"
+                                                   class="read-more" tabindex="-1">
+                                                    Read more </a>
+                                                <span class="date">
+                                Released:                                   7 March, 2018                               </span>
+                                            </div>
+                                        </aside>
+                                        <a href="http://specto.klevermedia.co.uk/movies/hush/" title="Hush"
+                                           tabindex="-1">
+                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-4-270x340.jpg"
+                                                 alt="Hush">
+                                        </a>
+                                    </div>
+                                    <header>
+                                        <h4 class="no-underline">It’s over</h4>
+                                    </header>
+                                    <div class="star-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star grey"></i>
+                                        <i class="fa fa-star grey"></i>
+                                    </div>
+                                </div>
 
 
-                                {{--<div class="slick-slide">--}}
-                                {{--<div class="movie-poster">--}}
-                                {{--<aside>--}}
-                                {{--<div>--}}
-                                {{--<a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"--}}
-                                {{--class="venobox play vbox-item" tabindex="-1">--}}
-                                {{--<i class="fa fa-play"></i>--}}
-                                {{--</a>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/locked-in/"--}}
-                                {{--title="Locked in" class="read-more" tabindex="-1">--}}
-                                {{--Read more </a>--}}
-                                {{--<span class="date">--}}
-                                {{--Released:                                   10 August, 2017                                 </span>--}}
-                                {{--</div>--}}
-                                {{--</aside>--}}
-                                {{--<a href="http://specto.klevermedia.co.uk/movies/locked-in/" title="Locked in"--}}
-                                {{--tabindex="-1">--}}
-                                {{--<img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"--}}
-                                {{--alt="Locked in">--}}
-                                {{--</a>--}}
-                                {{--</div>--}}
-                                {{--<header>--}}
-                                {{--<h4 class="no-underline">It’s over</h4>--}}
-                                {{--</header>--}}
-                                {{--<div class="star-rating">--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--<i class="fa fa-star grey"></i>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="slick-slide">
+                                    <div class="movie-poster">
+                                        <aside>
+                                            <div>
+                                                <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
+                                                   class="venobox play vbox-item" tabindex="-1">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                                <a href="http://specto.klevermedia.co.uk/movies/locked-in/"
+                                                   title="Locked in" class="read-more" tabindex="-1">
+                                                    Read more </a>
+                                                <span class="date">
+                                Released:                                   10 August, 2017                                 </span>
+                                            </div>
+                                        </aside>
+                                        <a href="http://specto.klevermedia.co.uk/movies/locked-in/" title="Locked in"
+                                           tabindex="-1">
+                                            <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/thumb2-270x340.jpg"
+                                                 alt="Locked in">
+                                        </a>
+                                    </div>
+                                    <header>
+                                        <h4 class="no-underline">It’s over</h4>
+                                    </header>
+                                    <div class="star-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star grey"></i>
+                                        <i class="fa fa-star grey"></i>
+                                    </div>
+                                </div>
 
 
                             </div>
@@ -484,38 +485,45 @@
                         <div class="fw-tabs movies ui-tabs ui-widget ui-widget-content ui-corner-all">
                             <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"
                                 role="tablist">
-                                <li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="Today"
+                                <li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab"
+                                    tabindex="-1" aria-controls="Today"
                                     aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true">
                                     <a href="#Today" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-1">
                                         TODAY </a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-1-day"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+                                    aria-controls="after-1-day"
                                     aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false">
                                     <a href="#after-1-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-2"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top " role="tab" tabindex="-1" aria-controls="after-2-day"
+                                <li class="ui-state-default ui-corner-top " role="tab" tabindex="-1"
+                                    aria-controls="after-2-day"
                                     aria-labelledby="ui-id-3" aria-selected="false" aria-expanded="false">
                                     <a href="#after-2-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-3"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-3-day"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+                                    aria-controls="after-3-day"
                                     aria-labelledby="ui-id-4" aria-selected="false" aria-expanded="false">
                                     <a href="#after-3-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-4"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="0" aria-controls="after-4-day"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="0"
+                                    aria-controls="after-4-day"
                                     aria-labelledby="ui-id-5" aria-selected="false" aria-expanded="false">
                                     <a href="#after-4-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-5"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-5-day"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+                                    aria-controls="after-5-day"
                                     aria-labelledby="ui-id-6" aria-selected="false" aria-expanded="false">
                                     <a href="#after-5-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-6"></a>
                                 </li>
-                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="after-6-day"
+                                <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+                                    aria-controls="after-6-day"
                                     aria-labelledby="ui-id-7" aria-selected="false" aria-expanded="false">
                                     <a href="#after-6-day" class="ui-tabs-anchor" role="presentation" tabindex="-1"
                                        id="ui-id-7"></a>
@@ -548,15 +556,8 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
-
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>                                                            @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-3 running-time">
@@ -596,15 +597,8 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
-
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-3 running-time">
@@ -644,15 +638,8 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
-
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-3 running-time">
@@ -692,15 +679,8 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
-
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-3 running-time">
@@ -740,14 +720,10 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
+
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>                                                            @endforeach
+
 
                                                     </div>
                                                 </div>
@@ -788,14 +764,10 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
+
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>                                                            @endforeach
+
 
                                                     </div>
                                                 </div>
@@ -836,15 +808,9 @@
                                                     <hr class="space-10">
                                                     <span class="viewing-times"><i class="fa fa-clock-o"></i>&#160;Viewing times</span>
                                                     <div class="time-wrap" style="display: inline-block;">
-                                                        @if($session->film->sessions)
-                                                            @foreach($session->film->sessions as $subsession)
-                                                                <span class="time">{{$subsession->start_time}}</span>
-                                                            @endforeach
-                                                        @else
-                                                            <span class="time ">11:30</span>
-                                                            <span class="time ">13:00</span>
-                                                        @endif
-
+                                                        @foreach($session->film->film_sessions as $subsession)
+                                                            <span class="time">{{substr($subsession->start_time,0,5)}}</span>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-3 running-time">
@@ -895,20 +861,18 @@
                             d6.setDate(d6.getDate() + 6);
                             console.log(d2.getDay());
                             var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-                            document.getElementById("ui-id-1").innerHTML = days[d1.getDay()];
-                            document.getElementById("ui-id-2").innerHTML = days[d2.getDay()];
-                            document.getElementById("ui-id-3").innerHTML = days[d3.getDay()];
-                            document.getElementById("ui-id-4").innerHTML = days[d4.getDay()];
-                            document.getElementById("ui-id-5").innerHTML = days[d5.getDay()];
-                            document.getElementById("ui-id-6").innerHTML = days[d6.getDay()];
+                            document.getElementById("ui-id-2").innerHTML = days[d1.getDay()];
+                            document.getElementById("ui-id-3").innerHTML = days[d2.getDay()];
+                            document.getElementById("ui-id-4").innerHTML = days[d3.getDay()];
+                            document.getElementById("ui-id-5").innerHTML = days[d4.getDay()];
+                            document.getElementById("ui-id-6").innerHTML = days[d5.getDay()];
+                            document.getElementById("ui-id-7").innerHTML = days[d6.getDay()];
                         </script>
                     </div>
                 </div>
 
             </div>
         </section>
-
-
 
 
         <!.........................................................................................>
@@ -923,275 +887,109 @@
                             <div class="row comingSoon-slides">
                                 <div class="col-sm-12">
 
-                                    <header><h2> Coming soon</h2></header>
+                                    <header><h2>PHIM SẮP CHIẾU</h2></header>
+                                    <?php $i = 0; $classes = array('0 active');
+                                    for ($j = 1; $j < count($filmsComing); $j++) {
+                                        array_push($classes, $j);
+                                    }
+                                    $limit_summary = 200;
+                                    ?>
+                                    <style>
+                                        .comingSoon-slides .single-slide {
+                                            padding-bottom: 0;
+                                        }
 
-                                    <div class="row single-slide 0"
-                                         style="opacity: 1; height: auto; padding-bottom: 40px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-news.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">Fantasy, Sci-fi, Action</span>
-                                            <header>
-                                                <h3 class="no-underline">Colliding plantes</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                        .row.single-slice {
+                                            opacity: 0;
+                                            height: 0px;
+                                            padding-bottom: 0px;
+                                        }
+
+                                        .row.single-slide.active {
+                                            opacity: 1;
+                                            height: auto;
+                                            padding-bottom: 40px;
+                                        }
+
+                                    </style>
+                                    @foreach($filmsComing as $film)
+                                        <?php  $class = $classes[$i++ % count($filmsComing)]?>
+                                        <div class="row single-slide {{$class}} "
+                                             style="">
+                                            <div class="bg"
+                                                 style="background-image: url({{$film->avatar_url}});"></div>
+                                            <div class="col-sm-5 col-xs-12 slide-content">
+                                                <span class="title">{{$film->film_genre}}</span>
+                                                <header>
+                                                    <h3 class="no-underline">{{$film->name}}</h3>
+                                                </header>
+                                                <div class="star-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <div class="date">
+                                                    <i class="fa fa-calendar-o"></i> {{$film->release_date}}
+                                                </div>
+                                                <p>{{substr($film->summary, 0, $limit_summary) . '...'}}</p>
+                                                <p><a href="#"
+                                                      class="arrow-button">
+                                                        More info </a></p>
                                             </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 2 October, 2019
+                                            <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
+                                                <a href="{{$film->trailer_url}}" data-vbtype="video"
+                                                   class="venobox video vbox-item">
+                                                    <i class="fa fa-play"></i>
+                                                    <img src="{{$film->avatar_url}}"
+                                                         alt="Colliding plantes">
+                                                </a>
                                             </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p><a href="http://specto.klevermedia.co.uk/movies/colliding-plantes/"
-                                                  class="arrow-button">
-                                                    More info </a></p>
                                         </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-1-555x335.png"
-                                                     alt="Colliding plantes">
-                                            </a>
-                                        </div>
-                                    </div>
 
 
-                                    <div class="row single-slide 1"
-                                         style="opacity: 0; height: 0px; padding-bottom: 0px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-single-movie.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">Thriller, Horror</span>
-                                            <header>
-                                                <h3 class="no-underline">Infinite Vengeance</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star grey"></i>
+                                        <div class="row single-slide 1"
+                                             style="opacity: 0; height: 0px; padding-bottom: 0px;">
+                                            <div class="bg"
+                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-single-movie.jpg);"></div>
+                                            <div class="col-sm-5 col-xs-12 slide-content">
+                                                <span class="title">Thriller, Horror</span>
+                                                <header>
+                                                    <h3 class="no-underline">Infinite Vengeance</h3>
+                                                </header>
+                                                <div class="star-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star grey"></i>
+                                                </div>
+                                                <div class="date">
+                                                    <i class="fa fa-calendar-o"></i> 17 August, 2017
+                                                </div>
+                                                <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
+                                                    consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
+                                                    putamus parum claram, anteposuerit litterarum formas humanitatis per
+                                                    seacula quarta decima et quinta decima.</p>
+                                                <p><a href="http://specto.klevermedia.co.uk/movies/infinite-vengeance/"
+                                                      class="arrow-button">
+                                                        More info </a></p>
                                             </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 17 August, 2017
+                                            <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
+                                                <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
+                                                   class="venobox video vbox-item">
+                                                    <i class="fa fa-play"></i>
+                                                    <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/slide-1-video-555x335.png"
+                                                         alt="Infinite Vengeance">
+                                                </a>
                                             </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p><a href="http://specto.klevermedia.co.uk/movies/infinite-vengeance/"
-                                                  class="arrow-button">
-                                                    More info </a></p>
                                         </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/slide-1-video-555x335.png"
-                                                     alt="Infinite Vengeance">
-                                            </a>
-                                        </div>
-                                    </div>
 
 
-                                    <div class="row single-slide 2"
-                                         style="opacity: 0; height: 0px; padding-bottom: 0px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-whats-on.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">Thriller, Horror</span>
-                                            <header>
-                                                <h3 class="no-underline">Lurking in the dark</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 11 August, 2018
-                                            </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p><a href="http://specto.klevermedia.co.uk/movies/lurking-in-the-dark/"
-                                                  class="arrow-button">
-                                                    More info </a></p>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/slide-2-video-555x335.png"
-                                                     alt="Lurking in the dark">
-                                            </a>
-                                        </div>
-                                    </div>
 
 
-                                    <div class="row single-slide 3"
-                                         style="opacity: 0; height: 0px; padding-bottom: 0px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-1-1.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">War, Thriller</span>
-                                            <header>
-                                                <h3 class="no-underline">The lone soldier: Behind enemy lines</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star grey"></i>
-                                            </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 30 July, 2020
-                                            </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p>
-                                                <a href="http://specto.klevermedia.co.uk/movies/the-lone-soldier-behind-enemy-lines/"
-                                                   class="arrow-button">
-                                                    More info </a></p>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-2-555x335.png"
-                                                     alt="The lone soldier: Behind enemy lines">
-                                            </a>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row single-slide 4"
-                                         style="opacity: 0; height: 0px; padding-bottom: 0px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-whats-on.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">Action, Fantasy</span>
-                                            <header>
-                                                <h3 class="no-underline">The vendetta</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 14 April, 2019
-                                            </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p><a href="http://specto.klevermedia.co.uk/movies/the-vendetta/"
-                                                  class="arrow-button">
-                                                    More info </a></p>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-3-555x335.png"
-                                                     alt="The vendetta">
-                                            </a>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row single-slide 5"
-                                         style="opacity: 0; height: 0px; padding-bottom: 0px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-2-1.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">Action, Adventure</span>
-                                            <header>
-                                                <h3 class="no-underline">The executioner</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star grey"></i>
-                                            </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 26 May, 2019
-                                            </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p><a href="http://specto.klevermedia.co.uk/movies/the-executioner/"
-                                                  class="arrow-button">
-                                                    More info </a></p>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-4-555x335.png"
-                                                     alt="The executioner">
-                                            </a>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row single-slide 6"
-                                         style="opacity: 0; height: 0px; padding-bottom: 0px;">
-                                        <div class="bg"
-                                             style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/hero-whats-on.jpg);"></div>
-                                        <div class="col-sm-5 col-xs-12 slide-content">
-                                            <span class="title">Thriller, Horror</span>
-                                            <header>
-                                                <h3 class="no-underline">Sudden death</h3>
-                                            </header>
-                                            <div class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="date">
-                                                <i class="fa fa-calendar-o"></i> 8 March, 2019
-                                            </div>
-                                            <p>Claritas est etiam processus dynamicus, qui sequitur mutationem
-                                                consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc
-                                                putamus parum claram, anteposuerit litterarum formas humanitatis per
-                                                seacula quarta decima et quinta decima.</p>
-                                            <p><a href="http://specto.klevermedia.co.uk/movies/sudden-death/"
-                                                  class="arrow-button">
-                                                    More info </a></p>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-sm-push-1 slide-video">
-                                            <a href="https://youtu.be/d96cjJhvlMA" data-vbtype="video"
-                                               class="venobox video vbox-item">
-                                                <i class="fa fa-play"></i>
-                                                <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/11/trailer-5-555x335.png"
-                                                     alt="Sudden death">
-                                            </a>
-                                        </div>
-                                    </div>
-
-
+                                    @endforeach
                                     <!............................................................>
 
 
@@ -1203,68 +1001,21 @@
                         <div style="margin-right: -15px;margin-left: -15px" class="slick-slider">
 
                             <div id="comingSoon" class="owl-carousel slick-carousel slick-initialized">
-
-                                <div data-dynamicclass="1" class="slick-slide slick-cloned" data-slick-index="1"
-                                     aria-hidden="true" tabindex="-1" style="opacity: 1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/lurking-in-the-dark/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-16.jpg"
-                                             alt="Lurking in the dark">
-                                    </a>
-                                    <header><h5 class="left no-underline">Lurking in the dark</h5></header>
-                                    <span class="release-date">11 August, 2018</span>
-                                </div>
-
-                                <div data-dynamicclass="2" class="slick-slide slick-cloned" data-slick-index="2"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-lone-soldier-behind-enemy-lines/"
-                                       tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-13.jpg"
-                                             alt="The lone soldier: Behind enemy lines">
-                                    </a>
-                                    <header><h5 class="left no-underline">The lone soldier: Behind enemy lines</h5>
-                                    </header>
-                                    <span class="release-date">30 July, 2020</span>
-                                </div>
-
-                                <div data-dynamicclass="3" class="slick-slide slick-cloned" data-slick-index="3"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-vendetta/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-3.jpg"
-                                             alt="The vendetta">
-                                    </a>
-                                    <header><h5 class="left no-underline"> The vendetta </h5></header>
-                                    <span class="release-date">14 April, 2019</span>
-                                </div>
-
-                                <div data-dynamicclass="4" class="slick-slide slick-cloned" data-slick-index="4"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-executioner/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-15.jpg"
-                                             alt="The executioner">
-                                    </a>
-                                    <header><h5 class="left no-underline">The executioner</h5></header>
-                                    <span class="release-date">26 May, 2019</span>
-                                </div>
-
-                                <div data-dynamicclass="5" class="slick-slide slick-cloned" data-slick-index="5"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/sudden-death/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-10.jpg"
-                                             alt="Sudden death">
-                                    </a>
-                                    <header><h5 class="left no-underline">Sudden death</h5></header>
-                                    <span class="release-date">8 March, 2019</span>
-                                </div>
-
-                                <div data-dynamicclass="6" class="slick-slide slick-cloned" data-slick-index="6"
-                                     aria-hidden="true" tabindex="-1">
-                                    <a href="http://specto.klevermedia.co.uk/movies/the-vendetta/" tabindex="-1">
-                                        <img src="http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/movie-14.jpg"
-                                             alt="The vendetta">
-                                    </a>
-                                    <header><h5 class="left no-underline"> The vendetta </h5></header>
-                                    <span class="release-date">14 April, 2019</span>
-                                </div>
+                                <?php $i = 0;?>
+                                @foreach($filmsComing as $film)
+                                    <div data-dynamicclass="{{$i}}" class="slick-slide slick-cloned"
+                                         data-slick-index="{{$i}}"
+                                         aria-hidden="true" tabindex="-1" style="opacity: 0.2">
+                                        <a href="#"
+                                           tabindex="-1">
+                                            <img src="{{$film->avatar_url}}"
+                                                 alt="{{$film->name}}">
+                                        </a>
+                                        <header><h5 class="left no-underline">{{$film->name}}</h5></header>
+                                        <span class="release-date">{{$film->release_date}}</span>
+                                    </div>
+                                    <?php $i++?>
+                                @endforeach
 
                             </div>
                         </div>
@@ -1280,31 +1031,15 @@
                                     paddingBottom: '40px'
                                 }).siblings('.single-slide').css({opacity: '0', height: '0', paddingBottom: '0'});
                                 $(".slick-cloned").css('opacity', '.2');
-                                if (currentClass == 1) {
-                                    $("[data-dynamicclass='1']").css('opacity', '1')
+                                <?php $i = 0;?>
+                                        @foreach($filmsComing as $film)
+                                if (currentClass == {{$i}}) {
+                                    $("[data-dynamicclass={{$i}}]").css('opacity', '1')
                                 }
                                 ;
-                                if (currentClass == 2) {
-                                    $("[data-dynamicclass='2']").css('opacity', '1')
-                                }
-                                ;
-                                if (currentClass == 3) {
-                                    $("[data-dynamicclass='3']").css('opacity', '1')
-                                }
-                                ;
-                                if (currentClass == 4) {
-                                    $("[data-dynamicclass='4']").css('opacity', '1')
-                                }
-                                ;
-                                if (currentClass == 5) {
-                                    $("[data-dynamicclass='5']").css('opacity', '1')
-                                }
-                                ;
-                                if (currentClass == 6) {
-                                    $("[data-dynamicclass='6']").css('opacity', '1')
-                                }
-                                ;
-                                return false;
+                                <?php $i++;?>
+                                @endforeach
+                                    return false;
                             });
 
                         });
