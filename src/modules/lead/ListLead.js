@@ -70,9 +70,8 @@ class ListLead extends React.Component {
                                 <th>Số điện thoại</th>
                                 <th>Nguồn</th>
                                 <th>Đã đóng tiền</th>
-                                <th>Ghi chú</th>
                                 <th>Đánh giá</th>
-
+                                <th>Ghi chú</th>
                                 {
                                     !this.props.showSelectedLead && <th>Nhân viên</th>
                                 }
@@ -131,28 +130,30 @@ class ListLead extends React.Component {
                                             <td>{lead.phone}</td>
                                             <td>{lead.how_know}</td>
                                             <td>
-                                                {
-                                                    lead.courses && lead.courses.map((course, index) => {
-                                                        return (
-                                                            <div key={index}>
-                                                                <TooltipButton
-                                                                    placement="top"
-                                                                    text={course.name}
-                                                                >
-                                                                    <div className="avatar-list-staff"
-                                                                         style={{
-                                                                             background: 'url(' + course.icon_url + ') center center / cover',
-                                                                             display: 'inline-block',
-                                                                             borderColor: 'white',
-                                                                             borderStyle: 'solid',
-                                                                             marginLeft: '-10px'
-                                                                         }}
-                                                                    />
-                                                                </TooltipButton>
-                                                            </div>
-                                                        );
-                                                    })
-                                                }
+                                                <div className="flex flex-row">
+                                                    {
+                                                        lead.courses && lead.courses.map((course, index) => {
+                                                            return (
+                                                                <div key={index}>
+                                                                    <TooltipButton
+                                                                        placement="top"
+                                                                        text={course.name}
+                                                                    >
+                                                                        <div className="avatar-list-staff"
+                                                                             style={{
+                                                                                 background: 'url(' + course.icon_url + ') center center / cover',
+                                                                                 display: 'inline-block',
+                                                                                 borderColor: 'white',
+                                                                                 borderStyle: 'solid',
+                                                                                 marginLeft: '-10px'
+                                                                             }}
+                                                                        />
+                                                                    </TooltipButton>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    }
+                                                </div>
                                             </td>
                                             <td>
                                                 <Star
