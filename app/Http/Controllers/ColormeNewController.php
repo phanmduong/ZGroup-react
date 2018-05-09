@@ -28,6 +28,7 @@ use App\Repositories\ClassRepository;
 use App\StudyClass;
 use App\Attendance;
 use App\ClassLesson;
+use App\UserCarer;
 
 
 class ColormeNewController extends CrawlController
@@ -288,12 +289,12 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
-        if(Auth::user()){
-            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
-            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
-            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
-                                                ->where('author_id',Auth::user()->id)
-                                                ->count();
+        if (Auth::user()) {
+            $this->data['user_posts'] = count(Product::where('author_id', Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id', Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes', 'products.id', '=', 'likes.product_id')
+                ->where('author_id', Auth::user()->id)
+                ->count();
             // dd($this->data['user_views']);
             // $temps = Product::where('author_id', Auth::user()->id)->get();
             // $comments = 0;
@@ -335,12 +336,12 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
-        if(Auth::user()){
-            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
-            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
-            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
-                                                ->where('author_id',Auth::user()->id)
-                                                ->count();
+        if (Auth::user()) {
+            $this->data['user_posts'] = count(Product::where('author_id', Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id', Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes', 'products.id', '=', 'likes.product_id')
+                ->where('author_id', Auth::user()->id)
+                ->count();
             // dd($this->data['user_views']);
             // $temps = Product::where('author_id', Auth::user()->id)->get();
             // $comments = 0;
@@ -381,12 +382,12 @@ class ColormeNewController extends CrawlController
             return $products;
         };
 
-        if(Auth::user()){
-            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
-            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
-            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
-                                                ->where('author_id',Auth::user()->id)
-                                                ->count();
+        if (Auth::user()) {
+            $this->data['user_posts'] = count(Product::where('author_id', Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id', Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes', 'products.id', '=', 'likes.product_id')
+                ->where('author_id', Auth::user()->id)
+                ->count();
             // dd($this->data['user_views']);
             // $temps = Product::where('author_id', Auth::user()->id)->get();
             // $comments = 0;
@@ -424,39 +425,39 @@ class ColormeNewController extends CrawlController
         // axios called
         if ($request->page) {
             return $products;
-            
+
         };
 
-        if(Auth::user()){
+        if (Auth::user()) {
             // dd(Auth::user()->id);
             // dd(Register::where('money','>',0)->where('user_id',Auth::user()->id)->get());
-            $this->data['user_posts'] = count(Product::where('author_id',Auth::user()->id)->get());
-            $this->data['user_views'] = Product::where('author_id',Auth::user()->id)->sum('views');
-            $this->data['user_likes'] = Product::join('likes','products.id','=','likes.product_id')
-                                                ->where('author_id',Auth::user()->id)
-                                                ->count();
-            $registers = Register::where('money','>',0)
-                                                ->where('user_id',Auth::user()->id)->get();
+            $this->data['user_posts'] = count(Product::where('author_id', Auth::user()->id)->get());
+            $this->data['user_views'] = Product::where('author_id', Auth::user()->id)->sum('views');
+            $this->data['user_likes'] = Product::join('likes', 'products.id', '=', 'likes.product_id')
+                ->where('author_id', Auth::user()->id)
+                ->count();
+            $registers = Register::where('money', '>', 0)
+                ->where('user_id', Auth::user()->id)->get();
             // dd($registers);
 
             // $data_registers = array();
             // foreach($registers as $register){
             //     $class = StudyClass::find($register['class_id']);
-    
+
             //     $data = $this->classRepository->get_class($class);
             //     $registers = $this->classRepository->get_student($class);
             //     $attendances = $this->classRepository->get_attendances_class($class);
-        
+
             //     if (isset($data['teacher']))
             //         $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
-        
+
             //     if (isset($data['teacher_assistant']))
             //         $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
-        
+
             //     if ($registers) {
             //         $data['registers'] = $registers;
             //     }
-        
+
             //     if ($attendances) {
             //         $data['attendances'] = $attendances;
             //         // dd($register['class_id']);
@@ -467,7 +468,7 @@ class ColormeNewController extends CrawlController
             // }
             // // dd($data_registers);
             // $this->data['user_registers'] = $data_registers;
-            
+
         }
         // dd($this->data['user_registers']);
         $cources = Course::all();
@@ -500,12 +501,17 @@ class ColormeNewController extends CrawlController
         $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
         $tag = $request->tag;
+        $category = $request->category;
 
         $blogsData = Product::where('kind', $kind)->where('status', 1)
             ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
 
         if ($tag) {
             $blogsData = $blogsData->where('tags', 'like', "%$tag%");
+        }
+
+        if ($category) {
+            $blogsData = $blogsData->where('category_id', $category);
         }
 
         if ($request->page > 1) {
@@ -529,9 +535,7 @@ class ColormeNewController extends CrawlController
                                 WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
                                 GROUP BY tag 
                                 ORDER BY sum_tag DESC
-                                LIMIT 5");
-
-//        dd($topTags[0]->tag);
+                                LIMIT 20");
 
         $blogs = $blogs->paginate($limit);
 
@@ -543,10 +547,21 @@ class ColormeNewController extends CrawlController
             $data['time'] = $this->timeCal(date($blog->created_at));
             return $data;
         });
+
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(10)->get();
+
+        $categories = Product::where('kind', $kind)->where('status', 1)
+            ->join('category_products', 'category_products.id', '=', 'products.category_id')
+            ->select('category_products.name', 'category_products.id', DB::raw('count(*) as total_blogs'))
+            ->orderBy('total_blogs', 'desc')
+            ->groupBy('products.category_id')
+            ->get();
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
         $this->data['topTags'] = $topTags;
+        $this->data['topViewBlogs'] = $topViewBlogs;
+        $this->data['categories'] = $categories;
         $this->data['link'] = $kind == 'blog' ? 'blogs' : ($kind == 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
         return view('colorme_new.blogs', $this->data);
     }
@@ -592,9 +607,12 @@ class ColormeNewController extends CrawlController
         }
         $data = $blog->blogDetailTransform();
         $data['time'] = $this->timeCal(date($blog->created_at));
-        $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', 'blog')->where('status', 1)->where('author_id', $blog->author_id)
-            ->limit(3)->get();
+        $this->data['auth_related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', $blog->kind)->where('status', 1)->where('author_id', $blog->author_id)
+            ->inRandomOrder()->limit(5)->get();
+        $this->data['related_blogs'] = Product::where('id', '<>', $blog->id)->where('kind', $blog->kind)->where('status', 1)
+            ->inRandomOrder()->limit(5)->get();
         $this->data['blog'] = $data;
+        $this->data['course'] = findCourseWithProduct($blog);
 
         return view('colorme_new.blog', $this->data);
     }
@@ -613,7 +631,8 @@ class ColormeNewController extends CrawlController
             $user->name = $request->name;
             $user->phone = $phone;
         }
-        $user->rate = 5;
+        $user->rate = 2;
+        $user->how_know = $request->blog_id;
         $user->save();
 
         $subscription = new ProductSubscription();
@@ -627,21 +646,56 @@ class ColormeNewController extends CrawlController
         ];
     }
 
+    public function signUpCourse(Request $request)
+    {
+        $user = User::where('email', '=', $request->email)->first();
+        if ($user == null)
+            $user = User::where('username', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        $course = Course::find($request->course_id);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt('123456');
+            $user->username = $request->email;
+            $user->email = $request->email;
+            $user->name = $request->name;
+            $user->phone = $phone;
+        }
+        $user->how_know = $course ? $course->name : '';
+        $user->rate = 5;
+        $user->save();
+        if ($request->saler_id) {
+            $userCarer = new UserCarer();
+            $userCarer->carer_id = $request->saler_id;
+            $userCarer->user_id = $user->id;
+            $userCarer->assigner_id = 1;
+            $userCarer->save();
+        }
+
+        $this->emailService->send_mail_welcome($user);
+        return [
+            'message' => 'success'
+        ];
+    }
+
     public function extract(Request $request)
     {
+        $date = new \DateTime();
+        $formatted_time = $date->format('Y-m-d');
+
         $userIds = ProductSubscription::select(DB::raw('distinct user_id'), 'created_at')->get();
-
-
-        $resourceIds = Product::where('kind', 'resource')->where('status', 1)->pluck('id')->toArray();
-        $resourceCount = count($resourceIds);
-
-        // dd($resourceCount);
-        $userIds = $userIds->map(function ($userId) use ($resourceCount, $resourceIds) {
+        foreach ($userIds as $userId) {
+            $user = User::find($userId->user_id);
             $day = ceil(abs(strtotime($userId->created_at) - strtotime(Carbon::now()->toDateTimeString())) / (60 * 60 * 24));
             $week_count = (int)ceil($day / 7);
-            return $resourceIds[$week_count % $resourceCount];
-        });
-        dd($userIds);
+
+            $resourceIds = Product::where('kind', 'resource')->where('status', 1)->pluck('id')->toArray();
+            $resourceCount = count($resourceIds);
+            $resource = Product::find($resourceIds[$week_count % $resourceCount]);
+            if ($user && $resource)
+                if ($user->id == 13620)
+                    $this->emailService->send_mail_resource($resource, $user);
+        }
     }
 
     public function blogsByCategory($category_name)
@@ -649,16 +703,6 @@ class ColormeNewController extends CrawlController
         $category = CategoryProduct::where('name', $category_name)->first();
         $blogs = Product::where('category_id', $category->id);
         return $this->queryProducts('blog', $blogs);
-    }
-
-    public function addShareToDown($content)
-    {
-
-        if (strpos($content, '[[share_to_download]]') && strpos($content, '[[/share_to_download]]')) {
-//            $content =
-        }
-
-        return $content;
     }
 
 }

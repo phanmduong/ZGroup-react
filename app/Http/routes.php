@@ -496,11 +496,12 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/search', 'ColormeNewController@social');
     Route::get('/courses', 'ColormeNewController@social');
     Route::get('/notifications-list', 'ColormeNewController@social');
-    Route::get('/posts/1', 'ColormeNewController@social1');
-    Route::get('/posts/7', 'ColormeNewController@social7');
-    Route::get('/posts/30', 'ColormeNewController@social30');
-    Route::get('/posts/new', 'ColormeNewController@socialnew');
     Route::get('/posts/{popular}', 'ColormeNewController@social');
+    // Route::get('/posts/1', 'ColormeNewController@social1');
+    // Route::get('/posts/7', 'ColormeNewController@social7');
+    // Route::get('/posts/30', 'ColormeNewController@social30');
+    // Route::get('/posts/new', 'ColormeNewController@socialnew');
+    
     Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
     Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
@@ -511,6 +512,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/blog/{slug}', 'ColormeNewController@blog');
     Route::get('/api/v3/extract', 'ColormeNewController@extract');
     Route::post('/api/v3/sign-up', 'ColormeNewController@register');
+    Route::post('/api/v3/sign-up-course', 'ColormeNewController@signUpCourse');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
     Route::get('/sign-in', 'ColormeNewController@social');
@@ -982,7 +984,3 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
 
 
 });
-
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
