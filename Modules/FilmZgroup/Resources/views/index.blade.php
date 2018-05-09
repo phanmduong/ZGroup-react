@@ -2,100 +2,6 @@
 
 @section('content')
     <body class="home page-template page-template-page-templates page-template-page-builder page-template-page-templatespage-builder-php page page-id-35 masthead-fixed full-width grid">
-    <div class="navbar banner--clone" role="navigation">
-        <!-- Heading -->
-        <div class="heading">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="search">
-                            <a href="#">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </div>
-                        <div class="tel">
-                            <a href="tel:123456789">
-                                <i class="fa fa-phone"></i> 123 456 789 </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="movie-search">
-        <form role="search" method="get" id="searchform" action="http://specto.klevermedia.co.uk/">
-            <div>
-                <input type="text" value="" name="s" id="search" placeholder="Tìm phim">
-                <input type="submit" id="searchsubmit" class="btn btn-default" value="Tìm kiếm">
-                <input type="hidden" name="post_type" value="movie">
-            </div>
-        </form>
-    </div>
-
-    <!-- Navigation -->
-    <div class="navbar" role="navigation">
-        <!-- Heading -->
-        <div class="heading">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="search">
-                            <a href="#">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </div>
-                        <div class="tel">
-                            <a href="tel:123456789">
-                                <i class="fa fa-phone"></i> 123 456 789 </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="navbar-header">
-                <a href="Homepage.html" title="Ledahlia" class="logo">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525421236EE6Two3Gmcm7zec.png" alt="Ledahlia"
-                         style="margin-top: -20px; margin-left: 15px; width: 178px">
-                </a>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar top-bar"></span>
-                    <span class="icon-bar middle-bar"></span>
-                    <span class="icon-bar bottom-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse ">
-                <ul id="menu-main-navigation" class="nav navbar-nav">
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-194 current-menu-item curent_page_item active dropdown">
-                        <a title="Movies" href="Movies.html" class="dropdown-toggle" aria-haspopup="false">Phim mới</a>
-                        <ul role="menu" class="dropdown-menu">
-                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-246">
-                                <a title="All movies" style="color: white!important" href="All movies.html">Tất cả
-                                    phim</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-229"><a title="News"
-                                                                                                          href="News.html">Tin
-                            tức</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-254"><a title="Coffee"
-                                                                                                          href="Coffee.html">Cà
-                            phê</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-254"><a title="Events"
-                                                                                                          href="Events.thml">Sự
-                            kiện</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-210"><a
-                                title="Contact us" href="Contact us.html">Liên hệ</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
     <div class="fw-page-builder-content">
 
         <section style=" padding-top: 0px; padding-bottom: 0px; border-width: 0px 0px 0px 0px"
@@ -130,7 +36,11 @@
                                     <!-- Slides -->
                                     <?php $i = 0; $class = "";?>
                                     @foreach($sessionsShowing->take(5) as $session)
-                                        <?php $i++; if($i == 2) {$class = "active";} else {$class = "";}?>
+                                        <?php $i++; if ($i == 2) {
+                                            $class = "active";
+                                        } else {
+                                            $class = "";
+                                        }?>
                                         <div class="item {{$class}}"
                                              style="background-image: url({{$session->film->cover_url}}); padding-top: 0px;">
 
@@ -610,11 +520,9 @@
                                 $('.movies').tabs({
                                     active: 0
                                 });
-
                                 // $('.movies ul li.ui-tabs-active a').each(function(index, el) {
                                 //     $(this).text('Today');
                                 // });
-
                                 $('.movies #Mon').find('.mon-time').css('display', 'inline-block');
                                 $('.movies #Tue').find('.tue-time').css('display', 'inline-block');
                                 $('.movies #Wed').find('.wed-time').css('display', 'inline-block');
@@ -622,7 +530,6 @@
                                 $('.movies #Fri').find('.fri-time').css('display', 'inline-block');
                                 $('.movies #Sat').find('.sat-time').css('display', 'inline-block');
                                 $('.movies #Sun').find('.sun-time').css('display', 'inline-block');
-
                             });
                         </script>
                     </div>
@@ -733,7 +640,6 @@
                                 $("[data-dynamicclass=" + currentClass + "]").css('opacity', '1');
                                 return false;
                             });
-
                         });
                     </script>
                 </div>
@@ -761,60 +667,6 @@
         </section>
     </div>
 
-
-    <footer class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <h6>Get in touch</h6>
-                    <div class="menu-footer-1-container">
-                        <ul id="menu-footer-1" class="menu">
-                            <li id="menu-item-48"
-                                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-48"><a
-                                        href="#">FAQs</a></li>
-                            <li id="menu-item-49"
-                                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-49"><a
-                                        href="#">Give us feedback</a></li>
-                            <li id="menu-item-50"
-                                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50"><a
-                                        href="#">Contact us</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <h6>About movie star</h6>
-                    <div class="menu-footer-1-container">
-                        <ul id="menu-footer-2" class="menu">
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-48"><a
-                                        href="#">FAQs</a></li>
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-49"><a
-                                        href="#">Give us feedback</a></li>
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50"><a
-                                        href="#">Contact us</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <h6>Legal stuff</h6>
-                    <div class="menu-footer-1-container">
-                        <ul id="menu-footer-3" class="menu">
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-48"><a
-                                        href="#">FAQs</a></li>
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-49"><a
-                                        href="#">Give us feedback</a></li>
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50"><a
-                                        href="#">Contact us</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <h6>Connect with us</h6>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>2018 © Specto / <a href="http://www.klevermedia.co.uk">Web design by Klever media</a></p></div>
-        </div>
-    </footer>
 
     <script src="http://specto.klevermedia.co.uk/wp-content/themes/specto/js/bootstrap.min.js?ver=3.3.6"></script>
     <script src="http://specto.klevermedia.co.uk/wp-content/themes/specto/js/headhesive.min.js?ver=1.2.4"></script>
@@ -862,7 +714,6 @@
                 },
             }
         })
-
         $('#comingSoon').owlCarousel({
             loop: true,
             nav: true,
@@ -894,11 +745,20 @@
     <script type="text/javascript">
         var today = new Date();
         // var time = today.getHours() + ":" + today.getMinutes();
-        // console.log(today);
-        if (Date.parse('08/05/2018 15:00') > Date.parse(today)) {
-            $('.today .time').addClass('time-past')
-        }
-        ;
+        // console.log(Date.parse("2018-05-16 06:00:00"));
+        @foreach($sessionsShowing as $session)
+                {{--var date = {{$session->start_date}};--}}
+                // console.log(date);/**/
+<!--        --><?php //echo($session->start_date);?>
+{{--                var time = {{$session->start_time}};--}}
+            // console.log(Date.parse("" + date + " " + time));
+            {{--if (Date.parse("" + {{$session->start_date}} + " " + {{$session->start_time}}) > Date.parse(today)) {--}}
+            {{--$('.today .time').addClass('time-past')--}}
+            {{--};--}}
+        @endforeach
     </script>
+
+
+
     </body>
 @endsection
