@@ -255,9 +255,9 @@
         // function openModal() {
         //     $("#modalRegister").modal("show");
         // }
-
+        var registerModalTime;
         window.onload = function (e) {
-            setTimeout(function () {
+            registerModalTime = setTimeout(function () {
                 $("#modalRegister").modal("show");
             }, 15000);
         }
@@ -363,6 +363,7 @@
         });
 
         function setDataModal(classData) {
+            clearTimeout(registerModalTime);
             fbq('track', 'Purchase');
             formRegisterClass.classData = classData;
             @if (isset($user))
