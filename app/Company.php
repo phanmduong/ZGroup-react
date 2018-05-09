@@ -12,6 +12,11 @@ class Company extends Model
     public function field(){
         return $this->belongsTo(Field::class,'field_id');
     }
+    
+    public function contract(){
+        return $this->belongsTo(Contracts::class,'contract_id');
+    }
+
     public function transform()
     {
         $field = $this->field;

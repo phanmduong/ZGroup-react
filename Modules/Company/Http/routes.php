@@ -80,7 +80,13 @@ $companyRoutes = function () {
         Route::get('/history-good/{goodId}','WarehouseController@getHistoryGood');
         Route::get('/summary-good/all','WarehouseController@summaryGood');
 
-
+        //Contract
+        Route::get('/contract/all','AdministrationController@getAllContract');
+        Route::get('/contract/{contract_id}','AdministrationController@getContractDetail');
+        Route::post('/contract/create','AdministrationController@createContract');
+        Route::put('/contract/edit/{contract_id}','AdministrationController@editContract');
+        Route::post('/contract/change-status/{contract_id}','AdministrationController@changeStatusContract');
+        
     });
 };
 
