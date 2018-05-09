@@ -76,11 +76,13 @@ export function loadAllContract(filter) {
         page: filter.page || "1",
         start_time: filter.start_time || "",
         end_time: filter.end_time || "",
-        staff_name: filter.staff_name || "",
-        sign_staff_name: filter.sign_staff_name || "",
+        staff_id: filter.staff_id || "",
+        sign_staff_id: filter.sign_staff_id || "",
         company_a_id: filter.company_a_id || "",
         company_b_id: filter.company_b_id || "",
         contract_number: filter.contract_number || "",
+        status: filter.status || "",
+        type: filter.type || "",
     };
     let url = env.MANAGE_API_URL + "/company/contract/all?";
     let token = localStorage.getItem('token');
@@ -88,13 +90,16 @@ export function loadAllContract(filter) {
         url +=
             "&token=" + token +
             "&page=" + filter.page +
-            "&=limit" + filter.limit +
-            "&=start_time" + filter.end_time +
-            "&=staff_name" + filter.staff_name +
-            "&=sign_staff_name" + filter.sign_staff_name +
-            "&=company_a_id" + filter.company_a_id +
-            "&=company_b_id" + filter.company_b_id +
-            "&=contract_number" + filter.contract_number +
+            "&limit=" + filter.limit +
+            "&start_time=" + filter.start_time +
+            "&end_time=" + filter.end_time +
+            "&staff_id=" + filter.staff_id +
+            "&sign_staff_id=" + filter.sign_staff_id +
+            "&company_a_id=" + filter.company_a_id +
+            "&company_b_id=" + filter.company_b_id +
+            "&contract_number=" + filter.contract_number +
+            "&status=" + filter.status +
+            "&type=" + filter.type +
             "";
     }
     return axios.get(url);

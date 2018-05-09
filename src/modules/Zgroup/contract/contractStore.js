@@ -23,12 +23,13 @@ export const store = new class DashboardStaffStore {
     @observable filter = {
         start_time: "",
         end_time: "",
-        staff_name: "",
-        sign_staff_name: "",
+        staff_id: "",
+        sign_staff_id: "",
         company_a_id: "",
         company_b_id: "",
         contract_number: "",
         limit: "20",
+        type: "",
     };
 
 
@@ -121,15 +122,17 @@ export const store = new class DashboardStaffStore {
     }
     @action
     loadAllContract() {
-        contractApi.loadAllContract(filter)
+        this.isLoading = true;
+        contractApi.loadAllContract(this.filter)
             .then((res) => {
                 this.paginator = res.data.paginator;
                 this.contracts = res.data.data;
-                console.log("load all: ", res.data);
+                this.isLoading = false;
+
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
-
+                this.isLoading = false;
             });
     }
     @action
@@ -171,6 +174,17 @@ export const store = new class DashboardStaffStore {
     @computed
     get allContractType() {
         return CONTRACT_TYPES.map(function (obj, index) {
+            return {
+                id: index + 1,
+                value: index + 1,
+                label: obj,
+            };
+        });
+    }
+    @computed
+    get allStatus() {
+        let status = ["Chưa gửi", "Đã gửi", "Đã nhận"];
+        return status.map(function (obj, index) {
             return {
                 id: index,
                 value: index,

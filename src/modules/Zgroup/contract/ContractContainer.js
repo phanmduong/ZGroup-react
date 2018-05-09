@@ -6,7 +6,6 @@ import Loading from "../../../components/common/Loading";
 import { Link } from "react-router";
 import TooltipButton from '../../../components/common/TooltipButton';
 import Pagination from "../../../components/common/Pagination";
-import { DATETIME_FORMAT, DATETIME_FORMAT_SQL, CONTRACT_TYPES } from "../../../constants/constants";
 import moment from "moment";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import PropTypes from 'prop-types';
@@ -25,7 +24,10 @@ class ContractContainer extends Component {
     }
 
     componentWillMount() {
+        store.loadAllCompanies();
+        store.loadStaffs();
         store.loadAllContract();
+
     }
 
     openInfoModal = (data) => {
@@ -66,7 +68,7 @@ class ContractContainer extends Component {
     }
 
     render() {
-        let { isLoading, isInfoModal, paginator, contracts, loadAllContract, filter, showPanel } = store;
+        let { isLoading, isInfoModal, paginator, contracts, filter, showPanel, allContractType, allStaff, allCompany, allStatus } = store;
         let { user } = this.props;
         const filterClass = "col-md-3 col-sm-6 col-xs-6";
         return (
@@ -112,9 +114,59 @@ class ContractContainer extends Component {
                                         <div className="col-md-12">
                                             <div className="row">
                                                 <div className={filterClass}>
+                                                    <label>Bên A</label>
+                                                    <ReactSelect
+                                                        options={allCompany || []}
+                                                        onChange={(e) => {
+                                                            return this.onFilterChange("company_a_id", e ? e.id : "");
+                                                        }}
+                                                        value={filter.company_a_id}
+                                                        defaultMessage="Chọn"
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
+                                                <div className={filterClass}>
+                                                    <label>Bên b</label>
+                                                    <ReactSelect
+                                                        options={allCompany || []}
+                                                        onChange={(e) => {
+                                                            return this.onFilterChange("company_b_id", e ? e.id : "");
+                                                        }}
+                                                        value={filter.company_b_id}
+                                                        defaultMessage="Chọn"
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
+
+
+                                                <div className={filterClass}>
+                                                    <label>Người tạo</label>
+                                                    <ReactSelect
+                                                        options={allStaff || []}
+                                                        onChange={(e) => {
+                                                            return this.onFilterChange("staff_id", e ? e.id : "");
+                                                        }}
+                                                        value={filter.staff_id}
+                                                        defaultMessage="Chọn"
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
+                                                <div className={filterClass}>
+                                                    <label>Người kí</label>
+                                                    <ReactSelect
+                                                        options={allStaff || []}
+                                                        onChange={(e) => {
+                                                            return this.onFilterChange("sign_staff_id", e ? e.id : "");
+                                                        }}
+                                                        value={filter.sign_staff_id}
+                                                        defaultMessage="Chọn"
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
+                                                <div className={filterClass}>
                                                     <label>Trạng thái</label>
                                                     <ReactSelect
-                                                        options={[]}
+                                                        options={allStatus || []}
                                                         onChange={(e) => {
                                                             return this.onFilterChange("status", e ? e.id : "");
                                                         }}
@@ -123,12 +175,23 @@ class ContractContainer extends Component {
                                                         disabled={isLoading}
                                                     />
                                                 </div>
-
+                                                <div className={filterClass}>
+                                                    <label>Loại</label>
+                                                    <ReactSelect
+                                                        options={allContractType || []}
+                                                        onChange={(e) => {
+                                                            return this.onFilterChange("type", e ? e.id : "");
+                                                        }}
+                                                        value={filter.type}
+                                                        defaultMessage="Chọn"
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
                                                 <div className={filterClass}>
                                                     <FormInputText
-                                                        name="staff_name"
-                                                        value={filter.staff_name}
-                                                        label="Nhân viên"
+                                                        name="contract_number"
+                                                        value={filter.contract_number}
+                                                        label="Số hợp đồng"
                                                         updateFormData={this.onTextFilterChange}
                                                         disabled={isLoading}
                                                     />
@@ -167,7 +230,7 @@ class ContractContainer extends Component {
                                         <div className="col-md-12">
                                             {
                                                 contracts.length == 0 ?
-                                                    <h3>Chưa có hợp đồng</h3>
+                                                    <h3>Không có dữ liệu</h3>
                                                     :
                                                     <div className="table-responsive">
                                                         <table id="datatables" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{ width: "100%" }}>
@@ -223,7 +286,7 @@ class ContractContainer extends Component {
                                                             <Pagination
                                                                 currentPage={paginator.current_page}
                                                                 totalPages={paginator.total_pages}
-                                                                loadDataPage={(page) => { }} />
+                                                                loadDataPage={(page) => { this.onFilterChange("page", page); }} />
                                                         </div>
                                                     </div>
                                             }
