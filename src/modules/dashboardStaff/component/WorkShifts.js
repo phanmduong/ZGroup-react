@@ -1,11 +1,17 @@
-import React, { Component } from "react";
-import { store } from "../dashboardStaffStore";
+import React, {Component} from "react";
+import {store} from "../dashboardStaffStore";
 import FormInputDate from "../../../components/common/FormInputDate";
-import { observer } from "mobx-react";
-import { observable } from "mobx";
-import { isEmptyInput, groupBy } from "../../../helpers/helper";
+import {observer} from "mobx-react";
+import {observable} from "mobx";
+import {isEmptyInput} from "../../../helpers/helper";
 import Loading from "../../../components/common/Loading";
-import _ from "lodash";
+// import _ from "lodash";
+import Calendar from "../../../components/common/Calendar";
+import moment from "moment";
+
+function convertTime(time){
+    return time.slice(3,5) + "/" + time.slice(0,2) + "/" + time.slice(6,10);
+}
 
 @observer
 export default class WorkShifts extends Component {
@@ -14,53 +20,35 @@ export default class WorkShifts extends Component {
         this.updateFormFilter = this.updateFormFilter.bind(this);
     }
 
-    @observable startTime = "";
-    @observable endTime = "";
+    @observable startTime = moment().startOf('week').add(1,'days').subtract(2,"months").format("YYYY-MM-DD");
+    @observable endTime = moment().endOf('week').add(1,'days').format("YYYY-MM-DD");
 
     updateFormFilter(event) {
         this[event.target.name] = event.target.value;
-
         if (!isEmptyInput(this.startTime) && !isEmptyInput(this.endTime)) {
             store.loadWorkShifts(this.startTime, this.endTime);
         }
     }
 
-    statusAttendance(attendance) {
-        switch (attendance.status) {
-            case "absent":
-                return (
-                    <div className="btn btn-xs btn-danger min-width-80-px width-100">
-                        <strong>-- : --</strong>
-                    </div>
-                );
-            case "accept":
-                return (
-                    <div className="btn btn-xs btn-success min-width-80-px width-100">{attendance.time}</div>
-                );
-            case "no-accept":
-                return (
-                    <div className="btn btn-xs btn-warning min-width-80-px width-100">{attendance.time}</div>
-                );
-            case "none":
-                return (
-                    <div className="btn btn-xs btn-default min-width-80-px width-100">
-                        <strong>-- : --</strong>
-                    </div>
-                );
-            default:
-                return (
-                    <div className="btn btn-xs btn-default min-width-80-px width-100">
-                        <strong>-- : --</strong>
-                    </div>
-                );
-        }
-    }
-
     render() {
-        const workShifts = _.sortBy(
-            groupBy(store.user.work_shifts, workShift => workShift.date, ["date", "work_shifts"]),
-            ["date"]
-        );
+        // const workShifts = _.sortBy(
+        //     groupBy(store.user.work_shifts, workShift => workShift.date, ["date", "work_shifts"]),
+        //     ["date"]
+        // );
+
+        const workShifts = store.user.work_shifts.map((workShift) => {
+            return {
+                title: (workShift.checkout_status === "accept" || workShift.checkout_status === "no-accept") ?
+                   workShift.check_out_time : "-- : --",
+                start: convertTime(workShift.date) + " " + workShift.start_shift_time,
+                end: convertTime(workShift.date) + " " + workShift.start_shift_time,
+                color: (workShift.checkout_status === "absent" ?
+                    "#F10039" : (workShift.checkout_status === "accept" ?
+                        "#00B34E" : (workShift.checkout_status === "no-accept") ?
+                            "#E9A700" : "#596268"))
+            };
+        });
+
         return (
             <div>
                 <div className="row">
@@ -93,82 +81,25 @@ export default class WorkShifts extends Component {
                                     </div>
                                 </div>
                                 {store.isLoadingWorkShifts ? (
-                                    <Loading />
+                                    <Loading/>
                                 ) : (
-                                        <div>
-                                            <div className="row">
-                                                {workShifts.map((item, index) => {
-                                                    return (
-                                                        <div className="col-sm-6" key={index}>
-                                                            <div className="card">
-                                                                <div className="card-content">
-                                                                    <h4 className="card-title">
-                                                                        <strong>
-                                                                            {item.work_shifts[0].date_vi}
-                                                                        </strong>
-                                                                    </h4>
-                                                                    <div>
-                                                                        <div className="table-responsive">
-                                                                            <table className="table">
-                                                                                <tbody>
-                                                                                    {item.work_shifts.map(
-                                                                                        (workShift, index) => {
-                                                                                            return (
-                                                                                                <tr key={index}>
-                                                                                                    <td>
-                                                                                                        <strong>
-                                                                                                            {
-                                                                                                                workShift.name
-                                                                                                            }
-                                                                                                        </strong>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        {`${
-                                                                                                            workShift.start_shift_time
-                                                                                                            } - ${
-                                                                                                            workShift.end_shift_time
-                                                                                                            }`}
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <div>
-                                                                                                            {workShift &&
-                                                                                                                this.statusAttendance(
-                                                                                                                    {
-                                                                                                                        status:
-                                                                                                                            workShift.checkin_status,
-                                                                                                                        time:
-                                                                                                                            workShift.check_in_time
-                                                                                                                    }
-                                                                                                                )}
-                                                                                                        </div>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        {workShift &&
-                                                                                                            this.statusAttendance(
-                                                                                                                {
-                                                                                                                    status:
-                                                                                                                        workShift.checkout_status,
-                                                                                                                    time:
-                                                                                                                        workShift.check_out_time
-                                                                                                                }
-                                                                                                            )}
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            );
-                                                                                        }
-                                                                                    )}
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
+                                    <div>
+                                        <div className="card">
+                                            <div className="card-content">
+                                                <Calendar
+                                                    id={"room-calender"}
+                                                    calendarEvents={workShifts}
+                                                     onClick={(e) => {
+                                                         e.preventDefault();
+                                                    }}
+                                                    // onClickDay={day => {
+                                                    //     self.openModalBooking(day, room);
+                                                    // }}
+                                                />
                                             </div>
                                         </div>
-                                    )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
