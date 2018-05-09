@@ -385,8 +385,8 @@
             }
             @endif
                 formRegisterClass.isSuccess = false;
-            formRegisterClass.isError = false;
-            formRegisterClass.isLoading = false;
+                formRegisterClass.isError = false;
+                formRegisterClass.isLoading = false;
         }
     </script>
     <script>

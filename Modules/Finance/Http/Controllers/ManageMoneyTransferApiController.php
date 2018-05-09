@@ -98,23 +98,28 @@ class ManageMoneyTransferApiController extends ManageApiController
         }
 
         $this->user->status = 2;
-        $this->user->save();
+        $this->user->money = $this->user->money - $request->money;
+
 
         $transaction = new Transaction();
         $transaction->status = 0;
+        $transaction->type = 0;
         $transaction->sender_id = $this->user->id;
         $transaction->receiver_id = $receiver->id;
         $transaction->receiver_money = $receiver->money;
         $transaction->sender_money = $this->user->money;
         $transaction->money = $request->money;
-        $transaction->save();
+
 
         $notification = new Notification();
         $notification->product_id = $transaction->id;
         $notification->actor_id = $this->user->id;
         $notification->receiver_id = $receiver->id;
         $notification->type = 3;
+        $transaction->save();
+        $this->user->save();
         $notification->save();
+
 
         $data = array(
             "message" => $notification->actor->name . " vừa chuyển tiền cho bạn và đang chờ bạn xác nhận.",
@@ -190,8 +195,9 @@ class ManageMoneyTransferApiController extends ManageApiController
         $transaction->status = $status;
         $transaction->sender->status = 0;
         if ($status == 1) {
-            $transaction->sender->money = $transaction->sender->money - $transaction->money;
             $transaction->receiver->money = $transaction->receiver->money + $transaction->money;
+        } else {
+            $transaction->sender->money = $transaction->sender->money + $transaction->money;
         }
 
         $transaction->save();
