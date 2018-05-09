@@ -1076,3 +1076,15 @@ a.btn-seat.active {
 .btn-grey{
     background-color: #999999 !important;
 }
+
+.button-round {
+	display: flex;
+	height: 25px;
+	width: 25px;
+	padding: 0px!important;
+	border-radius: 50%;
+}
+.button-round i {
+	margin: auto;
+	top: 0px!important;
+}
