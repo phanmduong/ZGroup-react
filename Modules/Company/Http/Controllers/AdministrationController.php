@@ -525,10 +525,10 @@ class AdministrationController extends ManageApiController
         public function changeStatusContract($contract_id,Request $request)
         {
             $contract = Contracts::find($contract_id);
-            if($contract) {
+            if($contract && $request->status) {
                 $contract->status = $request->status;
                 $contract->save();
-            }else{
+            }else {
                 return $this->respondErrorWithStatus("Không tồn tại");
             }
             
