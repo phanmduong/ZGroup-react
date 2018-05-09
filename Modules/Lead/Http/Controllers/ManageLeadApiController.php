@@ -208,6 +208,17 @@ class ManageLeadApiController extends ManageApiController
 
         $lead->save();
 
+        $courses = $lead->registers()->where('registers.status', 1)->join("classes", "registers.class_id", "=", "classes.id")
+            ->join("courses", "courses.id", "=", "classes.course_id")
+            ->select('courses.*')->orderBy('created_at')->distinct()->get();
+
+        $lead['courses'] = $this->courseRepository->courses($courses);
+        $userCarer = UserCarer::where('user_id', $lead->id)->first();
+        if ($userCarer) {
+            $lead['carer'] = $this->userRepository->staff($userCarer->carer);
+            $lead['assigner'] = $this->userRepository->staff($userCarer->assigner);
+        }
+
         return $this->respondSuccessWithStatus([
             'lead' => $this->userRepository->student($lead)
         ]);

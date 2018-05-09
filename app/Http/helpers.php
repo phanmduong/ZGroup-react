@@ -1697,3 +1697,29 @@ function convertContentBlog($content)
     $data = convertShareToDownload($content);
     return $data;
 }
+
+function findCourseWithProduct($product)
+{
+    $courses = \App\Course::where('status', 1)->get();
+    $product['tags'] = str_replace(", ", ",", $product['tags']);
+    $productTags = explode(",", $product['tags']);
+    $maxTotalTags = 0;
+    $result = null;
+    foreach ($courses as $course) {
+        $count = 0;
+        $course['tags'] = str_replace(", ", ",", $course['tags']);
+        $courseTags = explode(",", $course['tags']);
+        foreach ($courseTags as $tag)
+            if (in_array($tag, $productTags)) {
+                $count++;
+            }
+        if ($count >= $maxTotalTags) {
+            $result = $course;
+            $maxTotalTags = $count;
+        }
+    }
+    if ($maxTotalTags = 0) {
+        return \App\Course::where('status', 1)->first();
+    }
+    return $result;
+}
