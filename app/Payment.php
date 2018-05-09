@@ -36,6 +36,8 @@ class Payment extends Model
             "staff" => $this->staff ? [
                 "id" => $this->staff->id,
                 "name" => $this->staff->name,
+                "avatar_url" => $this->staff->avatar_url,
+                "phone" => $this->staff->phone,
             ] : [],
             "deadline" => format_vn_short_datetime(strtotime($this->deadline)),
             "created_at" => format_vn_short_datetime(strtotime($this->created_at)),
