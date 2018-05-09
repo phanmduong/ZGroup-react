@@ -7,6 +7,7 @@ use App\FilmSession;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Carbon\Carbon;
 
 class FilmZgroupController extends Controller
 {
@@ -17,15 +18,62 @@ class FilmZgroupController extends Controller
 
     public function index()
     {
+        $today = Carbon::today();
+        $day = Carbon::today();
         $todaySessions = FilmSession::where('start_date', '=', date('Y-m-d'))->get();
-        $films = Film::orderBy('created_at','desc')->get();
-        $this->data = [
-            "films" => $films,
-            "todaySessions" => $todaySessions
+        $after1DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after2DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after3DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after4DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after5DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after6DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
 
+        $filmsComing = Film::where('film_status',2)->orderBy('release_date')->get();
+
+        $sessionsShowing = FilmSession::where('start_date','>=',date('Y-m-d'))->orderBy('start_date','desc')->get();
+//        dd($filmsComing);
+        $this->data = [
+            'filmsComing' => $filmsComing,
+            'sessionsShowing' => $sessionsShowing,
+            'day' => $day,
+            "todaySessions" => $todaySessions,
+            'after1DaySessions' => $after1DaySessions,
+            'after2DaySessions' => $after2DaySessions,
+            'after3DaySessions' => $after3DaySessions,
+            'after4DaySessions' => $after4DaySessions,
+            'after5DaySessions' => $after5DaySessions,
+            'after6DaySessions' => $after6DaySessions,
         ];
 
         return view('filmzgroup::index', $this->data);
+    }
+
+    public function film($id)
+    {
+        $film = Film::find($id);
+        $sessionsShowing = FilmSession::where('start_date','>=',date('Y-m-d'))->orderBy('start_date','desc')->get();
+        $today = Carbon::today();
+        $day = Carbon::today();
+        $todaySessions = FilmSession::where('start_date', '=', date('Y-m-d'))->get();
+        $after1DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after2DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after3DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after4DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after5DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $after6DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $this->data = [
+            'film' => $film,
+            'sessionsShowing' => $sessionsShowing,
+            'day' => $day,
+            "todaySessions" => $todaySessions,
+            'after1DaySessions' => $after1DaySessions,
+            'after2DaySessions' => $after2DaySessions,
+            'after3DaySessions' => $after3DaySessions,
+            'after4DaySessions' => $after4DaySessions,
+            'after5DaySessions' => $after5DaySessions,
+            'after6DaySessions' => $after6DaySessions,
+        ];
+        return view('filmzgroup::film', $this->data);
     }
 
 

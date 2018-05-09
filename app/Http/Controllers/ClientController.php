@@ -193,4 +193,8 @@ class ClientController extends Controller
     {
         return view('client.telesales');
     }
+    public function sms()
+    {
+        return view('client.sms');
+    }
 }

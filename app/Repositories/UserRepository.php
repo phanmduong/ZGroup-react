@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: caoquan
@@ -31,27 +32,30 @@ class UserRepository
     {
         if ($user)
             return [
-                'id' => $user->id,
-                'name' => $user->name,
-                'color' => $user->color
-            ];
+            'id' => $user->id,
+            'name' => $user->name,
+            'color' => $user->color
+        ];
     }
 
     public function student($student)
     {
         if ($student)
             return [
-                'id' => $student->id,
-                'name' => $student->name,
-                'phone' => $student->phone,
-                'email' => $student->email,
-                'rate' => $student->rate,
-                'created_at' => format_vn_short_datetime(strtotime($student->created_at)),
-                'avatar_url' => generate_protocol_url($student->avatar_url),
-                'dob' => $student->dob,
-                'facebook' => $student->facebook,
-                'university' => $student->university,
-            ];
+            'id' => $student->id,
+            'name' => $student->name,
+            'phone' => $student->phone,
+            'email' => $student->email,
+            'rate' => $student->rate,
+            'created_at' => format_vn_short_datetime(strtotime($student->created_at)),
+            'avatar_url' => generate_protocol_url($student->avatar_url),
+            'dob' => $student->dob,
+            'facebook' => $student->facebook,
+            'university' => $student->university,
+            'how_know' => $student->how_know,
+            'status' => $student->status,
+            'note' => $student->note,
+        ];
     }
 
     public function staffs()

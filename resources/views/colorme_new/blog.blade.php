@@ -12,8 +12,6 @@
     <meta id="metakeywords" name="keywords" content="{!! htmlspecialchars($blog['keyword']) !!}"/>
     <meta id="newskeywords" name="news_keywords" content="{!! htmlspecialchars($blog['keyword']) !!}"/>
     <link rel="canonical" href="{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}"/>
-
-
 @endsection
 
 @extends('colorme_new.layouts.master') @section('content')
@@ -166,7 +164,9 @@
                                 <div class="col-md-8 title-wrapper">
                                     @if($blog['category_name'])
                                         <span style=" text-transform: uppercase; font-size: 14px; padding-bottom:20px">
-                                            <a class="a-hover-underline" style="color: white;" href = "/blogs"><span>/BLOGS</span></a><a class="a-hover-underline" style="color: white;" href = "/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
+                                            <a class="a-hover-underline" style="color: white;" href="/blogs"><span>/BLOGS</span></a><a
+                                                    class="a-hover-underline" style="color: white;"
+                                                    href="/blog/category/{{$blog['category_name']}}"><span>/{{$blog['category_name']}}</span></a>
                                         </span>
                                     @endif
 
@@ -176,11 +176,11 @@
                                             {{$blog['title']}}</p></div>
                                     <div>
                                     </div>
-                                        <div style="color:white">
-                                            <div style="">{{$blog['time']}}
-                                                · {{$blog['views']}} Lượt xem
-                                            </div>
+                                    <div style="color:white">
+                                        <div style="">{{$blog['time']}}
+                                            · {{$blog['views']}} Lượt xem
                                         </div>
+                                    </div>
                                     <a href="/profile/{{$blog['author']['username']}}" style="display:flex; "
                                        class="flex flex-row flex-row-center">
                                         <div style="background: url({{$blog['author']['avatar_url']}}) center center / cover; width: 20px; height: 20px; border-radius: 40px; "></div>
@@ -205,7 +205,7 @@
                                                 <div class="product-content"><p>{{$blog['description']}}</p></div>
                                             </div>
                                             <div class="product-content">
-                                                {!!$blog['content']!!}
+                                                {!!convertContentBlog($blog['content'])!!}
                                                 <hr>
                                             </div>
                                             <div style="height: 40px;">
@@ -240,53 +240,6 @@
                                                 </div>
                                             </div>
                                             <div class="product-content">
-                                                <hr>
-                                                <div class="row form-register">
-                                                    <div class="col-md-12">
-                                                        <h3 class="card-title text-center">Đăng kí nhận thông tin</h3>
-                                                        <div>
-                                                            <div role="form" id="contact-form" method="post" action="#">
-                                                                <input type="hidden" name="_token"
-                                                                       value="{{ csrf_token() }}">
-                                                                <div class="card-block">
-                                                                    <div class="form-group label-floating">
-                                                                        <input id="name" type="text" name="name"
-                                                                               class="form-control"
-                                                                               placeholder="Họ và tên">
-                                                                    </div>
-                                                                    <div class="form-group label-floating">
-                                                                        <input id="phone" type="text" name="phone"
-                                                                               class="form-control"
-                                                                               placeholder="Số điện thoại">
-                                                                    </div>
-                                                                    <div class="form-group label-floating">
-                                                                        <input id="email" type="text" name="email"
-                                                                               class="form-control" placeholder="Email">
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12">
-                                                                            <div id="alert"
-                                                                                 style="font-size: 14px"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <a id="submit"
-                                                                               class="btn btn-success btn-round"
-                                                                               style="color:white; display: flex;align-items: center;justify-content: center;">Đăng
-                                                                                kí</a>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                                 <div class="comments media-area">
                                                     <div class="fb-comments"
                                                          data-href="{{config('app.protocol').config('app.domain').'/blog/' . $blog['slug']}}"
@@ -295,27 +248,133 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="width: 130%;  margin-top: 40px;">
-                                                <div style="margin-top: 20px;">
-                                                    <a <a href="/profile/{{$blog['author']['username']}}"
-                                                       class="more-products">
-                                                        <h5>
-                                                            Bài viết khác từ
-                                                            {{$blog['author']['name']}}
-                                                        </h5>
-                                                    </a>
-                                                    <div class="more-products-container">
-                                                        @foreach($related_blogs as $related_blog)
-                                                            <a class="more-products-item"
-                                                               style="background-image: url({{$related_blog->url}})"
-                                                               href="/blog/{{$related_blog->slug}}"></a>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
+                                    <h3 style="color:#333; margin-top: 0px; margin-bottom: 30px">BÀI VIẾT TƯƠNG TỰ</h3>
+                                    @foreach($related_blogs as $related_blog)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <a href="/blog/{{$related_blog['slug']}}">
+                                                    <div class="relative">
+                                                        <img class="zoom"
+                                                             src="{{generate_protocol_url($related_blog['url'])}}"
+                                                             style="width: 100%;height:auto;"/>
+                                                        @if($related_blog['category_name'])
+                                                            <div class="product-category absolute"
+                                                                 style="text-align: center; bottom: 10px; right: 10px"><span
+                                                                        style=" padding: 5px 10px; background-color: rgb(197, 0, 0); color: white; text-transform: uppercase; font-size: 10px; border-radius: 3px;">{{$blog['category_name']}}</span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                </a>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="blog-title">
+                                                    <a href="/blog/{{$related_blog['slug']}}"
+                                                       style="color:#333">{{$related_blog['title']}}</a>
+                                                </div>
+                                                <a href="/blog/{{$related_blog['slug']}}" style="color:black">
+                                                    <div style="color: rgb(137, 137, 137);">{{$related_blog['time']}}
+                                                        · {{$related_blog['views']}} lượt xem
+                                                    </div>
+                                                </a>
+                                                <a href="/profile/{{$related_blog['author']['username']}}"
+                                                   class="flex flex-row flex-row-center">
+                                                    <div style="background: url({{$related_blog['author']['avatar_url']}}) center center / cover; width: 20px; height: 20px; border-radius: 40px; "></div>
+
+                                                    <div style="padding: 10px; color: rgb(68, 68, 68); font-size: 16px;">
+                                                        {{$related_blog['author']['name']}}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <hr class="margin-hr">
+                                    @endforeach
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input placeholder="Tìm kiếm" type="text" style="
+                                    font-size: 16px;
+                                    height: 30px;
+                                    border-radius: 20px;
+                                    padding: 15px;
+                                    /* margin-bottom: 20px; */
+                                    width: 100%;
+                                    border: solid 1px #ded8d8;
+                                "><br><br>
+                                @if(isset($course))
+                                <a href="/course/{{convert_vi_to_en($course->name)}}">
+                                    <div style="background-image: url({{$course->image_url}}); background-size: cover; background-position: center center; padding-bottom: 70%">
+                                    </div>
+                                    <br>
+                                    <div style="background-color: #4dca00;height:50px;padding:15px;text-align: center;border-radius: 3px;">
+                                        <p style="
+                                        font-size: 16px;
+                                        color: white;
+                                    ">ĐĂNG KÍ NGAY</p>
+                                    </div>
+                                </a>
+                                <br>
+                                @endif
+
+                                <div>
+                                    <b>BÀI VIẾT TƯƠNG TỰ</b>
+
+                                    <hr style="
+                                        border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($related_blogs as $related_blog)
+                                        <a
+                                                href="/blog/{{$related_blog->slug}}"
+                                                style="
+                                                    color: #6d6d6d;
+                                                    margin-bottom: 10px;
+                                                ">
+                                            <p>{{$related_blog->title}}</p>
+                                        </a>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <div>
+                                    <b>BÀI VIẾT CÙNG TÁC GIẢ</b>
+                                    <hr style="
+                                        border-color: #b3b3b3;
+                                    ">
+
+                                    @foreach($auth_related_blogs as $related_blog)
+                                        <a
+                                                href="/blog/{{$related_blog->slug}}"
+                                                style="
+                                                    color: #6d6d6d;
+                                                    margin-bottom: 10px;
+                                                ">
+                                            <p>{{$related_blog->title}}</p>
+                                        </a>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <b>TAGS</b>
+                                <hr style="
+                                    border-color: #b3b3b3;
+
+                                ">
+
+                                <div>
+                                    @foreach(explode(",", $blog['tags']) as $tag)
+                                        @if(!empty($tag))
+                                            <a href="/blogs?page=1&amp;search=&amp;tag={{$tag}}" title="{{$tag}} "
+                                               class="tag-header-blogs"
+                                               style="color: black!important" ;
+                                            >
+                                                {{$tag}}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <br>
+                                <br>
                             </div>
                         </div>
                     </div>
@@ -351,10 +410,60 @@
             </div>
         </div>
     </div>
+    <!-- a -->
+    <div id="modalRegister" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding-bottom: 0px">
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px">
+                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
+                        <h2 style="font-weight: 600">Nhận quà hàng tuần</h2>
+                        <p>Đăng kí để nhận một template mỗi tuần từ colorME</p>
+                        <br>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   id="nameModal"
+                                   type="text"
+                                   placeholder="Họ và tên"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   type="text"
+                                   id="phoneModal"
+                                   placeholder="Số điện thoại"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   type="text"
+                                   id="emailModal"
+                                   placeholder="Email"/>
+                        </div>
+                        <div id="alertModal"
+                             style="font-size: 14px"></div>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                id="submitModal">Đăng kí
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        window.onload = function (e) {
+            setTimeout(function () {
+                $("#modalRegister").modal("toggle");
+            }, 15000);
+        }
+
+        // function openModal() {
+        //     $("#modalRegister").modal("toggle");
+        // }
+
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
@@ -367,7 +476,6 @@
                 var name = $('#name').val();
                 var email = $('#email').val();
                 var phone = $('#phone').val();
-                console.log(name + phone + email);
                 var ok = 0;
                 if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
 
@@ -402,6 +510,85 @@
                     .catch(function () {
                     }.bind(this));
             });
+
+            $("#submitModal").click(function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var name = $('#nameModal').val();
+                var email = $('#emailModal').val();
+                var phone = $('#phoneModal').val();
+                var ok = 0;
+                if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
+
+                if (!name || !email || !phone || ok == 1) {
+                    $("#alertModal").html(
+                        "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>"
+                    );
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    $("#alertModal").html(
+                        "<div class='alert alert-danger'>Bạn vui lòng kiểm tra lại email</div>"
+                    );
+                    return;
+                }
+                var message = "ColorMe đã nhận được thông tin của bạn.";
+                $("#alertModal").html("<div class='alert alert-success'>" + message + "</div>");
+                $("#submitModal").css("display", "none");
+
+                var url = "";
+                $("#modalRegister").modal("hide");
+                $("#modalSuccess").modal("show");
+                var data = {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    blog_id: {{$blog['id']}},
+                    _token: "{{csrf_token()}}"
+                };
+                axios.post("/api/v3/sign-up", data)
+                    .then(function () {
+                    }.bind(this))
+                    .catch(function () {
+                    }.bind(this));
+            });
         });
+
+        var vueShareToDown = new Vue({
+            el: "#vue-share-to-download",
+            data: {
+                shared: false,
+                share_count: 0
+            }
+        });
+
+        function analyticsDownLoad() {
+            axios.get("https://graph.facebook.com/?id={{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}")
+                .then(function (res) {
+                    vueShareToDown.share_count = res.data.share.share_count
+                })
+        }
+
+        analyticsDownLoad();
+
+        function shareOnFB() {
+            FB.ui({
+                method: "feed",
+                link: "{{config('app.protocol').config('app.domain').'/blog/'.$blog['slug']}}",
+                name: "{!! htmlspecialchars($blog['meta_title']) !!}",
+                caption: 'colorme.vn',
+                description: "{!! htmlspecialchars($blog['description']) !!}"
+            }, function (t) {
+                console.log(t);
+                var str = JSON.stringify(t);
+                var obj = JSON.parse(str);
+                if (obj.post_id != '') {
+
+                    vueShareToDown.shared = true;
+                }
+            });
+        }
+
+
     </script>
 @endpush

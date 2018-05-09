@@ -396,12 +396,12 @@ class EmailService
         });
     }
 
-    public function send_mail_confirm_email($email, $name, $hash, $phone, $token)
+    public function send_mail_confirm_email($email, $name, $hash, $phone, $token, $product_id)
     {
         $subject = 'Xác thực email đăng kí';
         $data = [
             'url' => generate_protocol_url(config('app.domain_social') .
-                "/confirm-email-success?email=$email&name=$name&phone=$phone&hash=$hash&token=$token")
+                "/confirm-email-success?email=$email&name=$name&phone=$phone&hash=$hash&token=$token&product_id=$product_id")
         ];
 
         Mail::send('emails.verify_user_email', $data, function ($m) use ($email, $name, $subject) {
@@ -446,6 +446,19 @@ class EmailService
         ];
 
         Mail::send('emails.email_blog_views', $data, function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->to($user->email, $user->name)->subject($subject);
+        });
+    }
+
+    public function send_mail_resource($blog, $user)
+    {
+        $subject = 'Chào ' . $user->name . ', colorMe gửi tặng bạn món quà đầu tuần!';
+        $data = [
+            'blog' => $blog->blogTransform(),
+        ];
+
+        Mail::send('emails.email_resource', $data, function ($m) use ($user, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
             $m->to($user->email, $user->name)->subject($subject);
         });

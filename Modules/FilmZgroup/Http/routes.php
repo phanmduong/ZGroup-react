@@ -2,6 +2,7 @@
 
 $webRoutes = function () {
     Route::get('/', 'FilmZgroupController@index');
+    Route::get('/{id}','FilmZgroupController@film');
 
 };
 $manageApiRoutes = function () {
@@ -16,15 +17,12 @@ $manageApiRoutes = function () {
 
     Route::put('/film/{id}/status', 'FilmZgroupManageApiController@changeFilmStatus');
     Route::put('/{session_id}/seat', 'FilmZgroupManageApiController@changeSeatStatus');
-
 };
 
 $apiRoutes = function () {
     Route::get('/films', 'PublicFilmApiController@getFilmsFilter');
     Route::get('/sessions', 'PublicFilmApiController@getSessionsFilter');
     Route::get('/sessions/showing', 'PublicFilmApiController@getSessionsNowShowing');
-    Route::get('/films/coming', 'PublicFilmApiController@getFilmsComingSoon');
-
 };
 
 
