@@ -57,6 +57,8 @@ class CompanyController extends ManageApiController
         $company->user_contact_phone1 = $request->user_contact_phone1;
         $company->user_contact2 = $request->user_contact2;
         $company->user_contact_phone2 = $request->user_contact_phone2;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -105,6 +107,8 @@ class CompanyController extends ManageApiController
         $company->user_contact_phone1 = $request->user_contact_phone1;
         $company->user_contact2 = $request->user_contact2;
         $company->user_contact_phone2 = $request->user_contact_phone2;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -709,8 +713,9 @@ class CompanyController extends ManageApiController
             $exportOrder->company_id = $order->company_id;
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
+            $exportOrder->discount = $good->discount ? $good->discount : 0;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $request->total_price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -741,8 +746,9 @@ class CompanyController extends ManageApiController
             $exportOrder->company_id = $order->company_id;
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
+            $exportOrder->discount = $good->discount;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $good->total_price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }

@@ -76,7 +76,7 @@ class Product extends Model
 
     public function blogTransform()
     {
-        $category = $this->productCategories()->first();
+        $category = $this->category;
         return [
             'id' => $this->id,
             'url' => $this->url,
@@ -96,7 +96,7 @@ class Product extends Model
             'thumb_url' => $this->thumb_url,
             'slug' => $this->slug,
             'kind' => $this->kind,
-            'meta_description' => $this->meta_description ? $this->meta_description :"",
+            'meta_description' => $this->meta_description ? $this->meta_description : "",
             'meta_title' => $this->meta_title ? $this->meta_title : "",
             'keyword' => $this->keyword,
             // 'created_at' => time_remain_string($this->created_at),
@@ -114,7 +114,7 @@ class Product extends Model
         $data['created_at'] = format_date($this->created_at);
         $data['content'] = $this->content ? $this->content : "";
         $data['tags'] = $this->tags ? $this->tags : "";
-        $data['related_posts'] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
+        $data['related_blogs'] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
             return $post->blogTransform();
         });
         return $data;

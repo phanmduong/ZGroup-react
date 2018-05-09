@@ -1,7 +1,5 @@
 <?php
-
 namespace Modules\Finance\Http\Controllers;
-
 use App\CategoryTransaction;
 //use App\Course;
 use App\Gen;
@@ -11,11 +9,9 @@ use App\TransferMoney;
 use App\BankAccount;
 use App\User;
 use Illuminate\Http\Request;
-
 //use Illuminate\Http\Response;
 //use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-
 class FinanceManageApiController extends ManageApiController
 {
     public function updatebankTransfer($bankTransferId, Request $request)
@@ -30,17 +26,13 @@ class FinanceManageApiController extends ManageApiController
             "bank_transfer" => $bankTransfer->transform()
         ]);
     }
-
     public function bankTransfers(Request $request)
     {
         $limit = 20;
         $search = $request->search;
-
         if ($request->limit)
             $limit = $request->limit;
-
         $transferQuery = TransferMoney::orderBy("created_at", "desc");
-
         if ($limit === -1) {
             $transfers = $transferQuery->get();
             return $this->respondSuccessWithStatus([
@@ -57,7 +49,6 @@ class FinanceManageApiController extends ManageApiController
             ]);
         }
     }
-
     public function getBankAccounts()
     {
         $bankAccounts = BankAccount::query();
@@ -68,7 +59,6 @@ class FinanceManageApiController extends ManageApiController
             })
         ]);
     }
-
     public function createBankAccount(Request $request)
     {
         if ($request->bank_name == null || trim($request->bank_name) == '') {
@@ -94,10 +84,8 @@ class FinanceManageApiController extends ManageApiController
         $bankAccounts->branch = $request->branch;
         $bankAccounts->display = $request->display;
         $bankAccounts->save();
-
         return $this->respondSuccess('Tạo thành công');
     }
-
     public function editBankAccount($bankAccountId, Request $request)
     {
         if ($request->bank_name == null || trim($request->bank_name) == '') {
@@ -126,18 +114,13 @@ class FinanceManageApiController extends ManageApiController
         $bankAccount->branch = $request->branch;
         $bankAccount->display = $request->display;
         $bankAccount->save();
-
         return $this->respondSuccess('Sửa thành công');
     }
-
     public function getStaffsKeepMoney(Request $request)
     {
-
         $limit = 20;
         $q = $request->search;
-
         $staffs = User::query();
-
         if ($q != null) {
             $staffs = $staffs->where(function ($query) use ($q) {
                 $query->where('email', 'like', '%' . $q . '%')
@@ -145,12 +128,9 @@ class FinanceManageApiController extends ManageApiController
                     ->orWhere('phone', 'like', '%' . $q . '%');
             });
         }
-
         $staffs = $staffs->whereBetween('role', [1, 2])->orderBy('money', 'desc')->paginate($limit);
-
         $total_money = User::whereBetween('role', [1, 2])->where('money', '>', 0)->sum('money');
         $total_staffs = User::whereBetween('role', [1, 2])->where('money', '>', 0)->count();
-
         $data = [
             'total_money' => $total_money,
             'total_staffs' => $total_staffs,
@@ -160,26 +140,18 @@ class FinanceManageApiController extends ManageApiController
                 return $data;
             })
         ];
-
         return $this->respondWithPagination($staffs, $data);
     }
-
     public function historyTransactionStaff($staff_id, Request $request)
     {
-
         $limit = 20;
-
         $transactions = Transaction::where(function ($q) use ($staff_id) {
             $q->where('sender_id', $staff_id)->orWhere('receiver_id', $staff_id);
         });
-
         if ($request->type != null) {
             $transactions = $transactions->where('type', $request->type);
         }
-
         $transactions = $transactions->where('status', 1)->orderBy('updated_at', 'desc')->paginate($limit);
-
-
         $data = [
             'transactions' => $transactions->map(function ($transaction) use ($staff_id) {
                 $data = [
@@ -190,13 +162,11 @@ class FinanceManageApiController extends ManageApiController
                     'sender_id' => $transaction->sender_id,
                     'receiver_id' => $transaction->receiver_id,
                 ];
-
                 if ($transaction->sender_id == $staff_id) {
                     $data['before_money'] = $transaction->sender_money;
                 } else {
                     $data['before_money'] = $transaction->receiver_money;
                 }
-
                 if ($transaction->type == 0) {
                     if ($transaction->sender_id == $staff_id) {
                         $data['note'] = "Gửi tiền đến " . $transaction->receiver->name;
@@ -206,29 +176,19 @@ class FinanceManageApiController extends ManageApiController
                 } else {
                     $data['note'] = $transaction->note;
                 }
-
-
                 return $data;
             })
         ];
-
         return $this->respondWithPagination($transactions, $data);
     }
-
     public function historyTransactions(Request $request)
     {
-
         $limit = 20;
-
         $transactions = Transaction::query();
-
         if ($request->type != null) {
             $transactions = $transactions->where('type', $request->type);
         }
-
         $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
-
-
         $data = [
             'transactions' => $transactions->map(function ($transaction) {
                 $dataTransaction = [
@@ -240,42 +200,30 @@ class FinanceManageApiController extends ManageApiController
                     'receiver_id' => $transaction->receiver_id,
                     'before_money' => $transaction->sender_money
                 ];
-
-
                 if ($transaction->type == 0) {
                     $dataTransaction['note'] = "Gửi tiền đến " . $transaction->receiver->name;
                 } else {
                     $dataTransaction['note'] = $transaction->note;
                 }
-
                 if ($transaction->sender) {
                     $dataTransaction['sender'] = $transaction->sender->getData();
                 }
-
                 return $dataTransaction;
             })
         ];
-
         return $this->respondWithPagination($transactions, $data);
     }
-
     public function historySpendMoneyStaff(Request $request)
     {
         $limit = 20;
-
         $staff_id = $this->user->id;
-
         $transactions = Transaction::where(function ($q) use ($staff_id) {
             $q->where('sender_id', $staff_id)->orWhere('receiver_id', $staff_id);
         });
-
         if ($request->type != null) {
             $transactions = $transactions->where('type', $request->type);
         }
-
         $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
-
-
         $data = [
             'transactions' => $transactions->map(function ($transaction) use ($staff_id) {
                 $data = [
@@ -286,13 +234,11 @@ class FinanceManageApiController extends ManageApiController
                     'sender_id' => $transaction->sender_id,
                     'receiver_id' => $transaction->receiver_id,
                 ];
-
                 if ($transaction->sender_id == $staff_id) {
                     $data['before_money'] = $transaction->sender_money;
                 } else {
                     $data['before_money'] = $transaction->receiver_money;
                 }
-
                 if ($transaction->type == 0) {
                     if ($transaction->sender_id == $staff_id) {
                         $data['note'] = "Gửi tiền đến " . $transaction->receiver->name;
@@ -302,31 +248,24 @@ class FinanceManageApiController extends ManageApiController
                 } else {
                     $data['note'] = $transaction->note;
                 }
-
                 if ($transaction->category) {
                     $data['category'] = $transaction->category->transform();
                 }
-
-
                 return $data;
             })
         ];
-
         return $this->respondWithPagination($transactions, $data);
     }
-
     public function getCategoryTransactions()
     {
         $category_transactions = CategoryTransaction::all();
         $category_transactions = $category_transactions->map(function ($category) {
             return $category->transform();
         });
-
         return $this->respondSuccessWithStatus([
             'categories' => $category_transactions
         ]);
     }
-
     public function createSpendMoney(Request $request)
     {
         $type = $request->type;
@@ -336,23 +275,18 @@ class FinanceManageApiController extends ManageApiController
         if ($request->note == null) {
             return $this->respondErrorWithStatus("Vui lòng nhập ghi chú");
         }
-
         if ($request->money == null) {
             return $this->respondErrorWithStatus('Vui lòng nhập số tiền gửi');
         }
-
         if ($request->money < 0) {
             return $this->respondErrorWithStatus('Số tiền không được nhỏ hơn 0');
         }
-
         if ($type != 1 && $type != 2) {
             return $this->respondErrorWithStatus("Sai loại giao dịch");
         }
-
         if ($type == 2 && $request->money > $this->user->money) {
             return $this->respondErrorWithStatus("Bạn đã chi quá số tiền bạn có");
         }
-
         $transaction = new Transaction();
         $transaction->sender_id = $this->user->id;
         $transaction->money = $request->money;
@@ -361,16 +295,13 @@ class FinanceManageApiController extends ManageApiController
         $transaction->category_id = $request->category_id;
         $transaction->status = 1;
         $transaction->sender_money = $this->user->money;
-
         $transaction->save();
-
         if ($transaction->type == 2) {
             $this->user->money -= $transaction->money;
         } else {
             $this->user->money += $transaction->money;
         }
         $this->user->save();
-
         return $this->respondSuccessWithStatus([
             'money_staff' => $this->user->money,
             'transaction' => [
@@ -386,41 +317,31 @@ class FinanceManageApiController extends ManageApiController
             ]
         ]);
     }
-
     public function summaryFinance(Request $request)
     {
         $gen = Gen::find($request->gen_id);
-
         if ($gen == null) {
             $gen = Gen::getCurrentGen();
         }
-
         $start_time = $request->start_time ? $request->start_time : $gen->start_time;
         $end_time = $request->end_time ? $request->end_time : $gen->end_time;
         $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
-
         $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
-
         $collectMoneyTemp = Transaction::select(DB::raw('DATE(created_at) as date, sum(money) as money'))
             ->whereBetween('created_at', array($start_time, $end_time))
             ->where('type', 1)
             ->where('status', 1)
             ->groupBy(DB::raw('DATE(created_at)'))->pluck('money', ' date');
-
         $spendMoneyTemp = Transaction::select(DB::raw('DATE(created_at) as date, sum(money) as money'))
             ->whereBetween('created_at', array($start_time, $end_time))
             ->where('type', 2)
             ->where('status', 1)
             ->groupBy(DB::raw('DATE(created_at)'))->pluck('money', ' date');
-
         $collectMoney = array();
         $spendMoney = array();
-
         $totalCollectMoney = 0;
         $totalSpendMoney = 0;
-
         $di = 0;
-
         foreach ($date_array as $date) {
             if (isset($collectMoneyTemp[$date])) {
                 $collectMoney[$di] = $collectMoneyTemp[$date];
@@ -428,17 +349,14 @@ class FinanceManageApiController extends ManageApiController
             } else {
                 $collectMoney[$di] = 0;
             }
-
             if (isset($spendMoneyTemp[$date])) {
                 $spendMoney[$di] = $spendMoneyTemp[$date];
                 $totalSpendMoney += $spendMoney[$di];
             } else {
                 $spendMoney[$di] = 0;
             }
-
             $di += 1;
         }
-
         return $this->respondSuccessWithStatus([
             'total_collect_money' => $totalCollectMoney,
             'total_spend_money' => $totalSpendMoney,
@@ -447,32 +365,23 @@ class FinanceManageApiController extends ManageApiController
             'date_array' => $date_array,
         ]);
     }
-
     public function historySpendMoney(Request $request)
     {
         $gen = Gen::find($request->gen_id);
-
         if ($gen == null) {
             $gen = Gen::getCurrentGen();
         }
-
         $start_time = $request->start_time ? $request->start_time : $gen->start_time;
         $end_time = $request->end_time ? $request->end_time : $gen->end_time;
         $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
-
         $limit = 20;
-
         $transactions = Transaction::whereBetween('created_at', array($start_time, $end_time));
-
         if ($request->type == null) {
             $transactions = $transactions->whereBetween('type', [1, 2]);
         } else {
             $transactions = $transactions->where('type', $request->type);
         }
-
         $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
-
-
         $data = [
             'transactions' => $transactions->map(function ($transaction) {
                 $dataTransaction = [
@@ -484,23 +393,16 @@ class FinanceManageApiController extends ManageApiController
                     'receiver_id' => $transaction->receiver_id,
                     'before_money' => $transaction->sender_money
                 ];
-
                 if ($transaction->category) {
                     $dataTransaction['category'] = $transaction->category->transform();
                 }
-
                 if ($transaction->sender) {
                     $dataTransaction['sender'] = $transaction->sender->getData();
                 }
-
-
                 $dataTransaction['note'] = $transaction->note;
                 return $dataTransaction;
             })
         ];
-
         return $this->respondWithPagination($transactions, $data);
     }
-
-
 }
