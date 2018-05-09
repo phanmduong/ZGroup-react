@@ -6,13 +6,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Loading from "../../components/common/Loading";
 import ListGen from './ListGen';
-import _ from 'lodash';
+// import _ from 'lodash';
 import * as genActions from './genActions';
 import FormInputText from '../../components/common/FormInputText';
 import FormInputDate from '../../components/common/FormInputDate';
 import {Modal} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
+import Pagination from "../../components/common/Pagination";
 
 class GensContainer extends React.Component {
     constructor(props, context) {
@@ -130,24 +131,19 @@ class GensContainer extends React.Component {
                                                 changeTeachStatus={this.changeTeachStatus}
                                             />
                                         }
-                                        <ul className="pagination pagination-primary">
-                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                if (Number(this.state.page) === page) {
-                                                    return (
-                                                        <li key={page} className="active">
-                                                            <a onClick={() => this.loadGens(page)}>{page}</a>
-                                                        </li>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <li key={page}>
-                                                            <a onClick={() => this.loadGens(page)}>{page}</a>
-                                                        </li>
-                                                    );
-                                                }
-
-                                            })}
-                                        </ul>
+                                        <br/>
+                                        <div className="row">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
+                                                <b style={{marginRight: '15px'}}>
+                                                        Hiển thị kêt quả từ {this.props.totalCount ? (this.props.currentPage - 1) * 7 + 1 : 0}
+                                                        - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * 7 : this.props.totalCount}/{this.props.totalCount}</b><br/>
+                                                <Pagination
+                                                    totalPages={this.props.totalPages}
+                                                    currentPage={this.props.currentPage}
+                                                    loadDataPage={this.loadGens || 0}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -288,6 +284,7 @@ GensContainer.propTypes = {
     isEditing: PropTypes.bool.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -298,6 +295,7 @@ function mapStateToProps(state) {
         isEditing: state.gens.isEditing,
         totalPages: state.gens.totalPages,
         currentPage: state.gens.currentPage,
+        totalCount: state.gens.totalCount,
         gen: state.gens.gen
     };
 }

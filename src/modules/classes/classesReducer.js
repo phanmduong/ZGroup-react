@@ -88,7 +88,9 @@ export default function classesReducer(state = initialState.classes, action) {
                     classes: action.classes,
                     isCreateClass: action.isCreateClass,
                     currentPage: action.currentPage,
-                    totalPages: action.totalPages
+                    totalPages: action.totalPages,
+                    totalCount: action.totalCount,
+                    limit: action.limit
                 }
             };
         case types.LOAD_CLASSES_DATA_ERROR:

@@ -15,7 +15,8 @@ export function loadGensData(page) {
                     type: types.LOAD_GENS_SUCCESS,
                     gens: res.data.gens,
                     currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages
+                    totalPages: res.data.paginator.total_pages,
+                    totalCount: res.data.paginator.total_count,
                 });
             }).catch(() => {
             dispatch({

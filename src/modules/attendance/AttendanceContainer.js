@@ -39,7 +39,6 @@ class AttendanceContainer extends React.Component {
             selectBaseId: '',
             selectGenId: '',
         };
-
         this.genid = null;
         this.baseid = null;
         this.classesSearchChange        = this.classesSearchChange.bind(this);
@@ -169,7 +168,7 @@ class AttendanceContainer extends React.Component {
                     <div>
                         {this.props.isLoadingBases || this.props.isLoadingGens
                             ?
-                            <Loading/>
+                           <Loading/>
                             :
                             <div>
                                 <div className="col-sm-3 col-xs-5">
@@ -191,8 +190,7 @@ class AttendanceContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
-                            </div>
-                        }
+                            
                         
                         <div className="col-xs-12">
                             <div className="card" style={{marginTop: 15}}>
@@ -215,34 +213,71 @@ class AttendanceContainer extends React.Component {
                                                     searchByTeacher={this.loadClasses}
                                                     openModalLesson={this.openModalLesson}
                                                 />
-                                                <ul className="pagination pagination-primary">
-                                                    {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
-                                                        if (Number(this.state.page) === page) {
-                                                            return (
-                                                                <li key={page} className="active">
-                                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                                        {page}
-                                                                    </a>
-                                                                </li>
-                                                            );
-                                                        } else {
-                                                            return (
-                                                                <li key={page}>
-                                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                                        {page}
-                                                                    </a>
-                                                                </li>
-                                                            );
-                                                        }
+                                                <div className="row"><div  style={{textAlign: 'right'}}><div className="card-content">
+                                                
+                                                <br/>
+                                                        <div className="row">
+                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
+                                                                 <b style={{marginRight: '15px'}}>
+                                                        Hiển thị kêt quả từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
+                                                        - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
+                                                    <ul className="pagination pagination-primary">
+                                                        <li className={(this.props.currentPage === 1) ? 'disabled' : ''}>
+                                                            <a onClick={() => {
+                                                                if (this.props.currentPage !== 1) this.loadClasses(1, this.state.query, '', this.state.selectBaseId, this.state.selectGenId);
+                                                            }}> Đầu</a>
+                                                        </li>
+                                                        <li className={(this.props.currentPage - 1 <= 0) ? 'disabled' : ''}>
+                                                            <a
+                                                                onClick={() => {
+                                                                    if (this.props.currentPage - 1 > 0)
+                                                                        this.loadClasses(this.state.page - 1, this.state.query, '', this.state.selectBaseId, this.state.selectGenId);
+                                                                }}> Trước</a>
+                                                        </li>
+                                                        {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
+                                                            if (Number(this.state.page) === page) {
+                                                                return (
+                                                                    <li key={page} className="active">
+                                                                        <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                            {page}
+                                                                        </a>
+                                                                    </li>
+                                                                );
+                                                            } else {
+                                                                return (
+                                                                    <li key={page}>
+                                                                        <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                            {page}
+                                                                        </a>
+                                                                    </li>
+                                                                );
+                                                            }
 
-                                                    })}
-                                                </ul>
+                                                        })}
+                                                        <li className={(this.props.currentPage + 1 > this.props.totalPages) ? 'disabled' : ''}>
+                                                            <a onClick={() => {
+                                                                if (this.props.currentPage + 1 <= this.props.totalPages)
+                                                                    this.loadClasses(this.props.currentPage + 1, this.state.query, '', this.state.selectBaseId, this.state.selectGenId);
+                                                            }}>Tiếp </a>
+                                                        </li>
+                                                        <li className={((this.props.currentPage === this.props.totalPages)) ? 'disabled' : ''}>
+                                                            <a onClick={() => {
+                                                                if (this.props.currentPage !== this.props.totalPages) 
+                                                                    this.loadClasses(this.props.totalPages, this.state.query, '', this.state.selectBaseId, this.state.selectGenId);
+                                                            }}>Cuối </a>
+                                                        </li>
+                                                    </ul>   
+                                                            </div>
+                                                        </div>
+                                                </div></div></div>
                                             </div>
                                         }        
                                     </div>    
                                 </div>
                             </div>
-                        </div>    
+                        </div> 
+                        </div>
+                        }   
                     </div>
                 
             </div>
@@ -270,6 +305,10 @@ AttendanceContainer.propTypes = {
     bases: PropTypes.array,
     loadGensData: PropTypes.func,
     loadBasesData: PropTypes.func,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -286,6 +325,10 @@ function mapStateToProps(state) {
         lesson:                         state.attendance.lesson,
         gens:                           state.attendance.gens,
         bases:                          state.attendance.bases,
+        currentPage: state.attendance.currentPage,
+        totalPages: state.attendance.totalPages,
+        totalCount: state.attendance.totalCount,
+        limit: state.attendance.limit,
     };
 }
 

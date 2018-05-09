@@ -378,7 +378,6 @@ class StorePostComponent extends React.Component {
                                             {/*</div>*/}
                                             {/*<button onClick={() => this.test()}>+</button>*/}
 
-
                                             <div className="row">
                                                 {/*????????????????????????/*/}
                                                 <Buttons

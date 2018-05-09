@@ -8,6 +8,6 @@
         "javascript": "javascriptreact",
         "vue-html": "html",
         "plaintext": "jade"
-    },
-    "javascript.implicitProjectConfig.experimentalDecorators": true
+    },"javascript.implicitProjectConfig.experimentalDecorators": true
+    
 }
