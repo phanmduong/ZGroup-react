@@ -203,3 +203,19 @@ export function closePaymentModal() {
 }
 
 
+export function openAddRegisterModal() {
+    return function (dispatch) {
+        dispatch({
+            type : types.OPEN_ADD_REGISTER_MODAL,
+        });
+    };
+}
+export function closeAddRegisterModal() {
+    return function (dispatch) {
+        dispatch({
+            type : types.CLOSE_ADD_REGISTER_MODAL,
+        });
+    };
+}
+
+

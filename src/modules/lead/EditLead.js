@@ -6,6 +6,8 @@ import FormInputText from "../../components/common/FormInputText";
 import Star from "../../components/common/Star";
 import {setFormValidation} from "../../helpers/helper";
 import * as leadActions from './leadActions';
+import {CirclePicker} from "react-color";
+import {LEAD_COLORS} from "../../constants/constants";
 
 class EditLead extends React.Component {
     constructor(props, context) {
@@ -69,6 +71,23 @@ class EditLead extends React.Component {
                         }
                         value={this.state.lead.phone}
                     />
+                    <FormInputText
+                        label="Ghi chú"
+                        name="note"
+                        updateFormData={
+                            this.updateFormData
+                        }
+                        value={this.state.lead.note}
+                    />
+                    <div className="form-group">
+                        <label className="label-control">Chọn màu</label>
+                        <CirclePicker
+                            width="100%"
+                            color={this.state.lead.status ? this.state.lead.status : ''}
+                            colors={LEAD_COLORS}
+                            onChangeComplete={(color) => this.setState({lead: {...this.state.lead, status: color.hex}})}
+                        />
+                    </div>
                     <div className="form-group">
                         <label className="label-control">Chọn đánh giá</label>
                         <div className="flex flex-row-center flex-justify-content-center">

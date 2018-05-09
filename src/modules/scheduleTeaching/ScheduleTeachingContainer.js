@@ -28,8 +28,8 @@ class ScheduleClassContainer extends Component {
     }
 
     componentWillMount() {
-        store.loadClasses();
         store.loadGens();
+        // store.loadClasses();
         store.loadBases();
     }
 
@@ -47,14 +47,14 @@ class ScheduleClassContainer extends Component {
     render() {
         let classes = [];
         store.classes && store.classes.map(_class => {
-            if(_class.schedule) {
-                const  tmp = _class.schedule.study_sessions.map(schedule => {
+            if(_class.lessons) {
+                const  tmp = _class.lessons.map(lesson => {
                     return {
                         title: _class.name,
                         teacher_name: _class.teacher && _class.teacher.name,
                         class_id: _class.id,
-                        start: schedule.start_time,
-                        end: schedule.end_time,
+                        start:  lesson.time +" "+ lesson.start_time,
+                        end:  lesson.time +" " +  lesson.end_time,
                         // color: "#ff4444",
                         color: _class.course && _class.course.color,
                         overlay: 1,
