@@ -4,20 +4,20 @@ import * as helper from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 export function beginUpdateLoginForm() {
-    return { type: types.BEGIN_UPDATE_LOGIN_FORM };
+    return {type: types.BEGIN_UPDATE_LOGIN_FORM};
 }
 
 export function loginError() {
     helper.showErrorNotification("Lỗi. Kiểm tra thông tin tài khoản");
-    return { type: types.LOGIN_ERROR };
+    return {type: types.LOGIN_ERROR};
 }
 
 export function updateFormData(login) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch(beginUpdateLoginForm());
         loadLoginApi
             .loadLoginApi(login)
-            .then(function(res) {
+            .then(function (res) {
                 dispatch(updatedLoginForm(res));
             })
             .catch(error => {
@@ -31,9 +31,8 @@ export function updatedLoginForm(res) {
     let token = null;
     if (res.data.user.role !== 0) {
         token = res.data.token;
-        localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
-        helper.saveDataLoginLocal(helper.encodeToken(res.data));
+        helper.setStorage("token", token, 518400);
     }
     return {
         type: types.UPDATED_LOGIN_FORM,

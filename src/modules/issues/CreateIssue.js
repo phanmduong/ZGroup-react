@@ -60,7 +60,6 @@ export default class CreateIssue extends Component {
                     label={"Tạo"}
                     labelLoading="Đang tạo"
                     className="btn-fill btn-success"
-                    scrollerId="#create-issue-modal"
                     isLoading={store.isCreating}
                 />
             </form>
