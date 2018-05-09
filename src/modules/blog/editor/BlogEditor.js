@@ -87,6 +87,7 @@ class BlogEditor extends React.Component {
                                     placeholder="Chọn loại bài viết"
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label className="control-label" style={{ marginBottom: "10px" }}>
                                     Ngôn ngữ
