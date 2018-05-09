@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { store } from "./contractStore";
 import { observer } from "mobx-react";
-import { dotNumber } from "../../../helpers/helper";
+import { confirm } from "../../../helpers/helper";
 import Loading from "../../../components/common/Loading";
 import { Link } from "react-router";
 import TooltipButton from '../../../components/common/TooltipButton';
@@ -67,6 +67,24 @@ class ContractContainer extends Component {
         this.onFilterChange(name, value);
     }
 
+    changeStatus = (id, status) => {
+        switch (status) {
+            case 0: {
+                confirm("warning", "Chuyển trạng thái", "Bạn có chắc chuyển trạng thái sang đã gửi?",
+                    () => { return store.changeStatus(id, status * 1 + 1); }
+                );
+                break;
+            }
+            case 1: {
+                confirm("warning", "Chuyển trạng thái", "Bạn có chắc chuyển trạng thái sang đã nhận?",
+                    () => { return store.changeStatus(id, status * 1 + 1); }
+                );
+                break;
+            }
+
+        }
+    }
+
     render() {
         let { isLoading, isInfoModal, paginator, contracts, filter, showPanel, allContractType, allStaff, allCompany, allStatus } = store;
         let { user } = this.props;
@@ -113,6 +131,7 @@ class ContractContainer extends Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="row">
+
                                                 <div className={filterClass}>
                                                     <label>Bên A</label>
                                                     <ReactSelect
@@ -138,7 +157,15 @@ class ContractContainer extends Component {
                                                     />
                                                 </div>
 
-
+                                                <div className="col-md-6 col-sm-12 col-xs-12">
+                                                    <FormInputText
+                                                        name="contract_number"
+                                                        value={filter.contract_number}
+                                                        label="Số hợp đồng"
+                                                        updateFormData={this.onTextFilterChange}
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
                                                 <div className={filterClass}>
                                                     <label>Người tạo</label>
                                                     <ReactSelect
@@ -187,15 +214,7 @@ class ContractContainer extends Component {
                                                         disabled={isLoading}
                                                     />
                                                 </div>
-                                                <div className={filterClass}>
-                                                    <FormInputText
-                                                        name="contract_number"
-                                                        value={filter.contract_number}
-                                                        label="Số hợp đồng"
-                                                        updateFormData={this.onTextFilterChange}
-                                                        disabled={isLoading}
-                                                    />
-                                                </div>
+
                                             </div>
                                             <div className="row">
                                                 <div className={filterClass}>
@@ -241,14 +260,24 @@ class ContractContainer extends Component {
                                                                     <th>Bên A</th>
                                                                     <th>Bên B</th>
                                                                     <th>Người kí</th>
-                                                                    <th>Giá trị</th>
+                                                                    <th>Trạng thái</th>
                                                                     <th>Ngày hết hạn</th>
                                                                     <th />
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 {contracts.map((obj, index) => {
-
+                                                                    let status = "Chưa gửi";
+                                                                    switch (obj.status) {
+                                                                        case 1: {
+                                                                            status = "Đã gửi";
+                                                                            break;
+                                                                        }
+                                                                        case 2: {
+                                                                            status = "Đã nhận";
+                                                                            break;
+                                                                        }
+                                                                    }
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
@@ -261,19 +290,19 @@ class ContractContainer extends Component {
                                                                             <td>{obj.company_a.name}</td>
                                                                             <td>{obj.company_b.name}</td>
                                                                             <td>{obj.sign_staff.name}</td>
-                                                                            <td>{dotNumber(obj.value)}</td>
+                                                                            <td>{status}</td>
                                                                             {/* <td>{obj.sign_staff.name}</td> */}
 
                                                                             <td>{moment(obj.due_date).format("D/M/YYYY")}</td>
                                                                             <td><ButtonGroupAction
                                                                                 editUrl={"/administration/contract/edit/" + obj.id}
                                                                                 disabledDelete={true}
-                                                                                disabledEdit={obj.status > 0 || user.id != obj.staff.id}
+                                                                                disabledEdit={obj.status > 1 || user.id != obj.staff.id}
                                                                                 children={
-                                                                                    (obj.status == 0 && user.role == 2) ?
-                                                                                        <a key="1" data-toggle="tooltip" title="Duyệt" type="button" rel="tooltip"
-                                                                                            onClick={() => { }}>
-                                                                                            <i className="material-icons">done</i></a>
+                                                                                    (obj.status < 2 && (user.role == 2 || user.id == obj.staff.id)) ?
+                                                                                        <a key="1" data-toggle="tooltip" title="Đổi trạng thái" type="button" rel="tooltip"
+                                                                                            onClick={() => { this.changeStatus(obj.id, obj.status); }}>
+                                                                                            <i className="material-icons">cached</i></a>
                                                                                         : <div />
                                                                                 }
                                                                             /></td>

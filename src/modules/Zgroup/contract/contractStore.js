@@ -109,6 +109,20 @@ export const store = new class DashboardStaffStore {
             });
     }
     @action
+    changeStatus(id, status) {
+        this.isLoading = true;
+        contractApi.changeStatusContract(id, status)
+            .then(() => {
+                showNotification("Đổi trạng thái thành công");
+                this.loadAllContract();
+            })
+            .catch(() => {
+                this.isLoading = false;
+                showErrorNotification("Có lỗi xảy ra.");
+
+            });
+    }
+    @action
     loadAllCompanies(data) {
 
         contractApi.loadAllCompanies(data)
