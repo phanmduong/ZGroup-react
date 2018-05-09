@@ -1,11 +1,11 @@
 @extends('colorme_new.layouts.master')
 
 @section("meta")
-<meta property="og:type" content="article" />
-<meta property="og:title" content="{{$course->name}}" />
-<meta property="og:description" content="{{$course->description}}" />
-<meta property="og:site_name" content="Color ME" />
-<meta property="og:image" content="{{$course->image_url}}" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{$course->name}}"/>
+    <meta property="og:description" content="{{$course->description}}"/>
+    <meta property="og:site_name" content="Color ME"/>
+    <meta property="og:image" content="{{$course->image_url}}"/>
 @endsection
 
 @section('content')
@@ -165,7 +165,7 @@
                                 </label>
                                 <input type="text" class="form-control" name="coupon" placeholder="Nhập số mã ưu đãi"
                                        v-model="user.coupon"
-                                       >
+                                >
                             </div>
                         </form>
                     </div>
@@ -217,7 +217,7 @@
                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px">
                         <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
                         <h2 style="font-weight: 600">Nhận tư vấn trực tiếp</h2>
-                        <p style="text-align:center">Bạn có thể để lại các thông tin bên dưới, 
+                        <p style="text-align:center">Bạn có thể để lại các thông tin bên dưới,
                             <br>colorME sẽ gọi lại ngay cho bạn để tư vấn miễn phí</p>
                         <br>
                         <div class="form-group" style="width: 100%;">
@@ -240,9 +240,9 @@
                         </div>
                         <div id="alertModal"
                              style="font-size: 14px"></div>
-                            <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
-                                    id="submitModal">Đăng kí
-                            </button>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                id="submitModal">Đăng kí
+                        </button>
                     </div>
                 </div>
             </div>
@@ -255,9 +255,9 @@
         // function openModal() {
         //     $("#modalRegister").modal("show");
         // }
-
+        var timeout;
         window.onload = function (e) {
-            setTimeout(function () {
+            timeout = setTimeout(function () {
                 $("#modalRegister").modal("show");
             }, 15000);
         }
@@ -363,6 +363,9 @@
         });
 
         function setDataModal(classData) {
+            if (timeout !== null) {
+                clearTimeout(timeout);
+            }
             fbq('track', 'Purchase');
             formRegisterClass.classData = classData;
             @if (isset($user))
