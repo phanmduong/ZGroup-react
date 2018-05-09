@@ -7,6 +7,7 @@ import { Modal } from "react-bootstrap";
 import store from "../editor/BlogEditorStore";
 import { createLanguageApi } from "../apis/blogApi";
 import { observer } from "mobx-react";
+import { showErrorMessage } from "../../../helpers/helper";
 
 @observer
 class AddLanguageModal extends React.Component {
@@ -34,10 +35,19 @@ class AddLanguageModal extends React.Component {
             this.setState({
                 isLoading: true,
             });
-            console.log("language", this.state.language);
+                        
+            const res = await createLanguageApi(this.state.language);
+
+            if (res.data.status) {
+                store.languages = [
+                    res.data.data.language,
+                    ...store.languages
+                ];
+            } else {
+                showErrorMessage("Có lỗi xảy ra");
+            }
+
             
-            store.languages.push(this.state.language);
-            await createLanguageApi(this.state.language);
 
             this.setState({
                 language: {},
