@@ -79,10 +79,6 @@ class ManageMoneyTransferApiController extends ManageApiController
             return $this->respondErrorWithStatus('Nhân viên này đang chuyển tiền.');
         }
 
-        if ($request->money == null) {
-            return $this->respondErrorWithStatus('Vui lòng nhập số tiền gửi');
-        }
-
         $money = $request->money ? $request->money : $this->user->money;
 
 
