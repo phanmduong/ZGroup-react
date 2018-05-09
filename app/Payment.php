@@ -39,7 +39,7 @@ class Payment extends Model
                 "avatar_url" => $this->staff->avatar_url,
                 "phone" => $this->staff->phone,
             ] : [],
-            "deadline" => format_vn_short_datetime(strtotime($this->deadline)),
+            "deadline" => format_vn_date(strtotime($this->deadline)),
             "created_at" => format_vn_short_datetime(strtotime($this->created_at)),
             "type" => $this->type,
             "status" => $this->status,
