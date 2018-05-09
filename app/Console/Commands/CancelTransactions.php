@@ -56,7 +56,9 @@ class CancelTransactions extends Command
         foreach ($transactions as $transaction) {
             $transaction->status = -1;
             $transaction->sender->money = $transaction->sender->money + $transaction->money;
+            $transaction->sender->status = 0;
             $transaction->save();
+            $transaction->sender->save();
             $notification = new Notification;
             $notification->product_id = $transaction->id;
             $notification->actor_id = $transaction->receiver->id;
