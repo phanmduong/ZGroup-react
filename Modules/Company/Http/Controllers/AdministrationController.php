@@ -424,7 +424,7 @@ class AdministrationController extends ManageApiController
         $type = $request->type;
         $status = $request->status;
         $value = $request->value;
-        $signer_id = $request->signer_id;
+        $sign_staff_id = $request->sign_staff_id;
         $staff_id = $request->staff_id;
         $status = $request->status;
         $start_time = $request->start_time;
@@ -453,14 +453,14 @@ class AdministrationController extends ManageApiController
                 if($value){
                     $datas->where('value', $value);
                 }
-                if($signer_id){
-                    $datas->where('sign_staff_id', $signer_id);
+                if($sign_staff_id){
+                    $datas->where('sign_staff_id', $sign_staff_id);
                 }
                 if($staff_id){
                     $datas->where('staff_id', $staff_id);
                 }
                 if($contract_number){
-                    $requestVacations->where('contract_number', 'like', '%' . $contract_number . '%');
+                    $datas->where('contract_number', 'like', '%' . $contract_number . '%');
                 }       
                 if($status){
                     $datas->where('status', $status == -1 ? 0 : $status);
