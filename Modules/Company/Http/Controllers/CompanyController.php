@@ -271,7 +271,7 @@ class CompanyController extends ManageApiController
             $payment->money_value = $request->money_value;
             $payment->payer_id = $request->payer_id;
             $payment->receiver_id = $request->receiver_id;
-            $payment->staff_id = $this->user->id;
+            $payment->staff_id = $request->staff_id;
             $payment->deadline = $request->deadline;
             $payment->type = $request->type;
             $payment->save();
@@ -295,7 +295,7 @@ class CompanyController extends ManageApiController
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
-        $payment->staff_id = $this->user->id;
+        $payment->staff_id = $request->staff_id;
         $payment->deadline = $request->deadline;
         $payment->type = $request->type;
         $payment->save();
