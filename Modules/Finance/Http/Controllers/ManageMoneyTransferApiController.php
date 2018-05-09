@@ -110,14 +110,14 @@ class ManageMoneyTransferApiController extends ManageApiController
         $transaction->sender_money = $this->user->money;
         $transaction->money = $request->money;
 
+        $transaction->save();
+        $this->user->save();
 
         $notification = new Notification();
         $notification->product_id = $transaction->id;
         $notification->actor_id = $this->user->id;
         $notification->receiver_id = $receiver->id;
         $notification->type = 3;
-        $transaction->save();
-        $this->user->save();
         $notification->save();
 
 
