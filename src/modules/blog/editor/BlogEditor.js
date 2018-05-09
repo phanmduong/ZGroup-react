@@ -38,16 +38,12 @@ class BlogEditor extends React.Component {
     updatePostCategories = values => {
         const post = {
             ...store.post,
-            categories:  values  
+            categories: values
         };
         store.post = post;
     }
 
     onChange = value => {
-<<<<<<< HEAD
-        // console.log(value);
-=======
->>>>>>> 4fcdc48d9d487bc69c2e5c8bdd243077c0db2651
         this.setState({
             value,
         });
@@ -122,13 +118,13 @@ class BlogEditor extends React.Component {
                                 <TooltipButton
                                     placement="top"
                                     text="Tạo từ tiêu đề bài viết">
-                                    <a 
+                                    <a
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         style={{
-                                        position: "absolute",
-                                        right: 0,
-                                        top: 0
-                                    }} onClick={this.generateFromTitle}>
+                                            position: "absolute",
+                                            right: 0,
+                                            top: 0
+                                        }} onClick={this.generateFromTitle}>
                                         <i className="material-icons">
                                             autorenew
                                         </i>
