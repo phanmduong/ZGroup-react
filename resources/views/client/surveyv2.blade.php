@@ -1,1 +1,1 @@
-@extends("client.layout.master") @section("css") <link href="manage/surveyv2/main.a048feb634eea7e5692c03d1f852e8e0.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/surveyv2/main.35e88ed6d7c3185f7e1e.js"></script> @endsection
+@extends("client.layout.master") @section("css") <link href="manage/surveyv2/main.6c043a02b3df13d22aba3bc60cfe1b0e.css" rel="stylesheet"> @endsection @section("js") <script type="text/javascript" src="manage/surveyv2/main.f40c1942b3be4f610f52.js"></script> @endsection

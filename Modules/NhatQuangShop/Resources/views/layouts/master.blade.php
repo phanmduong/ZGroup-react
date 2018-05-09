@@ -24,60 +24,8 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
-    <style>
-        .content {
-            float: right;
-        }
-
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-        .upload-btn-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-        .upload-btn-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-        }
-        .proof {
-            position: relative;
-            width: 50%;
-        }
-
-        .img_proof {
-            opacity: 1;
-            display: block;
-            width: 100%;
-            height: auto;
-            transition: .5s ease;
-            backface-visibility: hidden;
-        }
-
-        .top_right {
-            transition: .5s ease;
-            opacity: 0;
-            position: absolute;
-            top: 20px;
-            right : 2px;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .proof:hover .img_proof {
-            opacity: 0.7;
-        }
-
-        .proof:hover .top_right {
-            opacity: 1;
-        }
-
-    </style>
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
+    <link href="/assets/css/nhatquangshop.css" rel="stylesheet">
     <script>
         var navVue = {};
         window.url = "{{url("/")}}";

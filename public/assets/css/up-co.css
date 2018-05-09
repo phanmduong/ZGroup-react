@@ -111,9 +111,10 @@
 
 .hover-change:hover {
     color: white !important;
-    background-color: #96d21f;
-    border-color: #96d21f;
-    border-radius: 50px;
+    /* background-color: #96d21f; */
+    /* border-color: #96d21f; */
+    /* border-radius: 50px; */
+    border-bottom: 1px solid #96d21f;
 }
 
 .btn-up {
@@ -216,4 +217,16 @@ p > img {
     display: block;
     margin: 10px auto;
     padding: 10px 0;
+}
+
+.nav-link{
+    color: #fff !important;
+}
+
+.page-header-small{
+    min-height: 70vh !important;
+}
+
+.navbar{
+    background: transparent;
 }

@@ -19,7 +19,7 @@ class PermissionTabReact
     public function handle($request, Closure $next, $path)
     {
         $tab = Tab::where('url', 'like', '%' . $path . '%')->first();
-        $user = Auth::user() ? User::find(Auth::user()->id) : null;
+        $user = Auth::user() && Auth::check() ? User::find(Auth::user()->id) : null;
 
         if ($user == null && $path != 'login') {
             return redirect('/login');

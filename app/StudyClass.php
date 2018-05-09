@@ -54,7 +54,7 @@ class StudyClass extends Model
 
     public function lessons()
     {
-        return $this->belongsToMany('App\Lesson', 'class_lesson', 'class_id', 'lesson_id')->withPivot('time');
+        return $this->belongsToMany('App\Lesson', 'class_lesson', 'class_id', 'lesson_id')->withPivot('time', 'start_time', 'end_time');
     }
 
     public function classLessons()

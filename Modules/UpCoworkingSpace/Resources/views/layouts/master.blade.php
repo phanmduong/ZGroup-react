@@ -1,12 +1,14 @@
+@include('upcoworkingspace::vi.vi-nav')
 
-    @include('upcoworkingspace::vi.vi-nav')
-    @yield('vi-content')
-    @yield('en-content')
-    @include('upcoworkingspace::vi.vi-footer')
+@yield('vi-content')
+
+@include('upcoworkingspace::vi.vi-footer')
 
 @include('upcoworkingspace::includes.register_modal')
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script>$(document).ready(function () {
+<script>
+
+    $(document).ready(function () {
         function detectmob() {
             if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
                 return true;
@@ -33,6 +35,20 @@
                     }, 2 * t.delay), t.overlay.fadeIn(t.delay)
                 })
             })
+        }
+    });
+
+    window.addEventListener('scroll', function(){
+        if($(window).scrollTop() > $('.navbar').height()){
+            $('.navbar').css('background', "#fff");
+            $('.nav-link' ).each(function () {
+                this.style.setProperty( 'color', '#66615B', 'important' );
+            });
+        }else{
+            $('.navbar').css('background', "transparent");
+            $('.nav-link' ).each(function () {
+                this.style.setProperty( 'color', '#fff', 'important' );
+            });
         }
     });
 </script>

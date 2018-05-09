@@ -36,6 +36,7 @@ class ExportOrder extends Model
             ] : [],
             "price" => $this->price,
             "quantity" => $this->quantity,
+            "discount" => $this->discount,
             "total_price" => $this->total_price,
             "export_quantity" => $this->export_quantity,
             "created_at" => $this->created_at,

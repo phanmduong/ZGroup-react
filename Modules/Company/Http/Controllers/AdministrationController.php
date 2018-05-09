@@ -348,9 +348,9 @@ class AdministrationController extends ManageApiController
     public function showReportId(Request $request, $id)
     {
         $report = Report::where('id',$id)->get();
-//        dd($report);
+        // dd($report);
         return $this->respondSuccessWithStatus([
-            "report" => $report->map(function($report){
+            "report" => $report->map(function ($report) {
                 return $report->transform();
             })
         ]);
@@ -358,32 +358,33 @@ class AdministrationController extends ManageApiController
 
     public function showReports(Request $request)
     {
+        
         $limit = $request->limit ? $request->limit :20;
-        $search = $request->search;
+        $search = trim($request->search);
+        $reports = Report::join('users', 'reports.staff_id', "=", "users.id")->select('reports.*','users.name');
+        // dd($reports->get());
         if($search){
-            $reports = Report::where('content','like', '%' . $search . '%')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
+            $reports = $reports->where(function ($q) use ($search) {
+                $q->where('reports.report', 'like', "%$search%")
+                    ->orWhere('users.name', 'like', "%$search%");
+            });
+
+            // dd($reports);
+        }
+        
+        if($this->user->role == 2) {
+            // dd($reports);
+            $reports = $reports->paginate($limit);
+            // dd($reports);
+        } else {
+            $reports = $reports->where('staff_id',$this->user->id)->paginate($limit);
         }
 
-        if($this->user->role == 2) {
-            $reports = Report::orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
-        } else {
-            $reports = Report::where('staff_id',$this->user->id)->orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($reports, [
-                "reports" => $reports->map(function ($report) {
-                    return $report->transform();
-                })
-            ]);
-        }
+        return $this->respondWithPagination($reports, [
+            "reports" => $reports->map(function ($report) {
+                return $report->transform();
+            })
+        ]);
     }
 
     public function deleteReport(Request $request, $id)

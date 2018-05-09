@@ -21,6 +21,7 @@ class Language
             'en' => [
               'homepage' => '/en',
               'mission-vision' => '/en/mission-and-vision',
+              'strategic-partner' => '/en/strategic-partner',
               'media-partner' => '/en/media-partner',
               'faqs' => '/en/faqs',
               'jobs' => '/en/jobs-vacancies',
@@ -29,13 +30,26 @@ class Language
               'meeting-room' => '/en/meeting-room',
               'founders' => '/en/up-founder',
               'mentors' => '/en/up-s-mentors',
+              'members' => '/en/up-s-members',
+              'blogs' => '/en/vietnamese-startup-news',
               'contact' => '/en/contact-us',
-              'tour' => '/en/book-a-tour'
+              'tour' => '/en/book-a-tour',
+              'private-office' => '/en/private-office',
+              'virtual-office' => '/en/virtual-office',
+              'accounting' => '/en/accounting',
+              'legal-consulting' => '/en/legal-consulting',
+              'luong-yen' => '/en/up-luong-yen',
+              'bach-khoa' => '/en/up-bach-khoa-ha-noi',
+              'kim-ma' => '/en/up-kim-ma',
+              'lang-ha' => '/en/up-lang-ha',
+              'hcm' => '/en/coworking-space-ho-chi-minh',
+              'lab-up' => '/en/creative-lab-up-maker-space'
+
             ],
             'vi' => [
               'homepage' => '/',
               'mission-vision' => '/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space',
-              'strategy-partner' => '/doi-tac-chien-luoc-cua-up',
+              'strategic-partner' => '/doi-tac-chien-luoc-cua-up',
               'media-partner' => '/doi-tac-truyen-thong-cua-up',
               'faqs' => '/nhung-cau-hoi-thuong-gap',
               'jobs' => '/thong-tin-tuyen-dung',
@@ -44,9 +58,20 @@ class Language
               'meeting-room' => '/phong-hop',
               'founders' => '/up-founders',
               'mentors' => '/up-s-mentors',
+              'members' => '/up-s-members',
               'blogs' => '/tin-tuc-startup',
               'contact' => '/lien-he-voi-up-co-working-space',
-              'tour' => '/dang-ky-trai-nghiem'
+              'tour' => '/dang-ky-trai-nghiem',
+              'private-office' => '/thue-phong-lam-viec',
+              'virtual-office' => '/van-phong-ao',
+              'accounting' => '/accounting',
+              'legal-consulting' => '/tu-van-doanh-nghiep',
+              'luong-yen' => '/up-luong-yen',
+              'bach-khoa' => '/up-bach-khoa-ha-noi',
+              'kim-ma' => '/up-kim-ma',
+              'lang-ha' => '/up-lang-ha',
+              'hcm' => '/coworking-space-ho-chi-minh',
+              'lab-up' => '/creative-lab-up-maker-space'
             ]
         ];
 

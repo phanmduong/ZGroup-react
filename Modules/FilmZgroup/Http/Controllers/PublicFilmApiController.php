@@ -11,77 +11,147 @@ use Carbon\Carbon;
 
 class PublicFilmApiController extends NoAuthApiController
 {
-    public function searchFilmByName($name)
+    public function reloadFilmStatus(Film $film)
     {
-        $results = Film::where('name', 'LIKE', '%' . $name . '%')->paginate(12);
-        $this->data['total_pages'] = ceil($results->total() / $results->perPage());
-        $this->data['current_page'] = $results->currentPage();
-        $data = [
-            'results' => $results,
-        ];
-
-        return $this->respondSuccessWithStatus($data);
+        if (count($film->film_sessions) > 0) {
+            $sessions = $film->film_sessions()->where('start_date', '>=', date('Y-m-d'))->get();
+            if (count($sessions) == 0 && $film->film_status == 1) {
+                $film->film_status = 0;
+                $film->save();
+            } elseif (count($sessions) > 0) {
+                $film->film_status = 1;
+                $film->save();
+            }
+        } elseif ($film->film_status == 1) {
+            $film->film_status = 0;
+            $film->save();
+        }
     }
 
-    public function getFilmById($id)
+    public function getFilmsFilter(Request $request)
     {
-        $film = Film::find($id);
-        $data = [
-            'film' => $film,
-        ];
-        return $this->respondSuccessWithStatus($data);
+        $limit = $request->limit;
+        $search = $request->search;
+        $id = $request->id;
+        $status = $request->status;
+        $filmsR = Film::orderBy('created_at', 'desc')->get();
+        foreach ($filmsR as $film) {
+            $this->reloadFilmStatus($film);
+        }
+        $films = Film::orderBy('created_at', 'desc');
+
+        if ($search) {
+            $films = $films->where('name', 'LIKE', '%' . trim($search) . '%');
+        }
+        if ($id) {
+            $films = $films->where('id', $id);
+        }
+        if ($status) {
+            $films = $films->where('status', $status);
+        }
+
+        if ($limit == -1 or !$limit) {
+            $films = $films->get();
+            $films = [
+                "films" => $films,
+            ];
+
+            return $films;
+        } else {
+
+            $films = $films->paginate($limit);
+            return $this->respondWithPagination($films, ['films' => $films->map(function ($film) {
+                return $film;
+            })]);
+        }
     }
 
-    public function getFilmsNowShowing()
+
+    public function getSessionsFilter(Request $request)
     {
-        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at')->get();
-        $data = [
-            "sessions" => $sessions,
-        ];
-
-        return $this->respondSuccessWithStatus($data);
-    }
-
-
-    public function getFilmByRoom(Request $request)
-    {
+        $search = $request->search;
+        $session_id = $request->session_id;
         $room_id = $request->room_id;
-        $sessions = FilmSession::where('room_id', $room_id)->where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at')->get();
-        $data = [
-            "sessions" => $sessions,
-        ];
-
-        return $this->respondSuccessWithStatus($data);
-    }
-
-    public function getFilmByDate(Request $request)
-    {
         $start_date = $request->start_date;
-        $sessions = FilmSession::where('start_date', $start_date)->orderBy('created_at')->get();
-        $data = [
-            "sessions" => $sessions,
-        ];
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $film_id = $request->film_id;
+        $limit = $request->limit;
+        $sessions = FilmSession::orderBy('created_at','desc');
+        if ($session_id) {
+            $sessions = $sessions->where('id', '=', $session_id);
+        }
+        if ($room_id) {
+            $sessions = $sessions->where('room_id', '=', $room_id);
+        }
+        if ($film_id) {
+            $sessions = $sessions->where('film_id', $film_id);
+        }
+        if ($search) {
+            $sessions = $sessions->whereHas('film', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
+        if ($start_date) {
+            $sessions = $sessions->where('start_date', $start_date);
+        }
+        if ($from_date) {
+            $sessions = $sessions->where('start_date', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $from_date . ' 00:00:00'));
+        }
+        if ($to_date) {
+            $sessions = $sessions->where('start_date', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $to_date . ' 00:00:00'));
+        }
 
-        return $this->respondSuccessWithStatus($data);
+        if ($limit == -1 or !$limit) {
+            $sessions = $sessions->get();
+            $sessions = [
+                'sessions' => $sessions->map(function ($session) {
+                    $session['film'] = $session->film;
+                    return $session;
+                })
+            ];
+
+            return $sessions;
+        } else {
+
+            $sessions = $sessions->paginate($limit);
+            return $this->respondWithPagination($sessions, ['sessions' => $sessions->map(function ($session) {
+                $session['film'] = $session->film;
+                return $session;
+            })]);
+        }
     }
 
-    public function filterSessionByDateRange(Request $request)
+    public function getSessionsNowShowing(Request $request)
     {
-        $sessions = FilmSession::where('start_date', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $request->from_date . ' 00:00:00') )
-            ->where('start_date', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $request->to_date . ' 00:00:00') )->get();
+        $sessions = FilmSession::where('start_date', '>=', date('Y-m-d') . ' 00:00:00')->orderBy('created_at','desc');
+        $search = $request->search;
+        $limit = $request->limit;
 
-        $data = [
-            "sessions" => $sessions,
-        ];
+        if ($search) {
+            $sessions = $sessions->whereHas('film', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
+        if ($limit == -1 or !$limit) {
+            $sessions = $sessions->get();
+            $sessions = [
+                "sessions" => $sessions->map(function ($session) {
+                    $session['film'] = $session->film;
+                    return $session;
+                })
+            ];
 
-        return $this->respondSuccessWithStatus($data);
+            return $sessions;
+        } else {
+
+            $sessions = $sessions->paginate($limit);
+            return $this->respondWithPagination($sessions, ['sessions' => $sessions->map(function ($session) {
+                $session['film'] = $session->film;
+                return $session;
+            })]);
+        }
     }
 
-    public function getSessionById($id)
-    {
-        $session = FilmSession::find($id);
-        $this->data["session"] = $session;
 
-        return $this->respondSuccessWithStatus($this->data);
-    }
 }
