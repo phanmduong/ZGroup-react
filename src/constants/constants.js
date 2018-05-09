@@ -493,7 +493,7 @@ export const STATUS_ISSUE = {
 
 export const LEAD_COLORS = [
     '#dff0d8', '#daedf7', '#f2dede', '#fcf8e3'
-]
+];
 
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",

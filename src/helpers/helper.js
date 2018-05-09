@@ -615,7 +615,7 @@ export function createFileUrl(file) {
 /*eslint-disable */
 export function iOS() {
 
-    var iDevices = [
+    let iDevices = [
         'iPad Simulator',
         'iPhone Simulator',
         'iPod Simulator',
@@ -1408,9 +1408,9 @@ export function removeStorage(name) {
  */
 export function getStorage(key) {
 
-    var now = Date.now();  //epoch time, lets deal only with integer
+    let now = Date.now();  //epoch time, lets deal only with integer
     // set expiration for storage
-    var expiresIn = localStorage.getItem(key + '_expiresIn');
+    let expiresIn = localStorage.getItem(key + '_expiresIn');
     if (expiresIn === undefined || expiresIn === null) {
         expiresIn = 0;
     }
@@ -1420,7 +1420,7 @@ export function getStorage(key) {
         return null;
     } else {
         try {
-            var value = localStorage.getItem(key);
+            let value = localStorage.getItem(key);
             return value;
         } catch (e) {
             console.log('getStorage: Error reading key [' + key + '] from localStorage: ' + JSON.stringify(e));
@@ -1445,8 +1445,8 @@ export function setStorage(key, value, expires) {
         expires = Math.abs(expires); //make sure it's positive
     }
 
-    var now = Date.now();  //millisecs since epoch time, lets deal only with integer
-    var schedule = now + expires * 1000;
+    let now = Date.now();  //millisecs since epoch time, lets deal only with integer
+    let schedule = now + expires * 1000;
     try {
         localStorage.setItem(key, value);
         localStorage.setItem(key + '_expiresIn', schedule);

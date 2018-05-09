@@ -44,7 +44,10 @@ class BlogEditor extends React.Component {
     }
 
     onChange = value => {
+<<<<<<< HEAD
         // console.log(value);
+=======
+>>>>>>> 4fcdc48d9d487bc69c2e5c8bdd243077c0db2651
         this.setState({
             value,
         });
