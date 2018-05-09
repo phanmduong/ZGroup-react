@@ -347,12 +347,10 @@ class AdministrationController extends ManageApiController
 
     public function showReportId(Request $request, $id)
     {
-        $report = Report::where('id',$id)->get();
-//        dd($report);
+        $report = Report::where('id`',$id)->get();
+        dd($report);
         return $this->respondSuccessWithStatus([
-            "report" => $report->map(function($report){
-                return $report->transform();
-            })
+            "report" => $report->transform()
         ]);
     }
 
