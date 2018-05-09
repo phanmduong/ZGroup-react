@@ -195,7 +195,10 @@ class ManageMoneyTransferApiController extends ManageApiController
         $transaction->status = $status;
         $transaction->sender->status = 0;
         if ($status == 1) {
+            $transaction->sender_money = $transaction->sender->money + $transaction->money;
+            $transaction->receiver_money = $transaction->receiver->money;
             $transaction->receiver->money = $transaction->receiver->money + $transaction->money;
+
         } else {
             $transaction->sender->money = $transaction->sender->money + $transaction->money;
         }
