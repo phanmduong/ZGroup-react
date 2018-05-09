@@ -69,14 +69,32 @@ export function getContractDetail(id) {
     return axios.get(url);
 }
 
-export function loadAllContract(page) {
-
+export function loadAllContract(filter) {
+    filter = {
+        ...filter,
+        limit: filter.limit || "20",
+        page: filter.page || "1",
+        start_time: filter.start_time || "",
+        end_time: filter.end_time || "",
+        staff_name: filter.staff_name || "",
+        sign_staff_name: filter.sign_staff_name || "",
+        company_a_id: filter.company_a_id || "",
+        company_b_id: filter.company_b_id || "",
+        contract_number: filter.contract_number || "",
+    };
     let url = env.MANAGE_API_URL + "/company/contract/all?";
     let token = localStorage.getItem('token');
     if (token) {
         url +=
             "&token=" + token +
-            "&page=" + page +
+            "&page=" + filter.page +
+            "&=limit" + filter.limit +
+            "&=start_time" + filter.end_time +
+            "&=staff_name" + filter.staff_name +
+            "&=sign_staff_name" + filter.sign_staff_name +
+            "&=company_a_id" + filter.company_a_id +
+            "&=company_b_id" + filter.company_b_id +
+            "&=contract_number" + filter.contract_number +
             "";
     }
     return axios.get(url);

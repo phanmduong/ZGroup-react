@@ -23,6 +23,12 @@ class FormInputMoney extends React.Component {
         }
     }
 
+    onChange = (e) => {
+        let value = e.target.value;
+        e.target.value = helper.convertDotStringNumberToStringNumber(value);
+        this.props.updateFormData(e);
+    }
+
     render() {
         const className = this.props.isNotValid ? ' has-error' : '';
         return (
@@ -39,28 +45,28 @@ class FormInputMoney extends React.Component {
                     <label className="control-label">
                         {this.props.label}{' '}
                         {this.props.required &&
-                        !this.props.disabled && <star style={{ color: 'red' }}>*</star>}
+                            !this.props.disabled && <star style={{ color: 'red' }}>*</star>}
                     </label>
                 )}
 
                 {this.props.disabled ? (
                     <p className="form-control-static">{this.props.value}</p>
                 ) : (
-                    <input
-                        autoComplete={this.props.autoComplete}
-                        type={this.props.type || 'text'}
-                        className="form-control"
-                        required={this.props.required}
-                        onChange={this.props.updateFormData}
-                        name={this.props.name}
-                        value={this.props.value ? helper.dotStringNumber(this.props.value) : ''}
-                        disabled={this.props.disabled}
-                        onKeyPress={this.props.onKeyPress}
-                        placeholder={this.props.placeholder}
-                        min={this.props.minValue ? this.props.minValue : undefined}
-                        max={this.props.maxValue ? this.props.maxValue : undefined}
-                    />
-                )}
+                        <input
+                            autoComplete={this.props.autoComplete}
+                            type={this.props.type || 'text'}
+                            className="form-control"
+                            required={this.props.required}
+                            onChange={this.onChange}
+                            name={this.props.name}
+                            value={this.props.value ? helper.dotStringNumber(this.props.value) : ''}
+                            disabled={this.props.disabled}
+                            onKeyPress={this.props.onKeyPress}
+                            placeholder={this.props.placeholder}
+                            min={this.props.minValue ? this.props.minValue : undefined}
+                            max={this.props.maxValue ? this.props.maxValue : undefined}
+                        />
+                    )}
 
                 {this.props.children}
                 {this.props.isNotValid && <span className="help-block">{this.props.errorMessage}</span>}
@@ -74,7 +80,7 @@ FormInputMoney.propTypes = {
     name: PropTypes.string.isRequired,
     autoComplete: PropTypes.string,
     label: PropTypes.string,
-    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     updateFormData: PropTypes.func,
     disabled: PropTypes.bool,
     required: PropTypes.bool,

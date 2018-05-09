@@ -1,40 +1,76 @@
 import { observable, action, computed } from "mobx";
 import * as contractApi from "./contractApi";
-import { showErrorNotification } from "../../../helpers/helper";
-import { CONTRACT_TYPES } from "../../../constants/constants";
+import { showErrorNotification, showNotification } from "../../../helpers/helper";
+import moment from "moment";
+import { DATETIME_FORMAT, DATETIME_FORMAT_SQL, CONTRACT_TYPES } from "../../../constants/constants";
+import { browserHistory } from 'react-router';
 
 export const store = new class DashboardStaffStore {
     @observable isLoading = false;
     @observable isCommitting = false;
+    @observable isInfoModal = false;
+    @observable showPanel = false;
     @observable companies = [];
     @observable contracts = [];
     @observable staffs = [];
-    @observable createData = {
-        company_a: {},
-        company_b: {},
-        sign_staff: {},
-        staff: {},
-        type: {},
+    @observable paginator = {
+        current_page: 1,
+        limit: 20,
+        total_count: 0,
+        total_pages: 1,
+    };
+    @observable createData = defaultData;
+    @observable filter = {
+        start_time: "",
+        end_time: "",
+        staff_name: "",
+        sign_staff_name: "",
+        company_a_id: "",
+        company_b_id: "",
         contract_number: "",
-        value: 0,
-        status: 0,
+        limit: "20",
     };
 
 
 
 
     @action
+    resetData() {
+        this.createData = defaultData;
+    }
+
+    @action
+    openInfoModal(data) {
+        this.isInfoModal = true;
+        let due_date = data.due_date;
+        due_date = moment(due_date, [DATETIME_FORMAT_SQL, DATETIME_FORMAT]).format(DATETIME_FORMAT);
+        let type = data.type;
+        this.createData = {
+            ...data,
+            value: data.value + "", due_date,
+            type: { id: type, value: type }
+        };
+
+    }
+    @action
     getContractDetail(id) {
         this.isLoading = true;
         this.createContract.id = id;
-        contractApi
-            .getContractDetail(id)
+        contractApi.getContractDetail(id)
             .then((res) => {
                 this.isLoading = false;
-                console.log("load detail", res.data);
+                let due_date = res.data.data.contract.due_date;
+                due_date = moment(due_date, [DATETIME_FORMAT_SQL, DATETIME_FORMAT]).format(DATETIME_FORMAT);
+                let type = res.data.data.contract.type;
+                this.createData = {
+                    ...res.data.data.contract,
+                    value: res.data.data.contract.value + "", due_date,
+                    type: { id: type, value: type }
+                };
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
+                browserHistory.push("/administration/contract");
                 this.isLoading = false;
             });
     }
@@ -42,10 +78,29 @@ export const store = new class DashboardStaffStore {
     @action
     createContract() {
         this.isLoading = true;
-        contractApi
-            .createContract(this.createContract)
+        let due_date = moment(this.createData.due_date, [DATETIME_FORMAT_SQL, DATETIME_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let res = { ...this.createData, due_date };
+        contractApi.createContract(res)
             .then(() => {
                 this.isLoading = false;
+                showNotification("Tạo thành công");
+                browserHistory.push("/administration/contract");
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra.");
+                this.isLoading = false;
+            });
+    }
+    @action
+    editContract() {
+        this.isLoading = true;
+        let due_date = moment(this.createData.due_date, [DATETIME_FORMAT_SQL, DATETIME_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let res = { ...this.createData, due_date };
+        contractApi.editContract(res)
+            .then(() => {
+                this.isLoading = false;
+                showNotification("Sửa thành công");
+                browserHistory.push("/administration/contract");
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
@@ -55,24 +110,22 @@ export const store = new class DashboardStaffStore {
     @action
     loadAllCompanies(data) {
 
-        contractApi
-            .loadAllCompanies(data)
+        contractApi.loadAllCompanies(data)
             .then((res) => {
                 this.companies = res.data.data.company;
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
-
+                browserHistory.push("/administration/contract");
             });
     }
     @action
-    loadAllContract(data) {
-
-        contractApi
-            .loadAllContract(data)
+    loadAllContract() {
+        contractApi.loadAllContract(filter)
             .then((res) => {
-                console.log("company", res.data);
-                this.companies = res.data.data.company;
+                this.paginator = res.data.paginator;
+                this.contracts = res.data.data;
+                console.log("load all: ", res.data);
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
@@ -81,21 +134,21 @@ export const store = new class DashboardStaffStore {
     }
     @action
     loadStaffs(data) {
-        contractApi
-            .loadStaffs(data)
+        contractApi.loadStaffs(data)
             .then((res) => {
                 this.staffs = res.data.staffs;
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
-
+                browserHistory.push("/administration/contract");
             });
     }
 
 
     @computed
     get allCompany() {
-        return this.companies.map(function (obj) {
+        let data = this.companies || [];
+        return data.map(function (obj) {
             return {
                 value: obj.id,
                 label: obj.name,
@@ -105,7 +158,8 @@ export const store = new class DashboardStaffStore {
     }
     @computed
     get allStaff() {
-        return this.staffs.map(function (obj) {
+        let data = this.staffs || [];
+        return data.map(function (obj) {
             return {
                 value: obj.id,
                 label: obj.name,
@@ -126,4 +180,17 @@ export const store = new class DashboardStaffStore {
     }
 
 
+
+
 }();
+
+const defaultData = {
+    company_a: { id: "", name: "", },
+    company_b: { id: "", name: "" },
+    sign_staff: { id: "", name: "", phone: "", avatar_url: "" },
+    staff: { id: "", name: "", phone: "", avatar_url: "" },
+    type: { id: '', value: '', label: '' },
+    contract_number: 0,
+    value: "",
+    status: 0,
+};

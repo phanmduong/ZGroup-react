@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { store } from "./contractStore";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import { } from "../../../helpers/helper";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
 import FormInputMoney from "../../../components/common/FormInputMoney";
@@ -11,6 +10,8 @@ import Avatar from "../../../components/common/Avatar";
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { browserHistory } from 'react-router';
+import { confirm, setFormValidation, isEmptyInput, showErrorNotification } from "../../../helpers/helper";
 
 const reactSelectMarginTop = { marginTop: 15 };
 
@@ -20,17 +21,25 @@ class CreateContractContainer extends Component {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
         this.submitData = this.submitData.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.exit = this.exit.bind(this);
     }
 
     componentWillMount() {
         store.loadAllCompanies();
         store.loadStaffs();
-        store.createData.staff = this.props.user;
-        let { contract_id } = this.props.params;
+        let { contract_id } = this.props.params || {};
         if (contract_id) {
             store.getContractDetail(contract_id);
+        } else if (!store.isInfoModal) {
+            store.resetData();
         }
+        store.createData.staff = this.props.user;
+
+    }
+
+    componentDidMount() {
+        setFormValidation("form-data");
     }
 
     @observable data = {
@@ -43,132 +52,166 @@ class CreateContractContainer extends Component {
     }
 
     exit() {
-
+        confirm(
+            "warning", "Cảnh báo", "Bạn có chắc muốn thoát? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
+            () => {
+                browserHistory.push("/administration/contract");
+            },
+        );
     }
 
     submitData() {
-        store.createContract();
+        let { company_a, company_b, sign_staff, type, due_date } = store.createData;
+        if ($('#form-data').valid()) {
+            if (isEmptyInput(company_a.id)) {
+                showErrorNotification("Vui lòng chọn bên A!");
+                return;
+            }
+            if (isEmptyInput(company_b.id)) {
+                showErrorNotification("Vui lòng chọn bên B");
+                return;
+            }
+            if (isEmptyInput(sign_staff.id)) {
+                showErrorNotification("Bạn chưa chọn người kí!");
+                return;
+            }
+            if (isEmptyInput(type.id)) {
+                showErrorNotification("Bạn chưa chọn loại hợp đồng!");
+                return;
+            }
+            if (isEmptyInput(due_date)) {
+                showErrorNotification("Bạn chưa chọn ngày hết hạn hợp đồng!");
+                return;
+            }
+        } else { return; }
+
+        if (this.props.params.contract_id)
+            store.editContract();
+        else store.createContract();
+    }
+
+    handleSelect(name, e) {
+        this.updateFormData({ target: { name, value: e || {} } });
     }
 
     render() {
-        let { isLoading, isCommitting, createData, allCompany, allStaff, allContractType } = store;
+        let { isLoading, isCommitting, isInfoModal, createData, allCompany, allStaff, allContractType } = store;
 
-        let disableField = isLoading || isCommitting;
+        //let disableField = true;
+        let disableField = isLoading || isCommitting || isInfoModal;
         return (
             <div>
                 {
                     isLoading ? <Loading /> :
                         <div className="content">
                             <div className="container-fluid">
-                                <form role="form" id="form-request-money" onSubmit={(e) => e.preventDefault()}>
+                                <form role="form" id="form-data" onSubmit={(e) => e.preventDefault()}>
                                     <div className="row">
                                         <div className="col-md-8">
                                             <div className="card">
                                                 <div className="card-content">
-                                                    <h4 className="card-title"><strong>Tạo hợp đồng</strong></h4><br />
+                                                    <h4 className="card-title"><strong>{isInfoModal ? "Thông tin hợp đồng" : ((this.props.params && this.props.params.contract_id) ? "Sửa hợp đồng" : "Tạo hợp đồng")}</strong></h4><br />
                                                     <div className="row">
-                                                        <div className="col-md-6" style={reactSelectMarginTop}>
-                                                            <label>Bên A</label>
-                                                            <ReactSelect
-                                                                disabled={disableField}
-                                                                options={allCompany}
-                                                                onChange={e => { this.updateFormData({ target: { name: "company_a", value: e } }); }}
-                                                                value={createData.company_a.id}
-                                                                name="company_a"
-                                                                defaultMessage="Chọn đối tác"
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-6" style={reactSelectMarginTop}>
-                                                            <label>Bên B</label>
-                                                            <ReactSelect
-                                                                disabled={disableField}
-                                                                options={allCompany}
-                                                                onChange={e => { this.updateFormData({ target: { name: "company_b", value: e } }); }}
-                                                                value={createData.company_b.id}
-                                                                name="company_a"
-                                                                defaultMessage="Chọn đối tác"
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-6" style={reactSelectMarginTop}>
-                                                            <label>Người kí</label>
-                                                            <ReactSelect
-                                                                disabled={disableField}
-                                                                options={allStaff}
-                                                                onChange={e => { this.updateFormData({ target: { name: "sign_staff", value: e } }); }}
-                                                                value={createData.sign_staff.id}
-                                                                name="sign_staff"
-                                                                defaultMessage="Chọn đối tác"
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-6" style={reactSelectMarginTop}>
-                                                            <label>Loại hợp đồng</label>
-                                                            <ReactSelect
-                                                                disabled={disableField}
-                                                                options={allContractType}
-                                                                onChange={e => { this.updateFormData({ target: { name: "type", value: e } }); }}
-                                                                value={createData.type.id}
-                                                                name="sign_staff"
-                                                                defaultMessage="Chọn đối tác"
-                                                            />
-                                                        </div>
-                                                        <FormInputText
-                                                            className="col-md-6"
-                                                            name="contract_number"
-                                                            label="Số hợp đồng"
-                                                            type="text"
-                                                            updateFormData={this.updateFormData}
-                                                            disabled={disableField}
-                                                            value={createData.contract_number}
-                                                            required
-                                                        />
-                                                        <FormInputMoney
-                                                            className="col-md-6"
-                                                            name="value"
-                                                            label="Giá trị hợp đồng"
-                                                            type="text"
-                                                            updateFormData={this.updateFormData}
-                                                            disabled={disableField}
-                                                            value={createData.value}
-                                                            required
-                                                        />
                                                         <div className="col-md-12">
-                                                            <FormInputDateTime
-                                                                name="due_date"
-                                                                id="due_date"
-                                                                label="Ngày hết hạn"
+                                                            <div className="col-md-6" style={reactSelectMarginTop}>
+                                                                <label>Bên A</label>
+                                                                <ReactSelect
+                                                                    disabled={disableField}
+                                                                    options={allCompany}
+                                                                    onChange={e => this.handleSelect("company_a", e)}
+                                                                    value={createData.company_a.id}
+                                                                    name="company_a"
+                                                                    defaultMessage="Chọn đối tác"
+                                                                />
+                                                            </div>
+                                                            <div className="col-md-6" style={reactSelectMarginTop}>
+                                                                <label>Bên B</label>
+                                                                <ReactSelect
+                                                                    disabled={disableField}
+                                                                    options={allCompany}
+                                                                    onChange={e => this.handleSelect("company_b", e)}
+                                                                    value={createData.company_b.id}
+                                                                    name="company_b"
+                                                                    defaultMessage="Chọn đối tác"
+                                                                />
+                                                            </div>
+                                                            <div className="col-md-6" style={reactSelectMarginTop}>
+                                                                <label>Người kí</label>
+                                                                <ReactSelect
+                                                                    disabled={disableField}
+                                                                    options={allStaff}
+                                                                    onChange={e => this.handleSelect("sign_staff", e)}
+                                                                    value={createData.sign_staff.id}
+                                                                    name="sign_staff"
+                                                                    defaultMessage="Chọn đối tác"
+                                                                />
+                                                            </div>
+                                                            <div className="col-md-6" style={reactSelectMarginTop}>
+                                                                <label>Loại hợp đồng</label>
+                                                                <ReactSelect
+                                                                    disabled={disableField}
+                                                                    options={allContractType}
+                                                                    onChange={e => this.handleSelect("type", e)}
+                                                                    value={createData.type.id}
+                                                                    name="type"
+                                                                    defaultMessage="Chọn đối tác"
+                                                                />
+                                                            </div>
+                                                            <FormInputText
+                                                                className="col-md-6"
+                                                                name="contract_number"
+                                                                label="Số hợp đồng"
                                                                 type="text"
                                                                 updateFormData={this.updateFormData}
                                                                 disabled={disableField}
-                                                                value={createData.due_date}
+                                                                value={createData.contract_number}
                                                                 required
-                                                            /></div>
-                                                        <FormInputText
-                                                            className="col-md-12"
-                                                            name=""
-                                                            label=""
-                                                            type="text"
-                                                            updateFormData={this.updateFormData}
-                                                            disabled={disableField}
-                                                            value={createData.a}
-                                                            required
-                                                        />
+                                                            />
+                                                            <FormInputMoney
+                                                                className="col-md-6"
+                                                                name="value"
+                                                                label="Giá trị hợp đồng"
+                                                                type="text"
+                                                                updateFormData={this.updateFormData}
+                                                                disabled={disableField}
+                                                                value={createData.value}
+                                                                required
+                                                            />
+                                                            <div className="col-md-12">
+                                                                {
+                                                                    disableField ? <div>Ngày hết hạn: {createData.due_date}</div> :
+                                                                        <FormInputDateTime
+                                                                            name="due_date"
+                                                                            id="due_date"
+                                                                            label="Ngày hết hạn"
+                                                                            type="text"
+                                                                            updateFormData={this.updateFormData}
+                                                                            value={createData.due_date}
+                                                                            required
+                                                                        />
+                                                                }
+                                                            </div>
 
 
+                                                        </div>
                                                     </div>
 
-                                                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                                                    {!isInfoModal && <div style={{ display: "flex", justifyContent: "flex-end" }}>
                                                         {isCommitting ?
                                                             <button className="btn btn-fill btn-rose  disabled" type="button">
                                                                 <i className="fa fa-spinner fa-spin" /> Đang lưu</button>
                                                             :
-                                                            <button className="btn btn-fill btn-rose" type="button"
+                                                            <div><button className="btn btn-fill btn-rose" type="button"
                                                                 onClick={this.submitData} disabled={disableField}
-                                                            >Lưu</button>}
+                                                            >Lưu</button>
+                                                                <button className="btn btn-fill" type="button" disabled={isCommitting}
+                                                                    onClick={this.exit} style={{ marginLeft: 5 }}
+                                                                >Hủy</button></div>
+                                                        }
 
-                                                        <button className="btn btn-fill" type="button" disabled={isCommitting}
-                                                            onClick={this.exit} style={{ marginLeft: 5 }}
-                                                        >Hủy</button>
-                                                    </div>
+
+
+                                                    </div>}
 
                                                 </div>
                                             </div>
@@ -180,7 +223,7 @@ class CreateContractContainer extends Component {
                                                     <div className="row">
                                                         <div className="col-md-12">
                                                             <Avatar
-                                                                url={createData.sign_staff.avatar_url}
+                                                                url={createData.sign_staff.avatar_url || ""}
                                                                 size={100}
                                                                 style={{ width: "100%", height: 170, maxHeight: 170, maxWidth: 170 }}
                                                             /><br />
@@ -204,7 +247,7 @@ class CreateContractContainer extends Component {
                                                     <div className="row">
                                                         <div className="col-md-12">
                                                             <Avatar
-                                                                url={createData.staff.avatar_url}
+                                                                url={createData.staff.avatar_url || ""}
                                                                 size={100}
                                                                 style={{ width: "100%", height: 170, maxHeight: 170, maxWidth: 170 }}
                                                             /><br />
@@ -235,6 +278,7 @@ class CreateContractContainer extends Component {
 }
 CreateContractContainer.propTypes = {
     user: PropTypes.object.isRequired,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {
