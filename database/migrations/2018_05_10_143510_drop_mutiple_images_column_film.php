@@ -14,7 +14,7 @@ class DropMutipleImagesColumnFilm extends Migration
     {
         //
         Schema::table('films',function (Blueprint $table) {
-            $table->text('images_url');
+            $table->text('images_url')->change();
         });
     }
 
