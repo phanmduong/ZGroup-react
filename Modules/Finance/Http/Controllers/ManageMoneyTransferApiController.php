@@ -97,7 +97,6 @@ class ManageMoneyTransferApiController extends ManageApiController
         }
 
         $this->user->status = 2;
-        $this->user->money = $this->user->money - $money;
 
 
         $transaction = new Transaction();
@@ -110,6 +109,7 @@ class ManageMoneyTransferApiController extends ManageApiController
         $transaction->money = $money;
 
         $transaction->save();
+        $this->user->money = $this->user->money - $money;
         $this->user->save();
 
         $notification = new Notification();
