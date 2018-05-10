@@ -38,6 +38,8 @@ class FilmZgroupManageApiController extends ManageApiController
             'language' => 'required|max:255',
             'film_genre' => 'required|max:255',
             'summary' => 'required',
+            'cover_url' => 'required',
+            'images_url' => 'required'
         ]);
         if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
@@ -58,6 +60,9 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_status = 0;
         $film->film_rated = $request->film_rated;
         $film->rate = $request->rate;
+        $film->cover_url = $request->cover_url;
+        $film->images_url= $request->images_url;
+        $film->is_favorite= $request->is_favorite;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -76,7 +81,8 @@ class FilmZgroupManageApiController extends ManageApiController
             'language' => 'required|max:255',
             'film_genre' => 'required|max:255',
             'summary' => 'required',
-
+            'cover_url' => 'required',
+            'images_url' => 'required'
         ]);
         if ($validator->fails()) {
             return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
@@ -97,6 +103,10 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_status = $request->film_status;
         $film->film_rated = $request->film_rated;
         $film->rate = $request->rate;
+        $film->cover_url = $request->cover_url;
+        $film->images_url= $request->images_url;
+        $film->is_favorite= $request->is_favorite;
+
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
@@ -177,13 +187,19 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccess('doi trang thai ghe thanh cong');
     }
 
-    public function changeFilmStatus(Request $request,$id)
+    public function changeFilmInfo(Request $request, $id)
     {
         $film = Film::find($id);
-        $film->film_status = $request->film_status;
+        if($request->film_status) {
+            $film->film_status = $request->film_status;
+        }
+        if($request->is_favorite) {
+            $film->is_favorite = $request->is_favorite;
+        }
+
         $film->save();
 
-        return $this->respondSuccess('Doi trang thai thanh cong');
+        return $this->respondSuccess('Doi thong tin thanh cong');
 
     }
 }
