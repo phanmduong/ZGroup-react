@@ -50,7 +50,7 @@ class CancelTransactions extends Command
     public function handle()
     {
         $date = new \DateTime();
-        $date->modify('-1 minutes');
+        $date->modify('-5 minutes');
         $time = $date->format('Y-m-d H:i');
         $transactions = Transaction::where('type', '=', 0)->where('status', '=', 0)->whereRaw('"' . $time . '" = DATE_FORMAT(created_at, "%Y-%m-%d %H:%i")')->get();
         foreach ($transactions as $transaction) {
