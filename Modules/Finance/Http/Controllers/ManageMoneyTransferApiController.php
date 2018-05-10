@@ -79,9 +79,8 @@ class ManageMoneyTransferApiController extends ManageApiController
             return $this->respondErrorWithStatus('Nhân viên này đang chuyển tiền.');
         }
 
-        if ($request->money == null) {
-            return $this->respondErrorWithStatus('Vui lòng nhập số tiền gửi');
-        }
+        $money = $request->money ? $request->money : $this->user->money;
+
 
         if ($request->money < 0) {
             return $this->respondErrorWithStatus('Số tiền gửi không được nhỏ hơn 0');
@@ -93,12 +92,12 @@ class ManageMoneyTransferApiController extends ManageApiController
             return $this->respondErrorWithStatus('Vui lòng chọn người nhận');
         }
 
-        if ($this->user->money < $request->money) {
+        if ($this->user->money < $money) {
             return $this->respondErrorWithStatus('Bạn đang chuyển nhiều hơn số tiền hiện có');
         }
 
         $this->user->status = 2;
-        $this->user->money = $this->user->money - $request->money;
+        $this->user->money = $this->user->money - $money;
 
 
         $transaction = new Transaction();
@@ -108,7 +107,7 @@ class ManageMoneyTransferApiController extends ManageApiController
         $transaction->receiver_id = $receiver->id;
         $transaction->receiver_money = $receiver->money;
         $transaction->sender_money = $this->user->money;
-        $transaction->money = $request->money;
+        $transaction->money = $money;
 
         $transaction->save();
         $this->user->save();
