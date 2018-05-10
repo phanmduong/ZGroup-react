@@ -33,7 +33,7 @@
         }
 
         /*.share a {*/
-            /*padding: 11px*/
+        /*padding: 11px*/
         /*}*/
 
         .share a:hover {
@@ -281,64 +281,26 @@
                             <div class="container section remove-bottom-padding dark">
                                 <div class="row comingSoon-slides singleGallery">
                                     <div class="col-sm-12">
-                                        <div class="row single-slide 1"
-                                             style="opacity: 1; height: auto; padding-bottom: 40px">
-                                            <div class="bg"
-                                                 style="background-image: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899016-1.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899016-1.jpg) center center / cover;"></span>
+                                        <?php $i = 1;?>
+                                        @foreach($images_url as $img_url)
+                                            <div class="row single-slide {{$i}}"
+                                                 style="opacity: 1; height: auto; padding-bottom: 40px">
+                                                <div class="bg"
+                                                     style="background-image: url({{$film->cover_url}})"></div>
+                                                <div class="col-sm-12" style="position: relative;">
+                                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
+                                                    <span style="background: url({{$film->cover_url}}) center center / cover;"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row single-slide 2">
-                                            <div class="bg"
-                                                 style="background-image: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899020-6.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899020-6.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 3">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 4">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 5">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 6">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-
-
+                                            <?php $i++;?>
+                                        @endforeach
                                         <div class="">
                                             <div style="margin-right: -15px;margin-left: -15px" class="slick-slider">
 
                                                 <div id="comingSoon"
                                                      class="owl-carousel slick-carousel slick-initialized">
-
-                                                    <div data-dynamicclass="1" class="slick-slide slick-cloned"
+@foreach()
+                                                    <div data-dynamicclass="{{$i}}" class="slick-slide slick-cloned"
                                                          data-slick-index="1" aria-hidden="true" tabindex="-1"
                                                          style="opacity: 1">
                                                         <div style="position: relative;">
@@ -348,50 +310,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div data-dynamicclass="2" class="slick-slide slick-cloned"
-                                                         data-slick-index="2" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899020-6.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="3" class="slick-slide slick-cloned"
-                                                         data-slick-index="3" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="4" class="slick-slide slick-cloned"
-                                                         data-slick-index="4" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="5" class="slick-slide slick-cloned"
-                                                         data-slick-index="5" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="6" class="slick-slide slick-cloned"
-                                                         data-slick-index="6" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
+                                                    @endforeach
 
                                                 </div>
                                             </div>

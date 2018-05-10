@@ -61,8 +61,8 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_rated = $request->film_rated;
         $film->rate = $request->rate;
         $film->cover_url = $request->cover_url;
-        $film->images_url= $request->images_url;
-        $film->is_favorite= $request->is_favorite;
+        $film->images_url = $request->images_url;
+        $film->is_favorite = 0;
         $film->save();
 
         return $this->respondSuccess('add thanh cong');
