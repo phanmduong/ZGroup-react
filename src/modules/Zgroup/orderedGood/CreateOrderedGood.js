@@ -158,7 +158,7 @@ class CreateOrderedGood extends React.Component {
             goods: JSON.stringify(data.goods.map(
                 (obj) => {
                     let pr = obj.price * obj.quantity * 1;
-                    switch (obj.type) {
+                    switch (obj.kind) {
                         case "book_comic": {
                             pr -= data.company.discount_comic * pr / 100;
                             break;
@@ -232,7 +232,7 @@ class CreateOrderedGood extends React.Component {
 
 
 
-                                                                    switch (obj.type) {
+                                                                    switch (obj.kind) {
                                                                         case "book_comic": {
                                                                             typeGood = "Truyện tranh";
                                                                             pr -= data.company.discount_comic * pr / 100;
