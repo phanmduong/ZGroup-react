@@ -239,6 +239,7 @@ class DashboardContainer extends React.Component {
                                 openModalClass={this.openModalClass}
                                 loadAttendanceShift={this.loadAttendanceShift}
                                 loadAttendanceClass={this.loadAttendanceClass}
+                                bases={this.props.bases}
                             />
                             <Modal
                                 show={this.state.showModalClass}

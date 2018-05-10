@@ -30,8 +30,8 @@ class MoneyTransferContainer extends React.Component {
         this.props.moneyTransferActions.getUser();
         const channel = CHANNEL + ":notification";
         socket.on(channel, (data) => {
-            if (data.notification && data.notification.transaction && (data.notification.transaction.sender_id === this.props.user.id ||
-                    data.notification.transaction.receiver_id === this.props.user.id)) {
+            if (data.transaction && (data.transaction.sender_id == this.props.user.id ||
+                    data.transaction.receiver_id == this.props.user.id)) {
                 this.props.moneyTransferActions.getUser();
             }
         });
@@ -44,7 +44,8 @@ class MoneyTransferContainer extends React.Component {
     }
 
     changeStaff(value) {
-        let staff = value && value.value ? value.value : "";
+        console.log(value);
+        let staff = value ? value : null;
         this.setState({staff: staff, page: 1});
     }
 
@@ -54,17 +55,14 @@ class MoneyTransferContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             moneyTransferApi.searchStaffs(input).then(res => {
-                let staffs = [];
-                res.data.staffs.map((staff) => {
-                    if (staff.id !== this.props.user.id) {
-                        staffs.push({
-                            ...staff,
-                            ...{
-                                value: staff.id,
-                                label: staff.name
-                            }
-                        });
-                    }
+                let staffs = res.data.staffs.filter(staff => staff.id !== this.props.user.id).map((staff) => {
+                    return {
+                        ...staff,
+                        ...{
+                            value: staff.id,
+                            label: staff.name
+                        }
+                    };
                 });
                 callback(null, {options: staffs, complete: true});
             });
@@ -178,7 +176,7 @@ class MoneyTransferContainer extends React.Component {
                                                         ?
                                                         <button
                                                             className="btn btn-fill btn-rose btn-round disabled"
-                                                        > <i className="fa fa-spinner fa-spin"/>
+                                                        ><i className="fa fa-spinner fa-spin"/>
                                                             Đang giao dịch
                                                         </button>
                                                         :
