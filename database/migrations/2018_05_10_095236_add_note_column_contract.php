@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnContractNumber extends Migration
+class AddNoteColumnContract extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddColumnContractNumber extends Migration
     {
         //
         Schema::table('contracts', function(Blueprint $table){
-            $table->string('contract_number')->nullable();
+            $table->string('note')->default('');
         });
     }
 

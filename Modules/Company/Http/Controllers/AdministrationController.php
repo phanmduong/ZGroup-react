@@ -492,6 +492,7 @@ class AdministrationController extends ManageApiController
                 $contract->status = 0;
                 $contract->value = $request->value;
                 $contract->contract_number = $request->contract_number;    
+                $contract->note = $request->note;    
                 $contract->save();
 
                 return $this->respondSuccessWithStatus([
@@ -513,6 +514,7 @@ class AdministrationController extends ManageApiController
                 $contract->status = $request->status;
                 $contract->value = $request->value;
                 $contract->contract_number = $request->contract_number;    
+                $contract->note = $request->note;    
                 $contract->save();
             }else{
                 return $this->respondErrorWithStatus("Không tồn tại");

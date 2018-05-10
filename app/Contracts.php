@@ -23,7 +23,7 @@ class Contracts extends Model
     }
     
     public function signer()
-    {
+    { 
         return $this->belongsTo(User::class, 'sign_staff_id');
     }
 
@@ -42,6 +42,7 @@ class Contracts extends Model
             "company_b" => $this->companyB->transform(),
             "staff" => $this->user->getData(),
             "sign_staff" => $this->signer->getData(),
+            'note' => $this->note,
             'created_at' => $this->created_at,
         ];
     }
