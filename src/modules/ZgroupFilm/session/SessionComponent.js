@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import * as sessionAction from "./sessionAction";
-import {confirm} from "../../helpers/helper";
-import {FULLTIME_FORMAT, TIME_FORMAT_H_M} from "../../constants/constants";
+import * as filmAction from "../filmAction";
+import {confirm} from "../../../helpers/helper";
+import {FULLTIME_FORMAT, TIME_FORMAT_H_M} from "../../../constants/constants";
 import moment from "moment/moment";
-
+import TooltipButton from '../../../components/common/TooltipButton';
 
 class SessionComponent extends React.Component {
     constructor(props, context) {
@@ -15,7 +15,7 @@ class SessionComponent extends React.Component {
     }
     delSession(session){
         confirm("error", "Xóa xuất chiếu", "Bạn có chắc muốn xóa xuất chiếu này", () => {
-            this.props.sessionAction.deleteSession(session);
+            this.props.filmAction.deleteSession(session);
         });
     }
     render() {
@@ -41,8 +41,10 @@ class SessionComponent extends React.Component {
                         return (
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>
-                                    {a  && a.name}
+                                <td style={{fontWeight:"555"}}>
+                                    <TooltipButton text={a && a.name} placement="top">
+                                        <div>{a && (a.name.length >= 30?  a.name.slice(0,29).concat("..."):a.name)}</div>
+                                    </TooltipButton>
                                 </td>
                                 <td>
                                     Phòng {session.room_id}
@@ -65,8 +67,8 @@ class SessionComponent extends React.Component {
                                                type="button" rel="tooltip"
                                                data-original-title="Sửa"
                                                onClick={() => {
-                                                   this.props.sessionAction.toggleSessionModal();
-                                                   this.props.sessionAction.handleSessionModal(session);
+                                                   this.props.filmAction.toggleSessionModal();
+                                                   this.props.filmAction.handleSessionModal(session);
                                                }}>
                                                 <i className="material-icons">edit</i>
                                             </a>
@@ -97,19 +99,19 @@ class SessionComponent extends React.Component {
 
 SessionComponent.propTypes = {
     sessions: PropTypes.array.isRequired,
-    sessionAction: PropTypes.object.isRequired,
+    filmAction: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        allFilms: state.session.allFilms,
+        allFilms: state.film.allFilms,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        sessionAction: bindActionCreators(sessionAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch)
 
     };
 }

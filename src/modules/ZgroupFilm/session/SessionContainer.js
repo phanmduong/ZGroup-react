@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import *as sessionAction from "./sessionAction";
+import *as filmAction from "../filmAction";
 import {Link} from 'react-router';
 import AddEditSessionModal from "./AddEditSessionModal";
 
@@ -19,14 +19,15 @@ class SessionContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.sessionAction.loadAllSessions();
-        this.props.sessionAction.loadAllFilms();
-        this.props.sessionAction.loadShowingSession();
+        this.props.filmAction.loadAllSessions();
+        this.props.filmAction.loadAllFilms();
+        this.props.filmAction.loadShowingSession();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
-            this.props.sessionAction.loadAllSessions();
+            this.props.filmAction.loadAllSessions();
+            this.props.filmAction.loadShowingSession();
         }
     }
 
@@ -65,19 +66,19 @@ class SessionContainer extends React.Component {
 SessionContainer.propTypes = {
     location: PropTypes.object.isRequired,
     children: PropTypes.element,
-    sessionAction: PropTypes.object.isRequired,
-    isSaving: PropTypes.bool.isSaving,
+    filmAction: PropTypes.object.isRequired,
+    isSaving: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        isSaving: state.session.isSaving,
+        isSaving: state.film.isSaving,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        sessionAction: bindActionCreators(sessionAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch)
     };
 }
 

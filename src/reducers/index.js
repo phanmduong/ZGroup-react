@@ -83,8 +83,7 @@ import blogTypeReducer from "../modules/blogType/blogTypeReducer";
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 import labelManageReducer from "../modules/labelManage/labelManageReducer";
 import smsCampaignReducer from "../modules/campaign/campaignReducer";
-import filmReducer from "../modules/film/filmReducer";
-import sessionReducer from "../modules/session/sessionReducer";
+import filmReducer from "../modules/ZgroupFilm/filmReducer";
 
 const appReducer = combineReducers({
     blogType:blogTypeReducer,
@@ -172,7 +171,6 @@ const appReducer = combineReducers({
     historyExtension: HistoryExtensionWorkReducer,
     emailCommentFB: emailCommentFBReducer,
     film: filmReducer,
-    session: sessionReducer,
 });
 
 const rootReducer = (state, action) => {

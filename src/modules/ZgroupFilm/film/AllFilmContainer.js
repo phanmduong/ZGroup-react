@@ -3,8 +3,8 @@ import FilmComponent from "./FilmComponent";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import *as filmAction from "./filmAction";
-import Pagination from "../../components/common/Pagination";
+import *as filmAction from "../filmAction";
+import Pagination from "../../../components/common/Pagination";
 
 
 class AllFilmContainer extends React.Component {
@@ -50,7 +50,7 @@ AllFilmContainer.propTypes = {
     totalCount: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    limit: PropTypes.string.isRequired,
+    limit: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {

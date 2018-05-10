@@ -1,16 +1,17 @@
 import React from "react";
 import SessionComponent from "./SessionComponent";
-import * as sessionAction from "./sessionAction";
+import * as filmAction from "../filmAction";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import Pagination from "../../components/common/Pagination";
-import Loading from "../../components/common/Loading";
-import TooltipButton from "../../components/common/TooltipButton";
-import Search from "../../components/common/Search";
-import Select from "react-select";
+import Pagination from "../../../components/common/Pagination";
+import Loading from "../../../components/common/Loading";
+import TooltipButton from "../../../components/common/TooltipButton";
+import Search from "../../../components/common/Search";
+//import Select from "react-select";
 import {Panel} from "react-bootstrap";
-import FormInputDate from "../../components/common/FormInputDate";
+import FormInputDate from "../../../components/common/FormInputDate";
+import * as helper from "../../../helpers/helper";
 
 
 class AllSessionContainer extends React.Component {
@@ -31,19 +32,28 @@ class AllSessionContainer extends React.Component {
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.allSessionSearchChange = this.allSessionSearchChange.bind(this);
+        this.updateFormFilter  = this.updateFormFilter.bind(this);
     }
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.sessionAction.loadAllSessions(page);
+        this.props.filmAction.loadAllSessions(page);
     }
 
     updateFormFilter(event) {
         const field = event.target.name;
         let filter = {...this.state.filter};
         filter[field] = event.target.value;
-        this.setState({filter: filter});
+        if (!helper.isEmptyInput(filter.startTime) && !helper.isEmptyInput(filter.endTime)){
+            this.setState({filter: filter, page: 1});
+            this.props.filmAction.loadAllSessions(this.state.page, this.state.query, filter.startTime, filter.endTime);
+        }
+        else {
+            this.setState({filter: filter});
+        }
+
     }
+
     allSessionSearchChange(value){
         this.setState({
             query: value,
@@ -53,7 +63,7 @@ class AllSessionContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.sessionAction.loadAllSessions(1, value);
+            this.props.filmAction.loadAllSessions(1, value);
         }.bind(this), 500);
     }
 
@@ -76,8 +86,8 @@ class AllSessionContainer extends React.Component {
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         type="button"
                                         onClick={() => {
-                                            this.props.sessionAction.toggleSessionModal();
-                                            this.props.sessionAction.handleSessionModal({});
+                                            this.props.filmAction.toggleSessionModal();
+                                            this.props.filmAction.handleSessionModal({});
                                         }}>
 
                                         <strong>+</strong>
@@ -92,7 +102,7 @@ class AllSessionContainer extends React.Component {
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         type="button"
                                         onClick={() => this.setState({openFilter: !this.state.openFilter,})}>
-                                        <i className="material-icons">
+                                        <i className="material-icons" style={{margin: "0px -4px", top: 0}}>
                                             filter_list
                                         </i>
                                     </button>
@@ -108,55 +118,42 @@ class AllSessionContainer extends React.Component {
                         />
                         <Panel collapsible expanded={this.state.openFilter}>
                             <div className="row">
-                                <div className="col-md-3">
-                                    <br/>
-                                    <label className="label-control">Tên phim</label>
-                                    <Select
-                                        disabled={false}
-                                        value={''}
-                                        options={this.props.allFilms.map((film) => {
-                                            return {
-                                                ...film,
-                                                value: film.id,
-                                                label: film.name
-                                            };
-                                        })}
-                                        onChange={() => {
-                                        }}
+                                {/*<div className="col-md-3">*/}
+                                    {/*<br/>*/}
+                                    {/*<label className="label-control">Tên phim</label>*/}
+                                    {/*<Select*/}
+                                        {/*disabled={false}*/}
+                                        {/*value={''}*/}
+                                        {/*options={this.props.allFilms.map((film) => {*/}
+                                            {/*return {*/}
+                                                {/*...film,*/}
+                                                {/*value: film.id,*/}
+                                                {/*label: film.name*/}
+                                            {/*};*/}
+                                        {/*})}*/}
+                                        {/*onChange={() => {*/}
+                                        {/*}}*/}
 
-                                    />
-                                </div>
-                                <div className="col-md-3">
+                                    {/*/>*/}
+                                {/*</div>*/}
+                                <div className="col-md-4">
                                     <FormInputDate
                                         label="Từ ngày"
                                         name="startTime"
-                                        updateFormData={() =>
-                                            this
-                                                .updateFormFilter
-                                        }
+                                        updateFormData={this.updateFormFilter}
                                         id="form-start-time"
-                                        value={
-                                            this.state.filter.startTime
-                                        }
-                                        maxDate={
-                                            this.state.filter.endTime
-                                        }
+                                        value={this.state.filter.startTime}
+                                        maxDate={this.state.filter.endTime}
                                     />
                                 </div>
-                                <div className="col-md-3">
+                                <div className="col-md-4">
                                     <FormInputDate
                                         label="Đến ngày"
                                         name="endTime"
-                                        updateFormData={() =>
-                                            this.updateFormFilter
-                                        }
+                                        updateFormData={this.updateFormFilter}
                                         id="form-end-time"
-                                        value={
-                                            this.state.filter.endTime
-                                        }
-                                        minDate={
-                                            this.state.filter.startTime
-                                        }
+                                        value={this.state.filter.endTime}
+                                        minDate={this.state.filter.startTime}
                                     />
                                 </div>
 
@@ -195,29 +192,29 @@ class AllSessionContainer extends React.Component {
 AllSessionContainer.propTypes = {
     allSessions: PropTypes.array.isRequired,
     allFilms: PropTypes.array.isRequired,
-    sessionAction: PropTypes.object.isRequired,
+    filmAction: PropTypes.object.isRequired,
     isLoadingAllSessions: PropTypes.bool.isRequired,
     totalCountAll: PropTypes.number.isRequired,
     totalPagesAll: PropTypes.number.isRequired,
-    limitAll: PropTypes.number.isRequired,
+    limitAll: PropTypes.string.isRequired,
     currentPageAll: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        allSessions: state.session.allSessions,
-        allFilms: state.session.allFilms,
-        isLoadingAllSessions: state.session.isLoadingAllSessions,
-        totalCountAll: state.session.totalCountAll,
-        totalPagesAll: state.session.totalPagesAll,
-        currentPageAll: state.session.currentPageAll,
-        limitAll: state.session.limitAll,
+        allSessions: state.film.allSessions,
+        allFilms: state.film.allFilms,
+        isLoadingAllSessions: state.film.isLoadingAllSessions,
+        totalCountAll: state.film.totalCountAll,
+        totalPagesAll: state.film.totalPagesAll,
+        currentPageAll: state.film.currentPageAll,
+        limitAll: state.film.limitAll,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        sessionAction: bindActionCreators(sessionAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch)
     };
 }
 

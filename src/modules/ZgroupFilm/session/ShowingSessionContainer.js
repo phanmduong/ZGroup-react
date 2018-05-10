@@ -2,12 +2,12 @@ import React from "react";
 import SessionComponent from "./SessionComponent";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import * as sessionAction from "./sessionAction";
+import * as filmAction from "../filmAction";
 import {bindActionCreators} from 'redux';
-import Pagination from "../../components/common/Pagination";
-import Loading from "../../components/common/Loading";
-import TooltipButton from "../../components/common/TooltipButton";
-import Search from "../../components/common/Search";
+import Pagination from "../../../components/common/Pagination";
+import Loading from "../../../components/common/Loading";
+import TooltipButton from "../../../components/common/TooltipButton";
+import Search from "../../../components/common/Search";
 // import Select from "react-select";
 // import {Panel} from "react-bootstrap";
 // import FormInputDate from "../../components/common/FormInputDate";
@@ -35,7 +35,7 @@ class ShowingSessionContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.sessionAction.loadShowingSession(page);
+        this.props.filmAction.loadShowingSession(page);
     }
 
     // updateFormFilter(event) {
@@ -53,7 +53,7 @@ class ShowingSessionContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.sessionAction.loadShowingSession(1, value);
+            this.props.filmAction.loadShowingSession(1, value);
         }.bind(this), 500);
     }
     render() {
@@ -75,8 +75,8 @@ class ShowingSessionContainer extends React.Component {
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         type="button"
                                         onClick={() => {
-                                            this.props.sessionAction.toggleSessionModal();
-                                            this.props.sessionAction.handleSessionModal({});
+                                            this.props.filmAction.toggleSessionModal();
+                                            this.props.filmAction.handleSessionModal({});
                                         }}>
 
                                         <strong>+</strong>
@@ -197,29 +197,29 @@ class ShowingSessionContainer extends React.Component {
 ShowingSessionContainer.propTypes = {
     showingSession: PropTypes.array.isRequired,
     allFilms: PropTypes.array.isRequired,
-    sessionAction: PropTypes.object.isRequired,
+    filmAction: PropTypes.object.isRequired,
     isLoadingShowingSession: PropTypes.bool.isRequired,
     totalCountShowing: PropTypes.number.isRequired,
     totalPagesShowing: PropTypes.number.isRequired,
-    limitShowing: PropTypes.number.isRequired,
+    limitShowing: PropTypes.string.isRequired,
     currentPageShowing: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        showingSession: state.session.showingSession,
-        isLoadingShowingSession: state.session.isLoadingShowingSession,
-        totalCountShowing: state.session.totalCountShowing,
-        totalPagesShowing: state.session.totalPagesShowing,
-        currentPageShowing: state.session.currentPageShowing,
-        limitShowing: state.session.limitShowing,
-        allFilms: state.session.allFilms,
+        showingSession: state.film.showingSession,
+        isLoadingShowingSession: state.film.isLoadingShowingSession,
+        totalCountShowing: state.film.totalCountShowing,
+        totalPagesShowing: state.film.totalPagesShowing,
+        currentPageShowing: state.film.currentPageShowing,
+        limitShowing: state.film.limitShowing,
+        allFilms: state.film.allFilms,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        sessionAction: bindActionCreators(sessionAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch)
     };
 }
 

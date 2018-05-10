@@ -1,12 +1,12 @@
-import RoomControlContainer from "../modules/roomControl/RoomControlContainer";
-import FilmContainer from "../modules/film/FilmContainer";
-import ShowFilmContainer from "../modules/film/ShowFilmContainer";
-import AllFilmContainer from "../modules/film/AllFilmContainer";
-import ComingFilmContainer from "../modules/film/ComingFilmContainer";
-import ShowingFilmContainer from "../modules/film/ShowingFilmContainer";
-import SessionContainer from "../modules/session/SessionContainer";
-import AllSessionContainer from "../modules/session/AllSessionContainer";
-import ShowingSessionContainer from "../modules/session/ShowingSessionContainer";
+import RoomControlContainer from "../modules/ZgroupFilm/roomControl/RoomControlContainer";
+import FilmContainer from "../modules/ZgroupFilm/film/FilmContainer";
+import ShowFilmContainer from "../modules/ZgroupFilm/film/ShowFilmContainer";
+import AllFilmContainer from "../modules/ZgroupFilm/film/AllFilmContainer";
+import ComingFilmContainer from "../modules/ZgroupFilm/film/ComingFilmContainer";
+import ShowingFilmContainer from "../modules/ZgroupFilm/film/ShowingFilmContainer";
+import SessionContainer from "../modules/ZgroupFilm/session/SessionContainer";
+import AllSessionContainer from "../modules/ZgroupFilm/session/AllSessionContainer";
+import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessionContainer";
 
 
 

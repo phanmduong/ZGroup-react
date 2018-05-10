@@ -3,12 +3,12 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import *as sessionAction from "./sessionAction";
+import *as filmAction from "../filmAction";
 import Select from "react-select";
-import FormInputDate from '../../components/common/FormInputDate';
-import {TIME_FORMAT_H_M} from "../../constants/constants";
-import Loading from "../../components/common/Loading";
-import * as helper from "../../helpers/helper";
+import FormInputDate from '../../../components/common/FormInputDate';
+import {TIME_FORMAT_H_M} from "../../../constants/constants";
+import Loading from "../../../components/common/Loading";
+import * as helper from "../../../helpers/helper";
 
 class AddEditSessionModal extends React.Component{
     constructor(props, context){
@@ -24,21 +24,21 @@ class AddEditSessionModal extends React.Component{
             ...this.props.sessionModal,
             [field]: e.target.value
         };
-        this.props.sessionAction.handleSessionModal(session);
+        this.props.filmAction.handleSessionModal(session);
     }
     changTemplateTypes(value){
         let session = {
             ...this.props.sessionModal,
             film_id: value ? value.value : '',
         };
-        this.props.sessionAction.handleSessionModal(session);
+        this.props.filmAction.handleSessionModal(session);
     }
     changTemplateTypes2(value){
         let session = {
             ...this.props.sessionModal,
             room_id: value ? value.value : '',
         };
-        this.props.sessionAction.handleSessionModal(session);
+        this.props.filmAction.handleSessionModal(session);
     }
     submit(){
         const session = this.props.sessionModal;
@@ -58,9 +58,9 @@ class AddEditSessionModal extends React.Component{
         }
         else {
             if (session.id){
-                this.props.sessionAction.editSession(session);
+                this.props.filmAction.editSession(session);
             }
-            else this.props.sessionAction.saveSession(session);
+            else this.props.filmAction.saveSession(session);
         }
     }
     render(){
@@ -69,12 +69,12 @@ class AddEditSessionModal extends React.Component{
             <Modal show={this.props.addEditSessionModal}
                    onHide={() => {
                        helper.confirm("warning", "Quay lại", "Bạn có chắc muốn quay lại, dữ liệu hiện tại sẽ không được cập nhật", () => {
-                           this.props.sessionAction.toggleSessionModal();
+                           this.props.filmAction.toggleSessionModal();
                        });
 
                    }}
             >
-                <a onClick={() => this.props.sessionAction.toggleSessionModal()}
+                <a onClick={() => this.props.filmAction.toggleSessionModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title className="modal-title">Quản lý suất chiếu </Modal.Title>
@@ -164,7 +164,7 @@ class AddEditSessionModal extends React.Component{
                                                 type="button"
                                                 className="btn"
                                                 data-dismiss="modal"
-                                                onClick={() => this.props.sessionAction.toggleSessionModal()}
+                                                onClick={() => this.props.filmAction.toggleSessionModal()}
                                         >
                                             <i className="material-icons">close</i> Huỷ
                                         </button>
@@ -184,22 +184,22 @@ class AddEditSessionModal extends React.Component{
 AddEditSessionModal.propTypes = {
     addEditSessionModal: PropTypes.bool.isRequired,
     isSavingSession: PropTypes.bool.isRequired,
-    sessionAction: PropTypes.object.isRequired,
+    filmAction: PropTypes.object.isRequired,
     sessionModal: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
 };
 function mapStateToProps(state) {
     return {
-        addEditSessionModal: state.session.addEditSessionModal,
-        isSavingSession: state.session.isSavingSession,
-        sessionModal: state.session.sessionModal,
-        allFilms: state.session.allFilms,
+        addEditSessionModal: state.film.addEditSessionModal,
+        isSavingSession: state.film.isSavingSession,
+        sessionModal: state.film.sessionModal,
+        allFilms: state.film.allFilms,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        sessionAction: bindActionCreators( sessionAction, dispatch)
+        filmAction: bindActionCreators( filmAction, dispatch)
     };
 }
 

@@ -1,10 +1,29 @@
 export default {
 
+    film: {
 
-    session:{
+        //********Film
+        isLoading: false,
+        isSaving: false,
+        allFilms: [],
+        allFilmsHavePagination: [],
+        currentPage: 0,
+        limit: 0,
+        totalCount: 0,
+        totalPages: 0,
+        //modal------
+        addEditFilmModal: false,
+        isUploadingAvatar: false,
+        isUploadingImage: false,
+        percent: 0,
+        isSavingFilm: false,
+        filmModal: {},
+        //-----------
+
+
+        //********Session
         isLoadingAllSessions:false,
         isLoadingShowingSession:false,
-        allFilms:[],
         isLoadingFilms: false,
         allSessions:[],
         currentPageAll: 0,
@@ -17,27 +36,8 @@ export default {
         totalCountShowing: 0,
         totalPagesShowing: 0,
         isSavingSession: false,
-        isSaving: false,
         addEditSessionModal: false,
         sessionModal: {},
-    },
-    film: {
-        isLoading: false,
-        isSaving: false,
-        allFilms: [],
-        allFilmsHavePagination: [],
-        currentPage: 0,
-        limit: 0,
-        totalCount: 0,
-        totalPages: 0,
-        //modal ****************
-        addEditFilmModal: false,
-        isUploadingAvatar: false,
-        isUploadingImage: false,
-        percent: 0,
-        isSavingFilm: false,
-        filmModal: {},
-        //*************
     },
 
     campaignList: {
