@@ -1,7 +1,7 @@
 @extends('upcoworkingspace::layouts.master')
 
 @section('vi-content')
-
+{{-- 
     <div class="page-header page-header-small"
          style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
         <div class="filter filter-dark"></div>
@@ -14,34 +14,127 @@
                    data-toggle="modal">Đăng kí trải nghiệm</a>
             </div>
         </div>
+    </div> --}}
+    <div class="card card-raised page-carousel">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active" style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; padding-bottom: 30%;">
+                    {{-- <div class="filter filter-dark"></div> --}}
+                    <div class="content-center" style="position: absolute; top: 50%; left: 50%; text-align: center; color: #fff; transform: translate(-50%, -50%);">
+                        <div class="container">
+                            <h1>KHÔNG GIAN LÀM VIỆC</h1>
+                            <h3>Sáng tạo, năng động, hiện đại</h3><br>
+                            <button class="btn btn-round btn-danger"
+                            style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                            data-toggle="modal">Đăng kí trải nghiệm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('http://96bda424cfcc34d9dd1a-0a7f10f87519dba22d2dbc6233a731e5.r41.cf2.rackcdn.com/ermu/sliders-1/fall-residential-faders/Fall_Fader2.jpg'); background-size: 100% 100%; background-repeat:no-repeat; padding-bottom: 30%;">
+                    {{-- <div class="filter filter-dark"></div> --}}
+                    <div class="content-center"  style="position: absolute; top: 50%; left: 50%; text-align: center; color: #fff; transform: translate(-50%, -50%);">
+                        <div class="container">
+                            <h1>KHÔNG GIAN LÀM VIỆC</h1>
+                            <h3>Sáng tạo, năng động, hiện đại</h3><br>
+                            <button class="btn btn-round btn-danger"
+                            style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                            data-toggle="modal">Đăng kí trải nghiệm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('http://www.jveroassociates.com/images/slider/slider-02.jpg'); background-size: 100% 100%; background-repeat:no-repeat; padding-bottom: 30%;">
+                    {{-- <div class="filter filter-dark"></div> --}}
+                    <div class="content-center"  style="position: absolute; top: 50%; left: 50%; text-align: center; color: #fff; transform: translate(-50%, -50%);">
+                        <div class="container">
+                            <h1>KHÔNG GIAN LÀM VIỆC</h1>
+                            <h3>Sáng tạo, năng động, hiện đại</h3><br>
+                            <button class="btn btn-round btn-danger"
+                            style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                            data-toggle="modal">Đăng kí trải nghiệm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+            <a class="left carousel-control carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="fa fa-angle-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="fa fa-angle-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
     </div>
+
+    
     <div class="wrapper">
         <div class="container">
+            <div style="width: 60%; margin: 0 auto">
+                <h3 class="font-weight-bold text-uppercase text-center">
+                    LÀM VIỆC HIỆU QUẢ VÀ SÁNG TẠO hơn TẠI UP CO-WORKING SPACE
+                </h3>
+                <p class="text-center">
+                    Không gian làm việc chung hiện đại nhất , lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam
+                </p>
+                <hr style="width: 20%; border-top: 1px solid #96d21f;">
+            </div>
             <div class="features-1">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card-body">
-                            <h6 class="card-category" style="color:rgb(139, 209, 0)">
-                                LÀM VIỆC HIỆU QUẢ VÀ SÁNG TẠO
-                            </h6>
-                            <h3 class="card-title">
-                                <a href="#pablo">TẠI UP CO-WORKING SPACE</a>
-                            </h3>
-                            <p class="card-description">
-                                Bạn thấy làm việc ở nhà thiếu động lực và cảm hứng, làm việc ở quán café không yên tĩnh
-                                và bền vững? StartUp của bạn cảm thấy chật vật với chi phí thuê văn phòng? UP cung cấp
-                                không gian làm việc hiện đại, đầy đủ tiện nghi, chuyên nghiệp, truyền cảm hứng sáng tạo
-                                với mức giá hỗ trợ tối đa. Tìm hiểu về bảng giá, các gói thành viên của UP.
-                            </p>
-                            <br>
-                            <p class="author">
-                                <a class="btn btn-round btn-danger"
-                                   style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)"
-                                   href="sections.html"
-                                   data-target="#submitModal"
-                                   data-toggle="modal">Đăng kí </a>
-                                <br><br>
-                            </p></div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link text-uppercase" data-toggle="collapse" data-target="#collapse1"
+                                            aria-expanded="true" aria-controls="collapse1">
+                                        Nếu là thành viên của Up, tôi sẽ nhận được quyền lợi gì?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse1" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    Nếu bạn là thành viên của UP, bạn có thể vào văn phòng bằng thẻ thành viên. Nếu là khách, bạn có
+                                    thể bấm chuông và đăng ký tại lễ tân trước khi vào.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed text-uppercase" data-toggle="collapse" data-target="#collapse3"
+                                            aria-expanded="false" aria-controls="collapse3">
+                                        Tôi có thể đến Up làm việc vào thời gian nào?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse3" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    UP hoạt động 24 tiếng tất cả các ngày trong tuần. Nếu muốn làm việc đêm, bạn cần đăng kí với lễ
+                                    tân trước 8h tối.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed text-uppercase" data-toggle="collapse" data-target="#collapse4"
+                                            aria-expanded="false" aria-controls="collapse4">
+                                        Hiện UP đang có những dịch vụ nào?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse4" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    UP có 02 gói dịch vụ chính: Thành viên linh hoạt và thành viên tháng với ưu đãi cho thành viên
+                                    đăng kí dài hạn. Ngoài ra, UP cung cấp gói dịch vụ văn phòng ảo và cho thuê phòng họp.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <style>.embed-container {

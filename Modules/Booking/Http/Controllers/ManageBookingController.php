@@ -291,6 +291,10 @@ class ManageBookingController extends ManageApiController
 
     public function booking(Request $request)
     {
+        if($request->start_time == null || $request->end_time == null)
+            return $this->respondErrorWithStatus('Thiếu thời gian');
+        if(Room::find(room_id) == null)
+            return $this->respondErrorWithStatus('Không tồn tại phòng');
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
@@ -309,9 +313,18 @@ class ManageBookingController extends ManageApiController
         $register->user_id = $this->user->id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $this->user->id;
-        $register->base_id = $request->base_id ? $request->base_id : 0;
+        $register->base_id = $room->base ? $room->base->id : 0;
         $register->type = 'room';
+        $register->start_time = $request->start_time;
+        $register->end_time = $request->end_time;
         $register->save();
+
+        $registerRoom = new RoomServiceRegisterRoom();
+        $registerRoom->room_id = $request->room_id;
+        $registerRoom->room_service_register_id = $register->id;
+        $registerRoom->start_time = $request->start_time;
+        $registerRoom->end_time = $request->end_time;
+        $registerRoom->save();
         
         // Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
         //     $m->from('no-reply@colorme.vn', 'Up Coworking Space');

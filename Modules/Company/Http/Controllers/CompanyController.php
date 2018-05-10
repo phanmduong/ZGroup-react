@@ -271,7 +271,7 @@ class CompanyController extends ManageApiController
             $payment->money_value = $request->money_value;
             $payment->payer_id = $request->payer_id;
             $payment->receiver_id = $request->receiver_id;
-            $payment->staff_id = $this->user->id;
+            $payment->staff_id = $request->staff_id;
             $payment->deadline = $request->deadline;
             $payment->type = $request->type;
             $payment->save();
@@ -295,7 +295,7 @@ class CompanyController extends ManageApiController
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
-        $payment->staff_id = $this->user->id;
+        $payment->staff_id = $request->staff_id;
         $payment->deadline = $request->deadline;
         $payment->type = $request->type;
         $payment->save();
@@ -348,13 +348,16 @@ class CompanyController extends ManageApiController
         $payments = Payment::query();
         $receiver_id = $request->receiver_id;
         $payer_id = $request->payer_id;
-
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         if ($receiver_id) {
             $payments = $payments->where('receiver_id', $receiver_id);
         }
         if ($payer_id) {
             $payments = $payments->where('payer_id', $payer_id);
         }
+        if($startTime)
+            $payments = $payments->whereBetween('created_at',array($startTime,$endTime));
         $payments = $payments->where('type',$request->type);
         $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($payments, [

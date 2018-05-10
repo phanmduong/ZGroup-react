@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeMultipleImagesFilm extends Migration
+class DropMutipleImagesColumnFilm extends Migration
 {
     /**
      * Run the migrations.
@@ -26,8 +26,5 @@ class ChangeMultipleImagesFilm extends Migration
     public function down()
     {
         //
-        Schema::table('films',function (Blueprint $table) {
-            $table->text('mutiple_images');
-        });
     }
 }
