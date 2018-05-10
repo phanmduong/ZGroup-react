@@ -32,9 +32,9 @@
             border-radius: 10px;
         }
 
-        .share a {
-            padding: 11px
-        }
+        /*.share a {*/
+            /*padding: 11px*/
+        /*}*/
 
         .share a:hover {
             cursor: pointer;
@@ -44,7 +44,7 @@
 
         @media (max-width: 991px) {
             .share a {
-                padding: 7px;
+                /*padding: 7px;*/
                 font-size: 12px;
                 line-height: 28px;
                 width: 30px;

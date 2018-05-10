@@ -76,5 +76,7 @@ class FilmZgroupController extends Controller
         return view('filmzgroup::film', $this->data);
     }
 
+    public function multiStringToArray($multi_string) {
 
+    }
 }
