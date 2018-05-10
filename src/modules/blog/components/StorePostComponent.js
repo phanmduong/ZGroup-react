@@ -49,7 +49,6 @@ class StorePostComponent extends React.Component {
 
     componentDidUpdate() {
         $("#tags").tagsinput();
-
     }
 
     // test(e) {

@@ -11,6 +11,8 @@ import TooltipButton from "../../../components/common/TooltipButton";
 import AddLanguageModal from "../containers/AddLanguageModal";
 import AddCategoryModal from "../containers/AddCategoryModal";
 import { showErrorMessage, changeToSlug } from "../../../helpers/helper";
+import PlainTextEditor from '../../../components/common/PlainTextEditor';
+import TagsInput from '../../../components/common/TagsInput';
 
 @observer
 class BlogEditor extends React.Component {
@@ -21,6 +23,10 @@ class BlogEditor extends React.Component {
     componentDidMount() {
         store.loadLanguages();
         store.loadCategories();
+    }
+
+    componentDidUpdate(){
+        $("#tags").tagsinput();
     }
 
     generateFromTitle = () => {
@@ -63,6 +69,18 @@ class BlogEditor extends React.Component {
     openAddLanguageModal = () => {
         store.toggleAddLanguageModal(true);
     };
+
+    renderTextFlexField = (field, label) => (
+        <div className="form-group">
+            <label className="control-label">
+                {label}
+            </label>                                
+            <PlainTextEditor
+                value={store.post[field] || ""}
+                onChange={value => this.updatePost(field, value)}
+            />
+        </div>
+    )
 
     render() {
         return (
@@ -153,6 +171,21 @@ class BlogEditor extends React.Component {
                                     placeholder="Chọn nhóm bài viết"
                                 />
                             </div>
+                            
+                            {this.renderTextFlexField("description", "Mô tả ngắn")}
+                            {this.renderTextFlexField("meta_title", "Meta title")}
+                            {this.renderTextFlexField("meta_description", "Meta description")}
+                            {this.renderTextFlexField("keyword", "Keywords")}
+                           
+                            <TagsInput
+                                id="blog-editor-tags"
+                                tags={store.post.tags}
+                                onChange={values => {
+                                    console.log(values);
+                                    this.updatePost("tags", values);
+                                }}
+                            />
+
                             <div className="form-group">
                                 <label className="control-label" style={{ marginBottom: "10px" }}>
                                     Nội dung

@@ -30,12 +30,6 @@ class KeetoolEditor extends React.Component {
         showLinkModal: false,
     };
 
-    // componentWillReceiveProps(nextProps) {
-        // this.setState({
-        //     value: html.deserialize(nextProps.value),
-        // });
-    // }
-
     closeLinkModal = () => {
         this.setState({
             showLinkModal: false,
