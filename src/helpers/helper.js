@@ -1003,6 +1003,12 @@ export function saveWorkBookToExcel(wb, filename) {
     }
 }
 
+export function renderExcelColumnArray(arr){
+    return arr.map((obj)=>{
+        return {wch: obj};
+    });
+}
+
 export function superSortCategories(categories) {
     categories.reverse();
     let result = [];
