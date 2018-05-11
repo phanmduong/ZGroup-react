@@ -1,6 +1,9 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
+$blogRoutes = function()
 {
-    Route::get('/', 'BlogController@index');
-});
+    Route::post('/', 'BlogController@index');
+};
+
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi/v3/post', 'namespace' => 'Modules\Blog\Http\Controllers'], $blogRoutes);
+
