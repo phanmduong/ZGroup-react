@@ -409,7 +409,7 @@ class ManageSmsApiController extends ManageApiController
     public function getHistoryUser($campaignId, Request $request)
     {
         $histories = Sms::join('sms_template', 'sms_template.id', '=', 'sms.sms_template_id')
-            ->where('sms_template.sms_list_id', '=', $campaignId)->where('sms.user_id', '=', $request->user_id);
+            ->where('sms_template.sms_list_id', '=', $campaignId)->where('sms.user_id', '=', $request->user_id)->select('sms.*');
         $limit = $request->limit ? intval($request->limit) : 15;
         $search = trim($request->search);
         if ($search) {
