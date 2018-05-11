@@ -391,14 +391,14 @@ class ManageSmsApiController extends ManageApiController
             })->select('sms.*');
 
         if ($limit == -1) {
-            $histories = $histories->orderBy('created_at', 'desc')->get();
+            $histories = $histories->orderBy('sms.created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'histories' => $histories->map(function ($history) {
                     return $history->getHistories();
                 })
             ]);
         }
-        $histories = $histories->orderBy('created_at', 'desc')->paginate($limit);
+        $histories = $histories->orderBy('sms.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($histories, [
             'histories' => $histories->map(function ($history) {
                 return $history->getHistories();
@@ -416,14 +416,14 @@ class ManageSmsApiController extends ManageApiController
             $histories = $histories->where('sms.content', 'like', "%$search%");
         }
         if ($limit == -1) {
-            $histories = $histories->orderBy('created_at', 'desc')->get();
+            $histories = $histories->orderBy('sms.created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'histories' => $histories->map(function ($history) {
                     return $history->getHistories();
                 })
             ]);
         }
-        $histories = $histories->orderBy('created_at', 'desc')->paginate($limit);
+        $histories = $histories->orderBy('sms.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($histories, [
             'histories' => $histories->map(function ($history) {
                 return $history->getHistories();
