@@ -391,14 +391,14 @@ class ManageSmsApiController extends ManageApiController
             })->select('sms.*');
 
         if ($limit == -1) {
-            $histories = $histories->orderBy('created_at', 'desc')->get();
+            $histories = $histories->orderBy('sms.created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'histories' => $histories->map(function ($history) {
                     return $history->getHistories();
                 })
             ]);
         }
-        $histories = $histories->orderBy('created_at', 'desc')->paginate($limit);
+        $histories = $histories->orderBy('sms.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($histories, [
             'histories' => $histories->map(function ($history) {
                 return $history->getHistories();
@@ -409,21 +409,21 @@ class ManageSmsApiController extends ManageApiController
     public function getHistoryUser($campaignId, Request $request)
     {
         $histories = Sms::join('sms_template', 'sms_template.id', '=', 'sms.sms_template_id')
-            ->where('sms_template.sms_list_id', '=', $campaignId)->where('sms.user_id', '=', $request->user_id);
+            ->where('sms_template.sms_list_id', '=', $campaignId)->where('sms.user_id', '=', $request->user_id)->select('sms.*');
         $limit = $request->limit ? intval($request->limit) : 15;
         $search = trim($request->search);
-        if($search){
+        if ($search) {
             $histories = $histories->where('sms.content', 'like', "%$search%");
         }
         if ($limit == -1) {
-            $histories = $histories->orderBy('created_at', 'desc')->get();
+            $histories = $histories->orderBy('sms.created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'histories' => $histories->map(function ($history) {
                     return $history->getHistories();
                 })
             ]);
         }
-        $histories = $histories->orderBy('created_at', 'desc')->paginate($limit);
+        $histories = $histories->orderBy('sms.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($histories, [
             'histories' => $histories->map(function ($history) {
                 return $history->getHistories();
