@@ -1,27 +1,33 @@
-<footer class="footer footer-big">
-    <div class="container">
+<footer class="footer">
+    <div class="container-fluid" style="background: #444; color: #fff;padding: 50px 20px;">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-6">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"/>
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525853741BoVetesNXsecLPA.png" height="40px"/>
             </div>
-            <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
+            <div class="col-md-10 col-sm-9 col-xs-12">
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="/blog">
-                                        Trang chủ
+                                    <a style="color: #fff" href="/blog">
+                                        <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
+                                        <p>UP LUƠNG YÊN</p>
+                                        <p>Tầng 8, số 1 Luơng Yên Hanoi Creative City, Hà Nội</p>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/blog">
-                                        Báo giá
+                                    <a style="color: #fff" href="/blog">
+                                        <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
+                                        <p>BKHUP - BÁCH KHOA</p>
+                                        <p>Tầng 3, số 17 Tạ Quang Bửu Nhà A17 Bách KHoa, Hà Nội</p>                                        
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/blog">
-                                        Bảo hành
+                                    <a style="color: #fff" href="/blog">
+                                        <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
+                                        <p>UP KIM MÃ</p>
+                                        <p>Tầng 5, số 519 Kim Mã Tòa nhà VIT, Hà Nội</p>
                                     </a>
                                 </li>
                             </ul>
@@ -31,18 +37,24 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="/blog">
-                                        Liên hệ
+                                    <a style="color: #fff" href="/blog">
+                                        <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
+                                        <p>BKHCM - UP</p>
+                                        <p>Số 268 Lý Thường Kiệt Quận 10, Hồ Chí Minh</p>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/blog">
-                                        Tuyển dụng
+                                    <a style="color: #fff" href="/blog">
+                                        <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
+                                        <p>UP@VPBANK</p>
+                                        <p>Tầng 21, số 89 Láng Hạ Tòa nhà VPBANK, Hà Nội</p>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/blog">
-                                        Về chúng tôi
+                                    <a style="color: #fff" href="/blog">
+                                        <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
+                                        <p>Creative lab by up</p>
+                                        <p>Tầng 1, số 1 Luơng Yên Hanoi Creative City, Hà Nội</p>
                                     </a>
                                 </li>
                             </ul>
@@ -50,40 +62,39 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                            <ul class="uppercase-links stacked-links">
+                            <h3 class="font-weight-bold">INFOR</h3>
+                            <i class="fa fa-envelope" aria-hidden="true"></i><span>info@up-co.vn</span>
+                            <br/>
+                            <i class="fa fa-phone" aria-hidden="true"></i><span>0976 256 156 | 024-73-080-668</span>
+                            <br/>
+                            <input type="text" placeholder="Find us on Google Map" style="padding: 5px 10px; margin: 10px 0">
+                            <button class="btn btn-success bg-core">
+                                SEARCH
+                            </button>
+                            <ul id="social-footer">
                                 <li>
-                                    <a href="/blog">
-                                        Tin tức
-                                    </a>
+                                        <i class="fa fa-youtube" aria-hidden="true"></i>
                                 </li>
                                 <li>
-                                    <a href="/blog">
-                                        Dùng thử
-                                    </a>
+                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
                                 </li>
                                 <li>
-                                    <a href="/blog">
-                                        Phản hồi
-                                    </a>
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
                                 </li>
+                                <li>
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </li>
+                                <li>
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </li>
+                                <li>
+                                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                                </li>  
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-3 col-xs-6">
-                        <div class="social-area">
-                            <a class="btn btn-just-icon btn-round btn-default"
-                               href="https://www.facebook.com/up.coworkingspace/">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                            <a class="btn btn-just-icon btn-round btn-default"
-                               href="https://www.linkedin.com/company/up-co-working-space">
-                                <i class="fa fa-linkedin" aria-hidden="true"></i>
-                            </a>
-                            <a class="btn btn-just-icon btn-round btn-default"
-                               href="https://www.instagram.com/up.coworkingspace/">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
-                        </div>
+                        <div id="googleMap" style="width:100%;height:400px;"></div>
                     </div>
                 </div>
                 <hr>
@@ -96,19 +107,19 @@
                     <div class="links pull-right">
                         <ul>
                             <li>
-                                <a href="/blog">
+                                <a style="color: #fff" href="/blog">
                                     Company Policy
                                 </a>
                             </li>
                             |
                             <li>
-                                <a href="/blog">
+                                <a style="color: #fff" href="/blog">
                                     Terms
                                 </a>
                             </li>
                             |
                             <li>
-                                <a href="/blog">
+                                <a style="color: #fff" href="/blog">
                                     Privacy
                                 </a>
                             </li>
