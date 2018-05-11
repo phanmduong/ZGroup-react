@@ -18,15 +18,13 @@ class TagsInput extends React.Component {
         selector.on('itemAdded', () => {
             // event.item: contains the item
             const values = selector.val();
-            if (this.props.value !== values)
-                this.props.onChange(values);
+            this.props.onChange(values);
         });
 
         selector.on('itemRemoved', () => {
             // event.item: contains the item
             const values = selector.val();
-            if (this.props.value !== values)
-                this.props.onChange(values);
+            this.props.onChange(values);
         });
 
 

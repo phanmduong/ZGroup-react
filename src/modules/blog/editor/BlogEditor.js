@@ -10,14 +10,36 @@ import { BLOG_KINDS } from "../const";
 import TooltipButton from "../../../components/common/TooltipButton";
 import AddLanguageModal from "../containers/AddLanguageModal";
 import AddCategoryModal from "../containers/AddCategoryModal";
-import { showErrorMessage, changeToSlug } from "../../../helpers/helper";
+import { showErrorMessage, changeToSlug, showNotification, showErrorNotification } from "../../../helpers/helper";
 import PlainTextEditor from '../../../components/common/PlainTextEditor';
 import TagsInput from '../../../components/common/TagsInput';
+import { savePostV2 } from "../apis/blogApi";
+
+const savePost = async (editor , status) => {
+    editor.setState({
+        isSavingPost: true
+    });
+    const res = await savePostV2(store.post, status);
+    editor.setState({
+        isSavingPost: false
+    });
+    if (res.data.status) {
+        showNotification("Xuất bản bài viết thành công");            
+    } else {
+        showErrorNotification("Có lỗi xảy ra");            
+    }
+    store.post = {
+        ...store.post,
+        id: res.data.id
+    }
+    return res.data;
+};
 
 @observer
 class BlogEditor extends React.Component {
     state = {
         value: "",
+        isSavingPost: false
     };
 
     componentDidMount() {
@@ -25,8 +47,22 @@ class BlogEditor extends React.Component {
         store.loadCategories();
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         $("#tags").tagsinput();
+    }
+
+    publish =  () => {
+        savePost(this, 1);
+    }
+
+    saveDraft = async () => {
+        savePost(this, 0);
+    }
+
+    preview = async () => {
+        const data = savePost(this, 3); // status == 3 mean keep the current status
+        console.log(data);
+        window.location.href = "/" + data.slug;        
     }
 
     generateFromTitle = () => {
@@ -48,12 +84,6 @@ class BlogEditor extends React.Component {
         };
         store.post = post;
     }
-
-    onChange = value => {
-        this.setState({
-            value,
-        });
-    };
 
     openAddCategoryModal = () => {
         store.toggleAddCategoryModal(true);
@@ -180,7 +210,6 @@ class BlogEditor extends React.Component {
                                 id="blog-editor-tags"
                                 tags={store.post.tags}
                                 onChange={values => {
-                                    console.log(values);
                                     this.updatePost("tags", values);
                                 }}
                             />
@@ -189,7 +218,8 @@ class BlogEditor extends React.Component {
                                 <label className="control-label" style={{ marginBottom: "10px" }}>
                                     Nội dung
                                 </label>
-                                <KeetoolEditor value={this.state.value} onChange={this.onChange} />
+                                <KeetoolEditor value={store.post.content} 
+                                    onChange={content => this.updatePost("content", content)} />
                             </div>
                         </div>
                     </div>
@@ -199,9 +229,39 @@ class BlogEditor extends React.Component {
                         <div className="card-content">
                             <label>Ảnh đại diện</label>
                             <ImageUploader
+                                handleFileUpload={url => this.updatePost("url", url)}
                                 tooltipText="Ảnh đại diện"
-                                image_url={store.post.imageUrl ? store.post.imageUrl : NO_IMAGE}
+                                image_url={store.post.url ? store.post.url : NO_IMAGE}
                             />
+                            <div>
+                                <button 
+                                    disabled={this.state.isSavingPost}
+                                    onClick={this.publish}
+                                    className="btn btn-rose">
+                                    {
+                                        this.state.isSavingPost &&  <i className="fa fa-circle-o-notch fa-spin"/>
+                                    } {" "}
+                                    Xuất bản
+                                </button>
+                                <button 
+                                    disabled={this.state.isSavingPost}
+                                    onClick={this.saveDraft}
+                                    className="btn btn-default">
+                                    {
+                                        this.state.isSavingPost && <i className="fa fa-circle-o-notch fa-spin"/>
+                                    } {" "}
+                                    Lưu nháp
+                                </button>
+                                <button 
+                                    disabled={this.state.isSavingPost}
+                                    onClick={this.preview}
+                                    className="btn btn-default">
+                                    {
+                                        this.state.isSavingPost && <i className="fa fa-circle-o-notch fa-spin"/>
+                                    } {" "}
+                                    Xem trước
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

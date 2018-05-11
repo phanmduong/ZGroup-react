@@ -34,7 +34,6 @@ class StorePostComponent extends React.Component {
         super(props, context);
         this.generateFromTitle = this.generateFromTitle.bind(this);
         this.invalid = this.invalid.bind(this);
-        // this.test = this.test.bind(this);
     }
 
 
