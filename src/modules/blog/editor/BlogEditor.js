@@ -31,7 +31,7 @@ const savePost = async (editor , status) => {
     store.post = {
         ...store.post,
         id: res.data.id
-    }
+    };
     return res.data;
 };
 
