@@ -408,14 +408,14 @@ class DashboardComponent extends React.Component {
                                 <div className="card">
                                     <div className="card-content">
                                         <div className="tab-content">
-                                            <div className="flex flex-row flex-space-between">
+                                            <div className="flex flex-row">
                                                 <h4 className="card-title">
                                                     <strong>Danh sách lớp</strong>
                                                 </h4>
                                                 <TooltipButton text="Lọc" placement="top">
                                                     <button
                                                         onClick={() => this.setState({openFilterClass: !this.state.openFilterClass})}
-                                                        className="btn btn-primary btn-round btn-xs none-margin btn-header-card"
+                                                        className="btn btn-primary btn-round btn-xs none-margin btn-header-card margin-left-15"
                                                     >
                                                         <i className="material-icons"
                                                         >filter_list</i>
