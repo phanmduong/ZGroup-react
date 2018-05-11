@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicApiController;
 use App\Services\EmailService;
 use App\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProductPublicApiController extends PublicApiController
 {
@@ -65,7 +66,7 @@ class ProductPublicApiController extends PublicApiController
         if ($request->author_id)
             $blogs = $blogs->where('author_id', $request->author_id);
         if ($request->category_id)
-            $blogs = $blog->where('category_id', $request->category_id);
+            $blogs = $blogs->where('category_id', $request->category_id);
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
 
         $topTags = DB::select("SELECT
