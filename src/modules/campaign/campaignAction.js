@@ -230,7 +230,7 @@ export function getHistory(campaignId, page, search, limit) {
 		dispatch({
 			type: types.BEGIN_LOAD_HISTORY
 		});
-		campaignApi.loadAllMessageApi(campaignId, page, search, limit).then((res) => {
+		campaignApi.getHistory(campaignId, page, search, limit).then((res) => {
 			dispatch({
 				type: types.LOAD_HISTORY_SUCCESS,
 				history: res.data.histories,
@@ -242,3 +242,30 @@ export function getHistory(campaignId, page, search, limit) {
 		});
 	};
 }
+
+export function getHistoryUser(user, campaignId, page, search, limit) {
+	return function(dispatch) {
+		dispatch({
+			type: types.BEGIN_LOAD_HISTORY_USER_MODAL
+		});
+		campaignApi.getHistoryUser(user, campaignId, page, search, limit).then((res) => {
+			dispatch({
+				type: types.LOAD_HISTORY_USER_MODAL_SUCCESS,
+				historyModal: res.data.histories,
+				currentPageHistoryModal: res.data.paginator.current_page,
+				limitHistoryModal: res.data.paginator.limit,
+				totalCountHistoryModal: res.data.paginator.total_count,
+				totalPagesHistoryModal: res.data.paginator.total_pages,
+				userHistoryDetail: user
+			});
+		});
+	};
+}
+
+export function showHistoryDetailModal() {
+	return {
+		type: types.TOGGLE_HISTORY_DETAIL_MODAL
+	};
+}
+
+

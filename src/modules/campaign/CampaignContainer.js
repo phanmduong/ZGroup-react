@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import * as campaignAction from './campaignAction';
 import AddReceiverModal from './AddReceiverModal';
 import AddMessageModal from './AddMessageModal';
+import HistoryDetailModal from './HistoryDetailModal';
 
 class CampaignContainer extends React.Component {
 	constructor(props, context) {
@@ -14,7 +15,7 @@ class CampaignContainer extends React.Component {
 		this.campaignId = this.props.params.campaignId;
 		this.state = {
 			type: 'edit',
-			link: ''
+			link: '',
 		};
 		this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
 		this.showAddReceiverModal = this.showAddReceiverModal.bind(this);
@@ -24,6 +25,7 @@ class CampaignContainer extends React.Component {
 		this.props.campaignAction.loadTypeOfMessage();
 		this.props.campaignAction.loadAllMessage(this.props.params.campaignId, 1, '');
 		this.props.campaignAction.loadAllReceiver(this.props.params.campaignId, 1, '');
+		this.props.campaignAction.getHistory(this.props.params.campaignId, 1, '', null);
 		this.setState({
 			type: 'edit',
 			link: `/sms/campaign-detail/${this.campaignId}`
@@ -42,6 +44,12 @@ class CampaignContainer extends React.Component {
 			nextProps.location.pathname === this.state.link
 		) {
 			this.props.campaignAction.loadAllMessage(this.props.params.campaignId, 1, '');
+		}
+		if (
+			this.props.location.pathname !== nextProps.location.pathname &&
+			nextProps.location.pathname === `${this.state.link}/history`
+		) {
+			this.props.campaignAction.getHistory(this.props.params.campaignId, 1, '', null);
 		}
 		if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
 			this.props.campaignAction.loadAllMessage(this.campaignId, 1, '');
@@ -147,6 +155,7 @@ class CampaignContainer extends React.Component {
 				</div>
 				<AddReceiverModal campaignId={this.campaignId} />
 				<AddMessageModal campaignId={this.campaignId} />
+				<HistoryDetailModal campaignId={this.campaignId}/>
 			</div>
 		);
 	}

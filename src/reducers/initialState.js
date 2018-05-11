@@ -70,6 +70,14 @@ export default {
 	},
 
 	smsCampaign: {
+		isLoadingHistoryModal: false,
+		historyDetailModal: false,
+		userHistoryDetail: {},
+		historyModal: [],
+		currentPageHistoryModal: 1,
+		limitHistoryModal: 15,
+		totalCountHistoryModal: 0,
+		totalPagesHistoryModal: 1,
 		allMessage: [],
 		template_types: [],
 		campaignName: '',
@@ -116,7 +124,7 @@ export default {
 		currentPageHistory: 1,
 		limitHistory: 20,
 		totalCountHistory: 1,
-		totalPagesHistory: 1,
+		totalPagesHistory: 1
 		//isUpdatingReceivers: false
 	},
 

@@ -996,8 +996,9 @@ a.btn-seat.active {
 	width: 30px;
 	border-radius: 50%;
 	color: white;
+	display: flex;
 	border: none;
-	margin-top: 5px;
+	margin: 0px auto 0 -10px;
 	background-color: #74d512;
 	cursor: auto;
 }

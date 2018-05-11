@@ -22,6 +22,7 @@ class ReceiversComponent extends React.Component {
 		this.loadOrders = this.loadOrders.bind(this);
 		this.templatesSearchChange = this.templatesSearchChange.bind(this);
 		this.removeUserFromCampaign = this.removeUserFromCampaign.bind(this);
+		this.showHistoryDetailModal = this.showHistoryDetailModal.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -62,6 +63,11 @@ class ReceiversComponent extends React.Component {
 		confirm('error', 'Xóa người dùng', 'Bạn có chắc muốn xóa người dùng này', () => {
 			this.props.campaignAction.removeUserFromCampaign(this.campaignId, user);
 		});
+	}
+
+	showHistoryDetailModal(user) {
+		this.props.campaignAction.showHistoryDetailModal();
+		this.props.campaignAction.getHistoryUser(user, this.campaignId, 1, '', null);
 	}
 
 	render() {
@@ -180,7 +186,8 @@ class ReceiversComponent extends React.Component {
 															<TooltipButton
 																placement="top"
 																text="Xem chi tiết">
-																<a>
+																<a onClick={() =>
+																		this.showHistoryDetailModal(receiver)}>
 																	<i className="material-icons">
 																		add_circle
 																	</i>
