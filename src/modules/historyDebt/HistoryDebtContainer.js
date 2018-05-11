@@ -72,7 +72,7 @@ class HistoryDebtContainer extends React.Component {
                 let type = "Không có";
                 switch(item.type){
                     case 'import':{
-                        type = 'NHập';
+                        type = 'Nhập';
                         break;
                     }
                     case 'export':{

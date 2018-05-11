@@ -29,6 +29,13 @@ export function loadGoods(type = null, page, search) {
         });
     };
 }
+export function loadAllGoods(type = null, success) {
+    return function() {
+        goodApi.loadAllGoods(type).then(res => {
+            success(res.data.data.goods);
+        });
+    };
+}
 
 export function updateGoodFormData(good) {
     return function(dispatch) {

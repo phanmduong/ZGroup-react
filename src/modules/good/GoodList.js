@@ -81,7 +81,7 @@ class GoodList extends React.Component {
                             return (
                                 <tr key={good.id}>
                                     <td>
-                                        <Link className="text-rose" to={"good/" + good.id + "/detail"}>
+                                        <Link className="text-rose" to={"/manufacture/good/" + good.id + "/detail"}>
                                             {good.name}
                                         </Link>
                                     </td>
