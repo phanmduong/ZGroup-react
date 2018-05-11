@@ -1040,20 +1040,7 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
-
     
-
-    // public function getAllHistoryDebt(Request $request)
-    // {
-    //     $companyId = 1;
-    //     $historyDebt = HistoryDebt::where('company_id', $companyId)->get();
-    //     return $this->respondSuccessWithStatus($historyDebt, [
-    //         "history-debt" => $historyDebt->map(function ($pp) {
-    //             return $pp->transform();
-    //         })
-    //     ]);
-    // }
-
     public function getAllHistoryDebt(Request $request)
     {
         $company = Company::all();
