@@ -35,7 +35,7 @@ import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesCont
 export default [
 
     {
-        path: "/teaching/schedule-teaching",
+        path: "/teaching/teaching-schedule",
         // path: "/manage/scheduleclass",
         component: ScheduleTeachingContainer
     },

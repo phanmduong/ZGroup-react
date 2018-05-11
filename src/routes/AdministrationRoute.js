@@ -4,6 +4,8 @@ import CreateRequestVacationContainer from "../modules/Zgroup/request/requestVac
 import CreateRequestMoneyContainer from "../modules/Zgroup/request/requestMoney/CreateRequestMoneyContainer";
 import WeekendReportContainer from "../modules/Zgroup/weekendReport/WeekendReportContainer";
 import AddReportContainer from "../modules/Zgroup/weekendReport/AddReportContainer";
+import ContractContainer from "../modules/Zgroup/contract/ContractContainer";
+import CreateContractContainer from "../modules/Zgroup/contract/CreateContractContainer";
 
 /**
  * Tab Hanh Chinh
@@ -45,5 +47,16 @@ export default [
         path: "/administration/weekend-report/edit/:reportId",
         component: AddReportContainer,
     },
+    {
+        path: "/administration/contract",
+        component: ContractContainer,
+    },
+    {
+        path: "/administration/contract/create",
+        component: CreateContractContainer,
+    },
+    {
+        path: "/administration/contract/edit/:contract_id",
+        component: CreateContractContainer,
+    },
 ];
-//path: "/sms/campaign-detail/:campaignId",

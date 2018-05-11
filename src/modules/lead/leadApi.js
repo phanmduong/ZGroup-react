@@ -53,6 +53,8 @@ export function editInfoLead(lead) {
         'email': lead.email,
         'phone': lead.phone,
         'rate': lead.rate,
+        'status': lead.status,
+        'note': lead.note,
     });
 }
 

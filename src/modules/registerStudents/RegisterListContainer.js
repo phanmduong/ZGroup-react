@@ -1250,7 +1250,7 @@ class RegisterListContainer extends React.Component {
                                 }
                             </div>
                         </div>
-                        < div className="panel panel-default">
+                        <div className="panel panel-default">
                             <div className="panel-heading" role="tab"
                                  id="headingFour">
                                 <a className="collapsed" role="button"

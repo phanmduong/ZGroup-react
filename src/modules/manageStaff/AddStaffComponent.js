@@ -251,32 +251,32 @@ class AddStaffComponent extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            {/*<div className="col-md-12">*/}
-                            {/*<div className="card">*/}
-                            {/*<div className="card-header card-header-icon" data-background-color="rose">*/}
-                            {/*<i className="material-icons">contacts</i>*/}
-                            {/*</div>*/}
-                            {/*<div className="card-content">*/}
-                            {/*<h4 className="card-title">Thay đổi mật khẩu</h4>*/}
-                            {/*{this.props.isResettingPassword ?*/}
-                            {/*(*/}
-                            {/*<button className="btn btn-rose btn-main disabled">*/}
-                            {/*<i className="fa fa-spinner fa-spin"/> Đang khôi phục mật khẩu*/}
-                            {/*</button>*/}
-                            {/*)*/}
-                            {/*:*/}
-                            {/*(*/}
-                            {/*<button className="btn btn-rose btn-main"*/}
-                            {/*onClick={this.props.resetPassword}*/}
-                            {/*>*/}
-                            {/*Khôi phục mật khẩu*/}
-                            {/*</button>*/}
-                            {/*)*/}
-                            {/*}*/}
+                            <div className="col-md-12">
+                                <div className="card">
+                                    {/*<div className="card-header card-header-icon" data-background-color="rose">*/}
+                                        {/*<i className="material-icons">contacts</i>*/}
+                                    {/*</div>*/}
+                                    <div className="card-content">
+                                        <h4 className="card-title">Thay đổi mật khẩu</h4>
+                                        {this.props.isResettingPassword ?
+                                            (
+                                                <button className="btn btn-rose btn-main disabled">
+                                                    <i className="fa fa-spinner fa-spin"/> Đang khôi phục mật khẩu
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button className="btn btn-rose btn-main"
+                                                        onClick={this.props.resetPassword}
+                                                >
+                                                    Khôi phục mật khẩu
+                                                </button>
+                                            )
+                                        }
 
-                            {/*</div>*/}
-                            {/*</div>*/}
-                            {/*</div>*/}
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>

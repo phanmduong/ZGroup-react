@@ -30,6 +30,22 @@ export function uploadImage(file, completeHandler, error) {
     ajax.addEventListener("error", error, false);
 }
 
+export const savePostV2 = (post, status) => {
+    let url = env.MANAGE_API_URL + "/post";
+    let token = localStorage.getItem("token");
+
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        ...post,
+        status,
+        product_content: post.content
+    });
+}
+
+
 export function savePost(post, status) {
     let url = env.MANAGE_API_URL + "/save-post";
     let token = localStorage.getItem("token");
@@ -66,6 +82,7 @@ export function createCategory(catogory) {
         name: catogory.name,
     });
 }
+
 export function createLanguageApi(language) {
     let url = env.MANAGE_API_URL + "/language";
     let token = localStorage.getItem("token");

@@ -124,7 +124,7 @@ function getTotalPrice(arr, comp) {
     arr.forEach(e => {
         let pr = e.price * e.export_quantity;
 
-        switch (e.good.type) {
+        switch (e.good.kind) {
             case "book_comic": {
                 pr -= comp.discount_comic * pr / 100;
                 break;

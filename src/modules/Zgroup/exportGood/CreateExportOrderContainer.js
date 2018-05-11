@@ -193,7 +193,7 @@ class CreateExportOrderContainer extends React.Component {
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
         let modalDiscount = 0;
-        switch (addModalData.good.type) {
+        switch (addModalData.good.kind) {
             case "book_comic": {
                 modalDiscount = data.company.discount_comic;
                 break;
@@ -239,7 +239,7 @@ class CreateExportOrderContainer extends React.Component {
 
 
 
-                                                                    switch (obj.good.type) {
+                                                                    switch (obj.good.kind) {
                                                                         case "book_comic": {
                                                                             typeGood = "Truyện tranh";
                                                                             pr -= data.company.discount_comic * pr / 100;

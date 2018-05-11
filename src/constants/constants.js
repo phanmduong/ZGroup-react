@@ -491,6 +491,10 @@ export const STATUS_ISSUE = {
     }
 };
 
+export const LEAD_COLORS = [
+    '#dff0d8', '#daedf7', '#f2dede', '#fcf8e3'
+];
+
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",
     confirm_order: "#b5d0fc",
@@ -581,3 +585,20 @@ export const PHONE_HEAD_4 = {
 };
 
 ///// 
+export const CONTRACT_TYPES = [
+    "Bản quyền trong nước",
+    "Bản quyền nước ngoài",
+    "Dịch giả",
+    "Biên tập",
+    "Minh hoạ",
+    "Nguyên tắc",
+    "Mua bán",
+    "Tăng chiết khấu",
+    "Liên kết xuất bản",
+    "In ấn ba bên",
+    "Truyền thông",
+    "Lao động",
+    "Thuê khoán",
+    "Sử dụng dịch vụ",
+    "Khác",
+];

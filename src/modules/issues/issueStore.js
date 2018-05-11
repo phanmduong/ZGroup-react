@@ -4,16 +4,18 @@ import { showErrorNotification } from "../../helpers/helper";
 
 export default new class IssueStore {
     @observable isLoading = false;
-    @observable isCreating = false;ç
+    @observable isCreating = false;
     @observable issues = [];
     @observable totalPages = 1;
     @observable currentPage = 1;
+    @observable search = "";
+    @observable status = "";
 
     @action
-    loadIssues(search, status) {
+    loadIssues() {
         this.isLoading = true;
         issueApi
-            .loadIssues(search, status)
+            .loadIssues(this.search, this.status, this.currentPage)
             .then(res => {
                 this.isLoading = false;
                 this.issues = res.data.issues;
@@ -31,9 +33,12 @@ export default new class IssueStore {
         this.isCreating = true;
         issueApi
             .createIssue(title, description, content)
-            .then(res => {
+            .then(() => {
                 this.isCreating = false;
-                this.issues = [...res.data.data.issue, this.issues];
+                this.search = "";
+                this.status = "";
+                this.currentPage = 1;
+                this.loadIssues();
             })
             .catch(() => {
                 this.isCreating = false;
