@@ -42,9 +42,9 @@ class HistoryDebtModal extends React.Component{
                                                 <th>STT</th>
                                                 <th>Ngày</th>
                                                 <th>Loại</th>
-                                                <th> Nợ </th>
+                                                <th>Nợ</th>
                                                 <th>Trả</th>
-                                                <th> Dư nợ </th>
+                                                <th>Dư nợ</th>
                                                 <th/>
                                             </tr>
                                             </thead>
@@ -104,7 +104,7 @@ HistoryDebtModal.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string,
     loadHistoryDebt: PropTypes.func.isRequired,
 };
 export default HistoryDebtModal;
