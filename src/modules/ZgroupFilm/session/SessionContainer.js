@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import *as filmAction from "../filmAction";
 import {Link} from 'react-router';
 import AddEditSessionModal from "./AddEditSessionModal";
-
+import AddEditFilmModal from "../film/AddEditFilmModal";
 
 class SessionContainer extends React.Component {
     constructor(props, context) {
@@ -58,6 +58,7 @@ class SessionContainer extends React.Component {
                     {this.props.children}
                 </div>
                 <AddEditSessionModal/>
+                <AddEditFilmModal/>
             </div>
         );
     }

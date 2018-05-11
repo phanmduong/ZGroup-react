@@ -2,8 +2,11 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 //Load All Film
-export function loadAllFilmsApi() {
+export function loadAllFilmsApi(search) {
     let url = env.API_URL + "/films?limit=-1";
+    if (search) {
+        url += "&search=" + search;
+    }
     return axios.get(url);
 }
 

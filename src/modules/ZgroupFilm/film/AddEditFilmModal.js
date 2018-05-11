@@ -121,7 +121,7 @@ class AddEditFilmModal extends React.Component {
                             <div className="row">
                                 <div className="col-md-8">
                                     <FormInputText
-                                        style={{width: "84%"}}
+                                        style={{width: "82%"}}
                                         label="Tên phim"
                                         name="name"
                                         updateFormData={this.updateFormData}
@@ -139,14 +139,23 @@ class AddEditFilmModal extends React.Component {
                                             />
                                         </div>
                                     </TooltipButton>
+                                        <FormInputText
+                                            style={{width: "94%"}}
+                                            label="Trailer (Nhập link youtube)"
+                                            name="trailer_url"
+                                            updateFormData={this.updateFormData}
+                                            value={this.props.filmModal.trailer_url || ''}
+                                            required
+                                        />
+                                        <div style={{float: "right", marginTop: "-38px"}}>
+                                            <a href={this.props.filmModal.trailer_url} target="_blank">
+                                        <i className="material-icons text-paly">
+                                            flight_takeoff
+                                        </i>
+                                            </a>
+                                        </div>
 
-                                    <FormInputText
-                                        label="Trailer (Nhập link youtube)"
-                                        name="trailer_url"
-                                        updateFormData={this.updateFormData}
-                                        value={this.props.filmModal.trailer_url || ''}
-                                        required
-                                    />
+
 
 
                                     <FormInputText
@@ -251,24 +260,37 @@ class AddEditFilmModal extends React.Component {
                                 {
                                     this.props.isSavingFilm ? <Loading/> :
                                         (
-                                            <div>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-rose"
-                                                    onClick={this.submit}
-                                                >
-                                                    Lưu
-                                                </button>
-                                                <button
+                                            this.props.openFilmModal ?
+                                                <div>
+                                                    <button
                                                     type="button"
                                                     className="btn"
                                                     onClick={() => {
                                                         this.props.filmAction.showAddEditFilmModal();
                                                     }}
                                                 >
-                                                    Huỷ
+                                                    Trở lại
                                                 </button>
-                                            </div>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-rose"
+                                                        onClick={this.submit}
+                                                    >
+                                                        Lưu
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="btn"
+                                                        onClick={() => {
+                                                            this.props.filmAction.showAddEditFilmModal();
+                                                        }}
+                                                    >
+                                                        Huỷ
+                                                    </button>
+                                                </div>
                                         )
                                 }
                             </div>
@@ -287,6 +309,7 @@ AddEditFilmModal.propTypes = {
     isUploadingImage: PropTypes.bool.isRequired,
     percent: PropTypes.number.isRequired,
     isSavingFilm: PropTypes.bool.isRequired,
+    openFilmModal: PropTypes.bool.isRequired,
     filmModal: PropTypes.object.isRequired,
 };
 
@@ -297,6 +320,7 @@ function mapStateToProps(state) {
         isUploadingImage: state.film.isUploadingImage,
         percent: state.film.percent,
         isSavingFilm: state.film.isSavingFilm,
+        openFilmModal: state.film.openFilmModal,
         filmModal: state.film.filmModal,
     };
 }

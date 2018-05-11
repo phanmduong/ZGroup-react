@@ -1,7 +1,9 @@
 export default {
 
+    blogFilm:{
+        addEditBlogFilmModal: false,
+    },
     film: {
-
         //********Film
         isLoading: false,
         isSaving: false,
@@ -35,6 +37,7 @@ export default {
         limitShowing: 0,
         totalCountShowing: 0,
         totalPagesShowing: 0,
+        openFilmModal: false,
         isSavingSession: false,
         addEditSessionModal: false,
         sessionModal: {},

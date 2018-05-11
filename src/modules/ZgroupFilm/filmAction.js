@@ -4,12 +4,12 @@ import * as helper from "../../helpers/helper";
 import {browserHistory} from "react-router";
 
 
-export function loadAllFilms() {
+export function loadAllFilms(value) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_FILMS
         });
-        filmApi.loadAllFilmsApi()
+        filmApi.loadAllFilmsApi(value)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_FILMS_SUCCESS,
@@ -311,4 +311,9 @@ export function deleteSession(session) {
                 });
             });
     };
+}
+export function showAddEditFilmModalAtSession() {
+    return ({
+        type: types.SHOW_ADD_EDIT_FILM_MODAL_AT_SESSION
+    });
 }

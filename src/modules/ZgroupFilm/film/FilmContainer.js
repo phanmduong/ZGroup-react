@@ -44,6 +44,7 @@ class FilmContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.filmAction.loadAllFilmsHavePagination(1, value);
+            this.props.filmAction.loadAllFilms(value);
         }.bind(this), 500);
     }
     render() {

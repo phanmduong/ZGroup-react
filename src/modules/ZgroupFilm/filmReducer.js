@@ -287,6 +287,12 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 allSessions: state.allSessions.filter(session => session.id !== action.session.id)
             };
+        case types.SHOW_ADD_EDIT_FILM_MODAL_AT_SESSION:
+            return{
+                ...state,
+                addEditFilmModal: !state.addEditFilmModal,
+                openFilmModal: true
+            };
         default:
             return state;
     }

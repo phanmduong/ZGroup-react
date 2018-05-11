@@ -13,11 +13,13 @@ class SessionComponent extends React.Component {
         super(props, context);
         this.delSession = this.delSession.bind(this);
     }
-    delSession(session){
+
+    delSession(session) {
         confirm("error", "Xóa xuất chiếu", "Bạn có chắc muốn xóa xuất chiếu này", () => {
             this.props.filmAction.deleteSession(session);
         });
     }
+
     render() {
 
         return (
@@ -37,13 +39,18 @@ class SessionComponent extends React.Component {
                     <tbody>
 
                     {this.props.sessions && this.props.sessions.map((session, index) => {
-                        let a =this.props.allFilms.filter((film)=>(film.id == session.film_id))[0];
+                        let a = this.props.allFilms.filter((film) => (film.id == session.film_id))[0];
                         return (
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td style={{fontWeight:"555"}}>
+                                <td className="film-name">
                                     <TooltipButton text={a && a.name} placement="top">
-                                        <div>{a && (a.name.length >= 30?  a.name.slice(0,29).concat("..."):a.name)}</div>
+                                        <div onClick={() => {
+                                            this.props.filmAction.showAddEditFilmModalAtSession();
+                                            this.props.filmAction.handleFilmModal(a);
+                                        }}>
+                                            {a && (a.name.length >= 30 ? a.name.slice(0, 29).concat("...") : a.name)}
+                                        </div>
                                     </TooltipButton>
                                 </td>
                                 <td>
@@ -79,7 +86,7 @@ class SessionComponent extends React.Component {
                                                data-toggle="tooltip" title=""
                                                type="button" rel="tooltip"
                                                data-original-title="Sửa"
-                                               onClick={() =>this.delSession(session)}>
+                                               onClick={() => this.delSession(session)}>
                                                 <i className="material-icons">delete</i>
                                             </a>
                                         </div>

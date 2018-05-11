@@ -154,7 +154,7 @@ class FilmComponent extends React.Component {
                                             <Switch
                                                 onChange={(e)=>this.changeFavoriteFilm(film,e)}
                                                 value={film.is_favorite}
-                                                onText="Hiện" offText="Ẩn"
+                                                onText="Thích" offText="Không"
                                                 bsSize="mini"
                                             />
                                         </div>

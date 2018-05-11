@@ -7,6 +7,7 @@ import ShowingFilmContainer from "../modules/ZgroupFilm/film/ShowingFilmContaine
 import SessionContainer from "../modules/ZgroupFilm/session/SessionContainer";
 import AllSessionContainer from "../modules/ZgroupFilm/session/AllSessionContainer";
 import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessionContainer";
+import BlogFilmContainer from "../modules/ZgroupFilm/blogFilm/BlogFilmContainer";
 
 
 
@@ -53,5 +54,9 @@ export default [
     {
         path:"film/film/:filmId",
         component: ShowFilmContainer
+    },
+    {
+        path:"film/blog",
+        component: BlogFilmContainer
     }
 ];
