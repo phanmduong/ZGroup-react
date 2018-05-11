@@ -2,10 +2,13 @@ import React from "react";
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import TooltipButton from "../../components/common/TooltipButton";
-import { Link } from "react-router";
+import {Link} from "react-router";
 import Barchart from "./Barchart";
 import ListClass from "./ListClass";
 import PropTypes from "prop-types";
+import {Panel} from "react-bootstrap";
+import ReactSelect from 'react-select';
+import {isEmptyInput} from "../../helpers/helper";
 // import ListAttendanceShift from "./ListAttendanceShift";
 // import ListAttendanceClass from "./ListAttendanceClass";
 // import { DATE } from "../../constants/constants";
@@ -13,15 +16,48 @@ import PropTypes from "prop-types";
 class DashboardComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            filterClass: {
+                base_id: '',
+                course_id: '',
+            },
+            openFilterClass: false
+        };
     }
+
 
     componentWillMount() {
         this.props.loadDashboard();
     }
 
+    onChangeFilterBaseClass = (value) => {
+        let result = value ? value.value : '';
+        this.setState({filterClass: {...this.state.filterClass, base_id: result}});
+    }
+
+    onChangeFilterCourseClass = (value) => {
+        let result = value ? value.value : '';
+        this.setState({filterClass: {...this.state.filterClass, course_id: result}});
+    }
+
+    convertData(arr) {
+        let data = arr.map(function (obj) {
+            return {
+                ...obj,
+                value: obj.id,
+                label: obj.name
+            };
+        });
+
+        return [{
+            value: '',
+            label: 'Tất cả'
+        }, ...data];
+    }
+
     render() {
         if (this.props.isLoading) {
-            return <Loading />;
+            return <Loading/>;
         } else {
             let {
                 total_money,
@@ -44,6 +80,12 @@ class DashboardComponent extends React.Component {
                 // current_date,
                 end_time_gen
             } = this.props.dashboard;
+            if (!isEmptyInput(this.state.filterClass.base_id)) {
+                classes = classes.filter((classItem) => classItem.room && classItem.room.base_id == this.state.filterClass.base_id);
+            }
+            if (!isEmptyInput(this.state.filterClass.course_id)) {
+                classes = classes.filter((classItem) => classItem.course.id == this.state.filterClass.course_id);
+            }
             if (this.props.dashboard.user) {
                 return (
                     <div>
@@ -54,8 +96,8 @@ class DashboardComponent extends React.Component {
                                         <p className="category">Doanh thu</p>
                                         <h3 className="card-title">
                                             {helper.convertDotMoneyToK(helper.dotNumber(total_money))}/{helper.convertDotMoneyToK(
-                                                helper.dotNumber(target_revenue)
-                                            )}
+                                            helper.dotNumber(target_revenue)
+                                        )}
                                         </h3>
                                         <TooltipButton
                                             placement="top"
@@ -110,18 +152,18 @@ class DashboardComponent extends React.Component {
                                             <TooltipButton
                                                 placement="top"
                                                 text={`${register_number -
-                                                    zero_paid_number -
-                                                    paid_number} chưa nộp tiền`}>
+                                                zero_paid_number -
+                                                paid_number} chưa nộp tiền`}>
                                                 <div
                                                     className="progress progress-line-danger"
                                                     style={{
                                                         width:
-                                                            (register_number -
-                                                                zero_paid_number -
-                                                                paid_number) *
-                                                                100 /
-                                                                register_number +
-                                                            "%"
+                                                        (register_number -
+                                                            zero_paid_number -
+                                                            paid_number) *
+                                                        100 /
+                                                        register_number +
+                                                        "%"
                                                     }}
                                                 />
                                             </TooltipButton>
@@ -151,10 +193,10 @@ class DashboardComponent extends React.Component {
                                                             className="progress-bar"
                                                             style={{
                                                                 width:
-                                                                    course.total_classes *
-                                                                        100 /
-                                                                        total_classes +
-                                                                    "%",
+                                                                course.total_classes *
+                                                                100 /
+                                                                total_classes +
+                                                                "%",
                                                                 background: course.color
                                                             }}
                                                         />
@@ -208,8 +250,8 @@ class DashboardComponent extends React.Component {
                                             <h4 className="card-title">
                                                 <strong>Số lượng đăng kí theo ngày</strong>
                                             </h4>
-                                            <br />
-                                            <br />
+                                            <br/>
+                                            <br/>
                                             <Barchart
                                                 label={date_array}
                                                 data={[registers_by_date, paid_by_date]}
@@ -228,8 +270,8 @@ class DashboardComponent extends React.Component {
                                             <h4 className="card-title">
                                                 <strong>Doanh thu theo ngày</strong>
                                             </h4>
-                                            <br />
-                                            <br />
+                                            <br/>
+                                            <br/>
                                             <Barchart
                                                 label={date_array}
                                                 data={[money_by_date]}
@@ -241,124 +283,124 @@ class DashboardComponent extends React.Component {
                             </div>
                         </div>
                         {/*{(shifts || this.props.dateShifts !== current_date) && (*/}
-                            {/*<div className="row">*/}
-                                {/*<div className="col-md-12">*/}
-                                    {/*<div className="card">*/}
-                                        {/*<div className="card-content">*/}
-                                            {/*<div className="tab-content">*/}
-                                                {/*<div className="flex flex-row flex-space-between">*/}
-                                                    {/*<h4 className="card-title">*/}
-                                                        {/*<strong>*/}
-                                                            {/*{this.props.dateShifts === current_date*/}
-                                                                {/*? "Lịch trực hôm nay"*/}
-                                                                {/*: "Lịch trực " + this.props.dateShifts}*/}
-                                                        {/*</strong>*/}
-                                                    {/*</h4>*/}
-                                                    {/*<div className="flex flex-row">*/}
-                                                        {/*<button*/}
-                                                            {/*className="btn btn-rose btn-sm"*/}
-                                                            {/*onClick={() =>*/}
-                                                                {/*this.props.loadAttendanceShift(-DATE)*/}
-                                                            {/*}>*/}
-                                                            {/*<span className="btn-label">*/}
-                                                                {/*<i className="material-icons">*/}
-                                                                    {/*keyboard_arrow_left*/}
-                                                                {/*</i>*/}
-                                                            {/*</span>*/}
-                                                            {/*Trước*/}
-                                                        {/*</button>*/}
-                                                        {/*<button*/}
-                                                            {/*className="btn btn-rose btn-sm"*/}
-                                                            {/*onClick={() =>*/}
-                                                                {/*this.props.loadAttendanceShift(DATE)*/}
-                                                            {/*}>*/}
-                                                            {/*Sau*/}
-                                                            {/*<span className="btn-label btn-label-right">*/}
-                                                                {/*<i className="material-icons">*/}
-                                                                    {/*keyboard_arrow_right*/}
-                                                                {/*</i>*/}
-                                                            {/*</span>*/}
-                                                        {/*</button>*/}
-                                                    {/*</div>*/}
-                                                {/*</div>*/}
-                                                {/*<br />*/}
-                                                {/*{this.props.isLoadingAttendanceShifts ? (*/}
-                                                    {/*<Loading />*/}
-                                                {/*) : shifts ? (*/}
-                                                    {/*<ListAttendanceShift*/}
-                                                        {/*baseId={this.props.baseId}*/}
-                                                        {/*shifts={shifts}*/}
-                                                    {/*/>*/}
-                                                {/*) : (*/}
-                                                    {/*<div>*/}
-                                                        {/*<strong>Hiện không có lịch trực</strong>*/}
-                                                    {/*</div>*/}
-                                                {/*)}*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                        {/*<div className="row">*/}
+                        {/*<div className="col-md-12">*/}
+                        {/*<div className="card">*/}
+                        {/*<div className="card-content">*/}
+                        {/*<div className="tab-content">*/}
+                        {/*<div className="flex flex-row flex-space-between">*/}
+                        {/*<h4 className="card-title">*/}
+                        {/*<strong>*/}
+                        {/*{this.props.dateShifts === current_date*/}
+                        {/*? "Lịch trực hôm nay"*/}
+                        {/*: "Lịch trực " + this.props.dateShifts}*/}
+                        {/*</strong>*/}
+                        {/*</h4>*/}
+                        {/*<div className="flex flex-row">*/}
+                        {/*<button*/}
+                        {/*className="btn btn-rose btn-sm"*/}
+                        {/*onClick={() =>*/}
+                        {/*this.props.loadAttendanceShift(-DATE)*/}
+                        {/*}>*/}
+                        {/*<span className="btn-label">*/}
+                        {/*<i className="material-icons">*/}
+                        {/*keyboard_arrow_left*/}
+                        {/*</i>*/}
+                        {/*</span>*/}
+                        {/*Trước*/}
+                        {/*</button>*/}
+                        {/*<button*/}
+                        {/*className="btn btn-rose btn-sm"*/}
+                        {/*onClick={() =>*/}
+                        {/*this.props.loadAttendanceShift(DATE)*/}
+                        {/*}>*/}
+                        {/*Sau*/}
+                        {/*<span className="btn-label btn-label-right">*/}
+                        {/*<i className="material-icons">*/}
+                        {/*keyboard_arrow_right*/}
+                        {/*</i>*/}
+                        {/*</span>*/}
+                        {/*</button>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*<br />*/}
+                        {/*{this.props.isLoadingAttendanceShifts ? (*/}
+                        {/*<Loading />*/}
+                        {/*) : shifts ? (*/}
+                        {/*<ListAttendanceShift*/}
+                        {/*baseId={this.props.baseId}*/}
+                        {/*shifts={shifts}*/}
+                        {/*/>*/}
+                        {/*) : (*/}
+                        {/*<div>*/}
+                        {/*<strong>Hiện không có lịch trực</strong>*/}
+                        {/*</div>*/}
+                        {/*)}*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
                         {/*)}*/}
                         {/*{*/}
-                            {/*<div className="row">*/}
-                                {/*<div className="col-md-12">*/}
-                                    {/*<div className="card">*/}
-                                        {/*<div className="card-content">*/}
-                                            {/*<div className="tab-content">*/}
-                                                {/*<div className="flex flex-row flex-space-between">*/}
-                                                    {/*<h4 className="card-title">*/}
-                                                        {/*<strong>*/}
-                                                            {/*{this.props.dateClasses === current_date*/}
-                                                                {/*? "Lớp học hôm nay"*/}
-                                                                {/*: "Lớp học " + this.props.dateClasses}*/}
-                                                        {/*</strong>*/}
-                                                    {/*</h4>*/}
-                                                    {/*<div className="flex flex-row">*/}
-                                                        {/*<button*/}
-                                                            {/*className="btn btn-rose btn-sm"*/}
-                                                            {/*onClick={() =>*/}
-                                                                {/*this.props.loadAttendanceClass(-DATE)*/}
-                                                            {/*}>*/}
-                                                            {/*<span className="btn-label">*/}
-                                                                {/*<i className="material-icons">*/}
-                                                                    {/*keyboard_arrow_left*/}
-                                                                {/*</i>*/}
-                                                            {/*</span>*/}
-                                                            {/*Trước*/}
-                                                        {/*</button>*/}
-                                                        {/*<button*/}
-                                                            {/*className="btn btn-rose btn-sm"*/}
-                                                            {/*onClick={() =>*/}
-                                                                {/*this.props.loadAttendanceClass(DATE)*/}
-                                                            {/*}>*/}
-                                                            {/*Sau*/}
-                                                            {/*<span className="btn-label btn-label-right">*/}
-                                                                {/*<i className="material-icons">*/}
-                                                                    {/*keyboard_arrow_right*/}
-                                                                {/*</i>*/}
-                                                            {/*</span>*/}
-                                                        {/*</button>*/}
-                                                    {/*</div>*/}
-                                                {/*</div>*/}
-                                                {/*<br />*/}
-                                                {/*{this.props.isLoadingAttendanceClasses ? (*/}
-                                                    {/*<Loading />*/}
-                                                {/*) : now_classes ? (*/}
-                                                    {/*<ListAttendanceClass*/}
-                                                        {/*baseId={this.props.baseId}*/}
-                                                        {/*now_classes={now_classes}*/}
-                                                    {/*/>*/}
-                                                {/*) : (*/}
-                                                    {/*<div>*/}
-                                                        {/*<strong>Hiện không có lớp học</strong>*/}
-                                                    {/*</div>*/}
-                                                {/*)}*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                        {/*<div className="row">*/}
+                        {/*<div className="col-md-12">*/}
+                        {/*<div className="card">*/}
+                        {/*<div className="card-content">*/}
+                        {/*<div className="tab-content">*/}
+                        {/*<div className="flex flex-row flex-space-between">*/}
+                        {/*<h4 className="card-title">*/}
+                        {/*<strong>*/}
+                        {/*{this.props.dateClasses === current_date*/}
+                        {/*? "Lớp học hôm nay"*/}
+                        {/*: "Lớp học " + this.props.dateClasses}*/}
+                        {/*</strong>*/}
+                        {/*</h4>*/}
+                        {/*<div className="flex flex-row">*/}
+                        {/*<button*/}
+                        {/*className="btn btn-rose btn-sm"*/}
+                        {/*onClick={() =>*/}
+                        {/*this.props.loadAttendanceClass(-DATE)*/}
+                        {/*}>*/}
+                        {/*<span className="btn-label">*/}
+                        {/*<i className="material-icons">*/}
+                        {/*keyboard_arrow_left*/}
+                        {/*</i>*/}
+                        {/*</span>*/}
+                        {/*Trước*/}
+                        {/*</button>*/}
+                        {/*<button*/}
+                        {/*className="btn btn-rose btn-sm"*/}
+                        {/*onClick={() =>*/}
+                        {/*this.props.loadAttendanceClass(DATE)*/}
+                        {/*}>*/}
+                        {/*Sau*/}
+                        {/*<span className="btn-label btn-label-right">*/}
+                        {/*<i className="material-icons">*/}
+                        {/*keyboard_arrow_right*/}
+                        {/*</i>*/}
+                        {/*</span>*/}
+                        {/*</button>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*<br />*/}
+                        {/*{this.props.isLoadingAttendanceClasses ? (*/}
+                        {/*<Loading />*/}
+                        {/*) : now_classes ? (*/}
+                        {/*<ListAttendanceClass*/}
+                        {/*baseId={this.props.baseId}*/}
+                        {/*now_classes={now_classes}*/}
+                        {/*/>*/}
+                        {/*) : (*/}
+                        {/*<div>*/}
+                        {/*<strong>Hiện không có lớp học</strong>*/}
+                        {/*</div>*/}
+                        {/*)}*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
                         {/*}*/}
 
                         <div className="row" id="list-class">
@@ -366,10 +408,50 @@ class DashboardComponent extends React.Component {
                                 <div className="card">
                                     <div className="card-content">
                                         <div className="tab-content">
-                                            <h4 className="card-title">
-                                                <strong>Danh sách lớp</strong>
-                                            </h4>
-                                            <br />
+                                            <div className="flex flex-row">
+                                                <h4 className="card-title">
+                                                    <strong>Danh sách lớp</strong>
+                                                </h4>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        onClick={() => this.setState({openFilterClass: !this.state.openFilterClass})}
+                                                        className="btn btn-primary btn-round btn-xs none-margin btn-header-card margin-left-15"
+                                                    >
+                                                        <i className="material-icons"
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
+
+                                            <br/>
+                                            <Panel collapsible expanded={this.state.openFilterClass}>
+                                                <div className="row">
+                                                    <div className="col-md-3 form-group">
+                                                        <label className="">
+                                                            Cơ sở
+                                                        </label>
+                                                        <ReactSelect
+                                                            options={this.convertData(this.props.bases)}
+                                                            onChange={this.onChangeFilterBaseClass}
+                                                            value={this.state.filterClass.base_id}
+                                                            defaultMessage="Tuỳ chọn"
+                                                            name="filter_class_base"
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-3 form-group">
+                                                        <label className="">
+                                                            Môn học
+                                                        </label>
+                                                        <ReactSelect
+                                                            options={this.convertData(courses)}
+                                                            onChange={this.onChangeFilterCourseClass}
+                                                            value={this.state.filterClass.course_id}
+                                                            defaultMessage="Tuỳ chọn"
+                                                            name="filter_class_course"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </Panel>
                                             <ListClass
                                                 classes={classes}
                                                 user={user}

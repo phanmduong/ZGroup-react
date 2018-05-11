@@ -9,6 +9,10 @@ import CreateProposePaymentContainer from "../modules/Zgroup/proposePaymentAdmin
 import BillContainer from "../modules/Zgroup/bill/BillContainer";
 import CreateBillContainer from "../modules/Zgroup/bill/CreateBillContainer";
 
+import ContractContainer from "../modules/Zgroup/contract/ContractContainer";
+import CreateContractContainer from "../modules/Zgroup/contract/CreateContractContainer";
+
+
 /**
  * Tab Hanh Chinh
  */
@@ -75,5 +79,16 @@ export default [
         component: CreateBillContainer,
         type: "edit",
     },
+    {
+        path: "/administration/contract",
+        component: ContractContainer,
+    },
+    {
+        path: "/administration/contract/create",
+        component: CreateContractContainer,
+    },
+    {
+        path: "/administration/contract/edit/:contract_id",
+        component: CreateContractContainer,
+    },
 ];
-//path: "/sms/campaign-detail/:campaignId",

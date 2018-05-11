@@ -30,9 +30,14 @@ class ReceiveTransactions extends React.Component {
         this.loadData();
         const channel = CHANNEL + ":notification";
         socket.on(channel, (data) => {
-            if (data.notification && data.notification.transaction && (data.notification.transaction.sender_id === this.props.user.id ||
-                    data.notification.transaction.receiver_id === this.props.user.id)) {
-                this.loadData();
+            if (data.transaction && (data.transaction.sender_id == this.props.user.id ||
+                    data.transaction.receiver_id == this.props.user.id)) {
+                this.props.moneyTransferActions.getTransactions(1);
+                this.setState({
+                    page: 1,
+                    status: "",
+                    type: ""
+                });
             }
         });
     }
@@ -44,7 +49,7 @@ class ReceiveTransactions extends React.Component {
     }
 
 
-    loadData(page) {
+    loadData(page = 1) {
         this.setState({page: page});
         this.props.moneyTransferActions.getTransactions(page, this.state.type, this.state.status);
     }
@@ -184,7 +189,8 @@ class ReceiveTransactions extends React.Component {
                                                                             </div>
                                                                             :
                                                                             <div className="row">
-                                                                                <div className="col-xs-6 padding-right-0">
+                                                                                <div
+                                                                                    className="col-xs-6 padding-right-0">
                                                                                     <button
                                                                                         className="btn btn-success btn-xs btn-simple width-100 bold"
                                                                                         onClick={() => this.confirmTransaction(transaction.id, 1)}
@@ -192,7 +198,8 @@ class ReceiveTransactions extends React.Component {
                                                                                         Đồng ý
                                                                                     </button>
                                                                                 </div>
-                                                                                <div className="col-xs-6 padding-left-0">
+                                                                                <div
+                                                                                    className="col-xs-6 padding-left-0">
                                                                                     <button
                                                                                         className="btn btn-danger btn-xs btn-simple width-100 bold"
                                                                                         onClick={() => this.confirmTransaction(transaction.id, -1)}
@@ -231,7 +238,7 @@ class ReceiveTransactions extends React.Component {
                             currentPage={this.state.page}
                             loadDataPage={(page) => this.loadData(page)}
                         />
-                    </div>    
+                    </div>
                 </div>
             </div>
         );

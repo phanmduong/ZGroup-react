@@ -102,14 +102,14 @@ export function showNotification(message, from = "top", align = "right", type = 
         message
 
     }, {
-        type,
-        url_target: '_blank',
-        timer: 3000,
-        placement: {
-            from: from,
-            align: align
-        }
-    });
+            type,
+            url_target: '_blank',
+            timer: 3000,
+            placement: {
+                from: from,
+                align: align
+            }
+        });
 }
 
 export function showTypeNotification(message, type) {
@@ -119,7 +119,7 @@ export function showTypeNotification(message, type) {
 export function encodeToken(data) {
     return jwt.sign({
         data: data
-    }, env.SECRET_TOKEN, {expiresIn: env.EXPIRES_IN});
+    }, env.SECRET_TOKEN, { expiresIn: env.EXPIRES_IN });
 }
 
 export function decodeToken(token) {
@@ -615,7 +615,7 @@ export function createFileUrl(file) {
 /*eslint-disable */
 export function iOS() {
 
-    var iDevices = [
+    let iDevices = [
         'iPad Simulator',
         'iPhone Simulator',
         'iPod Simulator',
@@ -841,14 +841,14 @@ export function generateDatatableLanguage(item) {
 export function transformToTree(arr, nameParent, nameChildren) {
     let nodes = {};
     arr = arr.map((item) => {
-        return {...item};
+        return { ...item };
     });
     return arr.filter(function (obj) {
         let id = obj[nameParent],
             parentId = obj[nameChildren];
 
-        nodes[id] = _.defaults(obj, nodes[id], {children: []});
-        parentId && (nodes[parentId] = (nodes[parentId] || {children: []}))["children"].push(obj);
+        nodes[id] = _.defaults(obj, nodes[id], { children: [] });
+        parentId && (nodes[parentId] = (nodes[parentId] || { children: [] }))["children"].push(obj);
 
         return !parentId;
     });
@@ -918,7 +918,7 @@ export function readExcel(file, isSkipReadFile) {
         reader.onload = (e) => {
             /* Parse data */
             const bstr = e.target.result;
-            const wb = XLSX.read(bstr, {type: 'binary'});
+            const wb = XLSX.read(bstr, { type: 'binary' });
             /* Get first worksheet */
             const wsname = wb.SheetNames[0];
             const ws = wb.Sheets[wsname];
@@ -929,7 +929,7 @@ export function readExcel(file, isSkipReadFile) {
                 ws['!ref'] = XLSX.utils.encode_range(range);
             }
             /* Convert array of arrays */
-            const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+            const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
             /* Update state */
             resolve(data);
         };
@@ -960,11 +960,11 @@ function sheetToArrayBit(s) {
 }
 
 function exportTable(tableid, type) {
-    let wb = XLSX.utils.table_to_book(document.getElementById(tableid), {sheet: "Sheet JS"});
-    let wbout = XLSX.write(wb, {bookType: type, bookSST: true, type: 'binary'});
+    let wb = XLSX.utils.table_to_book(document.getElementById(tableid), { sheet: "Sheet JS" });
+    let wbout = XLSX.write(wb, { bookType: type, bookSST: true, type: 'binary' });
     let fname = 'test.' + type;
     try {
-        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], {type: "application/octet-stream"}), fname);
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], { type: "application/octet-stream" }), fname);
     } catch (e) {
         if (typeof console != 'undefined') console.log(e, wbout);
     }
@@ -994,10 +994,10 @@ export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
 }
 
 export function saveWorkBookToExcel(wb, filename) {
-    let wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' });
     let fname = (filename ? filename : 'datasheet') + '.xlsx';
     try {
-        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], {type: "application/octet-stream"}), fname);
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], { type: "application/octet-stream" }), fname);
     } catch (e) {
         if (typeof console != 'undefined') console.log(e, wbout);
     }
@@ -1132,7 +1132,7 @@ export function convertDataDetailTeacher(data, filter) {
                 i++;
                 if (attendance.class_name !== attendanceBefore.class_name) {
                     merges.push(
-                        {s: {r: jj, c: 3}, e: {r: i - 2, c: 3}}
+                        { s: { r: jj, c: 3 }, e: { r: i - 2, c: 3 } }
                     );
                     jj = i - 1;
                     attendanceBefore = attendance;
@@ -1149,13 +1149,13 @@ export function convertDataDetailTeacher(data, filter) {
                 });
             });
             merges.push(
-                {s: {r: j, c: 1}, e: {r: i - 1, c: 1}}
+                { s: { r: j, c: 1 }, e: { r: i - 1, c: 1 } }
             );
             merges.push(
-                {s: {r: jj, c: 3}, e: {r: i - 1, c: 3}}
+                { s: { r: jj, c: 3 }, e: { r: i - 1, c: 3 } }
             );
             merges.push(
-                {s: {r: j, c: 0}, e: {r: i - 1, c: 0}}
+                { s: { r: j, c: 0 }, e: { r: i - 1, c: 0 } }
             );
             j = i;
             jj = i;
@@ -1207,10 +1207,10 @@ export function convertDataDetailSalesMarketing(data, filter) {
                 });
             });
             merges.push(
-                {s: {r: j, c: 1}, e: {r: i - 1, c: 1}}
+                { s: { r: j, c: 1 }, e: { r: i - 1, c: 1 } }
             );
             merges.push(
-                {s: {r: j, c: 0}, e: {r: i - 1, c: 0}}
+                { s: { r: j, c: 0 }, e: { r: i - 1, c: 0 } }
             );
             j = i;
         }
@@ -1372,9 +1372,11 @@ export function getDurationExceptWeekend(start, end) {
 }
 
 export function dotStringNumber(number) {
+
         if(isEmptyInput(number)) return '0';
         let StringNumber = number.toString();
         return StringNumber.replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
     //return number;
 }
 export function convertDotStringNumberToStringNumber(number) {
@@ -1410,9 +1412,9 @@ export function removeStorage(name) {
  */
 export function getStorage(key) {
 
-    var now = Date.now();  //epoch time, lets deal only with integer
+    let now = Date.now();  //epoch time, lets deal only with integer
     // set expiration for storage
-    var expiresIn = localStorage.getItem(key + '_expiresIn');
+    let expiresIn = localStorage.getItem(key + '_expiresIn');
     if (expiresIn === undefined || expiresIn === null) {
         expiresIn = 0;
     }
@@ -1422,7 +1424,7 @@ export function getStorage(key) {
         return null;
     } else {
         try {
-            var value = localStorage.getItem(key);
+            let value = localStorage.getItem(key);
             return value;
         } catch (e) {
             console.log('getStorage: Error reading key [' + key + '] from localStorage: ' + JSON.stringify(e));
@@ -1447,8 +1449,8 @@ export function setStorage(key, value, expires) {
         expires = Math.abs(expires); //make sure it's positive
     }
 
-    var now = Date.now();  //millisecs since epoch time, lets deal only with integer
-    var schedule = now + expires * 1000;
+    let now = Date.now();  //millisecs since epoch time, lets deal only with integer
+    let schedule = now + expires * 1000;
     try {
         localStorage.setItem(key, value);
         localStorage.setItem(key + '_expiresIn', schedule);

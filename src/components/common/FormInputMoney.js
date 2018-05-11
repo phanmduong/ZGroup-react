@@ -23,10 +23,12 @@ class FormInputMoney extends React.Component {
             $(`#form-input-${this.props.name}`).removeClass('is-empty');
         }
     }
+
     onChange(e){
         e.target.value = helper.convertDotStringNumberToStringNumber(e.target.value);
         this.props.updateFormData(e);
     }
+
     render() {
         const className = this.props.isNotValid ? ' has-error' : '';
         return (
@@ -43,7 +45,7 @@ class FormInputMoney extends React.Component {
                     <label className="control-label">
                         {this.props.label}{' '}
                         {this.props.required &&
-                        !this.props.disabled && <star style={{ color: 'red' }}>*</star>}
+                            !this.props.disabled && <star style={{ color: 'red' }}>*</star>}
                     </label>
                 )}
 
@@ -78,7 +80,7 @@ FormInputMoney.propTypes = {
     name: PropTypes.string.isRequired,
     autoComplete: PropTypes.string,
     label: PropTypes.string,
-    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     updateFormData: PropTypes.func,
     disabled: PropTypes.bool,
     required: PropTypes.bool,

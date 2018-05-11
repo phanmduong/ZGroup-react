@@ -7,8 +7,9 @@ import {bindActionCreators} from "redux";
 import * as registerManageMeetingRoomAction from "../actions/registerManageMeetingRoomAction";
 import {Tooltip, OverlayTrigger} from "react-bootstrap";
 // import moment from "moment/moment";
-import PaymentModal from "../container/PaymentModal";
-import DatetimeModal from "../container/DatetimeModal";
+// import PaymentModal from "../container/PaymentModal";
+// import DatetimeModal from "../container/DatetimeModal";
+// import AddRegisterModal from "../container/AddRegisterModal";
 
 // export function fixTime(register) {
 //     const time = register.extra_time -
@@ -147,10 +148,6 @@ class ListRegisters extends React.Component {
                         </tbody>
                     </table>
                 )}
-
-
-                <DatetimeModal/>
-                <PaymentModal/>
 
             </div>
         );

@@ -57,7 +57,7 @@ class BarcodesContainer extends React.Component {
 			clearTimeout(this.timeOut);
 		}
 		this.timeOut = setTimeout(
-			function() {
+			function () {
 				this.props.barcodeActions.loadBarcodes(1, this.props.params.type, value);
 			}.bind(this),
 			500
@@ -68,23 +68,21 @@ class BarcodesContainer extends React.Component {
 		return (
 			<div className="card" style={{ marginTop: 20 }}>
 				<div className="card-content">
-					<div className="card-top">
-						<div className="flex">
-							<h4 className="card-title">
-								<strong>Barcode</strong>
-							</h4>
+
+					<div className="flex flex-row">
+						<h4 className="card-title">
+							<strong>Barcode</strong>
+						</h4>
+						<div>
 							<TooltipButton text="Thêm barcode" placement="top">
-								<button
-									className="btn btn-primary btn-round btn-xs button-add none-margin"
-									onClick={this.openCreateBarcodeModal}
-									style={{ display: 'initial' }}
-									type="button">
+								<button onClick={this.openCreateBarcodeModal} className="btn btn-rose btn-round btn-xs button-add none-margin">
 									<strong>+</strong>
-									<div className="ripple-container" />
 								</button>
 							</TooltipButton>
 						</div>
+
 					</div>
+
 					<div className="row">
 						<Search
 							className="col-sm-12"
@@ -100,57 +98,57 @@ class BarcodesContainer extends React.Component {
 								<Loading />
 							</div>
 						) : (
-							<table className="table">
-								<thead className="text-rose">
-									<tr>
-										<th>Giá trị</th>
-										<th>Barcode</th>
-										<th>Sản phẩm</th>
-										<th />
-									</tr>
-								</thead>
+								<table className="table">
+									<thead className="text-rose">
+										<tr>
+											<th>Giá trị</th>
+											<th>Barcode</th>
+											<th>Sản phẩm</th>
+											<th />
+										</tr>
+									</thead>
 
-								<tbody>
-									{this.props.barcodes.map((barcode, index) => {
-										return (
-											<tr key={index}>
-												<td>{barcode.value}</td>
-												<td>
-													{barcode.image_url && (
-														<img
-															style={{
-																height: '25px',
-																width: '150px'
-															}}
-															src={barcode.image_url}
-															alt=""
-														/>
-													)}
-												</td>
-												<td>
-													{barcode.good ? (
-														<Link to={`good/${barcode.good.id}/detail`}>
-															{barcode.good.name}
-														</Link>
-													) : (
-														<div>Chưa gắn</div>
-													)}
-												</td>
-												<td>
-													{!barcode.good && (
-														<a onClick={() => this.delete(barcode.id)}>
-															<i className="material-icons text-danger">
-																delete
+									<tbody>
+										{this.props.barcodes.map((barcode, index) => {
+											return (
+												<tr key={index}>
+													<td>{barcode.value}</td>
+													<td>
+														{barcode.image_url && (
+															<img
+																style={{
+																	height: '25px',
+																	width: '150px'
+																}}
+																src={barcode.image_url}
+																alt=""
+															/>
+														)}
+													</td>
+													<td>
+														{barcode.good ? (
+															<Link to={`good/${barcode.good.id}/detail`}>
+																{barcode.good.name}
+															</Link>
+														) : (
+																<div>Chưa gắn</div>
+															)}
+													</td>
+													<td>
+														{!barcode.good && (
+															<a onClick={() => this.delete(barcode.id)}>
+																<i className="material-icons text-danger">
+																	delete
 															</i>
-														</a>
-													)}
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-						)}
+															</a>
+														)}
+													</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
+							)}
 					</div>
 					<Pagination
 						loadDataPage={this.props.barcodeActions.loadBarcodes}
