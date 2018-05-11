@@ -412,7 +412,7 @@ class ManageSmsApiController extends ManageApiController
             ->where('sms_template.sms_list_id', '=', $campaignId)->where('sms.user_id', '=', $request->user_id);
         $limit = $request->limit ? intval($request->limit) : 15;
         $search = trim($request->search);
-        if($search){
+        if ($search) {
             $histories = $histories->where('sms.content', 'like', "%$search%");
         }
         if ($limit == -1) {
