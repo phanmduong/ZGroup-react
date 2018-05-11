@@ -15,7 +15,7 @@ $manageApiRoutes = function () {
     Route::put('/session/{id}', 'FilmZgroupManageApiController@updateSession');
     Route::delete('/session/{id}', 'FilmZgroupManageApiController@deleteSession');
 
-    Route::put('/film/{id}/status', 'FilmZgroupManageApiController@changeFilmStatus');
+    Route::put('/film/{id}/change', 'FilmZgroupManageApiController@changeFilmInfo');
     Route::put('/{session_id}/seat', 'FilmZgroupManageApiController@changeSeatStatus');
 };
 
