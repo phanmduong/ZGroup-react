@@ -7,7 +7,7 @@
             background-size: 100% 100%;
             background-repeat: no-repeat;
             background-position: center center;
-            height: 400px;
+            height: 600px;
         }
         .flexbox-centering {
             display: flex;
