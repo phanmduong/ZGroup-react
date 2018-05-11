@@ -3,6 +3,7 @@
 namespace Modules\FilmZgroup\Http\Controllers;
 
 use App\Film;
+use App\Film_Blog;
 use App\FilmSession;
 use App\Http\Controllers\NoAuthApiController;
 use Illuminate\Http\Request;
@@ -152,6 +153,46 @@ class PublicFilmApiController extends NoAuthApiController
             })]);
         }
     }
+
+    public function getBlogsFilter(Request $request)
+    {
+        $limit = $request->limit;
+        $search_name = $request->search_name;
+        $search_content = $request->search_content;
+        $id = $request->id;
+        $status = $request->status;
+        $blogs = Film_Blog::orderBy('created_at', 'desc');
+
+
+        if ($search_name) {
+            $blos = $blogs->where('name', 'LIKE', '%' . trim($search_name) . '%');
+        }
+        if ($search_content) {
+            $blos = $blogs->where('content', 'LIKE', '%' . trim($search_content) . '%');
+        }
+        if ($id) {
+            $blogs = $blogs->where('id', $id);
+        }
+        if ($status) {
+            $blogs = $blogs->where('status', $status);
+        }
+
+        if ($limit == -1 or !$limit) {
+            $blogs = $blogs->get();
+            $blogs = [
+                "blogs" => $blogs,
+            ];
+
+            return $blogs;
+        } else {
+
+            $blogs = $blogs->paginate($limit);
+            return $this->respondWithPagination($blogs, ['films' => $films->map(function ($blog) {
+                return $blog;
+            })]);
+        }
+    }
+
 
 
 }

@@ -3,6 +3,7 @@
 namespace Modules\FilmZgroup\Http\Controllers;
 
 use App\Film;
+use App\Film_Blog;
 use App\FilmSession;
 use App\Http\Controllers\ManageApiController;
 use App\SessionSeat;
@@ -104,12 +105,12 @@ class FilmZgroupManageApiController extends ManageApiController
         $film->film_rated = $request->film_rated;
         $film->rate = $request->rate;
         $film->cover_url = $request->cover_url;
-        $film->images_url= $request->images_url;
-        $film->is_favorite= $request->is_favorite;
+        $film->images_url = $request->images_url;
+        $film->is_favorite = $request->is_favorite;
 
         $film->save();
 
-        return $this->respondSuccess('add thanh cong');
+        return $this->respondSuccess('update thanh cong');
     }
 
     public function deleteFilm(Request $request, $id)
@@ -190,16 +191,80 @@ class FilmZgroupManageApiController extends ManageApiController
     public function changeFilmInfo(Request $request, $id)
     {
         $film = Film::find($id);
-        if($request->film_status) {
+        if ($request->film_status) {
             $film->film_status = $request->film_status;
         }
-        if($request->is_favorite) {
+        if ($request->is_favorite) {
             $film->is_favorite = $request->is_favorite;
         }
 
         $film->save();
 
         return $this->respondSuccess('Doi thong tin thanh cong');
-
     }
+
+    public function changeBlogStatus(Request $request, $id)
+    {
+        $blog = Film::find($id);
+        if ($request->status) {
+            $blog->status = $request->status;
+        }
+        $blog->save();
+
+        return $this->respondSuccess('Doi trang thai thanh cong');
+    }
+
+    public function addBlog(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'avatar_url' => 'required|max:255',
+            'content' => 'required',
+            'status' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
+        }
+
+        $blog = new Film_Blog();
+        $blog->name = $request->name;
+        $blog->avatar_url = $request->avatar_url;
+        $blog->content = $request->content;
+        $blog->status = $request->status;
+        $blog->save();
+
+        return $this->respondSuccess('add thanh cong');
+    }
+
+    public function updateBlog(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'avatar_url' => 'required|max:255',
+            'content' => 'required',
+            'status' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
+        }
+
+        $blog = new Film_Blog();
+        $blog->name = $request->name;
+        $blog->avatar_url = $request->avatar_url;
+        $blog->content = $request->content;
+        $blog->status = $request->status;
+        $blog->save();
+
+        return $this->respondSuccess('update thanh cong');
+    }
+
+    public function deleteBlog(Request $request, $id)
+    {
+        $blog = Film::find($id);
+        $blog->delete();
+
+        return $this->respondSuccess('xoa thanh cong');
+    }
+
+
 }
