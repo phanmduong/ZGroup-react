@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -72,25 +73,46 @@ class ManageStaffApiController extends ManageApiController
     {
         $q = trim($request->search);
 
-        $limit = 20;
-        $staffs = User::where('role', '>', 0);
-
-        if ($q) {
-            $staffs = $staffs->where(function ($query) use ($q) {
-                $query->where('email', 'like', '%' . $q . '%')
+        $limit = $request->limit ? $request->limit : 20;
+        
+        if($limit == -1){
+            
+            $staffs = User::where('role', '>', 0)->get();
+            
+            if ($q) {
+                $staffs = $staffs->where(function ($query) use ($q) {
+                    $query->where('email', 'like', '%' . $q . '%')
                     ->orWhere('name', 'like', '%' . $q . '%')
                     ->orWhere('phone', 'like', '%' . $q . '%');
-            });
-        }
-        $staffs = $staffs->orderBy('created_at')->paginate($limit);
+                });
+            }
+            
+            return $this->respondSuccessWithStatus([
+                "staffs" => $staffs->map(function($data){
+                    return $data;
+                })
+            ]);
+            return $this->respondSuccessWithStatus($staffs);
+        }else{
+            $staffs = User::where('role', '>', 0);
 
-        $data = [
-            'staffs' => $staffs->map(function ($staff) {
-                $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
-                return $staff;
-            })
-        ];
-        return $this->respondWithPagination($staffs, $data);
+            if ($q) {
+                $staffs = $staffs->where(function ($query) use ($q) {
+                    $query->where('email', 'like', '%' . $q . '%')
+                    ->orWhere('name', 'like', '%' . $q . '%')
+                    ->orWhere('phone', 'like', '%' . $q . '%');
+                });
+            }
+            $staffs = $staffs->orderBy('created_at')->paginate($limit);
+
+            $data = [
+                'staffs' => $staffs->map(function ($staff) {
+                    $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
+                    return $staff;
+                })
+            ];
+            return $this->respondWithPagination($staffs, $data);
+        }
     }
 
     public function get_staff($staffId = null)
