@@ -74,7 +74,7 @@ class ProductPublicApiController extends PublicApiController
                                 count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
                                 FROM
                                 tag_numbers INNER JOIN products
-                                ON products.kind='$kind' AND CHAR_LENGTH(products.tags)
+                                ON products.kind='blog' AND CHAR_LENGTH(products.tags)
                                     -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
                                 WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
                                 GROUP BY tag 
