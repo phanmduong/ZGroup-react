@@ -78,8 +78,8 @@ class ManageStaffApiController extends ManageApiController
         if ($q) {
             $staffs = $staffs->where(function ($query) use ($q) {
                 $query->where('email', 'like', '%' . $q . '%')
-                ->orWhere('name', 'like', '%' . $q . '%')
-                ->orWhere('phone', 'like', '%' . $q . '%');
+                    ->orWhere('name', 'like', '%' . $q . '%')
+                    ->orWhere('phone', 'like', '%' . $q . '%');
             });
         }
         $staffs = $staffs->orderBy('created_at')->paginate($limit);
@@ -114,8 +114,8 @@ class ManageStaffApiController extends ManageApiController
         if ($q) {
             $users = $users->where(function ($query) use ($q) {
                 $query->where('email', 'like', '%' . $q . '%')
-                ->orWhere('name', 'like', '%' . $q . '%')
-                ->orWhere('phone', 'like', '%' . $q . '%');
+                    ->orWhere('name', 'like', '%' . $q . '%')
+                    ->orWhere('phone', 'like', '%' . $q . '%');
             });
         }
 
@@ -154,8 +154,7 @@ class ManageStaffApiController extends ManageApiController
     public function change_base(Request $request)
     {
         $staff = User::find($request->staff_id);
-        $staff->base_id = $request->base_id;
-        ;
+        $staff->base_id = $request->base_id;;
         $staff->save();
         return $this->respondSuccessWithStatus(['message' => 'Thay đổi cơ sở thành công']);
     }

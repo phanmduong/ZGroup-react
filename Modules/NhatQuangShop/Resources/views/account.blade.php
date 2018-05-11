@@ -23,6 +23,14 @@
                 <td class="text-left">Địa chỉ :</td>
                 <th>{{$user->address}}</th>
             </tr>
+            <tr>
+                <td class="text-left">Ví cọc :</td>
+                <th>{{$user->deposit}}</th>
+            </tr>
+            <tr>
+                <td class="text-left">Ví lưu động :</td>
+                <th>{{$user->money}}</th>
+            </tr>
 
         </table>
         <br>

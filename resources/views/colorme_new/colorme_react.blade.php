@@ -83,4 +83,4 @@
     <script type="text/javascript" src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/js/plugins/video.min.js"></script>
 
     <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
-@endpush
+@endpush 

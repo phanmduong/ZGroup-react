@@ -53,8 +53,10 @@ $routes = function () {
         Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
         Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
         Route::get('/base', 'PublicApiController@bases');
-        Route::get('/blogs', 'PublicApiController@getAllBlogs');
-        Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
+        // Route::get('/product-category', 'PublicApiController@productCategories');
+        // Route::get('/product-kind', 'PublicApiController@productKinds');
+        // Route::get('/blogs', 'PublicApiController@getBlogs');
+        // Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
     });
 };
 

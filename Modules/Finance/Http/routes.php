@@ -1,5 +1,4 @@
 <?php
-
 Route::group(['prefix' => 'finance', 'namespace' => 'Modules\Finance\Http\Controllers'], function () {
     Route::get('/bank-accounts', 'FinanceManageApiController@getBankAccounts');
     Route::post('/bank-accounts', 'FinanceManageApiController@createBankAccount');
@@ -9,7 +8,6 @@ Route::group(['prefix' => 'finance', 'namespace' => 'Modules\Finance\Http\Contro
         Route::put('/{bankTransferId}', 'FinanceManageApiController@updatebankTransfer');
     });
 });
-
 $namespaceRoutes = function () {
     Route::get('/transactions', 'ManageMoneyTransferApiController@transactions');
     Route::post('/create-transaction', 'ManageMoneyTransferApiController@create_transaction');
@@ -23,7 +21,6 @@ $namespaceRoutes = function () {
     Route::post('/create-spend-money', 'FinanceManageApiController@createSpendMoney');
     Route::get('/summary', 'FinanceManageApiController@summaryFinance');
 };
-
 Route::group(
     ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Finance\Http\Controllers'],
     function () use ($namespaceRoutes) {

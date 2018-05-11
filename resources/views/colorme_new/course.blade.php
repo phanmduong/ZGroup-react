@@ -1,11 +1,11 @@
 @extends('colorme_new.layouts.master')
 
 @section("meta")
-<meta property="og:type" content="article" />
-<meta property="og:title" content="{{$course->name}}" />
-<meta property="og:description" content="{{$course->description}}" />
-<meta property="og:site_name" content="Color ME" />
-<meta property="og:image" content="{{$course->image_url}}" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{$course->name}}"/>
+    <meta property="og:description" content="{{$course->description}}"/>
+    <meta property="og:site_name" content="Color ME"/>
+    <meta property="og:image" content="{{$course->image_url}}"/>
 @endsection
 
 @section('content')
@@ -165,7 +165,7 @@
                                 </label>
                                 <input type="text" class="form-control" name="coupon" placeholder="Nhập số mã ưu đãi"
                                        v-model="user.coupon"
-                                       >
+                                >
                             </div>
                         </form>
                     </div>
@@ -207,10 +207,110 @@
             </div>
         </div>
     </div>
+
+    <div id="modalRegister" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding-bottom: 0px">
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px">
+                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
+                        <h2 style="font-weight: 600">Nhận tư vấn trực tiếp</h2>
+                        <p style="text-align:center">Bạn có thể để lại các thông tin bên dưới,
+                            <br>colorME sẽ gọi lại ngay cho bạn để tư vấn miễn phí</p>
+                        <br>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   id="nameModal"
+                                   type="text"
+                                   placeholder="Họ và tên"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   type="text"
+                                   id="phoneModal"
+                                   placeholder="Số điện thoại"/>
+                        </div>
+                        <div class="form-group" style="width: 100%;">
+                            <input class="form-control" style="height: 50px" width="100%"
+                                   type="text"
+                                   id="emailModal"
+                                   placeholder="Email"/>
+                        </div>
+                        <div id="alertModal"
+                             style="font-size: 14px"></div>
+                        <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                                id="submitModal">Đăng kí
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        // function openModal() {
+        //     $("#modalRegister").modal("show");
+        // }
+        var timeout;
+        window.onload = function (e) {
+            // timeout = setTimeout(function () {
+            //     $("#modalRegister").modal("show");
+            // }, 15000);
+        }
+
+        function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        $(document).ready(function () {
+            $("#submitModal").click(function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var name = $('#nameModal').val();
+                var email = $('#emailModal').val();
+                var phone = $('#phoneModal').val();
+                var ok = 0;
+                if (name.trim() == "" || email.trim() == "" || phone.trim() == "") ok = 1;
+
+                if (!name || !email || !phone || ok == 1) {
+                    $("#alertModal").html(
+                        "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>"
+                    );
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    $("#alertModal").html(
+                        "<div class='alert alert-danger'>Bạn vui lòng kiểm tra lại email</div>"
+                    );
+                    return;
+                }
+                var message = "ColorMe đã nhận được thông tin của bạn.";
+                $("#alertModal").html("<div class='alert alert-success'>" + message + "</div>");
+                $("#submitModal").css("display", "none");
+
+                var url = "";
+                // $("#modalRegister").modal("hide");
+                // $("#modalSuccess").modal("show");
+                var data = {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    course_id: {{$course->id}},
+                    saler_id: {{$saler_id ? $saler_id : 0}},
+                    _token: "{{csrf_token()}}"
+                };
+                axios.post("/api/v3/sign-up-course", data)
+                    .then(function () {
+                    }.bind(this))
+                    .catch(function () {
+                    }.bind(this));
+            });
+        });
 
         var formRegisterClass = new Vue({
             el: '#modal-register-class',
@@ -263,6 +363,9 @@
         });
 
         function setDataModal(classData) {
+            if (timeout !== null) {
+                clearTimeout(timeout);
+            }
             fbq('track', 'Purchase');
             formRegisterClass.classData = classData;
             @if (isset($user))
@@ -282,8 +385,8 @@
             }
             @endif
                 formRegisterClass.isSuccess = false;
-            formRegisterClass.isError = false;
-            formRegisterClass.isLoading = false;
+                formRegisterClass.isError = false;
+                formRegisterClass.isLoading = false;
         }
     </script>
     <script>
