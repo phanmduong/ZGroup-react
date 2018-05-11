@@ -1,15 +1,15 @@
-import * as types from '../../constants/actionTypes';
-import * as PaymentApi from './PaymentApi';
-import * as helper from '../../helpers/helper';
+import * as types from '../../../constants/actionTypes';
+import * as billApi from './billApi';
+import * as helper from '../../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-export function loadPayments(page = 1, receiver_id = null, payer_id = null) {
+export function loadPayments(page = 1, receiver_id = null, payer_id = null,start_time = null, end_time = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PAYMENTS,
         });
-        PaymentApi.loadPayments(page, receiver_id, payer_id)
+        billApi.loadPayments(page, receiver_id, payer_id,start_time,end_time)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_PAYMENTS_SUCCESS,
@@ -31,7 +31,7 @@ export function loadPayment(id) {
         dispatch({
             type: types.BEGIN_LOAD_PAYMENT,
         });
-        PaymentApi.loadPayment(id)
+        billApi.loadPayment(id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_PAYMENT_SUCCESS,
@@ -51,7 +51,7 @@ export function loadCompanies() {
         dispatch({
             type: types.BEGIN_LOAD_COMPANIES_PAYMENT,
         });
-        PaymentApi.loadCompanies()
+        billApi.loadCompanies()
             .then((res) => {
                 dispatch({
                     type: types.LOAD_COMPANIES_SUCCESS_PAYMENT,
@@ -72,13 +72,13 @@ export function addPayment(object) {
         dispatch({
             type: types.BEGIN_ADD_PAYMENT,
         });
-        PaymentApi.createPayment(object)
+        billApi.createPayment(object)
             .then(() => {
                 helper.showNotification('Tạo thành công');
                 dispatch({
                     type: types.ADD_PAYMENT_SUCCESS,
                 });
-                browserHistory.push("/business/company/payments");
+                browserHistory.push("/administration/bill");
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
@@ -93,13 +93,13 @@ export function editPayment(id, object) {
         dispatch({
             type: types.BEGIN_EDIT_PAYMENT,
         });
-        PaymentApi.editPayment(id, object)
+        billApi.editPayment(id, object)
             .then(() => {
                 helper.showNotification('Sửa thành công');
                 dispatch({
                     type: types.EDIT_PAYMENT_SUCCESS,
                 });
-                browserHistory.push("/business/company/payments");
+                browserHistory.push("/administration/bill");
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
@@ -133,20 +133,20 @@ export function uploadImage(file, pp) {
         dispatch({
             type: types.BEGIN_UPLOAD_IMAGE_PAYMENT,
         });
-        PaymentApi.uploadImage(file,
+        billApi.uploadImage(file,
             completeHandler, progressHandler, error);
     };
 }
 
-export function changeStatus(id, status ,loadPayments) {
+export function changeStatus(id, status, loadPayment) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_STATUS_PAYMENT,
         });
-        PaymentApi.changeStatus(id, status)
+        billApi.changeStatus(id, status)
             .then(() => {
                 helper.showNotification('Duyệt thành công');
-                loadPayments();
+                loadPayment();
                 dispatch({
                     type: types.CHANGE_STATUS_PAYMENT_SUCCESS,
                     id: id,

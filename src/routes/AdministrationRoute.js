@@ -4,6 +4,10 @@ import CreateRequestVacationContainer from "../modules/Zgroup/request/requestVac
 import CreateRequestMoneyContainer from "../modules/Zgroup/request/requestMoney/CreateRequestMoneyContainer";
 import WeekendReportContainer from "../modules/Zgroup/weekendReport/WeekendReportContainer";
 import AddReportContainer from "../modules/Zgroup/weekendReport/AddReportContainer";
+import ProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/ProposePaymentContainer";
+import CreateProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/CreateProposePaymentContainer";
+import BillContainer from "../modules/Zgroup/bill/BillContainer";
+import CreateBillContainer from "../modules/Zgroup/bill/CreateBillContainer";
 
 /**
  * Tab Hanh Chinh
@@ -44,6 +48,32 @@ export default [
     {
         path: "/administration/weekend-report/edit/:reportId",
         component: AddReportContainer,
+    },
+    {
+        path: "/administration/propose-payment",
+        component: ProposePaymentContainer,
+    },
+    {
+        path: "/administration/propose-payment/create",
+        component: CreateProposePaymentContainer,
+    },
+    {
+        path: "/administration/propose-payment/edit/:paymentId",
+        component: CreateProposePaymentContainer,
+        type: "edit",
+    },
+    {
+        path: "/administration/bill",
+        component:BillContainer,
+    },
+    {
+        path: "/administration/bill/create",
+        component: CreateBillContainer,
+    },
+    {
+        path: "/administration/bill/edit/:paymentId",
+        component: CreateBillContainer,
+        type: "edit",
     },
 ];
 //path: "/sms/campaign-detail/:campaignId",

@@ -5,6 +5,7 @@ import * as helper from '../../helpers/helper';
 class FormInputMoney extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
@@ -22,7 +23,10 @@ class FormInputMoney extends React.Component {
             $(`#form-input-${this.props.name}`).removeClass('is-empty');
         }
     }
-
+    onChange(e){
+        e.target.value = helper.convertDotStringNumberToStringNumber(e.target.value);
+        this.props.updateFormData(e);
+    }
     render() {
         const className = this.props.isNotValid ? ' has-error' : '';
         return (
@@ -44,14 +48,14 @@ class FormInputMoney extends React.Component {
                 )}
 
                 {this.props.disabled ? (
-                    <p className="form-control-static">{this.props.value}</p>
+                    <p className="form-control-static">{helper.dotStringNumber(this.props.value)}</p>
                 ) : (
                     <input
                         autoComplete={this.props.autoComplete}
                         type={this.props.type || 'text'}
                         className="form-control"
                         required={this.props.required}
-                        onChange={this.props.updateFormData}
+                        onChange={this.onChange}
                         name={this.props.name}
                         value={this.props.value ? helper.dotStringNumber(this.props.value) : ''}
                         disabled={this.props.disabled}
