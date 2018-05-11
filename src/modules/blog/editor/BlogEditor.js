@@ -53,17 +53,16 @@ class BlogEditor extends React.Component {
 
     publish =  () => {
         savePost(this, 1);
-    }
+    };
 
     saveDraft = async () => {
         savePost(this, 0);
-    }
+    };
 
     preview = async () => {
         const data = savePost(this, 3); // status == 3 mean keep the current status
-        console.log(data);
-        window.location.href = "/" + data.slug;        
-    }
+        window.location.href = "/" + data.slug;
+    };
 
     generateFromTitle = () => {
         if (store.post.title === "") {
@@ -83,11 +82,11 @@ class BlogEditor extends React.Component {
             categories:  values  
         };
         store.post = post;
-    }
+    };
 
     openAddCategoryModal = () => {
         store.toggleAddCategoryModal(true);
-    }
+    };
 
     updatePost = (field, value) => {
         const post = { ...store.post };
@@ -109,7 +108,7 @@ class BlogEditor extends React.Component {
                 onChange={value => this.updatePost(field, value)}
             />
         </div>
-    )
+    );
 
     render() {
         return (

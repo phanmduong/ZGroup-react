@@ -14,8 +14,12 @@ let conferenceRoomInitState = {
     limit: 20,
     register: {},
     isLoadingBases: false,
+    isLoadingProvinces: false,
     isLoadingSalers: false,
+    isLoadingRooms: false,
     bases: [],
+    rooms: [],
+    provinces: [],
     isSavingPayment: false,
     isChangingOfficialTime: false,
     isOpenPaymentModal: false,
@@ -46,6 +50,24 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+        case types.BEGIN_LOAD_PROVINCES:
+            return {
+                ...state,
+                isLoadingProvinces: true,
+            };
+        case types.LOAD_PROVINCES_SUCCESS:
+            return {
+                ...state,
+                isLoadingProvinces: false,
+                provinces: action.provinces,
+            };
+        case types.LOAD_PROVINCES_ERROR:
+            return {
+                ...state,
+                isLoadingProvinces: false,
+            };
+
+
         case types.BEGIN_LOAD_SALERS:
             return {
                 ...state,
@@ -61,6 +83,24 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             return {
                 ...state,
                 isLoadingSalers: false,
+            };
+
+
+        case types.BEGIN_LOAD_ROOMS:
+            return {
+                ...state,
+                isLoadingRooms: true,
+            };
+        case types.LOAD_ROOMS_SUCCESS:
+            return {
+                ...state,
+                rooms: action.rooms,
+                isLoadingRooms: false,
+            };
+        case types.LOAD_ROOMS_ERROR:
+            return {
+                ...state,
+                isLoadingRooms: false,
             };
 
 
