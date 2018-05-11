@@ -131,9 +131,9 @@
                         <li>
                             <a href="/khuyen-mai">Khuyến mãi</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="/tai-nguyen">Tài nguyên</a>
-                        </li>
+                        </li> --}}
 
                         @if (isset($user))
                             <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
