@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\ManageApiController;
 use App\Product;
 
-class BlogController extends ManageApiController
+class BlogManageApiController extends ManageApiController
 {
     public function __construct()
     {
@@ -27,11 +27,22 @@ class BlogController extends ManageApiController
         $keyword = $request->keyword;
         $content = $request->product_content;
         $url = $request->url;
+
         if ($request->id) {
-            $product = Product::find();
+            $product = Product::find($request->id);
+            if ($request->status) {
+                if ($request->status != 3) {
+                    $product->status = $request->status;
+                }            
+            } else {
+                $product->status = 0;
+            }
+        } else {
+            $product = new Product();
+            $product->status = 0;
         }
 
-        $product = new Product();
+        
         $product->slug = $slug;
         $product->meta_title = $meta_title;
         $product->keyword = $keyword;
@@ -47,14 +58,13 @@ class BlogController extends ManageApiController
 
         $product->type = 2;
         $product->url = trim_url($url);
-        if ($request->status) {
-            $product->status = $request->status;
-        } else {
-            $product->status = 0;
-        }
+        
         $product->save();
         $product->slug .= '-' . $product->id;
         $product->save();
-
+        return $this->respondSuccessV2([
+            "slug" => $product->slug,
+            "id" => $product->id
+        ]);
     }
 }
