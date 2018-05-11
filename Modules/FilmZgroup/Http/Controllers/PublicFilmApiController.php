@@ -187,7 +187,7 @@ class PublicFilmApiController extends NoAuthApiController
         } else {
 
             $blogs = $blogs->paginate($limit);
-            return $this->respondWithPagination($blogs, ['films' => $films->map(function ($blog) {
+            return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
                 return $blog;
             })]);
         }

@@ -110,7 +110,7 @@
 
     </body>
 @endsection
-@push('scripts')
+
     <script>
         var pagination = new Vue({
             el: '#pagination-events',
@@ -122,4 +122,3 @@
         pagination.pages = paginator({{$current_page}},{{$total_pages}})
     </script>
     <script src="http://specto.klevermedia.co.uk/wp-content/themes/specto/js/bootstrap.min.js?ver=3.3.6"></script>
-@endpush
