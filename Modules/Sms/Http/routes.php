@@ -17,6 +17,7 @@ $routes = function () {
         Route::get("/user-list/{campaignId}", "ManageSmsApiController@getReceiversChoice");
         Route::post("/user-list/{campaignId}", "ManageSmsApiController@addUsersIntoCampaign");
         Route::get("/history/{campaignId}", "ManageSmsApiController@getHistory");
+        Route::get("/history/{campaignId}", "ManageSmsApiController@getHistoryUser");
         Route::delete("/user-list/{campaignId}", "ManageSmsApiController@removeUserFromCampaign");
     });
 };

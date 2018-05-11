@@ -61,6 +61,7 @@ class FilmZgroupController extends Controller
         $after4DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
         $after5DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
         $after6DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $images_url = $this->multiStringToArray($film->images_url);
         $this->data = [
             'film' => $film,
             'sessionsShowing' => $sessionsShowing,
@@ -72,9 +73,16 @@ class FilmZgroupController extends Controller
             'after4DaySessions' => $after4DaySessions,
             'after5DaySessions' => $after5DaySessions,
             'after6DaySessions' => $after6DaySessions,
+            'images_url' => $images_url,
         ];
         return view('filmzgroup::film', $this->data);
     }
 
+    public function multiStringToArray($multi_string) {
+        $strings = (String) $multi_string;
+        str_replace(" ", "", $strings);
+        $string_array = explode(",", $strings);
 
+        return $string_array;
+    }
 }
