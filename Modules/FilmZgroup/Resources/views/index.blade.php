@@ -23,11 +23,16 @@
                                 <!-- Indicators -->
                                 <div class="container">
                                     <ol class="carousel-indicators">
-                                        <li data-target="#carousel" data-slide-to="0" class=""></li>
-                                        <li data-target="#carousel" data-slide-to="1" class="active"></li>
-                                        <li data-target="#carousel" data-slide-to="2" class=""></li>
-                                        <li data-target="#carousel" data-slide-to="3" class=""></li>
-                                        <li data-target="#carousel" data-slide-to="4" class=""></li>
+                                        <?php $i = 0;?>
+                                        @foreach($favoriteFilms as $favoriteFilm)
+                                            <?php if ($i == 2) {
+                                                $class = "active";
+                                            } else {
+                                                $class = "";
+                                            }?>
+                                            <li data-target="#carousel" data-slide-to="{{$i}}" class="{{$class}}"></li>
+                                            <?php $i++;?>
+                                        @endforeach
                                     </ol>
                                 </div>
 
@@ -35,27 +40,27 @@
                                 <div class="carousel-inner" role="listbox">
                                     <!-- Slides -->
                                     <?php $i = 0; $class = "";?>
-                                    @foreach($sessionsShowing->take(5) as $session)
-                                        <?php $i++; if ($i == 2) {
+                                    @foreach($favoriteFilms as $favoriteFilm)
+                                        <?php if ($i == 1) {
                                             $class = "active";
                                         } else {
                                             $class = "";
                                         }?>
                                         <div class="item {{$class}}"
-                                             style="background-image: url({{$session->film->cover_url}}); padding-top: 0px;">
+                                             style="background-image: url({{$favoriteFilm->cover_url}}); padding-top: 0px;">
 
                                             <div class="container">
                                                 <div class="row blurb">
                                                     <div class="col-md-8 col-sm-12 blurb-content">
-                                                        <span class="title">{{$session->film->film_genre}}</span>
+                                                        <span class="title">{{$favoriteFilm->film_genre}}</span>
                                                         <header>
-                                                            <h1>{{$session->film->name}}</h1>
+                                                            <h1>{{$favoriteFilm->name}}</h1>
                                                         </header>
-                                                        <p>{{$session->film->summary}}</p>
+                                                        <p>{{$favoriteFilm->summary}}</p>
 
                                                         <div class="buttons">
-                                                            <span class="certificate">{{$session->film_quality}}</span>
-                                                            <a href="{{$session->film->trailer_url}}"
+                                                            {{--<span class="certificate">{{$film->film_quality}}</span>--}}
+                                                            <a href="{{$favoriteFilm->trailer_url}}"
                                                                data-vbtype="video"
                                                                class="venobox btn btn-default vbox-item">
 
@@ -68,6 +73,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php $i++; ?>
                                 @endforeach
 
 
@@ -619,8 +625,8 @@
                                         <header><h5 class="left no-underline">{{$film->name}}</h5>
                                         </header>
                                         <p class="release-date">{{$film->release_date}}</p>
-                                        <?php $i++?>
                                     </div>
+                                    <?php $i++?>
                                 @endforeach
 
                             </div>
@@ -747,17 +753,16 @@
         // var time = today.getHours() + ":" + today.getMinutes();
         // console.log(Date.parse("2018-05-16 06:00:00"));
         @foreach($sessionsShowing as $session)
-                {{--var date = {{$session->start_date}};--}}
-                // console.log(date);/**/
-<!--        --><?php //echo($session->start_date);?>
-{{--                var time = {{$session->start_time}};--}}
-            // console.log(Date.parse("" + date + " " + time));
-            {{--if (Date.parse("" + {{$session->start_date}} + " " + {{$session->start_time}}) > Date.parse(today)) {--}}
-            {{--$('.today .time').addClass('time-past')--}}
-            {{--};--}}
+        {{--var date = {{$session->start_date}};--}}
+        // console.log(date);/**/
+        <!--        --><?php //echo($session->start_date);?>
+        {{--                var time = {{$session->start_time}};--}}
+        // console.log(Date.parse("" + date + " " + time));
+        {{--if (Date.parse("" + {{$session->start_date}} + " " + {{$session->start_time}}) > Date.parse(today)) {--}}
+        {{--$('.today .time').addClass('time-past')--}}
+        {{--};--}}
         @endforeach
     </script>
-
 
 
     </body>

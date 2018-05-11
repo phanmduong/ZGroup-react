@@ -39,6 +39,8 @@ class BookingApiController extends ApiController
 
     public function appBooking($campaignId, Request $request)
     {
+        if($request->start_time == null || $request->end_time == null)
+            return $this->respondErrorWithStatus('Thiếu thời gian');
         if ($this->user == null) {
             if ($request->email == null) {
                 return $this->respondErrorWithStatus("Thiếu email");

@@ -31,7 +31,8 @@
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
-    <style>.fb-livechat, .fb-widget {
+    <style>
+        .fb-livechat, .fb-widget {
             display: none
         }
 
@@ -167,6 +168,7 @@
         .dropdown.show .dropdown-menu{
             transform: translate3d(0px, -15px, 0px) !important;
         }
+        
     </style>
 
     <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
@@ -184,7 +186,7 @@
                 </button>
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/" style="padding:0!important">
-                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"
+                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525853741BoVetesNXsecLPA.png" height="40px"
                              style="margin:10px 0"/>
                     </a>
                 </div>

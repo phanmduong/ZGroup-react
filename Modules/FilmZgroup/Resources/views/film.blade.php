@@ -32,9 +32,9 @@
             border-radius: 10px;
         }
 
-        .share a {
-            padding: 11px
-        }
+        /*.share a {*/
+        /*padding: 11px*/
+        /*}*/
 
         .share a:hover {
             cursor: pointer;
@@ -44,7 +44,7 @@
 
         @media (max-width: 991px) {
             .share a {
-                padding: 7px;
+                /*padding: 7px;*/
                 font-size: 12px;
                 line-height: 28px;
                 width: 30px;
@@ -73,11 +73,16 @@
                                 <!-- Indicators -->
                                 <div class="container">
                                     <ol class="carousel-indicators">
-                                        <li data-target="#carousel" data-slide-to="0" class=""></li>
-                                        <li data-target="#carousel" data-slide-to="1" class="active"></li>
-                                        <li data-target="#carousel" data-slide-to="2" class=""></li>
-                                        <li data-target="#carousel" data-slide-to="3" class=""></li>
-                                        <li data-target="#carousel" data-slide-to="4" class=""></li>
+                                        <?php $i = 0;?>
+                                        @foreach($favoriteFilms as $favoriteFilm)
+                                            <?php if ($i == 2) {
+                                                $class = "active";
+                                            } else {
+                                                $class = "";
+                                            }?>
+                                            <li data-target="#carousel" data-slide-to="{{$i}}" class="{{$class}}"></li>
+                                            <?php $i++;?>
+                                        @endforeach
                                     </ol>
                                 </div>
 
@@ -85,27 +90,27 @@
                                 <div class="carousel-inner" role="listbox">
                                     <!-- Slides -->
                                     <?php $i = 0; $class = "";?>
-                                    @foreach($sessionsShowing->take(5) as $session)
-                                        <?php $i++; if ($i == 2) {
+                                    @foreach($favoriteFilms as $favoriteFilm)
+                                        <?php if ($i == 1) {
                                             $class = "active";
                                         } else {
                                             $class = "";
                                         }?>
                                         <div class="item {{$class}}"
-                                             style="background-image: url({{$session->film->cover_url}}); padding-top: 0px;">
+                                             style="background-image: url({{$favoriteFilm->cover_url}}); padding-top: 0px;">
 
                                             <div class="container">
                                                 <div class="row blurb">
                                                     <div class="col-md-8 col-sm-12 blurb-content">
-                                                        <span class="title">{{$session->film->film_genre}}</span>
+                                                        <span class="title">{{$favoriteFilm->film_genre}}</span>
                                                         <header>
-                                                            <h1>{{$session->film->name}}</h1>
+                                                            <h1>{{$favoriteFilm->name}}</h1>
                                                         </header>
-                                                        <p>{{$session->film->summary}}</p>
+                                                        <p>{{$favoriteFilm->summary}}</p>
 
                                                         <div class="buttons">
-                                                            <span class="certificate">{{$session->film_quality}}</span>
-                                                            <a href="{{$session->film->trailer_url}}"
+                                                            {{--<span class="certificate">{{$film->film_quality}}</span>--}}
+                                                            <a href="{{$favoriteFilm->trailer_url}}"
                                                                data-vbtype="video"
                                                                class="venobox btn btn-default vbox-item">
 
@@ -118,6 +123,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php $i++; ?>
                                 @endforeach
 
 
@@ -141,7 +147,6 @@
             </div>
         </section>
         <div class="fw-page-builder-content">
-
             <section style=" padding-top: 75px; padding-bottom: 75px; border-width: 0px 0px 0px 0px"
                      id="section_2ee403a9f987da2bf6e5041fee20223d" class="fw-main-row ">
                 <div class="fw-container">
@@ -158,6 +163,7 @@
                                         <div class="movie-poster">
                                             <aside>
                                                 <div>
+
                                                     <a href="{{$film->trailer_url}}" data-vbtype="video"
                                                        class="venobox play vbox-item" tabindex="-1">
                                                         <i class="fa fa-play"></i>
@@ -226,31 +232,31 @@
                                     @endforeach
                                 </li>
                                 <li>
-                                    <i><?php echo($day->addDays(2)->format('d-m'))?></i>
+                                    <i><?php echo($day->addDays(2)->format('d/m'))?></i>
                                     @foreach($after2DaySessions as $subsession)
                                         <span class="time ">{{substr($subsession->start_time,0,5)}}</span>
                                     @endforeach
                                 </li>
                                 <li>
-                                    <i><?php echo($day->addDays(1)->format('d-m'))?></i>
+                                    <i><?php echo($day->addDays(1)->format('d/m'))?></i>
                                     @foreach($after3DaySessions as $subsession)
                                         <span class="time ">{{substr($subsession->start_time,0,5)}}</span>
                                     @endforeach
                                 </li>
                                 <li>
-                                    <i><?php echo($day->addDays(1)->format('d-m'))?></i>
+                                    <i><?php echo($day->addDays(1)->format('d/m'))?></i>
                                     @foreach($after4DaySessions as $subsession)
                                         <span class="time ">{{substr($subsession->start_time,0,5)}}</span>
                                     @endforeach
                                 </li>
                                 <li>
-                                    <i><?php echo($day->addDays(1)->format('d-m'))?></i>
+                                    <i><?php echo($day->addDays(1)->format('d/m'))?></i>
                                     @foreach($after5DaySessions as $subsession)
                                         <span class="time ">{{substr($subsession->start_time,0,5)}}</span>
                                     @endforeach
                                 </li>
                                 <li>
-                                    <i><?php echo($day->addDays(1)->format('d-m'))?></i>
+                                    <i><?php echo($day->addDays(1)->format('d/m'))?></i>
                                     @foreach($after6DaySessions as $subsession)
                                         <span class="time ">{{substr($subsession->start_time,0,5)}}</span>
                                     @endforeach
@@ -281,117 +287,58 @@
                             <div class="container section remove-bottom-padding dark">
                                 <div class="row comingSoon-slides singleGallery">
                                     <div class="col-sm-12">
-                                        <div class="row single-slide 1"
-                                             style="opacity: 1; height: auto; padding-bottom: 40px">
-                                            <div class="bg"
-                                                 style="background-image: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899016-1.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899016-1.jpg) center center / cover;"></span>
+                                        <?php $i = 1; ?>
+                                        <style>
+                                            .row.single-slide.demo {
+                                                padding-bottom: 40px;
+                                                opacity: 1;
+                                                height: auto;
+                                            }
+                                        </style>
+                                        @foreach($images_url as $img_url)
+                                            <?php if ($i == 1) {
+                                                $class = "1 demo";
+                                            } else {
+                                                $class = $i;
+                                            }?>
+                                            <div class="row single-slide {{$class}}">
+                                                <div class="bg"
+                                                     style="background-image: url({{$img_url}})"></div>
+                                                <div class="col-sm-12" style="position: relative;">
+                                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
+                                                    <span style="background: url({{$img_url}}) center center / cover;"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row single-slide 2">
-                                            <div class="bg"
-                                                 style="background-image: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899020-6.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899020-6.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 3">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 4">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 5">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row single-slide 6">
-                                            <div class="bg"
-                                                 style="background-image: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg)"></div>
-                                            <div class="col-sm-12" style="position: relative;">
-                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525706673lrH2FkcVfz09aIy.png">
-                                                <span style="background: url(http://specto.klevermedia.co.uk/wp-content/uploads/2017/07/gallery-slide-2.jpg) center center / cover;"></span>
-                                            </div>
-                                        </div>
-
-
+                                            <?php $i++;?>
+                                        @endforeach
+                                            {{--<style>--}}
+                                                {{--.slick-slide.active {--}}
+                                                    {{--opacity: 1;--}}
+                                                {{--}--}}
+                                            {{--</style>--}}
                                         <div class="">
                                             <div style="margin-right: -15px;margin-left: -15px" class="slick-slider">
 
                                                 <div id="comingSoon"
                                                      class="owl-carousel slick-carousel slick-initialized">
+                                                    <?php $i = 1;?>
+                                                    @foreach($images_url as $img_url)
+<!--                                                            --><?php //if ($i == 1) {
+//                                                                $class = "demo1";
+//                                                            } else {
+//                                                                $class = "";
+//                                                            }?>
 
-                                                    <div data-dynamicclass="1" class="slick-slide slick-cloned"
-                                                         data-slick-index="1" aria-hidden="true" tabindex="-1"
-                                                         style="opacity: 1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899016-1.jpg) center center / cover;"></span>
+                                                        <div data-dynamicclass="{{$i}}" class="slick-slide slick-cloned {{$class}}"
+                                                             data-slick-index="{{$i}}" aria-hidden="true" tabindex="-1">
+                                                            <div style="position: relative;">
+                                                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
+                                                                     alt="Hush">
+                                                                <span style="background: url({{$img_url}}) center center / cover;"></span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="2" class="slick-slide slick-cloned"
-                                                         data-slick-index="2" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://backgrounddep.com/uploads/images/tong-hop-hinh-nen-toi-trong-thien-nhien-huyen-bi-va-ki-ao-1489899020-6.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="3" class="slick-slide slick-cloned"
-                                                         data-slick-index="3" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="4" class="slick-slide slick-cloned"
-                                                         data-slick-index="4" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="5" class="slick-slide slick-cloned"
-                                                         data-slick-index="5" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div data-dynamicclass="6" class="slick-slide slick-cloned"
-                                                         data-slick-index="6" aria-hidden="true" tabindex="-1">
-                                                        <div style="position: relative;">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525704861664R7GDczBKLAk9.png"
-                                                                 alt="Hush">
-                                                            <span style="background: url(http://d1j8r0kxyu9tj8.cloudfront.net/images/1524670557kEMbBw8z61OTF9O.jpg) center center / cover;"></span>
-                                                        </div>
-                                                    </div>
+                                                        <?php $i++;?>
+                                                    @endforeach
 
                                                 </div>
                                             </div>
@@ -412,12 +359,6 @@
                                                     });
                                                     $(".slick-cloned").css('opacity', '.2');
                                                     $("[data-dynamicclass=" + currentClass + "]").css('opacity', '1');
-                                                    // if(currentClass=="1"){$("[data-dynamicclass='1']").css('opacity', '1')};
-                                                    // if(currentClass=="2"){$("[data-dynamicclass='2']").css('opacity', '1')};
-                                                    // if(currentClass=="3"){$("[data-dynamicclass='3']").css('opacity', '1')};
-                                                    // if(currentClass=="4"){$("[data-dynamicclass='4']").css('opacity', '1')};
-                                                    // if(currentClass=="5"){$("[data-dynamicclass='5']").css('opacity', '1')};
-                                                    // if(currentClass=="6"){$("[data-dynamicclass='6']").css('opacity', '1')};
                                                     return false;
                                                 });
 
@@ -432,7 +373,7 @@
             </section>
 
 
-            <section style=" padding-top: 75px; padding-bottom: 450px; border-width: 0px 0px 0px 0px"
+            <section style=" padding-top: 75px; border-width: 0px 0px 0px 0px"
                      id="section_312eba41b09e473dfdd68ba2ad8b2568" class="fw-main-row ">
                 <div class="fw-container">
                     <div class="fw-row">

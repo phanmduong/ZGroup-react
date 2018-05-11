@@ -2,6 +2,7 @@
 
 $webRoutes = function () {
     Route::get('/', 'FilmZgroupController@index');
+    Route::get('/film', 'FilmZgroupController@films');
     Route::get('/{id}','FilmZgroupController@film');
 
 };
@@ -15,14 +16,24 @@ $manageApiRoutes = function () {
     Route::put('/session/{id}', 'FilmZgroupManageApiController@updateSession');
     Route::delete('/session/{id}', 'FilmZgroupManageApiController@deleteSession');
 
-    Route::put('/film/{id}/status', 'FilmZgroupManageApiController@changeFilmStatus');
+    Route::put('/film/{id}/change', 'FilmZgroupManageApiController@changeFilmInfo');
     Route::put('/{session_id}/seat', 'FilmZgroupManageApiController@changeSeatStatus');
+
+    Route::post('/blog', 'FilmZgroupManageApiController@addBlog');
+    Route::put('/blog/{id}', 'FilmZgroupManageApiController@updateBlog');
+    Route::delete('/blog/{id}', 'FilmZgroupManageApiController@deleteBlog');
+
+    Route::put('/blog/{id}/change', 'FilmZgroupManageApiController@changeBlogStatus');
+
+
 };
 
 $apiRoutes = function () {
     Route::get('/films', 'PublicFilmApiController@getFilmsFilter');
     Route::get('/sessions', 'PublicFilmApiController@getSessionsFilter');
     Route::get('/sessions/showing', 'PublicFilmApiController@getSessionsNowShowing');
+    Route::get('/blogs', 'PublicFilmApiController@getBlogsFilter');
+
 };
 
 

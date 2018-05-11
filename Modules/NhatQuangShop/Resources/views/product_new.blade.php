@@ -77,3 +77,31 @@
         </style>
     </div>
 @endsection
+<script type="text/javascript">
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
+</script>

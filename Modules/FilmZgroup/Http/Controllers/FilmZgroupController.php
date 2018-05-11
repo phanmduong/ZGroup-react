@@ -29,6 +29,7 @@ class FilmZgroupController extends Controller
         $after6DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
 
         $filmsComing = Film::where('film_status',2)->orderBy('release_date')->get();
+        $favoriteFilms = Film::where('is_favorite', true)->get();
 
         $sessionsShowing = FilmSession::where('start_date','>=',date('Y-m-d'))->orderBy('start_date','desc')->get();
 //        dd($filmsComing);
@@ -43,6 +44,7 @@ class FilmZgroupController extends Controller
             'after4DaySessions' => $after4DaySessions,
             'after5DaySessions' => $after5DaySessions,
             'after6DaySessions' => $after6DaySessions,
+            'favoriteFilms' => $favoriteFilms,
         ];
 
         return view('filmzgroup::index', $this->data);
@@ -61,6 +63,9 @@ class FilmZgroupController extends Controller
         $after4DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
         $after5DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
         $after6DaySessions = FilmSession::where('start_date','=', Carbon::createFromFormat('Y-m-d H:i:s', $today->addDays(1)->toDateString() . ' 00:00:00'))->get();
+        $images_url = $this->multiStringToArray($film->images_url);
+        $favoriteFilms = Film::where('is_favorite', true)->get();
+
         $this->data = [
             'film' => $film,
             'sessionsShowing' => $sessionsShowing,
@@ -72,9 +77,42 @@ class FilmZgroupController extends Controller
             'after4DaySessions' => $after4DaySessions,
             'after5DaySessions' => $after5DaySessions,
             'after6DaySessions' => $after6DaySessions,
+            'images_url' => $images_url,
+            'favoriteFilms' => $favoriteFilms,
+
         ];
         return view('filmzgroup::film', $this->data);
     }
 
+    public function multiStringToArray($multi_string) {
+        $strings = (String) $multi_string;
+        str_replace(" ", "", $strings);
+        $string_array = explode(",", $strings);
 
+        return $string_array;
+    }
+
+    public function films(Request $request){
+        $films = Film::orderBy('created_at','desc')->paginate(5);
+        $search = $request->search;
+        if ($search) {
+            $films = $films->where('name', 'like', '%' . $search . '%');
+        }
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($films->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
+        $this->data['films'] = $films;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $films;
+        $this->data['search'] = $search;
+        $this->data['total_pages'] = ceil($films->total() / $films->perPage());
+        $this->data['current_page'] = $films->currentPage();
+
+        return view("filmzgroup::films", $this->data);
+    }
 }

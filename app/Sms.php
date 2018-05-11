@@ -23,7 +23,7 @@ class Sms extends Model
             'sent_quantity'=> $this->user,
             'sent_time' => format_vn_short_datetime(strtotime($this->created_at)),
             'user' => [
-                'user_id' => $this->user->id,
+                'id' => $this->user->id,
                 'avatar_url' => $this->user->avatar_url,
                 'phone' => $this->user->phone,
                 'name' => $this->user->name,
