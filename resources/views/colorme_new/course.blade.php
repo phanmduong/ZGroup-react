@@ -257,9 +257,9 @@
         // }
         var timeout;
         window.onload = function (e) {
-            timeout = setTimeout(function () {
-                $("#modalRegister").modal("show");
-            }, 15000);
+            // timeout = setTimeout(function () {
+            //     $("#modalRegister").modal("show");
+            // }, 15000);
         }
 
         function validateEmail(email) {

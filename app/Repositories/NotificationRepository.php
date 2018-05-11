@@ -8,32 +8,30 @@
 
 namespace App\Repositories;
 
-
 use App\Notification;
 use Illuminate\Support\Facades\Redis;
 
 class NotificationRepository
 {
-
     public function sendNotification($notification)
     {
-        $data = array(
-            "message" => $notification->message,
-            "link" => $notification->url,
-            "image_url" => $notification->image_url,
+        $data = [
+            'message' => $notification->message,
+            'link' => $notification->url,
+            'image_url' => $notification->image_url,
             'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
-            "receiver_id" => $notification->receiver_id,
-            "actor_id" => $notification->actor_id,
-            "icon" => $notification->icon,
-            "color" => $notification->color,
-            "id" => $notification->id,
+            'receiver_id' => $notification->receiver_id,
+            'actor_id' => $notification->actor_id,
+            'icon' => $notification->icon,
+            'color' => $notification->color,
+            'id' => $notification->id,
             'type' => $notification->notificationType ? $notification->notificationType->type : ''
-    );
+    ];
 
-        $publish_data = array(
-            "event" => "notification",
-            "data" => $data
-        );
+        $publish_data = [
+            'event' => 'notification',
+            'data' => $data
+        ];
 
         $jsonData = json_encode($publish_data);
 
@@ -47,12 +45,11 @@ class NotificationRepository
 
 //    }
 //        send_push_notification($jsonData);
-        Redis::publish(config("app.channel"), $jsonData);
+        Redis::publish(config('app.channel'), $jsonData);
     }
 
     public function sendLikeNotification($actor, $product)
     {
-
         $notification = new Notification();
         $notification->product_id = $product->id;
         $notification->actor_id = $actor->id;
@@ -61,14 +58,14 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $product->title . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
-        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+        $notification->url = '/post/' . convert_vi_to_en($product->title) . '-' . $product->id;
 
-        $notification->save();
+        $notification->save ;
 
         $this->sendNotification($notification);
     }
@@ -84,12 +81,12 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $product->title . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
-        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+        $notification->url = '/post/' . convert_vi_to_en($product->title) . '-' . $product->id;
 
         $notification->save();
 
@@ -106,12 +103,12 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $product->title . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
-        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+        $notification->url = '/post/' . convert_vi_to_en($product->title) . '-' . $product->id;
 
 //        $notification->save();
         $this->sendNotification($notification);
@@ -127,17 +124,16 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $topic->title . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $topic->title . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
 
         $group = $topic->group;
         if ($group) {
-            $notification->url = "/group/" . $group->id . "/topic/" . $topic->id;
+            $notification->url = '/group/' . $group->id . '/topic/' . $topic->id;
         }
-
 
         $notification->save();
         $this->sendNotification($notification);
@@ -153,13 +149,13 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $product->title . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
 
-        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+        $notification->url = '/post/' . convert_vi_to_en($product->title) . '-' . $product->id;
 
         $notification->save();
         $this->sendNotification($notification);
@@ -176,16 +172,16 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[TEACHER]]', "<strong>" . $teacher->name . "</strong>", $message);
-        $message = str_replace('[[STUDENT]]', "<strong>" . $student->name . "</strong>", $message);
-        $message = str_replace('[[PRODUCT]]', "<strong>" . $product->title . "</strong>", $message);
-        $message = str_replace('[[TOPIC]]', "<strong>" . $topic->title . "</strong>", $message);
-        $message = str_replace('[[CLASS]]', "<strong>" . $class->name . "</strong>", $message);
+        $message = str_replace('[[TEACHER]]', '<strong>' . $teacher->name . '</strong>', $message);
+        $message = str_replace('[[STUDENT]]', '<strong>' . $student->name . '</strong>', $message);
+        $message = str_replace('[[PRODUCT]]', '<strong>' . $product->title . '</strong>', $message);
+        $message = str_replace('[[TOPIC]]', '<strong>' . $topic->title . '</strong>', $message);
+        $message = str_replace('[[CLASS]]', '<strong>' . $class->name . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $student->avatar_url ? $student->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+        $notification->url = '/post/' . convert_vi_to_en($product->title) . '-' . $product->id;
 
         $notification->save();
         $this->sendNotification($notification);
@@ -196,7 +192,6 @@ class NotificationRepository
         $register = $attendance->register;
         $student = $register->user;
         if ($register) {
-
             $notification = new Notification;
             $notification->actor_id = $actor->id;
             $notification->receiver_id = $register->user_id;
@@ -208,19 +203,17 @@ class NotificationRepository
                 $lesson = $classLesson->lesson;
                 if ($class && $lesson) {
                     $message = $notification->notificationType->template;
-                    $message = str_replace('[[LESSON_ORDER]]', "<strong>" . $lesson->order . "</strong>", $message);
-                    $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+                    $message = str_replace('[[LESSON_ORDER]]', '<strong>' . $lesson->order . '</strong>', $message);
+                    $message = str_replace('[[CLASS_NAME]]', '<strong>' . $class->name . '</strong>', $message);
                     $notification->message = $message;
                     $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
-                    $notification->url = "/profile/" . $student->username . "/progress";
+                    $notification->url = '/profile/' . $student->username . '/progress';
                     $notification->product_id = $student->username;
                     $notification->save();
                     $this->sendNotification($notification);
                 }
-
             }
         }
-
     }
 
     public function sendRemindCheckInTeachNofication($reciever, $class, $time)
@@ -233,13 +226,13 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $time . "</strong>", $message);
+        $message = str_replace('[[CLASS_NAME]]', '<strong>' . $class->name . '</strong>', $message);
+        $message = str_replace('[[TIME]]', '<strong>' . $time . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = '#';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -255,18 +248,17 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $time . "</strong>", $message);
+        $message = str_replace('[[CLASS_NAME]]', '<strong>' . $class->name . '</strong>', $message);
+        $message = str_replace('[[TIME]]', '<strong>' . $time . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = '#';
 
         $notification->save();
         $this->sendNotification($notification);
     }
-
 
     public function sendRemindCheckInSMNofication($shift)
     {
@@ -280,20 +272,20 @@ class NotificationRepository
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
-        $notification->product_id = "checkin";
+        $notification->product_id = 'checkin';
         $notification->type = 25;
 
         $message = $notification->notificationType->template;
 
         $session = $shift->shift_session;
 
-        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $session->start_time . "</strong>", $message);
+        $message = str_replace('[[SHIFT]]', '<strong>' . $session->name . '(' . $session->start_time . '-' . $session->end_time . ')' . '</strong>', $message);
+        $message = str_replace('[[TIME]]', '<strong>' . $session->start_time . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/";
+        $notification->url = '/';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -311,20 +303,20 @@ class NotificationRepository
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
-        $notification->product_id = "checkout";
+        $notification->product_id = 'checkout';
         $notification->type = 26;
 
         $message = $notification->notificationType->template;
 
         $session = $shift->shift_session;
 
-        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $session->end_time . "</strong>", $message);
+        $message = str_replace('[[SHIFT]]', '<strong>' . $session->name . '(' . $session->start_time . '-' . $session->end_time . ')' . '</strong>', $message);
+        $message = str_replace('[[TIME]]', '<strong>' . $session->end_time . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/";
+        $notification->url = '/';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -340,12 +332,12 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+        $message = str_replace('[[CLASS_NAME]]', '<strong>' . $class->name . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = '#';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -361,12 +353,12 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+        $message = str_replace('[[CLASS_NAME]]', '<strong>' . $class->name . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = '#';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -392,12 +384,12 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[SHIFT]]', '<strong>' . $session->name . '(' . $session->start_time . '-' . $session->end_time . ')' . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = '#';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -423,12 +415,12 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[SHIFT]]', '<strong>' . $session->name . '(' . $session->start_time . '-' . $session->end_time . ')' . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = '#';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -449,14 +441,14 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[AMOUNT]]', "<strong>" . $transaction->money . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $receiver->name . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[AMOUNT]]', '<strong>' . $transaction->money . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $receiver->name . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/manage/sendmoney";
+        $notification->url = '/manage/sendmoney';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -477,14 +469,14 @@ class NotificationRepository
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[AMOUNT]]', "<strong>" . $transaction->money . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $receiver->name . "</strong>", $message);
+        $message = str_replace('[[ACTOR]]', '<strong>' . $actor->name . '</strong>', $message);
+        $message = str_replace('[[AMOUNT]]', '<strong>' . $transaction->money . '</strong>', $message);
+        $message = str_replace('[[TARGET]]', '<strong>' . $receiver->name . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/manage/sendmoney";
+        $notification->url = '/manage/sendmoney';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -559,18 +551,18 @@ class NotificationRepository
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
-        $notification->product_id = "checkin";
+        $notification->product_id = 'checkin';
         $notification->type = 33;
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $session->start_time . "</strong>", $message);
+        $message = str_replace('[[WORK_SHIFT]]', '<strong>' . $session->name . '(' . $session->start_time . '-' . $session->end_time . ')' . '</strong>', $message);
+        $message = str_replace('[[TIME]]', '<strong>' . $session->start_time . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/";
+        $notification->url = '/';
 
         $notification->save();
         $this->sendNotification($notification);
@@ -587,22 +579,20 @@ class NotificationRepository
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
-        $notification->product_id = "checkout";
+        $notification->product_id = 'checkout';
         $notification->type = 34;
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $session->end_time . "</strong>", $message);
+        $message = str_replace('[[WORK_SHIFT]]', '<strong>' . $session->name . '(' . $session->start_time . '-' . $session->end_time . ')' . '</strong>', $message);
+        $message = str_replace('[[TIME]]', '<strong>' . $session->end_time . '</strong>', $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/";
+        $notification->url = '/';
 
         $notification->save();
         $this->sendNotification($notification);
     }
-
-
 }
