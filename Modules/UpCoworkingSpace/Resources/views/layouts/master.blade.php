@@ -6,7 +6,29 @@
 
 @include('upcoworkingspace::includes.register_modal')
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="{{ url('/assets/js/owl.carousel.min.js') }}"></script>
 <script>
+
+    $('.owl-carousel').owlCarousel({
+        items: 2,
+        loop:true,
+        margin:10,
+        nav:true,
+        autoplay:true,
+        autoplayTimeout:5000,
+        autoplayHoverPause:true,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:1
+            },
+            1000:{
+                items:2
+            }
+        }
+    })
 
     $(document).ready(function () {
         function detectmob() {
@@ -139,7 +161,7 @@
     var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=upMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyIZMy2x9hEWeZeJF2YMqz_fhOmE1M2ng&callback=upMap"></script>
 @stack('scripts')
 </body>
 
