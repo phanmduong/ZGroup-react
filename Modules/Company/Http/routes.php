@@ -51,6 +51,7 @@ $companyRoutes = function () {
         Route::get('/import-order/{importOrderId}', 'CompanyController@getImportOrder');
         Route::post('/import-order/item-order/{importOrderId}', 'CompanyController@createOrEditImportOrder');
 
+        Route::get('/history-debt/all','CompanyController@getAllHistoryDebt');
         Route::get('/history-debt/{company_id}','CompanyController@getHistoryDebt');
 
         Route::get('/administration/request-vacation/all','AdministrationController@getAllRequestVacation');
@@ -80,7 +81,13 @@ $companyRoutes = function () {
         Route::get('/history-good/{goodId}','WarehouseController@getHistoryGood');
         Route::get('/summary-good/all','WarehouseController@summaryGood');
 
-
+        //Contract
+        Route::get('/contract/all','AdministrationController@getAllContract');
+        Route::get('/contract/{contract_id}','AdministrationController@getContractDetail');
+        Route::post('/contract/create','AdministrationController@createContract');
+        Route::put('/contract/edit/{contract_id}','AdministrationController@editContract');
+        Route::post('/contract/change-status/{contract_id}','AdministrationController@changeStatusContract');
+        
     });
 };
 

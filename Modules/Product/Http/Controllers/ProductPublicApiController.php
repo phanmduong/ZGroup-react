@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicApiController;
 use App\Services\EmailService;
 use App\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProductPublicApiController extends PublicApiController
 {
@@ -65,22 +66,35 @@ class ProductPublicApiController extends PublicApiController
         if ($request->author_id)
             $blogs = $blogs->where('author_id', $request->author_id);
         if ($request->category_id)
-            $blogs = $blog->where('category_id', $request->category_id);
+            $blogs = $blogs->where('category_id', $request->category_id);
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate($limit);
+
+        $topTags = DB::select("SELECT
+                                    SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) tag,
+                                count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
+                                FROM
+                                tag_numbers INNER JOIN products
+                                ON products.kind='blog' AND CHAR_LENGTH(products.tags)
+                                    -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
+                                WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
+                                GROUP BY tag 
+                                ORDER BY sum_tag DESC
+                                LIMIT 5");
 
         return $this->respondWithPagination($blogs, [
             'blogs' => $blogs->map(function ($blog) {
                 $data = $blog->blogTransform();
                 $data['time'] = $this->timeCal(date($blog->created_at));
                 return $data;
-            })
+            }),
+            'top_tags' => $topTags
         ]);
     }
 
     public function blog($slug, Request $request)
     {
         $blog = Product::where('slug', $slug)->first();
-        if($blog == null)
+        if ($blog == null)
             return $this->respondErrorWithStatus('Không tồn tại bài viết');
         $blog->views += 1;
         $blog->save();

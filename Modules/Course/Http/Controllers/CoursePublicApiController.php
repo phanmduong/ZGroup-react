@@ -77,4 +77,29 @@ class CoursePublicApiController extends PublicApiController
             ]
         );
     }
+
+    public function getClasses($courseId, Request $request)
+    {
+        $request->gen_id = $request->gen_id ? $request->gen_id : Gen::getCurrentGen()->id;
+        $classes = StudyClass::where('gen_id', $request->gen_id)->where('course_id', $courseId);
+        if ($request->base_id)
+            $classes = $classes->where('base_id', $request->base_id);
+        $classes = $classes->orderBy('datestart', 'asc')->get();
+        return $this->respondSuccessWithStatus([
+            'classes' => $classes->map(function ($class) {
+                return [
+                    'id' => $class->id,
+                    'name' => $class->name,
+                    'study_time' => $class->study_time,
+                    'date_start' => $class->datestart,
+                    'status' => $class->status,
+                    'study_time' => $class->study_time,
+                    'icon_url' => $class->course ? $class->course->icon_url : '',
+                    'teacher' => $class->teach ? $class->teach->transformAuth() : [],
+                    'teaching_assistant' => $class->assist ? $class->assist->transformAuth() : [],
+                    'course' => $class->course ? $class->course->shortTransform() : []
+                ];
+            })
+        ]);
+    }
 }

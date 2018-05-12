@@ -12,6 +12,7 @@ namespace Modules\Company\Http\Controllers;
 use App\AdvancePayment;
 use App\Http\Controllers\ManageApiController;
 use App\RequestVacation;
+use App\Contracts;
 use App\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -416,4 +417,140 @@ class AdministrationController extends ManageApiController
         ]);
 
     }
-}
+    public function getAllContract(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        $contract_number = $request->contract_number;
+        $company_a_id = $request->company_a_id;
+        $company_b_id = $request->company_b_id;
+        $type = $request->type;
+        $status = $request->status;
+        $value = $request->value;
+        $sign_staff_id = $request->sign_staff_id;
+        $staff_id = $request->staff_id;
+        $status = $request->status;
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
+        
+        if($limit == -1){
+            $datas  = Contracts::all();
+            return $this->respondSuccessWithStatus([
+                "data" => $datas->map(function($data){
+                    return $data->transform();
+                })
+            ]);
+        } else {
+         
+                $datas = Contracts::query();
+               
+                if($company_a_id){
+                    $datas->where('company_a_id', $company_a_id);
+                }
+                if($company_b_id){
+                    $datas->where('company_b_id', $company_b_id);
+                }
+                if($type){
+                    $datas->where('type', $type);
+                }
+                if($value){
+                    $datas->where('value', $value);
+                }
+                if($sign_staff_id){
+                    $datas->where('sign_staff_id', $sign_staff_id);
+                }
+                if($staff_id){
+                    $datas->where('staff_id', $staff_id);
+                }
+                if($contract_number){
+                    $datas->where('contract_number', 'like', '%' . $contract_number . '%');
+                }       
+                if($status){
+                    $datas->where('status', $status == -1 ? 0 : $status);
+                }
+                if ($start_time && $end_time) {
+                    $datas = $datas->whereBetween('created_at', array($start_time, $end_time));
+                }
+                $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
+                return $this->respondWithPagination($datas, [
+                    "data" => $datas->map(function ($data) {
+                        return $data->transform();
+                    })
+                ]);
+         
+            }
+        }
+
+        public function createContract(Request $request)
+        {
+            
+                $contract = new Contracts();
+                $contract->staff_id = $this->user->id;
+                $contract->sign_staff_id = $request->sign_staff_id;
+                $contract->company_a_id = $request->company_a_id;
+                $contract->company_b_id = $request->company_b_id;
+                $contract->due_date = $request->due_date;
+                $contract->type = $request->type;
+                $contract->status = 0;
+                $contract->value = $request->value;
+                $contract->contract_number = $request->contract_number;    
+                $contract->note = $request->note;    
+                $contract->save();
+
+                return $this->respondSuccessWithStatus([
+                    "message"=>"Tạo thành công"
+                ]);
+            
+        }
+
+        public function editContract($contract_id,Request $request)
+        {
+            $contract = Contracts::find($contract_id);
+            if($contract) {
+                $contract->staff_id = $this->user->id;
+                $contract->sign_staff_id = $request->sign_staff_id;
+                $contract->company_a_id = $request->company_a_id;
+                $contract->company_b_id = $request->company_b_id;
+                $contract->due_date = $request->due_date;
+                $contract->type = $request->type;
+                $contract->status = $request->status;
+                $contract->value = $request->value;
+                $contract->contract_number = $request->contract_number;    
+                $contract->note = $request->note;    
+                $contract->save();
+            }else{
+                return $this->respondErrorWithStatus("Không tồn tại");
+            }
+            
+            return $this->respondSuccessWithStatus([
+               "message"=>"Sửa thành công"
+            ]);
+        }
+
+        public function changeStatusContract($contract_id,Request $request)
+        {
+            $contract = Contracts::find($contract_id);
+            if($contract && $request->status) {
+                $contract->status = $request->status;
+                $contract->save();
+            }else {
+                return $this->respondErrorWithStatus("Không tồn tại");
+            }
+            
+            return $this->respondSuccessWithStatus([
+               "message"=>"Đổi thành công"
+            ]);
+        }
+        
+        public function getContractDetail($contract_id,Request $request)
+        {
+            $contract = Contracts::find($contract_id);
+            if (!$contract) return $this->respondErrorWithStatus("Không tồn tại");
+            return $this->respondSuccessWithStatus([
+                "contract" => $contract->transform()
+            ]);
+
+        }
+
+        
+
+    }
+

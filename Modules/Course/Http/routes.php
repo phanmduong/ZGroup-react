@@ -52,6 +52,7 @@ $v2CourseRoutes = function () {
         Route::get('/get-all', 'CoursePublicApiController@getAllCourses');
         Route::get('/get-all/app', 'CoursePublicApiController@getAllCoursesApp');
         Route::get('/get-detailed/{course_id}', 'CoursePublicApiController@getCourse');
+        Route::get('/{courseId}/class', 'CoursePublicApiController@getClasses');
     });
 };
 

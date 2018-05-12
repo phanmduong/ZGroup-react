@@ -39,7 +39,7 @@ class ManageUserApiController extends ManageApiController
                 'start_company_vi' => format_date($user->start_company),
                 'address' => $user->address,
                 'age' => $user->age,
-                'color' => $user->color,
+                'status' => $user->status,
                 'current_role' => [
                     'id' => $user->current_role->id,
                     'role_title' => $user->current_role->role_title
