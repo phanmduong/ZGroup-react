@@ -6,6 +6,29 @@ let staffListData;
 export default function staffsReducer(state = initialState.staffs, action) {
 
     switch (action.type) {
+        case types.BEGIN_LOAD_ALL_STAFFS_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: true,
+                }
+            };
+        case types.LOAD_ALL_STAFFS_DATA_SUCCESSFUL:{
+            
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                }
+            };
+        }
+        case types.LOAD_ALL_STAFFS_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                }
+            };
         case types.BEGIN_LOAD_STAFFS_DATA:
             return {
                 ...state,

@@ -53,17 +53,17 @@ class BlogEditor extends React.Component {
 
     publish =  () => {
         savePost(this, 1);
-    }
+    };
 
     saveDraft = async () => {
         savePost(this, 0);
-    }
+    };
 
     preview = async () => {
         const data = savePost(this, 3); // status == 3 mean keep the current status
-        console.log(data);
+        //console.log(data);
         window.location.href = "/" + data.slug;        
-    }
+    };
 
     generateFromTitle = () => {
         if (store.post.title === "") {
@@ -80,14 +80,22 @@ class BlogEditor extends React.Component {
     updatePostCategories = values => {
         const post = {
             ...store.post,
-            categories:  values  
+            categories: values
         };
         store.post = post;
     }
 
+
+    onChange = value => {
+        this.setState({
+            value,
+        });
+    };
+
+
     openAddCategoryModal = () => {
         store.toggleAddCategoryModal(true);
-    }
+    };
 
     updatePost = (field, value) => {
         const post = { ...store.post };
@@ -109,7 +117,7 @@ class BlogEditor extends React.Component {
                 onChange={value => this.updatePost(field, value)}
             />
         </div>
-    )
+    );
 
     render() {
         return (
@@ -135,6 +143,7 @@ class BlogEditor extends React.Component {
                                     placeholder="Chọn loại bài viết"
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label className="control-label" style={{ marginBottom: "10px" }}>
                                     Ngôn ngữ
@@ -166,13 +175,13 @@ class BlogEditor extends React.Component {
                                 <TooltipButton
                                     placement="top"
                                     text="Tạo từ tiêu đề bài viết">
-                                    <a 
+                                    <a
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         style={{
-                                        position: "absolute",
-                                        right: 0,
-                                        top: 0
-                                    }} onClick={this.generateFromTitle}>
+                                            position: "absolute",
+                                            right: 0,
+                                            top: 0
+                                        }} onClick={this.generateFromTitle}>
                                         <i className="material-icons">
                                             autorenew
                                         </i>

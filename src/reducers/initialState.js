@@ -554,6 +554,7 @@ export default {
     staffs: {
         staffListData: [],
         isLoading: false,
+        isLoadingExcel: false,
         error: false,
         currentPage: 1,
         totalPages: 1,
