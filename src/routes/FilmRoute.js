@@ -1,4 +1,4 @@
-import RoomControlContainer from "../modules/ZgroupFilm/roomControl/RoomControlContainer";
+import RoomControlContainer from "../modules/ZgroupFilm/room/RoomContainer";
 import FilmContainer from "../modules/ZgroupFilm/film/FilmContainer";
 import ShowFilmContainer from "../modules/ZgroupFilm/film/ShowFilmContainer";
 import AllFilmContainer from "../modules/ZgroupFilm/film/AllFilmContainer";
