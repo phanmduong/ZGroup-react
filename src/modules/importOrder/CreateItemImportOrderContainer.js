@@ -309,7 +309,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                         onClick={() => {
                                                             helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
                                                                 () => {
-                                                                    return browserHistory.push("/business/import-order/item");
+                                                                    return browserHistory.push("/business/import-order");
                                                                 }
                                                             );
                                                         }}
@@ -393,7 +393,7 @@ class CreateItemImportOrderContainer extends React.Component {
                             e.preventDefault();
                         }}>
                             <div>
-                                <label>Chọn kho xuất</label>
+                                <label>Chọn kho nhập</label>
                                 <ReactSelect
                                     disabled={this.props.isLoading}
                                     options={this.changeDataWarehouse() || []}

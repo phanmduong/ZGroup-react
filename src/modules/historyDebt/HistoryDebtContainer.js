@@ -16,7 +16,7 @@ import {
     renderExcelColumnArray,
 } from "../../helpers/helper";
 import moment from "moment";
-import {DATETIME_FORMAT,DATETIME_FORMAT_SQL} from "../../constants/constants";
+import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../constants/constants";
 
 class HistoryDebtContainer extends React.Component {
     constructor(props, context) {
@@ -68,18 +68,18 @@ class HistoryDebtContainer extends React.Component {
 
         input.forEach(e => {
             data = e.history_debt.map((item, index) => {
-                let time = moment(item.date , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+                let time = moment(item.date, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
                 let type = "Không có";
-                switch(item.type){
-                    case 'import':{
+                switch (item.type) {
+                    case 'import': {
                         type = 'Nhập';
                         break;
                     }
-                    case 'export':{
+                    case 'export': {
                         type = 'Xuất';
                         break;
                     }
-                    case 'payment':{
+                    case 'payment': {
                         type = 'Thanh toán';
                         break;
                     }
@@ -88,16 +88,16 @@ class HistoryDebtContainer extends React.Component {
                 /* eslint-disable */
                 let res = {
                     'STT': index + 1,
-                    'Loại' : type,
-                    'Giá trị' : item.value,
-                    'Dư nợ' : item.total_value,
-                    'Ngày' : time,    
+                    'Loại': type,
+                    'Giá trị': item.value,
+                    'Dư nợ': item.total_value,
+                    'Ngày': time,
                 };
                 /* eslint-enable */
                 return res;
             });
             appendJsonToWorkBook(data, wb, (e && e.company) ? e.company.name : "Không tên", cols);
-        });        
+        });
 
         //xuất file
         saveWorkBookToExcel(wb, 'Danh sách công nợ');
@@ -131,9 +131,9 @@ class HistoryDebtContainer extends React.Component {
                                 <div className="card-content">
 
                                     <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div className="flex-row flex">
-                                        <h4 className="card-title"><strong> Quản lý công nợ</strong> </h4>
-                                    </div>
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong> Quản lý công nợ</strong> </h4>
+                                        </div>
                                         <div className="flex-end">
                                             <div>
                                                 <TooltipButton text="Xuất thành file excel" placement="top">
