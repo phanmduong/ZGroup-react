@@ -74,7 +74,6 @@
                     </nav>
 
                 </div>
-            @endif
             @else
                 <div>Nothing</div>
             @endif
@@ -93,8 +92,8 @@
             <div class="widget">
                 <h4>Phân loại</h4>
                 <ul>
-                    <li><a href="Current movies.html">Phim đang chiếu</a></li>
-                    <li><a href="Coming soon.html">Phim sắp chiếu</a></li>
+                    <li><a href="/film-categories/showing">Phim đang chiếu</a></li>
+                    <li><a href="/film-categories/coming-soon">Phim sắp chiếu</a></li>
                 </ul>
             </div>
         </aside>
