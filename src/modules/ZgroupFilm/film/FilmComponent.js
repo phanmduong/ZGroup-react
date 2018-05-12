@@ -63,8 +63,9 @@ class FilmComponent extends React.Component {
                                          style={{height: 55, justifyContent: "space-between", display: "flex"}}>
                                         <div>
                                             <TooltipButton placement="top" text={film.name}>
-                                                <h4 className="card-title" style={{fontWeight: 300}}>
-                                                    <Link to={`/film/film/` + film.id}>
+                                                <h4 onClick={()=>this.props.filmAction.showFilmSession(film.name)}
+                                                    className="card-title" style={{fontWeight: 300}}>
+                                                    <Link to={`/film/session/all`}>
                                                         {film.name.length >= 19 ? film.name.slice(0, 18).concat("...") : film.name}
                                                     </Link>
                                                 </h4>
@@ -113,7 +114,7 @@ class FilmComponent extends React.Component {
                                                         </a>
                                                     </li>
                                                     <li className="more-dropdown-item">
-                                                        <a onClick={() => {
+                                                        <a onClick={(event) => {
                                                             event.stopPropagation(event);
                                                             this.openSessionModal(film.id);
                                                         }}>
@@ -153,7 +154,7 @@ class FilmComponent extends React.Component {
                                         }}>
                                             <Switch
                                                 onChange={(e)=>this.changeFavoriteFilm(film,e)}
-                                                value={film.is_favorite}
+                                                value={film.is_favorite==1}
                                                 onText="Thích" offText="Không"
                                                 bsSize="mini"
                                             />

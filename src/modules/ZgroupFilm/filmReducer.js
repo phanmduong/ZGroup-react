@@ -197,7 +197,11 @@ export default function filmReducer(state = initialState.film, action) {
                     images_url: action.images_url
                 },
             };
-
+        case types.SHOW_FILM_SESSION:
+            return {
+                ...state,
+                search: action.search
+            };
 
 
         //Session Reducer

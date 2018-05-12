@@ -317,3 +317,10 @@ export function showAddEditFilmModalAtSession() {
         type: types.SHOW_ADD_EDIT_FILM_MODAL_AT_SESSION
     });
 }
+
+export function showFilmSession(search) {
+    return ({
+        type: types.SHOW_FILM_SESSION,
+        search
+    });
+}

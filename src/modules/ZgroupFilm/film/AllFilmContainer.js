@@ -50,7 +50,10 @@ AllFilmContainer.propTypes = {
     totalCount: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    limit: PropTypes.number.isRequired,
+    limit: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.string.isRequired
+    ]),
 };
 
 function mapStateToProps(state) {

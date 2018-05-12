@@ -8,7 +8,6 @@ import Pagination from "../../../components/common/Pagination";
 import Loading from "../../../components/common/Loading";
 import TooltipButton from "../../../components/common/TooltipButton";
 import Search from "../../../components/common/Search";
-//import Select from "react-select";
 import {Panel} from "react-bootstrap";
 import FormInputDate from "../../../components/common/FormInputDate";
 import * as helper from "../../../helpers/helper";
@@ -34,7 +33,14 @@ class AllSessionContainer extends React.Component {
         this.allSessionSearchChange = this.allSessionSearchChange.bind(this);
         this.updateFormFilter  = this.updateFormFilter.bind(this);
     }
-
+    componentWillMount(){
+        if(!helper.isEmptyInput(this.props.search)){
+            this.setState({
+                query: this.props.search,
+                page: 1
+            });
+        }
+    }
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.filmAction.loadAllSessions(page);
@@ -192,11 +198,15 @@ class AllSessionContainer extends React.Component {
 AllSessionContainer.propTypes = {
     allSessions: PropTypes.array.isRequired,
     allFilms: PropTypes.array.isRequired,
+    search: PropTypes.string.isRequired,
     filmAction: PropTypes.object.isRequired,
     isLoadingAllSessions: PropTypes.bool.isRequired,
     totalCountAll: PropTypes.number.isRequired,
     totalPagesAll: PropTypes.number.isRequired,
-    limitAll: PropTypes.string.isRequired,
+    limitAll: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.string.isRequired
+    ]),
     currentPageAll: PropTypes.number.isRequired,
 };
 
@@ -209,6 +219,7 @@ function mapStateToProps(state) {
         totalPagesAll: state.film.totalPagesAll,
         currentPageAll: state.film.currentPageAll,
         limitAll: state.film.limitAll,
+        search: state.film.search,
     };
 }
 

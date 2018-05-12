@@ -13,7 +13,7 @@ export function loadAllFilmsApi(search) {
 //Load All Film Co Paginator
 export function loadAllFilmsHavePaginationApi(page, search) {
     let url = env.API_URL + "/films";
-    url += "?limit=12";
+    url += "?limit=" + 12;
     if (search) {
         url += "&search=" + search;
     }

@@ -1,8 +1,5 @@
 export default {
 
-    blogFilm:{
-        addEditBlogFilmModal: false,
-    },
     film: {
         //********Film
         isLoading: false,
@@ -24,6 +21,7 @@ export default {
 
 
         //********Session
+        search:'',
         isLoadingAllSessions:false,
         isLoadingShowingSession:false,
         isLoadingFilms: false,

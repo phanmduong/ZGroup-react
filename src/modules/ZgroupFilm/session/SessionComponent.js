@@ -44,7 +44,7 @@ class SessionComponent extends React.Component {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td className="film-name">
-                                    <TooltipButton text={a && a.name} placement="top">
+                                    <TooltipButton text={(a && a.name)||''} placement="top">
                                         <div onClick={() => {
                                             this.props.filmAction.showAddEditFilmModalAtSession();
                                             this.props.filmAction.handleFilmModal(a);

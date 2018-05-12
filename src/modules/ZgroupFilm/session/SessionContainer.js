@@ -6,6 +6,8 @@ import *as filmAction from "../filmAction";
 import {Link} from 'react-router';
 import AddEditSessionModal from "./AddEditSessionModal";
 import AddEditFilmModal from "../film/AddEditFilmModal";
+import * as helper from "../../../helpers/helper";
+
 
 class SessionContainer extends React.Component {
     constructor(props, context) {
@@ -19,7 +21,7 @@ class SessionContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.filmAction.loadAllSessions();
+        !helper.isEmptyInput(this.props.search) ? this.props.filmAction.loadAllSessions(1, this.props.search) :this.props.filmAction.loadAllSessions();
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadShowingSession();
     }
@@ -69,11 +71,13 @@ SessionContainer.propTypes = {
     children: PropTypes.element,
     filmAction: PropTypes.object.isRequired,
     isSaving: PropTypes.bool.isRequired,
+    search: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         isSaving: state.film.isSaving,
+        search: state.film.search,
     };
 }
 

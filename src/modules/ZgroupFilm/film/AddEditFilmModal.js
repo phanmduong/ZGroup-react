@@ -131,7 +131,7 @@ class AddEditFilmModal extends React.Component {
                                     <TooltipButton text="Đánh giá phim" placement="top">
                                         <div style={{float: "right", marginTop: "-38px"}}>
                                             <Star
-                                                value={this.props.filmModal.rate || ''}
+                                                value={this.props.filmModal.rate || 0}
                                                 maxStar={5}
                                                 onChange={(value) => {
                                                     this.changeRate(value);
@@ -236,19 +236,19 @@ class AddEditFilmModal extends React.Component {
                                         <h4 className="card-title">Ảnh đại diện</h4>
                                         <ImageUploader handleFileUpload={this.handleUpload}
                                                        tooltipText="Chọn ảnh đại diện"
-                                                       image_url={this.props.filmModal.avatar_url}/>
+                                                       image_url={this.props.filmModal.avatar_url || ''}/>
                                     </div>
                                     <div className="card-content">
                                         <h4 className="card-title">Ảnh bìa</h4>
                                         <ImageUploader handleFileUpload={this.handleUpload2}
                                                        tooltipText="Chọn ảnh bìa"
-                                                       image_url={this.props.filmModal.cover_url}/>
+                                                       image_url={this.props.filmModal.cover_url || ''}/>
                                     </div>
                                     <div className="card-content">
                                         <div className="form-group">
                                             <h4 className="card-title">Thêm ảnh mô tả</h4>
                                             <UploadManyImages
-                                                images_url={this.props.filmModal.images_url ? JSON.parse(this.props.filmModal.images_url) : ''}
+                                                images_url={(this.props.filmModal.images_url ? JSON.parse(this.props.filmModal.images_url) : [] ) || []}
                                                 handleFileUpload={this.handleImages}
                                                 box="box-images-website-create"/>
                                         </div>
