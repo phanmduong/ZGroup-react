@@ -577,6 +577,22 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
+    
+    public function getAllExportOrderNoPaging(Request $request)
+    {
+        
+        //$exportorders = ItemOrder::query();
+
+        $exportorders = ItemOrder::where('type', '=', 'be-ordered')
+            ->where('status', '>', 1)->get();
+
+        return $this->respondSuccessWithStatus([
+            "exportorders" => $exportorders->map(function ($order) {
+                return $order->transform();
+            })
+        ]);
+        
+    }
 
     public function getExportOrder($exportOrderId, Request $request)
     {
@@ -718,7 +734,7 @@ class CompanyController extends ManageApiController
             $exportOrder->quantity = $good->quantity;
             $exportOrder->discount = $good->discount ? $good->discount : 0;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $request->total_price;
+            $exportOrder->total_price = $request->total_price ? $request->total_price  : 0;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -751,7 +767,7 @@ class CompanyController extends ManageApiController
             $exportOrder->quantity = $good->quantity;
             $exportOrder->discount = $good->discount;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $good->total_price;
+            $exportOrder->total_price = $request->total_price ? $request->total_price  : 0;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
