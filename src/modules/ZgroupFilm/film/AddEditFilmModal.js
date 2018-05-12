@@ -150,7 +150,7 @@ class AddEditFilmModal extends React.Component {
                                         <div style={{float: "right", marginTop: "-38px"}}>
                                             <a href={this.props.filmModal.trailer_url} target="_blank">
                                         <i className="material-icons text-paly">
-                                            flight_takeoff
+                                            launch
                                         </i>
                                             </a>
                                         </div>

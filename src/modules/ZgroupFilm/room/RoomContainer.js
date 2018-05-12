@@ -1,5 +1,5 @@
 import React from 'react';
-import RoomControlComponent from "./Roomomponent";
+import RoomControlComponent from "./RoomComponent";
 
 
 class RoomControlContainer extends React.Component {
