@@ -958,27 +958,29 @@ class CompanyController extends ManageApiController
 
 
         if($limit == -1 ){
-            $importOrders = ItemOrder::all();            
+            $importOrders = 
+            ItemOrder::where('type', '<>', 'be-ordered')
+            ->where('item_orders.status', '>', 1)->get();
+            
             return $this->respondSuccessWithStatus([
                 "import-orders" => $importOrders->map(function ($order) {
                     return $order->importTransform();
                 })
-
             ]);
         }else{
             $importOrders = ItemOrder::query();
 
-        $importOrders = $importOrders->where('type', '<>', 'be-ordered')
-            ->where('status', '>', 1);
+            $importOrders = $importOrders->where('type', '<>', 'be-ordered')
+                ->where('status', '>', 1);
 
-        if($request->company_id)
-            $importOrders = $importOrders->where('company_id',$request->company_id);
-        $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($importOrders, [
-            "import-orders" => $importOrders->map(function ($importOrder) {
-                return $importOrder->importTransform();
-            })
-        ]);
+            if($request->company_id)
+                $importOrders = $importOrders->where('company_id',$request->company_id);
+            $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($importOrders, [
+                "import-orders" => $importOrders->map(function ($importOrder) {
+                    return $importOrder->importTransform();
+                })
+            ]);
         }
 
     }
