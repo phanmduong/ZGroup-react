@@ -1,9 +1,13 @@
 <?php
 
 $webRoutes = function () {
+
     Route::get('/', 'FilmZgroupController@index');
     Route::get('/film', 'FilmZgroupController@films');
     Route::get('/{id}','FilmZgroupController@film');
+    Route::get('/event','FilmZgroupController@event');
+    Route::get('/film-categories/{category}','FilmZgroupController@filmsCategory');
+
 
 };
 $manageApiRoutes = function () {
@@ -24,7 +28,6 @@ $manageApiRoutes = function () {
     Route::delete('/blog/{id}', 'FilmZgroupManageApiController@deleteBlog');
 
     Route::put('/blog/{id}/change', 'FilmZgroupManageApiController@changeBlogStatus');
-
 
 };
 

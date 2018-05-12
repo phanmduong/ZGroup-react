@@ -93,11 +93,12 @@ class FilmZgroupController extends Controller
     }
 
     public function films(Request $request){
-        $films = Film::orderBy('created_at','desc')->paginate(5);
+        $films = Film::orderBy('created_at','desc')->paginate(3);
         $search = $request->search;
         if ($search) {
             $films = $films->where('name', 'like', '%' . $search . '%');
         }
+        $display = '';
         if ($request->page == null) {
             $page_id = 2;
         } else {
@@ -115,4 +116,23 @@ class FilmZgroupController extends Controller
 
         return view("filmzgroup::films", $this->data);
     }
+
+    public function filmsCategory ($category) {
+        $films = Film::orderBy('created_at','desc');
+        $title = "";
+        if($category == "coming-soon") {
+            $films = $films->where('film_status',2)->get();
+            $title = "Sắp chiếu";
+        } elseif ($category == "showing") {
+            $films = $films->where('film_status',1)->get();
+            $title = "Đang chiếu";
+        }
+
+        $this->data['films'] = $films;
+        $this->data['title'] = $title;
+
+        return view('filmzgroup::films_by_category',$this->data);
+    }
+
+
 }
