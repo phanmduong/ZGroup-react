@@ -44,8 +44,10 @@ class ItemOrderContainer extends React.Component {
         //     this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
         // });
         helper.confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
-            this.props.importOrderActions.changeStatusImportOrder(id);
-            this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
+            this.props.importOrderActions.changeStatusImportOrder(id,()=> {
+                this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
+            });
+
 
         });
     }
