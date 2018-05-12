@@ -166,7 +166,7 @@ class ItemOrderContainer extends React.Component {
                                     <div className="card-content">
                                         <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <div className="flex-row flex">
-                                                <h4 className="card-title"><strong>Xuất hàng</strong></h4>
+                                                <h4 className="card-title"><strong>Nhập hàng</strong></h4>
                                                 <div>
                                                     <Link to="/business/import-order/item/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
                                                         <strong>+</strong>

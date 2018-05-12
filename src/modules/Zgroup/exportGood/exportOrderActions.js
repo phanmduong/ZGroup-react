@@ -21,6 +21,19 @@ export function loadExportOrders(page=1, search='',good_id='', company_id = '', 
             });
     };
 }
+export function loadExportOrdersNoPaging(success) {
+    return function () {
+        
+        exportOrderApi.loadExportOrdersNoPaging()
+            .then((res) => {
+                success(res.data.data.exportorders);
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                success(null);
+            });
+    };
+}
 
 
 export function loadAllGoods() {

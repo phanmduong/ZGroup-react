@@ -50,6 +50,15 @@ export function loadAllOrderedGood(page=1,companyId='') {
     return axios.get(url);
 }
 
+export function loadAllOrderedGoodNoPaging() {
+    let url     = env.MANAGE_API_URL +"/company/be-ordered/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}
+
 export function loadOrderedGood(id) {
     
     let url     = env.MANAGE_API_URL +"/company/be-ordered/" + id;
