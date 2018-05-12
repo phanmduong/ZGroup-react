@@ -15,7 +15,7 @@
             </div>
         </div>
     </div> --}}
-    <div class="card card-raised page-carousel">
+    <div class="card card-raised page-carousel no-margin">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -73,7 +73,7 @@
     </div>
 
     
-    <div class="wrapper">
+    <div class="wrapper" style="padding-top: 30px;">
         <div class="container">
             <div style="width: 60%; margin: 0 auto">
                 <h3 class="font-weight-bold text-uppercase text-center">
@@ -90,9 +90,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link text-uppercase" data-toggle="collapse" data-target="#collapse1"
+                                    <button class="btn btn-link collapsed text-uppercase" style="white-space: normal;" data-toggle="collapse" data-target="#collapse1"
                                             aria-expanded="true" aria-controls="collapse1">
-                                        Nếu là thành viên của Up, tôi sẽ nhận được quyền lợi gì?
+                                        STARTUP CỦA BẠN ĐANG CẦN MỘT KHÔNG GIAN LÀM VIỆC ĐỂ TẠO RA NHỮNG ĐỘT PHÁ 
                                     </button>
                                 </h5>
                             </div>
@@ -106,9 +106,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed text-uppercase" data-toggle="collapse" data-target="#collapse3"
+                                    <button class="btn btn-link collapsed text-uppercase" style="white-space: normal;" data-toggle="collapse" data-target="#collapse3"
                                             aria-expanded="false" aria-controls="collapse3">
-                                        Tôi có thể đến Up làm việc vào thời gian nào?
+                                        MẠNG ĐANG TÌM KIẾM CƠ HỘI ĐẦU TƯ VÀ MUỐN MỞ RỘNG MẠNG LƯỚI  QUAN HỆ CỦA BẢN THÂN?
                                     </button>
                                 </h5>
                             </div>
@@ -122,9 +122,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed text-uppercase" data-toggle="collapse" data-target="#collapse4"
+                                    <button style="white-space: normal;" class="btn btn-link collapsed text-uppercase" data-toggle="collapse" data-target="#collapse4"
                                             aria-expanded="false" aria-controls="collapse4">
-                                        Hiện UP đang có những dịch vụ nào?
+                                            SỰ KIỆN VÀ WORKSHOP CỦA UP CÓ GÌ ĐẶC BIỆT 
                                     </button>
                                 </h5>
                             </div>
@@ -161,68 +161,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="features-1">
-                <div class="row">
-                    <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h3 class="title" style="font-weight: bold">NHỮNG LỢI ÍCH CHÚNG TÔI MANG ĐẾN CHO BẠN</h3>
-                        <h5 class="description" style="font-weight: bold">Thành viên của UP có những lợi ích gì?</h5>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-palette"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">KHÔNG GIAN MỞ
-                                    SÁNG TẠO</h4>
-                                <p class="description">Spend your time generating new ideas. You don't have to think of
-                                    implementing.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-bulb-63"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">PHÒNG HỌP
-                                    HIỆN ĐẠI</h4>
-                                <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-chart-bar-32"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">BẾP
-                                    TIỆN NGHI</h4>
-                                <p>Choose from a veriety of many colors resembling sugar paper pastels.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-sun-fog-29"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">INTERNET
-                                    TỐC ĐỘ CAO</h4>
-                                <p>Find unique and handmade delightful designs related items directly from our
-                                    sellers.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -237,312 +175,191 @@
         </div>
     </div>
     <div class="container">
-        <div class="features-1">
-            <div class="row" style="margin-bottom:50px">
-                <div class="col-md-8 ml-auto mr-auto text-center">
-                    <h2 class="title">Bài viết mới nhất</h2>
-                    <h5 class="description">Cập nhật các thông tin cùng Up Coworking Space</h5>
-                </div>
-            </div>
+        <div style="width: 60%; margin: 0 auto">
+            <h3 class="font-weight-bold text-uppercase text-center">
+                GÓI THÀNH VIÊN 
+            </h3>
+            <p class="text-center">
+                Môi trường làm việc kích thích sự sáng tạo, hiện đại, tăng hiệu quả trong công việc.
+            </p>
+            <hr style="width: 20%; border-top: 1px solid #96d21f;">
+        </div>
+        <br/><br/><br/>
+        <div style="margin: 0 auto; width: 70%">
             <div class="row">
-                @foreach($newestBlogs as $newestBlog)
-                    <div class="col-md-4">
-                        <div class="card card-blog">
-                            <div class="card-image">
-                                <a href="{{'/blog/post/'.$newestBlog->id}}">
-                                    <img class="img img-raised"
-                                         src="{{generate_protocol_url($newestBlog->url)}}">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="card-category text-main-color">{{$newestBlog->category ? $newestBlog->category->name : ""}}</h6>
-                                <h5 class="card-title">
-                                    <a href="{{'/blog/post/'.$newestBlog->id}}">{{$newestBlog->title}}</a>
-                                </h5>
-                                <p class="card-description">
-                                    LinkedIn is today launching its official desktop application for Windows 10,
-                                    allowing the professional social networking service to... <br>
-                                </p>
-                                <hr>
-                                <div class="card-footer">
-                                    <div class="author">
-                                        <a href="{{'/blog/post/'.$newestBlog->id}}">
-                                            <img src="{{generate_protocol_url($newestBlog->author->avatar_url)}}"
-                                                 alt="..."
-                                                 class="avatar img-raised">
-                                            <span>{{$newestBlog->author->name}}</span>
-                                        </a>
-                                    </div>
-                                    <div class="stats">
-                                        <i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read
-                                    </div>
-                                </div>
+                <div class="col-md-6">
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="#">
+                                <img class="img img-raised" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg">
+                            </a>
+                        </div>
+                        <div>
+                            <div class="up-title">
+                                <h3 >COWORKING SPACE</h3>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="card-action">
+                                <h4 class="card-title no-margin" style="display: flex; justify-content: space-between;">
+                                        <p style="margin-top: 10px;" class="font-weight-bold text-main-color">TỪ 300.000 VNĐ/THÁNG</p>
+                                    <div class="bg-core btn btn-success">
+                                            ĐĂNG KÝ NGAY
+                                    </div>
+                                </h4>
+                            </div>
+                            <br/>
+                            <p class="text-justify">
+                                Bạn luôn di chuyển và không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 300.000VND  cực kì linh hoạt và tiết kiệm  chi phí cho bạn 
+                            </p>
+                        </div>
                     </div>
-                @endforeach
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="#">
+                                <img class="img img-raised" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg">
+                            </a>
+                        </div>
+                        <div>
+                            <div class="up-title">
+                                <h3 >PRIVATE OFFICE</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-action">
+                                <h4 class="card-title no-margin" style="display: flex; justify-content: space-between;">
+                                        <p style="margin-top: 10px;" class="font-weight-bold text-main-color">TỪ 2.500.000 VNĐ/THÁNG</p>
+                                    <div class="bg-core btn btn-success">
+                                            ĐĂNG KÝ NGAY
+                                    </div>
+                                </h4>
+                            </div>
+                            <br/>
+                            <p class="text-justify">
+                                Bạn cần một chỗ ngồi cố định cho máy tính và các đồ dùng làm việc , một không gian riêng tư để tập trung làm việc , hãy sử dụng gói thành viên cố định  tại UP. Làm việc không giới hạn tại chỗ ngồi làm việc riêng của bạn.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="features-1 ">
-        <div class="testimonials-2 section section-testimonials">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h3 class="title" style="font-weight: 600">THÀNH VIÊN CỦA UP NGHĨ GÌ?
-                        </h3>
-                        <h5 class="description">This is the paragraph where you can write more details about your
-                            product. Keep you user engaged by providing meaningful information. Remember that by this
-                            time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
+
+    <div class="container">
+        <div style="width: 60%; margin: 0 auto">
+            <h3 class="font-weight-bold text-uppercase text-center">
+                UP AND BEYOND 
+            </h3>
+            <hr style="width: 20%; border-top: 1px solid #96d21f;">
+        </div>
+        <br/><br/><br/>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-blog">
+                    <div class="card-image">
+                        <a href="#">
+                            <img class="img img-raised" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg">
+                        </a>
+                    </div>
+                    <div>
+                        <div class="up-title">
+                            <h4 class="text-center no-margin">VĂN PHÒNG ẢO </h4>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-
-                    <div class="col-md-2 mr-auto">
-                        <div class="testimonials-people">
-                            <img class="left-first-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/110862/thumb.?1482812727"
-                                 alt="">
-                            <img class="left-second-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/139481/thumb.jpg?1485460613"
-                                 alt="">
-                            <img class="left-third-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/152441/thumb.jpg?1488233314"
-                                 alt="">
-                            <img class="left-fourth-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/134607/thumb.?1487680276"
-                                 alt="">
-                            <img class="left-fifth-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/161506/thumb.?1489848178"
-                                 alt="">
-                            <img class="left-sixth-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/77627/thumb.jpg?1487360092"
-                                 alt="">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 ml-auto mr-auto">
-                        <div class="page-carousel">
-                            <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carouselExampleIndicators2" data-slide-to="0" class=""></li>
-                                    <li data-target="#carouselExampleIndicators2" data-slide-to="1" class=""></li>
-                                    <li data-target="#carouselExampleIndicators2" data-slide-to="2" class="active"></li>
-                                </ol>
-                                <div class="carousel-inner" role="listbox">
-
-                                    <div class="carousel-item">
-                                        <div class="card card-testimonial card-plain">
-                                            <div class="card-avatar">
-                                                <img class="img"
-                                                     src="https://s3.amazonaws.com/uifaces/faces/twitter/mlane/128.jpg">
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-description">
-                                                    "I'm newer to the front-end... With my creative side lacking in
-                                                    experience this!"
-                                                </h5>
-                                                <div class="card-footer">
-                                                    <h4 class="card-title">Chase Jackson</h4>
-                                                    <h6 class="card-category">Web Developer</h6>
-                                                    <div class="card-stars">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="carousel-item">
-                                        <div class="card card-testimonial card-plain">
-                                            <div class="card-avatar">
-                                                <img class="img"
-                                                     src="https://s3.amazonaws.com/creativetim_bucket/photos/134607/thumb.?1487680276">
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-description">
-                                                    "Love the shapes and color palette on this one! Perfect for one of
-                                                    my pet projects!"
-                                                </h5>
-                                                <div class="card-footer">
-                                                    <h4 class="card-title">Robin Leysen</h4>
-                                                    <h6 class="card-category">Web Developer</h6>
-                                                    <div class="card-stars">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="carousel-item active">
-                                        <div class="card card-testimonial card-plain">
-                                            <div class="card-avatar">
-                                                <img class="img"
-                                                     src="https://s3.amazonaws.com/creativetim_bucket/photos/125268/thumb.jpeg?1497799215">
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-description">
-                                                    "Love it. Use it for prototypes and along with Paper Dashboard."
-                                                </h5>
-                                                <div class="card-footer">
-                                                    <h4 class="card-title">Cristi Jora</h4>
-                                                    <h6 class="card-category">Web Developer</h6>
-                                                    <div class="card-stars">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="left carousel-control carousel-control-prev"
-                                   href="#carouselExampleIndicators2" role="button" data-slide="prev">
-                                    <span class="fa fa-angle-left"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control carousel-control-next"
-                                   href="#carouselExampleIndicators2" role="button" data-slide="next">
-                                    <span class="fa fa-angle-right"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 ml-auto">
-                        <div class="testimonials-people">
-                            <img class="right-first-person add-animation"
-                                 src="https://s3.amazonaws.com/uifaces/faces/twitter/mlane/128.jpg" alt="">
-                            <img class="right-second-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/125268/thumb.jpeg?1497799215"
-                                 alt="">
-                            <img class="right-third-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/123334/thumb.JPG?1479459618"
-                                 alt="">
-                            <img class="right-fourth-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/118235/thumb.?1477435947"
-                                 alt="">
-                            <img class="right-fifth-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/18/thumb.png?1431433244"
-                                 alt="">
-                            <img class="right-sixth-person add-animation"
-                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/167683/thumb.?1491014996"
-                                 alt="">
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
-
+            <div class="col-md-4">
+                <div class="card card-blog">
+                    <div class="card-image">
+                        <a href="#">
+                            <img class="img img-raised" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg">
+                        </a>
+                    </div>
+                    <div>
+                        <div class="up-title">
+                            <h4 class="text-center no-margin">TƯ VẤN DOANH NGHIỆP </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-blog">
+                    <div class="card-image">
+                        <a href="#">
+                            <img class="img img-raised" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg">
+                        </a>
+                    </div>
+                    <div>
+                        <div class="up-title">
+                            <h4 class="text-center no-margin">KẾ TOÁN DOANH NGHIỆP </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div>
+    <div class="wrapper">
+        <div class="page-header page-header-small" style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
+            <div class="filter filter-dark"></div>
 
-        <div class="cd-section section-white" id="contact-us">
-
-
-            <div class="contactus-1 section-image"
-                 style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
+            <div class="content-center">
                 <div class="container">
+                    <h3 style="color: #fff" class="font-weight-bold text-uppercase text-center">
+                        KHÁCH HÀNG NÓI GÌ VỀ UP
+                    </h3>
+                    <hr style="width: 20%; border-top: 1px solid #fff;">
                     <div class="row">
-                        <div class="col-md-10 offset-md-1">
-                            <div class="card card-contact no-transition">
-                                <h3 class="card-title text-center">Liên hệ</h3>
-                                <div class="row">
-                                    <div class="col-md-5 offset-md-1">
-                                        <div class="card-block">
-                                            <div class="info info-horizontal">
-                                                <div class="icon icon-main-color">
-                                                    <i class="nc-icon nc-pin-3" aria-hidden="true"></i>
-                                                </div>
-                                                <div class="description">
-                                                    <h4 class="info-title">Địa chỉ của chúng tôi</h4>
-                                                    <p> 175 Chùa Láng<br>
-                                                        Đống Đa<br>
-                                                        Hà Nội
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="info info-horizontal">
-                                                <div class="icon icon-main-color">
-                                                    <i class="nc-icon nc-badge" aria-hidden="true"></i>
-                                                </div>
-                                                <div class="description">
-                                                    <h4 class="info-title">Liên hệ trực tiếp</h4>
-                                                    <p> Hùng Nguyễn<br>
-                                                        +84 168 402 6343<br>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <form role="form" id="contact-form" method="post" action="/question">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <div class="card-block">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group label-floating">
-                                                            <label class="control-label">Họ</label>
-                                                            <input type="text" name="name" class="form-control"
-                                                                   placeholder="Ví dụ: Nguyễn">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group label-floating">
-                                                            <label class="control-label">Tên</label>
-                                                            <input type="text" name="name" class="form-control"
-                                                                   placeholder="Ví dụ: Lan Anh">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Email</label>
-                                                    <input type="email" name="email" class="form-control"
-                                                           placeholder="Ví dụ: android@colorme.vn">
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Lời nhắn</label>
-                                                    <textarea name="question" class="form-control" id="message" rows="6"
-                                                              placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="checkbox">
-                                                            <input id="checkbox1" type="checkbox">
-                                                            <label for="checkbox1">
-                                                                Tôi không phải là robot!
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <button type="submit" class="btn pull-right"
-                                                                style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)">
-                                                            Gửi tin nhắn
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                        <div class="col-md-4">
+                            <div class="feed-back">
+                                <i style="float: left;" class="fa fa-quote-left icon-main-color" aria-hidden="true"></i>
+                                <div class="clearfix"></div>
+                                <p class="font-italic text-left" style="color: black">
+                                    Mình thích không khí làm việc hừng hực tại đây. Mọi người đều rất tập trung vào việc của mình và không bị phân tâm bởi người
+                                    khác.
+                                </p>
+                            </div>
+                            <br/>
+                            <div style="display: flex;">
+                                <img width="100px" height="100px" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg" class="img-circle img-no-padding img-responsive">
+                                <div style="margin-left: 10px;margin-top: 10px">
+                                    <p class="font-weight-bold text-left">YẾN VŨ</p>
+                                    <p class="text-left"> Head of Marketing Zalora Vietnam</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feed-back">
+                                <i style="float: left;" class="fa fa-quote-left icon-main-color" aria-hidden="true"></i>
+                                <div class="clearfix"></div>
+                                <p class="font-italic text-left" style="color: black">
+                                    Tôi đã thực sự bị thuyết phục bởi không gian, con người, không khí làm việc mà tôi nhận được từ UP
+                                </p>
+                            </div>
+                            <br/>
+                            <div style="display: flex;">
+                                <img width="100px" height="100px" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg" class="img-circle img-no-padding img-responsive">
+                                <div style="margin-left: 10px;margin-top: 10px">
+                                    <p class="font-weight-bold text-left">NGUYEN DUY ANH</p>
+                                    <p class="text-left">Product Manager of Rakuten</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feed-back">
+                                <i style="float: left;" class="fa fa-quote-left icon-main-color" aria-hidden="true"></i>
+                                <div class="clearfix"></div> 
+                                <p class="font-italic text-left" style="color: black">
+                                    UP successfully provides a dynamic and coporative environment to startups in which I feel insprired to create new ideas
+                                </p>
+                            </div>
+                            <br/>
+                            <div style="display: flex;">
+                                <img width="100px" height="100px" src="http://d2xbg5ewmrmfml.cloudfront.net/up/images/9.0.jpg" class="img-circle img-no-padding img-responsive">
+                                <div style="margin-left: 10px;margin-top: 10px">
+                                    <p class="font-weight-bold text-left">ERIK NGHIEM</p>
+                                    <p class="text-left">Projet Leader Cinnamon</p>
                                 </div>
                             </div>
                         </div>
@@ -551,6 +368,19 @@
             </div>
         </div>
     </div>
+    
+    <div class="container">
+        <div style="width: 60%; margin: 0 auto">
+            <h3 class="font-weight-bold text-uppercase text-center">
+                ĐỐI TÁC CHIẾN LƯỢC
+            </h3>
+            <hr style="width: 20%; border-top: 1px solid #96d21f;">
+        </div>
+        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1526032749gPg9XmuJ0VT9Oyi.png');text-align: center; background-size: 100% 100%;background-repeat: no-repeat;">
+            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1526033062mB7FpiX99kZp02Y.png" height="400" width="auto" alt="">
+        </div>
+    </div>
+
 @endsection
 
 
