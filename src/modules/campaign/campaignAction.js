@@ -192,6 +192,7 @@ export function chooseReceivers(campaignId, users) {
 				type: types.TOGGLE_CHOOSE_RECEIVERS
 			});
 			showNotification('Đã thêm người nhận vào chiến dịch');
+			dispatch(loadAllReceiver(campaignId, 1, ''));
 			dispatch({
 				type: HIDE_GLOBAL_LOADING
 			});
@@ -223,3 +224,48 @@ export function removeUserFromCampaign(campaignId, user) {
 		});
 	};
 }
+
+export function getHistory(campaignId, page, search, limit) {
+	return function(dispatch) {
+		dispatch({
+			type: types.BEGIN_LOAD_HISTORY
+		});
+		campaignApi.getHistory(campaignId, page, search, limit).then((res) => {
+			dispatch({
+				type: types.LOAD_HISTORY_SUCCESS,
+				history: res.data.histories,
+				currentPageHistory: res.data.paginator.current_page,
+				limitHistory: res.data.paginator.limit,
+				totalCountHistory: res.data.paginator.total_count,
+				totalPagesHistory: res.data.paginator.total_pages
+			});
+		});
+	};
+}
+
+export function getHistoryUser(user, campaignId, page, search, limit) {
+	return function(dispatch) {
+		dispatch({
+			type: types.BEGIN_LOAD_HISTORY_USER_MODAL
+		});
+		campaignApi.getHistoryUser(user, campaignId, page, search, limit).then((res) => {
+			dispatch({
+				type: types.LOAD_HISTORY_USER_MODAL_SUCCESS,
+				historyModal: res.data.histories,
+				currentPageHistoryModal: res.data.paginator.current_page,
+				limitHistoryModal: res.data.paginator.limit,
+				totalCountHistoryModal: res.data.paginator.total_count,
+				totalPagesHistoryModal: res.data.paginator.total_pages,
+				userHistoryDetail: user
+			});
+		});
+	};
+}
+
+export function showHistoryDetailModal() {
+	return {
+		type: types.TOGGLE_HISTORY_DETAIL_MODAL
+	};
+}
+
+

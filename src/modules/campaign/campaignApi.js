@@ -159,3 +159,39 @@ export function removeUserFromCampaign(campaignId, user) {
 	url += '&user_id=' + user.id;
 	return axios.delete(url);
 }
+
+export function getHistory(campaignId, page = 1, search = '', limit = 20) {
+	let url = env.MANAGE_API_URL + '/sms/history/' + campaignId;
+	let token = localStorage.getItem('token');
+	if (token) {
+		url += '?token=' + token;
+	}
+	if (page) {
+		url += '&page=' + page;
+	}
+	if (search) {
+		url += '&search=' + search;
+	}
+	if (limit) {
+		url += '&limit=' + limit;
+	}
+	return axios.get(url);
+}
+
+export function getHistoryUser(user, campaignId, page = 1, search = '', limit = 15) {
+	let url = env.MANAGE_API_URL + '/sms/history/' + campaignId + '/user?user_id=' + user.id;
+	let token = localStorage.getItem('token');
+	if (token) {
+		url += '&token=' + token;
+	}
+	if (page) {
+		url += '&page=' + page;
+	}
+	if (search) {
+		url += '&search=' + search;
+	}
+	if (limit) {
+		url += '&limit=' + limit;
+	}
+	return axios.get(url);
+}

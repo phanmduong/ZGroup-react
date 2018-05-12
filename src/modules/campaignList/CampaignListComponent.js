@@ -83,22 +83,28 @@ class CampaignListComponent extends React.Component {
 										</td>
 										<td>
 											<div>
-												<h6>
+												<h7>
 													{campaign.sent_quantity}/{campaign.needed_quantity}
-												</h6>
-												<div className="progress progress-line-danger">
+												</h7>
+												<div
+													className="progress"
+													style={{
+														position: 'relative',
+														left: 0,
+														bottom: 0,
+														width: '100%',
+														zIndex: '100',
+														marginBottom: '0'
+													}}>
 													<div
-														className="progress-bar progress-bar-success"
-														style={{
-															width:
-																campaign.sent_quantity === 0
-																	? 0
-																	: campaign.sent_quantity *
-																			100 /
-																			campaign.needed_quantity +
-																		'%'
-														}}
-													/>
+														className="progress-bar"
+														role="progressbar"
+														aria-valuenow="70"
+														aria-valuemin="0"
+														aria-valuemax="100"
+														style={{ width: `${50}%` }}>
+														<span className="sr-only">{50}% Complete</span>
+													</div>
 												</div>
 											</div>
 										</td>
@@ -111,17 +117,19 @@ class CampaignListComponent extends React.Component {
 											/>
 										</td>
 										<td>
-											<a
-												style={{ color: '#878787' }}
-												data-toggle="tooltip"
-												title=""
-												type="button"
-												rel="tooltip"
-												data-original-title="Xoá"
-												onClick={() =>
-													this.props.showCreateEditCampaignModal(campaign)}>
-												<i className="material-icons">edit</i>
-											</a>
+											<div className="btn-group-action">
+												<a
+													style={{ color: '#878787' }}
+													data-toggle="tooltip"
+													title=""
+													type="button"
+													rel="tooltip"
+													data-original-title="Xoá"
+													onClick={() =>
+														this.props.showCreateEditCampaignModal(campaign)}>
+													<i className="material-icons">edit</i>
+												</a>
+											</div>
 										</td>
 									</tr>
 								);
