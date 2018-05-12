@@ -25,6 +25,30 @@ export function loadAllBases() {
     };
 }
 
+export function loadAllProvinces() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_PROVINCES,
+        });
+        registerManageMeetingRoomApi
+            .loadProvincesApi()
+            .then(res => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.LOAD_PROVINCES_SUCCESS,
+                        provinces: res.data.data.provinces,
+                    });
+                }
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_PROVINCES_ERROR,
+                });
+            });
+    };
+}
+
+
 export function loadAllSalers() {
     return function (dispatch) {
         dispatch({
@@ -39,6 +63,25 @@ export function loadAllSalers() {
             .catch(() => {
                 dispatch({
                     type: types.LOAD_SALERS_ERROR
+                });
+            });
+    };
+}
+
+export function loadRooms(base_id, start_time, end_time) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ROOMS,
+        });
+        registerManageMeetingRoomApi.loadRoomsApi(base_id, start_time, end_time).then(res => {
+            dispatch({
+                type: types.LOAD_ROOMS_SUCCESS,
+                rooms: res.data.data.rooms,
+            });
+        })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_ROOMS_ERROR
                 });
             });
     };
@@ -87,12 +130,12 @@ export function loadAllRegisters(limit = 10,
 }
 
 
-export function savePayment(hour, minute,money, note, register_id, user_id, closeModal) {
+export function savePayment(hour, minute, money, note, register_id, user_id, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_PAYMENT,
         });
-        registerManageMeetingRoomApi.savePaymentApi(hour, minute,money, note, register_id, user_id)
+        registerManageMeetingRoomApi.savePaymentApi(hour, minute, money, note, register_id, user_id)
             .then(res => {
                 if (res.data.status) {
                     closeModal();
@@ -117,7 +160,6 @@ export function savePayment(hour, minute,money, note, register_id, user_id, clos
 }
 
 
-
 // export const showGlobalLoading = () => {
 //     return dispatch => {
 //         dispatch({
@@ -134,14 +176,15 @@ export function savePayment(hour, minute,money, note, register_id, user_id, clos
 // };
 export function updateRegister(register) {
     return function (dispatch) {
-      dispatch({
-          type : types.UPDATE_REGISTER,
-          register : register,
-      });
+        dispatch({
+            type: types.UPDATE_REGISTER,
+            register: register,
+        });
     };
 }
+
 export function saveOfficialTime(closeDatetimeModal) {
-    return function (dispatch,getState) {
+    return function (dispatch, getState) {
         dispatch({
             type: types.BEGIN_CHANGE_OFFICIAL_TIME,
         });
@@ -173,15 +216,16 @@ export function saveOfficialTime(closeDatetimeModal) {
 export function openDatetimeModal(register) {
     return function (dispatch) {
         dispatch({
-            type : types.OPEN_DATE_TIME_MODAL,
-            register : register,
+            type: types.OPEN_DATE_TIME_MODAL,
+            register: register,
         });
     };
 }
+
 export function closeDatetimeModal() {
     return function (dispatch) {
         dispatch({
-            type : types.CLOSE_DATE_TIME_MODAL,
+            type: types.CLOSE_DATE_TIME_MODAL,
         });
     };
 }
@@ -189,15 +233,16 @@ export function closeDatetimeModal() {
 export function openPaymentModal(register) {
     return function (dispatch) {
         dispatch({
-            type : types.OPEN_PAYMENT_MODAL,
-            register : register,
+            type: types.OPEN_PAYMENT_MODAL,
+            register: register,
         });
     };
 }
+
 export function closePaymentModal() {
     return function (dispatch) {
         dispatch({
-            type : types.CLOSE_PAYMENT_MODAL,
+            type: types.CLOSE_PAYMENT_MODAL,
         });
     };
 }
@@ -206,16 +251,39 @@ export function closePaymentModal() {
 export function openAddRegisterModal() {
     return function (dispatch) {
         dispatch({
-            type : types.OPEN_ADD_REGISTER_MODAL,
+            type: types.OPEN_ADD_REGISTER_MODAL,
         });
     };
 }
+
 export function closeAddRegisterModal() {
     return function (dispatch) {
         dispatch({
-            type : types.CLOSE_ADD_REGISTER_MODAL,
+            type: types.CLOSE_ADD_REGISTER_MODAL,
         });
     };
 }
+
+export function createRegister(register, close) {
+    return (dispatch) => {
+        dispatch({type: types.BEGIN_CREATE_REGISTER});
+        registerManageMeetingRoomApi.createRegisterApi(register)
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.CREATE_REGISTER_SUCCESS,
+                    });
+                    loadAllRegisters();
+                    close();
+                }
+                else {
+                    dispatch({
+                        type: types.CREATE_REGISTER_ERROR
+                    });
+                }
+            });
+    };
+}
+
 
 

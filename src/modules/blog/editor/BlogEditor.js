@@ -61,8 +61,8 @@ class BlogEditor extends React.Component {
 
     preview = async () => {
         const data = savePost(this, 3); // status == 3 mean keep the current status
-        //console.log(data);
-        window.location.href = "/" + data.slug;        
+        window.location.href = "/" + data.slug;
+
     };
 
     generateFromTitle = () => {
@@ -83,7 +83,7 @@ class BlogEditor extends React.Component {
             categories: values
         };
         store.post = post;
-    }
+    };
 
 
     onChange = value => {

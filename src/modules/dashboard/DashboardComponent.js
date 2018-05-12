@@ -8,7 +8,6 @@ import ListClass from "./ListClass";
 import PropTypes from "prop-types";
 import {Panel} from "react-bootstrap";
 import ReactSelect from 'react-select';
-import {isEmptyInput} from "../../helpers/helper";
 // import ListAttendanceShift from "./ListAttendanceShift";
 // import ListAttendanceClass from "./ListAttendanceClass";
 // import { DATE } from "../../constants/constants";
@@ -33,12 +32,12 @@ class DashboardComponent extends React.Component {
     onChangeFilterBaseClass = (value) => {
         let result = value ? value.value : '';
         this.setState({filterClass: {...this.state.filterClass, base_id: result}});
-    }
+    };
 
     onChangeFilterCourseClass = (value) => {
         let result = value ? value.value : '';
         this.setState({filterClass: {...this.state.filterClass, course_id: result}});
-    }
+    };
 
     convertData(arr) {
         let data = arr.map(function (obj) {
@@ -80,10 +79,10 @@ class DashboardComponent extends React.Component {
                 // current_date,
                 end_time_gen
             } = this.props.dashboard;
-            if (!isEmptyInput(this.state.filterClass.base_id)) {
+            if (!helper.isEmptyInput(this.state.filterClass.base_id)) {
                 classes = classes.filter((classItem) => classItem.room && classItem.room.base_id == this.state.filterClass.base_id);
             }
-            if (!isEmptyInput(this.state.filterClass.course_id)) {
+            if (!helper.isEmptyInput(this.state.filterClass.course_id)) {
                 classes = classes.filter((classItem) => classItem.course.id == this.state.filterClass.course_id);
             }
             if (this.props.dashboard.user) {
@@ -484,7 +483,8 @@ DashboardComponent.propTypes = {
     baseId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     dateShifts: PropTypes.string.isRequired,
     dateClasses: PropTypes.string.isRequired,
-    loadDashboard: PropTypes.func.isRequired
+    loadDashboard: PropTypes.func.isRequired,
+    bases: PropTypes.array.isRequired,
 };
 
 export default DashboardComponent;

@@ -107,7 +107,7 @@ class UsersList extends React.Component {
 														style={{
 															cursor: 'default'
 														}}
-														className="btn btn-xs btn-simple btn-main text-name-student-register">
+														className="btn btn-sm btn-simple btn-main text-name-student-register">
 														{user.time}
 													</div>
 												</td>

@@ -924,7 +924,8 @@ a.btn-seat.active {
   color: white;
   line-height: 0;
   padding: 0px;
-  margin-left: 12px;
+  margin-left: 12px
+
 }
 
 .dropdown-menu li a:hover,
@@ -953,17 +954,18 @@ a.btn-seat.active {
 }
 
 .campaign-message-type {
-  width: 150px;
-  height: 40px;
-  border-radius: 5px;
-  display: flex;
-  cursor: auto;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    cursor: auto;
 }
 .campaign-message-type > span {
-  margin: auto;
-  font-weight: 600;
-  color: white;
-  font-size: 12px;
+    margin: auto;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+
 }
 .fileinput {
   width: 100%;
@@ -983,6 +985,7 @@ a.btn-seat.active {
 }
 
 .modal-content .modal-footer button {
+
   padding: 12px 30px;
 }
 
@@ -996,14 +999,16 @@ a.btn-seat.active {
   border-radius: 50%;
 }
 .sent-message {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  color: white;
-  border: none;
-  margin-top: 5px;
-  background-color: #74d512;
-  cursor: auto;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	color: white;
+	display: flex;
+	border: none;
+	margin: 0px auto 0 -10px;
+	background-color: #74d512;
+	cursor: auto;
+
 }
 
 .card-content .card-top {
@@ -1024,21 +1029,22 @@ a.btn-seat.active {
     0 7px 10px -5px rgba(197, 0, 0, 0.4) !important;
 }
 .flex-end {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  justify-content: flex-end;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    justify-content: flex-end;
 }
-.card-content .card-top .btn-round i {
-  font-weight: bold;
-  font-size: 18px;
-  margin: auto;
-  top: 0px;
-  color: white;
-  border: none;
-  margin-top: 5px;
-  background-color: #74d512;
-  cursor: auto;
+.card-content .card-top .btn-round i{
+    font-weight: bold;
+    font-size: 18px;
+    margin: auto;
+    top: 0px;
+    color: white;
+    border: none;
+    margin-top: 5px;
+    background-color: #74d512;
+    cursor: auto;
+
 }
 
 .card-content .card-top {
@@ -1059,6 +1065,7 @@ a.btn-seat.active {
     0 7px 10px -5px rgba(197, 0, 0, 0.4) !important;
 }
 .flex-end {
+
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;

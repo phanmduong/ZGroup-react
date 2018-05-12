@@ -43,7 +43,7 @@ export const savePostV2 = (post, status) => {
         status,
         product_content: post.content
     });
-}
+};
 
 
 export function savePost(post, status) {

@@ -1,5 +1,4 @@
 export default {
-
     session: {
         isLoadingAllSessions: false,
         isLoadingShowingSession: false,
@@ -2504,4 +2503,5 @@ export default {
             limit: 20,
         },
     },
+
 };

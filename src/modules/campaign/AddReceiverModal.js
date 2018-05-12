@@ -10,7 +10,7 @@ import Checkbox from '../../components/common/Checkbox';
 import FormInputText from '../../components/common/FormInputText';
 import UsersList from './UsersList';
 import Pagination from '../../components/common/Pagination';
-import * as helper from '../../helpers/helper';
+import  {isEmptyInput} from '../../helpers/helper';
 import PropertyReactSelectValue from '../createProduct/PropertyReactSelectValue';
 import Select from 'react-select';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
@@ -100,7 +100,7 @@ class AddReceiverModal extends React.Component {
 		const field = event.target.name;
 		let time = { ...this.state.time };
 		time[field] = event.target.value;
-		if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
+		if (!isEmptyInput(time.startTime) && !isEmptyInput(time.endTime)) {
 			this.props.campaignAction.getReceiversModal(
 				this.campaignId,
 				1,
@@ -397,7 +397,6 @@ class AddReceiverModal extends React.Component {
 
 	onHideModal() {
 		this.props.campaignAction.showAddReceiverModal();
-		this.props.campaignAction.loadAllReceiver(this.campaignId, 1, '');
 		let time = {
 			startTime: '',
 			endTime: ''
