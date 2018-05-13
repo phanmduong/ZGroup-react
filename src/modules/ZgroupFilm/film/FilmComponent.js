@@ -22,11 +22,13 @@ class FilmComponent extends React.Component {
             this.props.filmAction.deleteFilm(film);
         });
     }
-    changeFavoriteFilm(film,e){
+
+    changeFavoriteFilm(film, e) {
         this.props.filmAction.changeFavoriteFilm2(film);
         e.stopPropagation();
     }
-    openSessionModal(id){
+
+    openSessionModal(id) {
         this.props.filmAction.toggleSessionModal();
         this.props.filmAction.handleSessionModal({
             film_id: id
@@ -44,19 +46,17 @@ class FilmComponent extends React.Component {
                                 <div className="card-header" data-background-color="white" style={{
                                     borderRadius: '10px'
                                 }}>
-                                    <Link to={`/film/film/` + film.id}>
-                                        <div id="simpleBarChart" className="ct-chart"
-                                             style={{
-                                                 width: '100%',
-                                                 background: 'url(' + film.avatar_url + ')',
-                                                 backgroundSize: 'cover',
-                                                 backgroundPosition: 'center',
-                                                 height: '200px',
-                                                 borderRadius: '10px',
-                                                 position: "relative"
-                                             }}
-                                        />
-                                    </Link>
+                                    <div id="simpleBarChart" className="ct-chart"
+                                         style={{
+                                             width: '100%',
+                                             background: 'url(' + film.avatar_url + ')',
+                                             backgroundSize: 'cover',
+                                             backgroundPosition: 'center',
+                                             height: '200px',
+                                             borderRadius: '10px',
+                                             position: "relative"
+                                         }}
+                                    />
                                 </div>
                                 <div className="card-content" style={{minHeight: '140px'}}>
                                     <div className="card-action"
@@ -65,7 +65,7 @@ class FilmComponent extends React.Component {
                                             <TooltipButton placement="top" text={film.name}>
                                                 <h4 className="card-title" style={{fontWeight: 300}}>
                                                     <Link to={`/film/session/all`}
-                                                    onClick={()=>this.props.filmAction.showFilmSession(film.name)}>
+                                                          onClick={() => this.props.filmAction.showFilmSession(film.name)}>
                                                         {film.name.length >= 19 ? film.name.slice(0, 18).concat("...") : film.name}
                                                     </Link>
                                                 </h4>
@@ -153,8 +153,8 @@ class FilmComponent extends React.Component {
                                             height: '20px'
                                         }}>
                                             <Switch
-                                                onChange={(e)=>this.changeFavoriteFilm(film,e)}
-                                                value={film.is_favorite==1}
+                                                onChange={(e) => this.changeFavoriteFilm(film, e)}
+                                                value={film.is_favorite == 1}
                                                 onText="Thích" offText="Không"
                                                 bsSize="mini"
                                             />
