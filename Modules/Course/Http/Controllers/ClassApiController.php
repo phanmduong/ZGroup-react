@@ -142,7 +142,7 @@ class ClassApiController extends ApiController
             'classes' => $classes->map(function ($class) {
                 return [
                     'base' => $class->base(),
-                    'ids' => $class->id,
+                    'id' => $class->id,
                     'name' => $class->name,
                     'study_time' => $class->study_time,
                     'date_start' => $class->datestart,
