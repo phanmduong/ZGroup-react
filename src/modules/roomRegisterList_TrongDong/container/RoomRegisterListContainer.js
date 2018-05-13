@@ -145,7 +145,6 @@ class RoomRegisterListContainer extends React.Component {
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-        console.log('props', this.props);
         return (
             <div id="page-wrapper">
                 <AddBookingModal

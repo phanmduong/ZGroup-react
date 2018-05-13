@@ -119,7 +119,7 @@ export function loadAllRegisters(filter, success) {
         dispatch({
             type: types.BEGIN_LOAD_REGISTERS_LIST,
         });
-        helper.showNotification("test 1");
+        
         registerManageMeetingRoomApi
             .loadAllRegistersApi(filter)
             .then(res => {
@@ -130,14 +130,13 @@ export function loadAllRegisters(filter, success) {
                     currentPage: res.data.paginator.current_page,
                     totalCount: res.data.paginator.total_count,
                 });
-                helper.showNotification("test 2");
+                
                 if (success)
                     success();
                     
             })
             .catch((err) => {
-                helper.showNotification("test 3");
-                console.log(err);
+                
                 dispatch({
                     type: types.LOAD_REGISTERS_LIST_ERROR,
                 });
