@@ -10,6 +10,7 @@ import Pagination from "../../components/common/Pagination";
 import * as helper from "../../helpers/helper";
 import {Panel} from "react-bootstrap";
 import ReactSelect from 'react-select';
+import InfoImportOrder from "./InfoImportOrder";
 
 class ItemOrderContainer extends React.Component {
     constructor(props, context) {
@@ -18,17 +19,21 @@ class ItemOrderContainer extends React.Component {
             page: 1,
             openFilter: false,
             companyId: null,
+            showInfoModal: false,
         };
         this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
         //this.loadImportOrders = this.loadImportOrders.bind(this);
         this.changeDataCompanies = this.changeDataCompanies.bind(this);
         this.searchByCompany = this.searchByCompany.bind(this);
+        this.openInfoModal = this.openInfoModal.bind(this);
+        this.closeInfoModal = this.closeInfoModal.bind(this);
     }
 
     componentWillMount() {
         this.props.importOrderActions.loadAllImportOrder(1);
         this.props.importOrderActions.loadAllCompanies();
+        this.props.importOrderActions.loadAllOrder();
     }
 
     // loadImportOrders(page) {
@@ -44,7 +49,7 @@ class ItemOrderContainer extends React.Component {
         //     this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
         // });
         helper.confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
-            this.props.importOrderActions.changeStatusImportOrder(id,()=> {
+            this.props.importOrderActions.changeStatusImportOrder(id, () => {
                 this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
             });
 
@@ -67,20 +72,36 @@ class ItemOrderContainer extends React.Component {
     loadHistoryImportOrder(page, id) {
         this.props.importOrderActions.loadHistoryImportOrder(page, id);
     }
-    searchByCompany(e){
-        if(!e){
+
+    searchByCompany(e) {
+        if (!e) {
             this.setState({companyId: null});
             this.props.importOrderActions.loadAllImportOrder(1);
             return;
         }
         this.setState({companyId: e.value});
-        this.props.importOrderActions.loadAllImportOrder(1,e.value);
+        this.props.importOrderActions.loadAllImportOrder(1, e.value);
+    }
+
+    openInfoModal(id) {
+        this.setState({showInfoModal: true});
+        this.props.importOrderActions.loadImportOrder(id);
+    }
+
+    closeInfoModal() {
+        this.setState({showInfoModal: false});
     }
 
     render() {
         return (
             <div>
                 <div className="content">
+                    <InfoImportOrder
+                        show={this.state.showInfoModal}
+                        onHide={this.closeInfoModal}
+                        data={this.props.importOrder}
+                        itemOrders={this.props.itemOrders}
+                    />
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
@@ -132,7 +153,7 @@ class ItemOrderContainer extends React.Component {
                                                             <ReactSelect
                                                                 options={this.changeDataCompanies()}
                                                                 onChange={this.searchByCompany}
-                                                                 value={this.state.companyId}
+                                                                value={this.state.companyId}
                                                             />
                                                         </div>
                                                     </div>
@@ -152,6 +173,7 @@ class ItemOrderContainer extends React.Component {
                                                                 loadHistoryImportOrder={this.loadHistoryImportOrder}
                                                                 historyImportOrder={this.props.historyImportOrder}
                                                                 paginator={this.props.paginator_history}
+                                                                openInfoModal={this.openInfoModal}
 
                                                             />
                                                             <div>
@@ -186,6 +208,8 @@ ItemOrderContainer.propTypes = {
     paginator_history: PropTypes.object,
     importOrderActions: PropTypes.object,
     companies: PropTypes.array,
+    importOrder: PropTypes.object,
+    itemOrders: PropTypes.arr,
 };
 
 function mapStateToProps(state) {
@@ -196,6 +220,8 @@ function mapStateToProps(state) {
         paginator_history: state.importOrder.paginator_history,
         historyImportOrder: state.importOrder.historyImportOrder,
         companies: state.importOrder.companies,
+        importOrder: state.importOrder.importOrder,
+        itemOrders: state.importOrder.itemOrders,
     };
 }
 

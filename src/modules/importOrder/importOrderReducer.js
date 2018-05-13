@@ -10,10 +10,13 @@ export default function importOrderReducer(state = initialState.importOrder, act
             };
         }
         case types.LOAD_IMPORT_ORDER_SUCCESS: {
+            let data = action.data;
+            let count = data.good_count;
+            for (let i = 0; i < count; i++) data.goods.splice(0, 1);
             return {
                 ...state,
                 isLoadingImportOrder: false,
-                importOrders: action.data,
+                importOrder: data,
             };
         }
         case types.LOAD_IMPORT_ORDER_ERROR: {
