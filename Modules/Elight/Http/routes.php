@@ -29,12 +29,13 @@ $webRoutes = function () {
     Route::get('/category/search', 'ElightController@searchCategory');
 };
 
-Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $webRoutes);
-Route::group(['middleware' => 'web', 'domain' => 'elightbook.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $webRoutes);
-
 $routes = function () {
     Route::get('/lesson-detail/{lesson_id}', 'ElightPublicApiController@lesson');
 };
 
+
+Route::group(['middleware' => 'web', 'domain' => 'elightbook.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $webRoutes);
+//Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $webRoutes);
+
 Route::group(['domain' => 'api.elightbook.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $routes);
-Route::group(['domain' => 'elightbook.{subfix}', 'prefix' => '/api/v3', 'namespace' => 'Modules\Elight\Http\Controllers'], $routes);
+//Route::group(['domain' => 'api.keetool3.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $routes);
