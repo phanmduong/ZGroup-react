@@ -252,10 +252,6 @@
                             <br>
                         </h1>
                     </div>
-                    {{--
-                    <a href="/blog/post/14676" style="color:#138edc!important">
-                        <b>Xem thêm</b>
-                    </a>--}}
 
                     <br>
                     <br>
@@ -264,7 +260,7 @@
                 <div class="col-md-4">
                     <div class="card card-plain card-blog text-center">
                         <div class="card-image">
-                            <a href="/blog/post/14676">
+                            <a href="/blog/post/{{$blog->id}}">
                                 <div style="width: 100%;
                                                 border-radius: 10px;
                                                 background: url('{{generate_protocol_url($blog->url)}}');
@@ -276,7 +272,7 @@
                         <div class="card-body">
                             <h6 class="card-category text-facebook">{{$blog->author->name}}</h6>
                             <h3 class="card-title">
-                                <a href="#pablo">{{shortString($blog->title,4)}}</a>
+                                <a href="/blog/post/{{$blog->id}}">{{$blog->title}}</a>
                             </h3>
                             <p class="card-description">
                                 {{$blog->description}}
