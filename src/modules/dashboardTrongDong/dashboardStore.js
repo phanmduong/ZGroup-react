@@ -1,10 +1,13 @@
-import { observable, action, computed } from "mobx";
-import { showErrorNotification } from "../../helpers/helper";
+import {observable, action, computed} from "mobx";
+import {showErrorNotification} from "../../helpers/helper";
 import * as dashboardApi from "./dashboardApi";
 
 export default new class DashboardTrongDongStore {
+    @observable isCreatingRegister = false;
     @observable isLoadingBases = false;
     @observable bases = [];
+    @observable isLoadingCampaigns = false;
+    @observable campaigns = [];
     @observable selectedBaseId = 0;
     @observable isLoadingRooms = false;
     @observable rooms = [];
@@ -35,7 +38,8 @@ export default new class DashboardTrongDongStore {
     changeTime(registerRoomId = "", startTime = "", endTime = "") {
         dashboardApi
             .changeTime(registerRoomId, startTime, endTime)
-            .then(() => { })
+            .then(() => {
+            })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
             });
@@ -54,7 +58,7 @@ export default new class DashboardTrongDongStore {
                                 status: res.data.data.register.status
                             };
                         } else {
-                            return { ...register };
+                            return {...register};
                         }
                     });
                     return {
@@ -79,7 +83,22 @@ export default new class DashboardTrongDongStore {
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
-                this.isLoading = false;
+                this.isLoadingBases = false;
+            });
+    }
+
+    @action
+    loadCampaigns() {
+        this.isLoadingCampaigns = true;
+        dashboardApi
+            .loadCampaigns()
+            .then(res => {
+                this.campaigns = res.data.data.marketing_campaigns;
+                this.isLoadingCampaigns = false;
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra.");
+                this.isLoadingCampaigns = false;
             });
     }
 
@@ -95,6 +114,56 @@ export default new class DashboardTrongDongStore {
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
                 this.isLoadingRooms = false;
+            });
+    }
+
+    @action
+    createRegister(register, closeModal) {
+        this.isCreatingRegister = true;
+        dashboardApi
+            .storeRegister(register)
+            .then(res => {
+                this.isCreatingRegister = false;
+
+                if (res.data.status == 1) {
+                    closeModal();
+                    if (register.register_id) {
+                        this.registerRooms = this.registerRooms.map(room => {
+                            const register_rooms = room.register_rooms.map(register => {
+                                if (register.id == res.data.data.register_room.id) {
+                                    return {
+                                        ...register,
+                                        ...res.data.data.register_room
+                                    };
+                                } else {
+                                    return {...register};
+                                }
+                            });
+                            return {
+                                ...room,
+                                register_rooms: register_rooms
+                            };
+                        });
+                    } else {
+                        this.registerRooms = this.registerRooms.map(room => {
+                            if (room.id == res.data.data.register_room.room_id) {
+                                return {
+                                    ...room,
+                                    register_rooms: [...room.register_rooms, res.data.data.register_room]
+                                }
+                            }
+                            return {
+                                ...room,
+                            };
+                        });
+                    }
+                } else {
+                    showErrorNotification(res.data.message);
+                }
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra.");
+                this.isCreatingRegister = false;
             });
     }
 
@@ -170,5 +239,16 @@ export default new class DashboardTrongDongStore {
             },
             ...rooms
         ];
+    }
+
+    @computed
+    get campaignsData() {
+        return this.campaigns.map(function (campaign) {
+            return {
+                ...campaign,
+                value: campaign.id,
+                label: campaign.name
+            };
+        });
     }
 }();
