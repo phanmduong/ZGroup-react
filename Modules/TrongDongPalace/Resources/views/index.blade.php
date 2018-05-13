@@ -343,65 +343,65 @@
                                 <div class="gdlr-gallery-item gdlr-item">
                                     <div class="gallery-column six columns">
                                         <div class="gallery-item"><a
-                                                href="javascript:void(0);"
+                                                href="http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="javascript:void(0);"
+                                                href="http://trongdongpalace.com/images/cover/3650_Canh-ho.jpg"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://trongdongpalace.com/images/cover/3650_Canh-ho.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="clear"></div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-01.jpg"
                                                 src="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-01.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                        href="javascript:void(0);"
+                                        href="http://www.trongdongpalace.com/ckfinder/userfiles/images/wedding-planner-02.jpg"
                                                 src="http://www.trongdongpalace.com/ckfinder/userfiles/images/wedding-planner-02.jpg"
-                                                alt="" width="400" height="400"/></a></div>
+                                                alt="" width="400" height="400" style="background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></a></div>
                                     </div>
                                     <div class="clear"></div>
                                 </div>
