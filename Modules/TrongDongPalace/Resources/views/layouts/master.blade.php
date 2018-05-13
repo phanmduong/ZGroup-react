@@ -252,11 +252,11 @@
                                 </li>
                                 <li id="menu-item-4103"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
-                                    <a href="/blogs.html" class="sf-with-ul-pre">Tin tức</a>
+                                    <a href="/blog" class="sf-with-ul-pre">Tin tức</a>
                                 </li>
                                 <li id="menu-item-4104"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
-                                    <a href="/album.html"
+                                    <a href="/album"
                                        class="sf-with-ul-pre">Album ảnh</a>
                                 </li>
                                 <li id="menu-item-4105"
@@ -286,10 +286,10 @@
                                    class="sf-with-ul-pre">Tổ chức sự kiện</a>
                             </li>
                             <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003 gdlr-normal-menu">
-                                <a href="/blogs.html" class="sf-with-ul-pre">Tin tức</a>
+                                <a href="/blog" class="sf-with-ul-pre">Tin tức</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007 gdlr-normal-menu">
-                                <a href="/album.html"
+                                <a href="/album"
                                    class="sf-with-ul-pre">Album ảnh</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103 gdlr-mega-menu">

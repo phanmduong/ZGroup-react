@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 
 class TrongDongPalaceController extends Controller
-{   
+{
     public function __construct()
     {
 
@@ -235,5 +235,10 @@ class TrongDongPalaceController extends Controller
         $this->data['saler_id'] = $salerId;
         $this->data['campaign_id'] = $campaignId;
         return view('trongdongpalace::register', $this->data);
+    }
+
+    public function album()
+    {
+        return view('trongdongpalace::album', $this->data);
     }
 }
