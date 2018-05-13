@@ -139,6 +139,7 @@ class FilmZgroupController extends Controller
     }
 
     public function filmsCategory (Request $request, $category) {
+        $title = "";
         $films = Film::orderBy('created_at','desc');
 
         if($category == "coming-soon") {
@@ -163,7 +164,7 @@ class FilmZgroupController extends Controller
         if ($films->lastPage() == $page_id - 1) {
             $display = 'display:none';
         }
-        $title = "";
+
 
         $this->data['films'] = $films;
         $this->data['title'] = $title;

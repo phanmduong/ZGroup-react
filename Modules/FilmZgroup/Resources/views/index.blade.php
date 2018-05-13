@@ -59,7 +59,7 @@
                                                         <p>{{$favoriteFilm->summary}}</p>
 
                                                         <div class="buttons">
-                                                            {{--<span class="certificate">{{$film->film_quality}}</span>--}}
+                                                            <span class="certificate">{{$favoriteFilm->film_rated}}</span>
                                                             <a href="{{$favoriteFilm->trailer_url}}"
                                                                data-vbtype="video"
                                                                class="venobox btn btn-default vbox-item">
@@ -719,7 +719,7 @@
                     items: 5
                 },
             }
-        })
+        });
         $('#comingSoon').owlCarousel({
             loop: true,
             nav: true,
