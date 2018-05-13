@@ -4,6 +4,7 @@ namespace Modules\FilmZgroup\Http\Controllers;
 
 use App\Film;
 use App\FilmSession;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -52,7 +53,6 @@ class FilmZgroupController extends Controller
         $favoriteFilms = Film::where('is_favorite', true)->get();
 
         $sessionsShowing = FilmSession::where('start_date','>=',date('Y-m-d'))->orderBy('start_date','desc')->get();
-//        dd($filmsComing);
         $this->data = [
             'filmsComing' => $filmsComing,
             'sessionsShowing' => $sessionsShowing,
@@ -177,5 +177,16 @@ class FilmZgroupController extends Controller
         return view('filmzgroup::films_by_category',$this->data);
     }
 
+
+
+
+
+    public function blog (Request $request, $id)
+    {
+        $blog = Product::find($id)->first();
+
+        $this->data['blog'] = $blog;
+        return view('filmzgroup::blog',$this->data);
+    }
 
 }

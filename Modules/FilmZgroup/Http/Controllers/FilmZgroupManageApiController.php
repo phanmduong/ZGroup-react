@@ -194,7 +194,7 @@ class FilmZgroupManageApiController extends ManageApiController
         if ($request->film_status) {
             $film->film_status = $request->film_status;
         }
-        if ($request->is_favorite) {
+        if ($request->is_favorite || $request->is_favorite == 0) {
             $film->is_favorite = $request->is_favorite;
         }
 
