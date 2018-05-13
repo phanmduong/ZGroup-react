@@ -7,6 +7,7 @@ use App\Room;
 use App\RoomServiceRegister;
 use App\RoomServiceRegisterRoom;
 use App\RoomType;
+use App\User;
 use Illuminate\Http\Request;
 
 
@@ -53,6 +54,8 @@ class TrongDongPalaceManageApiController extends ManageApiController
                     'end_time' => format_time_to_mysql(strtotime($register_room->end_time)),
                     'user' => $register_room->register->user,
                     'status' => $register_room->register->status,
+                    'campaign_id' => $register_room->register->campaign_id,
+                    'note' => $register_room->register->note,
                 ];
             });
 
@@ -133,6 +136,149 @@ class TrongDongPalaceManageApiController extends ManageApiController
             'register' => [
                 'id' => $register->id,
                 'status' => $register->status,
+            ]
+        ]);
+    }
+
+    public function createRegisterRoom(Request $request)
+    {
+        if ($request->name == null) {
+            return $this->respondErrorWithStatus("Thiếu name");
+        }
+        if ($request->email == null) {
+            return $this->respondErrorWithStatus("Thiếu email");
+        }
+        if ($request->phone == null) {
+            return $this->respondErrorWithStatus("Thiếu phone");
+        }
+        if ($request->status == null) {
+            return $this->respondErrorWithStatus("Thiếu status");
+        }
+        if ($request->base_id == null) {
+            return $this->respondErrorWithStatus("Thiếu base_id");
+        }
+        if ($request->base_id == null) {
+            return $this->respondErrorWithStatus("Thiếu room_id");
+        }
+        if ($request->start_time == null) {
+            return $this->respondErrorWithStatus("Thiếu start_time");
+        }
+        if ($request->end_time == null) {
+            return $this->respondErrorWithStatus("Thiếu end_time");
+        }
+
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt($phone);
+            $user->username = $request->email;
+            $user->email = $request->email;
+        }
+        $user->rate = 5;
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->address = $request->address;
+        $user->save();
+
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->status = $request->status;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->saler_id = $this->user->id;
+        $register->type = 'room';
+        $register->base_id = $request->base_id;
+        $register->note = $request->note;
+        $register->save();
+
+        $registerRoom = new RoomServiceRegisterRoom();
+        $registerRoom->start_time = $request->start_time;
+        $registerRoom->end_time = $request->end_time;
+        $registerRoom->room_id = $request->room_id;
+        $registerRoom->room_service_register_id = $register->id;
+        $registerRoom->save();
+
+        return $this->respondSuccessWithStatus([
+            'register_room' => [
+                'id' => $registerRoom->id,
+                'register_id' => $register->id,
+                'start_time' => format_time_to_mysql(strtotime($registerRoom->start_time)),
+                'end_time' => format_time_to_mysql(strtotime($registerRoom->end_time)),
+                'user' => $user,
+                'status' => $register->status,
+                'room_id' => $registerRoom->room_id,
+                'note' => $register->note,
+                'campaign_id' => $register->campaign_id,
+            ]
+        ]);
+    }
+
+    public function editRegisterRoom(Request $request)
+    {
+        if ($request->id == null) {
+            return $this->respondErrorWithStatus("Thiếu id");
+        }
+
+        if ($request->name == null) {
+            return $this->respondErrorWithStatus("Thiếu name");
+        }
+        if ($request->email == null) {
+            return $this->respondErrorWithStatus("Thiếu email");
+        }
+        if ($request->phone == null) {
+            return $this->respondErrorWithStatus("Thiếu phone");
+        }
+        if ($request->status == null) {
+            return $this->respondErrorWithStatus("Thiếu status");
+        }
+        if ($request->base_id == null) {
+            return $this->respondErrorWithStatus("Thiếu base_id");
+        }
+        if ($request->base_id == null) {
+            return $this->respondErrorWithStatus("Thiếu room_id");
+        }
+        if ($request->start_time == null) {
+            return $this->respondErrorWithStatus("Thiếu start_time");
+        }
+        if ($request->end_time == null) {
+            return $this->respondErrorWithStatus("Thiếu end_time");
+        }
+
+
+        $registerRoom = RoomServiceRegisterRoom::find($request->id);
+        $register = $registerRoom->register;
+
+
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        $user = $register->user;
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->save();
+
+
+        $register->status = $request->status;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->base_id = $request->base_id;
+        $register->note = $request->note;
+        $register->save();
+
+        $registerRoom->start_time = $request->start_time;
+        $registerRoom->end_time = $request->end_time;
+        $registerRoom->room_id = $request->room_id;
+        $registerRoom->save();
+
+        return $this->respondSuccessWithStatus([
+            'register_room' => [
+                'id' => $registerRoom->id,
+                'register_id' => $register->id,
+                'start_time' => format_time_to_mysql(strtotime($registerRoom->start_time)),
+                'end_time' => format_time_to_mysql(strtotime($registerRoom->end_time)),
+                'user' => $user,
+                'status' => $register->status,
+                'room_id' => $registerRoom->room_id,
+                'note' => $register->note,
+                'campaign_id' => $register->campaign_id,
             ]
         ]);
     }
