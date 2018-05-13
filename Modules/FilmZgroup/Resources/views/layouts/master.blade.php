@@ -26,7 +26,9 @@
     <link rel="stylesheet" id="fw-googleFonts-css"
           href="http://fonts.googleapis.com/css?family=Roboto+Condensed%3A300%2Cregular&amp;subset=latin-ext&amp;ver=4.9.4"
           media="all">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery.js"></script>
+    <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+        {{--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">--}}
     {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/paper-kit.css" rel="stylesheet"/>--}}
     {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/bootstrap.min.css" rel="stylesheet"/>--}}
 

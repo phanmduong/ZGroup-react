@@ -201,7 +201,7 @@ class TrongDongPalaceController extends Controller
         $this->data['campaign_id'] = $campaignId;
         $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
         $this->data['current_page'] = $rooms->currentPage();
-
+        // dd($rooms);
         $lastPart = '';
         if ($salerId) {
             $lastPart .= '/' . $salerId;
