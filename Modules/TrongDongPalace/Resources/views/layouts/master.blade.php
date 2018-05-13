@@ -12,9 +12,11 @@
     <meta name="viewport" content="initial-scale=1.0"/>
 
     <link rel="pingback" href="http://demo.goodlayers.com/hotelmaster/dark/xmlrpc.php"/>
-    <title>Hotel Master &#8211; Room Reservation WordPress Theme</title>
+	<title>Trung Tâm Tổ Chức Hội Nghị và Tiệc Cưới - Trống Đồng Palace Hà Nội</title>
     <meta name='robots' content='noindex,follow'/>
     <link rel='dns-prefetch' href='//fonts.googleapis.com'/>
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.trongdongpalace.com/favicon.ico" />
+
     <link rel='dns-prefetch' href='//s.w.org'/>
     <link rel="alternate" type="application/rss+xml" title="Hotel Master &raquo; Feed"
           href="http://demo.goodlayers.com/hotelmaster/dark/feed/"/>
@@ -367,8 +369,8 @@
         <div class="copyright-wrapper">
             <div class="copyright-container container">
                 <div class="copyright-left">
-                    <a href="http://demo.goodlayers.com/hotelmaster/dark" style="margin-right: 10px;">Trang chủ</a>|<a
-                        href="http://demo.goodlayers.com/hotelmaster/dark/?booking"
+                    <a href="/" style="margin-right: 10px;">Trang chủ</a>|<a
+                        href="/booking"
                         style="margin-right: 10px; margin-left: 10px;">Đặt phòng</a></div>
                 <div class="copyright-right">
                     Copyright 2015 All Right Reserved

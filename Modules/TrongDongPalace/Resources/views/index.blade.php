@@ -272,90 +272,6 @@
                                                         class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
                                                 </li>
                                                 @endforeach
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-two-double-beds/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-3973259-hotel-room-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-two-double-beds/">Superior
-                                                        Room &#8211; Two Double Beds</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-two-double-beds/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/junior-suite-one-single-bed/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2681114-penthouse-room-on-a-sunny-day-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/junior-suite-one-single-bed/">Junior
-                                                        Suite &#8211; One Single Bed</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/junior-suite-one-single-bed/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/grand-superior-room-two-king-beds/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-3973289-hotel-room-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/grand-superior-room-two-king-beds/">Grand
-                                                        Superior Room &#8211; Two King Beds</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/grand-superior-room-two-king-beds/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-one-king-bed/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2232283-hotel-room-with-bed-and-wooden-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-one-king-bed/">Superior
-                                                        Room &#8211; One King Bed</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-one-king-bed/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/deluxe-room-one-king-bed/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-4076311-interior-of-modern-comfortable-hotel-room-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/deluxe-room-one-king-bed/">Deluxe
-                                                        Room &#8211; One King Bed</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/deluxe-room-one-king-bed/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/family-special-three-double-beds/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-3973259-hotel-room-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/family-special-three-double-beds/">Family
-                                                        Special &#8211; Three Double Beds</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/family-special-three-double-beds/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/premium-room-two-single-beds/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-3973289-hotel-room-m-700x400.jpg"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/premium-room-two-single-beds/">Premium
-                                                        Room &#8211; Two Single Beds</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/premium-room-two-single-beds/"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
                                             </ul>
                                             <div class="clear"></div>
                                         </div>
@@ -427,14 +343,14 @@
                                 <div class="gdlr-gallery-item gdlr-item">
                                     <div class="gallery-column six columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-7751505-luxury-home-with-swimming-pool-m.jpg"
+                                                href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-7751505-luxury-home-with-swimming-pool-m-400x400.jpg"
+                                                src="http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-1231437-tropical-pool-bar-m.jpg"
+                                                href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
                                                 src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-1231437-tropical-pool-bar-m-400x400.jpg"
                                                 alt="" width="400" height="400"/></a></div>
