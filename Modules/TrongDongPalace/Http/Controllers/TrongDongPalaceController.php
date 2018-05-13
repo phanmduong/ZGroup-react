@@ -134,8 +134,10 @@ class TrongDongPalaceController extends Controller
     public function bookingApi(Request $request)
     {
         $room = Room::find($request->room_id);
-        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message,
-                    'room_name' => $room ? $room->name : "", 'base_name' => $room ? $room->base->name : ""];
+        $data = [
+            'email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message,
+            'room_name' => $room ? $room->name : "", 'base_name' => $room ? $room->base->name : ""
+        ];
 
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
@@ -179,7 +181,7 @@ class TrongDongPalaceController extends Controller
             $rooms->where('room_type_id', $request->room_type_id);
         }
 
-        $rooms = $rooms->orderBy('created_at', 'desc')->paginate(6);
+        $rooms = $rooms->orderBy('created_at', 'desc')->paginate(50);
 
         if ($request->page == null) {
             $page_id = 2;
@@ -217,5 +219,13 @@ class TrongDongPalaceController extends Controller
         $this->data['last_part'] = $lastPart;
 
         return view('trongdongpalace::booking', $this->data);
+    }
+
+    public function register($roomId, $salerId = 0, $campaignId = 0)
+    {
+        $this->data['room_id'] = $roomId;
+        $this->data['saler_id'] = $salerId;
+        $this->data['campaign_id'] = $campaignId;
+        return view('trongdongpalace::register', $this->data);
     }
 }
