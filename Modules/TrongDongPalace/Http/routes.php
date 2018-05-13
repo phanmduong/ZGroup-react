@@ -16,6 +16,7 @@ $manageApiRoutes = function () {
     Route::get('/dashboard', 'TrongDongPalaceManageApiController@dashboard');
     Route::get('/room/all', 'TrongDongPalaceManageApiController@rooms');
     Route::get('/room-type/all', 'TrongDongPalaceManageApiController@roomTypes');
+    Route::get('/register-room/all', 'TrongDongPalaceManageApiController@allRegisterRoom');
     Route::put('/register-room/change-time', 'TrongDongPalaceManageApiController@changeTime');
     Route::put('/register-room/change-status', 'TrongDongPalaceManageApiController@changeStatus');
     Route::put('/register-room/create', 'TrongDongPalaceManageApiController@createRegisterRoom');
