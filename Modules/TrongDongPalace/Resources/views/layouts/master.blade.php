@@ -110,7 +110,7 @@
           href='http://demo.goodlayers.com/hotelmaster/dark/wp-content/themes/hotelmaster/plugins/dl-menu/component.css?ver=5ed7c316c9b1ef9b04fe581cf7839fe5'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='font-awesome-css'
-          href='plugins/font-awesome/css/font-awesome.min.css'
+          href='/plugins/font-awesome/css/font-awesome.min.css'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='jquery-fancybox-css'
           href='http://demo.goodlayers.com/hotelmaster/dark/wp-content/themes/hotelmaster/plugins/fancybox/jquery.fancybox.css?ver=5ed7c316c9b1ef9b04fe581cf7839fe5'
@@ -224,7 +224,7 @@
                 <!-- logo -->
                 <div class="gdlr-logo">
                     <div class="gdlr-logo-inner">
-                        <a href="http://demo.goodlayers.com/hotelmaster/dark">
+                        <a href="/">
                             <img src="http://www.trongdongpalace.com/images/logo/3908_bao-do.png" alt=""
                                  style="height:100px!important"/> </a>
                         <div class="gdlr-responsive-navigation dl-menuwrapper" id="gdlr-responsive-navigation">
@@ -340,30 +340,11 @@
                         class="gdlr-widget-title">Các cơ sở</h3>
                     <div class="clear"></div>
                     <ul>
-                        <li>
-                            <a href="http://demo.goodlayers.com/hotelmaster/dark/sem-porta-mollis-parturient/">Sem
-                                Porta Mollis Parturient</a>
-                        </li>
-                        <li>
-                            <a href="http://demo.goodlayers.com/hotelmaster/dark/nullam-lorem-mattis-purus/">Nullam
-                                Lorem Mattis Purus</a>
-                        </li>
-                        <li>
-                            <a href="http://demo.goodlayers.com/hotelmaster/dark/nibh-sem-sit-ullamcorper/">Nibh Sem
-                                Sit Ullamcorper</a>
-                        </li>
-                        <li>
-                            <a href="http://demo.goodlayers.com/hotelmaster/dark/donec-luctus-imperdiet/">Donec luctus
-                                imperdiet</a>
-                        </li>
-                        <li>
-                            <a href="http://demo.goodlayers.com/hotelmaster/dark/magna-pars-studiorum/">Magna pars
-                                studiorum</a>
-                        </li>
-                        <li>
-                            <a href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/">Sedial eiusmod
-                                tempor</a>
-                        </li>
+                        @foreach($bases as $base)
+                            <li>
+                                <a href="/booking?base_id={{$base->id}}">{{$base->name}}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

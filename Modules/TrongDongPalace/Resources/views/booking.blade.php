@@ -64,7 +64,7 @@
                                                         alt="" width="700" height="400" style="transform: scale(1, 1);"></a>
                                                 </div>
                                                 <h3 class="gdlr-room-title"><a
-                                                        href="/room/{{$room->id}}{{$last_part}}">{{$room->base->name}}: {{$room->name}}</a></h3><a
+                                                        href="/room/{{$room->id}}{{$last_part}}">{{$room->name}}</a></h3><a
                                                     href="/room/{{$room->id}}{{$last_part}}"
                                                     class="gdlr-room-detail">Xem chi tiết<i
                                                     class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>

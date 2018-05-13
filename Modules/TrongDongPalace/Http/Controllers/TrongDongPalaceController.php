@@ -14,12 +14,17 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 
 class TrongDongPalaceController extends Controller
-{
+{   
+    public function __construct()
+    {
+        $this->data['bases'] = Base::orderBy('created_at', 'asc')->get();
+    }
+
     public function index()
     {
         // $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         // $this->data['newestBlogs'] = $newestBlogs;
-        return view('trongdongpalace::index');//, $this->data);
+        return view('trongdongpalace::index', $this->data);
     }
 
     public function room($roomId, $salerId = 0, $campaignId = 0)

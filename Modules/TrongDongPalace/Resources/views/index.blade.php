@@ -250,25 +250,28 @@
                                     <div class="clear"></div>
                                 </div>
                                 <a class="gdlr-item-title-link"
-                                   href="http://demo.goodlayers.com/hotelmaster/room-classic-3-columns/">Xem tất cả<i class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>
+                                   href="/booking">Xem tất cả<i class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>
                             <div class="room-item-wrapper type-modern">
                                 <div class="room-item-holder ">
                                     <div class="gdlr-room-carousel-item gdlr-item">
                                         <div class="flexslider" data-type="carousel"
                                              data-nav-container="room-item-wrapper" data-columns="3">
                                             <ul class="slides">
+                                                @foreach($bases as $base)
                                                 <li class="gdlr-item gdlr-modern-room">
                                                     <div class="gdlr-room-thumbnail"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/standard-room-one-king-bed/"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2676493-suite-bed-room-with-balcony-of-a-luxury-resort-m-700x400.jpg"
+                                                            href="/booking?base_id={{$base->id}}"><img
+                                                            src="{{$base->avatar_url}}"
                                                             alt="" width="700" height="400"/></a></div>
                                                     <h3 class="gdlr-room-title"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/room/standard-room-one-king-bed/">Standard
-                                                        Room &#8211; One King Bed</a></h3><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/room/standard-room-one-king-bed/"
+                                                            href="/booking?base_id={{$base->id}}">
+                                                        {{$base->name}}
+                                                        </a></h3><a
+                                                        href="/booking?base_id={{$base->id}}"
                                                         class="gdlr-room-detail">Xem chi tiết<i
                                                         class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
                                                 </li>
+                                                @endforeach
                                                 <li class="gdlr-item gdlr-modern-room">
                                                     <div class="gdlr-room-thumbnail"><a
                                                             href="http://demo.goodlayers.com/hotelmaster/dark/room/superior-room-two-double-beds/"><img
