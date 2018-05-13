@@ -76,7 +76,7 @@ export function loadAllRegistersApi(filter) {
         startTime,
         endTime
     } = filter;
-    let url = env.MANAGE_API_URL + '/trongdong/dashboard?page=' + page;
+    let url = env.MANAGE_API_URL + '/trongdong/register-room/all?page=' + page;
     if (search) {
         url += "&search=" + search;
     }

@@ -145,7 +145,7 @@ class RoomRegisterListContainer extends React.Component {
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-
+        console.log('props', this.props);
         return (
             <div id="page-wrapper">
                 <AddBookingModal
@@ -178,7 +178,7 @@ class RoomRegisterListContainer extends React.Component {
                                                 <strong>+</strong>
                                             </button>
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             
                                             <TooltipButton text="Lọc" placement="top">
                                             <button
@@ -193,7 +193,7 @@ class RoomRegisterListContainer extends React.Component {
                                             </button>
 
                                         </TooltipButton>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div>
                                         <Panel collapsible expanded={this.state.openFilterPanel}>
@@ -264,17 +264,17 @@ RoomRegisterListContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.registerManageMeetingRoom.isLoading,
-        totalPages: state.registerManageMeetingRoom.totalPages,
-        registers: state.registerManageMeetingRoom.registers,
-        limit: state.registerManageMeetingRoom.limit,
-        totalCount: state.registerManageMeetingRoom.totalCount,
-        currentPage: state.registerManageMeetingRoom.currentPage,
-        salers: state.registerManageMeetingRoom.salers,
-        isLoadingBases: state.registerManageMeetingRoom.isLoadingBases,
-        isLoadingSalers: state.registerManageMeetingRoom.isLoadingSalers,
-        isLoadingCampaignFilter: state.registerManageMeetingRoom.isLoadingSalers,
-        bases: state.registerManageMeetingRoom.bases,
+        isLoading: state.registerListManage.isLoading,
+        totalPages: state.registerListManage.totalPages,
+        registers: state.registerListManage.registers,
+        limit: state.registerListManage.limit,
+        totalCount: state.registerListManage.totalCount,
+        currentPage: state.registerListManage.currentPage,
+        salers: state.registerListManage.salers,
+        isLoadingBases: state.registerListManage.isLoadingBases,
+        isLoadingSalers: state.registerListManage.isLoadingSalers,
+        isLoadingCampaignFilter: state.registerListManage.isLoadingSalers,
+        bases: state.registerListManage.bases,
         campaigns: state.registerListManage.campaigns,
     };
 }

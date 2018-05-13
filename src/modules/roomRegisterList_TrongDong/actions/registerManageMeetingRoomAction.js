@@ -117,24 +117,29 @@ export function loadAllSalers() {
 export function loadAllRegisters(filter, success) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_REGISTERS,
+            type: types.BEGIN_LOAD_REGISTERS_LIST,
         });
+        helper.showNotification("test 1");
         registerManageMeetingRoomApi
             .loadAllRegistersApi(filter)
             .then(res => {
                 dispatch({
-                    type: types.LOAD_REGISTERS_SUCCESS,
-                    registers: res.data.room_service_registers,
+                    type: types.LOAD_REGISTERS_LIST_SUCCESS,
+                    registers: res.data.data,
                     totalPages: res.data.paginator.total_pages,
                     currentPage: res.data.paginator.current_page,
                     totalCount: res.data.paginator.total_count,
                 });
+                helper.showNotification("test 2");
                 if (success)
                     success();
+                    
             })
-            .catch(() => {
+            .catch((err) => {
+                helper.showNotification("test 3");
+                console.log(err);
                 dispatch({
-                    type: types.LOAD_REGISTERS_ERROR,
+                    type: types.LOAD_REGISTERS_LIST_ERROR,
                 });
             });
     };

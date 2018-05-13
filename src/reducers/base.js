@@ -8,7 +8,7 @@ import commonReducer from "./commonReducer";
 import registerManageRoomReducer from "../modules/registerManageRoom/registerManageRoomReducer";
 import registerManageReducer from "../modules/registerManage/registerManageReducer";
 import chooseSeatReducer from "../modules/registerManage/chooseSeat/chooseSeatReducer";
-import registerListManageReducer from "../modules/roomRegisterList_TrongDong/reducers/registerManageMeetingRoomReducer";
+import registerListManageReducer from "../modules/roomRegisterList_TrongDong/reducers/registerListManageReducer";
 import registerManageMeetingRoomReducer from "../modules/registerManageMeetingRoom/reducers/registerManageMeetingRoomReducer";
 
 const appReducer = combineReducers({

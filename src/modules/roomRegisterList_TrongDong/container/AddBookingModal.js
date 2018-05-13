@@ -10,6 +10,7 @@ import FormInputText from '../../../components/common/FormInputText';
 import * as helper from "../../../helpers/helper";
 import {DATETIME_FORMAT_SQL, DATETIME_FORMAT, STATUS_REGISTER_ROOM} from "../../../constants/constants";
 import ReactSelect from "react-select";
+import moment from "moment";
 class AddBookingModal extends React.Component {
     constructor(context, props) {
         super(context, props);
@@ -308,7 +309,7 @@ const defaultData = {
     campaign_id: '',
     base_id: '',
     room_id: '',
-    start_time: '',
-    end_time: '',
+    start_time: moment(moment.now()).format("H:M D-M-Y"),
+    end_time: moment(moment.now()).add(1,'days').format("H:M D-M-Y"),
     price: '',
 };
