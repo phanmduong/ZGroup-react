@@ -329,3 +329,14 @@ export function clearToLoadPage() {
         type: types.CLEAR_TO_LOAD_PAGE
     });
 }
+export function loadAllRooms() {
+    return function (dispatch) {
+        filmApi.loadAllRoomsApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_ROOMS_SUCCESS,
+                    rooms: res.data.rooms
+                });
+            });
+    };
+}

@@ -205,7 +205,7 @@ export default function filmReducer(state = initialState.film, action) {
         case types.CLEAR_TO_LOAD_PAGE:
             return {
                 ...state,
-                search:"",
+                search: "",
                 openFilmModal: false
             };
 
@@ -285,11 +285,26 @@ export default function filmReducer(state = initialState.film, action) {
                 }
                 return session;
             });
+            let session2 = state.showingSession.map((session2) => {
+                if (session2.id === action.session.id) {
+                    return {
+                        ...session2,
+                        film_id: action.session.film_id,
+                        film_quality: action.session.film_quality,
+                        room_id: action.session.room_id,
+                        start_time: action.session.start_time,
+                        start_date: action.session.start_date,
+
+                    };
+                }
+                return session2;
+            });
             return {
                 ...state,
                 addEditSessionModal: false,
                 isSavingSession: false,
-                allSessions: session
+                allSessions: session,
+                showingSession: session2,
             };
         }
         case types.DELETE_SESSION_SUCCESS:
@@ -298,10 +313,15 @@ export default function filmReducer(state = initialState.film, action) {
                 allSessions: state.allSessions.filter(session => session.id !== action.session.id)
             };
         case types.SHOW_ADD_EDIT_FILM_MODAL_AT_SESSION:
-            return{
+            return {
                 ...state,
                 addEditFilmModal: !state.addEditFilmModal,
                 openFilmModal: true
+            };
+        case types.LOAD_ALL_ROOMS_SUCCESS:
+            return {
+                ...state,
+                rooms: action.rooms
             };
         default:
             return state;

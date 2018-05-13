@@ -150,3 +150,14 @@ export function deleteSessionApi(session) {
     }
     return axios.delete(url);
 }
+
+//Get all room
+//http://keetool3.xyz/manageapi/v3/?&token=
+export function loadAllRoomsApi() {
+    let url = env.MANAGE_API_URL + "/base/rooms";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

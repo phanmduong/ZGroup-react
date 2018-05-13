@@ -19,7 +19,6 @@ export default {
         filmModal: {},
         //-----------
 
-
         //********Session
         search:'',
         isLoadingAllSessions:false,
@@ -39,6 +38,7 @@ export default {
         isSavingSession: false,
         addEditSessionModal: false,
         sessionModal: {},
+        rooms:[],
     },
 
     campaignList: {

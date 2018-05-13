@@ -104,12 +104,12 @@ class AddEditSessionModal extends React.Component{
                                     <Select
                                         // disabled={false}
                                         value={session.room_id || ''}
-                                        options={[
-                                            {
-                                                value: 1,
-                                                label: "Phòng 1"
-                                            },
-                                        ]}
+                                        options={this.props.rooms.map((room)=>{
+                                            return{
+                                                value: room.id,
+                                                label: room.name,
+                                            };
+                                        })}
                                         onChange={this.changTemplateTypes2}
                                     />
                                 </div>
@@ -187,6 +187,7 @@ AddEditSessionModal.propTypes = {
     filmAction: PropTypes.object.isRequired,
     sessionModal: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
+    rooms: PropTypes.array.isRequired,
 };
 function mapStateToProps(state) {
     return {
@@ -194,6 +195,7 @@ function mapStateToProps(state) {
         isSavingSession: state.film.isSavingSession,
         sessionModal: state.film.sessionModal,
         allFilms: state.film.allFilms,
+        rooms: state.film.rooms,
     };
 }
 
