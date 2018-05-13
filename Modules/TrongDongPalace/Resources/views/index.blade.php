@@ -352,57 +352,55 @@
                                         <div class="gallery-item"><a
                                                 href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-1231437-tropical-pool-bar-m-400x400.jpg"
+                                                src="http://trongdongpalace.com/images/cover/3650_Canh-ho.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-1576481-relaxing-m.jpg"
+                                        href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-1576481-relaxing-m-400x400.jpg"
+                                                src="http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2650397-sailing-m.jpg"
+                                        href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2650397-sailing-m-400x400.jpg"
+                                                src="http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-4076311-interior-of-modern-comfortable-hotel-room-m.jpg"
+                                        href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-4076311-interior-of-modern-comfortable-hotel-room-m-400x400.jpg"
+                                                src="http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="clear"></div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-3973259-hotel-room-m.jpg"
+                                        href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-3973259-hotel-room-m-400x400.jpg"
+                                                src="http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2676493-suite-bed-room-with-balcony-of-a-luxury-resort-m.jpg"
-                                                data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-2676493-suite-bed-room-with-balcony-of-a-luxury-resort-m-400x400.jpg"
+                                        href="javascript:void(0);"
+                                                src="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-01.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/Fotolia_34317913_Subscription_Monthly_XXL.jpg"
+                                        href="javascript:void(0);"
                                                 data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/Fotolia_34317913_Subscription_Monthly_XXL-400x400.jpg"
+                                                src="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="gallery-column three columns">
                                         <div class="gallery-item"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/Fotolia_44778217_Subscription_Monthly_XXL.jpg"
-                                                data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/Fotolia_44778217_Subscription_Monthly_XXL-400x400.jpg"
+                                        href="javascript:void(0);"
+                                                src="http://www.trongdongpalace.com/ckfinder/userfiles/images/wedding-planner-02.jpg"
                                                 alt="" width="400" height="400"/></a></div>
                                     </div>
                                     <div class="clear"></div>
