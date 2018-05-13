@@ -719,7 +719,7 @@
                     items: 5
                 },
             }
-        })
+        });
         $('#comingSoon').owlCarousel({
             loop: true,
             nav: true,
