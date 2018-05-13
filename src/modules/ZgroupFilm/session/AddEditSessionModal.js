@@ -50,8 +50,8 @@ class AddEditSessionModal extends React.Component{
             ||helper.isEmptyInput(session.start_date)
 
         ){
-            if(helper.isEmptyInput(session.film_id)) helper.showErrorNotification("Bạn cần chọn tên film");
-            if(helper.isEmptyInput(session.film_quality)) helper.showErrorNotification("Bạn cần nhập chất lượng film");
+            if(helper.isEmptyInput(session.film_id)) helper.showErrorNotification("Bạn cần chọn tên phim");
+            if(helper.isEmptyInput(session.film_quality)) helper.showErrorNotification("Bạn cần nhập chất lượng phim");
             if(helper.isEmptyInput(session.room_id)) helper.showErrorNotification("Bạn cần chọn phòng chiếu");
             if(helper.isEmptyInput(session.start_time)) helper.showErrorNotification("Bạn cần chọn ngày chiếu");
             if(helper.isEmptyInput(session.start_date)) helper.showErrorNotification("Bạn cần chọn giờ chiếu");
@@ -136,7 +136,7 @@ class AddEditSessionModal extends React.Component{
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="label-control">Chất lượng film</label>
+                                <label className="label-control">Chất lượng phim</label>
                                 <input type="text"
                                        name="film_quality"
                                        className="form-control"

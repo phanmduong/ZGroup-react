@@ -57,11 +57,13 @@ class ShowingSessionContainer extends React.Component {
             query: value,
             page: 1
         });
+        this.props.filmAction.showFilmSession(value);
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
             this.props.filmAction.loadShowingSession(1, value);
+            this.props.filmAction.loadAllSessions(1, value);
         }.bind(this), 500);
     }
     render() {

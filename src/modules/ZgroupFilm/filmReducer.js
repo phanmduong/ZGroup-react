@@ -202,6 +202,12 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 search: action.search
             };
+        case types.CLEAR_TO_LOAD_PAGE:
+            return {
+                ...state,
+                search:"",
+                openFilmModal: false
+            };
 
 
         //Session Reducer

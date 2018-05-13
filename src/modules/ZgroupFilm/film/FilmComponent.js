@@ -82,12 +82,12 @@ class FilmComponent extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-3" style={{
+                                        <div style={{
                                             display: "flex",
                                             flexDirection: "column",
                                             justifyContent: "space-between"
                                         }}>
-                                            <div className="dropdown" style={{position: "relative", left: 23}}>
+                                            <div className="dropdown" style={{position: "relative"}}>
                                                 <a className="dropdown-toggle btn-more-dropdown" type="button"
                                                    data-toggle="dropdown">
                                                     <i className="material-icons">more_horiz</i>
