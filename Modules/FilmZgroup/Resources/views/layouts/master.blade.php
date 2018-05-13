@@ -28,7 +28,7 @@
           media="all">
     <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery.js"></script>
     <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
-        {{--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">--}}
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/paper-kit.css" rel="stylesheet"/>--}}
     {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/bootstrap.min.css" rel="stylesheet"/>--}}
 
@@ -121,7 +121,7 @@
         .owl-nav > div {
             margin-top: -26px;
             position: absolute;
-            top: 50%;
+            top: 40%;
             color: #cdcbcd;
         }
 
@@ -498,7 +498,7 @@
         <div class="navbar-collapse collapse ">
             <ul id="menu-main-navigation" class="nav navbar-nav">
                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-194 current-menu-item curent_page_item active dropdown">
-                    <a title="Movies" href="Movies.html" class="dropdown-toggle" aria-haspopup="false">Phim mới</a>
+                    <a title="Movies" href="Movies.html" class="dropdown-toggle" aria-haspopup="false">&#160;&#160;&#160;Phim&#160;&#160;&#160;</a>
                     <ul role="menu" class="dropdown-menu">
                         <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-246">
                             <a title="All movies" style="color: white!important" href="/film">Tất cả
