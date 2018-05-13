@@ -12,6 +12,15 @@ export function loadExportOrders(page,search) {
     }
     return axios.get(url);
 }
+export function loadExportOrdersNoPaging() {
+    
+    let url     = env.MANAGE_API_URL +"/company/export-order/no-paging?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=   "&token=" + token;
+    }
+    return axios.get(url);
+}
 
 
 export function loadAllGoods() {

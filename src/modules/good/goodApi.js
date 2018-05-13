@@ -22,6 +22,18 @@ export function loadGoods(type = null, page = "", search = "") {
     return axios.get(url);
 }
 
+export function loadAllGoods(type = null) {
+    let url = env.MANAGE_API_URL + "/good/all/no-paging?type=" + type;
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "&token=" + token;
+    }
+    if (type) {
+        url += "&type=" + type;
+    }
+    return axios.get(url);
+}
+
 export function uploadAvatar(file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + "/file/upload-image";
     const token = localStorage.getItem("token");
