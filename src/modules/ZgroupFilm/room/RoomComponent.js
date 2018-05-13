@@ -1,6 +1,6 @@
 import React from 'react';
-import FormInputSelect from '../../components/common/FormInputSelect';
-import FormInputDate from '../../components/common/FormInputDate';
+import FormInputSelect from '../../../components/common/FormInputSelect';
+import FormInputDate from '../../../components/common/FormInputDate';
 import PropTypes from 'prop-types';
 
 export const MARITAL = [

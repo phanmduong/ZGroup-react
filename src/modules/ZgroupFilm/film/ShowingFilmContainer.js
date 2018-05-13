@@ -3,22 +3,23 @@ import FilmComponent from "./FilmComponent";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import *as filmAction from "./filmAction";
+import *as filmAction from "../filmAction";
 
 
-class ComingFilmContainer extends React.Component{
+class ShowingFilmContainer extends React.Component{
     constructor(props, context) {
         super(props, context);
     }
 
     render() {
-        let coming = this.props.allFilms.filter((film)=>(film.film_status == 2));
+        let showing = this.props.allFilms.filter((film)=>(film.film_status == 1));
         return (
-            <FilmComponent films={coming}/>
+
+            <FilmComponent films={showing}/>
         );
     }
 }
-ComingFilmContainer.propTypes = {
+ShowingFilmContainer.propTypes = {
     allFilms: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired
 };
@@ -35,4 +36,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ComingFilmContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowingFilmContainer);

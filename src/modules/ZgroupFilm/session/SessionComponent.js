@@ -2,45 +2,56 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import * as sessionAction from "./sessionAction";
-import {confirm} from "../../helpers/helper";
-
+import * as filmAction from "../filmAction";
+import {confirm} from "../../../helpers/helper";
+import {FULLTIME_FORMAT, TIME_FORMAT_H_M} from "../../../constants/constants";
+import moment from "moment/moment";
+import TooltipButton from '../../../components/common/TooltipButton';
 
 class SessionComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.delSession = this.delSession.bind(this);
     }
-    delSession(session){
+
+    delSession(session) {
         confirm("error", "Xóa xuất chiếu", "Bạn có chắc muốn xóa xuất chiếu này", () => {
-            this.props.sessionAction.deleteSession(session);
+            this.props.filmAction.deleteSession(session);
         });
     }
+
     render() {
 
         return (
             <div className="table-responsive">
-                <table className="table table-hover">
+                <table className="table table-hover table-striped">
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th>STT</th>
-                        <th>Tên film</th>
+                        <th>Tên phim</th>
                         <th>Phòng</th>
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
-                        <th>Chất lượng film</th>
+                        <th>Chất lượng phim</th>
                         <th/>
                     </tr>
                     </thead>
                     <tbody>
 
                     {this.props.sessions && this.props.sessions.map((session, index) => {
-                        let a =this.props.allFilms.filter((film)=>(film.id == session.film_id))[0];
+                        let a = this.props.allFilms.filter((film) => (film.id == session.film_id))[0];
                         return (
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>
-                                    {a  && a.name}
+                                <td className="film-name">
+                                    <TooltipButton text={(a && a.name)||''} placement="top">
+                                        <div onClick={() => {
+                                            this.props.filmAction.showAddEditFilmModalAtSession();
+                                            this.props.filmAction.handleFilmModal(a);
+                                        }}>
+                                            {a && (a.name.length >= 30 ? a.name.slice(0, 29).concat("...") : a.name)}
+                                        </div>
+                                    </TooltipButton>
                                 </td>
                                 <td>
                                     Phòng {session.room_id}
@@ -49,7 +60,7 @@ class SessionComponent extends React.Component {
                                     {session.start_date}
                                 </td>
                                 <td>
-                                    {session.start_time}
+                                    {moment(session.start_time, FULLTIME_FORMAT).format(TIME_FORMAT_H_M)}
                                 </td>
                                 <td>
                                     {session.film_quality}
@@ -63,8 +74,8 @@ class SessionComponent extends React.Component {
                                                type="button" rel="tooltip"
                                                data-original-title="Sửa"
                                                onClick={() => {
-                                                   this.props.sessionAction.toggleSessionModal();
-                                                   this.props.sessionAction.handleSessionModal(session);
+                                                   this.props.filmAction.toggleSessionModal();
+                                                   this.props.filmAction.handleSessionModal(session);
                                                }}>
                                                 <i className="material-icons">edit</i>
                                             </a>
@@ -75,7 +86,7 @@ class SessionComponent extends React.Component {
                                                data-toggle="tooltip" title=""
                                                type="button" rel="tooltip"
                                                data-original-title="Sửa"
-                                               onClick={() =>this.delSession(session)}>
+                                               onClick={() => this.delSession(session)}>
                                                 <i className="material-icons">delete</i>
                                             </a>
                                         </div>
@@ -95,19 +106,19 @@ class SessionComponent extends React.Component {
 
 SessionComponent.propTypes = {
     sessions: PropTypes.array.isRequired,
-    sessionAction: PropTypes.object.isRequired,
+    filmAction: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        allFilms: state.session.allFilms,
+        allFilms: state.film.allFilms,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        sessionAction: bindActionCreators(sessionAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch)
 
     };
 }

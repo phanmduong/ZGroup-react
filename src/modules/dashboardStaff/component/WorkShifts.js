@@ -38,14 +38,15 @@ export default class WorkShifts extends Component {
 
         const workShifts = store.user.work_shifts.map((workShift) => {
             return {
-                title: (workShift.checkout_status === "accept" || workShift.checkout_status === "no-accept") ?
-                   workShift.check_out_time : "-- : --",
+                title: (workShift.checkin_status === "accept" ||workShift.checkin_status === "accept" ||workShift.checkout_status === "accept" || workShift.checkout_status === "no-accept") ?
+                    workShift.check_in_time + " - " + workShift.check_out_time : "-- : --",
                 start: convertTime(workShift.date) + " " + workShift.start_shift_time,
-                end: convertTime(workShift.date) + " " + workShift.start_shift_time,
-                color: (workShift.checkout_status === "absent" ?
-                    "#F10039" : (workShift.checkout_status === "accept" ?
-                        "#00B34E" : (workShift.checkout_status === "no-accept") ?
-                            "#E9A700" : "#596268"))
+                end: convertTime(workShift.date) + " " + workShift.end_shift_time,
+                color: (workShift.checkin_status === "absent" || workShift.checkout_status  === "absent" ?
+                    "#F10039" : (workShift.checkin_status === "accept" && workShift.checkout_status === "accept" ?
+                        "#00B34E" : (workShift.checkin_status === "no-accept" || workShift.checkout_status === "no-accept") ?
+                            "#E9A700" :
+                            "#596268"))
             };
         });
 

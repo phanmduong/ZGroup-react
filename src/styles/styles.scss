@@ -925,7 +925,6 @@ a.btn-seat.active {
   line-height: 0;
   padding: 0px;
   margin-left: 12px
-
 }
 
 .dropdown-menu li a:hover,
@@ -965,6 +964,11 @@ a.btn-seat.active {
     font-weight: 600;
     color: white;
     font-size: 12px;
+	width: 150px;
+	height: 40px;
+	border-radius: 5px;
+	display: flex;
+	cursor: auto;
 
 }
 .fileinput {
@@ -985,7 +989,6 @@ a.btn-seat.active {
 }
 
 .modal-content .modal-footer button {
-
   padding: 12px 30px;
 }
 
@@ -1078,29 +1081,27 @@ a.btn-seat.active {
   top: 0px;
 }
 
-.text-paly {
-  color: #868686;
-  cursor: pointer;
+
+//** Film Zgroup: Le Kha Hai
+.text-paly{
+    color: #868686;
+    cursor: pointer;
 }
 .text-paly:hover {
   color: black;
   cursor: pointer;
 }
-.btn-grey {
-  background-color: #999999 !important;
+.film-name{
+	color: #404040;
+	font-weight: 500;
+	cursor: pointer;
 }
+.film-name:hover{
+	color: black;
+	cursor: pointer;
+}
+//** Film Zgroup: Le Kha Hai
 
-.button-round {
-  display: flex;
-  height: 25px;
-  width: 25px;
-  padding: 0px !important;
-  border-radius: 50%;
-}
-.button-round i {
-  margin: auto;
-  top: 0px !important;
-}
 .btn-header-card {
   height: 30px;
   width: 30px;
@@ -1109,3 +1110,5 @@ a.btn-seat.active {
   align-items: center;
   border-radius: 15px;
 }
+
+

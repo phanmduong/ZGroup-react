@@ -8,7 +8,6 @@ export default new class BlogEditorStore {
     @observable showAddLanguageModal = false;
     @observable showAddCategoryModal = false;
 
-
     @action
     toggleAddCategoryModal = showModal => {
         this.showAddCategoryModal = showModal;

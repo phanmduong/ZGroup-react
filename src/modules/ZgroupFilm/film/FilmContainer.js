@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import *as filmAction from "./filmAction";
+import *as filmAction from "../filmAction";
 import AddEditFilmModal from "./AddEditFilmModal";
 import {Link} from 'react-router';
-import Search from "../../components/common/Search";
-import TooltipButton from "../../components/common/TooltipButton";
-import Loading from "../../components/common/Loading";
-
+import Search from "../../../components/common/Search";
+import TooltipButton from "../../../components/common/TooltipButton";
+import Loading from "../../../components/common/Loading";
+import AddEditSessionModal from "../session/AddEditSessionModal";
 
 class FilmContainer extends React.Component {
     constructor(props, context) {
@@ -27,10 +27,12 @@ class FilmContainer extends React.Component {
     componentWillMount() {
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllFilmsHavePagination(1);
+        this.props.filmAction.clearToLoadPage();
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
             this.props.filmAction.loadAllFilmsHavePagination(1);
+            this.props.filmAction.loadAllFilms();
         }
     }
     filmsSearchChange(value){
@@ -43,6 +45,7 @@ class FilmContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.filmAction.loadAllFilmsHavePagination(1, value);
+            this.props.filmAction.loadAllFilms(value);
         }.bind(this), 500);
     }
     render() {
@@ -90,7 +93,9 @@ class FilmContainer extends React.Component {
                                             type="button"
                                             onClick={() => {
                                                 this.props.filmAction.showAddEditFilmModal();
-                                                this.props.filmAction.handleFilmModal({});
+                                                this.props.filmAction.handleFilmModal({
+                                                    images_url:'',
+                                                });
                                             }}>
 
                                             <strong>+</strong>
@@ -119,6 +124,7 @@ class FilmContainer extends React.Component {
                     </div>
                 </div>
                 <AddEditFilmModal/>
+                <AddEditSessionModal/>
             </div>
         );
     }
