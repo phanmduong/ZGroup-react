@@ -141,7 +141,7 @@ class ClassApiController extends ApiController
         return $this->respondSuccessWithStatus([
             'classes' => $classes->map(function ($class) {
                 return [
-                    'base' => Base::where('id', $class->base_id)->get(),
+                    'base' => $class->base(),
                     'id' => $class->id,
                     'name' => $class->name,
                     'study_time' => $class->study_time,
