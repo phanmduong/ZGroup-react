@@ -79,9 +79,15 @@ class BlogEditor extends React.Component {
     updatePostCategories = values => {
         const post = {
             ...store.post,
-            categories:  values  
+            categories: values
         };
         store.post = post;
+    }
+
+    onChange = value => {
+        this.setState({
+            value,
+        });
     };
 
     openAddCategoryModal = () => {
@@ -134,6 +140,7 @@ class BlogEditor extends React.Component {
                                     placeholder="Chọn loại bài viết"
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label className="control-label" style={{ marginBottom: "10px" }}>
                                     Ngôn ngữ
@@ -165,13 +172,13 @@ class BlogEditor extends React.Component {
                                 <TooltipButton
                                     placement="top"
                                     text="Tạo từ tiêu đề bài viết">
-                                    <a 
+                                    <a
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         style={{
-                                        position: "absolute",
-                                        right: 0,
-                                        top: 0
-                                    }} onClick={this.generateFromTitle}>
+                                            position: "absolute",
+                                            right: 0,
+                                            top: 0
+                                        }} onClick={this.generateFromTitle}>
                                         <i className="material-icons">
                                             autorenew
                                         </i>

@@ -17,3 +17,11 @@ export function loadHistoryDebt(id,page) {
         url += "?token=" + token + "&page=" + page  + "&limit=" + 15 ;
     return axios.get(url);
 }
+
+export function loadAllHistoryDebt() {
+    let url = env.MANAGE_API_URL + "/company/history-debt/all";
+    let token = localStorage.getItem('token');
+    if (token)
+        url += "?token=" + token ;
+    return axios.get(url);
+}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { store } from "./contractStore";
 import { observer } from "mobx-react";
-import { observable } from "mobx";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
 import FormInputMoney from "../../../components/common/FormInputMoney";
@@ -42,9 +41,6 @@ class CreateContractContainer extends Component {
         setFormValidation("form-data");
     }
 
-    @observable data = {
-
-    };
 
     updateFormData(e) {
         let { name, value } = e.target;
@@ -135,6 +131,7 @@ class CreateContractContainer extends Component {
                                                                     defaultMessage="Chọn đối tác"
                                                                 />
                                                             </div>
+
                                                             <div className="col-md-6" style={reactSelectMarginTop}>
                                                                 <label>Người kí</label>
                                                                 <ReactSelect
@@ -157,41 +154,61 @@ class CreateContractContainer extends Component {
                                                                     defaultMessage="Chọn đối tác"
                                                                 />
                                                             </div>
-                                                            <FormInputText
-                                                                className="col-md-6"
-                                                                name="contract_number"
-                                                                label="Số hợp đồng"
-                                                                type="text"
-                                                                updateFormData={this.updateFormData}
-                                                                disabled={disableField}
-                                                                value={createData.contract_number}
-                                                                required
-                                                            />
-                                                            <FormInputMoney
-                                                                className="col-md-6"
-                                                                name="value"
-                                                                label="Giá trị hợp đồng"
-                                                                type="text"
-                                                                updateFormData={this.updateFormData}
-                                                                disabled={disableField}
-                                                                value={createData.value}
-                                                                required
-                                                            />
-                                                            <div className="col-md-12">
-                                                                {
-                                                                    disableField ? <div>Ngày hết hạn: {createData.due_date}</div> :
-                                                                        <FormInputDateTime
-                                                                            name="due_date"
-                                                                            id="due_date"
-                                                                            label="Ngày hết hạn"
-                                                                            type="text"
-                                                                            updateFormData={this.updateFormData}
-                                                                            value={createData.due_date}
-                                                                            required
-                                                                        />
-                                                                }
+                                                        </div>
+                                                        <div className="col-md-12">
+                                                            <div className="col-md-6" style={{marginTop:10}}>
+                                                                <FormInputText
+                                                                    name="contract_number"
+                                                                    label="Số hợp đồng"
+                                                                    type="text"
+                                                                    updateFormData={this.updateFormData}
+                                                                    disabled={disableField}
+                                                                    value={createData.contract_number}
+                                                                    required
+                                                                />
+                                                                <FormInputMoney
+                                                                    name="value"
+                                                                    label="Giá trị hợp đồng"
+                                                                    type="text"
+                                                                    updateFormData={this.updateFormData}
+                                                                    disabled={disableField}
+                                                                    value={createData.value}
+                                                                    required
+                                                                />
+                                                                <div>
+                                                                    {
+                                                                        disableField ? <div>Ngày hết hạn: {createData.due_date}</div> :
+                                                                            <FormInputDateTime
+                                                                                name="due_date"
+                                                                                id="due_date"
+                                                                                label="Ngày hết hạn"
+                                                                                type="text"
+                                                                                updateFormData={this.updateFormData}
+                                                                                value={createData.due_date}
+                                                                                required
+                                                                            />
+                                                                    }
+                                                                </div>
                                                             </div>
 
+                                                            
+                                                                <div className="col-md-6">
+                                                                    <div className="control-label" style={{marginTop:10}}>Ghi chú</div>
+                                                                    <div className="comment-input-wrapper">
+                                                                        <textarea
+                                                                            id="textarea-card-comment"
+                                                                            name="note"
+                                                                            onChange={this.updateFormData}
+                                                                            value={createData.note}
+                                                                            onKeyUp={() => { }}
+                                                                            placeholder="Nhập tại đây"
+                                                                            className="comment-input"
+                                                                            style={{ width: "100%", margin: "10px", height: "215px", }}
+                                                                            disabled={disableField}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            
 
                                                         </div>
                                                     </div>
