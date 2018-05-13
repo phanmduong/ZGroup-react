@@ -8,7 +8,6 @@ $webRoutes = function () {
     Route::get('/event','FilmZgroupController@event');
     Route::get('/film-categories/{category}','FilmZgroupController@filmsCategory');
 
-
 };
 $manageApiRoutes = function () {
 
