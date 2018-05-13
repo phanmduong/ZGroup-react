@@ -104,6 +104,11 @@ class ClientController extends Controller
         return view('client.teaching');
     }
 
+    public function film()
+    { 
+        return view('client.film');
+    }
+
     public function base()
     {
         return view('client.base');
