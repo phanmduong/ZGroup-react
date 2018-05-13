@@ -58,11 +58,18 @@
                                     <div class="four columns">
                                         <div class="gdlr-item gdlr-room-item gdlr-modern-room">
                                             <div class="gdlr-ux gdlr-modern-room-ux">
-                                                <div class="gdlr-room-thumbnail"><a
+                                                <!-- <div class="gdlr-room-thumbnail"><a
                                                         href="/room/{{$room->id}}{{$last_part}}"><img
                                                         src="{{generate_protocol_url($room->avatar_url)}}"
                                                         alt="" width="700" height="400" style="transform: scale(1, 1);"></a>
-                                                </div>
+                                                </div> -->
+                                                <a href="/room/{{$room->id}}{{$last_part}}">
+                                                    <div class="product-item">
+                                                        <div style="background-image: url({{generate_protocol_url($room->avatar_url)}}); background-size: cover; background-position: center center; padding-bottom: 70%">
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <br>
                                                 <h3 class="gdlr-room-title"><a
                                                         href="/room/{{$room->id}}{{$last_part}}">{{$room->name}}</a></h3><a
                                                     href="/room/{{$room->id}}{{$last_part}}"

@@ -17,6 +17,7 @@ class TrongDongPalaceController extends Controller
 {   
     public function __construct()
     {
+
         $this->data['bases'] = Base::orderBy('created_at', 'asc')->get();
     }
 
@@ -34,6 +35,7 @@ class TrongDongPalaceController extends Controller
             return 'Phòng không tồn tại';
         }
         $images = json_decode($room->images_url);
+        array_unshift($images, $room->avatar_url);
         $this->data['room'] = $room;
         $this->data['images'] = $images;
         $this->data['saler_id'] = $salerId;
@@ -108,7 +110,7 @@ class TrongDongPalaceController extends Controller
 
     public function contactUs()
     {
-        return view('trongdongpalace::contact_us');
+        return view('trongdongpalace::contact_us', $this->data);
     }
 
     public function contactInfo(Request $request)
@@ -186,7 +188,7 @@ class TrongDongPalaceController extends Controller
             $rooms->where('room_type_id', $request->room_type_id);
         }
 
-        $rooms = $rooms->orderBy('created_at', 'desc')->paginate(50);
+        $rooms = $rooms->where('name', '<>', 'contactus')->orderBy('created_at', 'desc')->paginate(50);
 
         if ($request->page == null) {
             $page_id = 2;

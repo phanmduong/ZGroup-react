@@ -26,34 +26,14 @@
                                             <div class="flexslider" data-pausetime="7000" data-slidespeed="600"
                                                  data-effect="fade">
                                                 <ul class="slides">
-                                                    <li class=""
-                                                        style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;">
-                                                        <img src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-7-750x330.jpg"
-                                                             alt="" width="750" height="330" draggable="false"></li>
-                                                    <li style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;"
+                                                    @foreach($images as $image)
+                                                     <li style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;"
                                                         class="flex-active-slide"><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-3.jpg"
+                                                            href="javascript:void(0);"
                                                             data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-3-750x330.jpg"
+                                                            src="{{$image}}"
                                                             alt="" width="750" height="330" draggable="false"></a></li>
-                                                    <li style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;"
-                                                        class=""><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-4.jpg"
-                                                            data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-4-750x330.jpg"
-                                                            alt="" width="750" height="330" draggable="false"></a></li>
-                                                    <li style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;"
-                                                        class=""><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-5.jpg"
-                                                            data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-5-750x330.jpg"
-                                                            alt="" width="750" height="330" draggable="false"></a></li>
-                                                    <li style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;"
-                                                        class=""><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-1.jpg"
-                                                            data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><img
-                                                            src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-1-750x330.jpg"
-                                                            alt="" width="750" height="330" draggable="false"></a></li>
+                                                    @endforeach
                                                 </ul>
                                                 <ul class="flex-direction-nav">
                                                     <li><a class="flex-prev" href="#"><i
@@ -63,24 +43,15 @@
                                                 </ul>
                                             </div>
                                             <ul class="gdlr-flex-thumbnail-control" id="gdlr-flex-thumbnail-control">
-                                                <li><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-7-150x150.jpg"
+                                                    @foreach($images as $image)
+                                                     
+                                                            <li><img
+                                                        src="{{$image}}"
                                                         alt="" width="150" height="150" class=""></li>
-                                                <li><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-3-150x150.jpg"
-                                                        alt="" width="150" height="150" class="flex-active"></li>
-                                                <li><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-4-150x150.jpg"
-                                                        alt="" width="150" height="150" class=""></li>
-                                                <li><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-5-150x150.jpg"
-                                                        alt="" width="150" height="150" class=""></li>
-                                                <li><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/single-room-slider-1-150x150.jpg"
-                                                        alt="" width="150" height="150" class=""></li>
+                                                    @endforeach
                                             </ul>
                                         </div>
-                                        <div class="gdlr-room-title-wrapper">
+                                        <!--<div class="gdlr-room-title-wrapper">
                                             <h3 class="gdlr-room-title">{{$room->name}} - {{$room->base->name}}</h3>
                                             <div class="gdlr-room-price"><span class="gdlr-head">Start From</span><span
                                                     class="gdlr-tail">$80.00 / Night</span></div>
@@ -112,31 +83,9 @@
                                                     class="fa fa-check-square-o icon-check"></i><span class="gdlr-head">Airport Pickup Service</span><span
                                                     class="gdlr-tail">No</span></div>
                                             <div class="clear"></div>
-                                        </div>
-                                        <div class="gdlr-room-content"><p>Cras justo odio, dapibus ac facilisis in,
-                                            egestas eget quam. Sed posuere consectetur est at lobortis. Nullam quis
-                                            risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et
-                                            magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio,
-                                            dapibus ac facilisis in, egestas eget quam. Maecenas sed diam eget risus
-                                            varius blandit sit amet non magna.</p>
-                                            <p>Nulla vitae elit libero, a pharetra augue. Maecenas faucibus mollis
-                                                interdum. Donec id elit non mi porta gravida at eget metus. Vestibulum
-                                                id ligula porta felis euismod semper. Maecenas faucibus mollis interdum.
-                                                Donec ullamcorper nulla non metus auctor fringilla. Donec sed odio
-                                                dui.</p>
-                                            <div class="clear"></div>
-
-                                            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
-                                                lacinia odio sem nec elit. Nulla vitae elit libero, a pharetra augue.
-                                                Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                                                Etiam porta sem malesuada magna mollis euismod. Etiam porta sem
-                                                malesuada magna mollis euismod. Sed posuere consectetur est at
-                                                lobortis.</p>
-                                            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
-                                                vestibulum. Nulla vitae elit libero, a pharetra augue. Morbi leo risus,
-                                                porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus
-                                                magna, vel scelerisque nisl consectetur et. Aenean eu leo quam.
-                                                Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+                                        </div> -->
+                                        <div class="gdlr-room-content">
+                                            {!!$room->detail!!}
                                         </div>
                                         <a class="gdlr-button with-border"
                                            href="/register/{{$room->id}}">Đặt phòng này <i class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>

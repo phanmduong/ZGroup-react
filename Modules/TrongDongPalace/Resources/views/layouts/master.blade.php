@@ -259,7 +259,7 @@
                                 </li>
                                 <li id="menu-item-4105"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
-                                    <a href="/contact.html"
+                                    <a href="/contact-us"
                                        class="sf-with-ul-pre">Liên hệ</a>
                                 </li>
                             </ul>
@@ -291,7 +291,7 @@
                                    class="sf-with-ul-pre">Album ảnh</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103 gdlr-mega-menu">
-                                <a href="/contact.html"
+                                <a href="/contact-us"
                                    class="sf-with-ul-pre">Liên hệ</a>
                             </li>
                         </ul>

@@ -1,135 +1,178 @@
 @extends('trongdongpalace::layouts.master')
-@section('content')
 
-    <div class="cd-section section-white" id="contact-us">
-        <div class="contactus-1 section-image" style="background-image: url('http://trongdongpalace.com/ckfinder/userfiles/images/16819049_1236010749817681_3211247670853520341_o.jpg')">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-contact no-transition">
-                            <h3 class="card-title text-center">Liên hệ</h3>
-                            <div class="row">
-                                <div class="col-md-5 offset-md-1">
-                                    <div class="card-block">
-                                        <div class="info info-horizontal">
-                                            <div class="icon icon-info" style="color:#BA8A45">
-                                                <i class="nc-icon nc-pin-3" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="description">
-                                                <h4 class="info-title">Địa chỉ của chúng tôi</h4>
-                                                <p> 175 Chùa Láng<br>
-                                                    Đống Đa<br>
-                                                    Hà Nội
+@section('content')
+    <div id="gdlr-header-substitute"></div>
+    <!-- is search -->
+    <div class="gdlr-page-title-wrapper">
+        <div class="gdlr-page-title-overlay"></div>
+        <div class="gdlr-page-title-container container">
+            <h1 class="gdlr-page-title">LIÊN HỆ VỚI CHÚNG TÔI</h1>
+            <span class="gdlr-page-caption">Trống Đồng</span>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="gdlr-content">
+
+            <!-- Above Sidebar Section-->
+
+            <!-- Sidebar With Content Section-->
+            <div class="with-sidebar-wrapper">
+                <div class="with-sidebar-container container">
+                    <div class="with-sidebar-left twelve columns">
+                        <div class="with-sidebar-content eight columns">
+                            <section id="content-section-1">
+                                <div class="section-container container">
+                                    <div id="submitInputs" class="gdlr-item gdlr-content-item" style="margin-bottom: 60px;"><p></p>
+                                        <div class="clear"></div>
+                                        <div class="gdlr-space" style="margin-top: -22px;"></div>
+                                        <h5 class="gdlr-heading-shortcode " style="font-weight: bold;">Vui lòng điền form bên dưới</h5>
+                                        <div class="clear"></div>
+                                        <div class="gdlr-space" style="margin-top: 25px;"></div>
+                                        <div role="form" class="wpcf7" id="wpcf7-f4-o1" lang="en-US" dir="ltr">
+                                            <div class="screen-reader-response"></div>
+                                            <form action="/hotelmaster/dark/contact-page-2/#wpcf7-f4-o1" method="post"
+                                                  class="wpcf7-form" novalidate="novalidate">
+                                                <div style="display: none;">
+                                                    <input type="hidden" name="_wpcf7" value="4">
+                                                    <input type="hidden" name="_wpcf7_version" value="5.0.1">
+                                                    <input type="hidden" name="_wpcf7_locale" value="en_US">
+                                                    <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f4-o1">
+                                                    <input type="hidden" name="_wpcf7_container_post" value="0">
+                                                </div>
+                                                <p>Tên của bạn<br>
+                                                    <span class="wpcf7-form-control-wrap your-name"><input type="text"
+                                                                                                           v-model="name"
+                                                                                                           value=""
+                                                                                                           size="40"
+                                                                                                           class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                                                           aria-required="true"
+                                                                                                           aria-invalid="false"></span>
                                                 </p>
-                                            </div>
-                                        </div>
-                                        <div class="info info-horizontal">
-                                            <div class="icon icon-danger" style="color:#BA8A45">
-                                                <i class="nc-icon nc-badge" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="description">
-                                                <h4 class="info-title">Liên hệ trực tiếp</h4>
-                                                <p> www.facebook.com/trongdongpalace<br>
-                                                    marketing@trongdongpalace.com<br>
-                                                    +84 964 25 7766<br>
+                                                <p>Email<br>
+                                                    <span class="wpcf7-form-control-wrap your-email"><input type="email"
+                                                                                                            v-model="email"
+                                                                                                            value=""
+                                                                                                            size="40"
+                                                                                                            class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email"
+                                                                                                            aria-required="true"
+                                                                                                            aria-invalid="false"></span>
                                                 </p>
-                                            </div>
+                                                <p>Số điện thoại<br>
+                                                    <span class="wpcf7-form-control-wrap your-subject"><input
+                                                            type="text" v-model="phone" value="" size="40"
+                                                            class="wpcf7-form-control wpcf7-text" aria-invalid="false"></span>
+                                                </p>
+                                                <p>Lời nhắn<br>
+                                                    <span class="wpcf7-form-control-wrap your-message"><textarea
+                                                            v-model="message" cols="40" rows="10"
+                                                            class="wpcf7-form-control wpcf7-textarea"
+                                                            aria-invalid="false"></textarea></span></p>
+                                                <div class="alert alert-danger" v-if="alert"
+                                                    style="margin-top: 10px"
+                                                    id="purchase-error">
+                                                    @{{ alert }}
+                                                </div>
+                                                <br>
+                                                <p><input type="submit" value="Gửi"
+                                                            v-on:click="submit"
+                                                          class="wpcf7-form-control"><span
+                                                        ></span></p>
+                                            </form>
                                         </div>
                                     </div>
+                                    <div class="clear"></div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div role="form" id="contact-form" method="post" action="#">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="card-block">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group label-floating">
-                                                        <label class="control-label">Họ tên</label>
-                                                        <input id="e-name" type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn Lan Anh">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group label-floating">
-                                                        <label class="control-label">Số điện thoại</label>
-                                                        <input id="e-phone" type="text" name="phone" class="form-control" placeholder="Ví dụ: 0964 25 7766">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">Email</label>
-                                                <input id ="e-email" type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
-                                            </div>
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">Lời nhắn</label>
-                                                <textarea id="e-message" name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div id="alert"> </div>
-                                                </div>
-                                            </div>
+                            </section>
+                        </div>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary pull-right"
-                                                            id="submit-1" style="background-color: #BA8A45; border-color: #BA8A45">Gửi tin nhắn
-                                                    </button></div>
-
-                                            </div>
-                                        </div>
+                        <div class="gdlr-sidebar gdlr-left-sidebar four columns">
+                            <div class="gdlr-item-start-content sidebar-left-item">
+                                <div id="text-6" class="widget widget_text gdlr-item gdlr-widget"><h3
+                                        class="gdlr-widget-title">Trong trường hợp khẩn cấp</h3>
+                                    <div class="clear"></div>
+                                    <div class="textwidget">Trong trường hợp bạn cần liên hệ với chúng tôi gấp vui lòng sử dụng các thông tin được cung cấp bên dưới:
+                                    </div>
+                                </div>
+                                <div id="text-7" class="widget widget_text gdlr-item gdlr-widget"><h3
+                                        class="gdlr-widget-title">Thông tin liên hệ</h3>
+                                    <div class="clear"></div>
+                                    <div class="textwidget"><p><i class="gdlr-icon fa fa-map-marker"
+                                                                  style="color: #ffffff; font-size: 16px; "></i>184 Main
+                                        Collins Street West Victoria 8007</p>
+                                        <p><i class="gdlr-icon fa fa-phone"
+                                              style="color: #ffffff; font-size: 16px; "></i> 1800-222-222</p>
+                                        <p><i class="gdlr-icon fa fa-envelope"
+                                              style="color: #ffffff; font-size: 16px; "></i>
+                                            contact@versatilewptheme.com</p>
+                                        <p><i class="gdlr-icon fa fa-clock-o"
+                                              style="color: #ffffff; font-size: 16px; "></i> Everyday 9:00-17:00</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="clear"></div>
                     </div>
+
+                    <div class="clear"></div>
                 </div>
             </div>
-        </div>
+
+        </div><!-- gdlr-content -->
+        <div class="clear"></div>
     </div>
+@endsection
+@push('scripts')
     <script>
-        $(document).ready(function () {
-            $("#submit-1").click(function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                console.log("submit-1");
-                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                var name = $('#e-name').val();
-                var email = $('#e-email').val();
-                var phone = $('#e-phone').val();
-                var message1= $('#e-message').val();
-                var ok=0;
-                if(name.trim()=="" || phone.trim()=="" || message1.trim()=="") ok=1;
 
-
-                if (!name || !email || !phone  || !re.test(email) || ok==1) {
-                    alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
-                    $("#alert").html("<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>");
-                } else {
-                    var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
-                    alert(message);
-
-
-                    $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
-                    var url = "{{config('app.protocol').config('app.domain')}}/api/contact?email=" + email;
-                    $('#e-name').val("");
-                    $('#e-email').val("");
-                    $('#e-phone').val("");
-                    $.post(url,
-                        {
-                            name: name,
-                            phone: phone,
-                            email: email,
-                            message_str: message1,
-                            _token: "{{csrf_token()}}"
-                        },function (data, status) {
-                            console.log("Data: " + data + "\nStatus: " + status);
+        var submitInputs = new Vue({
+            el: '#submitInputs',
+            data: {
+                name: '',
+                email: '',
+                phone: '',
+                message: '',
+                alert: '',
+                saler_id: 0,
+                campaign_id: 0,
+                room_id: 33,
+            },
+            methods: {
+                validateEmail: function validateEmail(email) {
+                    var re =
+                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email.toLowerCase());
+                },
+                submit: function () {
+                    if (this.name === '' || this.email === '' || this.phone === '' || this.message === '') {
+                        this.alert = 'Vui lòng nhập đủ thông tin';
+                        return;
+                    }
+                    if (this.validateEmail(this.email) === false) {
+                        this.alert = 'Vui lòng kiểm tra lại email';
+                        return;
+                    }
+                    this.alert = '';
+                    axios.post(window.url + '/api/booking', {
+                        name: this.name,
+                        phone: this.phone,
+                        email: this.email,
+                        message: this.message,
+                        saler_id: this.saler_id,
+                        campaign_id: this.campaign_id,
+                        room_id: this.room_id,
+                        _token: window.token
+                    })
+                        .then(function (response) {
+                            this.name = "";
+                            this.phone = "";
+                            this.email = "";
+                            this.message = "";
+                        }.bind(this))
+                        .catch(function (error) {
+                            console.log(error);
                         });
                 }
-
-
-            });
+            }
         });
     </script>
-@endsection
+@endpush
