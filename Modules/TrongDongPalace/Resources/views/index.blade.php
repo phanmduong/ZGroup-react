@@ -384,23 +384,21 @@
                                 </div>
                                 <div class="blog-item-wrapper">
                                     <div class="blog-item-holder">
+                                        @foreach($newestBlogs as $blog)
                                         <div class="gdlr-item gdlr-blog-widget">
                                             <div class="gdlr-ux gdlr-blog-widget-ux">
                                                 <article id="post-862"
                                                          class="post-862 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row tag-blog tag-link tag-news">
                                                     <div class="gdlr-standard-style">
                                                         <div class="blog-date-wrapper gdlr-title-font">
-                                                            <span class="blog-date-day">3</span>
-                                                            <span class="blog-date-month">Dec</span>
+                                                            <span class="blog-date-day">{{date('j', strtotime($blog->created_at))}}</span>
+                                                            <span class="blog-date-month">{{date('M', strtotime($blog->created_at))}}</span>
                                                         </div>
                                                         <header class="post-header">
                                                             <h3 class="gdlr-blog-title"><a
-                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/magna-pars-studiorum/">Magna
-                                                                pars studiorum</a></h3>
+                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/magna-pars-studiorum/">{{$blog->title}}</a></h3>
 
-                                                            <div class="gdlr-blog-excerpt">Lorem ipsum dolor sit amet,
-                                                                consectetur adipisici elit, sed eiusmod tempor incidunt
-                                                                ut labore...
+                                                            <div class="gdlr-blog-excerpt">{{shortString($blog->description, 15)}}  
                                                                 <div class="clear"></div>
                                                                 <a href="http://demo.goodlayers.com/hotelmaster/dark/magna-pars-studiorum/"
                                                                    class="excerpt-read-more">Xem thêm<i
@@ -412,62 +410,7 @@
                                                     </div>
                                                 </article><!-- #post --></div>
                                         </div>
-                                        <div class="gdlr-item gdlr-blog-widget">
-                                            <div class="gdlr-ux gdlr-blog-widget-ux">
-                                                <article id="post-859"
-                                                         class="post-859 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row">
-                                                    <div class="gdlr-standard-style">
-                                                        <div class="blog-date-wrapper gdlr-title-font">
-                                                            <span class="blog-date-day">3</span>
-                                                            <span class="blog-date-month">Dec</span>
-                                                        </div>
-                                                        <header class="post-header">
-                                                            <h3 class="gdlr-blog-title"><a
-                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/">Sedial
-                                                                eiusmod tempor</a></h3>
-
-                                                            <div class="gdlr-blog-excerpt">Lorem ipsum dolor sit amet,
-                                                                consectetur adipisici elit, sed eiusmod tempor incidunt
-                                                                ut labore...
-                                                                <div class="clear"></div>
-                                                                <a href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/"
-                                                                   class="excerpt-read-more">Xem thêm<i
-                                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                            </div>
-                                                            <div class="clear"></div>
-                                                        </header><!-- entry-header -->
-                                                        <div class="clear"></div>
-                                                    </div>
-                                                </article><!-- #post --></div>
-                                        </div>
-                                        <div class="gdlr-item gdlr-blog-widget">
-                                            <div class="gdlr-ux gdlr-blog-widget-ux">
-                                                <article id="post-2211"
-                                                         class="post-2211 post type-post status-publish format-gallery has-post-thumbnail hentry category-blog category-life-style category-news-article tag-blog tag-gallery-thumbnail tag-life-style tag-news post_format-post-format-gallery">
-                                                    <div class="gdlr-standard-style">
-                                                        <div class="blog-date-wrapper gdlr-title-font">
-                                                            <span class="blog-date-day">13</span>
-                                                            <span class="blog-date-month">Nov</span>
-                                                        </div>
-                                                        <header class="post-header">
-                                                            <h3 class="gdlr-blog-title"><a
-                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/gallery-post-format-title/">Gallery
-                                                                Post Format Title</a></h3>
-
-                                                            <div class="gdlr-blog-excerpt">Lorem ipsum dolor sit amet,
-                                                                consectetur adipisici elit, sed eiusmod tempor incidunt
-                                                                ut labore...
-                                                                <div class="clear"></div>
-                                                                <a href="http://demo.goodlayers.com/hotelmaster/dark/gallery-post-format-title/"
-                                                                   class="excerpt-read-more">Xem thêm<i
-                                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                            </div>
-                                                            <div class="clear"></div>
-                                                        </header><!-- entry-header -->
-                                                        <div class="clear"></div>
-                                                    </div>
-                                                </article><!-- #post --></div>
-                                        </div>
+                                        @endforeach
                                         <a class="blog-widget-right-text-link"
                                            href="http://demo.goodlayers.com/hotelmaster/blog-3-columns/">Xem tất cả<i
                                                 class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>

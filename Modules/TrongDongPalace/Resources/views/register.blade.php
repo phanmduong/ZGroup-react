@@ -6,8 +6,8 @@
     <div class="gdlr-page-title-wrapper">
         <div class="gdlr-page-title-overlay"></div>
         <div class="gdlr-page-title-container container">
-            <h1 class="gdlr-page-title">Liên hệ với chúng tôi</h1>
-            <span class="gdlr-page-caption">Trống Đồng</span>
+            <h1 class="gdlr-page-title">ĐẶT {{strtoupper($room->name)}}</h1>
+            <span class="gdlr-page-caption">{{$room->base->name}}</span>
         </div>
     </div>
     <div class="content-wrapper">
