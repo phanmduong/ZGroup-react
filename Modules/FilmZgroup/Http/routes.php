@@ -4,9 +4,12 @@ $webRoutes = function () {
 
     Route::get('/', 'FilmZgroupController@index');
     Route::get('/film', 'FilmZgroupController@films');
-    Route::get('/{id}','FilmZgroupController@film');
+    Route::get('/film/{id}','FilmZgroupController@film');
     Route::get('/event','FilmZgroupController@event');
     Route::get('/film-categories/{category}','FilmZgroupController@filmsCategory');
+    Route::get('/contact-us','FilmZgroupController@contact');
+    Route::get('/blog','FilmZgroupController@blogs');
+    Route::get('/blog/{id}','FilmZgroupController@blog');
 
 };
 $manageApiRoutes = function () {

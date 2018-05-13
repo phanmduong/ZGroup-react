@@ -61,14 +61,14 @@
                     <nav class="navigation pagination" role="navigation">
                         <div class="nav-links">
                             <a href="/film?page=1&search={{$search}}" class=" page-numbers">
-                                First page
+                                Đầu
                             </a>
                             <a v-for="page in pages" v-bind:href="'/film?page='+page+'&search={{$search}}'"
                                v-bind:class="'page-numbers ' + (page=={{$current_page}} ? 'current' : '')">
                                 @{{page}}
                             </a>
                             <a href="/film?page={{$total_pages}}&search={{$search}}" class=" next page-numbers">
-                                Last page
+                                Cuối
                             </a>
                         </div>
                     </nav>

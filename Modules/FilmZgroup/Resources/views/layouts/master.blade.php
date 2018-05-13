@@ -5,31 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ledahlia Cinema</title>
-    <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525764756TOI3CROQKmr7chO.ico"/>
-    <link rel="stylesheet" id="fw-ext-builder-frontend-grid-css"
-          href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/builder/static/css/frontend-grid.css?ver=1.2.10"
-          media="all">
-    <link rel="stylesheet" id="specto_bootstrap-css-css"
-          href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/bootstrap.min.css?ver=3.3.6" media="all">
-    <link rel="stylesheet" id="specto_venobox-css-css"
-          href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/venobox.css?ver=1.6.0" media="all">
-    <link rel="stylesheet" id="specto_slick-css-css"
-          href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/slick.css?ver=1.6.0" media="all">
-    <link rel="stylesheet" id="specto_theme-style-css"
-          href="http://specto.klevermedia.co.uk/wp-content/themes/specto/style.css?ver=1.0" media="all">
-    <link rel="stylesheet" id="fw-shortcode-section-background-video-css"
-          href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/shortcodes/shortcodes/section/static/css/background.css?ver=4.9.4"
-          media="all">
-    <link rel="stylesheet" id="fw-shortcode-section-css"
-          href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/shortcodes/shortcodes/section/static/css/styles.css?ver=4.9.4"
-          media="all">
-    <link rel="stylesheet" id="fw-googleFonts-css"
-          href="http://fonts.googleapis.com/css?family=Roboto+Condensed%3A300%2Cregular&amp;subset=latin-ext&amp;ver=4.9.4"
-          media="all">
+    <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525764756TOI3CROQKmr7chO.ico" />
+    <link rel="stylesheet" id="fw-ext-builder-frontend-grid-css" href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/builder/static/css/frontend-grid.css?ver=1.2.10" media="all">
+    <link rel="stylesheet" id="specto_bootstrap-css-css" href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/bootstrap.min.css?ver=3.3.6" media="all">
+    <link rel="stylesheet" id="specto_venobox-css-css" href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/venobox.css?ver=1.6.0" media="all">
+    <link rel="stylesheet" id="specto_slick-css-css" href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/slick.css?ver=1.6.0" media="all">
+    <link rel="stylesheet" id="specto_theme-style-css" href="http://specto.klevermedia.co.uk/wp-content/themes/specto/style.css?ver=1.0" media="all">
+    <link rel="stylesheet" id="fw-shortcode-section-background-video-css" href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/shortcodes/shortcodes/section/static/css/background.css?ver=4.9.4" media="all">
+    <link rel="stylesheet" id="fw-shortcode-section-css" href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/shortcodes/shortcodes/section/static/css/styles.css?ver=4.9.4" media="all">
+    <link rel="stylesheet" id="fw-googleFonts-css" href="http://fonts.googleapis.com/css?family=Roboto+Condensed%3A300%2Cregular&amp;subset=latin-ext&amp;ver=4.9.4" media="all">
     <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery.js"></script>
     <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
-        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/paper-kit.css" rel="stylesheet"/>--}}
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+
+
     {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/bootstrap.min.css" rel="stylesheet"/>--}}
 
 
@@ -507,7 +496,7 @@
                     </ul>
                 </li>
                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-229"><a title="News"
-                                                                                                      href="News.html">Tin
+                                                                                                      href="/blog">Tin
                         tức</a></li>
                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-254"><a title="Coffee"
                                                                                                       href="Coffee.html">Cà
