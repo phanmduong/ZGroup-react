@@ -27,6 +27,7 @@ class FilmContainer extends React.Component {
     componentWillMount() {
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllFilmsHavePagination(1);
+        this.props.filmAction.clearToLoadPage();
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {

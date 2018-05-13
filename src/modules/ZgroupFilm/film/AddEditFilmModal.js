@@ -70,7 +70,7 @@ class AddEditFilmModal extends React.Component {
             || helper.isEmptyInput(film.images_url)
 
         ) {
-            if (helper.isEmptyInput(film.name)) helper.showErrorNotification("Bạn cần nhập tên film");
+            if (helper.isEmptyInput(film.name)) helper.showErrorNotification("Bạn cần nhập tên phim");
             if (helper.isEmptyInput(film.avatar_url)) helper.showErrorNotification("Bạn cần chọn ảnh đại diện");
             if (helper.isEmptyInput(film.trailer_url)) helper.showErrorNotification("Bạn cần nhập link trailer");
             if (helper.isEmptyInput(film.director)) helper.showErrorNotification("Bạn cần nhập tên đạo diễn");
@@ -78,9 +78,9 @@ class AddEditFilmModal extends React.Component {
             if (helper.isEmptyInput(film.running_time)) helper.showErrorNotification("Bạn cần nhập thời lượng");
             if (helper.isEmptyInput(film.country)) helper.showErrorNotification("Bạn cần nhập quốc gia");
             if (helper.isEmptyInput(film.language)) helper.showErrorNotification("Bạn cần nhập ngôn ngữ");
-            if (helper.isEmptyInput(film.rate)) helper.showErrorNotification("Bạn cần đánh giá film");
+            if (helper.isEmptyInput(film.rate)) helper.showErrorNotification("Bạn cần đánh giá phim");
             if (helper.isEmptyInput(film.summary)) helper.showErrorNotification("Bạn cần nhập mô tả");
-            if (helper.isEmptyInput(film.film_genre)) helper.showErrorNotification("Bạn cần nhập thể loại film");
+            if (helper.isEmptyInput(film.film_genre)) helper.showErrorNotification("Bạn cần nhập thể loại phim");
             if (helper.isEmptyInput(film.cover_url)) helper.showErrorNotification("Bạn cần chọn ảnh bìa");
             if (helper.isEmptyInput(film.images_url)) helper.showErrorNotification("Bạn cần chọn ít nhất một ảnh");
         }
@@ -110,7 +110,7 @@ class AddEditFilmModal extends React.Component {
                 }}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title>Quản lý film</Modal.Title>
+                    <Modal.Title>Quản lý phim</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
@@ -182,7 +182,7 @@ class AddEditFilmModal extends React.Component {
                                         required
                                     />
                                     <FormInputText
-                                        label="Thể loại film"
+                                        label="Thể loại phim"
                                         name="film_genre"
                                         updateFormData={this.updateFormData}
                                         value={this.props.filmModal.film_genre || ''}

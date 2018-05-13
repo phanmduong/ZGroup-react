@@ -324,3 +324,8 @@ export function showFilmSession(search) {
         search
     });
 }
+export function clearToLoadPage() {
+    return ({
+        type: types.CLEAR_TO_LOAD_PAGE
+    });
+}

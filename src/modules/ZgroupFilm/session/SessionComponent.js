@@ -28,11 +28,11 @@ class SessionComponent extends React.Component {
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th>STT</th>
-                        <th>Tên film</th>
+                        <th>Tên phim</th>
                         <th>Phòng</th>
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
-                        <th>Chất lượng film</th>
+                        <th>Chất lượng phim</th>
                         <th/>
                     </tr>
                     </thead>
