@@ -1,5 +1,17 @@
 export default {
-
+    session: {
+        isLoadingAllSessions: false,
+        isLoadingShowingSession: false,
+        allFilms: [], isLoadingFilms: false,
+        allSessions: [],
+        showingSession: [],
+        comingSession: [],
+        daySession: [],
+        isSavingSession: false,
+        isSaving: false,
+        addEditSessionModal: false,
+        sessionModal: {},
+    },
     film: {
         //********Film
         isLoading: false,
@@ -2093,6 +2105,8 @@ export default {
                 id: 0,
                 account_number: "",
             },
+            staff: null,
+            deadline: null,
             description: "",
         },
         listPayment: [],
@@ -2347,6 +2361,20 @@ export default {
         },
         itemOrders: [],
         importOrders: [],
+        importOrder: {
+            company: {id: null, name: ""},
+            staff: {id: null, name: ""},
+            good: [
+                // {id: null, name: "", quantity: 0,},
+            ],
+            warehouse: {id: null, name: ""},
+            imported_quantity: 0,
+            quantity: 0,
+            staff_import_or_export: {},
+            total_price: 0,
+            good_count: 1,
+            status: 0,
+        },
         companies: [{ id: 1, name: "" },],
         goods: [{ id: 1, name: "" },],
         warehouses: [{ id: 1, name: "" },],
@@ -2477,4 +2505,39 @@ export default {
         isLoading: true,
         error: false,
     },
+    bill: {
+        isLoadingPayments: false,
+        isLoadingPayment: false,
+        isSavingPayment: false,
+        isUploading: false,
+        isLoadingCompanies: false,
+        link: "",
+        percent: 0,
+        summary_money: 0,
+        payment: {
+            id: 0,
+            money_value: 0,
+            bill_imiage_url: "",
+            payer: {
+                id: 0,
+                account_number: "",
+            },
+            receiver: {
+                id: 0,
+                account_number: "",
+            },
+            staff: null,
+            deadline: null,
+            description: "",
+        },
+        listPayment: [],
+        company: [],
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+    },
+
 };

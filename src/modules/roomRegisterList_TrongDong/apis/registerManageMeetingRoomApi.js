@@ -4,22 +4,56 @@ import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from '../../../constants/constants';
 
 
-export function submitBooking(data = {}) {
-    //http://homestead.test/manageapi/v3/coworking-space/register-room?
-    let res = { ...data };
-    let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/coworking-space/register-room?token=" + token;
-    res.start_time = moment(data.start_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL);
-    res.end_time = moment(data.end_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL);
+// export function submitBooking(data = {}) {
+//     //http://homestead.test/manageapi/v3/coworking-space/register-room?
+//     let res = { ...data };
+//     let token = localStorage.getItem('token');
+//     let url = env.MANAGE_API_URL + "/coworking-space/register-room?token=" + token;
+//     res.start_time = moment(data.start_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL);
+//     res.end_time = moment(data.end_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL);
+//     return axios.post(url, res);
 
-    return axios.post(url, res);
+// }
 
+
+
+export function submitBooking(register) {
+    let url = env.MANAGE_API_URL;
+
+    if (register.id) {
+        url += "/trongdong/register-room/edit";
+    } else {
+        url += "/trongdong/register-room/create";
+    }
+
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        id: register.id ? register.id : '',
+        name: register.name,
+        email: register.email,
+        phone: register.phone,
+        address: register.address,
+        status: register.status,
+        base_id: register.base_id,
+        room_id: register.room_id,
+        start_time: moment(register.start_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL),
+        end_time: moment(register.end_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL),
+        note: register.note,
+        campaign_id: register.campaign_id,
+    });
 }
 
+
 export function loadRooms() {
-    // http://homestead.test/manageapi/v3/trongdong/room/all?
-    let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/trongdong/room/all?token=" + token;
+    let url = env.MANAGE_API_URL + "/trongdong/room/all";
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+
     return axios.get(url);
 }
 
@@ -42,7 +76,7 @@ export function loadAllRegistersApi(filter) {
         startTime,
         endTime
     } = filter;
-    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
+    let url = env.MANAGE_API_URL + '/trongdong/dashboard?page=' + page;
     if (search) {
         url += "&search=" + search;
     }
@@ -67,6 +101,55 @@ export function loadAllRegistersApi(filter) {
     }
     return axios.get(url);
 }
+
+
+// export function loadDashboard(baseId = "", roomTypeId = "", roomId = "") {
+//     let url = env.MANAGE_API_URL + "/trongdong/dashboard";
+//     let token = localStorage.getItem("token");
+//     if (token) {
+//         url += "?token=" + token;
+//     }
+//     url += `&base_id=${baseId}&room_type_id=${roomTypeId}&room_id=${roomId}`;
+//     return axios.get(url);
+// }
+// export function loadAllRegistersApi(filter) {
+//     filter = filter ? filter : {};
+//     let {
+//         limit,
+//         page = 1,
+//         search,
+//         saler_id,
+//         base_id,
+//         startTime,
+//         endTime
+//     } = filter;
+//     let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
+//     if (search) {
+//         url += "&search=" + search;
+//     }
+//     let token = localStorage.getItem('token');
+//     if (token) {
+//         url += "&token=" + token;
+//     }
+//     if (saler_id) {
+//         url += "&saler_id=" + (saler_id == -1 ? '' : saler_id);
+//     }
+//     if (limit) {
+//         url += "&limit=" + limit;
+//     }
+//     if (startTime) {
+//         url += "&start_time=" + startTime;
+//     }
+//     if (endTime) {
+//         url += "&end_time=" + endTime;
+//     }
+//     if (base_id) {
+//         url += "&base_id=" + (base_id == -1 ? '' : base_id);
+//     }
+//     return axios.get(url);
+// }
+
+
 
 export function loadAllBasesApi() {
     let url = env.MANAGE_API_URL + "/base/all";

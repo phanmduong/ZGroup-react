@@ -179,24 +179,20 @@ class RoomRegisterListContainer extends React.Component {
                                             </button>
                                         </div>
                                         <div>
+                                            
                                             <TooltipButton text="Lọc" placement="top">
-                                                <button
-                                                    className="btn btn-rose"
-                                                    onClick={this.openFilterPanel}
-                                                    style={{
-                                                        borderRadius: 30,
-                                                        padding: "0px 11px",
-                                                        margin: "-1px 10px",
-                                                        minWidth: 25,
-                                                        height: 25,
-                                                        width: "100%",
-                                                    }}
-                                                >
-                                                    <i className="material-icons"
-                                                        style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
-                                                    >filter_list</i>
-                                                </button>
-                                            </TooltipButton>
+                                            <button
+                                                className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                onClick={this.openFilterPanel}
+                                            >
+                                                <i className="material-icons" style={{
+                                                    width: 12,
+                                                    marginLeft: -4,
+                                                    paddingTop: 2,
+                                                }}>filter_list</i>
+                                            </button>
+
+                                        </TooltipButton>
                                         </div>
                                     </div>
                                     <div>

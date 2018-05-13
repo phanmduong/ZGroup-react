@@ -1322,14 +1322,18 @@ export function definePhoneHead(phone) {
 
 export function dotStringNumber(number) {
 
-    return number.replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        if(isEmptyInput(number)) return '0';
+        let StringNumber = number.toString();
+        return StringNumber.replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
     //return number;
 }
 export function convertDotStringNumberToStringNumber(number) {
-    while (number.indexOf('.') > -1) {
-        number = number.replace('.', '');
+    let StringNumber = number.toString();
+    while (StringNumber.indexOf('.') > -1) {
+        StringNumber = StringNumber.replace('.', '');
     }
-    return number;
+    return StringNumber;
 }
 
 export function saveExpired() {

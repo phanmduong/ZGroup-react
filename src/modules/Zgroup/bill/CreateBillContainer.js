@@ -1,19 +1,19 @@
 import React from "react";
 import ReactSelect from 'react-select';
-import * as PaymentActions from "../payment/PaymentActions";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Loading from "../../components/common/Loading";
-import * as helper from "../../helpers/helper";
-import FormInputText from "../../components/common/FormInputText";
-import UploadButton from "../../components/common/uploadButton/UploadButton";
+import * as billActions from "./billActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import Loading from "../../../components/common/Loading";
+import * as helper from "../../../helpers/helper";
+import FormInputText from "../../../components/common/FormInputText";
 import PropTypes from 'prop-types';
-import { browserHistory } from "react-router";
-import FormInputMoney from "../../components/common/FormInputMoney";
+import {browserHistory} from "react-router";
+import FormInputMoney from "../../../components/common/FormInputMoney";
+
 
 //import Lightbox from 'react-images';
 
-class CreatePaymentContainer extends React.Component {
+class CreateBillContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeCompanies = this.changeCompanies.bind(this);
@@ -26,10 +26,10 @@ class CreatePaymentContainer extends React.Component {
 
     componentWillMount() {
         helper.setFormValidation('#form-payment');
-        this.props.PaymentActions.loadCompanies();
+        this.props.billActions.loadCompanies();
         if (this.props.params.paymentId)
-            this.props.PaymentActions.loadPayment(this.props.params.paymentId);
-        else this.props.PaymentActions.resetDataPayment();
+            this.props.billActions.loadPayment(this.props.params.paymentId);
+        else this.props.billActions.resetDataPayment();
 
     }
 
@@ -48,7 +48,7 @@ class CreatePaymentContainer extends React.Component {
 
     handleUpload(event) {
         const file = event.target.files[0];
-        this.props.PaymentActions.uploadImage(file, this.props.data);
+        this.props.billActions.uploadImage(file, this.props.data);
     }
 
     updateFormDataPayer(e) {
@@ -61,7 +61,7 @@ class CreatePaymentContainer extends React.Component {
                 "account_number": p
             }
         };
-        this.props.PaymentActions.updateFormData(newdata);
+        this.props.billActions.updateFormData(newdata);
     }
 
     updateFormDataReceiver(e) {
@@ -74,31 +74,32 @@ class CreatePaymentContainer extends React.Component {
                 "account_number": p
             }
         };
-        this.props.PaymentActions.updateFormData(newdata);
+        this.props.billActions.updateFormData(newdata);
     }
 
     updateFormData(e) {
         if (!e) return;
         let field = e.target.name;
         let value = e.target.value;
-        let newdata = { ...this.props.data, [field]: value };
-        this.props.PaymentActions.updateFormData(newdata);
+        let newdata = {...this.props.data, [field]: value};
+
+        this.props.billActions.updateFormData(newdata);
     }
 
     submit() {
-        if (!this.props.link && !this.props.data.bill_image_url) {
-            helper.showErrorNotification("Vui lòng chọn ảnh hóa đơn");
-            return;
-        }
         if ($('#form-payment').valid()) {
             helper.showNotification("Đang lưu...");
-            if (!this.props.params.paymentId) this.props.PaymentActions.addPayment(this.props.data);
-            else this.props.PaymentActions.editPayment(this.props.params.paymentId, this.props.data);
+            if (!this.props.params.paymentId) {
+                let newdata = {...this.props.data, staff_id: this.props.user.id};
+                this.props.billActions.addPayment(newdata);
+            }
+            else this.props.billActions.editPayment(this.props.params.paymentId, this.props.data);
         } else helper.showErrorNotification("Vui lòng nhập đủ các thông tin");
     }
+
     cancel() {
         helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này?", () => {
-            browserHistory.push("business/company/payments");
+            browserHistory.push("administration/bill");
 
         });
     }
@@ -108,13 +109,13 @@ class CreatePaymentContainer extends React.Component {
             <div className="content">
                 <form role="form" id="form-payment" onSubmit={(e) => e.preventDefault()}>
                     <div className="row">
-                        <div className="col-md-8">
+                        <div className="col-md-12">
                             <div className="card">
 
                                 <div className="card-content">
-                                    <h4 className="card-title"> <strong> Lưu trữ hóa đơn</strong> </h4>
+                                    <h4 className="card-title"><strong> Tạo hóa đơn </strong></h4>
                                     <div className="row">{
-                                        (this.props.isLoadingCompanies) ? <Loading /> :
+                                        (this.props.isLoadingCompanies) ? <Loading/> :
 
                                             <div>
                                                 <div className="col-md-6">
@@ -166,6 +167,7 @@ class CreatePaymentContainer extends React.Component {
 
                                                 </div>
                                                 <div className="col-md-12">
+                                                    <label/>
                                                     <FormInputMoney
                                                         label="Số tiền"
                                                         type="text"
@@ -176,6 +178,8 @@ class CreatePaymentContainer extends React.Component {
 
                                                     />
                                                 </div>
+
+
                                                 <div className="col-md-12">
                                                     <FormInputText
                                                         label="Nội dung"
@@ -187,27 +191,27 @@ class CreatePaymentContainer extends React.Component {
                                                     />
                                                 </div>
                                                 <div className="col-md-12"
-                                                    style={{ display: "flex", flexFlow: "row-reverse" }}>
+                                                     style={{display: "flex", flexFlow: "row-reverse"}}>
                                                     {this.props.isSavingPayment ?
                                                         <div>
                                                             <button disabled className="btn btn-rose  disabled"
-                                                                type="button">
-                                                                <i className="fa fa-spinner fa-spin" /> Đang tải lên
+                                                                    type="button">
+                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                             </button>
                                                             <button className="btn  disabled"
-                                                                type="button">
+                                                                    type="button">
                                                                 Hủy
                                                             </button>
                                                         </div>
                                                         :
                                                         <div>
                                                             <button onClick={this.submit}
-                                                                className="btn btn-rose"
+                                                                    className="btn btn-rose"
                                                             >Lưu
                                                             </button>
                                                             <button className="btn"
-                                                                onClick={this.cancel}
-                                                                type="button">
+                                                                    onClick={this.cancel}
+                                                                    type="button">
                                                                 Hủy
                                                             </button>
                                                         </div>
@@ -221,69 +225,70 @@ class CreatePaymentContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="card">
-                                <div className="card-content">
-                                    <h4 className="card-title">Ảnh hóa đơn</h4>
 
-                                    {
-                                        this.props.isUploading ? (
-                                            <div className="progress">
-                                                <div className="progress-bar" role="progressbar" aria-valuenow="70"
-                                                    aria-valuemin="0" aria-valuemax="100"
-                                                    style={{ width: `${this.props.percent}%` }}>
-                                                    <span className="sr-only">{this.props.percent}% Complete</span>
-                                                </div>
-                                            </div>
+                        {/*<div className="col-md-4">*/}
+                        {/*<div className="card">*/}
+                        {/*<div className="card-content">*/}
+                        {/*<h4 className="card-title">Ảnh hóa đơn</h4>*/}
 
-                                        ) : (
-                                                <div>
-                                                    <div style={{
-                                                        maxWidth: "100%",
-                                                        lineHeight: "250px",
-                                                        marginBottom: "10px",
-                                                        textAlign: "center",
-                                                        verticalAlign: "middle",
-                                                        boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
-                                                        border: "0 none",
-                                                        display: "inline-block"
-                                                    }}>
-                                                        <a href={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                            target="_blank"
-                                                        >
-                                                            <img
-                                                                src={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                                style={{
-                                                                    lineHeight: "164px",
-                                                                    height: "auto",
-                                                                    maxWidth: "100%",
-                                                                    maxHeight: "100%",
-                                                                    display: "block",
-                                                                    marginRight: "auto",
-                                                                    marginLeft: "auto",
-                                                                    backgroundSize: "cover",
-                                                                    backgroundPosition: "center",
-                                                                    borderRadius: "4px",
-                                                                }} />
-                                                        </a>
-                                                    </div>
+                        {/*{*/}
+                        {/*this.props.isUploading ? (*/}
+                        {/*<div className="progress">*/}
+                        {/*<div className="progress-bar" role="progressbar" aria-valuenow="70"*/}
+                        {/*aria-valuemin="0" aria-valuemax="100"*/}
+                        {/*style={{ width: `${this.props.percent}%` }}>*/}
+                        {/*<span className="sr-only">{this.props.percent}% Complete</span>*/}
+                        {/*</div>*/}
+                        {/*</div>*/}
 
-                                                    <UploadButton
-                                                        style={{
-                                                            width: "100%"
-                                                        }}
-                                                        className="btn btn-rose"
-                                                        onChange={this.handleUpload}>
-                                                        Chọn ảnh
-                                                </UploadButton>
-                                                </div>
-                                            )
-                                    }
+                        {/*) : (*/}
+                        {/*<div>*/}
+                        {/*<div style={{*/}
+                        {/*maxWidth: "100%",*/}
+                        {/*lineHeight: "250px",*/}
+                        {/*marginBottom: "10px",*/}
+                        {/*textAlign: "center",*/}
+                        {/*verticalAlign: "middle",*/}
+                        {/*boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",*/}
+                        {/*border: "0 none",*/}
+                        {/*display: "inline-block"*/}
+                        {/*}}>*/}
+                        {/*<a href={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}*/}
+                        {/*target="_blank"*/}
+                        {/*>*/}
+                        {/*<img*/}
+                        {/*src={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}*/}
+                        {/*style={{*/}
+                        {/*lineHeight: "164px",*/}
+                        {/*height: "auto",*/}
+                        {/*maxWidth: "100%",*/}
+                        {/*maxHeight: "100%",*/}
+                        {/*display: "block",*/}
+                        {/*marginRight: "auto",*/}
+                        {/*marginLeft: "auto",*/}
+                        {/*backgroundSize: "cover",*/}
+                        {/*backgroundPosition: "center",*/}
+                        {/*borderRadius: "4px",*/}
+                        {/*}} />*/}
+                        {/*</a>*/}
+                        {/*</div>*/}
 
-                                </div>
-                            </div>
+                        {/*<UploadButton*/}
+                        {/*style={{*/}
+                        {/*width: "100%"*/}
+                        {/*}}*/}
+                        {/*className="btn btn-rose"*/}
+                        {/*onChange={this.handleUpload}>*/}
+                        {/*Chọn ảnh*/}
+                        {/*</UploadButton>*/}
+                        {/*</div>*/}
+                        {/*)*/}
+                        {/*}*/}
 
-                        </div>
+                        {/*</div>*/}
+                        {/*</div>*/}
+
+                        {/*</div>*/}
 
                     </div>
                 </form>
@@ -292,7 +297,7 @@ class CreatePaymentContainer extends React.Component {
     }
 }
 
-CreatePaymentContainer.propTypes = {
+CreateBillContainer.propTypes = {
     isSavingPayment: PropTypes.bool.isRequired,
     isLoadingCompanies: PropTypes.bool.isRequired,
     isUploading: PropTypes.bool.isRequired,
@@ -301,7 +306,8 @@ CreatePaymentContainer.propTypes = {
     data: PropTypes.object.isRequired,
     percent: PropTypes.number.isRequired,
     params: PropTypes.object,
-    PaymentActions: PropTypes.object.isRequired,
+    billActions: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -313,14 +319,15 @@ function mapStateToProps(state) {
         companies: state.payment.company,
         data: state.payment.payment,
         percent: state.payment.percent,
+        user: state.login.user,
 
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        PaymentActions: bindActionCreators(PaymentActions, dispatch),
+        billActions: bindActionCreators(billActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePaymentContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBillContainer);

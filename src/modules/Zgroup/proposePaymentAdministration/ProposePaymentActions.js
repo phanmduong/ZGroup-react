@@ -1,15 +1,15 @@
-import * as types from '../../constants/actionTypes';
-import * as PaymentApi from './PaymentApi';
-import * as helper from '../../helpers/helper';
+import * as types from '../../../constants/actionTypes';
+import * as PaymentApi from '././ProposePaymentApi';
+import * as helper from '../../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-export function loadPayments(page = 1, receiver_id = null, payer_id = null) {
+export function loadPayments(page = 1, receiver_id = null, payer_id = null,start_time = null, end_time = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PAYMENTS,
         });
-        PaymentApi.loadPayments(page, receiver_id, payer_id)
+        PaymentApi.loadPayments(page, receiver_id, payer_id,start_time,end_time)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_PAYMENTS_SUCCESS,
@@ -78,7 +78,7 @@ export function addPayment(object) {
                 dispatch({
                     type: types.ADD_PAYMENT_SUCCESS,
                 });
-                browserHistory.push("/business/company/payments");
+                browserHistory.push("/administration/propose-payment");
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
@@ -99,7 +99,7 @@ export function editPayment(id, object) {
                 dispatch({
                     type: types.EDIT_PAYMENT_SUCCESS,
                 });
-                browserHistory.push("/business/company/payments");
+                browserHistory.push("/administration/propose-payment");
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
@@ -138,7 +138,7 @@ export function uploadImage(file, pp) {
     };
 }
 
-export function changeStatus(id, status ,loadPayments) {
+export function changeStatus(id, status, loadPayment) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_STATUS_PAYMENT,
@@ -146,7 +146,7 @@ export function changeStatus(id, status ,loadPayments) {
         PaymentApi.changeStatus(id, status)
             .then(() => {
                 helper.showNotification('Duyệt thành công');
-                loadPayments();
+                loadPayment();
                 dispatch({
                     type: types.CHANGE_STATUS_PAYMENT_SUCCESS,
                     id: id,

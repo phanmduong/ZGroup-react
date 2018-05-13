@@ -32,7 +32,7 @@ export function loadImportOrder(id) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_IMPORT_ORDER_SUCCESS,
-                    data: res.data["import-order"],
+                    data: res.data.data["import-order"],
                 });
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");

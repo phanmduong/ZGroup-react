@@ -1,22 +1,27 @@
 import React from "react";
 import {Link} from "react-router";
-import * as PaymentActions from "./PaymentActions";
+import * as billActions from "./billActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Loading from "../../components/common/Loading";
-import PaymentList from './PaymentList';
-import InfoPaymentModal from './InfoPaymentModal';
+import Loading from "../../../components/common/Loading";
+import BillList from './BillList';
+import InfoBillModal from './InfoBillModal';
 import {Panel} from 'react-bootstrap';
 import Select from 'react-select';
 import PropTypes from "prop-types";
-import Pagination from "../../components/common/Pagination";
+import Pagination from "../../../components/common/Pagination";
+import {DATE_FORMAT, DATETIME_FORMAT_SQL} from "../../../constants/constants";
+import moment from "moment/moment";
+import FormInputDate from "../../../components/common/FormInputDate";
 
-class PaymentContainer extends React.Component {
+class BillContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             page: 1,
             search: '',
+            from: "",
+            to: "",
             paginator: {
                 current_page: 1,
                 limit: 5,
@@ -46,18 +51,20 @@ class PaymentContainer extends React.Component {
         this.selectedReceiver = this.selectedReceiver.bind(this);
         this.selectedPayer = this.selectedPayer.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
+        this.changeFrom = this.changeFrom.bind(this);
+        this.changeTo = this.changeTo.bind(this);
     }
 
     componentWillMount() {
-        this.props.PaymentActions.loadPayments();
-        this.props.PaymentActions.loadCompanies();
+        this.props.billActions.loadPayments();
+        this.props.billActions.loadCompanies();
     }
 
     loadPayments(page = 1) {
         this.setState({
             page: page,
         });
-        this.props.PaymentActions.loadPayments(page);
+        this.props.billActions.loadPayments(page);
     }
 
     openInfoModal(payment) {
@@ -79,30 +86,43 @@ class PaymentContainer extends React.Component {
     selectedReceiver(e) {
         let value = e ? e.value : "";
         this.setState({receiver_id: value});
-        this.props.PaymentActions.loadPayments(1, value, this.state.payer_id);
+        this.props.billActions.loadPayments(1, value, this.state.payer_id);
 
     }
 
     selectedPayer(e) {
         let value = e ? e.value : "";
         this.setState({payer_id: value});
-        this.props.PaymentActions.loadPayments(1, this.state.receiver_id, value);
+        this.props.billActions.loadPayments(1, this.state.receiver_id, value);
 
     }
 
-    changeStatus(id,status){
-        this.props.PaymentActions.changeStatus(id,status,()=>this.props.PaymentActions.loadPayments(this.props.paginator.current_page));
-    }
 
     closeInfoModal() {
         this.setState({showInfoModal: false});
     }
+    changeStatus(id,status){
+        this.props.billActions.changeStatus(id,status,()=>this.props.billActions.loadPayments(this.props.paginator.current_page));
+    }
+    changeFrom(e){
+        this.setState({from: e.target.value});
+        let from = moment(e.target.value, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let to = moment(this.state.to, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        this.props.billActions.loadPayments(this.props.paginator.current_page,this.state.receiver_id,this.state.payer_id,from,to);
+    }
+    changeTo(e){
+        this.setState({to: e.target.value});
+        let from = moment(this.state.from, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let to = moment(e.target.value, [DATETIME_FORMAT_SQL, DATE_FORMAT]).format(DATETIME_FORMAT_SQL);
+        let {current_page} = this.props.paginator;
+        this.props.billActions.loadPayments(current_page,this.state.receiver_id,this.state.payer_id,from,to);
 
+    }
     render() {
         return (
             <div>
                 <div className="content">
-                    <InfoPaymentModal
+                    <InfoBillModal
                         show={this.state.showInfoModal}
                         onHide={this.closeInfoModal}
                         data={this.state.payment}
@@ -117,25 +137,25 @@ class PaymentContainer extends React.Component {
                                         <div className="flex" style={{justifyContent: "space-between"}}>
                                             <div className="flex">
 
-                                                <h4 className="card-title"><strong> Quản lý danh sách hóa đơn </strong>
+                                                <h4 className="card-title"><strong> Hóa đơn </strong>
                                                 </h4>
                                                 <div style={{
                                                     display: "inline-block"
                                                 }}>
                                                     {/*<div className="dropdown">*/}
                                                     <Link
-                                                        className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
+                                                        className="btn btn-rose btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
                                                         type="button"
                                                         data-toggle="tooltip"
                                                         rel="tootip"
-                                                        title="Tạo thanh toán"
-                                                        to="/business/company/payment/create"
+                                                        title="Tạo hóa đơn"
+                                                        to="/administration/bill/create"
                                                     >
                                                         <strong>+</strong>
                                                     </Link>
                                                     {/*</div>*/}
                                                     <button
-                                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                        className="btn btn-rose btn-primary btn-round btn-xs button-add none-margin"
                                                         data-toggle="tooltip"
                                                         rel="tooltip"
                                                         data-original-title="Lọc"
@@ -150,6 +170,24 @@ class PaymentContainer extends React.Component {
                                         <Panel collapsible expanded={this.state.openFilter}>
                                             <div className="col-md-12">
                                                 <div className="row">
+                                                    <div className="col-md-6">
+                                                        <FormInputDate
+                                                            format={DATE_FORMAT}
+                                                            name="startTime"
+                                                            id="from"
+                                                            label="Từ ngày"
+                                                            value={this.state.from}
+                                                            updateFormData={this.changeFrom}/>
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        <FormInputDate
+                                                            name="endTime"
+                                                            format={DATE_FORMAT}
+                                                            id="to"
+                                                            label="Tới ngày"
+                                                            value={this.state.to}
+                                                            updateFormData={this.changeTo}/>
+                                                    </div>
                                                     <div className="col-md-6">
                                                         <label>
                                                             Tìm kiếm theo công ty gửi
@@ -176,7 +214,7 @@ class PaymentContainer extends React.Component {
 
                                         {
                                             this.props.isLoadingPayments ? <Loading/> :
-                                                <PaymentList
+                                                <BillList
                                                     data={this.props.data || []}
                                                     openInfoModal={this.openInfoModal}
                                                     changeStatus={this.changeStatus}
@@ -186,7 +224,7 @@ class PaymentContainer extends React.Component {
                                             <Pagination
                                                 totalPages={this.props.paginator.total_pages}
                                                 currentPage={this.props.paginator.current_page}
-                                                loadDataPage={this.props.PaymentActions.loadPayments}
+                                                loadDataPage={this.props.billActions.loadPayments}
                                             />
                                         </div>
                                     </div>
@@ -200,8 +238,8 @@ class PaymentContainer extends React.Component {
     }
 }
 
-PaymentContainer.propTypes = {
-    PaymentActions: PropTypes.object.isRequired,
+BillContainer.propTypes = {
+    billActions: PropTypes.object.isRequired,
     isLoadingPayments: PropTypes.bool.isRequired,
     data: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
@@ -220,8 +258,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        PaymentActions: bindActionCreators(PaymentActions, dispatch),
+        billActions: bindActionCreators(billActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BillContainer);

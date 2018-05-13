@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router';
 import PropTypes from "prop-types";
-import * as helper from "../../helpers/helper";
+import * as helper from "../../../helpers/helper";
 
 class PaymentList extends React.Component {
     constructor(props, context) {
@@ -23,6 +23,8 @@ class PaymentList extends React.Component {
                         <th>Bên nhận</th>
                         <th>Số tiền</th>
                         <th>Nội dung</th>
+                        <th> Hạn thanh toán </th>
+                        <th> Ngày tạo </th>
                         <th>Trạng thái</th>
                         <th/>
                         <th/>
@@ -38,6 +40,8 @@ class PaymentList extends React.Component {
                                     <td>{pp.receiver.name}</td>
                                     <td>{helper.dotStringNumber(pp.money_value)}</td>
                                     <td> {pp.description ? pp.description : "Không có"}</td>
+                                    <td> {pp.deadline} </td>
+                                    <td> {pp.created_at} </td>
                                     <td>
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
                                     </td>
@@ -51,7 +55,7 @@ class PaymentList extends React.Component {
                                             </a>
                                             <div style={{display: "inline-block"}}>
                                                 <Link data-toggle="tooltip" title="Sửa"
-                                                      to={"/business/company/payment/edit/" + pp.id}
+                                                      to={"/administration/propose-payment/edit/" + pp.id}
                                                       type="button" rel="tooltip">
                                                     <i className="material-icons">edit</i>
                                                 </Link>

@@ -5,7 +5,6 @@ import * as orderedGoodActions from "./orderedGoodAction";
 import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
-import * as helper from "../../../helpers/helper";
 import { Link } from "react-router";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import ReactSelect from 'react-select';
@@ -17,6 +16,8 @@ import {
     saveWorkBookToExcel,
     renderExcelColumnArray,
     showErrorMessage,
+    showNotification,
+    confirm,
 } from "../../../helpers/helper";
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../../constants/constants";
@@ -45,11 +46,11 @@ class OrderedGoodContainer extends React.Component {
 
 
     confirm(id) {
-        helper.confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
+        confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
             () => {
                 return this.props.orderedGoodActions.confirmOrder(id,
                     () => {
-                        helper.showNotification("Duyệt thành công.");
+                        showNotification("Duyệt thành công.");
                         return this.props.orderedGoodActions.loadAllOrderedGood(this.props.paginator.current_page);
                     }
                 );
