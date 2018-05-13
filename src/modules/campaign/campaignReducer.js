@@ -141,9 +141,45 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
 			};
 		// case types.TOGGLE_UPDATE_RECEIVERS_LIST:
 		// 	return {
-        //         ...state,
-        //         isUpdatingReceivers: !state.isUpdatingReceivers
+		//         ...state,
+		//         isUpdatingReceivers: !state.isUpdatingReceivers
 		// 	};
+		case types.BEGIN_LOAD_HISTORY:
+			return {
+				...state,
+				isLoadingHistory: true
+			};
+		case types.LOAD_HISTORY_SUCCESS:
+			return {
+				...state,
+				isLoadingHistory: false,
+				history: action.history,
+				currentPageHistory: action.currentPageHistory,
+				limitHistory: action.limitHistory,
+				totalCountHistory: action.totalCountHistory,
+				totalPagesHistory: action.totalPagesHistory
+			};
+		case types.BEGIN_LOAD_HISTORY_USER_MODAL:
+			return {
+				...state,
+				isLoadingHistoryModal: true
+			};
+		case types.LOAD_HISTORY_USER_MODAL_SUCCESS:
+			return {
+				...state,
+				isLoadingHistoryModal: false,
+				historyModal: action.historyModal,
+				currentPageHistoryModal: action.currentPageHistoryModal,
+				limitHistoryModal: action.limitHistoryModal,
+				totalCountHistoryModal: action.totalCountHistoryModal,
+				totalPagesHistoryModal: action.totalPagesHistoryModal,
+				userHistoryDetail: action.userHistoryDetail
+			};
+		case types.TOGGLE_HISTORY_DETAIL_MODAL:
+			return {
+				...state,
+				historyDetailModal: !state.historyDetailModal
+			};
 		default:
 			return state;
 	}

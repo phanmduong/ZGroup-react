@@ -1,23 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import App from "../components/App";
 // Import actions here!!
 import * as loginActions from "../modules/login/loginActions";
 import * as helper from "../helpers/helper";
-import { Modal } from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
 import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
 
-let self;
 
 class AppContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onLogOut = this.onLogOut.bind(this);
-        self = this;
 
         this.state = {
             showModalRule: false,
@@ -29,7 +27,7 @@ class AppContainer extends React.Component {
             helper.onesignalSetUserId(this.props.user.id);
             /* eslint-disable */
             if (window.OneSignal) {
-                window.OneSignal.sendTag("device_type", "manage", function(tagsSent) {
+                window.OneSignal.sendTag("device_type", "manage", function (tagsSent) {
                     console.log("tag ok ", tagsSent);
                 });
             }
@@ -40,7 +38,7 @@ class AppContainer extends React.Component {
     }
 
     componentWillMount() {
-        // this.checkToken();
+        this.checkToken();
         this.props.loginActions.getUserLocal();
     }
 
@@ -49,16 +47,9 @@ class AppContainer extends React.Component {
     }
 
     checkToken() {
-        let tokenLocal = helper.getTokenLocal();
-        tokenLocal
-            .then(function() {
-                self.props.loginActions.getUserLocal();
-            })
-            .catch(function() {
-                self.onLogOut();
-            });
 
-        let token = localStorage.getItem("token");
+
+        let token = helper.getStorage('token');
         let user = JSON.parse(localStorage.getItem("user"));
         if (user === null || user.role === null || user.role === 0) {
             this.onLogOut();
@@ -86,7 +77,7 @@ class AppContainer extends React.Component {
     }
 
     closeModalRule() {
-        this.setState({ showModalRule: false });
+        this.setState({showModalRule: false});
     }
 
     openModalRule() {
@@ -98,9 +89,9 @@ class AppContainer extends React.Component {
     render() {
         return (
             <div>
-                <GlobalLoadingContainer />
+                <GlobalLoadingContainer/>
 
-                <FirstLoginContainer />
+                <FirstLoginContainer/>
 
                 <App
                     pathname={this.props.location.pathname}
@@ -117,7 +108,7 @@ class AppContainer extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <RuleContainer />
+                        <RuleContainer/>
                     </Modal.Body>
                 </Modal>
             </div>

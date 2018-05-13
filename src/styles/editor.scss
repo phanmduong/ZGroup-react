@@ -1,12 +1,17 @@
 .editor-toolbar-menu {
     position: relative;
-    padding: 1px 18px 17px;
-    margin: 0 -20px;
+    padding: 5px 12px;
+    margin: 0 -12px;
     border-bottom: 2px solid #eee;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 .editor-button {
     color: #ccc;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
 }
 
@@ -15,5 +20,23 @@
 }
 
 .keetool-editor-image.active {
-    border: 2px solid blue;
+    box-shadow: 0 0 0 2px blue;
+}
+
+.editor-loading {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 6px 12px 5px 15px;
+    color: #fff;
+    background-color: #28a745;
+    border-radius: 10px 0 0 0;
+}
+
+.editor-wrapper {
+    background: #fff;
+    margin: 0 auto 20px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

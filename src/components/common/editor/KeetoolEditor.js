@@ -13,14 +13,33 @@ import {
     hasInline,
 } from "./EditorService";
 import { Block } from "slate";
-import imageExtensions from "image-extensions";
-import { wrapLink, unwrapLink } from "./utils/linkUtils";
 
-const initialValue = "<p>cao anh quan</p>";
+import { unwrapLink } from "./utils/linkUtils";
+import { isImage, insertImage, uploadImage } from "./utils/imageUtils";
+import { showErrorNotification, showNotification } from "../../../helpers/helper";
+import PropTypes from "prop-types";
+import LinkModal from "./LinkModal";
+
+const initialValue = "";
 
 class KeetoolEditor extends React.Component {
     state = {
-        value: html.deserialize(initialValue),
+        value: html.deserialize(this.props.value || initialValue),
+        isLoading: false,
+        text: "Đang xử lý",
+        showLinkModal: false,
+    };
+
+    closeLinkModal = () => {
+        this.setState({
+            showLinkModal: false,
+        });
+    };
+
+    openLinkModal = () => {
+        this.setState({
+            showLinkModal: true,
+        });
     };
 
     /**
@@ -40,60 +59,51 @@ class KeetoolEditor extends React.Component {
 
             if (hasLinks) {
                 change.call(unwrapLink);
-            } else if (value.isExpanded) {
-                const href = window.prompt("Enter the URL of the link:");
-                change.call(wrapLink, href);
             } else {
-                const href = window.prompt("Enter the URL of the link:");
-                const text = window.prompt("Enter the text for the link:");
-                change
-                    .insertText(text)
-                    .extend(0 - text.length)
-                    .call(wrapLink, href);
+                this.openLinkModal();
             }
         }
 
         this.onChange(change);
     };
 
-    /*
-    * A function to determine whether a URL has an image extension.
-    *
-    * @param {String} url
-    * @return {Boolean}
-    */
-    isImage = url => {
-        return !!imageExtensions.find(url.endsWith);
-    };
+    onClickImage = event => {
+        const fileList = event.target.files;
+        const files = Array.from(fileList);
 
-    /**
-     * A change function to standardize inserting images.
-     *
-     * @param {Change} change
-     * @param {String} src
-     * @param {Range} target
-     */
+        let totalFiles = files.length;
 
-    insertImage = (change, src, target) => {
-        if (target) {
-            change.select(target);
+        if (totalFiles) {
+            this.setState({
+                isLoading: true,
+                text: "Đang tải lên",
+            });
+
+            files.map(file =>
+                uploadImage(
+                    file,
+                    event => {
+                        const data = JSON.parse(event.currentTarget.responseText);
+                        showNotification("Tải lên thành công");
+                        const change = this.state.value.change().call(insertImage, data.url);
+                        this.onChange(change);
+                        totalFiles -= 1;
+                        if (totalFiles == 0) {
+                            this.setState({
+                                isLoading: false,
+                            });
+                        }
+                    },
+                    null,
+                    () => {
+                        showErrorNotification("Tải ảnh lên bị lỗi");
+                    },
+                ),
+            );
         }
 
-        change.insertBlock({
-            type: "image",
-            isVoid: true,
-            data: { src },
-        });
-    };
-
-    onClickImage = event => {
-        event.preventDefault();
-        const src = window.prompt("Enter the URL of the image:");
-        if (!src) return;
-
-        const change = this.state.value.change().call(this.insertImage, src);
-
-        this.onChange(change);
+        // const src = window.prompt("Enter the URL of the image:");
+        // if (!src) return;
     };
 
     /**
@@ -104,7 +114,7 @@ class KeetoolEditor extends React.Component {
      * @param {Editor} editor
      */
 
-    onDropOrPaste = (event, change, editor) => {
+    onDropOrPaste = (event, change) => {
         const target = getEventRange(event, change.value);
         if (!target && event.type == "drop") return;
 
@@ -112,25 +122,48 @@ class KeetoolEditor extends React.Component {
         const { type, text, files } = transfer;
 
         if (type == "files") {
-            for (const file of files) {
-                const reader = new FileReader();
-                const [mime] = file.type.split("/");
-                if (mime != "image") continue;
+            let totalFiles = files.length;
+            if (totalFiles) {
+                this.setState({ isLoading: true, text: "Đang tải lên" });
+                for (const file of files) {
+                    // const reader = new FileReader();
+                    const [mime] = file.type.split("/");
+                    if (mime != "image") continue;
 
-                reader.addEventListener("load", () => {
-                    editor.change(c => {
-                        c.call(this.insertImage, reader.result, target);
-                    });
-                });
+                    uploadImage(
+                        file,
+                        event => {
+                            const data = JSON.parse(event.currentTarget.responseText);
+                            showNotification("Tải lên thành công");
+                            const change = this.state.value.change().call(insertImage, data.url);
+                            this.onChange(change);
+                            totalFiles -= 1;
+                            if (totalFiles == 0) {
+                                this.setState({
+                                    isLoading: false,
+                                });
+                            }
+                        },
+                        null,
+                        () => {
+                            showErrorNotification("Tải ảnh lên bị lỗi");
+                        },
+                    );
+                    // reader.addEventListener("load", () => {
+                    //     editor.change(c => {
+                    //         c.call(insertImage, reader.result, target);
+                    //     });
+                    // });
 
-                reader.readAsDataURL(file);
+                    // reader.readAsDataURL(file);
+                }
             }
         }
 
         if (type == "text") {
             if (!this.isUrl(text)) return;
-            if (!this.isImage(text)) return;
-            change.call(this.insertImage, text, target);
+            if (!isImage(text)) return;
+            change.call(insertImage, text, target);
         }
     };
 
@@ -158,6 +191,9 @@ class KeetoolEditor extends React.Component {
         this.setState({
             value,
         });
+        if (this.props.onChange) {
+            this.props.onChange(html.serialize(value));
+        }
     };
 
     /**
@@ -253,12 +289,6 @@ class KeetoolEditor extends React.Component {
     };
 
     /**
-     * On clicking the image button, prompt for an image and insert it.
-     *
-     * @param {Event} event
-     */
-
-    /**
      * Render the toolbar.
      *
      * @return {Element}
@@ -267,6 +297,12 @@ class KeetoolEditor extends React.Component {
     renderToolbar = () => {
         return (
             <div className="editor-toolbar-menu">
+                <LinkModal
+                    change={this.onChange}
+                    value={this.state.value}
+                    show={this.state.showLinkModal}
+                    close={this.closeLinkModal}
+                />
                 {this.renderMarkButton("bold", "format_bold")}
                 {this.renderMarkButton("italic", "format_italic")}
                 {this.renderMarkButton("underlined", "format_underlined")}
@@ -276,10 +312,32 @@ class KeetoolEditor extends React.Component {
                 {this.renderBlockButton("block-quote", "format_quote")}
                 {this.renderBlockButton("numbered-list", "format_list_numbered")}
                 {this.renderBlockButton("bulleted-list", "format_list_bulleted")}
-                <span className="editor-button" onMouseDown={this.onClickImage}>
+                <span
+                    className="editor-button"
+                    // onMouseDown={this.onClickImage}
+                >
                     <span className="material-icons">image</span>
+                    <input
+                        multiple
+                        onChange={this.onClickImage}
+                        style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            opacity: 0,
+                            width: "100%",
+                            height: "100%",
+                        }}
+                        type="file"
+                    />
                 </span>
                 {this.renderInlineButton("link", "link")}
+                {this.state.isLoading && (
+                    <div className="editor-loading">
+                        <i className="fa fa-circle-o-notch fa-spin" /> {this.state.text}
+                    </div>
+                )}
             </div>
         );
     };
@@ -359,6 +417,7 @@ class KeetoolEditor extends React.Component {
                     renderMark={this.renderMark}
                     onDrop={this.onDropOrPaste}
                     onPaste={this.onDropOrPaste}
+                    schema={this.schema}
                     spellCheck
                     autoFocus
                 />
@@ -442,17 +501,17 @@ class KeetoolEditor extends React.Component {
 
     render() {
         return (
-            <div
-                style={{
-                    background: "#fff",
-                    margin: "0 auto 20px",
-                    padding: "20px",
-                }}>
+            <div className="editor-wrapper">
                 {this.renderToolbar()}
                 {this.renderEditor()}
             </div>
         );
     }
 }
+
+KeetoolEditor.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string,
+};
 
 export default KeetoolEditor;

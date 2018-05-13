@@ -75,6 +75,22 @@ export function savePaymentApi(money, note, register_id, user_id) {
     });
 }
 
+export function createRegisterApi(register) {
+    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.post(url, {
+        "name": register.name,
+        "phone": register.phone,
+        "email": register.email,
+        "start_time": register.start_time,
+        "end_time": register.end_time,
+        "room_id": register.room_id,
+    });
+}
+
 export function updateOfficialTimeApi(register) {
     let url = env.MANAGE_API_URL + '/coworking-space/room-booking/' + register.id + '/assign-time?';
     let token = localStorage.getItem('token');
@@ -87,3 +103,29 @@ export function updateOfficialTimeApi(register) {
     });
 }
 
+
+export function loadProvincesApi() {
+    let url = env.API_URL + "/v2/base/provinces";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+export function loadBasesByProvinceApi(province_id) {
+    let url = env.API_URL + "/v2/base/province/"+ province_id ;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadRoomsApi(base_id, start_time,end_time) {
+    let url = env.API_URL + "/v2/base/"+ base_id+"/rooms?start_time=" + start_time +"&end_time="+ end_time ;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

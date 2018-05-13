@@ -21,8 +21,7 @@ export default class IssuesContainer extends Component {
         store.loadIssues();
     }
 
-    @observable search = "";
-    @observable status = "";
+
     @observable showModalCreate = false;
 
     loadDataPage(page) {

@@ -99,10 +99,10 @@ class ListClassComponent extends React.Component {
                                                 <td>
 
                                                     <TooltipButton text="Điểm danh" placement="top">
-                                                        <Link className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                        <Link className="btn btn-rose none-margin button-round"
                                                             type="button"
                                                             to={'/teaching/attendance/' + classItem.id}
-                                                        ><i className="material-icons">group_add</i></Link>
+                                                        ><i className="material-icons" style={{left:1}}>how_to_reg</i></Link>
                                                     </TooltipButton>
                                                 </td>
                                             </tr>

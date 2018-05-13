@@ -86,7 +86,7 @@ Calendar.propTypes = {
     id: PropTypes.string.isRequired,
     calendarEvents: PropTypes.func,
     onDropTime: PropTypes.func,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
 };
 
 export default Calendar;

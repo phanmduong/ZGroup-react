@@ -14,7 +14,7 @@ export  function loadClassesApi(genId,baseId){
     }
     url += `&gen_id=${genId}`;
     url += `&base_id=${baseId}`;
-    // url += `&limit=-1`;
+    url += `&limit=-1`;
 // &teacher_id=${localStorage.getItem("user").id}
     return axios.get(url);
 }

@@ -16,7 +16,7 @@ class ManageTemplateTypesModal extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
-			name: null,
+			name: '',
 			color: '',
 			query: '',
 			page: 1,
@@ -128,7 +128,9 @@ class ManageTemplateTypesModal extends React.Component {
 									<FormInputText
 										name="name"
 										value={this.state.name}
-										placeholder="Nhập tên loại tin nhắn"
+										placeholder="Không quá 25 ký tự"
+										disabled={this.state.name.length > 24}
+										max={10}
 										updateFormData={(e) => this.setState({ name: e.target.value })}
 									/>
 								</div>

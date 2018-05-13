@@ -26,7 +26,7 @@ export default new class ScheduleTeachingStore {
         this.isLoadingClasses = true;
         scheduleTeachingApis.loadClassesApi(this.genId,this.baseId)
             .then((res) => {
-                this.classes = res.data.classes;
+                this.classes = res.data.data.classes;
                 this.isLoadingClasses = false;
             })
             .catch(() => {
@@ -58,6 +58,7 @@ export default new class ScheduleTeachingStore {
                 this.gens = res.data.data.gens;
                 this.genId = res.data.data.current_gen.id;
                 // console.log(this.genId ,"xxxxxxxx",res.data.data.current_gen);
+                this.loadClasses();
             })
             .catch(() => {
                 this.isLoadingGens = false;
@@ -79,19 +80,12 @@ export default new class ScheduleTeachingStore {
 
     @computed
     get gensData() {
-        let gensData = this.gens.map(function (gen) {
+        return  this.gens.map(function (gen) {
             return {
                 key: gen.id,
                 value: "Khóa " + gen.name,
             };
         });
-        return [
-            {
-                key: 0,
-                value: "Tất cả"
-            },
-            ...gensData,
-        ];
     }
 
     @computed

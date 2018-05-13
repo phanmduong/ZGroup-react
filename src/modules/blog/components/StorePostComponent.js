@@ -34,7 +34,6 @@ class StorePostComponent extends React.Component {
         super(props, context);
         this.generateFromTitle = this.generateFromTitle.bind(this);
         this.invalid = this.invalid.bind(this);
-        // this.test = this.test.bind(this);
     }
 
 
@@ -49,7 +48,6 @@ class StorePostComponent extends React.Component {
 
     componentDidUpdate() {
         $("#tags").tagsinput();
-
     }
 
     // test(e) {
@@ -374,9 +372,9 @@ class StorePostComponent extends React.Component {
                                                 value={content}/>
 
 
-                                            <div id="mini-editor"/>
-                                            <button onClick={() => this.test()}>+</button>
-
+                                            {/*<div id="mini-editor">*/}
+                                            {/*</div>*/}
+                                            {/*<button onClick={() => this.test()}>+</button>*/}
 
                                             <div className="row">
                                                 {/*????????????????????????/*/}
