@@ -17,9 +17,9 @@ class TrongDongPalaceController extends Controller
 {
     public function index()
     {
-        $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
-        $this->data['newestBlogs'] = $newestBlogs;
-        return view('trongdongpalace::index', $this->data);
+        // $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        // $this->data['newestBlogs'] = $newestBlogs;
+        return view('trongdongpalace::index');//, $this->data);
     }
 
     public function room($roomId, $salerId = 0, $campaignId = 0)
@@ -201,7 +201,7 @@ class TrongDongPalaceController extends Controller
         $this->data['campaign_id'] = $campaignId;
         $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
         $this->data['current_page'] = $rooms->currentPage();
-
+        // dd($rooms);
         $lastPart = '';
         if ($salerId) {
             $lastPart .= '/' . $salerId;

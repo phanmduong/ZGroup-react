@@ -93,7 +93,7 @@ class ManageBlogController extends ManageApiController
         $product->author_id = $this->user->id;
         $product->tags = $request->tags_string;
         $product->category_id = $request->category_id;
-        $product->language_id = $request->language_id; //
+        $product->language_id = $request->language_id ? $request->language_id : 0; //
 
         $product->type = 2;
         $product->kind = $request->kind;

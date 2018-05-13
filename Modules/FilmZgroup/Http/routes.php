@@ -1,9 +1,12 @@
 <?php
 
 $webRoutes = function () {
+
     Route::get('/', 'FilmZgroupController@index');
     Route::get('/film', 'FilmZgroupController@films');
     Route::get('/{id}','FilmZgroupController@film');
+    Route::get('/event','FilmZgroupController@event');
+    Route::get('/film-categories/{category}','FilmZgroupController@filmsCategory');
 
 };
 $manageApiRoutes = function () {
@@ -25,7 +28,6 @@ $manageApiRoutes = function () {
 
     Route::put('/blog/{id}/change', 'FilmZgroupManageApiController@changeBlogStatus');
 
-
 };
 
 $apiRoutes = function () {
@@ -38,6 +40,7 @@ $apiRoutes = function () {
 
 
 Route::group(['middleware' => 'web', 'domain' => "filmzgroup.test", 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], $webRoutes);
+Route::group(['middleware' => 'web', 'domain' => "keetool3.xyz", 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], $webRoutes);
 Route::group(["prefix" => "/manageapi/v3", 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], $manageApiRoutes);
 Route::group(["prefix" => "/api/v3", 'namespace' => 'Modules\FilmZgroup\Http\Controllers'], $apiRoutes);
 

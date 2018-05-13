@@ -181,7 +181,7 @@
                                         </div>
                                     </div>
                                     <div class="share">
-                                        <a href="https://www.facebook.com/sharer.php?u=http://filmzgroup.test/">
+                                        <a href="https://www.facebook.com/sharer.php?u=http://filmzgroup.test/{{$film->id}}">
                                             <i class="fa fa-facebook" aria-hidden="true"></i>
                                         </a>
                                         <a href="https://twitter.com/intent/tweet?url=http://filmzgroup.test/{{$film->id}}&amp;text={{$film->name}}">

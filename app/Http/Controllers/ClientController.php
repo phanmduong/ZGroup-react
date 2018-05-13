@@ -78,6 +78,11 @@ class ClientController extends Controller
     {
         return view('client.administration');
     }
+    
+    public function Zwarehouse()
+    {
+        return view('client.Zwarehouse');
+    }
 
     public function email()
     {
@@ -102,6 +107,11 @@ class ClientController extends Controller
     public function teaching()
     { 
         return view('client.teaching');
+    }
+
+    public function film()
+    { 
+        return view('client.film');
     }
 
     public function base()

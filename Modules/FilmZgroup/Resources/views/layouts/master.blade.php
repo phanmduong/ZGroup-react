@@ -9,7 +9,6 @@
     <link rel="stylesheet" id="fw-ext-builder-frontend-grid-css"
           href="http://specto.klevermedia.co.uk/wp-content/plugins/unyson/framework/extensions/builder/static/css/frontend-grid.css?ver=1.2.10"
           media="all">
-
     <link rel="stylesheet" id="specto_bootstrap-css-css"
           href="http://specto.klevermedia.co.uk/wp-content/themes/specto/css/bootstrap.min.css?ver=3.3.6" media="all">
     <link rel="stylesheet" id="specto_venobox-css-css"
@@ -29,9 +28,12 @@
           media="all">
     <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery.js"></script>
     <script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+        {{--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">--}}
+    {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/paper-kit.css" rel="stylesheet"/>--}}
+    {{--<link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/bootstrap.min.css" rel="stylesheet"/>--}}
 
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+
 
     <style>
         .owl-carousel {
@@ -73,8 +75,6 @@
         .owl-carousel.owl-grab {
         }
 
-        /*    .owl-carousel .owl-dots.disabled,.owl-carousel .owl-nav.disabled{display:none}
-        */
         @-webkit-keyframes fadeOut {
             0% {
                 opacity: 1
@@ -182,10 +182,6 @@
             opacity: 0.2
         }
 
-        /*
-            #hero .container .blurb .certificate{
-                height: 47px
-            }*/
         .slick-slide {
             width: 100%;
             padding: 15px;
@@ -488,7 +484,7 @@
 
     <div class="container">
         <div class="navbar-header">
-            <a href="Homepage.html" title="Ledahlia" class="logo">
+            <a href="/" title="Ledahlia" class="logo">
                 <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1525421236EE6Two3Gmcm7zec.png" alt="Ledahlia"
                      style="margin-top: -20px; margin-left: 15px; width: 178px">
             </a>
@@ -576,10 +572,15 @@
             </div>
         </div>
         <div class="copyright">
-            <p>2018 © Specto / <a href="http://www.klevermedia.co.uk">Web design by Klever media</a></p></div>
+            <p>2018 © Specto / <a href="/">Web design by Klever media</a></p></div>
     </div>
 </footer>
-<script>
+<script src="http://specto.klevermedia.co.uk/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="http://specto.klevermedia.co.uk/wp-content/themes/specto/js/bootstrap.min.js?ver=3.3.6"></script>
+
+<script type="text/javascript">
     function paginator(currentPageData, totalPagesData) {
         var page = [];
         var currentPage = currentPageData;
@@ -603,11 +604,9 @@
             }
             page = pageData;
         }
-
         return page;
     }
 </script>
 @stack('scripts')
-
 </body>
 </html>

@@ -1,54 +1,6 @@
 @extends('elight::layouts.master')
 
 @section('content')
-    <style>
-
-        html, body {
-            overflow-x: hidden;
-        }
-
-        .error {
-            color: red;
-        }
-
-        a {
-            word-wrap: break-word;
-        }
-
-        code {
-            font-size: 0.8em;
-        }
-
-        #player2-container .mejs__time-buffering, #player2-container .mejs__time-current, #player2-container .mejs__time-handle,
-        #player2-container .mejs__time-loaded, #player2-container .mejs__time-hovered, #player2-container .mejs__time-marker, #player2-container .mejs__time-total {
-            height: 2px;
-        }
-
-        #player2-container .mejs__time-total {
-            margin-top: 9px;
-        }
-
-        #player2-container .mejs__time-handle {
-            left: -5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ffffff;
-            top: -5px;
-            cursor: pointer;
-            display: block;
-            position: absolute;
-            z-index: 2;
-            border: none;
-        }
-
-        #player2-container .mejs__time-handle-content {
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-        }
-    </style>
     <link rel="stylesheet" href="/mediaelementplayer/mediaelementplayer.css">
     <div class="container">
         <br><br><br><br>
@@ -94,7 +46,7 @@
                                     <span class="caret" style="font-size=15px"></span>
                                 </button>
                                 <ul class="dropdown-menu"
-                                    style="background: white; box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 10px -4px; border-radius: 5px !important; margin-top:6px">
+                                    style="overflow: scroll; height: 450px;background: white; box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 10px -4px; border-radius: 5px !important; margin-top:6px">
                                     @foreach($terms as $term)
                                         <a  href="/book/{{$course->id}}/{{$term->id}}"
                                             class="dropdown-item"
@@ -283,5 +235,4 @@
         });
     </script>
 @endpush
-
 
