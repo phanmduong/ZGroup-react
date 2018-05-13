@@ -41,7 +41,6 @@ class UpCoworkingSpaceController extends Controller
             default: return view('upcoworkingspace::en.index', $data);
         }
 //        dd($newestBlogs);
-
     }
 
     public function memberRegister($userId = null, $campaignId = null)

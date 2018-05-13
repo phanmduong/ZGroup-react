@@ -164,13 +164,73 @@
         </div>
     </div>
 
-    <div class="page-header page-header-xs"
-         style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
-        <div class="filter filter-dark"></div>
-        <div class="content-center">
-            <div class="container">
-                <h2>UP CO-WORKING SPACE</h2>
-                <h3>VÌ CỘNG ĐỒNG KHỞI NGHIỆP VIỆT NAM</h3>
+    <div class="wrapper">
+        <div class="owl-carousel owl-theme">
+            <div class="item" style="position: relative; width: 100%; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; ">
+                <div class="content-center"  style="padding: 55px 20px; text-align: center; color: #fff;">
+                    <div class="container">
+                        <h3 class="font-weight-bold">UP Bách Khoa</h3>
+                        <h4>Không gian làm việc chung hiện đại nhất, lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam</h4><br>
+                        <button class="btn btn-round btn-danger"
+                        style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                        data-toggle="modal">SEE MORE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item" style="position: relative; width: 100%; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; ">
+                <div class="content-center"  style="padding: 55px 20px; text-align: center; color: #fff;">
+                    <div class="container">
+                        <h3 class="font-weight-bold">UP LUƠNG YÊN</h3>
+                        <h4>Không gian làm việc chung hiện đại nhất, lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam</h4><br>
+                        <button class="btn btn-round btn-danger"
+                        style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                        data-toggle="modal">SEE MORE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item" style="position: relative; width: 100%; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; ">
+                <div class="content-center"  style="padding: 55px 20px; text-align: center; color: #fff;">
+                    <div class="container">
+                        <h3 class="font-weight-bold">UP KIM MÃ</h3>
+                        <h4>Không gian làm việc chung hiện đại nhất, lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam</h4><br>
+                        <button class="btn btn-round btn-danger"
+                        style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                        data-toggle="modal">SEE MORE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item" style="position: relative; width: 100%; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; ">
+                <div class="content-center"  style="padding: 55px 20px; text-align: center; color: #fff;">
+                    <div class="container">
+                        <h3 class="font-weight-bold">UP LÁNG HẠ</h3>
+                        <h4>Không gian làm việc chung hiện đại nhất, lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam</h4><br>
+                        <button class="btn btn-round btn-danger"
+                        style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                        data-toggle="modal">SEE MORE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item" style="position: relative; width: 100%; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; ">
+                <div class="content-center"  style="padding: 55px 20px; text-align: center; color: #fff;">
+                    <div class="container">
+                        <h3 class="font-weight-bold">UP HỒ CHÍ MINH</h3>
+                        <h4>Không gian làm việc chung hiện đại nhất, lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam</h3><br>
+                        <button class="btn btn-round btn-danger"
+                        style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                        data-toggle="modal">SEE MORE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item" style="position: relative; width: 100%; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg'); background-size: 100% 100%; background-repeat:no-repeat; ">
+                <div class="content-center"  style="padding: 55px 20px; text-align: center; color: #fff;">
+                    <div class="container">
+                        <h3 class="font-weight-bold">CREATIVE LAB BY UP</h3>
+                        <h4>Không gian làm việc chung hiện đại nhất, lớn nhất và duy nhất mở cửa 24/7 tại Việt Nam</h4><br>
+                        <button class="btn btn-round btn-danger"
+                        style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#submitModal"
+                        data-toggle="modal">SEE MORE</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

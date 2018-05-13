@@ -203,68 +203,68 @@ class FilmZgroupManageApiController extends ManageApiController
         return $this->respondSuccess('Doi thong tin thanh cong');
     }
 
-    public function changeBlogStatus(Request $request, $id)
-    {
-        $blog = Film::find($id);
-        if ($request->status) {
-            $blog->status = $request->status;
-        }
-        $blog->save();
-
-        return $this->respondSuccess('Doi trang thai thanh cong');
-    }
-
-    public function addBlog(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'avatar_url' => 'required|max:255',
-            'content' => 'required',
-            'status' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
-        }
-
-        $blog = new Film_Blog();
-        $blog->name = $request->name;
-        $blog->avatar_url = $request->avatar_url;
-        $blog->content = $request->content;
-        $blog->status = $request->status;
-        $blog->save();
-
-        return $this->respondSuccess('add thanh cong');
-    }
-
-    public function updateBlog(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'avatar_url' => 'required|max:255',
-            'content' => 'required',
-            'status' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
-        }
-
-        $blog = new Film_Blog();
-        $blog->name = $request->name;
-        $blog->avatar_url = $request->avatar_url;
-        $blog->content = $request->content;
-        $blog->status = $request->status;
-        $blog->save();
-
-        return $this->respondSuccess('update thanh cong');
-    }
-
-    public function deleteBlog(Request $request, $id)
-    {
-        $blog = Film::find($id);
-        $blog->delete();
-
-        return $this->respondSuccess('xoa thanh cong');
-    }
+//    public function changeBlogStatus(Request $request, $id)
+//    {
+//        $blog = Film::find($id);
+//        if ($request->status) {
+//            $blog->status = $request->status;
+//        }
+//        $blog->save();
+//
+//        return $this->respondSuccess('Doi trang thai thanh cong');
+//    }
+//
+//    public function addBlog(Request $request)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required|max:255',
+//            'avatar_url' => 'required|max:255',
+//            'content' => 'required',
+//            'status' => 'required',
+//        ]);
+//        if ($validator->fails()) {
+//            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
+//        }
+//
+//        $blog = new Film_Blog();
+//        $blog->name = $request->name;
+//        $blog->avatar_url = $request->avatar_url;
+//        $blog->content = $request->content;
+//        $blog->status = $request->status;
+//        $blog->save();
+//
+//        return $this->respondSuccess('add thanh cong');
+//    }
+//
+//    public function updateBlog(Request $request, $id)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required|max:255',
+//            'avatar_url' => 'required|max:255',
+//            'content' => 'required',
+//            'status' => 'required',
+//        ]);
+//        if ($validator->fails()) {
+//            return $this->respondErrorWithStatus('Ban phai nhap du thong tin');
+//        }
+//
+//        $blog = new Film_Blog();
+//        $blog->name = $request->name;
+//        $blog->avatar_url = $request->avatar_url;
+//        $blog->content = $request->content;
+//        $blog->status = $request->status;
+//        $blog->save();
+//
+//        return $this->respondSuccess('update thanh cong');
+//    }
+//
+//    public function deleteBlog(Request $request, $id)
+//    {
+//        $blog = Film::find($id);
+//        $blog->delete();
+//
+//        return $this->respondSuccess('xoa thanh cong');
+//    }
 
 
 }

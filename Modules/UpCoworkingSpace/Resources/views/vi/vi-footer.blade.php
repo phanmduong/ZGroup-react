@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                            <ul class="uppercase-links stacked-links">
+                            <ul class="location uppercase-links stacked-links">
                                 <li>
                                     <a style="color: #fff" href="/blog">
                                         <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                            <ul class="uppercase-links stacked-links">
+                            <ul class="location uppercase-links stacked-links">
                                 <li>
                                     <a style="color: #fff" href="/blog">
                                         <i class="fa fa-map-marker icon-main-color" aria-hidden="true"></i>
