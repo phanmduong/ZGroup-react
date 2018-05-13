@@ -18,6 +18,8 @@ $manageApiRoutes = function () {
     Route::get('/room-type/all', 'TrongDongPalaceManageApiController@roomTypes');
     Route::put('/register-room/change-time', 'TrongDongPalaceManageApiController@changeTime');
     Route::put('/register-room/change-status', 'TrongDongPalaceManageApiController@changeStatus');
+    Route::put('/register-room/create', 'TrongDongPalaceManageApiController@createRegisterRoom');
+    Route::put('/register-room/edit', 'TrongDongPalaceManageApiController@editRegisterRoom');
 };
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool6.xyz', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
