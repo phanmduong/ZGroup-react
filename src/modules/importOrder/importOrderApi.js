@@ -48,6 +48,15 @@ export function loadAllImportOrder(page,id){
     }
     return axios.get(url);
 }
+export function loadAllImportOrderNoPaging(){
+    let url = env.MANAGE_API_URL + '/company/import-order/all';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1";
+    }
+    
+    return axios.get(url);
+}
 
 export function loadAllWarehourses() {
     let url     = env.MANAGE_API_URL +"/order/all-warehouses?";
