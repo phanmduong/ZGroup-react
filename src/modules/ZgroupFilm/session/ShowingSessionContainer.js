@@ -8,6 +8,7 @@ import Pagination from "../../../components/common/Pagination";
 import Loading from "../../../components/common/Loading";
 import TooltipButton from "../../../components/common/TooltipButton";
 import Search from "../../../components/common/Search";
+import * as helper from "../../../helpers/helper";
 // import Select from "react-select";
 // import {Panel} from "react-bootstrap";
 // import FormInputDate from "../../components/common/FormInputDate";
@@ -32,7 +33,14 @@ class ShowingSessionContainer extends React.Component {
         this.loadOrders = this.loadOrders.bind(this);
         this.showingSessionSearchChange = this.showingSessionSearchChange.bind(this);
     }
-
+    componentWillMount(){
+        if(!helper.isEmptyInput(this.props.search)){
+            this.setState({
+                query: this.props.search,
+                page: 1
+            });
+        }
+    }
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.filmAction.loadShowingSession(page);
@@ -104,7 +112,7 @@ class ShowingSessionContainer extends React.Component {
                             onChange={this.showingSessionSearchChange}
                             value={this.state.query}
                             placeholder="Nhập tên phim để tìm kiếm"
-                        />
+                        /><br/>
                         {/*<Panel collapsible expanded={this.state.openFilter}>*/}
                             {/*<div className="row">*/}
                                 {/*<div className="col-md-3">*/}
@@ -202,6 +210,7 @@ ShowingSessionContainer.propTypes = {
     totalCountShowing: PropTypes.number.isRequired,
     totalPagesShowing: PropTypes.number.isRequired,
     limitShowing: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
     currentPageShowing: PropTypes.number.isRequired,
 };
 
@@ -214,6 +223,7 @@ function mapStateToProps(state) {
         currentPageShowing: state.film.currentPageShowing,
         limitShowing: state.film.limitShowing,
         allFilms: state.film.allFilms,
+        search: state.film.search,
     };
 }
 

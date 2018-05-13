@@ -64,7 +64,8 @@ class FilmComponent extends React.Component {
                                         <div>
                                             <TooltipButton placement="top" text={film.name}>
                                                 <h4 className="card-title" style={{fontWeight: 300}}>
-                                                    <Link to={`/film/session/all` + film.id}>
+                                                    <Link to={`/film/session/all`}
+                                                    onClick={()=>this.props.filmAction.showFilmSession(film.name)}>
                                                         {film.name.length >= 19 ? film.name.slice(0, 18).concat("...") : film.name}
                                                     </Link>
                                                 </h4>

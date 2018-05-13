@@ -22,8 +22,8 @@ class SessionContainer extends React.Component {
 
     componentWillMount() {
         !helper.isEmptyInput(this.props.search) ? this.props.filmAction.loadAllSessions(1, this.props.search) :this.props.filmAction.loadAllSessions();
+        !helper.isEmptyInput(this.props.search) ? this.props.filmAction.loadShowingSession(1, this.props.search) :this.props.filmAction.loadShowingSession();
         this.props.filmAction.loadAllFilms();
-        this.props.filmAction.loadShowingSession();
     }
 
     componentWillReceiveProps(nextProps) {
