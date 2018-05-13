@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Base\Http\Controllers\PublicApiController;
 use Illuminate\Support\Facades\DB;
+use App\Gen;
+use App\StudyClass;
 
 class CoursePublicApiController extends PublicApiController
 {
