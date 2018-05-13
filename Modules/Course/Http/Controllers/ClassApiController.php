@@ -2,6 +2,7 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\Base;
 use App\Gen;
 use App\Http\Controllers\ApiController;
 use App\StudyClass;
@@ -135,10 +136,12 @@ class ClassApiController extends ApiController
         $classes = StudyClass::where('gen_id', $request->gen_id)->where('course_id', $courseId);
         if ($request->base_id)
             $classes = $classes->where('base_id', $request->base_id);
+
         $classes = $classes->orderBy('datestart', 'asc')->get();
         return $this->respondSuccessWithStatus([
             'classes' => $classes->map(function ($class) {
                 return [
+                    'base' => Base::where('id', $class->base_id),
                     'id' => $class->id,
                     'name' => $class->name,
                     'study_time' => $class->study_time,
