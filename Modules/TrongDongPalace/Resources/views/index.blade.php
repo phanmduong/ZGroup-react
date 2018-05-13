@@ -231,7 +231,7 @@
 
                                 <li id="menu-item-4004"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4004">
-                                    <a href="./booking.html" class="sf-with-ul-pre">Đặt phòng</a>
+                                    <a href="/booking" class="sf-with-ul-pre">Đặt phòng</a>
                                 </li>
                                 <li id="menu-item-4003"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003">
