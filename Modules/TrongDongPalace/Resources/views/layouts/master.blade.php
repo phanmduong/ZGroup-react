@@ -252,7 +252,7 @@
                                 </li>
                                 <li id="menu-item-4103"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
-                                    <a href="/blog" class="sf-with-ul-pre">Tin tức</a>
+                                    <a href="/blogs" class="sf-with-ul-pre">Tin tức</a>
                                 </li>
                                 <li id="menu-item-4104"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
