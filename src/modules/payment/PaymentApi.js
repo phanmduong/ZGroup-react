@@ -51,6 +51,15 @@ export function loadPayments(page,receiver_id, payer_id){
     return axios.get(url);
 }
 
+export function loadPaymentsNoPaging(){
+    let url = env.MANAGE_API_URL + '/company/payment/all';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1" + "&type=payment";
+    }
+    return axios.get(url);
+}
+
 export function loadPayment(id){
     let url = env.MANAGE_API_URL + '/company/payment/' + id;
     let token = localStorage.getItem('token');
