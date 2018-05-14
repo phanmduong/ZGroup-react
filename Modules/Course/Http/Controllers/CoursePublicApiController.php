@@ -92,6 +92,7 @@ class CoursePublicApiController extends PublicApiController
                 return [
                     'id' => $class->id,
                     'name' => $class->name,
+                    'base' => $class->base ? $class->base->transform() : [],
                     'study_time' => $class->study_time,
                     'date_start' => $class->datestart,
                     'status' => $class->status,

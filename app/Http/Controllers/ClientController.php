@@ -78,6 +78,11 @@ class ClientController extends Controller
     {
         return view('client.administration');
     }
+    
+    public function Zwarehouse()
+    {
+        return view('client.Zwarehouse');
+    }
 
     public function email()
     {

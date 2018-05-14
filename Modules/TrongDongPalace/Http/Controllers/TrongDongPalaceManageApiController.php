@@ -13,6 +13,21 @@ use Illuminate\Http\Request;
 
 class TrongDongPalaceManageApiController extends ManageApiController
 {
+    public function allRegisterRoom(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        $datas = RoomServiceRegister::query();
+               
+            
+            $datas = $datas->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($datas, [
+                "data" => $datas->map(function ($data) {
+                    return $data->getData();
+                })
+            ]);
+         
+            
+        }
+
     public function dashboard(Request $request)
     {
         if ($request->room_id != null && $request->room_id > 0) {

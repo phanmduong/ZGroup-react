@@ -577,6 +577,22 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
+    
+    public function getAllExportOrderNoPaging(Request $request)
+    {
+        
+        //$exportorders = ItemOrder::query();
+
+        $exportorders = ItemOrder::where('type', '=', 'be-ordered')
+            ->where('status', '>', 1)->get();
+
+        return $this->respondSuccessWithStatus([
+            "exportorders" => $exportorders->map(function ($order) {
+                return $order->transform();
+            })
+        ]);
+        
+    }
 
     public function getExportOrder($exportOrderId, Request $request)
     {
@@ -718,7 +734,7 @@ class CompanyController extends ManageApiController
             $exportOrder->quantity = $good->quantity;
             $exportOrder->discount = $good->discount ? $good->discount : 0;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $request->total_price;
+            $exportOrder->total_price = $request->total_price ? $request->total_price  : 0;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -751,7 +767,7 @@ class CompanyController extends ManageApiController
             $exportOrder->quantity = $good->quantity;
             $exportOrder->discount = $good->discount;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_price = $good->total_price;
+            $exportOrder->total_price = $request->total_price ? $request->total_price  : 0;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -817,7 +833,7 @@ class CompanyController extends ManageApiController
         foreach ($goods as $good) {
             $importOrder = new ImportItemOrder;
             $importOrder->warehouse_id = 0;
-            $importOrder->price = $good->price;
+            $importOrder->price = $good->price; 
             $importOrder->quantity = $good->quantity;
             $importOrder->good_id = $good->id;
             $importOrder->item_order_id = $order->id;
@@ -874,7 +890,7 @@ class CompanyController extends ManageApiController
 
             ]);
         } else {
-            $orders = ItemOrder::where('type', '<>', 'be-ordered')->orderBy('created_at', 'desc')->paginate($limit);
+            $orders = ItemOrder::where('type',  'order')->orderBy('created_at', 'desc')->paginate($limit);
             return $this->respondWithPagination($orders, [
                 "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
@@ -957,19 +973,31 @@ class CompanyController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
 
 
-        $importOrders = ItemOrder::query();
+        if($limit == -1 ){
+            $importOrders = 
+            ItemOrder::where('type', '<>', 'be-ordered')
+            ->where('item_orders.status', '>', 1)->get();
+            
+            return $this->respondSuccessWithStatus([
+                "import-orders" => $importOrders->map(function ($order) {
+                    return $order->importTransform();
+                })
+            ]);
+        }else{
+            $importOrders = ItemOrder::query();
 
-        $importOrders = $importOrders->where('type', '<>', 'be-ordered')
-            ->where('status', '>', 1);
+            $importOrders = $importOrders->where('type', '<>', 'be-ordered')
+                ->where('status', '>', 1);
 
-        if($request->company_id)
-            $importOrders = $importOrders->where('company_id',$request->company_id);
-        $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination($importOrders, [
-            "import-orders" => $importOrders->map(function ($importOrder) {
-                return $importOrder->importTransform();
-            })
-        ]);
+            if($request->company_id)
+                $importOrders = $importOrders->where('company_id',$request->company_id);
+            $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($importOrders, [
+                "import-orders" => $importOrders->map(function ($importOrder) {
+                    return $importOrder->importTransform();
+                })
+            ]);
+        }
 
     }
 

@@ -56,6 +56,9 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/base/{path}', 'ClientController@base')
         ->where('path', '.*');
 
+    Route::get('/Zwarehouse/{path}', 'ClientController@Zwarehouse')
+        ->where('path', '.*');
+
     Route::get('/business/{path}', 'ClientController@base')
         ->where('path', '.*');
 

@@ -34,6 +34,7 @@ $companyRoutes = function () {
         Route::post('/item-order/{itemOrderId}/change-status', 'CompanyController@changeStatusItemOrder');
 
         Route::get('/export-order/all', 'CompanyController@getAllExportOrder');
+        Route::get('/export-order/no-paging', 'CompanyController@getAllExportOrderNoPaging');
         Route::get('/export-order/{exportOrderId}', 'CompanyController@getExportOrder');
         Route::post('/export-order/{exportOrderId}', 'CompanyController@createOrEditExportOrder');
 
