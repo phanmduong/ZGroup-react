@@ -2,7 +2,7 @@
 
 $publicRoutes = function () {
     Route::get('/', 'TrongDongPalaceController@index');
-    Route::get('/blog', 'TrongDongPalaceController@blog');
+    Route::get('/blog1', 'TrongDongPalaceController@blog');
     Route::get('/album', 'TrongDongPalaceController@album');
     Route::get('/blog/post/{postId}', 'TrongDongPalaceController@post');
     Route::get('/test', 'TrongDongPalaceController@test');
@@ -26,6 +26,7 @@ $manageApiRoutes = function () {
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool6.xyz', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'trongdongpalace.test', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'zgroup.dev', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
 
 Route::group(
     ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'],

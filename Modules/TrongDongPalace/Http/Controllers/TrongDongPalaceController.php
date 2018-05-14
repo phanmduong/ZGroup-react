@@ -64,16 +64,7 @@ class TrongDongPalaceController extends Controller
             $blogsData = $blogsData->where('category_id', $category);
         }
 
-        if ($request->page > 1) {
-            $blogs = $blogsData;
-        } else {
-            $topBlogs = $blogsData->first();
-            $topBlogs = $topBlogs->blogTransform();
-//            $topBlogs['time'] = $this->timeCal(date($topBlogs['created_at']));
-            $this->data['topBlogs'] = $topBlogs;
-
-            $blogs = $blogsData->where('id', '<>', $topBlogs['id']);
-        }
+        $blogs = $blogsData;
 
         $topTags = DB::select("SELECT
                                    SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) tag,
