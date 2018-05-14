@@ -22,9 +22,10 @@
                         <div class="with-sidebar-content twelve columns">
                             <section id="content-section-1">
                                 <div class="section-container container">
-                                    @foreach($blogs as $blog)
-                                        <div class="blog-item-wrapper">
-                                            <div class="blog-item-holder">
+
+                                    <div class="blog-item-wrapper">
+                                        <div class="blog-item-holder">
+                                            @foreach($blogs as $blog)
                                                 <div class="gdlr-item gdlr-blog-full">
                                                     <div class="gdlr-ux gdlr-blog-full-ux">
                                                         <article id="post-859"
@@ -67,22 +68,23 @@
                                                         </article>
                                                     </div>
                                                 </div>
-                                                <div class="gdlr-item gdlr-blog-full">
-                                                    <div class="gdlr-ux gdlr-blog-full-ux"
-                                                         style="opacity: 1; padding-top: 0px; margin-bottom: 0px;">
+                                            @endforeach
+                                            <div class="gdlr-item gdlr-blog-full">
+                                                <div class="gdlr-ux gdlr-blog-full-ux"
+                                                     style="opacity: 1; padding-top: 0px; margin-bottom: 0px;">
 
-                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="gdlr-pagination"><span aria-current="page"
-                                                                               class="page-numbers current">1</span>
-                                                <a class="page-numbers"
-                                                   href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">2</a>
-                                                <a class="next page-numbers"
-                                                   href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">Next
-                                                    ›</a></div>
                                         </div>
-                                    @endforeach
+                                        <div class="gdlr-pagination"><span aria-current="page"
+                                                                           class="page-numbers current">1</span>
+                                            <a class="page-numbers"
+                                               href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">2</a>
+                                            <a class="next page-numbers"
+                                               href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">Next
+                                                ›</a></div>
+                                    </div>
+
                                     <div class="clear"></div>
                                 </div>
                             </section>
