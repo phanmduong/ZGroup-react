@@ -76,13 +76,46 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="gdlr-pagination"><span aria-current="page"
-                                                                           class="page-numbers current">1</span>
-                                            <a class="page-numbers"
-                                               href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">2</a>
+                                        <div id="pagination-blogs">
+                                            <div class="pagination-area">
+                                                <ul class="pagination pagination-primary">
+                                                    <li class="page-item">
+                                                        <a href="/{{$link}}?page=1&search={{$search}}&tag={{$tag}}"
+                                                           class="page-link">
+                                                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li v-for="page in pages"
+                                                        v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                                                        <a v-bind:href="'/{{$link}}?page='+page+'&search={{$search}}&tag={{$tag}}'"
+                                                           class="page-link">
+                                                            @{{page}}
+                                                        </a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="/{{$link}}?page={{$total_pages}}&search={{$search}}&tag={{$tag}}"
+                                                           class="page-link">
+                                                            <i class="fa fa-angle-double-right" aria-hidden="true">
+                                                            </i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-pagination">
                                             <a class="next page-numbers"
-                                               href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">Next
-                                                ›</a></div>
+                                               href="/{{$link}}?page=1&search={{$search}}&tag={{$tag}}">Đầu
+                                            </a>
+                                            <a v-for="page in pages"
+                                               v-bind:class="'page-numbers ' + (page=={{$current_page}} ? 'current' : '')"
+                                               v-bind:href="'/{{$link}}?page='+page+'&search={{$search}}&tag={{$tag}}'"
+                                            >
+                                                @{{page}}
+                                            </a>
+                                            <a class="next page-numbers"
+                                               href="/{{$link}}?page={{$total_pages}}&search={{$search}}&tag={{$tag}}">Cuối
+                                            </a>
+                                        </div>
                                     </div>
 
                                     <div class="clear"></div>
@@ -294,3 +327,29 @@
         <div class="clear"></div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+                {{--var search = new Vue({--}}
+                {{--el: '#search-blog',--}}
+                {{--data: {--}}
+                {{--search: '{!! $search !!}'--}}
+                {{--},--}}
+                {{--methods: {--}}
+                {{--searchBlog: function () {--}}
+                {{--window.open('/blogs?page=1&search=' + this.search, '_self');--}}
+                {{--}--}}
+                {{--}--}}
+
+                {{--})--}}
+
+        var pagination = new Vue({
+                el: '#pagination-blogs',
+                data: {
+                    pages: []
+                },
+            });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
+    </script>
+@endpush
