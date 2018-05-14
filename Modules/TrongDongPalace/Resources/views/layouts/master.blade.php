@@ -373,7 +373,7 @@
                 <div class="copyright-right">
                     &copy;
                     <script>(new Date().getFullYear())</script>
-                    <a href="http://keetool.com"> KEETOOl</a>
+                    <a href="http://keetool.com"> KEETOOL</a>
                 </div>
                 <div class="clear"></div>
             </div>
