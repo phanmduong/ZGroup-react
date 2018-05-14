@@ -14,6 +14,7 @@ import {
     appendJsonToWorkBook,
     saveWorkBookToExcel,
     renderExcelColumnArray,
+    showErrorMessage,
 } from "../../helpers/helper";
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../constants/constants";
@@ -62,6 +63,11 @@ class HistoryDebtContainer extends React.Component {
     }
 
     exportExcel = (input) => {
+        if (!input || input.length == 0) {
+            showErrorMessage("Không có dữ liệu");
+            this.setState({ showLoadingModal: false });
+            return;
+        }
         let wb = newWorkBook();
         let data;
         let cols = renderExcelColumnArray([5, 15, 25, 25, 15,]);//độ rộng cột  
