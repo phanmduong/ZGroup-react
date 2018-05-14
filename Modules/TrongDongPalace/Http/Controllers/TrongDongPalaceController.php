@@ -147,6 +147,16 @@ class TrongDongPalaceController extends Controller
         return view('trongdongpalace::test');
     }
 
+    public function wedding()
+    {
+        return view('trongdongpalace::wedding', $this->data);
+    }
+
+    public function event()
+    {
+        return view('trongdongpalace::event', $this->data);
+    }
+
     public function contactUs()
     {
         return view('trongdongpalace::contact_us', $this->data);

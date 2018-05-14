@@ -241,11 +241,11 @@
                                 </li>
                                 <li id="menu-item-4003"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003">
-                                    <a href="/wedding.html" class="sf-with-ul-pre">Tiệc cưới</a>
+                                    <a href="/wedding" class="sf-with-ul-pre">Tiệc cưới</a>
                                 </li>
                                 <li id="menu-item-4007"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007">
-                                    <a href="/event.html"
+                                    <a href="/event"
                                        class="sf-with-ul-pre">Tổ chức sự kiện</a>
                                 </li>
                                 <li id="menu-item-4103"
@@ -277,10 +277,10 @@
                                 <a href="/booking" class="sf-with-ul-pre">Đặt phòng</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4128menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4128 gdlr-normal-menu">
-                                <a href="/wedding.html" class="sf-with-ul-pre">Tiệc cưới</a>
+                                <a href="/wedding" class="sf-with-ul-pre">Tiệc cưới</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4139menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4139 gdlr-normal-menu">
-                                <a href="/event.html"
+                                <a href="/event"
                                    class="sf-with-ul-pre">Tổ chức sự kiện</a>
                             </li>
                             <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003 gdlr-normal-menu">

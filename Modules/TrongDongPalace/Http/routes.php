@@ -4,6 +4,8 @@ $publicRoutes = function () {
     Route::get('/', 'TrongDongPalaceController@index');
     Route::get('/blogs', 'TrongDongPalaceController@blogs');
     Route::get('/album', 'TrongDongPalaceController@album');
+    Route::get('/wedding', 'TrongDongPalaceController@wedding');
+    Route::get('/event', 'TrongDongPalaceController@event');
     Route::get('/blog/post/{postId}', 'TrongDongPalaceController@post');
     Route::get('/test', 'TrongDongPalaceController@test');
     Route::get('/contact-us', 'TrongDongPalaceController@contactUs');
