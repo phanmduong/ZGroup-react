@@ -1,14 +1,14 @@
 import React from "react";
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as importOrderActions from "./importOrderActions";
 import Loading from "../../components/common/Loading";
 import ImportItemOrderList from "./ImportItemOrderList";
 import PropTypes from "prop-types";
 import Pagination from "../../components/common/Pagination";
 
-import { Panel, Modal } from "react-bootstrap";
+import {Panel, Modal} from "react-bootstrap";
 import ReactSelect from 'react-select';
 import InfoImportOrder from "./InfoImportOrder";
 import TooltipButton from '../../components/common/TooltipButton';
@@ -21,7 +21,7 @@ import {
     showErrorMessage,
 } from "../../helpers/helper";
 import moment from "moment";
-import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../constants/constants";
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 
 
 class ItemOrderContainer extends React.Component {
@@ -61,7 +61,7 @@ class ItemOrderContainer extends React.Component {
         //
         //     this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
         // });
-        helper.confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
+        confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
             this.props.importOrderActions.changeStatusImportOrder(id, () => {
                 this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
             });
@@ -101,14 +101,15 @@ class ItemOrderContainer extends React.Component {
 
     closeInfoModal() {
         this.setState({showInfoModal: false});
+    }
 
     openLoadingModal = () => {
-        this.setState({ showLoadingModal: true });
+        this.setState({showLoadingModal: true});
         this.props.importOrderActions.loadAllImportOrderNoPaging(this.exportExcel);
     }
 
     exportExcel = (input) => {
-        if(!input ||  input.length == 0) {
+        if (!input || input.length == 0) {
             showErrorMessage("Không có dữ liệu");
             return;
         }
@@ -117,8 +118,8 @@ class ItemOrderContainer extends React.Component {
         let cols = renderExcelColumnArray([15, 15, 25, 25, 15, 20]);//độ rộng cột  
         let merges = [];
         merges.push(
-            { s: { r: 2, c: 0 }, e: { r: 2, c: 5 } },
-            { s: { r: 0, c: 0 }, e: { r: 1, c: 0 } },
+            {s: {r: 2, c: 0}, e: {r: 2, c: 5}},
+            {s: {r: 0, c: 0}, e: {r: 1, c: 0}},
         );
 
         input.forEach((e, od) => {
@@ -149,28 +150,30 @@ class ItemOrderContainer extends React.Component {
                     e.command_code ? e.command_code : "Không có",
                     time,
                     (e.status && e.status > 2) ? "Đã duyệt" : "Chưa duyệt",],
-                    ['Danh sách sản phẩm'],
+                ['Danh sách sản phẩm'],
             ];
 
             data = [...info, head, ...data];
 
-            appendArrayToWorkBook(data, wb, e.command_code ? e.command_code : "Tab " + (od + 1), cols, null , merges);
+            appendArrayToWorkBook(data, wb, e.command_code ? e.command_code : "Tab " + (od + 1), cols, null, merges);
         });
 
         //xuất file
         saveWorkBookToExcel(wb, 'Danh sách nhập hàng');
 
-        this.setState({ showLoadingModal: false });
+        this.setState({showLoadingModal: false});
     }
+
     render() {
-        
+
         return (
             <div>
                 <Modal
                     show={this.state.showLoadingModal}
-                    onHide={() => { }}>
+                    onHide={() => {
+                    }}>
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
-                    <Modal.Body><Loading /></Modal.Body>
+                    <Modal.Body><Loading/></Modal.Body>
                 </Modal>
                 <div className="content">
                     <InfoImportOrder
@@ -186,11 +189,16 @@ class ItemOrderContainer extends React.Component {
                                 <div className="card">
 
                                     <div className="card-content">
-                                        <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <div style={{
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between'
+                                        }}>
                                             <div className="flex-row flex">
                                                 <h4 className="card-title"><strong>Nhập hàng</strong></h4>
                                                 <div>
-                                                    <Link to="/business/import-order/item/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <Link to="/business/import-order/item/create"
+                                                          className="btn btn-rose btn-round btn-xs button-add none-margin">
                                                         <strong>+</strong>
                                                     </Link>
 
@@ -199,7 +207,7 @@ class ItemOrderContainer extends React.Component {
                                                     <TooltipButton text="Lọc" placement="top">
                                                         <button
                                                             className="btn btn-rose"
-                                                            onClick={() => this.setState({ openFilter: !this.state.openFilter })}
+                                                            onClick={() => this.setState({openFilter: !this.state.openFilter})}
                                                             style={{
                                                                 borderRadius: 30,
                                                                 padding: "0px 11px",
@@ -209,7 +217,12 @@ class ItemOrderContainer extends React.Component {
                                                                 width: "55%",
                                                             }}
                                                         >
-                                                            <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                            <i className="material-icons" style={{
+                                                                height: 5,
+                                                                width: 5,
+                                                                marginLeft: -11,
+                                                                marginTop: -10
+                                                            }}
                                                             >filter_list</i>
                                                         </button>
                                                     </TooltipButton>
@@ -230,7 +243,12 @@ class ItemOrderContainer extends React.Component {
                                                                 width: "55%",
                                                             }}
                                                         >
-                                                            <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                            <i className="material-icons" style={{
+                                                                height: 5,
+                                                                width: 5,
+                                                                marginLeft: -11,
+                                                                marginTop: -10
+                                                            }}
                                                             >file_download</i>
                                                         </button>
                                                     </TooltipButton>
@@ -256,7 +274,7 @@ class ItemOrderContainer extends React.Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 {
-                                                    this.props.isLoadingItemOrder ? <Loading /> :
+                                                    this.props.isLoadingItemOrder ? <Loading/> :
                                                         <div>
                                                             <ImportItemOrderList
                                                                 data={this.props.importOrders}

@@ -17,7 +17,7 @@ import {
     renderExcelColumnArray,
     showErrorMessage,
     showNotification,
-    confirm,
+    confirm, dotNumber,
 } from "../../../helpers/helper";
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../../constants/constants";
@@ -251,7 +251,7 @@ class OrderedGoodContainer extends React.Component {
                                                                     <td>{order.goods.length}</td>
                                                                     <td>{date.format('D-M-YYYY')}</td>
 
-                                                                    <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
+                                                                    <td>{dotNumber(getTotalPrice(order.goods))}</td>
                                                                     <td><ButtonGroupAction
                                                                         editUrl={"/business/ordered-good/edit/" + order.id}
                                                                         disabledDelete={true}

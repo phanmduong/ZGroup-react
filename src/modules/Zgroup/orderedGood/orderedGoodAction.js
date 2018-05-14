@@ -120,7 +120,7 @@ export function loadAllOrderedGood(page,companyId) {
     };
 }
 export function loadAllOrderedGoodNoPaging(success) {
-    return function (dispatch) {
+    return function () {
         
         orderedGoodApi.loadAllOrderedGoodNoPaging(success)
             .then((res) => {

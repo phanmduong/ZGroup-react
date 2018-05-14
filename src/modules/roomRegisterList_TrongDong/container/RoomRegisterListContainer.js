@@ -10,7 +10,7 @@ import Pagination from "../../../components/common/Pagination";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
 import { Panel } from "react-bootstrap";
-import TooltipButton from '../../../components/common/TooltipButton';
+// import TooltipButton from '../../../components/common/TooltipButton';
 //import * as helper from "../../../helpers/helper";
 import ListRegisters from './ListRegisters';
 import AddBookingModal from './AddBookingModal';

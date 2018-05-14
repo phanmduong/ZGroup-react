@@ -8,7 +8,7 @@ import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import Select from "react-select";
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from "../../../helpers/helper";
-import {DATETIME_FORMAT_SQL, DATETIME_FORMAT, STATUS_REGISTER_ROOM} from "../../../constants/constants";
+import {STATUS_REGISTER_ROOM} from "../../../constants/constants";
 import ReactSelect from "react-select";
 import moment from "moment";
 class AddBookingModal extends React.Component {

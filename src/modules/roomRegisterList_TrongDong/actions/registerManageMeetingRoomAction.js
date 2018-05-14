@@ -135,7 +135,7 @@ export function loadAllRegisters(filter, success) {
                     success();
                     
             })
-            .catch((err) => {
+            .catch(() => {
                 
                 dispatch({
                     type: types.LOAD_REGISTERS_LIST_ERROR,
