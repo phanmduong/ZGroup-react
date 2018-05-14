@@ -372,7 +372,7 @@
                         style="margin-right: 10px; margin-left: 10px;">Đặt phòng</a></div>
                 <div class="copyright-right">
                     &copy;
-                    <script>(new Date().getFullYear())</script>
+                    2018
                     <a href="http://keetool.com"> KEETOOL</a>
                 </div>
                 <div class="clear"></div>
