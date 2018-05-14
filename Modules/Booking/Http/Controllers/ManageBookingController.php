@@ -311,7 +311,7 @@ class ManageBookingController extends ManageApiController
         $user->save();
 
         $register = new RoomServiceRegister();
-        $register->user_id = $this->user->id;
+        $register->user_id = $user->id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $this->user->id;
         $register->base_id = $room->base ? $room->base->id : 0;
