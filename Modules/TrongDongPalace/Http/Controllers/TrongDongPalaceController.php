@@ -69,7 +69,7 @@ class TrongDongPalaceController extends Controller
         } else {
             $topBlogs = $blogsData->first();
             $topBlogs = $topBlogs->blogTransform();
-            $topBlogs['time'] = $this->timeCal(date($topBlogs['created_at']));
+//            $topBlogs['time'] = $this->timeCal(date($topBlogs['created_at']));
             $this->data['topBlogs'] = $topBlogs;
 
             $blogs = $blogsData->where('id', '<>', $topBlogs['id']);
