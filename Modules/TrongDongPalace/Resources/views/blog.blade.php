@@ -116,60 +116,24 @@
                                         class="gdlr-widget-title">Bài viết mới nhất</h3>
                                 <div class="clear"></div>
                                 <div class="gdlr-recent-port-widget">
-                                    <div class="recent-post-widget">
-                                        <div class="recent-post-widget-thumbnail"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/"><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/140H-150x150.jpg"
-                                                        alt="" width="150" height="150"></a></div>
-                                        <div class="recent-post-widget-content">
-                                            <div class="recent-post-widget-title"><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/">Thumbnail
-                                                    open lightbox</a></div>
-                                            <div class="recent-post-widget-info">
-                                                <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                        Dec 2013</a></div>
-                                                <div class="clear"></div>
+                                    @foreach($topNewBlogs as $blog)
+                                        <div class="recent-post-widget">
+                                            <div class="recent-post-widget-thumbnail"><a
+                                                        href="/blog/{{$blog['slug']}}"><img
+                                                            src="{{generate_protocol_url($blog['url'])}}"
+                                                            alt="" width="150" height="150"></a></div>
+                                            <div class="recent-post-widget-content">
+                                                <div class="recent-post-widget-title"><a
+                                                            href="/blog/{{$blog['slug']}}">{{$blog['title']}}</a></div>
+                                                <div class="recent-post-widget-info">
+                                                    <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
+                                                        >{{timeCal(date($blog['created_at']))}}</a></div>
+                                                    <div class="clear"></div>
+                                                </div>
                                             </div>
+                                            <div class="clear"></div>
                                         </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <div class="recent-post-widget">
-                                        <div class="recent-post-widget-thumbnail"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/"><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/156H-150x150.jpg"
-                                                        alt="" width="150" height="150"></a></div>
-                                        <div class="recent-post-widget-content">
-                                            <div class="recent-post-widget-title"><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/">Thumbnail
-                                                    link to post</a></div>
-                                            <div class="recent-post-widget-info">
-                                                <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                        Dec 2013</a></div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <div class="recent-post-widget">
-                                        <div class="recent-post-widget-thumbnail"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/"><img
-                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/157H-150x150.jpg"
-                                                        alt="" width="150" height="150" style="opacity: 1;"></a></div>
-                                        <div class="recent-post-widget-content">
-                                            <div class="recent-post-widget-title"><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/">Open
-                                                    video lightbox</a></div>
-                                            <div class="recent-post-widget-info">
-                                                <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                        Dec 2013</a></div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
+                                    @endforeach
                                     <div class="clear"></div>
                                 </div>
                             </div>

@@ -88,20 +88,22 @@ class TrongDongPalaceController extends Controller
             return $data;
         });
 
-        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(10)->get();
+        $topNewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(3)->get();
 
-        $categories = Product::where('kind', $kind)->where('status', 1)
-            ->join('category_products', 'category_products.id', '=', 'products.category_id')
-            ->select('category_products.name', 'category_products.id', DB::raw('count(*) as total_blogs'))
-            ->orderBy('total_blogs', 'desc')
-            ->groupBy('products.category_id')
-            ->get();
+//        $categories = Product::where('kind', $kind)->where('status', 1)
+//            ->join('category_products', 'category_products.id', '=', 'products.category_id')
+//            ->select('category_products.name', 'category_products.id', DB::raw('count(*) as total_blogs'))
+//            ->orderBy('total_blogs', 'desc')
+//            ->groupBy('products.category_id')
+//            ->get();
         $this->data['blogs'] = $blogs;
         $this->data['search'] = $search;
         $this->data['tag'] = $tag;
         $this->data['topTags'] = $topTags;
         $this->data['topViewBlogs'] = $topViewBlogs;
-        $this->data['categories'] = $categories;
+        $this->data['topNewBlogs'] = $topNewBlogs;
+//        $this->data['categories'] = $categories;
         $this->data['link'] = $kind == 'blog' ? 'blogs' : ($kind == 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
 
         return view('trongdongpalace::blog', $this->data);
