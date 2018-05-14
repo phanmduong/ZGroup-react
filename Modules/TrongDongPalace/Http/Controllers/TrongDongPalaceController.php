@@ -85,7 +85,6 @@ class TrongDongPalaceController extends Controller
 
         $blogs = $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
-//            $data['time'] = $this->timeCal(date($blog->created_at));
             return $data;
         });
 

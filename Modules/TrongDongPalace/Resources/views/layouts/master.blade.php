@@ -286,7 +286,7 @@
                                    class="sf-with-ul-pre">Tổ chức sự kiện</a>
                             </li>
                             <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003 gdlr-normal-menu">
-                                <a href="/blog" class="sf-with-ul-pre">Tin tức</a>
+                                <a href="/blogs" class="sf-with-ul-pre">Tin tức</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007 gdlr-normal-menu">
                                 <a href="/album"
