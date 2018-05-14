@@ -76,33 +76,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="pagination-blogs">
-                                            <div class="pagination-area">
-                                                <ul class="pagination pagination-primary">
-                                                    <li class="page-item">
-                                                        <a href="/{{$link}}?page=1&search={{$search}}&tag={{$tag}}"
-                                                           class="page-link">
-                                                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li v-for="page in pages"
-                                                        v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
-                                                        <a v-bind:href="'/{{$link}}?page='+page+'&search={{$search}}&tag={{$tag}}'"
-                                                           class="page-link">
-                                                            @{{page}}
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item">
-                                                        <a href="/{{$link}}?page={{$total_pages}}&search={{$search}}&tag={{$tag}}"
-                                                           class="page-link">
-                                                            <i class="fa fa-angle-double-right" aria-hidden="true">
-                                                            </i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="gdlr-pagination">
+                                        <div id="pagination-blogs" class="gdlr-pagination">
                                             <a class="next page-numbers"
                                                href="/{{$link}}?page=1&search={{$search}}&tag={{$tag}}">Đầu
                                             </a>
