@@ -295,6 +295,7 @@ class ManageBookingController extends ManageApiController
             return $this->respondErrorWithStatus('Thiếu thời gian');
         if(Room::find($request->room_id) == null)
             return $this->respondErrorWithStatus('Không tồn tại phòng');
+        $room = Room::find($request->room_id);
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
