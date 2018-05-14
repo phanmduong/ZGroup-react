@@ -310,8 +310,8 @@
                                                              class="post-862 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row tag-blog tag-link tag-news">
                                                         <div class="gdlr-standard-style">
                                                             <div class="blog-date-wrapper gdlr-title-font">
-                                                                <span class="blog-date-day">{{date('j', strtotime($blog->created_at))}}</span>
-                                                                <span class="blog-date-month">{{date('M', strtotime($blog->created_at))}}</span>
+                                                                <span class="blog-date-day">{{date('d', strtotime($blog->created_at))}}</span>
+                                                                <span class="blog-date-month">{{date('m', strtotime($blog->created_at))}}/{{date('y', strtotime($blog->created_at))}}</span>
                                                             </div>
                                                             <header class="post-header">
                                                                 <h3 class="gdlr-blog-title"><a
