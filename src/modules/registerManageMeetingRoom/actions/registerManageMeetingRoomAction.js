@@ -264,6 +264,23 @@ export function closeAddRegisterModal() {
     };
 }
 
+export function openConfirmModal(room_id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_CONFIRM_MODAL,
+            room_id : room_id,
+        });
+    };
+}
+
+export function closeConfirmModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_CONFIRM_MODAL,
+        });
+    };
+}
+
 export function createRegister(register, close) {
     return (dispatch) => {
         dispatch({type: types.BEGIN_CREATE_REGISTER});
@@ -273,10 +290,12 @@ export function createRegister(register, close) {
                     dispatch({
                         type: types.CREATE_REGISTER_SUCCESS,
                     });
-                    loadAllRegisters();
+                    helper.showNotification("Thêm đăng kí thành công");
+                    dispatch(loadAllRegisters());
                     close();
                 }
                 else {
+                    helper.showErrorNotification("Thêm thất bại");
                     dispatch({
                         type: types.CREATE_REGISTER_ERROR
                     });
