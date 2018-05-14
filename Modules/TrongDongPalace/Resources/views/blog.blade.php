@@ -170,9 +170,9 @@
                                 <div class="clear"></div>
                                 <div class="tagcloud">
                                     @foreach($topTags as $tag)
-                                        <a href="/{{$link}}?page=1&search=&tag={{$tag['tag']}}"
+                                        <a href="/{{$link}}?page=1&search=&tag={{$tag->tag}}"
                                            class="tag-cloud-link tag-link-11 tag-link-position-1"
-                                           style="font-size: 8pt;" aria-label="{{$tag['tag']}}">{{$tag['tag']}}</a>
+                                           style="font-size: 8pt;" aria-label="{{$tag->tag}}">{{$tag->tag}}</a>
                                     @endforeach
                                 </div>
                             </div>

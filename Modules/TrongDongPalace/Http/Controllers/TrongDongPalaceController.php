@@ -45,7 +45,7 @@ class TrongDongPalaceController extends Controller
         return view('trongdongpalace::room', $this->data);
     }
 
-    public function blog(Request $request)
+    public function blogs(Request $request)
     {
         $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
