@@ -104,7 +104,7 @@ class TrongDongPalaceController extends Controller
         $this->data['topViewBlogs'] = $topViewBlogs;
         $this->data['topNewBlogs'] = $topNewBlogs;
 //        $this->data['categories'] = $categories;
-        $this->data['link'] = $kind == 'blog' ? 'blogs' : ($kind == 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
+        $this->data['link'] = 'blogs';
 
         return view('trongdongpalace::blog', $this->data);
     }
