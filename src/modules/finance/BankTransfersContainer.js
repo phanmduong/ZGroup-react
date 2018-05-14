@@ -124,7 +124,8 @@ class BankTransfersContainer extends React.Component {
         this.props.financeActions.showLoadMoneyToWalletModal();
         this.props.financeActions.handleLoadMoneyToWalletModal({
             money: '',
-            deposit: 1
+            deposit: 1,
+            wallet: 'deposit'
         });
     }
 

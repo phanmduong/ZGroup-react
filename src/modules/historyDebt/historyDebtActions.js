@@ -44,3 +44,23 @@ export function loadHistoryDebt(id,page) {
         });
     };
 }
+
+export function loadAllHistoryDebt(success) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_HISTORY_DEBT,
+        });
+        historyDebtApi.loadAllHistoryDebt()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_HISTORY_DEBT_SUCCESS,
+                });
+                success(res.data.data.companies);
+            }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+            dispatch({
+                type: types.LOAD_ALL_HISTORY_DEBT_ERROR,
+            });
+        });
+    };
+}

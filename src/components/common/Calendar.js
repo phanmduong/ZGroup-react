@@ -66,8 +66,14 @@ class Calendar extends React.Component {
             // dayClick: date =>{
             //     this.props.onClickDay(date);
             // },
+            dayClick: (date) => {
+                if (this.props.onClickDay) {
+                    this.props.onClickDay(date);
+                }
+            },
 
-            select: function () { },
+            select: ()=> {
+            },
             editable: true,
             droppable: true,
             eventLimit: true,
@@ -78,7 +84,7 @@ class Calendar extends React.Component {
     }
 
     render() {
-        return <div id={this.props.id} style={{ padding: "20px" }} />;
+        return <div id={this.props.id} style={{padding: "20px"}}/>;
     }
 }
 
@@ -87,6 +93,7 @@ Calendar.propTypes = {
     calendarEvents: PropTypes.func,
     onDropTime: PropTypes.func,
     onClick: PropTypes.func,
+    onClickDay: PropTypes.func,
 };
 
 export default Calendar;

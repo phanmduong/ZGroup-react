@@ -6,10 +6,21 @@ import Loading from "../../components/common/Loading";
 import PropTypes from 'prop-types';
 import * as goodActions from './goodActions';
 import GoodList from "./GoodList";
-
+import TooltipButton from '../../components/common/TooltipButton';
+import { Modal } from 'react-bootstrap';
+import {
+    newWorkBook,
+    appendJsonToWorkBook,
+    saveWorkBookToExcel,
+    renderExcelColumnArray,
+    dotNumber,
+} from "../../helpers/helper";
 class GoodListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showLoadingModal: false,
+        };
     }
 
     componentWillMount() {
@@ -22,20 +33,92 @@ class GoodListContainer extends React.Component {
         }
     }
 
+    openLoadingModal = () => {
+        this.setState({ showLoadingModal: true });
+        this.props.goodActions.loadAllGoods(this.props.params.type,this.exportExcel);
+    }
+
+    exportExcel = (input) => {
+        let wb = newWorkBook();
+        let data;
+        let cols = [5, 30, 20, 30, 30,15,20];//độ rộng cột  
+
+        
+            data = input.map((item, index) => {
+                
+                /* eslint-disable */
+                let res = {
+                    'STT': index + 1,
+                    'Tên sản phẩm' : item.name || 'Không tên',
+                    'Giá' : dotNumber(item.price) || 0,
+                    'Mã sản phẩm' : item.code || 'Không có',
+                    'Barcode' : item.barcode || 'Không có',
+                    'Số lượng' : item.quantity || 0,
+                    
+                    
+                };
+                if(item.properties){
+                    res = {...res, 'Thuộc tính =>' : "",};
+                    item.properties.forEach(e => {
+                        res = {...res, [e.name] : e.value || "",};
+                        let len = Math.max((e.name ? e.name.length : 0),(e.value ? e.value.length : 0));
+                        cols = [...cols, len + 5];
+                    });
+                    
+                    
+                }
+                /* eslint-enable */
+                return res;
+            });
+            
+            appendJsonToWorkBook(data, wb, "Danh sách sản phẩm", renderExcelColumnArray(cols));
+        
+
+        //xuất file
+        saveWorkBookToExcel(wb, 'Danh sách sản phẩm');
+
+        this.setState({ showLoadingModal: false });
+    }
+
     render() {
         return (
             <div id="page-wrapper">
+            <Modal
+                    show={this.state.showLoadingModal}
+                    onHide={() => { }}>
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading /></Modal.Body>
+                </Modal>
                 <div className="container-fluid">
-
-
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Sản phẩm</h4>
+                        <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title"><strong>Sản phẩm</strong> </h4>
+                                    </div>
+                                        <div className="flex-end">
+                                            <div>
+                                                <TooltipButton text="Xuất thành file excel" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openLoadingModal}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >file_download</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
+                                        </div>
+
+                                    </div>
                             {
                                 this.props.isLoading ? <Loading/> : <GoodList goods={this.props.goods}/>
                             }

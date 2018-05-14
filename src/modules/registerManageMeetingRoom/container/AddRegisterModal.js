@@ -33,6 +33,7 @@ function addSelectProvince(items) {
 class AddRegisterModal extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.state = {rooms: []};
         this.closeAddRegisterModal = this.closeAddRegisterModal.bind(this);
         this.loadBasesByProvince = this.loadBasesByProvince.bind(this);
@@ -108,6 +109,7 @@ class AddRegisterModal extends React.Component {
         data[field] = event.target.value;
         this.props.registerManageMeetingRoomAction.updateRegister(data);
     }
+
     updateDateTime(event) {
         const field = event.target.name;
         let data = {...this.props.register};
@@ -211,6 +213,7 @@ class AddRegisterModal extends React.Component {
                                                          style={{borderRadius: '10px'}}>
 
                                                         <a>
+
                                                             <div id="simpleBarChart" className="ct-chart"
                                                                  style={{
                                                                      width: '100%',

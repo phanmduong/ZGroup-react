@@ -139,13 +139,13 @@ export function handleLoadMoneyToWalletModal(transfer) {
     });
 }
 
-export function loadMoneyToWallet(transfer) {
+export function loadMoneyToWallet(transfer, tab) {
     return function (dispatch) {
         helper.showTypeNotification("Đang nạp tiền vào ví", "info");
         dispatch({
             type: types.BEGIN_LOAD_MONEY_TO_WALLET
         });
-        financeApi.loadMoneyToWallet(transfer)
+        financeApi.loadMoneyToWallet(transfer, tab)
             .then((res) => {
                 if (res.data.status) {
                     helper.showNotification("Nạp tiền vào ví thành công");

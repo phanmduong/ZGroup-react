@@ -138,7 +138,7 @@ export function uploadImage(file, pp) {
     };
 }
 
-export function changeStatus(id, status) {
+export function changeStatus(id, status ,loadPayments) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_STATUS_PAYMENT,
@@ -146,6 +146,7 @@ export function changeStatus(id, status) {
         PaymentApi.changeStatus(id, status)
             .then(() => {
                 helper.showNotification('Duyệt thành công');
+                loadPayments();
                 dispatch({
                     type: types.CHANGE_STATUS_PAYMENT_SUCCESS,
                     id: id,

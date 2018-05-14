@@ -8,7 +8,9 @@ import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import Select from "react-select";
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from "../../../helpers/helper";
-
+import {STATUS_REGISTER_ROOM} from "../../../constants/constants";
+//import ReactSelect from "react-select";
+import moment from "moment";
 class AddBookingModal extends React.Component {
     constructor(context, props) {
         super(context, props);
@@ -24,6 +26,7 @@ class AddBookingModal extends React.Component {
                 start_time: '',
                 end_time: '',
                 price: '',
+                status: '',
             }
         };
         this.updateFormData = this.updateFormData.bind(this);
@@ -97,58 +100,19 @@ class AddBookingModal extends React.Component {
                     bsStyle="primary"
                     onHide={this.onHide}
                 >
-                    <Modal.Header />
+                    <Modal.Header><h4 className="card-title"><b>Đăng kí phòng</b></h4></Modal.Header>
                     <Modal.Body>
                         <form role="form" id="form-book-room" onSubmit={e => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <h4 className="card-title"><b>Đăng kí phòng</b></h4>
-                                    <div className="row">
-                                        <div className="form-group col-md-12">
-                                            <label className="label-control">Chiến dịch</label>
-                                            <Select
-                                                value={data.campaign_id}
-                                                options={this.props.campaigns}
-                                                onChange={(e) => this.updateFormData('campaign_id', e.id)}
-                                            />
-                                        </div>
 
-                                        <div className="form-group col-md-12">
-                                            <label className="label-control">Cơ sở</label>
-                                            <Select
-                                                value={data.base_id}
-                                                options={this.props.bases.map((obj) => {
-                                                    return { ...obj, value: obj.id, label: obj.name };
-                                                })}
-                                                onChange={(e) => this.updateFormData('base_id', e.id)}
-                                            />
-                                        </div>
+                                    <div className="row">
                                         <div className="form-group col-md-12">
                                             <label className="label-control">Phòng</label>
                                             <Select
                                                 value={data.room_id}
                                                 options={this.props.rooms}
                                                 onChange={(e) => this.updateFormData('room_id', e.id)}
-                                            />
-                                        </div>
-                                        <div className="form-group col-md-12">
-                                            <FormInputText
-                                                label="Giá"
-                                                name="price"
-                                                updateFormData={this.formTextChange}
-                                                value={data.price}
-                                                required={true}
-                                                type="number"
-                                            />
-                                        </div>
-                                        <div className="form-group col-md-12">
-                                            <FormInputText
-                                                label="Email"
-                                                name="email"
-                                                updateFormData={this.formTextChange}
-                                                value={data.email}
-                                                required={true}
-                                                type="email"
                                             />
                                         </div>
                                         <div className="form-group col-md-12">
@@ -163,22 +127,41 @@ class AddBookingModal extends React.Component {
                                         </div>
                                         <div className="form-group col-md-12">
                                             <FormInputText
-                                                label="Địa chỉ"
-                                                name="address"
-                                                value={data.address}
-                                                required={true}
-                                                type="text"
-                                                updateFormData={this.formTextChange}
-                                            />
-                                        </div>
-                                        <div className="form-group col-md-12">
-                                            <FormInputText
                                                 label="Số điện thoại"
                                                 name="phone"
                                                 value={data.phone}
                                                 required={true}
                                                 type="number"
                                                 updateFormData={this.formTextChange}
+                                            />
+                                        </div>
+                                        <div className="form-group col-md-12">
+                                            <FormInputText
+                                                label="Email"
+                                                name="email"
+                                                updateFormData={this.formTextChange}
+                                                value={data.email}
+                                                required={true}
+                                                type="email"
+                                            />
+                                        </div>
+
+                                        <div className="form-group col-md-12">
+                                            <FormInputText
+                                                label="Địa chỉ"
+                                                name="address"
+                                                value={data.address}
+                                                type="text"
+                                                updateFormData={this.formTextChange}
+                                            />
+                                        </div>
+                                        <div className="form-group col-md-12">
+                                            <FormInputText
+                                                label="Ghi chú"
+                                                name="note"
+                                                updateFormData={this.formTextChange}
+                                                value={data.note}
+                                                type="text"
                                             />
                                         </div>
 
@@ -204,6 +187,44 @@ class AddBookingModal extends React.Component {
                                                 minDate={data.start_time}
                                             />
                                         </div>
+
+                                        <div className="form-group col-md-12">
+                                            <label className="label-control">Chiến dịch</label>
+                                            <Select
+                                                value={data.campaign_id}
+                                                options={this.props.campaigns}
+                                                onChange={(e) => this.updateFormData('campaign_id', e.id)}
+                                            />
+                                        </div>
+
+                                        <div className="form-group col-md-12">
+                                            <label className="label-control">Cơ sở</label>
+                                            <Select
+                                                value={data.base_id}
+                                                options={this.props.bases.map((obj) => {
+                                                    return { ...obj, value: obj.id, label: obj.name };
+                                                })}
+                                                onChange={(e) => this.updateFormData('base_id', e.id)}
+                                            />
+                                        </div>
+
+                                        <div className="form-group col-md-12">
+                                            <label className="label-control">Trạng thái</label>
+                                            <Select
+                                                name="form-field-name"
+                                                value={data.status}
+                                                options={STATUS_REGISTER_ROOM}
+                                                onChange={value => {
+                                                    //this.booking.status = value.value;
+                                                    this.updateFormData('status', value.value);
+                                                }}
+                                                placeholder="Chọn trang thái"
+                                            />
+                                        </div>
+
+
+
+
 
                                     </div>
                                 </div>
@@ -288,7 +309,7 @@ const defaultData = {
     campaign_id: '',
     base_id: '',
     room_id: '',
-    start_time: '',
-    end_time: '',
+    start_time: moment(moment.now()).format("H:M D-M-Y"),
+    end_time: moment(moment.now()).add(1,'days').format("H:M D-M-Y"),
     price: '',
 };

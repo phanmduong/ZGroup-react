@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from 'react-router';
 import PropTypes from "prop-types";
+import * as helper from "../../helpers/helper";
 
 class PaymentList extends React.Component {
     constructor(props, context) {
@@ -35,7 +36,7 @@ class PaymentList extends React.Component {
                                     <td/>
                                     <td>{pp.payer.name}</td>
                                     <td>{pp.receiver.name}</td>
-                                    <td>{pp.money_value}</td>
+                                    <td>{helper.dotStringNumber(pp.money_value)}</td>
                                     <td> {pp.description ? pp.description : "Không có"}</td>
                                     <td>
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}

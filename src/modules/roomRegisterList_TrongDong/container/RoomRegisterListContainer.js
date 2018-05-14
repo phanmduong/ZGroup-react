@@ -10,7 +10,7 @@ import Pagination from "../../../components/common/Pagination";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
 import { Panel } from "react-bootstrap";
-import TooltipButton from '../../../components/common/TooltipButton';
+// import TooltipButton from '../../../components/common/TooltipButton';
 //import * as helper from "../../../helpers/helper";
 import ListRegisters from './ListRegisters';
 import AddBookingModal from './AddBookingModal';
@@ -145,7 +145,6 @@ class RoomRegisterListContainer extends React.Component {
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-
         return (
             <div id="page-wrapper">
                 <AddBookingModal
@@ -178,26 +177,22 @@ class RoomRegisterListContainer extends React.Component {
                                                 <strong>+</strong>
                                             </button>
                                         </div>
-                                        <div>
+                                        {/* <div>
+                                            
                                             <TooltipButton text="Lọc" placement="top">
-                                                <button
-                                                    className="btn btn-rose"
-                                                    onClick={this.openFilterPanel}
-                                                    style={{
-                                                        borderRadius: 30,
-                                                        padding: "0px 11px",
-                                                        margin: "-1px 10px",
-                                                        minWidth: 25,
-                                                        height: 25,
-                                                        width: "100%",
-                                                    }}
-                                                >
-                                                    <i className="material-icons"
-                                                        style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
-                                                    >filter_list</i>
-                                                </button>
-                                            </TooltipButton>
-                                        </div>
+                                            <button
+                                                className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                onClick={this.openFilterPanel}
+                                            >
+                                                <i className="material-icons" style={{
+                                                    width: 12,
+                                                    marginLeft: -4,
+                                                    paddingTop: 2,
+                                                }}>filter_list</i>
+                                            </button>
+
+                                        </TooltipButton>
+                                        </div> */}
                                     </div>
                                     <div>
                                         <Panel collapsible expanded={this.state.openFilterPanel}>
@@ -268,17 +263,17 @@ RoomRegisterListContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.registerManageMeetingRoom.isLoading,
-        totalPages: state.registerManageMeetingRoom.totalPages,
-        registers: state.registerManageMeetingRoom.registers,
-        limit: state.registerManageMeetingRoom.limit,
-        totalCount: state.registerManageMeetingRoom.totalCount,
-        currentPage: state.registerManageMeetingRoom.currentPage,
-        salers: state.registerManageMeetingRoom.salers,
-        isLoadingBases: state.registerManageMeetingRoom.isLoadingBases,
-        isLoadingSalers: state.registerManageMeetingRoom.isLoadingSalers,
-        isLoadingCampaignFilter: state.registerManageMeetingRoom.isLoadingSalers,
-        bases: state.registerManageMeetingRoom.bases,
+        isLoading: state.registerListManage.isLoading,
+        totalPages: state.registerListManage.totalPages,
+        registers: state.registerListManage.registers,
+        limit: state.registerListManage.limit,
+        totalCount: state.registerListManage.totalCount,
+        currentPage: state.registerListManage.currentPage,
+        salers: state.registerListManage.salers,
+        isLoadingBases: state.registerListManage.isLoadingBases,
+        isLoadingSalers: state.registerListManage.isLoadingSalers,
+        isLoadingCampaignFilter: state.registerListManage.isLoadingSalers,
+        bases: state.registerListManage.bases,
         campaigns: state.registerListManage.campaigns,
     };
 }

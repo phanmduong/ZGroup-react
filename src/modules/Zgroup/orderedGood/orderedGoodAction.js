@@ -119,6 +119,20 @@ export function loadAllOrderedGood(page,companyId) {
             });
     };
 }
+export function loadAllOrderedGoodNoPaging(success) {
+    return function () {
+        
+        orderedGoodApi.loadAllOrderedGoodNoPaging(success)
+            .then((res) => {
+                    success(res.data.data.orders);
+               
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                success(null);
+            });
+    };
+}
 
 export function loadOrderedGood(id, success) {
     return function (dispatch) {

@@ -39,6 +39,19 @@ export function getStaffs(page = 1, search = null) {
     return axios.get(url);
 }
 
+export function getAllStaffs( search = null) {
+    let url = env.MANAGE_API_URL + "/get-staffs?limit=-1";
+    let token = localStorage.getItem('token');
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function getUsers(page = 1, search = null) {
     let url = env.MANAGE_API_URL + "/staff/get-all-user?page=" + page;
     let token = localStorage.getItem('token');

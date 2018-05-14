@@ -27,6 +27,22 @@ export function loadStaffsData(page, search) {
     };
 }
 
+export function getAllStaffs( search , success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_STAFFS_DATA});
+        staffApi.getAllStaffs(search)
+            .then(function (res) {
+                dispatch({
+                    type: types.LOAD_ALL_STAFFS_DATA_SUCCESSFUL,
+                    
+                });
+                success(res.data.data.staffs);
+            }).catch(() => {
+                dispatch({type: types.LOAD_ALL_STAFFS_DATA_ERROR});
+        });
+    };
+}
+
 export function loadStaffsDataSucessful(res) {
     return ({
         type: types.LOAD_STAFFS_DATA_SUCCESSFUL,

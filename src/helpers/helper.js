@@ -898,6 +898,20 @@ export function newWorkBook() {
 	return XLSX.utils.book_new();
 }
 
+export function appendArrayToWorkBook(json, wb, sheetname, cols, cmts, merges) {
+    let sheet = XLSX.utils.aoa_to_sheet(json);
+    if (cols) sheet['!cols'] = cols;
+    if (cmts) {
+        cmts.forEach((item) => {
+            XLSX.utils.cell_add_comment(sheet[item.cell], item.note, '');
+        });
+    }
+    if (merges) sheet['!merges'] = merges;
+    
+    XLSX.utils.book_append_sheet(wb, sheet, sheetname);
+    return wb;
+}
+
 export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
 	let sheet = XLSX.utils.json_to_sheet(json);
 	if (cols) sheet['!cols'] = cols;
@@ -919,6 +933,12 @@ export function saveWorkBookToExcel(wb, filename) {
 	} catch (e) {
 		if (typeof console != 'undefined') console.log(e, wbout);
 	}
+}
+
+export function renderExcelColumnArray(arr){
+    return arr.map((obj)=>{
+        return {wch: obj};
+    });
 }
 
 export function superSortCategories(categories) {
@@ -1302,14 +1322,18 @@ export function definePhoneHead(phone) {
 
 export function dotStringNumber(number) {
 
-    return number.replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        if(isEmptyInput(number)) return '0';
+        let StringNumber = number.toString();
+        return StringNumber.replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
     //return number;
 }
 export function convertDotStringNumberToStringNumber(number) {
-    while (number.indexOf('.') > -1) {
-        number = number.replace('.', '');
+    let StringNumber = number.toString();
+    while (StringNumber.indexOf('.') > -1) {
+        StringNumber = StringNumber.replace('.', '');
     }
-    return number;
+    return StringNumber;
 }
 
 export function saveExpired() {

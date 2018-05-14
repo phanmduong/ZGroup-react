@@ -220,5 +220,6 @@ const defaultData = {
     type: { id: '', value: '', label: '' },
     contract_number: 0,
     value: "",
+    note: "",
     status: 0,
 };

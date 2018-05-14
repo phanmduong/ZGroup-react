@@ -45,6 +45,7 @@ class PaymentContainer extends React.Component {
         this.changeCompanies = this.changeCompanies.bind(this);
         this.selectedReceiver = this.selectedReceiver.bind(this);
         this.selectedPayer = this.selectedPayer.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
     }
 
     componentWillMount() {
@@ -89,6 +90,9 @@ class PaymentContainer extends React.Component {
 
     }
 
+    changeStatus(id,status){
+        this.props.PaymentActions.changeStatus(id,status,()=>this.props.PaymentActions.loadPayments(this.props.paginator.current_page));
+    }
 
     closeInfoModal() {
         this.setState({showInfoModal: false});
@@ -175,7 +179,7 @@ class PaymentContainer extends React.Component {
                                                 <PaymentList
                                                     data={this.props.data || []}
                                                     openInfoModal={this.openInfoModal}
-                                                    changeStatus={this.props.PaymentActions.changeStatus}
+                                                    changeStatus={this.changeStatus}
                                                 />
                                         }
                                         <div>
