@@ -371,7 +371,9 @@
                         href="/booking"
                         style="margin-right: 10px; margin-left: 10px;">Đặt phòng</a></div>
                 <div class="copyright-right">
-                    Copyright 2015 All Right Reserved
+                    &copy;
+                    <script>(new Date().getFullYear())</script>
+                    <a href="http://keetool.com"> KEETOOl</a>
                 </div>
                 <div class="clear"></div>
             </div>
