@@ -2,7 +2,7 @@
 
 $publicRoutes = function () {
     Route::get('/', 'TrongDongPalaceController@index');
-    Route::get('/blogs1', 'TrongDongPalaceController@blogs');
+    Route::get('/blogs', 'TrongDongPalaceController@blogs');
     Route::get('/album', 'TrongDongPalaceController@album');
     Route::get('/blog/post/{postId}', 'TrongDongPalaceController@post');
     Route::get('/test', 'TrongDongPalaceController@test');

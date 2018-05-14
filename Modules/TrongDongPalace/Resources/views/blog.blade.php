@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                             <div id="tag_cloud-2" class="widget widget_tag_cloud gdlr-item gdlr-widget"><h3
-                                        class="gdlr-widget-title">Tag Cloud</h3>
+                                        class="gdlr-widget-title">Tags</h3>
                                 <div class="clear"></div>
                                 <div class="tagcloud">
                                     @foreach($topTags as $tag)
