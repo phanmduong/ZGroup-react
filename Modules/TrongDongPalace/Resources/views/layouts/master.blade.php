@@ -12,7 +12,7 @@
     <meta name="viewport" content="initial-scale=1.0"/>
 
     <link rel="pingback" href="http://demo.goodlayers.com/hotelmaster/dark/xmlrpc.php"/>
-	<title>Trongdong Palace - Trung tâm tổ chức tiệc cưới</title>
+	<title>Trống Đồng Palace - Trung tâm tổ chức tiệc cưới</title>
     <meta name='robots' content='noindex,follow'/>
     <link rel='dns-prefetch' href='//fonts.googleapis.com'/>
     <link rel="shortcut icon" type="image/x-icon" href="http://www.trongdongpalace.com/favicon.ico" />
@@ -111,9 +111,7 @@
     <link rel='stylesheet' id='dlmenu-css'
           href='http://demo.goodlayers.com/hotelmaster/dark/wp-content/themes/hotelmaster/plugins/dl-menu/component.css?ver=5ed7c316c9b1ef9b04fe581cf7839fe5'
           type='text/css' media='all'/>
-    <link rel='stylesheet' id='font-awesome-css'
-          href='/plugins/font-awesome/css/font-awesome.min.css'
-          type='text/css' media='all'/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel='stylesheet' id='jquery-fancybox-css'
           href='http://demo.goodlayers.com/hotelmaster/dark/wp-content/themes/hotelmaster/plugins/fancybox/jquery.fancybox.css?ver=5ed7c316c9b1ef9b04fe581cf7839fe5'
           type='text/css' media='all'/>
@@ -243,16 +241,16 @@
                                 </li>
                                 <li id="menu-item-4003"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003">
-                                    <a href="/wedding.html" class="sf-with-ul-pre">Tiệc cưới</a>
+                                    <a href="/wedding" class="sf-with-ul-pre">Tiệc cưới</a>
                                 </li>
                                 <li id="menu-item-4007"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007">
-                                    <a href="/event.html"
+                                    <a href="/event"
                                        class="sf-with-ul-pre">Tổ chức sự kiện</a>
                                 </li>
                                 <li id="menu-item-4103"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
-                                    <a href="/blog" class="sf-with-ul-pre">Tin tức</a>
+                                    <a href="/blogs" class="sf-with-ul-pre">Tin tức</a>
                                 </li>
                                 <li id="menu-item-4104"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4103">
@@ -279,14 +277,14 @@
                                 <a href="/booking" class="sf-with-ul-pre">Đặt phòng</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4128menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4128 gdlr-normal-menu">
-                                <a href="/wedding.html" class="sf-with-ul-pre">Tiệc cưới</a>
+                                <a href="/wedding" class="sf-with-ul-pre">Tiệc cưới</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4139menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4139 gdlr-normal-menu">
-                                <a href="/event.html"
+                                <a href="/event"
                                    class="sf-with-ul-pre">Tổ chức sự kiện</a>
                             </li>
                             <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4003 gdlr-normal-menu">
-                                <a href="/blog" class="sf-with-ul-pre">Tin tức</a>
+                                <a href="/blogs" class="sf-with-ul-pre">Tin tức</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4007 gdlr-normal-menu">
                                 <a href="/album"
@@ -373,7 +371,9 @@
                         href="/booking"
                         style="margin-right: 10px; margin-left: 10px;">Đặt phòng</a></div>
                 <div class="copyright-right">
-                    Copyright 2015 All Right Reserved
+                    &copy;
+                    2018
+                    <a href="http://keetool.com"> KEETOOL</a>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -477,6 +477,34 @@
         src='http://demo.goodlayers.com/hotelmaster/dark/wp-content/plugins/masterslider/public/assets/js/masterslider.min.js?ver=3.2.2'></script>
         <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
+</script>
 @stack('scripts')
 </body>
 </html>

@@ -126,8 +126,8 @@ class RoomServiceRegister extends Model
             $base = $this->base;
             $data['base'] = [
                 "base" => $base->transform(),
-                "district" => $base->district->transform(),
-                "province" => $base->district->province->transform()
+                "district" => $base->district ? $base->district->transform() : [],
+                "province" => $base->district ? $base->district->province->transform() : []
             ];
         }
         if ($this->roomServiceRegisterRoom)
@@ -136,4 +136,6 @@ class RoomServiceRegister extends Model
             });
         return $data;
     }
+
+    
 }

@@ -110,7 +110,7 @@
                             <!-- END MasterSlider -->
 
                             <script>
-                                ( window.MSReady = window.MSReady || [] ).push(function ($) {
+                                (window.MSReady = window.MSReady || []).push(function ($) {
 
                                     "use strict";
                                     var masterslider_02cd = new MasterSlider();
@@ -185,14 +185,14 @@
                                 <div class="gdlr-ux column-service-ux">
                                     <div class="gdlr-item gdlr-column-service-item gdlr-type-2">
                                         <div class="column-service-image"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/column-service-1.jpg"
-                                                alt="" width="500" height="257"/></div>
+                                                    src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/column-service-1.jpg"
+                                                    alt="" width="500" height="257"/></div>
                                         <div class="column-service-content-wrapper"><h3 class="column-service-title">
-                                            Tiệc cưới</h3>
+                                                Tiệc cưới</h3>
                                             <div class="column-service-divider"></div>
                                             <div class="column-service-content gdlr-skin-content"><p>Cum sociis natoque
-                                                penatibus et magnis dis part urient montes, nascetur ridiculus mus.
-                                                Vestib ulum id ligula porta felis euis.</p>
+                                                    penatibus et magnis dis part urient montes, nascetur ridiculus mus.
+                                                    Vestib ulum id ligula porta felis euis.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -202,14 +202,14 @@
                                 <div class="gdlr-ux column-service-ux">
                                     <div class="gdlr-item gdlr-column-service-item gdlr-type-2">
                                         <div class="column-service-image"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/column-service-2.jpg"
-                                                alt="" width="500" height="257"/></div>
+                                                    src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/column-service-2.jpg"
+                                                    alt="" width="500" height="257"/></div>
                                         <div class="column-service-content-wrapper"><h3 class="column-service-title">
-                                            Tổ chức sự kiện</h3>
+                                                Tổ chức sự kiện</h3>
                                             <div class="column-service-divider"></div>
                                             <div class="column-service-content gdlr-skin-content"><p>Cum sociis natoque
-                                                penatibus et magnis dis part urient montes, nascetur ridiculus mus.
-                                                Vestib ulum id ligula porta felis euis.</p>
+                                                    penatibus et magnis dis part urient montes, nascetur ridiculus mus.
+                                                    Vestib ulum id ligula porta felis euis.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -219,14 +219,14 @@
                                 <div class="gdlr-ux column-service-ux">
                                     <div class="gdlr-item gdlr-column-service-item gdlr-type-2">
                                         <div class="column-service-image"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/column-service-3.jpg"
-                                                alt="" width="500" height="257"/></div>
+                                                    src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/column-service-3.jpg"
+                                                    alt="" width="500" height="257"/></div>
                                         <div class="column-service-content-wrapper"><h3 class="column-service-title">
-                                            Wedding Planner</h3>
+                                                Wedding Planner</h3>
                                             <div class="column-service-divider"></div>
                                             <div class="column-service-content gdlr-skin-content"><p>Cum sociis natoque
-                                                penatibus et magnis dis part urient montes, nascetur ridiculus mus.
-                                                Vestib ulum id ligula porta felis euis.</p>
+                                                    penatibus et magnis dis part urient montes, nascetur ridiculus mus.
+                                                    Vestib ulum id ligula porta felis euis.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -244,13 +244,15 @@
                         <div class="container">
                             <div class="gdlr-item-title-wrapper gdlr-item pos-center gdlr-nav-container ">
                                 <div class="gdlr-item-title-head"><h3
-                                        class="gdlr-item-title gdlr-skin-title gdlr-skin-border">Đa dạng về phòng</h3>
+                                            class="gdlr-item-title gdlr-skin-title gdlr-skin-border">Đa dạng về
+                                        phòng</h3>
                                     <div class="gdlr-item-title-carousel"><i class="icon-angle-left gdlr-flex-prev"></i><i
-                                            class="icon-angle-right gdlr-flex-next"></i></div>
+                                                class="icon-angle-right gdlr-flex-next"></i></div>
                                     <div class="clear"></div>
                                 </div>
                                 <a class="gdlr-item-title-link"
-                                   href="/booking">Xem tất cả<i class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>
+                                   href="/booking">Xem tất cả<i
+                                            class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>
                             <div class="room-item-wrapper type-modern">
                                 <div class="room-item-holder ">
                                     <div class="gdlr-room-carousel-item gdlr-item">
@@ -258,19 +260,19 @@
                                              data-nav-container="room-item-wrapper" data-columns="3">
                                             <ul class="slides">
                                                 @foreach($bases as $base)
-                                                <li class="gdlr-item gdlr-modern-room">
-                                                    <div class="gdlr-room-thumbnail"><a
-                                                            href="/booking?base_id={{$base->id}}"><img
-                                                            src="{{$base->avatar_url}}"
-                                                            alt="" width="700" height="400"/></a></div>
-                                                    <h3 class="gdlr-room-title"><a
-                                                            href="/booking?base_id={{$base->id}}">
-                                                        {{$base->name}}
-                                                        </a></h3><a
-                                                        href="/booking?base_id={{$base->id}}"
-                                                        class="gdlr-room-detail">Xem chi tiết<i
-                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
-                                                </li>
+                                                    <li class="gdlr-item gdlr-modern-room">
+                                                        <div class="gdlr-room-thumbnail"><a
+                                                                    href="/booking?base_id={{$base->id}}"><img
+                                                                        src="{{$base->avatar_url}}"
+                                                                        alt="" width="700" height="400"/></a></div>
+                                                        <h3 class="gdlr-room-title"><a
+                                                                    href="/booking?base_id={{$base->id}}">
+                                                                {{$base->name}}
+                                                            </a></h3><a
+                                                                href="/booking?base_id={{$base->id}}"
+                                                                class="gdlr-room-detail">Xem chi tiết<i
+                                                                    class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                             <div class="clear"></div>
@@ -293,7 +295,8 @@
                             <div class="six columns">
                                 <div class="gdlr-item-title-wrapper gdlr-item pos-left pos-left-divider ">
                                     <div class="gdlr-item-title-head"><h3
-                                            class="gdlr-item-title gdlr-skin-title gdlr-skin-border">Thông tin mới nhất</h3>
+                                                class="gdlr-item-title gdlr-skin-title gdlr-skin-border">Thông tin mới
+                                            nhất</h3>
                                         <div class="clear"></div>
                                     </div>
                                     <div class="gdlr-item-title-divider"></div>
@@ -301,41 +304,43 @@
                                 <div class="blog-item-wrapper">
                                     <div class="blog-item-holder">
                                         @foreach($newestBlogs as $blog)
-                                        <div class="gdlr-item gdlr-blog-widget">
-                                            <div class="gdlr-ux gdlr-blog-widget-ux">
-                                                <article id="post-862"
-                                                         class="post-862 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row tag-blog tag-link tag-news">
-                                                    <div class="gdlr-standard-style">
-                                                        <div class="blog-date-wrapper gdlr-title-font">
-                                                            <span class="blog-date-day">{{date('j', strtotime($blog->created_at))}}</span>
-                                                            <span class="blog-date-month">{{date('M', strtotime($blog->created_at))}}</span>
-                                                        </div>
-                                                        <header class="post-header">
-                                                            <h3 class="gdlr-blog-title"><a
-                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/magna-pars-studiorum/">{{$blog->title}}</a></h3>
-
-                                                            <div class="gdlr-blog-excerpt">{{shortString($blog->description, 15)}}  
-                                                                <div class="clear"></div>
-                                                                <a href="http://demo.goodlayers.com/hotelmaster/dark/magna-pars-studiorum/"
-                                                                   class="excerpt-read-more">Xem thêm<i
-                                                                        class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
+                                            <div class="gdlr-item gdlr-blog-widget">
+                                                <div class="gdlr-ux gdlr-blog-widget-ux">
+                                                    <article id="post-862"
+                                                             class="post-862 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row tag-blog tag-link tag-news">
+                                                        <div class="gdlr-standard-style">
+                                                            <div class="blog-date-wrapper gdlr-title-font">
+                                                                <span class="blog-date-day">{{date('d', strtotime($blog->created_at))}}</span>
+                                                                <span class="blog-date-month">{{date('m', strtotime($blog->created_at))}}/{{date('y', strtotime($blog->created_at))}}</span>
                                                             </div>
+                                                            <header class="post-header">
+                                                                <h3 class="gdlr-blog-title"><a
+                                                                            href="/blog/post/{{$blog->id}}">{{$blog->title}}</a>
+                                                                </h3>
+
+                                                                <div class="gdlr-blog-excerpt">{{shortString($blog->description, 15)}}
+                                                                    <div class="clear"></div>
+                                                                    <a href="/blog/post/{{$blog->id}}"
+                                                                       class="excerpt-read-more">Xem thêm<i
+                                                                                class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
+                                                                </div>
+                                                                <div class="clear"></div>
+                                                            </header><!-- entry-header -->
                                                             <div class="clear"></div>
-                                                        </header><!-- entry-header -->
-                                                        <div class="clear"></div>
-                                                    </div>
-                                                </article><!-- #post --></div>
-                                        </div>
+                                                        </div>
+                                                    </article><!-- #post --></div>
+                                            </div>
                                         @endforeach
                                         <a class="blog-widget-right-text-link"
-                                           href="http://demo.goodlayers.com/hotelmaster/blog-3-columns/">Xem tất cả<i
-                                                class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>
+                                           href="/blogs">Xem tất cả<i
+                                                    class="fa fa-long-arrow-right icon-long-arrow-right"></i></a></div>
                                 </div>
                             </div>
                             <div class="six columns">
                                 <div class="gdlr-item-title-wrapper gdlr-item pos-left pos-left-divider ">
                                     <div class="gdlr-item-title-head"><h3
-                                            class="gdlr-item-title gdlr-skin-title gdlr-skin-border">Thư viện ảnh</h3>
+                                                class="gdlr-item-title gdlr-skin-title gdlr-skin-border">Thư viện
+                                            ảnh</h3>
                                         <div class="clear"></div>
                                     </div>
                                     <div class="gdlr-item-title-divider"></div>
@@ -343,73 +348,109 @@
                                 <div class="gdlr-gallery-item gdlr-item">
                                     <div class="gallery-column six columns">
                                         <div class="gallery-item"><a
-                                                href="http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg"
-                                                data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
+                                                    href="http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg"
+                                                    data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                                                <div
+                                                        alt="" width="400" height="400"
+                                                        style="background-image: url(http://trongdongpalace.com/images/dichvu/5774_Tiec-cuoi.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+                                        </div>
                                     </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
+                                </div>
+                                <div class="gallery-column three columns">
+                                    <div class="gallery-item"><a
                                                 href="http://trongdongpalace.com/images/cover/3650_Canh-ho.jpg"
-                                                data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://trongdongpalace.com/images/cover/3650_Canh-ho.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
+                                                data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                                            <div
+                                                    alt="" width="400" height="400"
+                                                    style="background-image: url(http://trongdongpalace.com/images/cover/3650_Canh-ho.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
                                     </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg"
-                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG"
-                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG"
-                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="clear"></div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg"
-                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="https://i.pinimg.com/originals/38/10/f1/3810f16a3834d3c03cc895f450f5c81c.jpg"
-                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(https://i.pinimg.com/originals/38/10/f1/3810f16a3834d3c03cc895f450f5c81c.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg"
-                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="gallery-column three columns">
-                                        <div class="gallery-item"><a
-                                        href="http://saostyle.vn/wp-content/uploads/2017/02/13-1.png"
-                                                data-fancybox-group="gdlr-gal-1" data-rel="fancybox"><div
-                                                alt="" width="400" height="400" style="background-image: url(http://saostyle.vn/wp-content/uploads/2017/02/13-1.png);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/></div></div>
-                                    </div>
-                                    <div class="clear"></div>
                                 </div>
                             </div>
-                            <div class="clear"></div>
+                            <div class="gallery-column three columns">
+                                <div class="gallery-item"><a
+                                            href="http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg"
+                                            data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                                        <div
+                                                alt="" width="400" height="400"
+                                                style="background-image: url(http://trongdongpalace.com/images/cover/2166_Hang-cot.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-column three columns">
+                            <div class="gallery-item"><a
+                                        href="http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG"
+                                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                                    <div
+                                            alt="" width="400" height="400"
+                                            style="background-image: url(http://trongdongpalace.com/images/dichvu/2148_Wedding-Planner.PNG);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="clear"></div>
-                </section>
+                    <div class="gallery-column three columns">
+                        <div class="gallery-item"><a
+                                    href="http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG"
+                                    data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                                <div
+                                        alt="" width="400" height="400"
+                                        style="background-image: url(http://trongdongpalace.com/images/cover/8391_TRONG-DONG-HOANG-QUOC-VIET.JPG);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+                        </div>
+                    </div>
             </div>
+            <div class="clear"></div>
+            <div class="gallery-column three columns">
+                <div class="gallery-item"><a
+                            href="http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg"
+                            data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                        <div
+                                alt="" width="400" height="400"
+                                style="background-image: url(http://trongdongpalace.com/images/cover/9729_Ha-Dong.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-column three columns">
+            <div class="gallery-item"><a
+                        href="https://i.pinimg.com/originals/38/10/f1/3810f16a3834d3c03cc895f450f5c81c.jpg"
+                        data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                    <div
+                            alt="" width="400" height="400"
+                            style="background-image: url(https://i.pinimg.com/originals/38/10/f1/3810f16a3834d3c03cc895f450f5c81c.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="gallery-column three columns">
+        <div class="gallery-item"><a
+                    href="http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg"
+                    data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                <div
+                        alt="" width="400" height="400"
+                        style="background-image: url(http://www.trongdongpalace.com/ckfinder/userfiles/images/to-chuc-su-kien-02.jpg);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+        </div>
+    </div>
+    </div>
+    <div class="gallery-column three columns">
+        <div class="gallery-item"><a
+                    href="http://saostyle.vn/wp-content/uploads/2017/02/13-1.png"
+                    data-fancybox-group="gdlr-gal-1" data-rel="fancybox">
+                <div
+                        alt="" width="400" height="400"
+                        style="background-image: url(http://saostyle.vn/wp-content/uploads/2017/02/13-1.png);background-size: cover;     background-position: center center;     padding-bottom: 70%;"/>
+        </div>
+    </div>
+    </div>
+    <div class="clear"></div>
+    </div>
+    </div>
+    <div class="clear"></div>
+    </div>
+    </div>
+    <div class="clear"></div>
+    </section>
+    </div>
 
-            <!-- Below Sidebar Section-->
+    <!-- Below Sidebar Section-->
 
 
-        </div><!-- gdlr-content -->
-        <div class="clear"></div>
+    </div><!-- gdlr-content -->
+    <div class="clear"></div>
     </div><!-- content wrapper -->
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Register;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use \Illuminate\Support\Facades\Storage as Storage;
@@ -1722,4 +1723,22 @@ function findCourseWithProduct($product)
         return \App\Course::where('status', 1)->first();
     }
     return $result;
+}
+
+function timeCal($time)
+{
+    $diff = abs(strtotime($time) - strtotime(Carbon::now()->toDateTimeString()));
+    $diff /= 60;
+    if ($diff < 60) {
+        return floor($diff) . ' phút trước';
+    }
+    $diff /= 60;
+    if ($diff < 24) {
+        return floor($diff) . ' giờ trước';
+    }
+    $diff /= 24;
+    if ($diff <= 30) {
+        return floor($diff) . ' ngày trước';
+    }
+    return date('d-m-Y', strtotime($time));
 }

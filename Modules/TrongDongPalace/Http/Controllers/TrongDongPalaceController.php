@@ -10,6 +10,7 @@ use App\User;
 use App\RoomServiceRegister;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,43 +45,77 @@ class TrongDongPalaceController extends Controller
         return view('trongdongpalace::room', $this->data);
     }
 
-    public function blog(Request $request)
+    public function blogs(Request $request)
     {
-        $blogs = Product::where('type', 2)->where('status', 1);
-
+        $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
+        $tag = $request->tag;
+        $category = $request->category;
+        $kind = 'blog';
 
-        if ($search) {
-            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        $blogsData = Product::where('kind', $kind)->where('status', 1)
+            ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
+
+        if ($tag) {
+            $blogsData = $blogsData->where('tags', 'like', "%$tag%");
         }
 
-        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
-
-        $display = '';
-        if ($request->page == null) {
-            $page_id = 2;
-        } else {
-            $page_id = $request->page + 1;
-        }
-        if ($blogs->lastPage() == $page_id - 1) {
-            $display = 'display:none';
+        if ($category) {
+            $blogsData = $blogsData->where('category_id', $category);
         }
 
-        $this->data['blogs'] = $blogs;
-        $this->data['page_id'] = $page_id;
-        $this->data['display'] = $blogs;
-        $this->data['search'] = $search;
+        $blogs = $blogsData;
+
+        $topTags = DB::select("SELECT
+                                   SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) tag,
+                                  count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
+                                FROM
+                                  tag_numbers INNER JOIN products
+                                  ON products.kind='$kind' AND CHAR_LENGTH(products.tags) 
+                                     -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
+                                WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
+                                GROUP BY tag 
+                                ORDER BY sum_tag DESC
+                                LIMIT 20");
+
+        $blogs = $blogs->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
+
+        $blogs = $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            return $data;
+        });
+
+        $topNewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(3)->get();
+
+//        $categories = Product::where('kind', $kind)->where('status', 1)
+//            ->join('category_products', 'category_products.id', '=', 'products.category_id')
+//            ->select('category_products.name', 'category_products.id', DB::raw('count(*) as total_blogs'))
+//            ->orderBy('total_blogs', 'desc')
+//            ->groupBy('products.category_id')
+//            ->get();
+        $this->data['blogs'] = $blogs;
+        $this->data['search'] = $search;
+        $this->data['tag'] = $tag;
+        $this->data['topTags'] = $topTags;
+        $this->data['topViewBlogs'] = $topViewBlogs;
+        $this->data['topNewBlogs'] = $topNewBlogs;
+//        $this->data['categories'] = $categories;
+        $this->data['link'] = 'blogs';
 
         return view('trongdongpalace::blog', $this->data);
     }
 
     public function post($post_id)
     {
+        $kind = 'blog';
         $post = Product::find($post_id);
         $post->author;
+        $post->views += 1;
+        $post->save();
         $post->category;
         $post->url = config('app.protocol') . $post->url;
         if (trim($post->author->avatar_url) === '') {
@@ -88,24 +123,38 @@ class TrongDongPalaceController extends Controller
         } else {
             $post->author->avatar_url = config('app.protocol') . $post->author->avatar_url;
         }
-        $posts_related = Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
-        $posts_related = $posts_related->map(function ($p) {
-            $p->url = config('app.protocol') . $p->url;
-            return $p;
-        });
+//        $posts_related = Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
+//        $posts_related = $posts_related->map(function ($p) {
+//            $p->url = config('app.protocol') . $p->url;
+//            return $p;
+//        });
         $post->comments = $post->comments->map(function ($comment) {
             $comment->commenter->avatar_url = config('app.protocol') . $comment->commenter->avatar_url;
-
             return $comment;
         });
+        $topNewBlogs = Product::where('kind', $kind)->where('status', 1)->where('id', '<>', $post->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->where('id', '<>', $post->id)->orderBy('views', 'desc')->limit(3)->get();
         $this->data['post'] = $post;
-        $this->data['posts_related'] = $posts_related;
+        $this->data['topNewBlogs'] = $topNewBlogs;
+        $this->data['topViewBlogs'] = $topViewBlogs;
+        $this->data['link'] = 'blogs';
+
         return view('trongdongpalace::post', $this->data);
     }
 
     public function test()
     {
         return view('trongdongpalace::test');
+    }
+
+    public function wedding()
+    {
+        return view('trongdongpalace::wedding', $this->data);
+    }
+
+    public function event()
+    {
+        return view('trongdongpalace::event', $this->data);
     }
 
     public function contactUs()

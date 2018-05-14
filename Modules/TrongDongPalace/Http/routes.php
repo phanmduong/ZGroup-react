@@ -2,8 +2,10 @@
 
 $publicRoutes = function () {
     Route::get('/', 'TrongDongPalaceController@index');
-    Route::get('/blog', 'TrongDongPalaceController@blog');
+    Route::get('/blogs', 'TrongDongPalaceController@blogs');
     Route::get('/album', 'TrongDongPalaceController@album');
+    Route::get('/wedding', 'TrongDongPalaceController@wedding');
+    Route::get('/event', 'TrongDongPalaceController@event');
     Route::get('/blog/post/{postId}', 'TrongDongPalaceController@post');
     Route::get('/test', 'TrongDongPalaceController@test');
     Route::get('/contact-us', 'TrongDongPalaceController@contactUs');
@@ -18,6 +20,7 @@ $manageApiRoutes = function () {
     Route::get('/dashboard', 'TrongDongPalaceManageApiController@dashboard');
     Route::get('/room/all', 'TrongDongPalaceManageApiController@rooms');
     Route::get('/room-type/all', 'TrongDongPalaceManageApiController@roomTypes');
+    Route::get('/register-room/all', 'TrongDongPalaceManageApiController@allRegisterRoom');
     Route::put('/register-room/change-time', 'TrongDongPalaceManageApiController@changeTime');
     Route::put('/register-room/change-status', 'TrongDongPalaceManageApiController@changeStatus');
     Route::put('/register-room/create', 'TrongDongPalaceManageApiController@createRegisterRoom');
@@ -26,6 +29,7 @@ $manageApiRoutes = function () {
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool6.xyz', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'trongdongpalace.test', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'zgroup.dev', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
 
 Route::group(
     ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'],
