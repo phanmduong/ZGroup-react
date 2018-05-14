@@ -44,8 +44,8 @@
 
 
                                                                 <div class="blog-date-wrapper gdlr-title-font">
-                                                                    <span class="blog-date-day">3</span>
-                                                                    <span class="blog-date-month">Dec</span>
+                                                                    <span class="blog-date-day">{{date('d',strtotime($blog['created_at']))}}</span>
+                                                                    <span class="blog-date-month">{{date('m',strtotime($blog['created_at']))}}</span>
                                                                 </div>
 
                                                                 <div class="blog-content-wrapper">
