@@ -111,9 +111,7 @@
     <link rel='stylesheet' id='dlmenu-css'
           href='http://demo.goodlayers.com/hotelmaster/dark/wp-content/themes/hotelmaster/plugins/dl-menu/component.css?ver=5ed7c316c9b1ef9b04fe581cf7839fe5'
           type='text/css' media='all'/>
-    <link rel='stylesheet' id='font-awesome-css'
-          href='/plugins/font-awesome/css/font-awesome.min.css'
-          type='text/css' media='all'/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel='stylesheet' id='jquery-fancybox-css'
           href='http://demo.goodlayers.com/hotelmaster/dark/wp-content/themes/hotelmaster/plugins/fancybox/jquery.fancybox.css?ver=5ed7c316c9b1ef9b04fe581cf7839fe5'
           type='text/css' media='all'/>

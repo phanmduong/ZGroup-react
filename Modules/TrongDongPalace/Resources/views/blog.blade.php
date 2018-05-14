@@ -51,7 +51,7 @@
                                                                 <div class="blog-content-wrapper">
                                                                     <header class="post-header">
                                                                         <h3 class="gdlr-blog-title"><a
-                                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/">{{$blog['title']}}</a>
+                                                                                    href="/blog/post/{{$blog['id']}}">{{$blog['title']}}</a>
                                                                         </h3>
 
                                                                         <div class="clear"></div>

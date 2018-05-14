@@ -111,8 +111,11 @@ class TrongDongPalaceController extends Controller
 
     public function post($post_id)
     {
+        $kind = 'blog';
         $post = Product::find($post_id);
         $post->author;
+        $post->views += 1;
+        $post->save();
         $post->category;
         $post->url = config('app.protocol') . $post->url;
         if (trim($post->author->avatar_url) === '') {
@@ -120,18 +123,22 @@ class TrongDongPalaceController extends Controller
         } else {
             $post->author->avatar_url = config('app.protocol') . $post->author->avatar_url;
         }
-        $posts_related = Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
-        $posts_related = $posts_related->map(function ($p) {
-            $p->url = config('app.protocol') . $p->url;
-            return $p;
-        });
+//        $posts_related = Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
+//        $posts_related = $posts_related->map(function ($p) {
+//            $p->url = config('app.protocol') . $p->url;
+//            return $p;
+//        });
         $post->comments = $post->comments->map(function ($comment) {
             $comment->commenter->avatar_url = config('app.protocol') . $comment->commenter->avatar_url;
-
             return $comment;
         });
+        $topNewBlogs = Product::where('kind', $kind)->where('status', 1)->where('id', '<>', $post->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->where('id', '<>', $post->id)->orderBy('views', 'desc')->limit(3)->get();
         $this->data['post'] = $post;
-        $this->data['posts_related'] = $posts_related;
+        $this->data['topNewBlogs'] = $topNewBlogs;
+        $this->data['topViewBlogs'] = $topViewBlogs;
+        $this->data['link'] = 'blogs';
+
         return view('trongdongpalace::post', $this->data);
     }
 
