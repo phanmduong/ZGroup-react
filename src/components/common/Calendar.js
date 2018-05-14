@@ -93,6 +93,7 @@ Calendar.propTypes = {
     calendarEvents: PropTypes.func,
     onDropTime: PropTypes.func,
     onClick: PropTypes.func,
+    onClickDay: PropTypes.func,
 };
 
 export default Calendar;

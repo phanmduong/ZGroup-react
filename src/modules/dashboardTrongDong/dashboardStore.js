@@ -150,7 +150,7 @@ export default new class DashboardTrongDongStore {
                                 return {
                                     ...room,
                                     register_rooms: [...room.register_rooms, res.data.data.register_room]
-                                }
+                                };
                             }
                             return {
                                 ...room,

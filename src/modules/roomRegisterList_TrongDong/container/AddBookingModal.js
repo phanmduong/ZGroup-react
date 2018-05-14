@@ -9,7 +9,7 @@ import Select from "react-select";
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from "../../../helpers/helper";
 import {STATUS_REGISTER_ROOM} from "../../../constants/constants";
-import ReactSelect from "react-select";
+//import ReactSelect from "react-select";
 import moment from "moment";
 class AddBookingModal extends React.Component {
     constructor(context, props) {
@@ -210,7 +210,7 @@ class AddBookingModal extends React.Component {
 
                                         <div className="form-group col-md-12">
                                             <label className="label-control">Trạng thái</label>
-                                            <ReactSelect
+                                            <Select
                                                 name="form-field-name"
                                                 value={data.status}
                                                 options={STATUS_REGISTER_ROOM}

@@ -5,14 +5,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as registerManageMeetingRoomAction from "../actions/registerManageMeetingRoomAction";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import FormInputText from '../../../components/common/FormInputText';
-import {Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import * as helper from "../../../helpers/helper";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
-import {DATETIME_FORMAT_SQL} from "../../../constants/constants";
+import { DATETIME_FORMAT_SQL } from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import ReactSelect from "react-select";
 import * as registerManageMeetingRoomApi from '../apis/registerManageMeetingRoomApi';
@@ -30,7 +30,7 @@ function addSelectProvince(items) {
 class AddRegisterModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {rooms : []};
+        this.state = { rooms: [] };
         this.closeAddRegisterModal = this.closeAddRegisterModal.bind(this);
         this.loadBasesByProvince = this.loadBasesByProvince.bind(this);
         this.createRegister = this.createRegister.bind(this);
@@ -45,7 +45,7 @@ class AddRegisterModal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps &&   nextProps.rooms !== this.props.rooms ) {
+        if (nextProps && nextProps.rooms !== this.props.rooms) {
             this.setState({
                 rooms: nextProps.rooms,
             });
@@ -61,16 +61,16 @@ class AddRegisterModal extends React.Component {
     }
 
     updateProvince(e) {
-        let register = {...this.props.register};
+        let register = { ...this.props.register };
         register["province_id"] = e.value;
         this.props.registerManageMeetingRoomAction.updateRegister(register);
     }
 
     updateBase(e) {
-        let register = {...this.props.register};
+        let register = { ...this.props.register };
         register["base_id"] = e.value;
         this.props.registerManageMeetingRoomAction.updateRegister(register);
-        this.props.registerManageMeetingRoomAction.loadRooms(e.value,this.props.register.start_time,this.props.register.end_time );
+        this.props.registerManageMeetingRoomAction.loadRooms(e.value, this.props.register.start_time, this.props.register.end_time);
 
     }
 
@@ -79,9 +79,9 @@ class AddRegisterModal extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            registerManageMeetingRoomApi.loadBasesByProvinceApi(this.props.register.province_id,input)
+            registerManageMeetingRoomApi.loadBasesByProvinceApi(this.props.register.province_id, input)
                 .then((res) => {
-                let bases;
+                    let bases;
                     if (res.data.status) {
                         bases = res.data.data.bases.map((base) => {
                             return {
@@ -93,7 +93,7 @@ class AddRegisterModal extends React.Component {
                     else {
                         bases = [];
                     }
-                    callback(null, {options: bases, complete: true});
+                    callback(null, { options: bases, complete: true });
                 });
         }.bind(this), 500);
     }
@@ -101,10 +101,10 @@ class AddRegisterModal extends React.Component {
 
     updateFormRegister(event) {
         const field = event.target.name;
-        let data = {...this.props.register};
+        let data = { ...this.props.register };
         data[field] = event.target.value;
         this.props.registerManageMeetingRoomAction.updateRegister(data);
-        this.props.registerManageMeetingRoomAction.loadRooms(data.base_id,data.start_time, data.end_time);
+        this.props.registerManageMeetingRoomAction.loadRooms(data.base_id, data.start_time, data.end_time);
     }
 
     createRegister(e) {
@@ -129,7 +129,7 @@ class AddRegisterModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {this.props.isLoadingProvinces ? <Loading/> :
+                    {this.props.isLoadingProvinces ? <Loading /> :
                         <form id="form-register">
                             <FormInputText
                                 label="Tên"
@@ -179,36 +179,36 @@ class AddRegisterModal extends React.Component {
                                     />
                                 </div>
                             </div>
-                            {this.props.isLoadingRooms ? <Loading/>:
+                            {this.props.isLoadingRooms ? <Loading /> :
                                 <div>
-                                    {this.state.rooms.map(room =>{
-                                        return(
+                                    {this.state.rooms.map(room => {
+                                        return (
                                             <div className="col-sm-6 col-md-6 col-lg-4" key={room.id}>
                                                 <div className="card card-chart">
                                                     <div className="card-header" data-background-color="white"
-                                                         style={{borderRadius: '10px'}}>
+                                                        style={{ borderRadius: '10px' }}>
 
                                                         <a onClick={() => {
-                                                            this.openEditPostModal( room.id);
+                                                            this.openEditPostModal(room.id);
                                                         }}>
                                                             <div id="simpleBarChart" className="ct-chart"
-                                                                 style={{
-                                                                     width: '100%',
-                                                                     background: 'url(' + room.avatar_url + ')',
-                                                                     backgroundSize: 'cover',
-                                                                     backgroundPosition: 'center',
-                                                                     height: '200px',
-                                                                     borderRadius: '10px',
-                                                                     position: "relative"
-                                                                 }}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    background: 'url(' + room.avatar_url + ')',
+                                                                    backgroundSize: 'cover',
+                                                                    backgroundPosition: 'center',
+                                                                    height: '200px',
+                                                                    borderRadius: '10px',
+                                                                    position: "relative"
+                                                                }}
                                                             />
                                                         </a>
                                                     </div>
                                                     <div className="card-content">
-                                                        <div className="card-action" style={{height: 73}}>
-                                                            <h4 className="card-title" style={{display : "flex", justifyContent : "space-between"}}>
+                                                        <div className="card-action" style={{ height: 73 }}>
+                                                            <h4 className="card-title" style={{ display: "flex", justifyContent: "space-between" }}>
                                                                 <a onClick={() => {
-                                                                    this.openEditPostModal( room.id);
+                                                                    this.openEditPostModal(room.id);
                                                                 }}>{room.name ? room.name : "Chưa có tên"}</a>
                                                                 <button type="button" className="btn btn-xs btn-rose">
                                                                     Đặt phòng
@@ -219,19 +219,23 @@ class AddRegisterModal extends React.Component {
                                                         <div style={{
                                                             display: "flex",
                                                             justifyContent: "space-between",
-                                                            height: 40}}>
+                                                            height: 40
+                                                        }}>
                                                             <div style={{
                                                                 display: "flex",
-                                                                alignItems: "center"}}>
+                                                                alignItems: "center"
+                                                            }}>
                                                                 <div>
-                                                                    <strong>{room.room_type && room.room_type.name}</strong><br/>
+                                                                    <strong>{room.room_type && room.room_type.name}</strong><br />
                                                                     {/*<p className="category"*/}
-                                                                       {/*style={{fontSize: 12}}>*/}
-
-                                                                        {room.room_type &&
-                                                                        <div dangerouslySetInnerHTML={{__html: room.room_type.description}}/>
-                                                                        }
+                                                                    {/*style={{fontSize: 12}}>*/}
+                                                                    {/* eslint-disable */}
+                                                                    {room.room_type &&
+                                                                        <div dangerouslySetInnerHTML={{ __html: room.room_type.description }} />
+                                                                    }
+                                                                    {/* eslint-enable */}
                                                                     {/*</p>*/}
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -248,25 +252,25 @@ class AddRegisterModal extends React.Component {
                                 {this.props.isCreatingRegister ?
                                     (
                                         <button type="button" className="btn btn-rose disabled">
-                                            <i className="fa fa-spinner fa-spin "/>Đang thêm
+                                            <i className="fa fa-spinner fa-spin " />Đang thêm
                                         </button>
                                     )
                                     :
                                     (
                                         <button type="button" className="btn btn-rose"
-                                                onClick={
-                                                    (e) => {
-                                                        this.createRegister(e);
-                                                    }}
+                                            onClick={
+                                                (e) => {
+                                                    this.createRegister(e);
+                                                }}
                                         >Thêm</button>
                                     )
                                 }
                                 <button type="button"
-                                        className="btn"
-                                        onClick={
-                                            () => {
-                                                this.closeAddRegisterModal();
-                                            }}
+                                    className="btn"
+                                    onClick={
+                                        () => {
+                                            this.closeAddRegisterModal();
+                                        }}
                                 >Huỷ
                                 </button>
                             </div>

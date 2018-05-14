@@ -79,7 +79,7 @@ class OrderedGoodContainer extends React.Component {
             showErrorMessage("Không có dữ liệu");
             return;
         }
-        console.log(input);
+        //console.log(input);
         let wb = newWorkBook();
         let data = [];
         let cols = renderExcelColumnArray([15, 15, 25, 25, 25, 25, 25, 25, 25]);//độ rộng cột  
