@@ -271,7 +271,7 @@ class CompanyController extends ManageApiController
             $payment->money_value = $request->money_value;
             $payment->payer_id = $request->payer_id;
             $payment->receiver_id = $request->receiver_id;
-            $payment->staff_id = $request->staff_id;
+            $payment->staff_id = $this->user->id;
             $payment->deadline = $request->deadline;
             $payment->type = $request->type;
             $payment->save();
@@ -345,6 +345,15 @@ class CompanyController extends ManageApiController
     public function getAllPayment(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        if($limit == -1){
+            $payments = Payment::all(); 
+            
+            return $this->respondSuccessWithStatus([
+                "payment" => $payments->map(function ($pp) {
+                    return $pp->transform();
+                })
+            ]);
+        }
         $payments = Payment::query();
         $receiver_id = $request->receiver_id;
         $payer_id = $request->payer_id;
@@ -356,9 +365,10 @@ class CompanyController extends ManageApiController
         if ($payer_id) {
             $payments = $payments->where('payer_id', $payer_id);
         }
-        if($startTime)
+        if($startTime && $endTime)
             $payments = $payments->whereBetween('created_at',array($startTime,$endTime));
-        $payments = $payments->where('type',$request->type);
+        
+            $payments = $payments->where('type',$request->type);
         $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($payments, [
             "payment" => $payments->map(function ($payment) {
@@ -882,7 +892,6 @@ class CompanyController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         if ($request->limit == -1) {
             $orders = ItemOrder::where('type', 'order')->orderBy('created_at', 'desc')->get();
-            $printOrders = PrintOrder::all();
             return $this->respondSuccessWithStatus([
                 "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
