@@ -10,6 +10,7 @@ use App\User;
 use App\RoomServiceRegister;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,33 +47,72 @@ class TrongDongPalaceController extends Controller
 
     public function blog(Request $request)
     {
-        $blogs = Product::where('type', 2)->where('status', 1);
-
+        $limit = $request->limit ? $request->limit : 6;
         $search = $request->search;
+        $tag = $request->tag;
+        $category = $request->category;
+        $kind = 'blog';
 
-        if ($search) {
-            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        $blogsData = Product::where('kind', $kind)->where('status', 1)
+            ->where('title', 'like', "%$search%")->orderBy('created_at', 'desc');
+
+        if ($tag) {
+            $blogsData = $blogsData->where('tags', 'like', "%$tag%");
         }
 
-        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
+        if ($category) {
+            $blogsData = $blogsData->where('category_id', $category);
+        }
 
-        $display = '';
-        if ($request->page == null) {
-            $page_id = 2;
+        if ($request->page > 1) {
+            $blogs = $blogsData;
         } else {
-            $page_id = $request->page + 1;
-        }
-        if ($blogs->lastPage() == $page_id - 1) {
-            $display = 'display:none';
+            $topBlogs = $blogsData->first();
+            $topBlogs = $topBlogs->blogTransform();
+            $topBlogs['time'] = $this->timeCal(date($topBlogs['created_at']));
+            $this->data['topBlogs'] = $topBlogs;
+
+            $blogs = $blogsData->where('id', '<>', $topBlogs['id']);
         }
 
-        $this->data['blogs'] = $blogs;
-        $this->data['page_id'] = $page_id;
-        $this->data['display'] = $blogs;
-        $this->data['search'] = $search;
+        $topTags = DB::select("SELECT
+                                   SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) tag,
+                                  count(SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1)) sum_tag
+                                FROM
+                                  tag_numbers INNER JOIN products
+                                  ON products.kind='$kind' AND CHAR_LENGTH(products.tags)
+                                     -CHAR_LENGTH(REPLACE(products.tags, ',', ''))>=tag_numbers.id-1 
+                                WHERE (SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> '' || SUBSTRING_INDEX(SUBSTRING_INDEX(products.tags, ',', tag_numbers.id), ',', -1) <> NULL)
+                                GROUP BY tag 
+                                ORDER BY sum_tag DESC
+                                LIMIT 20");
+
+        $blogs = $blogs->paginate($limit);
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
+
+        $blogs = $blogs->map(function ($blog) {
+            $data = $blog->blogTransform();
+            $data['time'] = $this->timeCal(date($blog->created_at));
+            return $data;
+        });
+
+        $topViewBlogs = Product::where('kind', $kind)->where('status', 1)->orderBy('views', 'desc')->limit(10)->get();
+
+        $categories = Product::where('kind', $kind)->where('status', 1)
+            ->join('category_products', 'category_products.id', '=', 'products.category_id')
+            ->select('category_products.name', 'category_products.id', DB::raw('count(*) as total_blogs'))
+            ->orderBy('total_blogs', 'desc')
+            ->groupBy('products.category_id')
+            ->get();
+        $this->data['blogs'] = $blogs;
+        $this->data['search'] = $search;
+        $this->data['tag'] = $tag;
+        $this->data['topTags'] = $topTags;
+        $this->data['topViewBlogs'] = $topViewBlogs;
+        $this->data['categories'] = $categories;
+        $this->data['link'] = $kind == 'blog' ? 'blogs' : ($kind == 'promotion' ? 'khuyen-mai' : 'tai-nguyen');
 
         return view('trongdongpalace::blog', $this->data);
     }

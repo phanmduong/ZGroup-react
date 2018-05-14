@@ -12,7 +12,7 @@
     <meta name="viewport" content="initial-scale=1.0"/>
 
     <link rel="pingback" href="http://demo.goodlayers.com/hotelmaster/dark/xmlrpc.php"/>
-	<title>Trongdong Palace - Trung tâm tổ chức tiệc cưới</title>
+	<title>Trống Đồng Palace - Trung tâm tổ chức tiệc cưới</title>
     <meta name='robots' content='noindex,follow'/>
     <link rel='dns-prefetch' href='//fonts.googleapis.com'/>
     <link rel="shortcut icon" type="image/x-icon" href="http://www.trongdongpalace.com/favicon.ico" />

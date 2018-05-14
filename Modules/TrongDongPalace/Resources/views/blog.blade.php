@@ -22,69 +22,67 @@
                         <div class="with-sidebar-content twelve columns">
                             <section id="content-section-1">
                                 <div class="section-container container">
-                                    <div class="blog-item-wrapper">
-                                        <div class="blog-item-holder">
-                                            <div class="gdlr-item gdlr-blog-full">
-                                                <div class="gdlr-ux gdlr-blog-full-ux">
-                                                    <article id="post-859"
-                                                             class="post-859 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row">
-                                                        <div class="gdlr-standard-style">
-                                                            <div class="gdlr-blog-thumbnail">
-                                                                <a href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/">
-                                                                    <img src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2015/03/photodune-1576481-relaxing-m-750x330.jpg"
-                                                                         alt="" width="750" height="330"></a>
-                                                                <div class="gdlr-sticky-banner"><i
-                                                                        class="fa fa-bullhorn"></i>Sticky Post
+                                    @foreach($blogs as $blog)
+                                        <div class="blog-item-wrapper">
+                                            <div class="blog-item-holder">
+                                                <div class="gdlr-item gdlr-blog-full">
+                                                    <div class="gdlr-ux gdlr-blog-full-ux">
+                                                        <article id="post-859"
+                                                                 class="post-859 post type-post status-publish format-standard has-post-thumbnail hentry category-blog category-fit-row">
+                                                            <div class="gdlr-standard-style">
+                                                                <div class="gdlr-blog-thumbnail">
+                                                                    <a href="/blog/{{$blog['slug']}}">
+                                                                        <img src="{{generate_protocol_url($blog['url'])}}"
+                                                                             alt="" width="750" height="330"></a>
+                                                                    @if($blog['category_name'])
+                                                                        <div class="gdlr-sticky-banner"><i
+                                                                                    class="fa fa-bullhorn"></i>{{$blog['category_name']}}
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
-                                                            </div>
 
 
-                                                            <div class="blog-date-wrapper gdlr-title-font">
-                                                                <span class="blog-date-day">3</span>
-                                                                <span class="blog-date-month">Dec</span>
-                                                            </div>
-
-                                                            <div class="blog-content-wrapper">
-                                                                <header class="post-header">
-                                                                    <h3 class="gdlr-blog-title"><a
-                                                                            href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/">Sedial
-                                                                        eiusmod tempor</a></h3>
-
-                                                                    <div class="clear"></div>
-                                                                </header><!-- entry-header -->
-
-                                                                <div class="gdlr-blog-content">Lorem ipsum dolor sit
-                                                                    amet, consectetur adipisici elit, sed eiusmod tempor
-                                                                    incidunt ut labore et dolore magna aliqua. Idque
-                                                                    Caesaris facere voluntate liceret: sese habere.
-                                                                    Magna pars studiorum, prodita quaerimus. Magna pars
-                                                                    studiorum, prodita quaerimus. Fabio vel iudice
-                                                                    vincam, sunt in culpa...
-                                                                    <div class="clear"></div>
-                                                                    <a href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/"
-                                                                       class="excerpt-read-more">Đọc tiếp<i
-                                                                            class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
+                                                                <div class="blog-date-wrapper gdlr-title-font">
+                                                                    <span class="blog-date-day">3</span>
+                                                                    <span class="blog-date-month">Dec</span>
                                                                 </div>
-                                                            </div> <!-- blog content wrapper -->
-                                                        </div>
-                                                    </article>
+
+                                                                <div class="blog-content-wrapper">
+                                                                    <header class="post-header">
+                                                                        <h3 class="gdlr-blog-title"><a
+                                                                                    href="http://demo.goodlayers.com/hotelmaster/dark/sedial-eiusmod-tempor/">{{$blog['title']}}</a>
+                                                                        </h3>
+
+                                                                        <div class="clear"></div>
+                                                                    </header><!-- entry-header -->
+
+                                                                    <div class="gdlr-blog-content">{{$blog['description']}}
+                                                                        <div class="clear"></div>
+                                                                        <a href="/blog/{{$blog['slug']}}"
+                                                                           class="excerpt-read-more">Đọc tiếp<i
+                                                                                    class="fa fa-long-arrow-right icon-long-arrow-right"></i></a>
+                                                                    </div>
+                                                                </div> <!-- blog content wrapper -->
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                </div>
+                                                <div class="gdlr-item gdlr-blog-full">
+                                                    <div class="gdlr-ux gdlr-blog-full-ux"
+                                                         style="opacity: 1; padding-top: 0px; margin-bottom: 0px;">
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="gdlr-item gdlr-blog-full">
-                                                <div class="gdlr-ux gdlr-blog-full-ux"
-                                                     style="opacity: 1; padding-top: 0px; margin-bottom: 0px;">
-
-                                                </div>
-                                            </div>
+                                            <div class="gdlr-pagination"><span aria-current="page"
+                                                                               class="page-numbers current">1</span>
+                                                <a class="page-numbers"
+                                                   href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">2</a>
+                                                <a class="next page-numbers"
+                                                   href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">Next
+                                                    ›</a></div>
                                         </div>
-                                        <div class="gdlr-pagination"><span aria-current="page"
-                                                                           class="page-numbers current">1</span>
-                                            <a class="page-numbers"
-                                               href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">2</a>
-                                            <a class="next page-numbers"
-                                               href="http://demo.goodlayers.com/hotelmaster/dark/blog-full-with-right-sidebar/page/2/">Next
-                                                ›</a></div>
-                                    </div>
+                                    @endforeach
                                     <div class="clear"></div>
                                 </div>
                             </section>
@@ -98,29 +96,30 @@
 
 
                             <div id="text-2" class="widget widget_text gdlr-item gdlr-widget"><h3
-                                    class="gdlr-widget-title">TRỐNG ĐỒNG</h3>
+                                        class="gdlr-widget-title">TRỐNG ĐỒNG</h3>
                                 <div class="clear"></div>
-                                <div class="textwidget">Chúng tôi cung cấp cho bạn các thông tin, xu hướng mới nhất về lĩnh vực sự kiện/tiệc cưới.
+                                <div class="textwidget">Chúng tôi cung cấp cho bạn các thông tin, xu hướng mới nhất về
+                                    lĩnh vực sự kiện/tiệc cưới.
                                 </div>
                             </div>
                             <div id="gdlr-recent-portfolio-widget-2"
                                  class="widget widget_gdlr-recent-portfolio-widget gdlr-item gdlr-widget"><h3
-                                    class="gdlr-widget-title">Bài viết mới nhất</h3>
+                                        class="gdlr-widget-title">Bài viết mới nhất</h3>
                                 <div class="clear"></div>
                                 <div class="gdlr-recent-port-widget">
                                     <div class="recent-post-widget">
                                         <div class="recent-post-widget-thumbnail"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/140H-150x150.jpg"
-                                                alt="" width="150" height="150"></a></div>
+                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/"><img
+                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/140H-150x150.jpg"
+                                                        alt="" width="150" height="150"></a></div>
                                         <div class="recent-post-widget-content">
                                             <div class="recent-post-widget-title"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/">Thumbnail
-                                                open lightbox</a></div>
+                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/">Thumbnail
+                                                    open lightbox</a></div>
                                             <div class="recent-post-widget-info">
                                                 <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                    Dec 2013</a></div>
+                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
+                                                        Dec 2013</a></div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -128,17 +127,17 @@
                                     </div>
                                     <div class="recent-post-widget">
                                         <div class="recent-post-widget-thumbnail"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/156H-150x150.jpg"
-                                                alt="" width="150" height="150"></a></div>
+                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/"><img
+                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/156H-150x150.jpg"
+                                                        alt="" width="150" height="150"></a></div>
                                         <div class="recent-post-widget-content">
                                             <div class="recent-post-widget-title"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/">Thumbnail
-                                                link to post</a></div>
+                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/">Thumbnail
+                                                    link to post</a></div>
                                             <div class="recent-post-widget-info">
                                                 <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                    Dec 2013</a></div>
+                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
+                                                        Dec 2013</a></div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -146,17 +145,17 @@
                                     </div>
                                     <div class="recent-post-widget">
                                         <div class="recent-post-widget-thumbnail"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/157H-150x150.jpg"
-                                                alt="" width="150" height="150" style="opacity: 1;"></a></div>
+                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/"><img
+                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/157H-150x150.jpg"
+                                                        alt="" width="150" height="150" style="opacity: 1;"></a></div>
                                         <div class="recent-post-widget-content">
                                             <div class="recent-post-widget-title"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/">Open
-                                                video lightbox</a></div>
+                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/">Open
+                                                    video lightbox</a></div>
                                             <div class="recent-post-widget-info">
                                                 <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                    Dec 2013</a></div>
+                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
+                                                        Dec 2013</a></div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -167,22 +166,22 @@
                             </div>
                             <div id="gdlr-recent-portfolio-widget-3"
                                  class="widget widget_gdlr-recent-portfolio-widget gdlr-item gdlr-widget"><h3
-                                    class="gdlr-widget-title">Bài viết nổi bật</h3>
+                                        class="gdlr-widget-title">Bài viết nổi bật</h3>
                                 <div class="clear"></div>
                                 <div class="gdlr-recent-port-widget">
                                     <div class="recent-post-widget">
                                         <div class="recent-post-widget-thumbnail"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/140H-150x150.jpg"
-                                                alt="" width="150" height="150"></a></div>
+                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/"><img
+                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/140H-150x150.jpg"
+                                                        alt="" width="150" height="150"></a></div>
                                         <div class="recent-post-widget-content">
                                             <div class="recent-post-widget-title"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/">Thumbnail
-                                                open lightbox</a></div>
+                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox/">Thumbnail
+                                                    open lightbox</a></div>
                                             <div class="recent-post-widget-info">
                                                 <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                    Dec 2013</a></div>
+                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
+                                                        Dec 2013</a></div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -190,17 +189,17 @@
                                     </div>
                                     <div class="recent-post-widget">
                                         <div class="recent-post-widget-thumbnail"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/156H-150x150.jpg"
-                                                alt="" width="150" height="150"></a></div>
+                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/"><img
+                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/156H-150x150.jpg"
+                                                        alt="" width="150" height="150"></a></div>
                                         <div class="recent-post-widget-content">
                                             <div class="recent-post-widget-title"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/">Thumbnail
-                                                link to post</a></div>
+                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-lightbox-2/">Thumbnail
+                                                    link to post</a></div>
                                             <div class="recent-post-widget-info">
                                                 <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                    Dec 2013</a></div>
+                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
+                                                        Dec 2013</a></div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -208,17 +207,17 @@
                                     </div>
                                     <div class="recent-post-widget">
                                         <div class="recent-post-widget-thumbnail"><a
-                                                href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/"><img
-                                                src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/157H-150x150.jpg"
-                                                alt="" width="150" height="150" style="opacity: 1;"></a></div>
+                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/"><img
+                                                        src="http://demo.goodlayers.com/hotelmaster/dark/wp-content/uploads/2013/12/157H-150x150.jpg"
+                                                        alt="" width="150" height="150" style="opacity: 1;"></a></div>
                                         <div class="recent-post-widget-content">
                                             <div class="recent-post-widget-title"><a
-                                                    href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/">Open
-                                                video lightbox</a></div>
+                                                        href="http://demo.goodlayers.com/hotelmaster/dark/portfolio/thumbnail-open-video-lightbox/">Open
+                                                    video lightbox</a></div>
                                             <div class="recent-post-widget-info">
                                                 <div class="blog-info blog-date"><i class="fa fa-clock-o"></i><a
-                                                        href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
-                                                    Dec 2013</a></div>
+                                                            href="http://demo.goodlayers.com/hotelmaster/dark/2013/12/04/">04
+                                                        Dec 2013</a></div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -228,7 +227,7 @@
                                 </div>
                             </div>
                             <div id="tag_cloud-2" class="widget widget_tag_cloud gdlr-item gdlr-widget"><h3
-                                    class="gdlr-widget-title">Tag Cloud</h3>
+                                        class="gdlr-widget-title">Tag Cloud</h3>
                                 <div class="clear"></div>
                                 <div class="tagcloud"><a href="http://demo.goodlayers.com/hotelmaster/dark/tag/animal/"
                                                          class="tag-cloud-link tag-link-11 tag-link-position-1"
