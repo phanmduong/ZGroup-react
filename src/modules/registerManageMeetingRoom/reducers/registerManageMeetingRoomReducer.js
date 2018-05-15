@@ -12,7 +12,9 @@ let conferenceRoomInitState = {
     currentPage: 1,
     totalCount: 1,
     limit: 20,
-    register: {},
+    register: {
+        room_id: 0,
+    },
     isLoadingBases: false,
     isLoadingProvinces: false,
     isLoadingSalers: false,
@@ -193,6 +195,26 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+        case types.CLOSE_CONFIRM_MODAL:
+            return {
+                ...state,
+                isOpenConfirmModal: false,
+            };
+
+        case types.OPEN_CONFIRM_MODAL:
+            return {
+                ...state,
+                isOpenConfirmModal: true,
+                register: {
+                    ...state.register,
+                    room_id: action.room_id,
+                    room: state.rooms.filter((room) => {
+                        return room.id === action.room_id;
+                    })[0]
+                },
+            };
+
+
         case types.CLOSE_ADD_REGISTER_MODAL:
             return {
                 ...state,
@@ -211,6 +233,22 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             return {
                 ...state,
                 register: action.register,
+            };
+
+        case types.BEGIN_CREATE_REGISTER:
+            return {
+                ...state,
+                isCreatingRegister: true,
+            };
+        case types.CREATE_REGISTER_SUCCESS:
+            return {
+                ...state,
+                isCreatingRegister: false,
+            };
+        case types.CREATE_REGISTER_ERROR:
+            return {
+                ...state,
+                isCreatingRegister: false,
             };
 
 

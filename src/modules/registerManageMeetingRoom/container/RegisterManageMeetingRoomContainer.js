@@ -405,6 +405,7 @@ class RegisterManageRoomContainer extends React.Component {
                         <DatetimeModal/>
                         <PaymentModal/>
                         <AddRegisterModal/>
+                        {/*<ConfirmModal/>*/}
                     </div>
 
                 )}
