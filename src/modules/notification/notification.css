@@ -1,0 +1,10 @@
+.notification-item {
+    width: 250px;
+    white-space: normal;
+}
+
+.notification-list-wrapper {
+    overflow-y: auto;
+    max-height: 400px;
+    padding-top: 0;
+}

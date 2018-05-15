@@ -1,0 +1,197 @@
+.card-container {
+    width: 270px;
+    margin: 0 5px;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    vertical-align: top;
+    white-space: normal;
+
+}
+
+.board-canvas {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
+
+.board-container {
+    display: inline-flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.board > .card-content {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.board {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.board::-webkit-scrollbar {
+    display: none;
+}
+
+.card-content > .card {
+    margin: 5px 0;
+}
+
+.board > .card-content:last-child {
+    margin-bottom: 20px;
+}
+
+.board > .card-content:first-child {
+    margin-top: 15px;
+}
+
+.board .card-title {
+}
+
+.board .card-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+.text-dark {
+    color: #878787;
+}
+
+.create-new-board {
+    border: 1px dashed #e5e5e5;
+    background-color: white;
+    height: 100px;
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+.create-new-board:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.create-new-board div:first-child {
+    padding: 5px 2px 0 0;
+}
+
+.btn-add-card {
+    cursor: pointer;
+}
+
+.board-title {
+    padding: 14px 20px;
+    font-size: 20px;
+    border-bottom: 1px solid #d9d9d9;
+    display: flex;
+    justify-content: space-between;
+}
+
+.board-action a {
+    color: #4a525b;
+    margin-left: 5px;
+    opacity: 0.7;
+}
+
+.board-action a:hover {
+    opacity: 1;
+}
+
+.keetool-card {
+    cursor: pointer;
+}
+
+.card-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-modal-button {
+    color: #6a6a6a;
+    margin-left: 8px;
+}
+
+.card-modal-button i:hover {
+    color: #2a2a2a;
+}
+
+.card-modal-button i {
+    font-size: 18px;
+}
+
+.card-detail-btn-action {
+    text-align: left;
+    width: 100%;
+    margin: 5px;
+}
+
+.card-detail-btn-group i {
+    margin-right: 5px;
+}
+
+.keetool-card-wrapper:hover {
+    background: #eeeeee;
+}
+
+.alert {
+    z-index: 99999 !important;
+}
+
+.deadline-popover {
+    margin-left: -30px;
+    width: 250px;
+    padding: 10px;
+    /*height: 500px;*/
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.select-container {
+    margin-left: 10px;
+}
+
+.filter-container .filter-item .btn {
+    margin-top: -2px;
+    margin-left: 10px;
+}
+
+.comment-input-wrapper {
+    position: relative;
+    padding-right: 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+}
+
+.comment-input-wrapper > textarea {
+    border: none;
+    resize: none;
+    overflow: hidden;
+}
+
+.btn-upload-file-comment {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.comment-card-url {
+    text-decoration: underline;
+}
+
+.Select-value-icon.card-label {
+    color: white;
+}
+.Select-value-icon.card-label:hover {
+    color: #d9d9d9!important;
+}
