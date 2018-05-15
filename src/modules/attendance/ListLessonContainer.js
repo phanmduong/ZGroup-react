@@ -160,79 +160,75 @@ class ListLessonContainer extends React.Component {
                         <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
-                                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <h4 className="card-title">
                                             <strong>{"Danh sách buổi học lớp " + this.props.selectedClass.name}</strong>
                                         </h4>
                                         <TooltipButton text="Xuất file điểm danh" placement="top">
-                                                    <button
-                                                        onClick={this.props.isLoadingLessonClassModal ? () => { } : this.reloadAndExport}
-                                                        className="btn btn-rose none-margin button-round"
-                                                        disabled={this.props.isLoadingLessonClassModal || this.props.isLoading}
+                                            <button
+                                                onClick={this.props.isLoadingLessonClassModal ? () => { } : this.reloadAndExport}
+                                                className="btn btn-rose none-margin button-round"
+                                                disabled={this.props.isLoadingLessonClassModal || this.props.isLoading}
+                                            >
+                                                <i className="material-icons">file_download</i>
+                                            </button>
+                                        </TooltipButton>
+                                    </div>
+                                    <br />
+                                    <div className="row">
+                                        <div className="col-sm-3">{
+                                            this.props.selectedClass.teacher ?
+                                                (
+                                                    <TooltipButton text="Giảng viên"
+                                                        placement="top"
                                                     >
-                                                        <i className="material-icons">file_download</i>
-                                                    </button>
-                                                </TooltipButton>
-                                    </div> 
-                                    <br/>
-                                        <div className="row">
-                                            <div className="col-sm-3">{
-                                                this.props.selectedClass.teacher ?
-                                                    (
-                                                        <TooltipButton text="Giảng viên"
-                                                            placement="top"
-                                                        >
-                                                            <button className="btn btn-sm"
-                                                                style={{
-                                                                    backgroundColor: '#' + this.props.selectedClass.teacher.color,
-                                                                    inlineSize: "-webkit-fill-available"
-                                                                }}>
-                                                                {helper.getShortName(this.props.selectedClass.teacher.name)}
-                                                                <div className="ripple-container" />
-                                                            </button>
-                                                        </TooltipButton>
-                                                    )
-                                                    :
-                                                    (
-                                                        <div className="btn btn-sm"
-                                                            style={{ inlineSize: "-webkit-fill-available" }}>
-                                                            Không có giảng viên
+                                                        <button className="btn btn-sm"
+                                                            style={{
+                                                                backgroundColor: '#' + this.props.selectedClass.teacher.color,
+                                                                inlineSize: "-webkit-fill-available"
+                                                            }}>
+                                                            {helper.getShortName(this.props.selectedClass.teacher.name)}
+                                                            <div className="ripple-container" />
+                                                        </button>
+                                                    </TooltipButton>
+                                                )
+                                                :
+                                                (
+                                                    <div className="btn btn-sm"
+                                                        style={{ inlineSize: "-webkit-fill-available" }}>
+                                                        Không có giảng viên
                                                         </div>
-                                                    )
+                                                )
 
-                                            }</div>
+                                        }</div>
 
-                                            <div className="col-sm-3">{
-                                                this.props.selectedClass.teacher_assistant ?
-                                                    (
-                                                        <TooltipButton text="Trợ giảng"
-                                                            placement="top">
-                                                            <button className="btn btn-sm"
-                                                                style={{
-                                                                    backgroundColor: '#' + this.props.selectedClass.teacher_assistant.color,
-                                                                    inlineSize: "-webkit-fill-available"
-                                                                }}>
-                                                                {helper.getShortName(this.props.selectedClass.teacher_assistant.name)}
-                                                                <div className="ripple-container" />
-                                                            </button>
-                                                        </TooltipButton>
-                                                    )
-                                                    :
-                                                    (
-                                                        <div className="btn btn-sm"
-                                                            style={{ inlineSize: "-webkit-fill-available" }}>
-                                                            Không có trợ giảng
+                                        <div className="col-sm-3">{
+                                            this.props.selectedClass.teacher_assistant ?
+                                                (
+                                                    <TooltipButton text="Trợ giảng"
+                                                        placement="top">
+                                                        <button className="btn btn-sm"
+                                                            style={{
+                                                                backgroundColor: '#' + this.props.selectedClass.teacher_assistant.color,
+                                                                inlineSize: "-webkit-fill-available"
+                                                            }}>
+                                                            {helper.getShortName(this.props.selectedClass.teacher_assistant.name)}
+                                                            <div className="ripple-container" />
+                                                        </button>
+                                                    </TooltipButton>
+                                                )
+                                                :
+                                                (
+                                                    <div className="btn btn-sm"
+                                                        style={{ inlineSize: "-webkit-fill-available" }}>
+                                                        Không có trợ giảng
                                                         </div>
-                                                    )
+                                                )
 
-                                            }</div>
-                                            <div className="col-sm-4" />
-                                            <div className="col-sm-1" style={{ marginTop: 12 }}>
-                                                
-
-
-                                            </div>
-                                        </div>
+                                        }</div>
+                                        <div className="col-sm-4" />
+                                        <div className="col-sm-1" style={{ marginTop: 12 }} />
+                                    </div>
 
                                     {
                                         this.props.isLoadingLessonClassModal ?
@@ -272,12 +268,12 @@ class ListLessonContainer extends React.Component {
                                                                     </td>
                                                                     <td style={{ textAlign: "right" }}>
                                                                         <TooltipButton text="Điểm danh" placement="top">
-                                                                            <button className="btn btn-rose none-margin button-round" style={{display:'-webkit-inline-box'}}
+                                                                            <button className="btn btn-rose none-margin button-round" style={{ display: '-webkit-inline-box' }}
                                                                                 type="button"
                                                                                 onClick={() => {
                                                                                     return this.openModalDetailLesson(item.id);
                                                                                 }}
-                                                                            ><i className="material-icons" style={{left:1}}>how_to_reg</i>
+                                                                            ><i className="material-icons" style={{ left: 1 }}>how_to_reg</i>
                                                                             </button>
                                                                         </TooltipButton>
 

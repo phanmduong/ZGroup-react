@@ -5,7 +5,7 @@ import WarehouseContainer from "../modules/Zgroup/warehouse/WarehouseContainer";
  */
 export default [
     {
-        path: "/warehouse",
+        path: "/zwarehouse/all",
         component: WarehouseContainer,
     },
 ];

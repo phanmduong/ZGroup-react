@@ -459,6 +459,10 @@ export const TYPE_MONEY = [
 
 export const STATUS_REGISTER_ROOM = [
     {
+        label: "Đăng kí",
+        value: "seed"
+    },
+    {
         label: "Đang xem",
         value: "view"
     },
@@ -467,8 +471,8 @@ export const STATUS_REGISTER_ROOM = [
         value: "cancel"
     },
     {
-        label: "Khóa",
-        value: "blocked"
+        label: "Hoàn thành",
+        value: "done"
     }
 ];
 
@@ -561,23 +565,23 @@ export const PHONE_HEAD_3 = {
 };
 
 export const PHONE_HEAD_4 = {
-    "0162": viettel, 
-    "0163": viettel, 
-    "0164": viettel, 
-    "0165": viettel, 
-    "0166": viettel, 
-    "0167": viettel, 
-    "0168": viettel, 
+    "0162": viettel,
+    "0163": viettel,
+    "0164": viettel,
+    "0165": viettel,
+    "0166": viettel,
+    "0167": viettel,
+    "0168": viettel,
     "0169": viettel,
-    "0120": mobifone, 
-    "0121": mobifone, 
-    "0122": mobifone, 
-    "0126": mobifone, 
+    "0120": mobifone,
+    "0121": mobifone,
+    "0122": mobifone,
+    "0126": mobifone,
     "0128": mobifone,
-    "0123": vinaphone, 
-    "0124": vinaphone, 
-    "0125": vinaphone, 
-    "0127": vinaphone, 
+    "0123": vinaphone,
+    "0124": vinaphone,
+    "0125": vinaphone,
+    "0127": vinaphone,
     "0129": vinaphone,
     "0188": vietnamobile,
     "0186": vietnamobile,

@@ -32,7 +32,7 @@ export function loadImportOrder(id) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_IMPORT_ORDER_SUCCESS,
-                    data: res.data["import-order"],
+                    data: res.data.data["import-order"],
                 });
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");
@@ -50,7 +50,7 @@ export function createImportOrder(data) {
         });
         importOrderApi.createImportOrder(data)
             .then(() => {
-                browserHistory.push("/business/import-order/item");
+                browserHistory.push("/business/import-order");
                 dispatch({
                     type: types.CREATE_IMPORT_ORDER_SUCCESS,
                 });
@@ -70,7 +70,7 @@ export function editImportOrder(data) {
         });
         importOrderApi.createImportOrder(data)
             .then(() => {
-                browserHistory.push("/business/import-order/item");
+                browserHistory.push("/business/import-order");
                 dispatch({
                     type: types.EDIT_IMPORT_ORDER_SUCCESS,
                 });
@@ -102,6 +102,15 @@ export function loadAllImportOrder(page,id = null) {
         });
     };
 }
+export function loadAllImportOrderNoPaging(success) {
+    return function () {
+        
+        importOrderApi.loadAllImportOrderNoPaging()
+            .then((res) => {
+                success(res.data.data['import-orders']);
+            });
+    };
+}
 
 export function loadAllGoods() {
     return function (dispatch) {
@@ -116,13 +125,13 @@ export function loadAllGoods() {
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_GOOD_IMPORT_ORDER_ERROR});
-                    browserHistory.push("/business/import-order/item");
+                    browserHistory.push("/business/import-order");
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({type: types.LOAD_ALL_GOOD_IMPORT_ORDER_ERROR});
-                browserHistory.push("/business/import-order/item");
+                browserHistory.push("/business/import-order");
             });
     };
 }
@@ -140,13 +149,13 @@ export function loadAllCompanies() {
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
-                    browserHistory.push("/business/import-order/item");
+                    browserHistory.push("/business/import-order");
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
-                browserHistory.push("/business/import-order/item");
+                browserHistory.push("/business/import-order");
             });
     };
 }
@@ -164,13 +173,13 @@ export function loadAllWarehourses() {
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_WAREHOUSE_IMPORT_ORDER_ERROR});
-                    browserHistory.push("/business/export-order");
+                    browserHistory.push("/business/import-order");
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({type: types.LOAD_ALL_WAREHOUSE_IMPORT_ORDER_ERROR});
-                browserHistory.push("/business/export-order");
+                browserHistory.push("/business/import-order");
             });
     };
 }

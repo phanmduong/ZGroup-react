@@ -9,6 +9,7 @@ import FormInputText from "../../components/common/FormInputText";
 import UploadButton from "../../components/common/uploadButton/UploadButton";
 import PropTypes from 'prop-types';
 import { browserHistory } from "react-router";
+import FormInputMoney from "../../components/common/FormInputMoney";
 
 //import Lightbox from 'react-images';
 
@@ -85,7 +86,7 @@ class CreatePaymentContainer extends React.Component {
     }
 
     submit() {
-        if (!this.props.link) {
+        if (!this.props.link && !this.props.data.bill_image_url) {
             helper.showErrorNotification("Vui lòng chọn ảnh hóa đơn");
             return;
         }
@@ -165,7 +166,7 @@ class CreatePaymentContainer extends React.Component {
 
                                                 </div>
                                                 <div className="col-md-12">
-                                                    <FormInputText
+                                                    <FormInputMoney
                                                         label="Số tiền"
                                                         type="text"
                                                         required

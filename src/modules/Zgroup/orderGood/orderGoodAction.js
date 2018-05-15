@@ -24,6 +24,18 @@ export function loadAllOrderGood(page, companyId) {
             });
     };
 }
+export function loadAllOrderGoodNoPaging(success) {
+    return function () {
+        orderGoodApi.loadAllOrderGoodNoPaging()
+            .then((res) => {
+               success(res.data.data.orders);
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                success(null);
+            });
+    };
+}
 
 export function loadAllGoods() {
     return function (dispatch) {

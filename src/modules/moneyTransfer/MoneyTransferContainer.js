@@ -44,7 +44,7 @@ class MoneyTransferContainer extends React.Component {
     }
 
     changeStaff(value) {
-        console.log(value);
+        //console.log(value);
         let staff = value ? value : null;
         this.setState({staff: staff, page: 1});
     }

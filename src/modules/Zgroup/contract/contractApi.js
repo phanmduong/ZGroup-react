@@ -31,6 +31,7 @@ export function createContract(data) {
         contract_number: data.contract_number,
         due_date: data.due_date,
         value: data.value,
+        note: data.note,
 
     };
 
@@ -55,6 +56,7 @@ export function editContract(data) {
         due_date: data.due_date,
         value: data.value,
         status: data.status,
+        note: data.note,
 
     };
     return axios.put(url, res);

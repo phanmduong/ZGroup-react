@@ -85,46 +85,20 @@ class ListRegisters extends React.Component {
                                             <td style={{ textAlign: 'center' }}>
                                                 {helper.dotNumber(register.money)}đ
                                     </td>
-                                            <td>{register.start_time}</td>
-                                            <td>{register.end_time}</td>
-
-                                            {/* <td>
-                                                <a className="text-name-student-register"
-                                                    onClick={() => this.openDatetimeModal(register)}
-                                                >
-                                                    {register.official_start_time}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a className="text-name-student-register"
-                                                    onClick={() => this.openDatetimeModal(register)}
-                                                >
-                                                    {register.official_end_time}
-                                                </a>
-
-                                            </td> */}
-                                            <td>{register.created_at}</td>
-
                                             {
-                                                // (
-                                                //     moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-                                                //     - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-                                                // ) / 3600000
-                                                // > register.extra_time ?
-                                                // <OverlayTrigger placement="top"
-                                                //     overlay={TopupTooltip}>
-                                                //     <a style={{ color: 'gray' }}
-                                                //         onClick={() => this.openPaymentModal(register)}
-                                                //     >
-                                                //         <i className="material-icons">attach_money</i>
-                                                //     </a>
-                                                // </OverlayTrigger>
-                                                // :
-                                                // <a>
-                                                //     {fixTime(register)}
-                                                // </a>
+                                                (register.room_history && register.room_history.length > 0 )&&
+                                                <td>{register.room_history[0].start_time}</td>
+                                                
+                                            }
+                                            {
+                                                (register.room_history && register.room_history.length > 0 )&&
+                                                <td>{register.room_history[0].end_time}</td>
+                                                
                                             }
 
+                                            <td>{register.created_at}</td>
+
+                                         
 
                                         </tr>
                                     );

@@ -76,7 +76,7 @@ export function savePaymentApi(money, note, register_id, user_id) {
 }
 
 export function createRegisterApi(register) {
-    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?';
+    let url = env.MANAGE_API_URL + '/coworking-space/booking?';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

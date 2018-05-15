@@ -5,6 +5,7 @@ import * as helper from '../../helpers/helper';
 class FormInputMoney extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
@@ -23,9 +24,8 @@ class FormInputMoney extends React.Component {
         }
     }
 
-    onChange = (e) => {
-        let value = e.target.value;
-        e.target.value = helper.convertDotStringNumberToStringNumber(value);
+    onChange(e){
+        e.target.value = helper.convertDotStringNumberToStringNumber(e.target.value);
         this.props.updateFormData(e);
     }
 
@@ -50,23 +50,23 @@ class FormInputMoney extends React.Component {
                 )}
 
                 {this.props.disabled ? (
-                    <p className="form-control-static">{this.props.value}</p>
+                    <p className="form-control-static">{helper.dotStringNumber(this.props.value)}</p>
                 ) : (
-                        <input
-                            autoComplete={this.props.autoComplete}
-                            type={this.props.type || 'text'}
-                            className="form-control"
-                            required={this.props.required}
-                            onChange={this.onChange}
-                            name={this.props.name}
-                            value={this.props.value ? helper.dotStringNumber(this.props.value) : ''}
-                            disabled={this.props.disabled}
-                            onKeyPress={this.props.onKeyPress}
-                            placeholder={this.props.placeholder}
-                            min={this.props.minValue ? this.props.minValue : undefined}
-                            max={this.props.maxValue ? this.props.maxValue : undefined}
-                        />
-                    )}
+                    <input
+                        autoComplete={this.props.autoComplete}
+                        type={this.props.type || 'text'}
+                        className="form-control"
+                        required={this.props.required}
+                        onChange={this.onChange}
+                        name={this.props.name}
+                        value={this.props.value ? helper.dotStringNumber(this.props.value) : ''}
+                        disabled={this.props.disabled}
+                        onKeyPress={this.props.onKeyPress}
+                        placeholder={this.props.placeholder}
+                        min={this.props.minValue ? this.props.minValue : undefined}
+                        max={this.props.maxValue ? this.props.maxValue : undefined}
+                    />
+                )}
 
                 {this.props.children}
                 {this.props.isNotValid && <span className="help-block">{this.props.errorMessage}</span>}

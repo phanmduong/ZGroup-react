@@ -87,6 +87,7 @@ class ManageStaffsContainer extends React.Component {
                 baseListData={[{id: 0, name: '', address: ''}, ...baseListData]}
                 departments={[{id: 0, name: ''}, ...departments]}
                 search={this.state.query}
+                getAllStaffs={this.props.staffActions.getAllStaffs}
             />
         );
     }

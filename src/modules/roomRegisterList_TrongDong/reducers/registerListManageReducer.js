@@ -28,7 +28,7 @@ let conferenceRoomInitState = {
 
 };
 
-export default function registerConferenceRoomReducers(state = conferenceRoomInitState, action) {
+export default function registerListManageReducer(state = conferenceRoomInitState, action) {
     switch (action.type) {
 
         case types.BEGIN_REGISTER_ROOMS:
@@ -135,22 +135,24 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
 
 
 
-        case types.BEGIN_LOAD_REGISTERS:
+        case types.BEGIN_LOAD_REGISTERS_LIST:
             return {
                 ...state,
                 isLoading: true
             };
 
-        case types.LOAD_REGISTERS_SUCCESS:
+        case types.LOAD_REGISTERS_LIST_SUCCESS:{
+            
             return {
                 ...state,
-                registers: prefixRegisters(action.registers),
+                registers: action.registers,
                 isLoading: false,
                 totalPages: action.totalPages,
                 currentPage: action.currentPage,
                 totalCount: action.totalCount
             };
-        case types.LOAD_REGISTERS_ERROR:
+        }
+        case types.LOAD_REGISTERS_LIST_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -264,28 +266,6 @@ function addPayment(register_id, registers, payment) {
         else return register;
     });
     return tmpRegs;
-}
-
-function prefixRegisters(registers) {
-    // const currentTime = new Date().getTime();
-    return registers.map((register) => {
-        return {
-            ...register,
-            price: register.room_history.length !== 0 ?
-                !register.is_member ?
-                    register.room_history[register.room_history.length - 1].room.room_type.price :
-                    register.room_history[register.room_history.length - 1].room.room_type.member_price
-                : 0, // note
-            official_start_time: register.room_history.length !== 0 ? register.room_history[register.room_history.length - 1].start_time :
-                // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
-                register.start_time
-            ,
-            official_end_time: register.room_history.length !== 0 ? register.room_history[register.room_history.length - 1].end_time :
-                // moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
-                register.end_time
-            ,
-        };
-    });
 }
 
 function changeRegister(registers, tmpregister) {

@@ -42,7 +42,7 @@ class ImportItemOrderList extends React.Component {
                                 <tr key={pp.id}>
                                     <td/>
                                     <td> {index + 1} </td>
-                                    <td>  {pp.command_code}</td>
+                                    <td> <a onClick={() => this.props.openInfoModal(pp.id)}> {pp.command_code}</a> </td>
                                     <td>  {pp.company.name}</td>
                                     <td> {pp.good_count} </td>
                                     <td> {(pp.goods.length - pp.good_count) / pp.good_count}</td>
@@ -83,6 +83,7 @@ ImportItemOrderList.propTypes = {
     paginator: PropTypes.object,
     changeStatus: PropTypes.func,
     historyImportOrder: PropTypes.array,
+    openInfoModal: PropTypes.func,
 
 };
 
