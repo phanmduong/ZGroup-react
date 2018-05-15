@@ -118,6 +118,14 @@ export default {
         gens: [],
         classes: [],
         isChoosingReceivers: false,
+        isLoadingHistoryModal: false,
+		historyModal: [],
+		currentPageHistoryModal: 1,
+		limitHistoryModal: 15,
+		totalCountHistoryModal: 1,
+		totalPagesHistoryModal: 1,
+		historyDetailModal: false,
+		userHistoryDetail: {}
         //isUpdatingReceivers: false
     },
 
