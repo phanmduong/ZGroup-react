@@ -26,6 +26,22 @@ export function loadPayments(page = 1, receiver_id = null, payer_id = null) {
 
 }
 
+export function loadPaymentsNoPaging(success) {
+    return function () {
+        
+        PaymentApi.loadPaymentsNoPaging()
+            .then((res) => {
+                
+                success(res.data.data.payment);
+                
+            }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+            success(null);
+        });
+    };
+
+}
+
 export function loadPayment(id) {
     return function (dispatch) {
         dispatch({
