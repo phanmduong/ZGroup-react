@@ -10,13 +10,16 @@ import {
     isCodeHotkey,
     hasMark,
     hasBlock,
-    hasInline,
+    hasInline
 } from "./EditorService";
 import { Block } from "slate";
 
 import { unwrapLink } from "./utils/linkUtils";
 import { isImage, insertImage, uploadImage } from "./utils/imageUtils";
-import { showErrorNotification, showNotification } from "../../../helpers/helper";
+import {
+    showErrorNotification,
+    showNotification
+} from "../../../helpers/helper";
 import PropTypes from "prop-types";
 import LinkModal from "./LinkModal";
 
@@ -27,18 +30,18 @@ class KeetoolEditor extends React.Component {
         value: html.deserialize(this.props.value || initialValue),
         isLoading: false,
         text: "Đang xử lý",
-        showLinkModal: false,
+        showLinkModal: false
     };
 
     closeLinkModal = () => {
         this.setState({
-            showLinkModal: false,
+            showLinkModal: false
         });
     };
 
     openLinkModal = () => {
         this.setState({
-            showLinkModal: true,
+            showLinkModal: true
         });
     };
 
@@ -76,29 +79,33 @@ class KeetoolEditor extends React.Component {
         if (totalFiles) {
             this.setState({
                 isLoading: true,
-                text: "Đang tải lên",
+                text: "Đang tải lên"
             });
 
             files.map(file =>
                 uploadImage(
                     file,
                     event => {
-                        const data = JSON.parse(event.currentTarget.responseText);
+                        const data = JSON.parse(
+                            event.currentTarget.responseText
+                        );
                         showNotification("Tải lên thành công");
-                        const change = this.state.value.change().call(insertImage, data.url);
+                        const change = this.state.value
+                            .change()
+                            .call(insertImage, data.url);
                         this.onChange(change);
                         totalFiles -= 1;
                         if (totalFiles == 0) {
                             this.setState({
-                                isLoading: false,
+                                isLoading: false
                             });
                         }
                     },
                     null,
                     () => {
                         showErrorNotification("Tải ảnh lên bị lỗi");
-                    },
-                ),
+                    }
+                )
             );
         }
 
@@ -133,21 +140,25 @@ class KeetoolEditor extends React.Component {
                     uploadImage(
                         file,
                         event => {
-                            const data = JSON.parse(event.currentTarget.responseText);
+                            const data = JSON.parse(
+                                event.currentTarget.responseText
+                            );
                             showNotification("Tải lên thành công");
-                            const change = this.state.value.change().call(insertImage, data.url);
+                            const change = this.state.value
+                                .change()
+                                .call(insertImage, data.url);
                             this.onChange(change);
                             totalFiles -= 1;
                             if (totalFiles == 0) {
                                 this.setState({
-                                    isLoading: false,
+                                    isLoading: false
                                 });
                             }
                         },
                         null,
                         () => {
                             showErrorNotification("Tải ảnh lên bị lỗi");
-                        },
+                        }
                     );
                     // reader.addEventListener("load", () => {
                     //     editor.change(c => {
@@ -161,7 +172,7 @@ class KeetoolEditor extends React.Component {
         }
 
         if (type == "text") {
-            if (!this.isUrl(text)) return;
+            if (this.isUrl && !this.isUrl(text)) return;
             if (!isImage(text)) return;
             change.call(insertImage, text, target);
         }
@@ -180,16 +191,20 @@ class KeetoolEditor extends React.Component {
                 switch (reason) {
                     case LAST_CHILD_TYPE_INVALID: {
                         const paragraph = Block.create("paragraph");
-                        return change.insertNodeByKey(node.key, node.nodes.size, paragraph);
+                        return change.insertNodeByKey(
+                            node.key,
+                            node.nodes.size,
+                            paragraph
+                        );
                     }
                 }
-            },
-        },
+            }
+        }
     };
 
     onChange = ({ value }) => {
         this.setState({
-            value,
+            value
         });
         if (this.props.onChange) {
             this.props.onChange(html.serialize(value));
@@ -268,7 +283,10 @@ class KeetoolEditor extends React.Component {
             // Handle the extra wrapping required for list buttons.
             const isList = hasBlock("list-item", value);
             const isType = value.blocks.some(block => {
-                return !!document.getClosest(block.key, parent => parent.type == type);
+                return !!document.getClosest(
+                    block.key,
+                    parent => parent.type == type
+                );
             });
 
             if (isList && isType) {
@@ -278,7 +296,11 @@ class KeetoolEditor extends React.Component {
                     .unwrapBlock("numbered-list");
             } else if (isList) {
                 change
-                    .unwrapBlock(type == "bulleted-list" ? "numbered-list" : "bulleted-list")
+                    .unwrapBlock(
+                        type == "bulleted-list"
+                            ? "numbered-list"
+                            : "bulleted-list"
+                    )
                     .wrapBlock(type);
             } else {
                 change.setBlocks("list-item").wrapBlock(type);
@@ -310,8 +332,14 @@ class KeetoolEditor extends React.Component {
                 {this.renderBlockButton("heading-one", "looks_one")}
                 {this.renderBlockButton("heading-two", "looks_two")}
                 {this.renderBlockButton("block-quote", "format_quote")}
-                {this.renderBlockButton("numbered-list", "format_list_numbered")}
-                {this.renderBlockButton("bulleted-list", "format_list_bulleted")}
+                {this.renderBlockButton(
+                    "numbered-list",
+                    "format_list_numbered"
+                )}
+                {this.renderBlockButton(
+                    "bulleted-list",
+                    "format_list_bulleted"
+                )}
                 <span
                     className="editor-button"
                     // onMouseDown={this.onClickImage}
@@ -327,7 +355,7 @@ class KeetoolEditor extends React.Component {
                             left: 0,
                             opacity: 0,
                             width: "100%",
-                            height: "100%",
+                            height: "100%"
                         }}
                         type="file"
                     />
@@ -335,7 +363,8 @@ class KeetoolEditor extends React.Component {
                 {this.renderInlineButton("link", "link")}
                 {this.state.isLoading && (
                     <div className="editor-loading">
-                        <i className="fa fa-circle-o-notch fa-spin" /> {this.state.text}
+                        <i className="fa fa-circle-o-notch fa-spin" />{" "}
+                        {this.state.text}
                     </div>
                 )}
             </div>
@@ -348,7 +377,11 @@ class KeetoolEditor extends React.Component {
 
         return (
             // eslint-disable-next-line react/jsx-no-bind
-            <span className="editor-button" onMouseDown={onMouseDown} data-active={isActive}>
+            <span
+                className="editor-button"
+                onMouseDown={onMouseDown}
+                data-active={isActive}
+            >
                 <span className="material-icons">{icon}</span>
             </span>
         );
@@ -367,7 +400,11 @@ class KeetoolEditor extends React.Component {
 
         return (
             // eslint-disable-next-line react/jsx-no-bind
-            <span className="editor-button" onMouseDown={onMouseDown} data-active={isActive}>
+            <span
+                className="editor-button"
+                onMouseDown={onMouseDown}
+                data-active={isActive}
+            >
                 <span className="material-icons">{icon}</span>
             </span>
         );
@@ -387,13 +424,18 @@ class KeetoolEditor extends React.Component {
 
         if (["numbered-list", "bulleted-list"].includes(type)) {
             const parent = value.document.getParent(value.blocks.first().key);
-            isActive = hasBlock("list-item", value) && parent && parent.type === type;
+            isActive =
+                hasBlock("list-item", value) && parent && parent.type === type;
         }
         const onMouseDown = event => this.onClickBlock(event, type);
 
         return (
             // eslint-disable-next-line react/jsx-no-bind
-            <span className="editor-button" onMouseDown={onMouseDown} data-active={isActive}>
+            <span
+                className="editor-button"
+                onMouseDown={onMouseDown}
+                data-active={isActive}
+            >
                 <span className="material-icons">{icon}</span>
             </span>
         );
@@ -444,18 +486,28 @@ class KeetoolEditor extends React.Component {
                         style={{
                             cursor: "text",
                             color: "-webkit-link",
-                            textDecoration: "underline",
+                            textDecoration: "underline"
                         }}
-                        href={href}>
+                        href={href}
+                    >
                         {children}
                     </a>
                 );
             }
             case "image": {
                 const src = node.data.get("src");
-                const className = props.isSelected ? "keetool-editor-image active" : null;
+                const className = props.isSelected
+                    ? "keetool-editor-image active"
+                    : null;
                 const style = { display: "block", width: "100%" };
-                return <img src={src} className={className} style={style} {...attributes} />;
+                return (
+                    <img
+                        src={src}
+                        className={className}
+                        style={style}
+                        {...attributes}
+                    />
+                );
             }
             case "block-quote":
                 return <blockquote {...attributes}>{children}</blockquote>;
@@ -511,7 +563,7 @@ class KeetoolEditor extends React.Component {
 
 KeetoolEditor.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string,
+    value: PropTypes.string
 };
 
 export default KeetoolEditor;

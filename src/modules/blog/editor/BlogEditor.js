@@ -179,6 +179,7 @@ class BlogEditor extends React.Component {
                                 label="Slug"
                                 required
                                 name="slug"
+                                isNotValid={!store.post.slug}
                                 updateFormData={e =>
                                     this.updatePost("slug", e.target.value)
                                 }
