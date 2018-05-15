@@ -130,6 +130,39 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
 
             };
 
+
+
+
+
+        case types.CLOSE_ADD_REGISTER_MODAL:
+            return {
+                ...state,
+                isOpenAddRegisterModal: false,
+                register: {},
+            };
+
+        case types.OPEN_ADD_REGISTER_MODAL:
+            return {
+                ...state,
+                isOpenAddRegisterModal: true,
+            };
+
+        case types.BEGIN_CREATE_REGISTER:
+            return {
+                ...state,
+                isCreatingRegister: true,
+            };
+        case types.CREATE_REGISTER_SUCCESS:
+            return {
+                ...state,
+                isCreatingRegister: false,
+            };
+        case types.CREATE_REGISTER_ERROR:
+            return {
+                ...state,
+                isCreatingRegister: false,
+            };
+
         default:
             return state;
     }

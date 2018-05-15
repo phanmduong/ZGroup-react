@@ -349,6 +349,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     render() {
+        const Add = <Tooltip id="tooltip">Thêm đăng kí</Tooltip>;
         const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
         const Export = <Tooltip id="tooltip">Xuất file excel</Tooltip>;
         let SALER = this.props.salers.map(saler => {
@@ -405,6 +406,20 @@ class RegisterManageContainer extends React.Component {
                                                 <strong>Danh sách đăng kí</strong>
                                             </h4>
                                             <div>
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={Add}
+                                                >
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                        type="button" onClick={
+                                                        (e) => {
+                                                            e.preventDefault();
+                                                            this.props.registerManageAction.openAddRegisterModal();
+                                                        }}>
+                                                        <strong>+</strong>
+                                                    </button>
+                                                </OverlayTrigger>
                                                 <OverlayTrigger
                                                     placement="top"
                                                     overlay={Filter}
