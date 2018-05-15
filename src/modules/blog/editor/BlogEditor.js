@@ -1,5 +1,4 @@
 import React from "react";
-import KeetoolEditor from "../../../components/common/editor/KeetoolEditor";
 import ImageUploader from "../../../components/common/ImageUploader";
 import store from "./BlogEditorStore";
 import { NO_IMAGE } from "../../../constants/env";
@@ -19,6 +18,8 @@ import {
 import PlainTextEditor from "../../../components/common/PlainTextEditor";
 import TagsInput from "../../../components/common/TagsInput";
 import { savePostV2 } from "../apis/blogApi";
+import KeetoolSelect from "../../../components/KeetoolSelect";
+import EditorFormGroup from "../../../components/EditorFormGroup";
 
 const savePost = async (editor, status) => {
     editor.setState({
@@ -44,7 +45,8 @@ const savePost = async (editor, status) => {
 class BlogEditor extends React.Component {
     state = {
         value: "",
-        isSavingPost: false
+        isSavingPost: false,
+        pristine: {}
     };
 
     componentDidMount() {
@@ -113,6 +115,11 @@ class BlogEditor extends React.Component {
         </div>
     );
 
+    fieldNotValid = field => {
+        const isNotValid = !store.post[field];
+        return isNotValid;
+    };
+
     render() {
         return (
             <div className="container-fluid">
@@ -124,62 +131,53 @@ class BlogEditor extends React.Component {
                             <FormInputText
                                 label="Tên bài viết"
                                 required
+                                isNotValid={this.fieldNotValid("title")}
                                 name="title"
                                 updateFormData={e =>
                                     this.updatePost("title", e.target.value)
                                 }
                                 value={store.post.title}
                             />
-                            <div className="form-group">
-                                <label className="control-label">
-                                    Loại bài viết
-                                </label>
-                                <ReactSelect
-                                    value={store.post.kind}
-                                    options={BLOG_KINDS}
-                                    onChange={e =>
-                                        this.updatePost("kind", e.value)
-                                    }
-                                    placeholder="Chọn loại bài viết"
-                                />
-                            </div>
 
-                            <div className="form-group">
-                                <label
-                                    className="control-label"
-                                    style={{ marginBottom: "10px" }}
+                            <KeetoolSelect
+                                required={true}
+                                label="Loại bài viết"
+                                value={store.post.kind}
+                                options={BLOG_KINDS}
+                                onChange={e => this.updatePost("kind", e.value)}
+                                placeholder="Chọn loại bài viết"
+                            />
+                            <KeetoolSelect
+                                onChange={e =>
+                                    this.updatePost("language_id", e.value)
+                                }
+                                label="Ngôn ngữ"
+                                value={store.post.language_id}
+                                options={store.getLanguages}
+                                placeholder="Chọn ngôn ngữ"
+                                required={true}
+                            >
+                                <TooltipButton
+                                    placement="top"
+                                    text="Thêm ngôn ngữ"
                                 >
-                                    Ngôn ngữ
-                                    <TooltipButton
-                                        placement="top"
-                                        text="Thêm ngôn ngữ"
+                                    <button
+                                        onClick={this.openAddLanguageModal}
+                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                        type="button"
                                     >
-                                        <button
-                                            onClick={this.openAddLanguageModal}
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button"
-                                        >
-                                            <strong>+</strong>
-                                            <div className="ripple-container" />
-                                        </button>
-                                    </TooltipButton>
-                                </label>
-                                <ReactSelect
-                                    value={store.post.language_id}
-                                    options={store.getLanguages}
-                                    onChange={e =>
-                                        this.updatePost("language_id", e.value)
-                                    }
-                                    placeholder="Chọn ngôn ngữ"
-                                />
-                            </div>
+                                        <strong>+</strong>
+                                        <div className="ripple-container" />
+                                    </button>
+                                </TooltipButton>
+                            </KeetoolSelect>
 
                             <FormInputText
                                 height="100%"
                                 label="Slug"
                                 required
                                 name="slug"
-                                isNotValid={!store.post.slug}
+                                isNotValid={this.fieldNotValid("slug")}
                                 updateFormData={e =>
                                     this.updatePost("slug", e.target.value)
                                 }
@@ -256,21 +254,15 @@ class BlogEditor extends React.Component {
                                     this.updatePost("tags", values);
                                 }}
                             />
-
-                            <div className="form-group">
-                                <label
-                                    className="control-label"
-                                    style={{ marginBottom: "10px" }}
-                                >
-                                    Nội dung
-                                </label>
-                                <KeetoolEditor
-                                    value={store.post.content}
-                                    onChange={content =>
-                                        this.updatePost("content", content)
-                                    }
-                                />
-                            </div>
+                            <EditorFormGroup
+                                label="Nội dung"
+                                required={true}
+                                value={store.post.content || ""}
+                                onChange={content =>
+                                    this.updatePost("content", content)
+                                }
+                                isNotValid={store.post.content == "<p></p>"}
+                            />
                         </div>
                     </div>
                 </div>
