@@ -5,7 +5,7 @@ export function loadAllOrder(){
     let url = env.MANAGE_API_URL + '/company/order/all' ;
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&limit=-1";
+        url += "?token=" + token + "&limit=-1&filter=1";
     }
     return axios.get(url);
 }
