@@ -2,10 +2,13 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 //Load All Film
-export function loadAllFilmsApi(search) {
+export function loadAllFilmsApi(search, start_date) {
     let url = env.API_URL + "/films?limit=-1";
     if (search) {
         url += "&search=" + search;
+    }
+    if (start_date) {
+        url += "&start_date=" + start_date;
     }
     return axios.get(url);
 }
@@ -90,7 +93,7 @@ export function changeFavoriteFilmApi(film) {
 
 
 //Load All Session
-export function loadAllSessionsApi(page, search, from_date, to_date) {
+export function loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id) {
     let url = env.API_URL + "/sessions";
     url += "?limit=20";
     if (search) {
@@ -103,6 +106,12 @@ export function loadAllSessionsApi(page, search, from_date, to_date) {
         if(to_date){
             url += "&from_date=" + from_date +"&to_date=" + to_date;
         }
+    }
+    if (start_date) {
+        url += "&start_date=" + start_date;
+    }
+    if (film_id) {
+        url += "&film_id=" + film_id;
     }
     return axios.get(url);
 }
@@ -151,7 +160,7 @@ export function deleteSessionApi(session) {
     return axios.delete(url);
 }
 
-//Get all room
+//Get all bookingRegisterSession
 //http://keetool3.xyz/manageapi/v3/?&token=
 export function loadAllRoomsApi() {
     let url = env.MANAGE_API_URL + "/base/rooms";

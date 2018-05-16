@@ -2,56 +2,50 @@ import React from 'react';
 import FormInputSelect from '../../../components/common/FormInputSelect';
 import FormInputDate from '../../../components/common/FormInputDate';
 import PropTypes from 'prop-types';
+import BookingRegisterSessionSeat from "./BookingRegisterSessionSeat";
+import * as filmAction from "../filmAction";
+import {connect} from "react-redux";
+import {bindActionCreators} from 'redux';
+import Loading from "../../../components/common/Loading";
 
-export const MARITAL = [
-    {
-        id: 0,
-        name: "Bình Ngô Đại Cáo",
-    },
-    {
-        id: 1,
-        name: "Thiên Trường Vãn Vọng",
-    },
-    {
-        id: 2,
-        name: "Xa Ngắm Thác Núi Lư",
-    },
-    {
-        id: 3,
-        name: "Bình Ngô Đại Cáo",
-    },
-    {
-        id: 4,
-        name: "Thiên Trường Vãn Vọng",
-    },
-    {
-        id: 5,
-        name: "Xa Ngắm Thác Núi Lư",
-    },
-];
-class RoomControlComponent extends React.Component {
+
+
+class BookingRegisterSessionComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.path = '';
         this.state = {
-            select_day:{},
-            roomId: 1,
-            rooms:[{id:1,name:"8 h - Room 1"},{id:2,name:" 9h - Room 2"},{id:3,name:"7h - Room 3"},{id:4,name:"6h - Room 4"}]
+            select_day: {name: ''},
+            select_film:{id:-1},
+            roomId: '',
         };
         this.changeRoom = this.changeRoom.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
+        this.updateFormData2 = this.updateFormData2.bind(this);
     }
-    updateFormData(event){
+
+    updateFormData(event) {
         const field = event.target.name;
         let select_day = {...this.state.select_day};
         select_day[field] = event.target.value;
-        this.setState({select_day: select_day});
-    }
-    changeRoom(value) {
-        this.setState({ roomId: value });
-    }
-    render() {
+        this.setState({select_day: select_day, roomId:''});
+        this.props.filmAction.loadAllFilms('', this.state.select_day.name);
+        this.props.filmAction.loadAllSessions(1,'','','','',-1);
 
+    }
+    updateFormData2(event) {
+        const field = event.target.name;
+        let select_film = {...this.state.select_film};
+        select_film[field] = event.target.value;
+        this.setState({select_film:select_film, roomId:''});
+        this.props.filmAction.loadAllSessions(1,'','','',this.state.select_day.name, select_film.id);
+    }
+
+    changeRoom(value) {
+        this.setState({roomId: value});
+    }
+
+    render() {
         return (
             <div className="form-group">
                 <form method="#" action="#">
@@ -69,17 +63,18 @@ class RoomControlComponent extends React.Component {
                         <div className="col-md-6">
                             <FormInputSelect
                                 label="Tên phim"
-                                updateFormData=""
-                                name="sms_template_type_id"
-                                data={MARITAL}
-                                value=""
+                                updateFormData={this.updateFormData2}
+                                name="id"
+                                id="select_film"
+                                data={[{id:-1,name:''}].concat(this.props.allFilms)}
+                                value={this.state.select_film.id}
                                 required={true}
                             />
                         </div>
 
                     </div>
                     <ul className="nav nav-pills nav-pills-rose">
-                        {this.state.rooms.map((room, index) => {
+                        {this.props.allSessions.map((room, index) => {
                             if (this.state.roomId === room.id) {
                                 return (
                                     <li className="active">
@@ -92,7 +87,7 @@ class RoomControlComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.name}{" "}
+                                            {room.start_time} Phòng {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
@@ -108,21 +103,47 @@ class RoomControlComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.name}{" "}
+                                            {room.start_time} Phòng {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
                             }
                         })}
-                    </ul><hr/>
-                    <h1>{this.state.roomId}</h1>
+                    </ul>
+                    <hr/>
+                    {
+                        this.props.isLoading ? <Loading/> :
+                            <BookingRegisterSessionSeat
+                                room_id={this.state.roomId}/>
+                    }
+
+
                 </form>
             </div>
         );
     }
 }
 
-RoomControlComponent.propTypes = {
-    children: PropTypes.element
+BookingRegisterSessionComponent.propTypes = {
+    children: PropTypes.element,
+    allFilms: PropTypes.array.isRequired,
+    allSessions: PropTypes.array.isRequired,
+    filmAction: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
 };
-export default RoomControlComponent;
+
+function mapStateToProps(state) {
+    return {
+        allFilms: state.film.allFilms,
+        allSessions: state.film.allSessions,
+        isLoading: state.film.isLoading,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        filmAction: bindActionCreators(filmAction, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingRegisterSessionComponent);

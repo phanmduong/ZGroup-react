@@ -37,7 +37,7 @@ export default [
         component: UserpackContainer,
     },
     {
-        path: "/base/room/:roomId",
+        path: "/base/bookingRegisterSession/:roomId",
         component: RoomDetailContainer
     },
     {
@@ -45,15 +45,15 @@ export default [
         component: RegisterManageContainer
     },
     {
-        path: "base/registers-room",
+        path: "base/registers-bookingRegisterSession",
         component: RegisterManageRoomContainer
     },
     {
-        path: "base/registers-meeting-room",
+        path: "base/registers-meeting-bookingRegisterSession",
         component: RegisterManageMeetingRoomContainer
     },
     {
-        path: "base/room-register-list",
+        path: "base/bookingRegisterSession-register-list",
         component: RoomRegisterListContainer
     },
 

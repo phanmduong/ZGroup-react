@@ -39,6 +39,10 @@ export default {
         addEditSessionModal: false,
         sessionModal: {},
         rooms:[],
+        //-----------
+
+        //********Booking
+        addBookingRegisterSessionModal: false,
     },
 
     campaignList: {

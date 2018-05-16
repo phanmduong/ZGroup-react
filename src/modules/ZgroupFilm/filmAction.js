@@ -4,12 +4,12 @@ import * as helper from "../../helpers/helper";
 import {browserHistory} from "react-router";
 
 
-export function loadAllFilms(value) {
+export function loadAllFilms(value, start_date) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_FILMS
         });
-        filmApi.loadAllFilmsApi(value)
+        filmApi.loadAllFilmsApi(value, start_date)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_FILMS_SUCCESS,
@@ -183,12 +183,12 @@ export function handleImagesWebsiteTab(images_url){
 
 
 
-export function loadAllSessions(page, search, from_date, to_date) {
+export function loadAllSessions(page, search, from_date, to_date, start_date, film_id) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_SESSIONS
         });
-        filmApi.loadAllSessionsApi(page, search, from_date, to_date)
+        filmApi.loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_SESSIONS_SUCCESS,
@@ -339,4 +339,14 @@ export function loadAllRooms() {
                 });
             });
     };
+}
+
+
+
+
+
+export function toggleBookingModal() {
+    return ({
+        type: types.TOGGLE_ADD_BOOKING_MODAL
+    });
 }

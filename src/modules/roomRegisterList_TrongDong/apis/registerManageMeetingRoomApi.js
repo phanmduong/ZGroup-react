@@ -8,7 +8,7 @@ export function submitBooking(data = {}) {
     //http://homestead.test/manageapi/v3/coworking-space/register-room?
     let res = { ...data };
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/coworking-space/register-room?token=" + token;
+    let url = env.MANAGE_API_URL + "/coworking-space/register-bookingRegisterSession?token=" + token;
     res.start_time = moment(data.start_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL);
     res.end_time = moment(data.end_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL);
 
@@ -19,7 +19,7 @@ export function submitBooking(data = {}) {
 export function loadRooms() {
     // http://homestead.test/manageapi/v3/trongdong/room/all?
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/trongdong/room/all?token=" + token;
+    let url = env.MANAGE_API_URL + "/trongdong/bookingRegisterSession/all?token=" + token;
     return axios.get(url);
 }
 
@@ -42,7 +42,7 @@ export function loadAllRegistersApi(filter) {
         startTime,
         endTime
     } = filter;
-    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
+    let url = env.MANAGE_API_URL + '/coworking-space/bookingRegisterSession-booking?page=' + page;
     if (search) {
         url += "&search=" + search;
     }
@@ -116,7 +116,7 @@ export function savePaymentApi(money, note, register_id, user_id) {
 }
 
 export function updateOfficialTimeApi(register) {
-    let url = env.MANAGE_API_URL + '/coworking-space/room-booking/' + register.id + '/assign-time?';
+    let url = env.MANAGE_API_URL + '/coworking-space/bookingRegisterSession-booking/' + register.id + '/assign-time?';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

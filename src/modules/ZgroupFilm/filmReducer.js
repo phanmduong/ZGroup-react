@@ -210,6 +210,13 @@ export default function filmReducer(state = initialState.film, action) {
             };
 
 
+
+
+
+
+
+
+
         //Session Reducer
         case types.BEGIN_LOAD_ALL_SESSIONS:
             return {
@@ -322,6 +329,20 @@ export default function filmReducer(state = initialState.film, action) {
             return {
                 ...state,
                 rooms: action.rooms
+            };
+
+
+
+
+
+
+
+
+            //Booking Reducer
+        case types.TOGGLE_ADD_BOOKING_MODAL:
+            return{
+                ...state,
+                addBookingRegisterSessionModal: !state.addBookingRegisterSessionModal,
             };
         default:
             return state;

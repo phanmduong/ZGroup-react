@@ -1,4 +1,4 @@
-import RoomControlContainer from "../modules/ZgroupFilm/room/RoomContainer";
+import BookingRegisterSessionContainer from "../modules/ZgroupFilm/bookingRegisterSession/BookingRegisterSessionContainer";
 import FilmContainer from "../modules/ZgroupFilm/film/FilmContainer";
 import ShowFilmContainer from "../modules/ZgroupFilm/film/ShowFilmContainer";
 import AllFilmContainer from "../modules/ZgroupFilm/film/AllFilmContainer";
@@ -15,8 +15,8 @@ import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessio
  */
 export default [
     {
-        path: "/film/room-control",
-        component: RoomControlContainer,
+        path: "/film/booking",
+        component: BookingRegisterSessionContainer,
     },
     {
         path: "/film",
