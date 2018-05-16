@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import AddRegisterModal from './AddRegisterModal';
+import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {
     formatPhone,
     dotNumber,
@@ -21,10 +22,10 @@ class RegisterManageRoomContainer extends React.Component {
         store.loadAllBases();
         store.loadRegisters();
         store.loadAllRooms();
-        
+
     }
 
-    openCreateModal = (data) => {  
+    openCreateModal = (data) => {
         store.openCreateModal(data);
     }
 
@@ -33,11 +34,11 @@ class RegisterManageRoomContainer extends React.Component {
             isLoading,
             paginator,
             registers,
-            showCreateModal,
+            
         } = store;
         return (
             <div>
-                <AddRegisterModal/>
+                <AddRegisterModal />
                 {isLoading ? <Loading /> :
                     <div className="card">
                         <div className="card-content">
@@ -46,7 +47,7 @@ class RegisterManageRoomContainer extends React.Component {
                                 <div>
                                     <button
                                         className="btn btn-rose btn-round btn-xs button-add none-margin"
-                                        type="button" onClick={()=>this.openCreateModal(null)}>
+                                        type="button" onClick={() => this.openCreateModal(null)}>
                                         <strong>+</strong>
                                     </button>
                                 </div>
@@ -96,6 +97,7 @@ class RegisterManageRoomContainer extends React.Component {
                                                 <th>Bắt đầu</th>
                                                 <th>Kết thúc</th>
                                                 <th>Thời gian đăng ký</th>
+                                                <th/>
 
                                             </tr>
                                         </thead>
@@ -132,7 +134,19 @@ class RegisterManageRoomContainer extends React.Component {
                                                             <td>{register.room_history[0].end_time}</td>}
                                                         <td>{register.created_at}</td>
 
-
+                                                        <td><ButtonGroupAction
+                                                            edit={this.openCreateModal}
+                                                            object={register}                                                                
+                                                            disabledDelete={true}
+                                                            //disabledEdit={obj.status > 1 || user.id != obj.staff.id}
+                                                            // children={
+                                                            //     (obj.status < 2 && (user.role == 2 || user.id == obj.staff.id)) ?
+                                                            //         <a key="1" data-toggle="tooltip" title="Đổi trạng thái" type="button" rel="tooltip"
+                                                            //             onClick={() => { this.changeStatus(obj.id, obj.status); }}>
+                                                            //             <i className="material-icons">cached</i></a>
+                                                            //         : <div />
+                                                            // }
+                                                        /></td>
 
                                                     </tr>
                                                 );

@@ -176,6 +176,7 @@ class AddRegisterModal extends React.Component {
                                                 required={true}
                                                 updateFormData={this.formTextChange}
                                                 maxDate={createData.end_time}
+                                                format={"H:M D-M-Y"}
                                             />
                                         </div>
                                         <div className="form-group col-md-12">
@@ -187,6 +188,7 @@ class AddRegisterModal extends React.Component {
                                                 required={true}
                                                 updateFormData={this.formTextChange}
                                                 minDate={createData.start_time}
+                                                format={"H:M D-M-Y"}
                                             />
                                         </div>
 

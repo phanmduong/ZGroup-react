@@ -2,8 +2,10 @@ import { observable, action, computed } from "mobx";
 import * as roomApi from "./roomApi";
 import { showErrorNotification, showNotification } from "../../helpers/helper";
 import moment from "moment";
-//import { DATETIME_FORMAT, DATETIME_FORMAT_SQL, CONTRACT_TYPES } from "../../../constants/constants";
+import { DATETIME_FORMAT, DATETIME_FORMAT_SQL,  } from "../../constants/constants";
 //import { browserHistory } from 'react-router';
+
+const date_format = "H:M D-M-Y";
 
 export const store = new class DashboardStaffStore {
     @observable isLoading = false;
@@ -30,8 +32,9 @@ export const store = new class DashboardStaffStore {
     @action
     openCreateModal(data) {
         this.showCreateModal = true;
-        console.log('on open', data);
         if(data){
+            data.start_time = moment( data.start_time || moment.now(),  [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(date_format);
+            data.end_time = moment(data.end_time  || moment.now() ,  [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(date_format);
             this.createData = data;
         }else{
             this.createData = defaultData;
@@ -39,9 +42,24 @@ export const store = new class DashboardStaffStore {
     }
 
     @action
-    loadRegisters(data) {
+    submitBooking() {
+        this.isBooking = true;
+        roomApi.submitBooking(this.createData)
+        .then(() => {
+            this.isBooking = false;
+            this.showCreateModal = false;
+            this.loadRegisters(this.filter);
+        })
+        .catch(() => {
+            showErrorNotification("Có lỗi xảy ra.");
+            this.isBooking = false;
+        });
+    }
+
+    @action
+    loadRegisters() {
         this.isLoading = true;
-        roomApi.loadRegisters(data)
+        roomApi.loadRegisters(this.filter)
             .then((res) => {
                 this.isLoading = false;
                 this.registers =  res.data.data;
@@ -129,10 +147,12 @@ const defaultData = {
     phone: '',
     email: '',
     address: '',
+    note: '',
+    status: '',
     campaign_id: 0,
     base_id: null,
     room_id: null,
-    start_time: moment(moment.now()).format("H:M D-M-Y"),
-    end_time: moment(moment.now()).add(1,'days').format("H:M D-M-Y"),
+    start_time: moment(moment.now()).format(date_format),
+    end_time: moment(moment.now()).add(1,'days').format(date_format),
     price: '',
 };
