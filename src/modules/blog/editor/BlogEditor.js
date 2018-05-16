@@ -1,7 +1,7 @@
 import React from "react";
 import ImageUploader from "../../../components/common/ImageUploader";
 import store from "./BlogEditorStore";
-import { NO_IMAGE } from "../../../constants/env";
+import { NO_IMAGE, BASE_URL } from "../../../constants/env";
 import { observer } from "mobx-react";
 import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from "react-select";
@@ -46,7 +46,8 @@ class BlogEditor extends React.Component {
     state = {
         value: "",
         isSavingPost: false,
-        pristine: {}
+        pristine: {},
+        errors: []
     };
 
     componentDidMount() {
@@ -58,17 +59,52 @@ class BlogEditor extends React.Component {
         $("#tags").tagsinput();
     }
 
+    validateForm() {
+        let errors = [];
+        this.setState({
+            errors
+        });
+        if (!store.post.title) {
+            errors.push("Bạn nhập thiếu tên bài viết");
+        }
+
+        if (!store.post.slug) {
+            errors.push("Bạn chưa nhập slug");
+        }
+
+        if (!store.post.language_id) {
+            errors.push("Bạn chưa chọn ngôn ngữ");
+        }
+
+        if (store.post.content == "<p></p>") {
+            errors.push("Bạn nhập thiếu nội dung bài viết");
+        }
+
+        if (!store.post.url) {
+            errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
+        }
+
+        this.setState({
+            errors
+        });
+        return errors.length == 0;
+    }
+
     publish = () => {
-        savePost(this, 1);
+        if (this.validateForm()) savePost(this, 1);
     };
 
     saveDraft = async () => {
-        savePost(this, 0);
+        if (this.validateForm()) savePost(this, 0);
     };
 
     preview = async () => {
-        const data = savePost(this, 3); // status == 3 mean keep the current status
-        window.location.href = "/" + data.slug;
+        if (this.validateForm()) {
+            const data = await savePost(this, 3); // status == 3 mean keep the current status
+            const url = BASE_URL +"/" + data.slug;
+            const win = window.open(url, "_blank");
+            win.focus();
+        }
     };
 
     generateFromTitle = () => {
@@ -139,39 +175,6 @@ class BlogEditor extends React.Component {
                                 value={store.post.title}
                             />
 
-                            <KeetoolSelect
-                                required={true}
-                                label="Loại bài viết"
-                                value={store.post.kind}
-                                options={BLOG_KINDS}
-                                onChange={e => this.updatePost("kind", e.value)}
-                                placeholder="Chọn loại bài viết"
-                            />
-                            <KeetoolSelect
-                                onChange={e =>
-                                    this.updatePost("language_id", e.value)
-                                }
-                                label="Ngôn ngữ"
-                                value={store.post.language_id}
-                                options={store.getLanguages}
-                                placeholder="Chọn ngôn ngữ"
-                                required={true}
-                            >
-                                <TooltipButton
-                                    placement="top"
-                                    text="Thêm ngôn ngữ"
-                                >
-                                    <button
-                                        onClick={this.openAddLanguageModal}
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        type="button"
-                                    >
-                                        <strong>+</strong>
-                                        <div className="ripple-container" />
-                                    </button>
-                                </TooltipButton>
-                            </KeetoolSelect>
-
                             <FormInputText
                                 height="100%"
                                 label="Slug"
@@ -202,6 +205,38 @@ class BlogEditor extends React.Component {
                                     </a>
                                 </TooltipButton>
                             </FormInputText>
+
+                            <KeetoolSelect
+                                label="Loại bài viết"
+                                value={store.post.kind}
+                                options={BLOG_KINDS}
+                                onChange={e => this.updatePost("kind", e.value)}
+                                placeholder="Chọn loại bài viết"
+                            />
+                            <KeetoolSelect
+                                onChange={e =>
+                                    this.updatePost("language_id", e.value)
+                                }
+                                label="Ngôn ngữ"
+                                value={store.post.language_id}
+                                options={store.getLanguages}
+                                placeholder="Chọn ngôn ngữ"
+                                required={true}
+                            >
+                                <TooltipButton
+                                    placement="top"
+                                    text="Thêm ngôn ngữ"
+                                >
+                                    <button
+                                        onClick={this.openAddLanguageModal}
+                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                        type="button"
+                                    >
+                                        <strong>+</strong>
+                                        <div className="ripple-container" />
+                                    </button>
+                                </TooltipButton>
+                            </KeetoolSelect>
 
                             <div className="form-group">
                                 <label
@@ -279,39 +314,87 @@ class BlogEditor extends React.Component {
                                     store.post.url ? store.post.url : NO_IMAGE
                                 }
                             />
-                            <div>
-                                <button
-                                    disabled={this.state.isSavingPost}
-                                    onClick={this.publish}
-                                    className="btn btn-rose"
-                                >
-                                    {this.state.isSavingPost && (
-                                        <i className="fa fa-circle-o-notch fa-spin" />
-                                    )}{" "}
-                                    Xuất bản
-                                </button>
-                                <button
-                                    disabled={this.state.isSavingPost}
-                                    onClick={this.saveDraft}
-                                    className="btn btn-default"
-                                >
-                                    {this.state.isSavingPost && (
-                                        <i className="fa fa-circle-o-notch fa-spin" />
-                                    )}{" "}
-                                    Lưu nháp
-                                </button>
-                                <button
-                                    disabled={this.state.isSavingPost}
-                                    onClick={this.preview}
-                                    className="btn btn-default"
-                                >
-                                    {this.state.isSavingPost && (
-                                        <i className="fa fa-circle-o-notch fa-spin" />
-                                    )}{" "}
-                                    Xem trước
-                                </button>
-                            </div>
                         </div>
+                    </div>
+                    {this.state.errors.length > 0 && (
+                        <div
+                            className="alert alert-danger"
+                            style={{ marginBottom: 0 }}
+                        >
+                            {this.state.errors.map((error, index) => (
+                                <div key={index}>{error}</div>
+                            ))}
+                        </div>
+                    )}
+                    <div
+                        className="card"
+                        style={{
+                            padding: "65px 15px",
+                            position: "relative"
+                        }}
+                    >
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                drafts
+                            </i>{" "}
+                            Trạng thái: <strong>Nháp</strong>
+                        </div>
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                remove_red_eye
+                            </i>{" "}
+                            Hiển thị: <strong>Ẩn</strong>
+                        </div>
+
+                        <button
+                            style={{
+                                position: "absolute",
+                                bottom: 5,
+                                right: 15
+                            }}
+                            disabled={this.state.isSavingPost}
+                            onClick={this.publish}
+                            className="btn btn-rose"
+                        >
+                            {this.state.isSavingPost && (
+                                <i className="fa fa-circle-o-notch fa-spin" />
+                            )}{" "}
+                            Xuất bản
+                        </button>
+                        <button
+                            style={{ position: "absolute", top: 5, left: 15 }}
+                            disabled={this.state.isSavingPost}
+                            onClick={this.saveDraft}
+                            className="btn btn-default"
+                        >
+                            {this.state.isSavingPost && (
+                                <i className="fa fa-circle-o-notch fa-spin" />
+                            )}{" "}
+                            Lưu nháp
+                        </button>
+                        <button
+                            style={{ position: "absolute", top: 5, right: 15 }}
+                            disabled={this.state.isSavingPost}
+                            onClick={this.preview}
+                            className="btn btn-default"
+                        >
+                            {this.state.isSavingPost && (
+                                <i className="fa fa-circle-o-notch fa-spin" />
+                            )}{" "}
+                            Xem trước
+                        </button>
                     </div>
                 </div>
             </div>
