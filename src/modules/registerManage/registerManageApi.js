@@ -97,3 +97,16 @@ export function saveSubscriptionApi(register_id,select) {
         'note' : select.note,
     });
 }
+
+export function createRegisterApi(register) {
+    let url = env.MANAGE_API_URL + '/coworking-space/booking?';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.post(url, {
+        "name": register.name,
+        "phone": register.phone,
+        "email": register.email,
+    });
+}
