@@ -16,6 +16,7 @@ import Loading from "../../components/common/Loading";
 import SelectCommon from "../../components/common/Select";
 import {OverlayTrigger, Panel, Tooltip} from "react-bootstrap";
 import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
+import AddRegisterModal from "./AddRegisterModal";
 
 
 class RegisterManageContainer extends React.Component {
@@ -535,6 +536,8 @@ class RegisterManageContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <AddRegisterModal/>
+
                     </div>
                 )}
             </div>

@@ -248,5 +248,14 @@ export function createRegister(register, close) {
             });
     };
 }
+export function updateRegister(register) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_REGISTER_IN_CHOOSE_SEAT,
+            register: register,
+        });
+    };
+}
+
 
 

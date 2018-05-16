@@ -78,6 +78,33 @@ class AddRegisterModal extends React.Component {
                             updateFormData={this.updateFormRegister}
                             value={this.props.register && this.props.register.phone}
                         />
+
+                        <div className="modal-footer">
+                            {this.props.isCreatingRegister ?
+                                (
+                                    <button type="button" className="btn btn-rose disabled">
+                                        <i className="fa fa-spinner fa-spin "/>Đang thêm
+                                    </button>
+                                )
+                                :
+                                (
+                                    <button type="button" className="btn btn-rose"
+                                            onClick={
+                                                (e) => {
+                                                    this.createRegister(e);
+                                                }}
+                                    >Thêm</button>
+                                )
+                            }
+                            <button type="button"
+                                    className="btn"
+                                    onClick={
+                                        () => {
+                                            this.closeAddRegisterModal();
+                                        }}
+                            >Huỷ
+                            </button>
+                        </div>
                     </form>
 
 
@@ -89,16 +116,16 @@ class AddRegisterModal extends React.Component {
 
 AddRegisterModal.propTypes = {
     register: PropTypes.object.isRequired,
-    // isCreatingRegister: PropTypes.bool.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     isOpenAddRegisterModal: PropTypes.bool.isRequired,
+    isCreatingRegister: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        isOpenAddRegisterModal: state.registerManageMeetingRoom.isOpenAddRegisterModal,
-        register: state.registerManageMeetingRoom.register,
-        // isCreatingRegister: state.registerManageMeetingRoom.isCreatingRegister,
+        isOpenAddRegisterModal: state.registerManage.isOpenAddRegisterModal,
+        register: state.registerManage.register,
+        isCreatingRegister: state.registerManage.isCreatingRegister,
     };
 }
 
