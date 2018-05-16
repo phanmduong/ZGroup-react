@@ -21,6 +21,7 @@ import AddCategoryModal from "./AddCategoryModal";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 // // import KeetoolEditor from "../../../components/common/KeetoolEditor";
 // import MinEditor from '../../../js/keetool-editor';
+import {Link} from 'react-router';
 
 
 class BlogsContainer extends React.Component {
@@ -205,14 +206,13 @@ class BlogsContainer extends React.Component {
                                                 placement="top"
                                                 overlay={Add}
                                             >
-                                                <button
+                                                <Link
                                                     className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                                    type="button" onClick={
-                                                    (e) => {
-                                                        this.openCreatePostModal(e);
-                                                    }}>
+                                                    to="/blog/editor"
+                                                    type="button"
+                                                >
                                                     <strong>+</strong>
-                                                </button>
+                                                </Link>
                                             </OverlayTrigger>
                                         </div>
                                     </div>

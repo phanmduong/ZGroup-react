@@ -2,7 +2,10 @@ import { observable, computed, action } from "mobx";
 import * as blogApi from "../apis/blogApi";
 
 export default new class BlogEditorStore {
-    @observable post = {};
+    @observable post = {
+        kind: "",
+        language_id: 0
+    };
     @observable languages = [];
     @observable categories = [];
     @observable showAddLanguageModal = false;

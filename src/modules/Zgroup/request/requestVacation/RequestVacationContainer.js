@@ -203,7 +203,7 @@ class RequestVacationContainer extends React.Component {
                                                             width: "55%",
                                                         }}
                                                     >
-                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
                                                         >filter_list</i>
                                                     </button>
                                                 </TooltipButton>
@@ -224,7 +224,7 @@ class RequestVacationContainer extends React.Component {
                                                             width: "55%",
                                                         }}
                                                     >
-                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
                                                         >file_download</i>
                                                     </button>
                                                 </TooltipButton>

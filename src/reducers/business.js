@@ -9,6 +9,7 @@ import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer"
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import PaymentReducer from '../modules/payment/PaymentReducer';
 import CompanyReducer from '../modules/companies/CompanyReducer';
+import warehouseReducer from "../modules/Zgroup/warehouse/warehouseReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
     exportOrder: exportOrderReducer,
     companies: CompanyReducer,
     payment: PaymentReducer,
+    zWarehouse: warehouseReducer,
 });
 
 const rootReducer = (state, action) => {
