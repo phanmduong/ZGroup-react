@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import KeetoolEditor from "./common/editor/KeetoolEditor";
+import html from "./common/editor/HtmlConverter";
+const initValue = html.deserialize("");
 
 class EditorFormGroup extends React.Component {
     state = {
@@ -23,7 +25,7 @@ class EditorFormGroup extends React.Component {
                     {required && <star style={{ color: "red" }}>*</star>}
                 </label>
                 <KeetoolEditor
-                    value={value}
+                    value={value || initValue}
                     onChange={content => {
                         onChange(content);
                         this.setState({

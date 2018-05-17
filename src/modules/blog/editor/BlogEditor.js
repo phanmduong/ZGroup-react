@@ -21,7 +21,7 @@ import { savePostV2 } from "../apis/blogApi";
 import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
 import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const savePost = async (editor, status, publish_status) => {
     editor.setState({
@@ -61,7 +61,7 @@ class BlogEditor extends React.Component {
     componentDidMount() {
         store.loadLanguages();
         store.loadCategories();
-        const {postId} = this.props.params;
+        const { postId } = this.props.params;
         store.loadPostDetail(postId);
     }
 
@@ -110,7 +110,11 @@ class BlogEditor extends React.Component {
 
     preview = async () => {
         if (this.validateForm()) {
-            const data = await savePost(this, store.post.status, store.post.publish_status); // status == 3 mean keep the current status
+            const data = await savePost(
+                this,
+                store.post.status,
+                store.post.publish_status
+            ); // status == 3 mean keep the current status
             const url = BASE_URL + "/" + data.slug;
             const win = window.open(url, "_blank");
             win.focus();
@@ -155,7 +159,7 @@ class BlogEditor extends React.Component {
         <div className="form-group">
             <label className="control-label">{label}</label>
             <PlainTextEditor
-                value={store.post[field] || ""}
+                value={store.post[field]}
                 onChange={value => this.updatePost(field, value)}
             />
         </div>
@@ -198,7 +202,7 @@ class BlogEditor extends React.Component {
                             >
                                 <TooltipButton
                                     placement="top"
-                                    text="Tạo từ tiêu đề bài viết"
+                                    (text="Tạo từ tiêu đề bài viết"
                                 >
                                     <a
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
@@ -353,8 +357,7 @@ class BlogEditor extends React.Component {
                             >
                                 drafts
                             </i>{" "}
-                            Trạng thái:
-                            {" "}
+                            Trạng thái:{" "}
                             <strong>
                                 {!store.post.id
                                     ? "Chưa lưu"

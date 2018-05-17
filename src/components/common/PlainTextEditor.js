@@ -1,32 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Plain from 'slate-plain-serializer';
-import {Editor} from 'slate-react';
-
-
+import React from "react";
+import PropTypes from "prop-types";
+import Plain from "slate-plain-serializer";
+import { Editor } from "slate-react";
 
 const propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.object,
     onChange: PropTypes.func.isRequired
 };
 class PlainTextEditor extends React.Component {
-    state = {
-        value: Plain.deserialize(
-            this.props.value
-        )
-    }
-
-    onChange = ({value}) => {
-        this.setState({value});
-        this.props.onChange(Plain.serialize(value));
-    }
-    
+    onChange = ({ value }) => {
+        this.props.onChange(value);
+    };
+    initValue = Plain.deserialize("");
     render() {
         return (
             <div className="editor-wrapper">
                 <Editor
                     placeholder="Enter text"
-                    value={this.state.value}
+                    value={this.props.value || this.initValue}
                     onChange={this.onChange}
                 />
             </div>
