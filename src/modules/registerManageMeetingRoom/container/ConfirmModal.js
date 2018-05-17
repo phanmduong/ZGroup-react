@@ -127,9 +127,7 @@ class ConfirmModal extends React.Component {
 
 ConfirmModal.propTypes = {
     isOpenConfirmModal: PropTypes.bool.isRequired,
-    createRegister: PropTypes.func.isRequired,
     register: PropTypes.object.isRequired,
-    closeAddRegisterModal: PropTypes.func.isRequired,
     isCreatingRegister: PropTypes.bool.isRequired,
     registerManageMeetingRoomAction: PropTypes.object.isRequired,
 };

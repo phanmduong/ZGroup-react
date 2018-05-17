@@ -209,3 +209,53 @@ export function updateSelect(select) {
         });
     };
 }
+
+export function openAddRegisterModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ADD_REGISTER_MODAL,
+        });
+    };
+}
+
+export function closeAddRegisterModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ADD_REGISTER_MODAL,
+        });
+    };
+}
+
+export function createRegister(register, close) {
+    return (dispatch) => {
+        dispatch({type: types.BEGIN_CREATE_REGISTER});
+        registerManageApi.createRegisterApi(register)
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.CREATE_REGISTER_SUCCESS,
+                    });
+                    helper.showNotification("Thêm đăng kí thành công");
+                    dispatch(loadAllRegisters());
+                    close();
+                }
+                else {
+                    helper.showErrorNotification("Thêm thất bại");
+                    dispatch({
+                        type: types.CREATE_REGISTER_ERROR
+                    });
+                }
+            });
+    };
+}
+export function updateRegister(register) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_REGISTER_IN_CHOOSE_SEAT,
+            register: register,
+        });
+    };
+}
+
+
+

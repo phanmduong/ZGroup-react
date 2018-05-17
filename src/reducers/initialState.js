@@ -207,8 +207,10 @@ export default {
         },
         isSavingSubscription: false,
         isLoadingUserpack: false,
+        isCreatingRegister: false,
         subscriptions: [],
         userpacks: [],
+        register : {},
     },
 
     registerManageRoom: {

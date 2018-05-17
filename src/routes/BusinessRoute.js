@@ -14,7 +14,7 @@ import ItemOrderContainer from "../modules/importOrder/ItemOrderContainer";
 import OrderedGoodContainer from "../modules/Zgroup/orderedGood/OrderedGoodContainer";
 import CreateOrderGoodContainer from "../modules/Zgroup/orderGood/CreateOrderGoodContainer";
 import OrderGoodContainer from "../modules/Zgroup/orderGood/OrderGoodContainer";
-
+import WarehouseContainer from "../modules/Zgroup/warehouse/WarehouseContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -109,5 +109,9 @@ export default [
     {
         path: "/business/order-good/edit/:orderGoodId",
         component: CreateOrderGoodContainer,
+    },
+    {
+        path: "/business/zwarehouse",
+        component: WarehouseContainer,
     },
 ];

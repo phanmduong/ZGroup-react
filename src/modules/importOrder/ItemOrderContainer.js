@@ -111,6 +111,7 @@ class ItemOrderContainer extends React.Component {
     exportExcel = (input) => {
         if (!input || input.length == 0) {
             showErrorMessage("Không có dữ liệu");
+            this.setState({ showLoadingModal: false });
             return;
         }
         let wb = newWorkBook();

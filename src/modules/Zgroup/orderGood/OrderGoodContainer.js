@@ -6,12 +6,21 @@ import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import { Link } from "react-router";
-import * as helper from "../../../helpers/helper";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
-import ReactSelect from 'react-select';
-import moment from "moment";
+import Select from 'react-select';
 import TooltipButton from '../../../components/common/TooltipButton';
-import { Panel } from 'react-bootstrap';
+import { Modal, Panel } from "react-bootstrap";
+import {
+    newWorkBook,
+    appendArrayToWorkBook,
+    saveWorkBookToExcel,
+    renderExcelColumnArray,
+    showErrorMessage,
+    showNotification,
+    confirm, dotNumber,
+} from "../../../helpers/helper";
+import moment from "moment";
+import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../../constants/constants";
 
 
 
@@ -22,6 +31,7 @@ class OrderGoodContainer extends React.Component {
         this.state = {
             selectedCompany: '',
             openFilterPanel: false,
+            showLoadingModal: false,
         };
         this.confirm = this.confirm.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
@@ -39,11 +49,11 @@ class OrderGoodContainer extends React.Component {
 
 
     confirm(id) {
-        helper.confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
+        confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
             () => {
                 return this.props.orderGoodActions.confirmOrder(id,
                     () => {
-                        helper.showNotification("Duyệt thành công.");
+                        showNotification("Duyệt thành công.");
                         return this.props.orderGoodActions.loadAllOrderGood(this.props.paginator.current_page);
                     }
                 );
@@ -62,6 +72,69 @@ class OrderGoodContainer extends React.Component {
         this.setState({ openFilterPanel: !openFilterPanel });
     }
 
+    openLoadingModal = () => {
+        this.setState({ showLoadingModal: true });
+        this.props.orderGoodActions.loadAllOrderGoodNoPaging(this.exportExcel);
+    }
+
+    exportExcel = (input) => {
+        if (!input || input.length == 0) {
+            showErrorMessage("Không có dữ liệu");
+            this.setState({ showLoadingModal: false });
+            return;
+        }
+        //console.log(input);
+        let wb = newWorkBook();
+        let data = [];
+        let cols = renderExcelColumnArray([15, 35, 25, 25, 25, 25, 25, 25, 25]);//độ rộng cột  
+        let merges = [];
+        merges.push(
+            { s: { r: 2, c: 0 }, e: { r: 2, c: 5 } },
+            { s: { r: 0, c: 0 }, e: { r: 1, c: 0 } },
+        );
+
+        input.forEach((e, od) => {
+            data = [];
+            const head = ['STT', 'Tên', 'Mã', 'Giá', 'Số lượng', 'Thời gian'];
+            if (e.goods && e.goods.length > 0)
+                data = e.goods.map((item, index) => {
+                    let tm = moment(item.created_at ? item.created_at.date : "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+                    /* eslint-disable */
+                    let res = [
+                        index + 1,
+                        item.good ? item.good.name : "Không có",
+                        item.good ? item.good.code : "Không có",
+                        item.price ? item.price : '0',
+                        item.quantity ? item.quantity : '0',
+                        tm,
+                    ];
+                    /* eslint-enable */
+                    return res;
+                });
+            let time = moment(e.created_at.date || {}, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+
+            const info = [
+                ['Thông tin', 'Đối tác', 'Người tạo', 'Mã đặt hàng', 'Ngày tạo', 'Trạng thái'],
+                ['',
+                    e.company ? e.company.name : "Không tên",
+                    e.staff ? e.staff.name : 'Không tên',
+                    e.command_code ? e.command_code : "Không có",
+                    time,
+                    (e.status && e.status > 0) ? "Đã duyệt" : "Chưa duyệt",],
+                ['Danh sách sản phẩm'],
+            ];
+
+            data = [...info, head, ...data];
+
+            appendArrayToWorkBook(data, wb, e.command_code ? e.command_code : "Tab " + (od + 1), cols, null, merges);
+        });
+
+        //xuất file
+        saveWorkBookToExcel(wb, 'Danh sách đặt hàng');
+
+        this.setState({ showLoadingModal: false });
+    }
+
     render() {
         let { isLoading, paginator, orderGoodActions, orderList, companies } = this.props;
         let { selectedCompany } = this.state;
@@ -69,19 +142,28 @@ class OrderGoodContainer extends React.Component {
         //console.log(this.props);
         return (
             <div className="content">
+                <Modal
+                    show={this.state.showLoadingModal}
+                    onHide={() => { }}>
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading /></Modal.Body>
+                </Modal>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
 
                             <div className="card">
                                 <div className="card-content">
-                                    <div >
+
+                                    <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <div className="flex-row flex">
                                             <h4 className="card-title"><strong>Danh sách đặt hàng</strong></h4>
+
                                             <div>
                                                 <Link to="/business/order-good/create" className="btn btn-rose btn-round btn-xs button-add none-margin">
                                                     <strong>+</strong>
                                                 </Link>
+
                                             </div>
                                             <div>
                                                 <TooltipButton text="Lọc" placement="top">
@@ -97,9 +179,29 @@ class OrderGoodContainer extends React.Component {
                                                             width: "55%",
                                                         }}
                                                     >
-                                                        <i className="material-icons"
-                                                            style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
                                                         >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
+                                        </div>
+                                        <div className="flex-end">
+                                            <div>
+                                                <TooltipButton text="Xuất thành file excel" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openLoadingModal}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
+                                                        >file_download</i>
                                                     </button>
                                                 </TooltipButton>
                                             </div>
@@ -110,7 +212,7 @@ class OrderGoodContainer extends React.Component {
                                         <div className="row">
                                             <div className="col-lg-2 col-md-3 col-sm-4">
                                                 <label>Đối tác</label>
-                                                <ReactSelect
+                                                <Select
                                                     disabled={isLoading}
                                                     className=""
                                                     options={companies}
@@ -151,7 +253,7 @@ class OrderGoodContainer extends React.Component {
                                                                     <td>{order.goods.length}</td>
                                                                     <td>{date.format("D-M-YYYY")}</td>
 
-                                                                    <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
+                                                                    <td>{dotNumber(getTotalPrice(order.goods))}</td>
                                                                     <td><ButtonGroupAction
                                                                         editUrl={"/business/order-good/edit/" + order.id}
                                                                         disabledDelete={true}

@@ -77,6 +77,7 @@ class OrderedGoodContainer extends React.Component {
     exportExcel = (input) => {
         if (!input || input.length == 0) {
             showErrorMessage("Không có dữ liệu");
+            this.setState({ showLoadingModal: false });
             return;
         }
         //console.log(input);
@@ -94,7 +95,7 @@ class OrderedGoodContainer extends React.Component {
             const head = ['STT', 'Tên', 'Mã', 'Giá', 'Số lượng', 'Thời gian'];
             if (e.goods && e.goods.length > 0)
                 data = e.goods.map((item, index) => {
-                    let tm = moment(e.created_at ? e.created_at.date : "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+                    let tm = moment(item.created_at ? item.created_at.date : "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
                     /* eslint-disable */
                     let res = [
                         index + 1,
@@ -177,7 +178,7 @@ class OrderedGoodContainer extends React.Component {
                                                                 width: "55%",
                                                             }}
                                                         >
-                                                            <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                            <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
                                                             >filter_list</i>
                                                         </button>
                                                     </TooltipButton>
@@ -198,7 +199,7 @@ class OrderedGoodContainer extends React.Component {
                                                                 width: "55%",
                                                             }}
                                                         >
-                                                            <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                            <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
                                                             >file_download</i>
                                                         </button>
                                                     </TooltipButton>

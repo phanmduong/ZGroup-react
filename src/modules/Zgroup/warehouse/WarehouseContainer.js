@@ -10,7 +10,7 @@ import Pagination from "../../../components/common/Pagination";
 import ReactSelect from 'react-select';
 import {Modal, Panel} from 'react-bootstrap';
 import * as helper from "../../../helpers/helper";
-
+import TooltipButton from '../../../components/common/TooltipButton';
 class WarehouseContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -80,6 +80,11 @@ class WarehouseContainer extends React.Component {
     }
 
     exportExcel(input) {
+        if (!input || input.length == 0) {
+            helper.showErrorMessage("Không có dữ liệu");
+            this.setState({ showLoadingModal: false });
+            return;
+        }
         let wb = helper.newWorkBook();
         let data;
         let cols = [{"wch": 5}, {"wch": 50}, {"wch": 20}, {"wch": 20}, {"wch": 20},];//độ rộng cột
@@ -134,43 +139,52 @@ class WarehouseContainer extends React.Component {
                             <div className="card">
 
                                 <div className="card-content">
-                                    <div className="flex" style={{justifyContent: "space-between"}}>
-                                        <div className="flex">
-                                            <h4 className="card-title">
-                                                <strong>Quản lý kho hàng</strong>
-                                            </h4>
-
+                                    <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title"><strong>Quản lý kho hàng</strong> </h4>
                                             <div>
-                                                <button
-                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                                    data-toggle="tooltip"
-                                                    rel="tooltip"
-                                                    data-original-title="Lọc"
-                                                    onClick={() => this.setState({openFilter: !this.state.openFilter})}
-                                                    type="button">
-                                                    <i className="material-icons"
-                                                       style={{margin: "0px -4px", top: 0}}>filter_list</i>
-                                                </button>
+                                                <TooltipButton text="Lọc" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={() => this.setState({openFilter: !this.state.openFilter})}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
+                                                        >filter_list</i>
+                                                    </button>
+                                                </TooltipButton>
                                             </div>
                                         </div>
-                                        <div className="flex" style={{justifyContent: "flex-end"}}>
+                                        <div className="flex-end">
                                             <div>
-                                                <button
-                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                                    data-toggle="tooltip"
-                                                    rel="tooltip"
-                                                    data-original-title="Xuất file excel"
-                                                    type="button"
-                                                    onClick={this.openLoadingModal}
-                                                >
-                                                    <i className="material-icons"
-                                                       style={{margin: "0px -4px", top: 0}}>file_download</i>
-                                                </button>
+                                                <TooltipButton text="Xuất thành file excel" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={this.openLoadingModal}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -11, marginTop: -10 }}
+                                                        >file_download</i>
+                                                    </button>
+                                                </TooltipButton>
                                             </div>
                                         </div>
 
                                     </div>
-
                                     <div>
                                         <Panel collapsible expanded={this.state.openFilter}>
                                             <div className="row">

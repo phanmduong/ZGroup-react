@@ -30,6 +30,15 @@ export function loadAllOrderGood(page = 1, companyId='') {
     return axios.get(url);
 }
 
+export function loadAllOrderGoodNoPaging() {
+    let url     = env.MANAGE_API_URL +"/company/order/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}
+
 
 export function createOrderGood(data) {
     //http://manageapi.keetool.xyz/company/provided?token=
