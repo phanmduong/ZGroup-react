@@ -18,4 +18,8 @@ export default [
         path: "blog/editor",
         component: BlogEditor,
     },
+    {
+        path: "blog/:postId/editor",
+        component: BlogEditor
+    }
 ];

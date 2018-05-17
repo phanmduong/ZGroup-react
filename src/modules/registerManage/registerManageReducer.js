@@ -129,6 +129,41 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 select: countEndtime(action.select),
 
             };
+        case types.UPDATE_REGISTER_IN_CHOOSE_SEAT:
+            return{
+                ...state,
+                register : action.register,
+            };
+
+
+        case types.CLOSE_ADD_REGISTER_MODAL:
+            return {
+                ...state,
+                isOpenAddRegisterModal: false,
+                register: {},
+            };
+
+        case types.OPEN_ADD_REGISTER_MODAL:
+            return {
+                ...state,
+                isOpenAddRegisterModal: true,
+            };
+
+        case types.BEGIN_CREATE_REGISTER:
+            return {
+                ...state,
+                isCreatingRegister: true,
+            };
+        case types.CREATE_REGISTER_SUCCESS:
+            return {
+                ...state,
+                isCreatingRegister: false,
+            };
+        case types.CREATE_REGISTER_ERROR:
+            return {
+                ...state,
+                isCreatingRegister: false,
+            };
 
         default:
             return state;

@@ -2,11 +2,24 @@ import { observable, computed, action } from "mobx";
 import * as blogApi from "../apis/blogApi";
 
 export default new class BlogEditorStore {
-    @observable post = {};
+    @observable post = {
+        kind: "",
+        language_id: 0,
+        status: 0,
+        publish_status: ""
+    };
     @observable languages = [];
     @observable categories = [];
     @observable showAddLanguageModal = false;
     @observable showAddCategoryModal = false;
+
+    @action
+    loadPostDetail = async (postId) => {
+        const res = await blogApi.getPostApi(postId);
+        this.post = {
+            ...res.data.post
+        };  
+    }
 
     @action
     toggleAddCategoryModal = showModal => {
