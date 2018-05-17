@@ -1,6 +1,9 @@
 import { observable, action, computed } from "mobx";
 import * as roomApi from "./roomApi";
-import { showErrorNotification, showNotification } from "../../helpers/helper";
+import { 
+    showErrorNotification, 
+    showNotification,
+} from "../../helpers/helper";
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL,  } from "../../constants/constants";
 //import { browserHistory } from 'react-router';
@@ -49,6 +52,7 @@ export const store = new class DashboardStaffStore {
             this.isBooking = false;
             this.showCreateModal = false;
             this.loadRegisters(this.filter);
+            showNotification("Lưu thành công!");
         })
         .catch(() => {
             showErrorNotification("Có lỗi xảy ra.");

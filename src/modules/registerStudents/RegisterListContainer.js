@@ -645,7 +645,7 @@ class RegisterListContainer extends React.Component {
                 this.state.time.startTime,
                 this.state.time.endTime,
                 this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
+                this.state.time.appointmentPayment, 
                 value,
             );
         }.bind(this), 500);
@@ -691,7 +691,6 @@ class RegisterListContainer extends React.Component {
     showLoadingModal() {
         this.props.registerActions.loadAllRegisterStudent(
             '',//page
-            this.state.limit,
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
@@ -710,6 +709,10 @@ class RegisterListContainer extends React.Component {
     }
 
     closeLoadingModal() {
+        if(!this.props.excel || this.props.excel == 0){
+            helper.showErrorMessage("Không có dữ liệu!");
+            return;
+        }
         let json = this.props.excel;
         let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 25}, {"wch": 12}, {"wch": 8}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},];//độ rộng cột
         //begin điểm danh

@@ -10,7 +10,7 @@ import {
     confirm,
 } from "../../helpers/helper";
 import {STATUS_REGISTER_ROOM} from "../../constants/constants";
-import moment from "moment";
+//import moment from "moment";
 import {store} from './roomStore';
 import { observer } from "mobx-react";
 
@@ -26,7 +26,7 @@ class AddRegisterModal extends React.Component {
 
     updateFormData = (name, value) => {
         //store.updateFormData(name,value);
-        console.log(name,value);
+        //console.log(name,value);
         store.createData[name] = value;
     }
 
