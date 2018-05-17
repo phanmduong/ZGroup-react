@@ -60,7 +60,7 @@ class ListExportOrder extends React.Component {
                             let overTime = order.created_at ? tmp : false;
                             let date = moment(order.created_at.date);
                             return (
-                                <tr key={index} style={(overTime && order.status < 3) ? { backgroundColor: "lightcoral", color: "white" } : {}}>
+                                <tr key={index} className={(order.status < 3 && overTime ) ? "danger" : ""}>
                                     <td>{index + 1}</td>
                                     <td>{order.company.name}</td>
                                     <td>{order.command_code}</td>
