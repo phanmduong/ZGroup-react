@@ -7,9 +7,6 @@ import ConfirmOrderModal from "./ConfirmOrderModal";
 import { bindActionCreators } from 'redux';
 import * as helper from "../../helpers/helper";
 import { PRINT_ORDER_STATUS } from "../../constants/constants";
-import { Link } from "react-router";
-//import ReactSelect from 'react-select';
-//import FormInputDate from '../../components/common/FormInputDate';
 import Loading from "../../components/common/Loading";
 
 class ListPrintOrder extends React.Component {
