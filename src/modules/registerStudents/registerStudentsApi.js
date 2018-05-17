@@ -2,7 +2,20 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
-export function getAllRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '') {
+export function getAllRegisterStudent(
+    page = 1, 
+    genId, 
+    search = '', 
+    salerId = '', 
+    campaignId = '', 
+    classId = '', 
+    paid_status = '', 
+    class_status = '', 
+    startTime = '', 
+    endTime = '', 
+    base_id = '', 
+    query_coupon = '', 
+    appointment_payment = '') {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
         "page=" + page +
@@ -15,6 +28,7 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
         "&limit=-1" +
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
+        "&query_coupon=" + query_coupon +
         "&type=" + class_status;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;

@@ -389,7 +389,7 @@ class CreateOrderedGood extends React.Component {
                             <div>
                                 <label>Chọn sản phẩm</label>
                                 <ReactSelect
-                                    options={goods || []}
+                                    options={getUnselectedGoods(data.goods, goods, this.isEditModal ? addModalData.id : 0) || []}
                                     onChange={this.updateFormAdd}
                                     value={addModalData.id}
                                     defaultMessage="Chọn nhà sản phẩm"
@@ -480,6 +480,27 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderedGood);
+
+function findGood(good, arr) {
+    if (!arr || arr.length == 0) return -1;
+    for (let i = 0; i < arr.length; i++) {
+        if (good.id == arr[i].id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function getUnselectedGoods(chosen, all, editId) {
+    let res = [...all];
+    chosen.forEach(e => {
+        let id = findGood(e, res);
+        if (id != -1 && e.id != editId) {
+            res = [...res.slice(0, id), ...res.slice(id + 1, res.length)];
+        }
+    });
+    return res;
+}
 
 const defaultData = {
     company: { id: "", name: "", discount_comic: 0, discount_text: 0, },
