@@ -22,12 +22,29 @@ import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
 import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
 import PropTypes from "prop-types";
+import {
+    valueToHtml,
+    valueToPlain
+} from "../../../components/common/editor/editorHelpers";
 
 const savePost = async (editor, status, publish_status) => {
     editor.setState({
         isSavingPost: true
     });
-    const res = await savePostV2({ ...store.post, publish_status }, status);
+    const post = { store };
+    console.log(post.content);
+    const res = await savePostV2(
+        {
+            ...store.post,
+            publish_status,
+            content: valueToHtml(post.content),
+            description: valueToPlain(post.description),
+            meta_title: valueToPlain(post.meta_title),
+            keyword: valueToPlain(post.keyword),
+            meta_description: valueToPlain(post.meta_description)
+        },
+        status
+    );
     editor.setState({
         isSavingPost: false
     });
@@ -37,11 +54,11 @@ const savePost = async (editor, status, publish_status) => {
         showErrorNotification("Có lỗi xảy ra");
     }
 
-    const post = res.data.product;
+    const { product } = res.data;
 
     store.post = {
         ...store.post,
-        ...post
+        ...product
     };
     return res.data;
 };
@@ -86,9 +103,9 @@ class BlogEditor extends React.Component {
             errors.push("Bạn chưa chọn ngôn ngữ");
         }
 
-        if (store.post.content == "<p></p>") {
-            errors.push("Bạn nhập thiếu nội dung bài viết");
-        }
+        // if (store.post.content == "<p></p>") {
+        //     errors.push("Bạn nhập thiếu nội dung bài viết");
+        // }
 
         if (!store.post.url) {
             errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
@@ -306,11 +323,10 @@ class BlogEditor extends React.Component {
                             <EditorFormGroup
                                 label="Nội dung"
                                 required={true}
-                                value={store.post.content || ""}
-                                onChange={content =>
-                                    this.updatePost("content", content)
-                                }
-                                isNotValid={store.post.content == "<p></p>"}
+                                value={store.post.content}
+                                onChange={value => {
+                                    this.updatePost("content", value);
+                                }}
                             />
                         </div>
                     </div>
