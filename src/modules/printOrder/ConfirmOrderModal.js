@@ -36,7 +36,7 @@ class ConfirmOrderModal extends React.Component {
 
 
     render() {
-        // let {} = this.props;
+        let {disableButtons} = this.props;
         let { data } = this.state;
         let total_price =
             data.core1.number * data.core1.price
@@ -482,26 +482,26 @@ class ConfirmOrderModal extends React.Component {
                         </div>
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
+                { !disableButtons && <Modal.Footer>
                     {this.props.isCommitting ?
                         <button className="btn btn-rose disabled" type="button" style={{ width: "25%", float: "right" }}>
                             <i className="fa fa-spinner fa-spin" /> Đang duyệt
                         </button>
                         :
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                            <div className="col-md-3"><button style={{ width: "100%" }}
+                            <div className="col-md-2"><button style={{ width: "100%" }}
                                 className="btn btn-fill btn-rose" type="button"
                                 onClick={() => { return this.props.confirmOrder(data.id); }}
                             ><i className="material-icons">check</i> Duyệt
                             </button></div>
-                            <div className="col-md-3"><button style={{ width: "100%" }}
+                            <div className="col-md-2"><button style={{ width: "100%" }}
                                 className="btn btn-fill" type="button"
                                 onClick={this.props.onHide}
                             ><i className="material-icons">cancel</i> Đóng
                             </button></div>
                         </div>
                     }
-                </Modal.Footer>
+                </Modal.Footer>}
             </Modal>
         );
     }
@@ -513,7 +513,7 @@ ConfirmOrderModal.propTypes = {
     onHide: PropTypes.func.isRequired,
     data: PropTypes.object,
     confirmOrder: PropTypes.func,
-
+    disableButtons: PropTypes.bool,
 };
 
 export default (ConfirmOrderModal);
