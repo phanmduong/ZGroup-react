@@ -417,7 +417,9 @@ class KeetoolEditor extends React.Component {
         let isActive = hasBlock(type, value);
 
         if (["numbered-list", "bulleted-list"].includes(type)) {
-            const parent = value.blocks.first() && value.document.getParent(value.blocks.first().key);
+            const parent =
+                value.blocks.first() &&
+                value.document.getParent(value.blocks.first().key);
             isActive =
                 hasBlock("list-item", value) && parent && parent.type === type;
         }

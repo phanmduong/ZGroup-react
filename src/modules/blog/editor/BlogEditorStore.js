@@ -16,6 +16,17 @@ export default new class BlogEditorStore {
     @observable showAddCategoryModal = false;
 
     @action
+    resetPostForm() {
+        this.post = {
+            kind: "",
+            language_id: 0,
+            status: 0,
+            publish_status: "",
+            content: htmlToValue("")
+        };
+    }
+
+    @action
     loadPostDetail = async postId => {
         const res = await blogApi.getPostApi(postId);
         const { post } = res.data;
@@ -70,7 +81,7 @@ export default new class BlogEditorStore {
         return this.languages.map(language => {
             return {
                 label: language.name,
-                value: language.encoding
+                value: language.id
             };
         });
     }

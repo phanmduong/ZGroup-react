@@ -22,26 +22,18 @@ import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
 import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
 import PropTypes from "prop-types";
-import {
-    valueToHtml,
-    valueToPlain
-} from "../../../components/common/editor/editorHelpers";
+import { postTextToValue, postValueToText } from "./blogEditorHelper";
 
 const savePost = async (editor, status, publish_status) => {
     editor.setState({
         isSavingPost: true
     });
-    const post = { store };
-    console.log(post.content);
+    const convertedPost = postValueToText(store.post);
+
     const res = await savePostV2(
         {
-            ...store.post,
-            publish_status,
-            content: valueToHtml(post.content),
-            description: valueToPlain(post.description),
-            meta_title: valueToPlain(post.meta_title),
-            keyword: valueToPlain(post.keyword),
-            meta_description: valueToPlain(post.meta_description)
+            ...convertedPost,
+            publish_status
         },
         status
     );
@@ -49,17 +41,15 @@ const savePost = async (editor, status, publish_status) => {
         isSavingPost: false
     });
     if (res.data.status) {
-        showNotification("Xuất bản bài viết thành công");
+        showNotification("Lưu bài viết thành công");
     } else {
         showErrorNotification("Có lỗi xảy ra");
     }
 
     const { product } = res.data;
 
-    store.post = {
-        ...store.post,
-        ...product
-    };
+    store.post = postTextToValue(product);
+
     return res.data;
 };
 
@@ -78,12 +68,11 @@ class BlogEditor extends React.Component {
     componentDidMount() {
         store.loadLanguages();
         store.loadCategories();
+        store.resetPostForm();
         const { postId } = this.props.params;
-        store.loadPostDetail(postId);
-    }
-
-    componentDidUpdate() {
-        $("#tags").tagsinput();
+        if (postId) {
+            store.loadPostDetail(postId);
+        }
     }
 
     validateForm() {
@@ -396,6 +385,38 @@ class BlogEditor extends React.Component {
                             </strong>
                         </div>
 
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                calendar_today
+                            </i>{" "}
+                            Ngày tạo:{" "}
+                            <strong>
+                                {store.post.created_at && store.post.created_at}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                timelapse
+                            </i>{" "}
+                            Ngày sửa:{" "}
+                            <strong>
+                                {store.post.updated_at && store.post.updated_at}
+                            </strong>
+                        </div>
+
                         <button
                             style={{
                                 position: "absolute",
@@ -420,7 +441,7 @@ class BlogEditor extends React.Component {
                             {this.state.isSavingPost && (
                                 <i className="fa fa-circle-o-notch fa-spin" />
                             )}{" "}
-                            Lưu nháp
+                            Lưu
                         </button>
                         <button
                             style={{ position: "absolute", top: 5, right: 15 }}
