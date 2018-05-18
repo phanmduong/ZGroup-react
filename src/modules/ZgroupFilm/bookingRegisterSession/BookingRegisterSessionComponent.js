@@ -2,12 +2,12 @@ import React from 'react';
 import FormInputSelect from '../../../components/common/FormInputSelect';
 import FormInputDate from '../../../components/common/FormInputDate';
 import PropTypes from 'prop-types';
-import BookingRegisterSessionSeat from "./BookingRegisterSessionSeat";
+import BookingGrid from "./BookingGrid";
 import * as filmAction from "../filmAction";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import Loading from "../../../components/common/Loading";
-
+import moment from "moment";
 
 
 class BookingRegisterSessionComponent extends React.Component {
@@ -53,6 +53,7 @@ class BookingRegisterSessionComponent extends React.Component {
                         <div className="col-md-6">
                             <FormInputDate
                                 name="name"
+                                minDate={moment().format('YYYY-MM-DD')}
                                 id="select_day"
                                 label="Ngày chiếu"
                                 value={this.state.select_day.name}
@@ -113,7 +114,7 @@ class BookingRegisterSessionComponent extends React.Component {
                     <hr/>
                     {
                         this.props.isLoading ? <Loading/> :
-                            <BookingRegisterSessionSeat
+                            <BookingGrid
                                 room_id={this.state.roomId}/>
                     }
 
