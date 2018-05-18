@@ -1,6 +1,5 @@
 import React from "react";
 import { Editor, getEventRange, getEventTransfer } from "slate-react";
-import html from "./HtmlConverter";
 import { LAST_CHILD_TYPE_INVALID } from "slate-schema-violations";
 import {
     DEFAULT_NODE,
@@ -22,8 +21,6 @@ import {
 } from "../../../helpers/helper";
 import PropTypes from "prop-types";
 import LinkModal from "./LinkModal";
-
-const initialValue = "";
 
 class KeetoolEditor extends React.Component {
     state = {
@@ -203,11 +200,8 @@ class KeetoolEditor extends React.Component {
     };
 
     onChange = ({ value }) => {
-        this.setState({
-            value
-        });
         if (this.props.onChange) {
-            this.props.onChange(html.serialize(value));
+            this.props.onChange(value);
         }
     };
 
@@ -563,7 +557,7 @@ class KeetoolEditor extends React.Component {
 
 KeetoolEditor.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.object.isRequired
 };
 
 export default KeetoolEditor;

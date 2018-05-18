@@ -1,15 +1,14 @@
 import { observable, computed, action } from "mobx";
 import * as blogApi from "../apis/blogApi";
-import Plain from "slate-plain-serializer";
-import html from "../../../components/common/editor/HtmlConverter";
-
+import { htmlToValue, plainToValue } from "../../../components/common/editor/editorHelpers";
 export default new class BlogEditorStore {
     @observable
     post = {
         kind: "",
         language_id: 0,
         status: 0,
-        publish_status: ""
+        publish_status: "",
+        content: htmlToValue("")
     };
     @observable languages = [];
     @observable categories = [];
@@ -22,11 +21,11 @@ export default new class BlogEditorStore {
         const { post } = res.data;
         this.post = {
             ...post,
-            description: Plain.deserialize(post.description),
-            meta_title: Plain.deserialize(post.meta_title),
-            keyword: Plain.deserialize(post.keyword),
-            meta_description: Plain.deserialize(post.meta_description),
-            content: html.deserialize(post.content)
+            description: plainToValue(post.description),
+            meta_title: plainToValue(post.meta_title),
+            keyword: plainToValue(post.keyword),
+            meta_description: plainToValue(post.meta_description),
+            content: htmlToValue(post.content)
         };
     };
 

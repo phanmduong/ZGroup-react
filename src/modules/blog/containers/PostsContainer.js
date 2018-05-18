@@ -14,13 +14,9 @@ import Search from "../../../components/common/Search";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import Select from '../../../components/common/Select';
-// import Select               from './Select';
-import PostModal from "./PostModal";
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
-// // import KeetoolEditor from "../../../components/common/KeetoolEditor";
-// import MinEditor from '../../../js/keetool-editor';
 import {Link} from 'react-router';
 
 
@@ -39,7 +35,6 @@ class BlogsContainer extends React.Component {
         };
         this.timeOut = null;
         this.loadPosts = this.loadPosts.bind(this);
-        this.openCreatePostModal = this.openCreatePostModal.bind(this);
         this.loadByText = this.loadByText.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
@@ -135,12 +130,6 @@ class BlogsContainer extends React.Component {
             500,
         );
     }
-
-    openCreatePostModal(e) {
-        this.props.blogActions.openCreatePostModal();
-        e.preventDefault();
-    }
-
 
     render() {
         const Add = <Tooltip id="tooltip">Thêm bài viết</Tooltip>;
@@ -239,9 +228,6 @@ class BlogsContainer extends React.Component {
                         </div>
                     </div>
                 )}
-
-
-                <PostModal/>
                 <AddLanguageModal/>
                 <AddCategoryModal/>
 
