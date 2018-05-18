@@ -202,7 +202,7 @@ class BlogEditor extends React.Component {
                             >
                                 <TooltipButton
                                     placement="top"
-                                    (text="Tạo từ tiêu đề bài viết"
+                                    text="Tạo từ tiêu đề bài viết"
                                 >
                                     <a
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
