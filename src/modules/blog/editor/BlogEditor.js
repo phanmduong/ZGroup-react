@@ -20,12 +20,14 @@ import TagsInput from "../../../components/common/TagsInput";
 import { savePostV2 } from "../apis/blogApi";
 import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
+import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
+import PropTypes from "prop-types";
 
-const savePost = async (editor, status) => {
+const savePost = async (editor, status, publish_status) => {
     editor.setState({
         isSavingPost: true
     });
-    const res = await savePostV2(store.post, status);
+    const res = await savePostV2({ ...store.post, publish_status }, status);
     editor.setState({
         isSavingPost: false
     });
@@ -34,13 +36,19 @@ const savePost = async (editor, status) => {
     } else {
         showErrorNotification("Có lỗi xảy ra");
     }
+
+    const post = res.data.product;
+
     store.post = {
         ...store.post,
-        id: res.data.id
+        ...post
     };
     return res.data;
 };
 
+const propTypes = {
+    params: PropTypes.object.isRequired
+};
 @observer
 class BlogEditor extends React.Component {
     state = {
@@ -53,6 +61,8 @@ class BlogEditor extends React.Component {
     componentDidMount() {
         store.loadLanguages();
         store.loadCategories();
+        const { postId } = this.props.params;
+        store.loadPostDetail(postId);
     }
 
     componentDidUpdate() {
@@ -91,17 +101,21 @@ class BlogEditor extends React.Component {
     }
 
     publish = () => {
-        if (this.validateForm()) savePost(this, 1);
+        if (this.validateForm()) savePost(this, 1, PUBLISHED);
     };
 
     saveDraft = async () => {
-        if (this.validateForm()) savePost(this, 0);
+        if (this.validateForm()) savePost(this, 0, DRAFT);
     };
 
     preview = async () => {
         if (this.validateForm()) {
-            const data = await savePost(this, 3); // status == 3 mean keep the current status
-            const url = BASE_URL +"/" + data.slug;
+            const data = await savePost(
+                this,
+                store.post.status,
+                store.post.publish_status
+            ); // status == 3 mean keep the current status
+            const url = BASE_URL + "/" + data.slug;
             const win = window.open(url, "_blank");
             win.focus();
         }
@@ -145,7 +159,7 @@ class BlogEditor extends React.Component {
         <div className="form-group">
             <label className="control-label">{label}</label>
             <PlainTextEditor
-                value={store.post[field] || ""}
+                value={store.post[field]}
                 onChange={value => this.updatePost(field, value)}
             />
         </div>
@@ -343,7 +357,12 @@ class BlogEditor extends React.Component {
                             >
                                 drafts
                             </i>{" "}
-                            Trạng thái: <strong>Nháp</strong>
+                            Trạng thái:{" "}
+                            <strong>
+                                {!store.post.id
+                                    ? "Chưa lưu"
+                                    : PUBLISH_STATUS[store.post.publish_status]}
+                            </strong>
                         </div>
                         <div>
                             <i
@@ -355,7 +374,10 @@ class BlogEditor extends React.Component {
                             >
                                 remove_red_eye
                             </i>{" "}
-                            Hiển thị: <strong>Ẩn</strong>
+                            Hiển thị:{" "}
+                            <strong>
+                                {store.post.status == 1 ? "Hiện" : "Ẩn"}
+                            </strong>
                         </div>
 
                         <button
@@ -401,5 +423,7 @@ class BlogEditor extends React.Component {
         );
     }
 }
+
+BlogEditor.propTypes = propTypes;
 
 export default BlogEditor;

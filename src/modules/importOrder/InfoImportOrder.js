@@ -167,7 +167,7 @@ class InfoImportOrder extends React.Component{
                                                         value={data.note}
                                                         onKeyUp={() => {
                                                         }}
-                                                        placeholder="Nhập ghi chú"
+                                                        placeholder=""
                                                         className="comment-input"
                                                         style={{
                                                             width: "100%",

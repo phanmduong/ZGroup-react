@@ -7,13 +7,7 @@ import ConfirmOrderModal from "./ConfirmOrderModal";
 import { bindActionCreators } from 'redux';
 import * as helper from "../../helpers/helper";
 import { PRINT_ORDER_STATUS } from "../../constants/constants";
-import { Link } from "react-router";
-//import ReactSelect from 'react-select';
-//import FormInputDate from '../../components/common/FormInputDate';
 import Loading from "../../components/common/Loading";
-/*  */
-const textAlignCenter = { textAlign: "center" };
-
 
 class ListPrintOrder extends React.Component {
     constructor(props, context) {
@@ -23,6 +17,7 @@ class ListPrintOrder extends React.Component {
             data: defaultData,
             statuses: getStatusArr(),
             selectedDate: '',
+            disableButtons: false,
         };
         this.confirm = this.confirm.bind(this);
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
@@ -50,8 +45,8 @@ class ListPrintOrder extends React.Component {
 
 
 
-    openConfirmModal(obj) {
-        this.setState({ openInfoModal: true, data: obj });
+    openConfirmModal(obj, disableButtons) {
+        this.setState({ openInfoModal: true, data: obj, disableButtons });
     }
     closeConfirmModal() {
         this.setState({ openInfoModal: false });
@@ -63,12 +58,13 @@ class ListPrintOrder extends React.Component {
 
         //console.log(this.props);
         return (
-            <div className="table-responsive" style={{ minHeight: 300 }}>
+            <div className="table-responsive">
                 <ConfirmOrderModal
                     data={this.state.data}
                     show={this.state.openInfoModal}
                     onHide={this.closeConfirmModal}
                     confirmOrder={this.confirm}
+                    disableButtons={this.state.disableButtons}
                 />
                 <table id="datatables"
                     className="table table-striped table-no-bordered table-hover"
@@ -76,56 +72,12 @@ class ListPrintOrder extends React.Component {
                     <thead className="text-rose">
                         <tr>
                             <th>STT</th>
-                            <th style={textAlignCenter}>Mã giao dịch</th>
+                            <th>Mã giao dịch</th>
                             <th>Tên sách</th>
                             <th>Ngày đặt</th>
                             <th>Trạng thái</th>
                             <th />
                         </tr>
-                        {/* <tr>
-                            <th />
-                            <th style={filterStyle}>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    className=""
-                                    options={codes}
-                                    onChange={changeCodeFilter}
-                                    value={selectedCode}
-                                    name="filter_class"
-                                />
-                            </th>
-                            <th style={filterStyle}>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    className=""
-                                    options={goods}
-                                    onChange={changeProduct}
-                                    value={selectedProduct}
-                                    name="filter_class"
-                                />
-                            </th>
-                            <th style={filterStyle}>
-                                 <div className="col-md-12">
-                                <FormInputDate
-                                    label=""
-                                    name="date"
-                                    updateFormData={(e) => changeDate(e)}
-                                    value={selectedDate}
-                                    id="date"
-
-                                /></div> 
-                            </th>
-                            <th colSpan={2} style={filterStyle}>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    className=""
-                                    options={this.state.statuses}
-                                    onChange={changeStatus}
-                                    value={selectedStatus}
-                                    name="filter_class"
-                                />
-                            </th>
-                        </tr> */}
                     </thead>
                     {
                         isLoading ? <Loading /> :
@@ -136,7 +88,9 @@ class ListPrintOrder extends React.Component {
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{order.command_code ?
-                                                <Link to={"/business/print-order/edit/" + order.id} className="text-name-student-register"> {order.command_code}</Link>
+                                                <a  className="text-name-student-register" onClick={() => {
+                                                    return this.openConfirmModal(order, true);
+                                                }}> {order.command_code}</a>
                                                 :
                                                 "Chưa có"
                                             }</td>
@@ -152,7 +106,7 @@ class ListPrintOrder extends React.Component {
                                                         <a data-toggle="tooltip" title="Duyệt"
                                                             type="button" rel="tooltip"
                                                             onClick={() => {
-                                                                return this.openConfirmModal(order);
+                                                                return this.openConfirmModal(order, false);
                                                             }}
                                                         >
                                                             <i className="material-icons">done</i>

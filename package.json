@@ -1,22 +1,4 @@
 {
-<<<<<<< HEAD
-  "private": true,
-  "devDependencies": {
-    "gulp": "^3.8.8",
-    "gulp-inject": "^4.1.0",
-    "gulp-load-plugins": "^1.2.4"
-  },
-  "dependencies": {
-    "bootstrap-sass": "^3.0.0",
-    "express": "^4.13.4",
-    "gulp": "^3.9.1",
-    "html-to-text": "^3.3.0",
-    "ioredis": "^1.15.1",
-    "laravel-elixir": "^4.2.1",
-    "passport-facebook": "^2.1.0",
-    "redis": "^2.6.0-2",
-    "socket.io": "^1.4.6"
-=======
   "name": "manage",
   "version": "0.1.0",
   "description": "",
@@ -164,9 +146,9 @@
     "babel-jest": "20.0.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.6",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "1.6.0",
     "babel-preset-es2015": "^6.24.1",
@@ -193,7 +175,7 @@
     "jest-cli": "20.0.4",
     "json-loader": "0.5.4",
     "mockdate": "2.0.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "4.5.3",
     "npm-run-all": "4.0.2",
     "opn-cli": "3.1.0",
     "postcss-loader": "1.2.1",
@@ -346,6 +328,5 @@
       "react/sort-comp": 1
     },
     "globals": {}
->>>>>>> fc0264b4d43458838bc34f3a4177921bfe6b8f14
   }
 }

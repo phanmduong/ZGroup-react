@@ -27,7 +27,7 @@ const initialValue = "";
 
 class KeetoolEditor extends React.Component {
     state = {
-        value: html.deserialize(this.props.value || initialValue),
+        // value: html.deserialize(this.props.value || initialValue),
         isLoading: false,
         text: "Đang xử lý",
         showLinkModal: false
@@ -54,7 +54,7 @@ class KeetoolEditor extends React.Component {
 
     onClickInline = (event, type) => {
         event.preventDefault();
-        const { value } = this.state;
+        const { value } = this.props;
         const change = value.change();
 
         if (type == "link") {
@@ -90,7 +90,8 @@ class KeetoolEditor extends React.Component {
                             event.currentTarget.responseText
                         );
                         showNotification("Tải lên thành công");
-                        const change = this.state.value
+
+                        const change = this.props.value
                             .change()
                             .call(insertImage, data.url);
                         this.onChange(change);
@@ -144,7 +145,8 @@ class KeetoolEditor extends React.Component {
                                 event.currentTarget.responseText
                             );
                             showNotification("Tải lên thành công");
-                            const change = this.state.value
+
+                            const change = this.props.value
                                 .change()
                                 .call(insertImage, data.url);
                             this.onChange(change);
@@ -248,7 +250,7 @@ class KeetoolEditor extends React.Component {
 
     onClickMark = (event, type) => {
         event.preventDefault();
-        const { value } = this.state;
+        const { value } = this.props;
         const change = value.change().toggleMark(type);
         this.onChange(change);
     };
@@ -262,7 +264,7 @@ class KeetoolEditor extends React.Component {
 
     onClickBlock = (event, type) => {
         event.preventDefault();
-        const { value } = this.state;
+        const { value } = this.props;
         const change = value.change();
         const { document } = value;
 
@@ -321,7 +323,7 @@ class KeetoolEditor extends React.Component {
             <div className="editor-toolbar-menu">
                 <LinkModal
                     change={this.onChange}
-                    value={this.state.value}
+                    value={this.props.value}
                     show={this.state.showLinkModal}
                     close={this.closeLinkModal}
                 />
@@ -372,7 +374,7 @@ class KeetoolEditor extends React.Component {
     };
 
     renderInlineButton = (type, icon) => {
-        const isActive = hasInline(type, this.state.value);
+        const isActive = hasInline(type, this.props.value);
         const onMouseDown = event => this.onClickInline(event, type);
 
         return (
@@ -395,7 +397,7 @@ class KeetoolEditor extends React.Component {
      * @return {Element}
      */
     renderMarkButton = (type, icon) => {
-        const isActive = hasMark(type, this.state.value);
+        const isActive = hasMark(type, this.props.value);
         const onMouseDown = event => this.onClickMark(event, type);
 
         return (
@@ -419,11 +421,12 @@ class KeetoolEditor extends React.Component {
      */
 
     renderBlockButton = (type, icon) => {
-        const { value } = this.state;
+        const { value } = this.props;
         let isActive = hasBlock(type, value);
 
         if (["numbered-list", "bulleted-list"].includes(type)) {
-            const parent = value.document.getParent(value.blocks.first().key);
+
+            const parent = value.blocks.first() && value.document.getParent(value.blocks.first().key);
             isActive =
                 hasBlock("list-item", value) && parent && parent.type === type;
         }
@@ -452,7 +455,7 @@ class KeetoolEditor extends React.Component {
             <div className="editor">
                 <Editor
                     placeholder="Enter some text..."
-                    value={this.state.value}
+                    value={this.props.value}
                     onChange={this.onChange}
                     onKeyDown={this.onKeyDown}
                     renderNode={this.renderNode}

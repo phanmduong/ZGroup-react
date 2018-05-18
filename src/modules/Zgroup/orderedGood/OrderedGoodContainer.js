@@ -20,6 +20,7 @@ import {
     confirm, dotNumber,
 } from "../../../helpers/helper";
 import moment from "moment";
+import InfoModal from "./InfoModal";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../../constants/constants";
 
 class OrderedGoodContainer extends React.Component {
@@ -29,6 +30,12 @@ class OrderedGoodContainer extends React.Component {
             selectedCompany: '',
             openFilterPanel: false,
             showLoadingModal: false,
+            showInfoModal: false,
+            data: {
+                company: { id: "", name: "", discount_comic: 0, discount_text: 0, },
+                goods: [],
+                note: "",
+            },
         };
         this.confirm = this.confirm.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
@@ -67,6 +74,10 @@ class OrderedGoodContainer extends React.Component {
     openFilterPanel() {
         let { openFilterPanel } = this.state;
         this.setState({ openFilterPanel: !openFilterPanel });
+    }
+
+    openInfoModal = (data) =>{
+        this.setState({data, showInfoModal: true});
     }
 
     openLoadingModal = () => {
@@ -132,6 +143,8 @@ class OrderedGoodContainer extends React.Component {
         this.setState({ showLoadingModal: false });
     }
 
+   
+
     render() {
         let { isLoading, paginator, orderedGoodActions, orderedList, companies } = this.props;
         let { selectedCompany } = this.state;
@@ -145,6 +158,12 @@ class OrderedGoodContainer extends React.Component {
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
                     <Modal.Body><Loading /></Modal.Body>
                 </Modal>
+                <InfoModal
+                    data={this.state.data}
+                    show={this.state.showInfoModal}
+                    onHide={() => this.setState({ showInfoModal: false })}
+
+                />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -232,8 +251,8 @@ class OrderedGoodContainer extends React.Component {
                                                     <thead className="text-rose">
                                                         <tr>
                                                             <th>STT</th>
-                                                            <th>Nhà phân phối</th>
                                                             <th>Mã đơn hàng</th>
+                                                            <th>Nhà phân phối</th>
                                                             <th>Số sản phẩm</th>
                                                             <th>Ngày tạo</th>
                                                             <th>Giá trị</th>
@@ -247,8 +266,8 @@ class OrderedGoodContainer extends React.Component {
                                                             return (
                                                                 <tr key={index}>
                                                                     <td>{index + 1}</td>
+                                                                    <td><div onClick={()=>this.openInfoModal(order)}><b>{order.command_code}</b></div></td>
                                                                     <td>{order.company.name}</td>
-                                                                    <td>{order.command_code}</td>
                                                                     <td>{order.goods.length}</td>
                                                                     <td>{date.format('D-M-YYYY')}</td>
 
