@@ -37,7 +37,7 @@ class AddBookingModal extends React.Component {
     }
 
     componentWillMount() {
-        helper.setFormValidation('#form-book-room');
+        helper.setFormValidation('#form-book-bookingRegisterSession');
     }
 
     updateFormData(name, value) {
@@ -52,7 +52,7 @@ class AddBookingModal extends React.Component {
     }
 
     checkFormValid() {
-        if ($('#form-book-room').valid()) {
+        if ($('#form-book-bookingRegisterSession').valid()) {
             if (helper.isEmptyInput(this.state.data.start_time)) {
                 helper.showErrorNotification('Bạn chưa chọn ngày bắt đầu');
                 return false;

@@ -226,7 +226,7 @@ class ChooseSeatModalContainer extends React.Component {
                                             <div>
                                                 <RoomGrid
                                                     canvasId={
-                                                        "room-canvas" + room.id
+                                                        "bookingRegisterSession-canvas" + room.id
                                                     }
                                                     gridSize={30}
                                                     gridOn={false}

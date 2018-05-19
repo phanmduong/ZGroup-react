@@ -40,6 +40,7 @@ class SessionComponent extends React.Component {
 
                     {this.props.sessions && this.props.sessions.map((session, index) => {
                         let a = this.props.allFilms.filter((film) => (film.id == session.film_id))[0];
+                        let b = this.props.rooms.filter((room)=>(room.id===session.room_id))[0];
                         return (
                             <tr key={index}>
                                 <td>{index + 1}</td>
@@ -54,7 +55,7 @@ class SessionComponent extends React.Component {
                                     </TooltipButton>
                                 </td>
                                 <td>
-                                    Phòng {session.room_id}
+                                    {b && b.name}
                                 </td>
                                 <td>
                                     {session.start_date}
@@ -108,11 +109,13 @@ SessionComponent.propTypes = {
     sessions: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
+    rooms: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         allFilms: state.film.allFilms,
+        rooms: state.film.rooms,
     };
 }
 

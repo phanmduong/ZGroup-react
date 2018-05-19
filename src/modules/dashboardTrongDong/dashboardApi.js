@@ -14,7 +14,7 @@ export function loadBases() {
 }
 
 export function loadRooms() {
-    let url = env.MANAGE_API_URL + "/trongdong/room/all";
+    let url = env.MANAGE_API_URL + "/trongdong/bookingRegisterSession/all";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -24,7 +24,7 @@ export function loadRooms() {
 }
 
 export function loadRoomTypes() {
-    let url = env.MANAGE_API_URL + "/trongdong/room-type/all";
+    let url = env.MANAGE_API_URL + "/trongdong/bookingRegisterSession-type/all";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -54,7 +54,7 @@ export function loadDashboard(baseId = "", roomTypeId = "", roomId = "") {
 }
 
 export function changeTime(registerRoomId = "", startTime = "", endTime = "") {
-    let url = env.MANAGE_API_URL + "/trongdong/register-room/change-time";
+    let url = env.MANAGE_API_URL + "/trongdong/register-bookingRegisterSession/change-time";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -67,7 +67,7 @@ export function changeTime(registerRoomId = "", startTime = "", endTime = "") {
 }
 
 export function changeStatus(registerId = "", status) {
-    let url = env.MANAGE_API_URL + "/trongdong/register-room/change-status";
+    let url = env.MANAGE_API_URL + "/trongdong/register-bookingRegisterSession/change-status";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;

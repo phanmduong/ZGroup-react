@@ -64,7 +64,7 @@ export default [
     },
 
     {
-        path: "/sales/sales-room",
+        path: "/sales/sales-bookingRegisterSession",
         component: SummarySalesRoomContainer,
         children: [
             {
