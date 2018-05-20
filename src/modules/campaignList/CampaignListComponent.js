@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
 import Switch from '../../components/common/Switch';
+import {dotNumber} from '../../helpers/helper';
 
 class CampaignListComponent extends React.Component {
 	constructor(props, context) {
@@ -18,7 +19,7 @@ class CampaignListComponent extends React.Component {
 							<th />
 							<th>Tên chiến dịch</th>
 							<th>Mô tả ngắn</th>
-							<th>Số tin đã gửi</th>
+							<th>Sent/Total</th>
 							<th>Ngân sách</th>
 							<th>Trạng thái</th>
 							<th />
@@ -28,9 +29,7 @@ class CampaignListComponent extends React.Component {
 						{this.props.campaigns &&
 							this.props.campaigns.map((campaign, index) => {
 								const name =
-									campaign.name.length < 15
-										? campaign.name
-										: campaign.name.substring(0, 14) + '...';
+									campaign.name.length < 15 ? campaign.name : campaign.name.substring(0, 14) + '...';
 								const image = campaign.user.avatar_url
 									? campaign.user.avatar_url.substring(0, 4) === 'http'
 										? campaign.user.avatar_url
@@ -40,6 +39,9 @@ class CampaignListComponent extends React.Component {
 									campaign.description.length < 25
 										? campaign.description
 										: campaign.description.substring(0, 24) + '...';
+								const percent = campaign.total_quantity
+									? campaign.sent_quantity / campaign.total_quantity * 100
+									: 0;
 								return (
 									<tr key={index}>
 										<td>
@@ -50,8 +52,7 @@ class CampaignListComponent extends React.Component {
 														height: '30px',
 														borderRadius: '50%',
 														verticalAlign: 'middle',
-														background:
-															'url(' + image + ') center center / cover',
+														background: 'url(' + image + ') center center / cover',
 														display: 'inline-block',
 														float: 'right',
 														marginLeft: '3px'
@@ -71,7 +72,8 @@ class CampaignListComponent extends React.Component {
 													className="text-name-student-register"
 													rel="tooltip"
 													title=""
-													data-original-title="Remove item">
+													data-original-title="Remove item"
+												>
 													{name}
 												</Link>
 											</TooltipButton>
@@ -84,7 +86,7 @@ class CampaignListComponent extends React.Component {
 										<td>
 											<div>
 												<h7>
-													{campaign.sent_quantity}/{campaign.needed_quantity}
+													{campaign.sent_quantity}/{campaign.total_quantity}
 												</h7>
 												<div
 													className="progress"
@@ -95,20 +97,22 @@ class CampaignListComponent extends React.Component {
 														width: '100%',
 														zIndex: '100',
 														marginBottom: '0'
-													}}>
+													}}
+												>
 													<div
 														className="progress-bar"
 														role="progressbar"
 														aria-valuenow="70"
 														aria-valuemin="0"
 														aria-valuemax="100"
-														style={{ width: `${50}%` }}>
-														<span className="sr-only">{50}% Complete</span>
+														style={{ width: `${percent}%` }}
+													>
+														<span className="sr-only">{percent}% Complete</span>
 													</div>
 												</div>
 											</div>
 										</td>
-										<td>1.000.000</td>
+										<td>{dotNumber(campaign.money)}đ</td>
 										<td>
 											<Switch
 												onChange={(value) =>
@@ -125,8 +129,8 @@ class CampaignListComponent extends React.Component {
 													type="button"
 													rel="tooltip"
 													data-original-title="Xoá"
-													onClick={() =>
-														this.props.showCreateEditCampaignModal(campaign)}>
+													onClick={() => this.props.showCreateEditCampaignModal(campaign)}
+												>
 													<i className="material-icons">edit</i>
 												</a>
 											</div>
