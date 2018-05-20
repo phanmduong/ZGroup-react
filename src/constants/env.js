@@ -5,8 +5,10 @@ export let URL = env.DOMAIN;
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
 export const TYPE_API = env.TYPE_API;
-export const TYPE_DASHBOARD = 'trongdongpalace';
+export const TYPE_DASHBOARD = "trongdongpalace";
 export const BASE_URL = PROTOCOL + URL;
+
+export const BLOG_PREVIEW_BASE_URL = PROTOCOL + env.BLOG_PREVIEW_BASE_URL;
 // export const API_URL = PROTOCOL + "api." + URL;
 // export const API_URL = BASE_URL + "/api/v3";
 
@@ -35,7 +37,8 @@ export const LOGO_MAIN = PROTOCOL + env.LOGO_MAIN;
 export const SECRET_TOKEN = "KEEeducation";
 export const EXPIRES_IN = "6d";
 export const NAME_DATA_LOGIN_SAVE_LOCAL = "zgroup-token";
-export const NO_AVATAR = PROTOCOL + "d2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png";
+export const NO_AVATAR =
+    PROTOCOL + "d2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png";
 export const NO_IMAGE = PROTOCOL + "d255zuevr6tr8p.cloudfront.net/no_photo.png";
 export const CHANNEL = env.CHANNEL;
 export const SOCKET_HOST = env.SOCKET_HOST;
@@ -58,9 +61,9 @@ $(document).ready(function() {
                     /* acceptButtonText limited to 15 characters */
                     acceptButtonText: "ĐỒNG Ý",
                     /* cancelButtonText limited to 15 characters */
-                    cancelButtonText: "HỦY",
-                },
-            },
+                    cancelButtonText: "HỦY"
+                }
+            }
         ]);
         window.OneSignal.sendTag("device_type", "manage", function(tagsSent) {
             console.log("tag ok ", tagsSent);
