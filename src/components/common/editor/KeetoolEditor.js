@@ -1,5 +1,5 @@
 import React from "react";
-import { Editor, getEventRange, getEventTransfer } from "slate-react";
+import { Editor, getEventTransfer } from "slate-react";
 import { LAST_CHILD_TYPE_INVALID } from "slate-schema-violations";
 import {
     DEFAULT_NODE,
@@ -14,13 +14,14 @@ import {
 import { Block } from "slate";
 
 import { unwrapLink } from "./utils/linkUtils";
-import { isImage, insertImage, uploadImage } from "./utils/imageUtils";
+import { insertImage, uploadImage } from "./utils/imageUtils";
 import {
     showErrorNotification,
     showNotification
 } from "../../../helpers/helper";
 import PropTypes from "prop-types";
 import LinkModal from "./LinkModal";
+import { htmlToValue } from "./editorHelpers";
 
 class KeetoolEditor extends React.Component {
     state = {
@@ -111,68 +112,19 @@ class KeetoolEditor extends React.Component {
     };
 
     /**
-     * On drop, insert the image wherever it is dropped.
+     * On paste, deserialize the HTML and then insert the fragment.
      *
      * @param {Event} event
      * @param {Change} change
-     * @param {Editor} editor
      */
 
-    onDropOrPaste = (event, change) => {
-        const target = getEventRange(event, change.value);
-        if (!target && event.type == "drop") return;
-
+    onPaste = (event, change) => {
         const transfer = getEventTransfer(event);
-        const { type, text, files } = transfer;
+        if (transfer.type != "html") return;
 
-        if (type == "files") {
-            let totalFiles = files.length;
-            if (totalFiles) {
-                this.setState({ isLoading: true, text: "Đang tải lên" });
-                for (const file of files) {
-                    // const reader = new FileReader();
-                    const [mime] = file.type.split("/");
-                    if (mime != "image") continue;
-
-                    uploadImage(
-                        file,
-                        event => {
-                            const data = JSON.parse(
-                                event.currentTarget.responseText
-                            );
-                            showNotification("Tải lên thành công");
-                            const change = this.props.value
-                                .change()
-                                .call(insertImage, data.url);
-                            this.onChange(change);
-                            totalFiles -= 1;
-                            if (totalFiles == 0) {
-                                this.setState({
-                                    isLoading: false
-                                });
-                            }
-                        },
-                        null,
-                        () => {
-                            showErrorNotification("Tải ảnh lên bị lỗi");
-                        }
-                    );
-                    // reader.addEventListener("load", () => {
-                    //     editor.change(c => {
-                    //         c.call(insertImage, reader.result, target);
-                    //     });
-                    // });
-
-                    // reader.readAsDataURL(file);
-                }
-            }
-        }
-
-        if (type == "text") {
-            if (this.isUrl && !this.isUrl(text)) return;
-            if (!isImage(text)) return;
-            change.call(insertImage, text, target);
-        }
+        const { document } = htmlToValue(transfer.html);
+        change.insertFragment(document);
+        return true;
     };
 
     /**
@@ -454,7 +406,7 @@ class KeetoolEditor extends React.Component {
                     renderNode={this.renderNode}
                     renderMark={this.renderMark}
                     onDrop={this.onDropOrPaste}
-                    onPaste={this.onDropOrPaste}
+                    onPaste={this.onPaste}
                     schema={this.schema}
                     spellCheck
                     autoFocus
