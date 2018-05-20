@@ -6,12 +6,25 @@ import * as exportOrderActions from "./exportOrderActions";
 import { bindActionCreators } from 'redux';
 import * as helper from "../../../helpers/helper";
 import moment from "moment";
+import InfoModal from "./InfoModal";
 
 class ListExportOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-
+            data: {
+                company: { id: null, name: "" },
+                staff: { id: null, name: "" },
+                good: [
+                    // {id: null, name: "", quantity: 0,},
+                ],
+                warehouse: { id: null, name: "" },
+                staff_import_or_export: { id: null, name: "" },
+                quantity: 0,
+                total_price: 0,
+                discount: 0,
+            },
+            showInfoModal: false,
         };
         this.confirm = this.confirm.bind(this);
     }
@@ -33,20 +46,29 @@ class ListExportOrder extends React.Component {
         );
     }
 
+    openInfoModal = (data) =>{
+        this.setState({data, showInfoModal: true});
+    }
+
     render() {
         let { listExportOrder } = this.props;
         //console.log('list', this.props);
         return (
             <div className="table-responsive">
+                <InfoModal
+                    data={this.state.data}
+                    show={this.state.showInfoModal}
+                    onHide={() => this.setState({ showInfoModal: false })}
 
+                />
                 <table id="datatables"
                     className="table table-striped table-no-bordered table-hover"
                     cellSpacing="0" width="100%" style={{ width: "100%" }}>
                     <thead className="text-rose">
                         <tr>
                             <th>STT</th>
-                            <th>Nhà phân phối</th>
                             <th>Mã đơn hàng</th>
+                            <th>Nhà phân phối</th>
                             <th>Số sản phẩm</th>
                             <th>Số lượng xuất</th>
                             <th>Ngày tạo</th>
@@ -60,10 +82,10 @@ class ListExportOrder extends React.Component {
                             let overTime = order.created_at ? tmp : false;
                             let date = moment(order.created_at.date);
                             return (
-                                <tr key={index} style={(overTime && order.status < 3) ? { backgroundColor: "lightcoral", color: "white" } : {}}>
+                                <tr key={index} className={(order.status < 3 && overTime) ? "danger" : ""}>
                                     <td>{index + 1}</td>
+                                    <td><div onClick={()=>this.openInfoModal(order)}><b>{order.command_code}</b></div></td>
                                     <td>{order.company.name}</td>
-                                    <td>{order.command_code}</td>
                                     <td>{order.goods.length}</td>
                                     <td>{getSumquantity(order.goods)}</td>
                                     <td>{date.format("D-M-YYYY")}</td>

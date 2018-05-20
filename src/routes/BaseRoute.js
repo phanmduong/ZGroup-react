@@ -6,7 +6,8 @@ import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
 import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 import RegisterManageRoomContainer from "../modules/registerManageRoom/RegisterManageRoomContainer";
 import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/container/RegisterManageMeetingRoomContainer";
-import RoomRegisterListContainer from "../modules/roomRegisterList_TrongDong/container/RoomRegisterListContainer";
+import test from "../modules/roomRegisterList_TrongDong/container/RoomRegisterListContainer";
+import RoomRegisterListContainer from "../modules/roomRegisterListTrongDong/RoomRegisterListContainer";
 
 /**
  * Tab Cơ sở
@@ -55,6 +56,10 @@ export default [
     {
         path: "base/room-register-list",
         component: RoomRegisterListContainer
+    },
+    {
+        path: "base/test",
+        component: test
     },
 
 ];
