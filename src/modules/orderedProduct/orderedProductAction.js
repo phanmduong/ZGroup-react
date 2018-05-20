@@ -25,7 +25,8 @@ export function loadAllOrders(page = 1, searches, startTime, endTime, status, st
                 deliveryOrders: orderRes.data.delivery_orders,
                 currentPage: orderRes.data.paginator.current_page,
                 totalPages: orderRes.data.paginator.total_pages,
-                totalCount: orderRes.data.paginator.total_count
+                totalCount: orderRes.data.paginator.total_count,
+                limit: orderRes.data.paginator.limit
             });
         });
     };
@@ -259,6 +260,19 @@ export function handleAddShipFeeModal(order) {
         type: types.HANDLE_ADD_SHIP_FEE_MODAL,
         order
     });
+}
+
+export function loadAllOrderGoodNoPaging(success, searches, startTime, endTime, status, staff_id, user_id, queries) {
+    return function () {
+        orderedProductApi.loadAllOrderGoodNoPaging(searches, startTime, endTime, status, staff_id, user_id, queries)
+            .then((res) => {
+               success(res.data.data.delivery_orders);
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                success(null);
+            });
+    };
 }
 
 

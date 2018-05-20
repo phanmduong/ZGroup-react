@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as campaignAction from './campaignAction';
 import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
+import { dotNumber } from '../../helpers/helper';
 
 class CampaignComponent extends React.Component {
 	constructor(props, context) {
@@ -66,9 +67,10 @@ class CampaignComponent extends React.Component {
 						<table className="table table-hover">
 							<thead className="text-rose">
 								<tr className="text-rose">
+									<th />
 									<th>Tên tin nhắn</th>
 									<th>Nội dung</th>
-									<th>Số tin đã gửi</th>
+									<th>Sent/Total</th>
 									<th>Ngày gửi</th>
 									<th>Tạm tính</th>
 									<th>Loại tin nhắn</th>
@@ -80,8 +82,37 @@ class CampaignComponent extends React.Component {
 									this.props.allMessage.map((message, index) => {
 										let a = message.name.slice(0, 15);
 										let b = message.content.slice(0, 30);
+										let btn = 'btn-default';
+										let title = 'Chưa gửi';
+
+										if (message.status === 'sent') {
+											btn = 'btn-success';
+											title = 'Đã gửi';
+										}
+										let percent = message.sent_quantity / message.total_quantity * 100;
 										return (
 											<tr key={index}>
+												<td>
+													<TooltipButton placement="top" text={title}>
+														<div
+															className="container-call-status"
+															style={{ margin: '-15px 0 -15px 0' }}
+														>
+															<button
+																className={
+																	'btn btn-round ' + btn + ' none-padding size-40-px'
+																}
+																data-toggle="tooltip"
+																title=""
+																type="button"
+																rel="tooltip"
+																data-original-title={title}
+															>
+																<i className="material-icons">mail</i>
+															</button>
+														</div>
+													</TooltipButton>
+												</td>
 												<td>
 													<TooltipButton placement="top" text={message.name}>
 														<b>{a.length < 15 ? a : a.concat('...')}</b>
@@ -95,10 +126,11 @@ class CampaignComponent extends React.Component {
 												<td>
 													<TooltipButton
 														placement="top"
-														text={`${message.sent_quantity} tin nhắn đã gửi`}>
+														text={`${message.sent_quantity} tin nhắn đã gửi`}
+													>
 														<div>
 															<h7>
-																{message.sent_quantity}/{message.sent_quantity + message.needed_quantity}
+																{message.sent_quantity}/{message.total_quantity}
 															</h7>
 															<div
 																className="progress"
@@ -109,17 +141,17 @@ class CampaignComponent extends React.Component {
 																	width: '100%',
 																	zIndex: '100',
 																	marginBottom: '0'
-																}}>
+																}}
+															>
 																<div
 																	className="progress-bar"
 																	role="progressbar"
 																	aria-valuenow="70"
 																	aria-valuemin="0"
 																	aria-valuemax="100"
-																	style={{ width: `${50}%` }}>
-																	<span className="sr-only">
-																		{50}% Complete
-																	</span>
+																	style={{ width: `${percent}%` }}
+																>
+																	<span className="sr-only">{percent}% Complete</span>
 																</div>
 															</div>
 														</div>
@@ -128,7 +160,7 @@ class CampaignComponent extends React.Component {
 												<td>{message.send_time}</td>
 												<td>
 													<TooltipButton placement="top" text={`Ngân sách`}>
-														<div>{message.sent_quantity * 750}vnđ</div>
+														<div>{dotNumber(message.sent_quantity * 750)}vnđ</div>
 													</TooltipButton>
 												</td>
 												<td>
@@ -136,8 +168,9 @@ class CampaignComponent extends React.Component {
 														className="btn btn-main btn-sm"
 														style={{
 															backgroundColor: message.sms_template_type.color,
-															margin: "-10px auto"
-														}}>
+															margin: '-10px auto'
+														}}
+													>
 														{message.sms_template_type.name}
 													</span>
 												</td>
@@ -153,7 +186,8 @@ class CampaignComponent extends React.Component {
 																			sms_template_type_id:
 																				message.sms_template_type.id
 																		});
-																	}}>
+																	}}
+																>
 																	<i className="material-icons">edit</i>
 																</a>
 															</TooltipButton>

@@ -29,7 +29,6 @@ export function loadAllMessage(campaignId, page, search) {
 				totalCountMessage: res.data.paginator.total_count,
 				totalPagesMessage: res.data.paginator.total_pages,
 				campaignName: res.data.campaign.name,
-				campaign_needed_quantity: res.data.campaign.needed_quantity
 			});
 		});
 	};

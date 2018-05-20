@@ -38,7 +38,8 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 deliveryOrders: action.deliveryOrders,
                 currentPage: action.currentPage,
                 totalPages: action.totalPages,
-                totalCount: action.totalCount
+                totalCount: action.totalCount,
+                limit: action.limit
             };
         case types.GET_ALL_STAFFS_ORDERED_PRODUCT:
             return {

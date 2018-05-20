@@ -393,6 +393,7 @@ export default {
         currentPage: 0,
         totalPages: 0,
         totalCount: 0,
+        limit: 20,
         isLoading: false,
         staffs: []
     },

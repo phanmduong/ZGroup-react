@@ -29,7 +29,6 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
 				totalPagesMessage: action.totalPagesMessage,
 				isLoadingMessage: false,
 				campaignName: action.campaignName,
-				campaign_needed_quantity: action.campaign_needed_quantity
 			};
 		case types.LOAD_TEMPLATE_SUCCESS:
 			return {
