@@ -162,11 +162,38 @@ export function deleteSessionApi(session) {
 
 //Get all bookingRegisterSession
 //http://keetool3.xyz/manageapi/v3/?&token=
-export function loadAllRoomsApi() {
+export function loadAllRoomsApi(limit) {
     let url = env.MANAGE_API_URL + "/base/rooms";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?limit=" + limit;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+//Get Seat-types theo Rooms
+///v3/v2/room/{roomId}/seat-types
+export function loadAllSeatTypesApi(id) {
+    let url = env.MANAGE_API_URL + "/v2/room/";
+    if(id){
+        url += id +"/seat-types";
+    }
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.get(url);
+}
+//Edit Seat-Types
+//http://keetoolclient.test/manageapi/v3/v2/room/{roomId}/seat-types
+export function EditSeatTypesApi(seatType) {
+    let url = env.MANAGE_API_URL + "/v2/room/";
+        url += seatType.id +"/seat-types";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url,seatType);
 }

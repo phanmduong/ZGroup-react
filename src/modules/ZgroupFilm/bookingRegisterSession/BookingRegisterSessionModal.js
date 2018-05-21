@@ -90,8 +90,7 @@ class BookingRegisterSessionModal extends React.Component {
                             <button
                                 type="button"
                                 className="btn"
-                                onClick={() => {
-                                }}
+                                onClick={() => {this.props.filmAction.toggleBookingModal();}}
                             >
                                 Huỷ
                             </button>

@@ -63,7 +63,7 @@ class BookingRegisterSessionComponent extends React.Component {
                         </div>
                         <div className="col-md-6">
                             <FormInputSelect
-                                label="Tên phim"
+                                label="Thêm phim"
                                 updateFormData={this.updateFormData2}
                                 name="id"
                                 id="select_film"

@@ -1,17 +1,4 @@
 export default {
-    session: {
-        isLoadingAllSessions: false,
-        isLoadingShowingSession: false,
-        allFilms: [], isLoadingFilms: false,
-        allSessions: [],
-        showingSession: [],
-        comingSession: [],
-        daySession: [],
-        isSavingSession: false,
-        isSaving: false,
-        addEditSessionModal: false,
-        sessionModal: {},
-    },
     film: {
         //********Film
         isLoading: false,
@@ -22,6 +9,7 @@ export default {
         limit: 0,
         totalCount: 0,
         totalPages: 0,
+        addFilmSession: false,
         //modal------
         addEditFilmModal: false,
         isUploadingAvatar: false,
@@ -32,16 +20,16 @@ export default {
         //-----------
 
         //********Session
-        search:'',
-        isLoadingAllSessions:false,
-        isLoadingShowingSession:false,
+        search: '',
+        isLoadingAllSessions: false,
+        isLoadingShowingSession: false,
         isLoadingFilms: false,
-        allSessions:[],
+        allSessions: [],
         currentPageAll: 0,
         limitAll: 0,
         totalCountAll: 0,
         totalPagesAll: 0,
-        showingSession:[],
+        showingSession: [],
         currentPageShowing: 0,
         limitShowing: 0,
         totalCountShowing: 0,
@@ -50,8 +38,18 @@ export default {
         isSavingSession: false,
         addEditSessionModal: false,
         sessionModal: {},
-        rooms:[],
+        rooms: [],
         //-----------
+
+
+        //********Seat-types
+        isLoadingSeat: false,
+        seatTypes:[],
+        openModal: false,
+        isEditSeatType: false,
+        handleSeatTypeModal:{},
+        //-----------
+
 
         //********Booking
         addBookingRegisterSessionModal: false,
@@ -214,7 +212,7 @@ export default {
         isCreatingRegister: false,
         subscriptions: [],
         userpacks: [],
-        register : {},
+        register: {},
     },
 
     registerManageRoom: {
@@ -270,7 +268,7 @@ export default {
         isLoading: false,
         editPasswordModal: false,
         isUpdatingEditModal: false,
-        passwordEditModal: { password: '' },
+        passwordEditModal: {password: ''},
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,
@@ -1088,7 +1086,7 @@ export default {
         errorEdit: false,
         currentPage: 1,
         totalPages: 1,
-        totalCount:0
+        totalCount: 0
     },
 
     personalCalendar: {
@@ -1758,10 +1756,10 @@ export default {
             classes: [],
 
         },
-        totalCount:1,
-        totalPages:1,
-        limit:1,
-        currentPage:1,
+        totalCount: 1,
+        totalPages: 1,
+        limit: 1,
+        currentPage: 1,
         class: [],
         lesson: [],
         bases: [],
@@ -2133,7 +2131,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: { x: [0, 600], y: [0, 400] }
+        domain: {x: [0, 600], y: [0, 400]}
     },
     printOrder: {
         isLoading: false,
@@ -2149,14 +2147,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{ id: 1, name: "" },],
-        goods: [{ id: 1, name: "" },],
-        codes: [{ value: '', label: '' }],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        codes: [{value: '', label: ''}],
         properties: [],
         data: {
-            company: { id: 0, name: "" },
-            staff: { id: 0, name: "" },
-            good: { id: 0, name: "" },
+            company: {id: 0, name: ""},
+            staff: {id: 0, name: ""},
+            good: {id: 0, name: ""},
             quantity: 1,
             command_code: "",
             core1: {
@@ -2235,16 +2233,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: { id: 0, name: "noname" },
-            warehouse: { id: 0, name: "noname" },
-            company: { id: "", name: "noname" },
+            good: {id: 0, name: "noname"},
+            warehouse: {id: 0, name: "noname"},
+            company: {id: "", name: "noname"},
             price: 0,
             quantity: 0,
         },
-        companies: [{ id: 1, name: "" },],
-        goods: [{ id: 1, name: "" },],
-        warehouses: [{ id: 1, name: "" },],
-        orderedGoods: [{ id: 1, name: "" },],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
+        orderedGoods: [{id: 1, name: ""},],
     },
     notificationTypes: {
         isLoading: false,
@@ -2381,9 +2379,9 @@ export default {
             good_count: 1,
             status: 0,
         },
-        companies: [{ id: 1, name: "" },],
-        goods: [{ id: 1, name: "" },],
-        warehouses: [{ id: 1, name: "" },],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
     },
     moneyTransfer: {
         isCreatingTransaction: false,
