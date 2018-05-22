@@ -247,10 +247,12 @@ class AddRegisterModal extends React.Component {
                                                             <div>
                                                                 <strong>{room.room_type && room.room_type.name}</strong><br/>
                                                             </div>
-                                                            {room.room_type &&
-                                                            <div
-                                                                dangerouslySetInnerHTML={{__html: room.room_type.description}}/>
-                                                            }
+
+                                                            {/* eslint-disable */
+                                                                room.room_type &&
+                                                                <div dangerouslySetInnerHTML={{__html: room.room_type.description}}/>
+
+                                                            /* eslint-enable */}
                                                         </div>
 
                                                     </div>

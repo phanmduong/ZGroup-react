@@ -290,6 +290,7 @@ class CreateExportOrderContainer extends React.Component {
                                                             <td />
                                                             <td colSpan={3} style={textAlign}>Số lượng xuất: {sumQuantity}</td>
                                                             <td colSpan={3} style={textAlign}>Thành tiền: {helper.dotNumber(sumPrice)}</td>
+
                                                             <td />
                                                         </tr>
                                                     </tfoot>
@@ -349,6 +350,8 @@ class CreateExportOrderContainer extends React.Component {
                                                     <div><label>Người xuất hàng</label><br />{user.name}</div><br />
                                                     <FormInputText name="" label="Nhà phân phối" value={data.company.name} disabled />
                                                     <FormInputText name="" label="SĐT liên hệ" value={data.company.phone || "Không có"} disabled />
+                                                    <div><label>Chiết khấu truyện tranh</label><br />{data.company.discount_comic || 0}%</div><br />
+                                                    <div><label>Chiết khấu truyện chữ</label><br />{data.company.discount_text || 0}%</div><br />
                                                 </div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">

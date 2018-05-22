@@ -37,7 +37,7 @@ class AddReceiverModal extends React.Component {
 			top: null,
 			carer_id: null,
 			rate: null,
-			limit: 10,
+			limit: 20,
 			paid_course_quantity: null
 		};
 		this.loadUsers = this.loadUsers.bind(this);

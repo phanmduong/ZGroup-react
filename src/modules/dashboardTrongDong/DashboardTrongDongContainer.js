@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import FormInputText from "../../components/common/FormInputText";
 import Button from "../../components/common/Button";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
+import Checkbox from "../../components/common/Checkbox";
 
 let self;
 
@@ -67,7 +68,7 @@ class DashboardTrongDongContainer extends Component {
 
     updateTime(value) {
         store.changeTime(
-            value.register_room_id,
+            value.register_id,
             value.start.format(DATETIME_FORMAT_SQL),
             value.end.format(DATETIME_FORMAT_SQL)
         );
@@ -88,7 +89,8 @@ class DashboardTrongDongContainer extends Component {
                 start_time: register.start.format(DATETIME_FORMAT),
                 end_time: register.end.format(DATETIME_FORMAT),
                 status: register.status,
-                note: register.register_data.note
+                note: register.register_data.note,
+                similar_room: []
             };
         } else {
             self.booking = {
@@ -97,7 +99,8 @@ class DashboardTrongDongContainer extends Component {
                 room_id: room.id,
                 start_time: day.add('9', 'hours').format(DATETIME_FORMAT),
                 end_time: day.add('5', 'hours').format(DATETIME_FORMAT),
-                status: "seed"
+                status: "seed",
+                similar_room: [room.id]
             };
         }
     }
@@ -141,8 +144,15 @@ class DashboardTrongDongContainer extends Component {
         }
     }
 
+    changeSimilarRoom = (event, room) => {
+        if (event.target.checked) {
+            this.booking.similar_room = [...this.booking.similar_room, room.id];
+        } else {
+            this.booking.similar_room = this.booking.similar_room.filter((roomItem) => roomItem != room.id);
+        }
+    }
+
     render() {
-        // console.log(store.registerRooms,"registerRooms");
         return (
             <div>
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
@@ -369,18 +379,38 @@ class DashboardTrongDongContainer extends Component {
                         </div>
                         <div className="form-group">
                             <label className="label-control">Chiến dich</label>
-                            <ReactSelect
-                                name="form-field-name"
-                                value={this.booking.campaign_id}
-                                options={store.campaignsData}
-                                onChange={value => {
-                                    let booking = {...this.booking};
-                                    booking['campaign_id'] = value ? value.value : '';
-                                    this.booking = booking;
-                                }}
-                                placeholder="Chọn trang thái"
-                            />
+                            <div style={{zIndex: 10}}>
+                                <ReactSelect
+                                    name="form-field-name"
+                                    value={this.booking.campaign_id}
+                                    options={store.campaignsData}
+                                    onChange={value => {
+                                        let booking = {...this.booking};
+                                        booking['campaign_id'] = value ? value.value : '';
+                                        this.booking = booking;
+                                    }}
+                                    placeholder="Chọn trang thái"
+                                />
+                            </div>
                         </div>
+                        {this.booking.id == undefined && <div className="form-group">
+                            <label className="label-control">Ghép phòng</label>
+                            <div className="row">
+
+                                {this.booking.room && store.allRoomsSimilar(this.booking.room).map((room) => {
+                                    const checked = this.booking.similar_room
+                                        && (this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0);
+                                    return (
+                                        <div className="col-md-4">
+                                            <Checkbox label={room.name} checked={checked} checkBoxLeft
+                                                      onChange={(event) => this.changeSimilarRoom(event, room)}/>
+                                        </div>
+                                    );
+                                })}
+
+                            </div>
+                        </div>}
+
                         <Button
                             onClick={this.createBookRoom}
                             label={"Lưu"}

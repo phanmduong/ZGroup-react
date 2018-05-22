@@ -20,27 +20,42 @@ import TagsInput from "../../../components/common/TagsInput";
 import { savePostV2 } from "../apis/blogApi";
 import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
+import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
+import PropTypes from "prop-types";
+import { postTextToValue, postValueToText } from "./blogEditorHelper";
 
-const savePost = async (editor, status) => {
+const savePost = async (editor, status, publish_status) => {
     editor.setState({
         isSavingPost: true
     });
-    const res = await savePostV2(store.post, status);
+    const convertedPost = postValueToText(store.post);
+
+    const res = await savePostV2(
+        {
+            ...convertedPost,
+            publish_status
+        },
+        status
+    );
     editor.setState({
         isSavingPost: false
     });
     if (res.data.status) {
-        showNotification("Xuất bản bài viết thành công");
+        showNotification("Lưu bài viết thành công");
     } else {
         showErrorNotification("Có lỗi xảy ra");
     }
-    store.post = {
-        ...store.post,
-        id: res.data.id
-    };
+
+    const { product } = res.data;
+
+    store.post = postTextToValue(product);
+
     return res.data;
 };
 
+const propTypes = {
+    params: PropTypes.object.isRequired
+};
 @observer
 class BlogEditor extends React.Component {
     state = {
@@ -53,10 +68,42 @@ class BlogEditor extends React.Component {
     componentDidMount() {
         store.loadLanguages();
         store.loadCategories();
+        store.resetPostForm();
+        const { postId } = this.props.params;
+        if (postId) {
+            store.loadPostDetail(postId);
+        }
     }
 
-    componentDidUpdate() {
-        $("#tags").tagsinput();
+    validateForm() {
+        let errors = [];
+        this.setState({
+            errors
+        });
+        if (!store.post.title) {
+            errors.push("Bạn nhập thiếu tên bài viết");
+        }
+
+        if (!store.post.slug) {
+            errors.push("Bạn chưa nhập slug");
+        }
+
+        if (!store.post.language_id) {
+            errors.push("Bạn chưa chọn ngôn ngữ");
+        }
+
+        // if (store.post.content == "<p></p>") {
+        //     errors.push("Bạn nhập thiếu nội dung bài viết");
+        // }
+
+        if (!store.post.url) {
+            errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
+        }
+
+        this.setState({
+            errors
+        });
+        return errors.length == 0;
     }
 
     validateForm() {
@@ -91,17 +138,21 @@ class BlogEditor extends React.Component {
     }
 
     publish = () => {
-        if (this.validateForm()) savePost(this, 1);
+        if (this.validateForm()) savePost(this, 1, PUBLISHED);
     };
 
     saveDraft = async () => {
-        if (this.validateForm()) savePost(this, 0);
+        if (this.validateForm()) savePost(this, 0, DRAFT);
     };
 
     preview = async () => {
         if (this.validateForm()) {
-            const data = await savePost(this, 3); // status == 3 mean keep the current status
-            const url = BASE_URL +"/" + data.slug;
+            const data = await savePost(
+                this,
+                store.post.status,
+                store.post.publish_status
+            ); // status == 3 mean keep the current status
+            const url = BASE_URL + "/" + data.slug;
             const win = window.open(url, "_blank");
             win.focus();
         }
@@ -145,7 +196,7 @@ class BlogEditor extends React.Component {
         <div className="form-group">
             <label className="control-label">{label}</label>
             <PlainTextEditor
-                value={store.post[field] || ""}
+                value={store.post[field]}
                 onChange={value => this.updatePost(field, value)}
             />
         </div>
@@ -205,6 +256,11 @@ class BlogEditor extends React.Component {
                                     </a>
                                 </TooltipButton>
                             </FormInputText>
+
+                            {this.renderTextFlexField(
+                                "description",
+                                "Mô tả ngắn"
+                            )}
 
                             <KeetoolSelect
                                 label="Loại bài viết"
@@ -269,10 +325,6 @@ class BlogEditor extends React.Component {
                             </div>
 
                             {this.renderTextFlexField(
-                                "description",
-                                "Mô tả ngắn"
-                            )}
-                            {this.renderTextFlexField(
                                 "meta_title",
                                 "Meta title"
                             )}
@@ -292,11 +344,10 @@ class BlogEditor extends React.Component {
                             <EditorFormGroup
                                 label="Nội dung"
                                 required={true}
-                                value={store.post.content || ""}
-                                onChange={content =>
-                                    this.updatePost("content", content)
-                                }
-                                isNotValid={store.post.content == "<p></p>"}
+                                value={store.post.content}
+                                onChange={value => {
+                                    this.updatePost("content", value);
+                                }}
                             />
                         </div>
                     </div>
@@ -343,7 +394,12 @@ class BlogEditor extends React.Component {
                             >
                                 drafts
                             </i>{" "}
-                            Trạng thái: <strong>Nháp</strong>
+                            Trạng thái:{" "}
+                            <strong>
+                                {!store.post.id
+                                    ? "Chưa lưu"
+                                    : PUBLISH_STATUS[store.post.publish_status]}
+                            </strong>
                         </div>
                         <div>
                             <i
@@ -355,7 +411,42 @@ class BlogEditor extends React.Component {
                             >
                                 remove_red_eye
                             </i>{" "}
-                            Hiển thị: <strong>Ẩn</strong>
+                            Hiển thị:{" "}
+                            <strong>
+                                {store.post.status == 1 ? "Hiện" : "Ẩn"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                calendar_today
+                            </i>{" "}
+                            Ngày tạo:{" "}
+                            <strong>
+                                {store.post.created_at && store.post.created_at}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                timelapse
+                            </i>{" "}
+                            Ngày sửa:{" "}
+                            <strong>
+                                {store.post.updated_at && store.post.updated_at}
+                            </strong>
                         </div>
 
                         <button
@@ -382,7 +473,7 @@ class BlogEditor extends React.Component {
                             {this.state.isSavingPost && (
                                 <i className="fa fa-circle-o-notch fa-spin" />
                             )}{" "}
-                            Lưu nháp
+                            Lưu
                         </button>
                         <button
                             style={{ position: "absolute", top: 5, right: 15 }}
@@ -401,5 +492,7 @@ class BlogEditor extends React.Component {
         );
     }
 }
+
+BlogEditor.propTypes = propTypes;
 
 export default BlogEditor;

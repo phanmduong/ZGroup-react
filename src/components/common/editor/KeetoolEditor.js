@@ -1,6 +1,5 @@
 import React from "react";
-import { Editor, getEventRange, getEventTransfer } from "slate-react";
-import html from "./HtmlConverter";
+import { Editor, getEventTransfer } from "slate-react";
 import { LAST_CHILD_TYPE_INVALID } from "slate-schema-violations";
 import {
     DEFAULT_NODE,
@@ -15,19 +14,18 @@ import {
 import { Block } from "slate";
 
 import { unwrapLink } from "./utils/linkUtils";
-import { isImage, insertImage, uploadImage } from "./utils/imageUtils";
+import { insertImage, uploadImage } from "./utils/imageUtils";
 import {
     showErrorNotification,
     showNotification
 } from "../../../helpers/helper";
 import PropTypes from "prop-types";
 import LinkModal from "./LinkModal";
-
-const initialValue = "";
+import { htmlToValue } from "./editorHelpers";
 
 class KeetoolEditor extends React.Component {
     state = {
-        value: html.deserialize(this.props.value || initialValue),
+        // value: html.deserialize(this.props.value || initialValue),
         isLoading: false,
         text: "Đang xử lý",
         showLinkModal: false
@@ -54,7 +52,7 @@ class KeetoolEditor extends React.Component {
 
     onClickInline = (event, type) => {
         event.preventDefault();
-        const { value } = this.state;
+        const { value } = this.props;
         const change = value.change();
 
         if (type == "link") {
@@ -90,7 +88,7 @@ class KeetoolEditor extends React.Component {
                             event.currentTarget.responseText
                         );
                         showNotification("Tải lên thành công");
-                        const change = this.state.value
+                        const change = this.props.value
                             .change()
                             .call(insertImage, data.url);
                         this.onChange(change);
@@ -114,68 +112,19 @@ class KeetoolEditor extends React.Component {
     };
 
     /**
-     * On drop, insert the image wherever it is dropped.
+     * On paste, deserialize the HTML and then insert the fragment.
      *
      * @param {Event} event
      * @param {Change} change
-     * @param {Editor} editor
      */
 
-    onDropOrPaste = (event, change) => {
-        const target = getEventRange(event, change.value);
-        if (!target && event.type == "drop") return;
-
+    onPaste = (event, change) => {
         const transfer = getEventTransfer(event);
-        const { type, text, files } = transfer;
+        if (transfer.type != "html") return;
 
-        if (type == "files") {
-            let totalFiles = files.length;
-            if (totalFiles) {
-                this.setState({ isLoading: true, text: "Đang tải lên" });
-                for (const file of files) {
-                    // const reader = new FileReader();
-                    const [mime] = file.type.split("/");
-                    if (mime != "image") continue;
-
-                    uploadImage(
-                        file,
-                        event => {
-                            const data = JSON.parse(
-                                event.currentTarget.responseText
-                            );
-                            showNotification("Tải lên thành công");
-                            const change = this.state.value
-                                .change()
-                                .call(insertImage, data.url);
-                            this.onChange(change);
-                            totalFiles -= 1;
-                            if (totalFiles == 0) {
-                                this.setState({
-                                    isLoading: false
-                                });
-                            }
-                        },
-                        null,
-                        () => {
-                            showErrorNotification("Tải ảnh lên bị lỗi");
-                        }
-                    );
-                    // reader.addEventListener("load", () => {
-                    //     editor.change(c => {
-                    //         c.call(insertImage, reader.result, target);
-                    //     });
-                    // });
-
-                    // reader.readAsDataURL(file);
-                }
-            }
-        }
-
-        if (type == "text") {
-            if (this.isUrl && !this.isUrl(text)) return;
-            if (!isImage(text)) return;
-            change.call(insertImage, text, target);
-        }
+        const { document } = htmlToValue(transfer.html);
+        change.insertFragment(document);
+        return true;
     };
 
     /**
@@ -203,11 +152,8 @@ class KeetoolEditor extends React.Component {
     };
 
     onChange = ({ value }) => {
-        this.setState({
-            value
-        });
         if (this.props.onChange) {
-            this.props.onChange(html.serialize(value));
+            this.props.onChange(value);
         }
     };
 
@@ -248,7 +194,7 @@ class KeetoolEditor extends React.Component {
 
     onClickMark = (event, type) => {
         event.preventDefault();
-        const { value } = this.state;
+        const { value } = this.props;
         const change = value.change().toggleMark(type);
         this.onChange(change);
     };
@@ -262,7 +208,7 @@ class KeetoolEditor extends React.Component {
 
     onClickBlock = (event, type) => {
         event.preventDefault();
-        const { value } = this.state;
+        const { value } = this.props;
         const change = value.change();
         const { document } = value;
 
@@ -321,7 +267,7 @@ class KeetoolEditor extends React.Component {
             <div className="editor-toolbar-menu">
                 <LinkModal
                     change={this.onChange}
-                    value={this.state.value}
+                    value={this.props.value}
                     show={this.state.showLinkModal}
                     close={this.closeLinkModal}
                 />
@@ -372,7 +318,7 @@ class KeetoolEditor extends React.Component {
     };
 
     renderInlineButton = (type, icon) => {
-        const isActive = hasInline(type, this.state.value);
+        const isActive = hasInline(type, this.props.value);
         const onMouseDown = event => this.onClickInline(event, type);
 
         return (
@@ -395,7 +341,7 @@ class KeetoolEditor extends React.Component {
      * @return {Element}
      */
     renderMarkButton = (type, icon) => {
-        const isActive = hasMark(type, this.state.value);
+        const isActive = hasMark(type, this.props.value);
         const onMouseDown = event => this.onClickMark(event, type);
 
         return (
@@ -419,11 +365,13 @@ class KeetoolEditor extends React.Component {
      */
 
     renderBlockButton = (type, icon) => {
-        const { value } = this.state;
+        const { value } = this.props;
         let isActive = hasBlock(type, value);
 
         if (["numbered-list", "bulleted-list"].includes(type)) {
-            const parent = value.document.getParent(value.blocks.first().key);
+            const parent =
+                value.blocks.first() &&
+                value.document.getParent(value.blocks.first().key);
             isActive =
                 hasBlock("list-item", value) && parent && parent.type === type;
         }
@@ -452,13 +400,13 @@ class KeetoolEditor extends React.Component {
             <div className="editor">
                 <Editor
                     placeholder="Enter some text..."
-                    value={this.state.value}
+                    value={this.props.value}
                     onChange={this.onChange}
                     onKeyDown={this.onKeyDown}
                     renderNode={this.renderNode}
                     renderMark={this.renderMark}
                     onDrop={this.onDropOrPaste}
-                    onPaste={this.onDropOrPaste}
+                    onPaste={this.onPaste}
                     schema={this.schema}
                     spellCheck
                     autoFocus
@@ -563,7 +511,7 @@ class KeetoolEditor extends React.Component {
 
 KeetoolEditor.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.object.isRequired
 };
 
 export default KeetoolEditor;

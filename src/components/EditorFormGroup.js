@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import KeetoolEditor from "./common/editor/KeetoolEditor";
+import { htmlToValue } from "./common/editor/editorHelpers";
+const initValue = htmlToValue("");
 
 class EditorFormGroup extends React.Component {
     state = {
@@ -23,9 +25,9 @@ class EditorFormGroup extends React.Component {
                     {required && <star style={{ color: "red" }}>*</star>}
                 </label>
                 <KeetoolEditor
-                    value={value}
-                    onChange={content => {
-                        onChange(content);
+                    value={value || initValue}
+                    onChange={value => {
+                        onChange(value);
                         this.setState({
                             isPristine: false
                         });
@@ -40,7 +42,7 @@ EditorFormGroup.propTypes = {
     required: PropTypes.bool,
     isNotValid: PropTypes.bool,
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired
 };
 

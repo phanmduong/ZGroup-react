@@ -185,6 +185,7 @@ export function loadAllRegisterStudent(page,
                                        endTime,
                                        baseId,
                                        appointment_payment,
+                                       query_coupon,
                                        exportExcel,) {
     return function (dispatch) {
         dispatch({
@@ -203,6 +204,7 @@ export function loadAllRegisterStudent(page,
                 startTime,
                 endTime,
                 baseId,
+                query_coupon,
                 appointment_payment,
             )
             .then(function (res) {
