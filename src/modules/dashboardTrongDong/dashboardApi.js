@@ -53,14 +53,14 @@ export function loadDashboard(baseId = "", roomTypeId = "", roomId = "") {
     return axios.get(url);
 }
 
-export function changeTime(registerRoomId = "", startTime = "", endTime = "") {
+export function changeTime(registerId = "", startTime = "", endTime = "") {
     let url = env.MANAGE_API_URL + "/trongdong/register-room/change-time";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.put(url, {
-        id: registerRoomId,
+        id: registerId,
         start_time: startTime,
         end_time: endTime
     });
@@ -99,11 +99,11 @@ export function storeRegister(register) {
         address: register.address,
         status: register.status,
         base_id: register.base_id,
-        room_id: register.room_id,
         start_time: moment(register.start_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL),
         end_time: moment(register.end_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL),
         note: register.note,
         campaign_id: register.campaign_id,
+        similar_room: register.similar_room
     });
 }
 

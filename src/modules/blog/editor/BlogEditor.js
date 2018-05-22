@@ -226,6 +226,11 @@ class BlogEditor extends React.Component {
                                 </TooltipButton>
                             </FormInputText>
 
+                            {this.renderTextFlexField(
+                                "description",
+                                "Mô tả ngắn"
+                            )}
+
                             <KeetoolSelect
                                 label="Loại bài viết"
                                 value={store.post.kind}
@@ -288,10 +293,6 @@ class BlogEditor extends React.Component {
                                 />
                             </div>
 
-                            {this.renderTextFlexField(
-                                "description",
-                                "Mô tả ngắn"
-                            )}
                             {this.renderTextFlexField(
                                 "meta_title",
                                 "Meta title"

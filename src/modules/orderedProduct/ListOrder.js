@@ -11,7 +11,6 @@ class ListOrder extends React.Component {
     }
 
     render() {
-        let checkedPrice = this.props.checkedPrice;
         return (
             <div className="table-responsive">
                 {
@@ -27,7 +26,7 @@ class ListOrder extends React.Component {
                                                 <th>
                                                     <CheckBoxMaterial
                                                         name="sale_status"
-                                                        checked={this.props.checkAll}
+                                                        checked={this.props.isAll}
                                                         onChange={this.props.chooseAll}
                                                     />
                                                 </th>
@@ -60,7 +59,6 @@ class ListOrder extends React.Component {
                                                        showAddNoteModal={this.props.showAddNoteModal}
                                                        showAddCancelNoteModal={this.props.showAddCancelNoteModal}
                                                        showSendPriceModal={this.props.showSendPriceModal}
-                                                       check={checkedPrice[delivery.id] ? (true) : (false)}
                                                        isSendingPrice={this.props.isSendingPrice}
                                                        chooseItem={this.props.chooseItem}
                                                        showChooseWalletModal={this.props.showChooseWalletModal}
@@ -68,6 +66,8 @@ class ListOrder extends React.Component {
                                                        showCameToVNModal={this.props.showCameToVNModal}
                                                        showImportWeightModal={this.props.showImportWeightModal}
                                                        showAddShipFeeModal={this.props.showAddShipFeeModal}
+                                                       chosenItems={this.props.chosenItems}
+                                                       isAll={this.props.isAll}
                                             />
                                         );
                                     })
@@ -89,8 +89,7 @@ ListOrder.propTypes = {
     showAddNoteModal: PropTypes.func.isRequired,
     showAddCancelNoteModal: PropTypes.func.isRequired,
     showSendPriceModal: PropTypes.func.isRequired,
-    checkedPrice: PropTypes.object.isRequired,
-    checkAll: PropTypes.bool.isRequired,
+    isAll: PropTypes.bool.isRequired,
     isSendingPrice: PropTypes.bool.isRequired,
     chooseAll: PropTypes.func.isRequired,
     chooseItem: PropTypes.func.isRequired,
@@ -98,7 +97,8 @@ ListOrder.propTypes = {
     showAddJavCodeModal: PropTypes.func.isRequired,
     showCameToVNModal: PropTypes.func.isRequired,
     showImportWeightModal: PropTypes.func.isRequired,
-    showAddShipFeeModal: PropTypes.func.isRequired
+    showAddShipFeeModal: PropTypes.func.isRequired,
+    chosenItems: PropTypes.array.isRequired
 };
 
 

@@ -106,10 +106,10 @@ class HistoryDetailModal extends React.Component {
 											return (
 												<tr key={index}>
 													<td>
-														<TooltipButton placement="top" text="Tin thứ 6">
+														<TooltipButton placement="top" text={`Tin thứ ${index+1}`}>
 															<div className="sent-message"
 															style={{ marginLeft: 0 }}>
-																<span style={{ margin: 'auto' }}>6</span>
+																<span style={{ margin: 'auto' }}>{index + 1}</span>
 															</div>
 														</TooltipButton>
 													</td>

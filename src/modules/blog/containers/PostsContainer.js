@@ -17,6 +17,9 @@ import Select from '../../../components/common/Select';
 import AddLanguageModal from "./AddLanguageModal";
 import AddCategoryModal from "./AddCategoryModal";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+// // import KeetoolEditor from "../../../components/common/KeetoolEditor";
+// import MinEditor from '../../../js/keetool-editor';
+
 import {Link} from 'react-router';
 
 

@@ -130,6 +130,14 @@ export default {
         gens: [],
         classes: [],
         isChoosingReceivers: false,
+        isLoadingHistoryModal: false,
+		historyModal: [],
+		currentPageHistoryModal: 1,
+		limitHistoryModal: 15,
+		totalCountHistoryModal: 1,
+		totalPagesHistoryModal: 1,
+		historyDetailModal: false,
+		userHistoryDetail: {}
         //isUpdatingReceivers: false
     },
 
@@ -387,6 +395,7 @@ export default {
         currentPage: 0,
         totalPages: 0,
         totalCount: 0,
+        limit: 20,
         isLoading: false,
         staffs: []
     },
