@@ -41,8 +41,8 @@ const rules = [
             if (obj.object == "block") {
                 switch (obj.type) {
                     case "image": {
-                        console.log(obj);
-                        console.log(children);
+                        // console.log(obj);
+                        // console.log(children);
                         const src = obj.data.get("src");
                         const style = { display: "block", width: "100%" };
                         return <img src={src} style={style} />;
