@@ -397,11 +397,11 @@ class DashboardTrongDongContainer extends Component {
                             <label className="label-control">Ghép phòng</label>
                             <div className="row">
 
-                                {this.booking.room && store.allRoomsSimilar(this.booking.room).map((room) => {
+                                {this.booking.room && store.allRoomsSimilar(this.booking.room).map((room, index) => {
                                     const checked = this.booking.similar_room
                                         && (this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0);
                                     return (
-                                        <div className="col-md-4">
+                                        <div className="col-md-4" key={index}>
                                             <Checkbox label={room.name} checked={checked} checkBoxLeft
                                                       onChange={(event) => this.changeSimilarRoom(event, room)}/>
                                         </div>
