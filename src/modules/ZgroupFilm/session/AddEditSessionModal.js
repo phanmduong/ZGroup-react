@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import *as filmAction from "../filmAction";
 import Select from "react-select";
 import FormInputDate from '../../../components/common/FormInputDate';
+import FormInputText from '../../../components/common/FormInputText';
 import {TIME_FORMAT_H_M} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import * as helper from "../../../helpers/helper";
@@ -18,6 +19,16 @@ class AddEditSessionModal extends React.Component {
         this.changTemplateTypes = this.changTemplateTypes.bind(this);
         this.changTemplateTypes2 = this.changTemplateTypes2.bind(this);
         this.changeFilmQuality = this.changeFilmQuality.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoadingSeat !== this.props.isLoadingSeat) {
+            console.log("this",this.props.seatTypes);
+            this.props.filmAction.handleSessionModal({
+                ...this.props.sessionModal,
+                seats: this.props.seatTypes
+            });
+        }
     }
 
     changeFilmQuality(option) {
@@ -51,10 +62,20 @@ class AddEditSessionModal extends React.Component {
             room_id: value ? value.value : '',
         };
         this.props.filmAction.handleSessionModal(session);
+        this.props.filmAction.loadAllSeatTypes(value.value);
     }
 
     submit() {
-        const session = this.props.sessionModal;
+        const seat = this.props.seatTypes.map((s)=>{
+            return{
+                color: s.color,
+                price:"99k"
+            };
+        });
+        const session = {
+            ...this.props.sessionModal,
+            seats: JSON.stringify(seat)
+        };
         if (
             helper.isEmptyInput(session.film_id)
             || helper.isEmptyInput(session.film_quality)
@@ -170,6 +191,46 @@ class AddEditSessionModal extends React.Component {
                                     clearable={false}
                                 />
                             </div>
+                            <br/>
+                            <label className="label-control">Giá vé</label>
+                            <div className="table-responsive">
+                                <table className="table table-hover">
+
+                                <tbody>
+                                {
+                                    session.seats && session.seats.map((seatType, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>
+                                                    &emsp;
+                                                    <button style={{
+                                                        backgroundColor: seatType.color, color: "white",
+                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                    }}>
+                                                        <b>A1</b>
+                                                    </button>
+
+                                                </td>
+                                                <td>{seatType.type}</td>
+                                    <td>
+                                        <FormInputText
+                                            label="Nhập giá vé"
+                                            name="cost"
+                                            updateFormData={()=>{}}
+                                            value={seatType.price}/>
+                                    </td>
+
+                                </tr>
+
+
+                                        );
+                                    })
+                                }
+                                <br/>
+
+                                </tbody></table>
+                            </div>
+
                             {
                                 this.props.isSavingSession ? <Loading/> : (
                                     <div style={{textAlign: "right"}}>
@@ -212,7 +273,9 @@ AddEditSessionModal.propTypes = {
     addEditSessionModal: PropTypes.bool.isRequired,
     isSavingSession: PropTypes.bool.isRequired,
     addFilmSession: PropTypes.bool.isRequired,
+    isLoadingSeat: PropTypes.bool.isRequired,
     filmAction: PropTypes.object.isRequired,
+    seatTypes: PropTypes.array.isRequired,
     sessionModal: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
     rooms: PropTypes.array.isRequired,
@@ -225,7 +288,9 @@ function mapStateToProps(state) {
         sessionModal: state.film.sessionModal,
         allFilms: state.film.allFilms,
         rooms: state.film.rooms,
+        isLoadingSeat: state.film.isLoadingSeat,
         addFilmSession: state.film.addFilmSession,
+        seatTypes: state.film.seatTypes,
     };
 }
 

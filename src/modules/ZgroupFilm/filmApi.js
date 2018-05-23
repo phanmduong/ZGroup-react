@@ -187,10 +187,10 @@ export function loadAllSeatTypesApi(id) {
     return axios.get(url);
 }
 //Edit Seat-Types
-//http://keetoolclient.test/manageapi/v3/v2/room/{roomId}/seat-types
+//http://keetoolclient.test/manageapi/v3/v2/room/seat-type/{seatTypeId}
 export function EditSeatTypesApi(seatType) {
-    let url = env.MANAGE_API_URL + "/v2/room/";
-        url += seatType.id +"/seat-types";
+    let url = env.MANAGE_API_URL + "/v2/room/seat-type/";
+        url += seatType.id;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

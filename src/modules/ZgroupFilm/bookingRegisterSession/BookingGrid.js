@@ -826,7 +826,11 @@ class BookingGrid extends React.Component {
     render() {
         return (
            <div>
-               <div ref={node => this.node = node}/>
+               <div className="col-md-8">
+                   <img src="https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-screen.png"/>
+                   <div ref={node => this.node = node}/>
+               </div>
+
                <div style={{textAlign: "right"}}>
                    <div>
                        <button
