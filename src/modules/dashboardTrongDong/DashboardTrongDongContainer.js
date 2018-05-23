@@ -78,7 +78,10 @@ class DashboardTrongDongContainer extends Component {
         self.showModalBooking = true;
         if (register) {
             self.booking = {
-                ...register.register_data.user,
+                email: register.register_data.user.email,
+                name: register.register_data.user.name,
+                phone: register.register_data.user.phone,
+                address: register.register_data.user.address,
                 id: register.register_room_id,
                 register_id: register.register_id,
                 campaign_id: register.register_data.campaign_id,
@@ -90,7 +93,7 @@ class DashboardTrongDongContainer extends Component {
                 end_time: register.end.format(DATETIME_FORMAT),
                 status: register.status,
                 note: register.register_data.note,
-                similar_room: []
+                similar_room: register.register_data.similar_room
             };
         } else {
             self.booking = {
@@ -120,6 +123,7 @@ class DashboardTrongDongContainer extends Component {
             const end_time = moment(this.booking.end_time, DATETIME_FORMAT).format("X");
             if (start_time >= end_time) {
                 showTypeNotification("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc", "warning");
+                return;
             }
             store.createRegister(this.booking, this.closeModalBooking);
         }
@@ -153,6 +157,7 @@ class DashboardTrongDongContainer extends Component {
     }
 
     render() {
+        const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
         return (
             <div>
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
@@ -251,6 +256,7 @@ class DashboardTrongDongContainer extends Component {
                                                     self.openModalBooking(null, room, value);
                                                 }}
                                                 onClickDay={day => {
+                                                    if (disableCreateRegister) return;
                                                     self.openModalBooking(day, room);
                                                 }}
                                             />
@@ -285,6 +291,7 @@ class DashboardTrongDongContainer extends Component {
                                 options={STATUS_REGISTER_ROOM}
                                 onChange={this.onChangeStatus}
                                 placeholder="Chọn trang thái"
+                                disabled={disableCreateRegister}
                             />
                         </div>
                     </Modal.Body>
@@ -297,7 +304,7 @@ class DashboardTrongDongContainer extends Component {
                             {this.booking.room && this.booking.id == undefined
                                 ? `Tạo đặt phòng ${this.booking.room.name} - ${this.booking.room.type.name}`
                                 : ""}
-                            {this.booking.id ? `${this.booking.name} phòng ${this.booking.room.name} loại ${this.booking.type}` : ''}
+                            {this.booking.id ? `${this.booking.name} đặt phòng ${this.booking.room.name} loại ${this.booking.type}` : ''}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -311,6 +318,7 @@ class DashboardTrongDongContainer extends Component {
                                 }
                                 value={this.booking.name}
                                 required
+                                disabled={disableCreateRegister}
                             />
                             <FormInputText
 
@@ -321,6 +329,7 @@ class DashboardTrongDongContainer extends Component {
                                 }
                                 value={this.booking.phone}
                                 required
+                                disabled={disableCreateRegister}
                             />
                             <FormInputText
 
@@ -331,6 +340,8 @@ class DashboardTrongDongContainer extends Component {
                                 }
                                 value={this.booking.email}
                                 required
+                                type={'email'}
+                                disabled={disableCreateRegister}
                             />
                             <FormInputText
 
@@ -340,6 +351,7 @@ class DashboardTrongDongContainer extends Component {
                                     this.updateFormData
                                 }
                                 value={this.booking.address}
+                                disabled={disableCreateRegister}
                             />
                             <FormInputText
 
@@ -349,6 +361,7 @@ class DashboardTrongDongContainer extends Component {
                                     this.updateFormData
                                 }
                                 value={this.booking.note}
+                                disabled={disableCreateRegister}
                             />
                             <FormInputDateTime
                                 id={"booking-start-time"}
@@ -356,6 +369,7 @@ class DashboardTrongDongContainer extends Component {
                                 updateFormData={this.updateFormData}
                                 value={this.booking.start_time}
                                 label={"Thời gian bắt đầu"}
+                                disabled={disableCreateRegister}
                             />
                             <FormInputDateTime
                                 id={"booking-end-time"}
@@ -363,6 +377,7 @@ class DashboardTrongDongContainer extends Component {
                                 updateFormData={this.updateFormData}
                                 value={this.booking.end_time}
                                 label={"Thời gian kết thúc"}
+                                disabled={disableCreateRegister}
                             />
                         </form>
                         <div className="form-group">
@@ -375,25 +390,25 @@ class DashboardTrongDongContainer extends Component {
                                     this.booking.status = value.value;
                                 }}
                                 placeholder="Chọn trang thái"
+                                disabled={disableCreateRegister}
                             />
                         </div>
                         <div className="form-group">
                             <label className="label-control">Chiến dich</label>
-                            <div style={{zIndex: 10}}>
-                                <ReactSelect
-                                    name="form-field-name"
-                                    value={this.booking.campaign_id}
-                                    options={store.campaignsData}
-                                    onChange={value => {
-                                        let booking = {...this.booking};
-                                        booking['campaign_id'] = value ? value.value : '';
-                                        this.booking = booking;
-                                    }}
-                                    placeholder="Chọn trang thái"
-                                />
-                            </div>
+                            <ReactSelect
+                                name="form-field-name"
+                                value={this.booking.campaign_id}
+                                options={store.campaignsData}
+                                onChange={value => {
+                                    let booking = {...this.booking};
+                                    booking['campaign_id'] = value ? value.value : '';
+                                    this.booking = booking;
+                                }}
+                                placeholder="Chọn trang thái"
+                                disabled={disableCreateRegister}
+                            />
                         </div>
-                        {this.booking.id == undefined && <div className="form-group">
+                        <div className="form-group">
                             <label className="label-control">Ghép phòng</label>
                             <div className="row">
 
@@ -403,21 +418,24 @@ class DashboardTrongDongContainer extends Component {
                                     return (
                                         <div className="col-md-4">
                                             <Checkbox label={room.name} checked={checked} checkBoxLeft
+                                                      disabled={disableCreateRegister}
                                                       onChange={(event) => this.changeSimilarRoom(event, room)}/>
                                         </div>
                                     );
                                 })}
 
                             </div>
-                        </div>}
+                        </div>
+                        {
+                            !disableCreateRegister && <Button
+                                onClick={this.createBookRoom}
+                                label={"Lưu"}
+                                labelLoading={"Đang lưu"}
+                                className={"btn btn-rose"}
+                                isLoading={store.isCreatingRegister}
+                            />
+                        }
 
-                        <Button
-                            onClick={this.createBookRoom}
-                            label={"Lưu"}
-                            labelLoading={"Đang lưu"}
-                            className={"btn btn-rose"}
-                            isLoading={store.isCreatingRegister}
-                        />
                     </Modal.Body>
                 </Modal>
             </div>

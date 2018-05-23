@@ -145,22 +145,7 @@ export default new class DashboardTrongDongStore {
                 if (res.data.status == 1) {
                     closeModal();
                     if (register.register_id) {
-                        this.registerRooms = this.registerRooms.map(room => {
-                            const register_rooms = room.register_rooms.map(register => {
-                                if (register.id == res.data.data.register_room.id) {
-                                    return {
-                                        ...register,
-                                        ...res.data.data.register_room
-                                    };
-                                } else {
-                                    return {...register};
-                                }
-                            });
-                            return {
-                                ...room,
-                                register_rooms: register_rooms
-                            };
-                        });
+                        this.loadDashboard();
                     } else {
                         this.registerRooms = this.registerRooms.map(room => {
                             let roomData = room;
@@ -274,7 +259,6 @@ export default new class DashboardTrongDongStore {
     }
 
     allRoomsSimilar(room) {
-        console.log(room);
         let rooms = this.rooms;
 
         rooms = rooms.filter(roomItem => roomItem.base_id === room.base.id && room.type.id === roomItem.room_type_id

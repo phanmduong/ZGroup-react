@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { DATETIME_FORMAT } from "../../constants/constants";
+import {DATETIME_FORMAT} from "../../constants/constants";
 import moment from "moment";
 
 class FormInputDateTime extends React.Component {
@@ -40,6 +40,9 @@ class FormInputDateTime extends React.Component {
                 .data("DateTimePicker")
                 .maxDate(this.props.maxDate);
         }
+        if (this.props.disabled) {
+            $(`#${this.props.id}`).prop('disabled', true);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -52,6 +55,9 @@ class FormInputDateTime extends React.Component {
             $("#" + this.props.id)
                 .data("DateTimePicker")
                 .maxDate(nextProps.maxDate);
+        }
+        if (nextProps.disabled != nextProps.disabled) {
+            $(`#${this.props.id}`).prop('disabled', this.props.disabled);
         }
     }
 
