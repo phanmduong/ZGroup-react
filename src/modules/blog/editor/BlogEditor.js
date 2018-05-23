@@ -22,27 +22,34 @@ import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
 import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
 import PropTypes from "prop-types";
+import { postTextToValue, postValueToText } from "./blogEditorHelper";
 
 const savePost = async (editor, status, publish_status) => {
     editor.setState({
         isSavingPost: true
     });
-    const res = await savePostV2({ ...store.post, publish_status }, status);
+    const convertedPost = postValueToText(store.post);
+
+    const res = await savePostV2(
+        {
+            ...convertedPost,
+            publish_status
+        },
+        status
+    );
     editor.setState({
         isSavingPost: false
     });
     if (res.data.status) {
-        showNotification("Xuất bản bài viết thành công");
+        showNotification("Lưu bài viết thành công");
     } else {
         showErrorNotification("Có lỗi xảy ra");
     }
 
-    const post = res.data.product;
+    const { product } = res.data;
 
-    store.post = {
-        ...store.post,
-        ...post
-    };
+    store.post = postTextToValue(product);
+
     return res.data;
 };
 
@@ -61,12 +68,11 @@ class BlogEditor extends React.Component {
     componentDidMount() {
         store.loadLanguages();
         store.loadCategories();
+        store.resetPostForm();
         const { postId } = this.props.params;
-        store.loadPostDetail(postId);
-    }
-
-    componentDidUpdate() {
-        $("#tags").tagsinput();
+        if (postId) {
+            store.loadPostDetail(postId);
+        }
     }
 
     validateForm() {
@@ -86,9 +92,9 @@ class BlogEditor extends React.Component {
             errors.push("Bạn chưa chọn ngôn ngữ");
         }
 
-        if (store.post.content == "<p></p>") {
-            errors.push("Bạn nhập thiếu nội dung bài viết");
-        }
+        // if (store.post.content == "<p></p>") {
+        //     errors.push("Bạn nhập thiếu nội dung bài viết");
+        // }
 
         if (!store.post.url) {
             errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
@@ -220,6 +226,11 @@ class BlogEditor extends React.Component {
                                 </TooltipButton>
                             </FormInputText>
 
+                            {this.renderTextFlexField(
+                                "description",
+                                "Mô tả ngắn"
+                            )}
+
                             <KeetoolSelect
                                 label="Loại bài viết"
                                 value={store.post.kind}
@@ -283,10 +294,6 @@ class BlogEditor extends React.Component {
                             </div>
 
                             {this.renderTextFlexField(
-                                "description",
-                                "Mô tả ngắn"
-                            )}
-                            {this.renderTextFlexField(
                                 "meta_title",
                                 "Meta title"
                             )}
@@ -306,11 +313,10 @@ class BlogEditor extends React.Component {
                             <EditorFormGroup
                                 label="Nội dung"
                                 required={true}
-                                value={store.post.content || ""}
-                                onChange={content =>
-                                    this.updatePost("content", content)
-                                }
-                                isNotValid={store.post.content == "<p></p>"}
+                                value={store.post.content}
+                                onChange={value => {
+                                    this.updatePost("content", value);
+                                }}
                             />
                         </div>
                     </div>
@@ -380,6 +386,38 @@ class BlogEditor extends React.Component {
                             </strong>
                         </div>
 
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                calendar_today
+                            </i>{" "}
+                            Ngày tạo:{" "}
+                            <strong>
+                                {store.post.created_at && store.post.created_at}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <i
+                                style={{
+                                    position: "relative",
+                                    top: "7px"
+                                }}
+                                className="material-icons"
+                            >
+                                timelapse
+                            </i>{" "}
+                            Ngày sửa:{" "}
+                            <strong>
+                                {store.post.updated_at && store.post.updated_at}
+                            </strong>
+                        </div>
+
                         <button
                             style={{
                                 position: "absolute",
@@ -404,7 +442,7 @@ class BlogEditor extends React.Component {
                             {this.state.isSavingPost && (
                                 <i className="fa fa-circle-o-notch fa-spin" />
                             )}{" "}
-                            Lưu nháp
+                            Lưu
                         </button>
                         <button
                             style={{ position: "absolute", top: 5, right: 15 }}

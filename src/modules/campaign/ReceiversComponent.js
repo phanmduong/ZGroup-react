@@ -98,7 +98,6 @@ class ReceiversComponent extends React.Component {
 									<th>Họ tên</th>
 									<th>Email</th>
 									<th>Số điện thoại</th>
-									<th>Số tin đã gửi</th>
 									<th>Đã đóng tiền</th>
 									<th />
 								</tr>
@@ -143,32 +142,6 @@ class ReceiversComponent extends React.Component {
 															src={definePhoneHead(receiver.phone)}
 														/>
 													</span>
-												</td>
-												<td>
-													<h7>
-														{receiver.sent_quantity}/{receiver.sent_quantity + this.props.campaign_needed_quantity}
-													</h7>
-													<div
-														className="progress"
-														style={{
-															position: 'relative',
-															left: 0,
-															bottom: 0,
-															width: '100%',
-															zIndex: '100',
-															marginBottom: '0'
-														}}>
-														<div
-															className="progress-bar"
-															role="progressbar"
-															aria-valuenow="70"
-															aria-valuemin="0"
-															aria-valuemax="100"
-															style={{ width: `${50}%` }}>
-															<span className="sr-only">{50}% Complete</span>
-														</div>
-													</div>
-											
 												</td>
 												<td>
 													<OverlappedCircles
@@ -244,7 +217,6 @@ ReceiversComponent.propTypes = {
 	allReceiver: PropTypes.array.isRequired,
 	params: PropTypes.object.isRequired,
 	campaignName: PropTypes.string.isRequired,
-	campaign_needed_quantity: PropTypes.number.isRequired,
 	isChoosingReceivers: PropTypes.bool.isRequired
 };
 
@@ -257,7 +229,6 @@ function mapStateToProps(state) {
 		limitReceiver: state.smsCampaign.limitReceiver,
 		isLoadingReceiver: state.smsCampaign.isLoadingReceiver,
 		campaignName: state.smsCampaign.campaignName,
-		campaign_needed_quantity: state.smsCampaign.campaign_needed_quantity,
 		isChoosingReceivers: state.smsCampaign.isChoosingReceivers
 	};
 }

@@ -35,10 +35,27 @@ export default new class DashboardTrongDongStore {
     }
 
     @action
-    changeTime(registerRoomId = "", startTime = "", endTime = "") {
+    changeTime(registerId = "", startTime = "", endTime = "") {
         dashboardApi
-            .changeTime(registerRoomId, startTime, endTime)
+            .changeTime(registerId, startTime, endTime)
             .then(() => {
+                this.registerRooms = this.registerRooms.map(room => {
+                    const register_rooms = room.register_rooms.map(register => {
+                        if (register.register_id == registerId) {
+                            return {
+                                ...register,
+                                start_time: startTime,
+                                end_time: endTime,
+                            };
+                        } else {
+                            return {...register};
+                        }
+                    });
+                    return {
+                        ...room,
+                        register_rooms: register_rooms
+                    };
+                });
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
@@ -146,14 +163,18 @@ export default new class DashboardTrongDongStore {
                         });
                     } else {
                         this.registerRooms = this.registerRooms.map(room => {
-                            if (room.id == res.data.data.register_room.room_id) {
-                                return {
-                                    ...room,
-                                    register_rooms: [...room.register_rooms, res.data.data.register_room]
-                                };
-                            }
+                            let roomData = room;
+                            res.data.data.register_rooms.map(register_room => {
+                                if (room.id == register_room.room_id) {
+                                    roomData = {
+                                        ...room,
+                                        register_rooms: [...room.register_rooms, register_room]
+                                    };
+                                }
+
+                            });
                             return {
-                                ...room,
+                                ...roomData,
                             };
                         });
                     }
@@ -250,5 +271,15 @@ export default new class DashboardTrongDongStore {
                 label: campaign.name
             };
         });
+    }
+
+    allRoomsSimilar(room) {
+        console.log(room);
+        let rooms = this.rooms;
+
+        rooms = rooms.filter(roomItem => roomItem.base_id === room.base.id && room.type.id === roomItem.room_type_id
+            && roomItem.id != room.id);
+
+        return rooms;
     }
 }();

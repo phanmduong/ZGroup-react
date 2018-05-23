@@ -1,6 +1,5 @@
 import React from "react";
-import { Editor, getEventRange, getEventTransfer } from "slate-react";
-import html from "./HtmlConverter";
+import { Editor, getEventTransfer } from "slate-react";
 import { LAST_CHILD_TYPE_INVALID } from "slate-schema-violations";
 import {
     DEFAULT_NODE,
@@ -15,15 +14,14 @@ import {
 import { Block } from "slate";
 
 import { unwrapLink } from "./utils/linkUtils";
-import { isImage, insertImage, uploadImage } from "./utils/imageUtils";
+import { insertImage, uploadImage } from "./utils/imageUtils";
 import {
     showErrorNotification,
     showNotification
 } from "../../../helpers/helper";
 import PropTypes from "prop-types";
 import LinkModal from "./LinkModal";
-
-const initialValue = "";
+import { htmlToValue } from "./editorHelpers";
 
 class KeetoolEditor extends React.Component {
     state = {
@@ -115,17 +113,13 @@ class KeetoolEditor extends React.Component {
     };
 
     /**
-     * On drop, insert the image wherever it is dropped.
+     * On paste, deserialize the HTML and then insert the fragment.
      *
      * @param {Event} event
      * @param {Change} change
-     * @param {Editor} editor
      */
 
-    onDropOrPaste = (event, change) => {
-        const target = getEventRange(event, change.value);
-        if (!target && event.type == "drop") return;
-
+    onPaste = (event, change) => {
         const transfer = getEventTransfer(event);
         const { type, text, files } = transfer;
 
@@ -172,12 +166,10 @@ class KeetoolEditor extends React.Component {
                 }
             }
         }
-
-        if (type == "text") {
-            if (this.isUrl && !this.isUrl(text)) return;
-            if (!isImage(text)) return;
-            change.call(insertImage, text, target);
-        }
+        if (transfer.type != "html") return;
+        const { document } = htmlToValue(transfer.html);
+        change.insertFragment(document);
+        return true;
     };
 
     /**
@@ -205,11 +197,8 @@ class KeetoolEditor extends React.Component {
     };
 
     onChange = ({ value }) => {
-        this.setState({
-            value
-        });
         if (this.props.onChange) {
-            this.props.onChange(html.serialize(value));
+            this.props.onChange(value);
         }
     };
 
@@ -426,7 +415,9 @@ class KeetoolEditor extends React.Component {
 
         if (["numbered-list", "bulleted-list"].includes(type)) {
 
-            const parent = value.blocks.first() && value.document.getParent(value.blocks.first().key);
+            const parent =
+                value.blocks.first() &&
+                value.document.getParent(value.blocks.first().key);
             isActive =
                 hasBlock("list-item", value) && parent && parent.type === type;
         }
@@ -461,7 +452,7 @@ class KeetoolEditor extends React.Component {
                     renderNode={this.renderNode}
                     renderMark={this.renderMark}
                     onDrop={this.onDropOrPaste}
-                    onPaste={this.onDropOrPaste}
+                    onPaste={this.onPaste}
                     schema={this.schema}
                     spellCheck
                     autoFocus
@@ -566,7 +557,7 @@ class KeetoolEditor extends React.Component {
 
 KeetoolEditor.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.object.isRequired
 };
 
 export default KeetoolEditor;
