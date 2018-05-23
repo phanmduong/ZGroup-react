@@ -35,7 +35,16 @@ export function loadAllGoods() {
 
 export function loadAllCompanies() {
     //http://manageapi.keetool.xyz/company/provided?token=
-    let url     = env.MANAGE_API_URL +"/company/provided?limit=-1";
+    let url     = env.MANAGE_API_URL +"/company/share?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}
+export function loadAllCompaniesToExport() {
+    //http://manageapi.keetool.xyz/company/provided?token=
+    let url     = env.MANAGE_API_URL +"/company/all?limit=-1";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;

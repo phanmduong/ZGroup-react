@@ -44,7 +44,7 @@ class CreateItemImportOrderContainer extends React.Component {
         this.props.importOrderActions.loadAllOrder();
         this.props.importOrderActions.loadAllWarehourses();
         this.props.importOrderActions.loadAllGoods();
-        this.props.importOrderActions.loadAllCompanies();
+        this.props.importOrderActions.loadAllCompaniesToImport();
     }
     changeDataCompanies() {
         let data = [];

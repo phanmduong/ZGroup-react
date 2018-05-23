@@ -84,7 +84,7 @@ class InfoCompanyModal extends React.Component {
 
                                                             />
                                                         </div>
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
                                                                 label="Số điện thoại"
                                                                 type="text"
@@ -93,7 +93,7 @@ class InfoCompanyModal extends React.Component {
                                                                 disabled
                                                             />
                                                         </div>
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
                                                                 label="Mã số thuế"
                                                                 disabled
@@ -153,28 +153,28 @@ class InfoCompanyModal extends React.Component {
                                                                 Chiết khấu
                                                             </label></div>
 
-                                                        {/*<div className="col-md-6">*/}
-                                                            {/*<FormInputText*/}
-                                                                {/*label="Truyện tranh (%)"*/}
-                                                                {/*type="text"*/}
-                                                                {/*name="discount_comic"*/}
-                                                                {/*disabled*/}
-                                                                {/*updateFormData={this.updateFormData}*/}
-                                                                {/*value={this.props.data.discount_comic || ""}*/}
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Truyện tranh (%)"
+                                                                type="text"
+                                                                name="discount_comic"
+                                                                disabled
+                                                                //updateFormData={this.updateFormData}
+                                                                value={this.props.data.discount_comic || ""}
 
-                                                            {/*/>*/}
-                                                        {/*</div>*/}
-                                                        {/*<div className="col-md-6">*/}
-                                                            {/*<FormInputText*/}
-                                                                {/*label="Truyện chữ (%)"*/}
-                                                                {/*type="text"*/}
-                                                                {/*disabled*/}
-                                                                {/*name="discount_text"*/}
-                                                                {/*updateFormData={this.updateFormData}*/}
-                                                                {/*value={this.props.data.discount_text  || ""}*/}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Truyện chữ (%)"
+                                                                type="text"
+                                                                disabled
+                                                                name="discount_text"
+                                                                //updateFormData={this.updateFormData}
+                                                                value={this.props.data.discount_text  || ""}
 
-                                                            {/*/>*/}
-                                                        {/*</div>*/}
+                                                            />
+                                                        </div>
 
                                                         <div className="col-md-6">
                                                             <label>

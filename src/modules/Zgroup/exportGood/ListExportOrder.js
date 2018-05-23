@@ -14,6 +14,7 @@ class ListExportOrder extends React.Component {
         this.state = {
             data: {
                 company: { id: null, name: "" },
+                companyDebt: { id: null, name: "" },
                 staff: { id: null, name: "" },
                 good: [
                     // {id: null, name: "", quantity: 0,},

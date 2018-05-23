@@ -144,7 +144,7 @@ export function loadAllCompanies() {
                 if (res.data.status === 1) {
                     dispatch({
                         type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_SUCCESS,
-                        data: res.data.data.company,
+                        data: res.data.data.companies,
                     });
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
@@ -160,6 +160,29 @@ export function loadAllCompanies() {
     };
 }
 
+export function loadAllCompaniesToImport() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_COMPANIES_IMPORT_ORDER});
+        importOrderApi.loadAllCompaniesToImport()
+            .then((res) => {
+                if (res.data.status === 1) {
+                    dispatch({
+                        type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_SUCCESS,
+                        data: res.data.data.company,
+                    });
+                } else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
+                    browserHistory.push("/business/import-order");
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
+                browserHistory.push("/business/import-order");
+            });
+    };
+}
 export function loadAllWarehourses() {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_WAREHOUSE_IMPORT_ORDER});

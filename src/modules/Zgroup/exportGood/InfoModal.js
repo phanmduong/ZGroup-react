@@ -145,6 +145,7 @@ class InfoMoDal extends React.Component {
                                                             <FormInputText name="" label="SĐT liên hệ" value={data.company.phone || "Không có"} disabled />
                                                             <div><label>Chiết khấu truyện tranh</label><br />{data.company.discount_comic || 0}%</div><br />
                                                             <div><label>Chiết khấu truyện chữ</label><br />{data.company.discount_text || 0}%</div><br />
+                                                            <FormInputText name="" label="Công ty xuất hàng" value={data.companyDebt.name || "Không có"} disabled />
                                                         </div>
                                                         <label className="control-label">Ghi chú</label>
                                                         <div className="comment-input-wrapper">
@@ -189,6 +190,7 @@ export default (InfoMoDal);
 
 let defaultData = {
     company: { id: null, name: "" },
+    companyDebt: { id: null, name: "" },
     staff: { id: null, name: "" },
     good: [
         // {id: null, name: "", quantity: 0,},

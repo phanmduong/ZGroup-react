@@ -43,6 +43,7 @@ class CreateProposePaymentContainer extends React.Component {
                 value: company.id,
                 label: company.name,
                 account_number: company.account_number,
+                account_value: company.account_value,
             };
         });
         return data;
@@ -61,7 +62,8 @@ class CreateProposePaymentContainer extends React.Component {
         let newdata = {
             ...this.props.data, payer: {
                 "id": value,
-                "account_number": p
+                "account_number": p,
+                "account_value": e.account_value,
             }
         };
         this.props.PaymentActions.updateFormData(newdata);
@@ -74,7 +76,8 @@ class CreateProposePaymentContainer extends React.Component {
         let newdata = {
             ...this.props.data, receiver: {
                 "id": value,
-                "account_number": p
+                "account_number": p,
+                "account_value": e.account_value,
             }
         };
         this.props.PaymentActions.updateFormData(newdata);
@@ -121,7 +124,7 @@ class CreateProposePaymentContainer extends React.Component {
                                         (this.props.isLoadingCompanies) ? <Loading/> :
 
                                             <div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-4">
                                                     <label>
                                                         Bên gửi
                                                     </label>
@@ -135,7 +138,7 @@ class CreateProposePaymentContainer extends React.Component {
                                                         name="payer"
                                                     />
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-4">
                                                     <FormInputText
                                                         label="Số tài khoản"
                                                         type="text"
@@ -145,7 +148,17 @@ class CreateProposePaymentContainer extends React.Component {
                                                     />
 
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-4">
+                                                    <FormInputMoney
+                                                        label="Dư nợ"
+                                                        type="text"
+                                                        name="duno2"
+                                                        value={this.props.data.payer.account_value || "0"}
+
+                                                    />
+
+                                                </div>
+                                                <div className="col-md-4">
                                                     <label>
                                                         Bên nhận
                                                     </label>
@@ -159,12 +172,22 @@ class CreateProposePaymentContainer extends React.Component {
                                                         name="receiver"
                                                     />
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-4">
                                                     <FormInputText
                                                         label="Số tài khoản"
                                                         type="text"
                                                         name="stk"
                                                         value={this.props.data.receiver.account_number || ""}
+
+                                                    />
+
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <FormInputMoney
+                                                        label="Dư nợ"
+                                                        type="text"
+                                                        name="duno"
+                                                        value={this.props.data.receiver.account_value || "0"}
 
                                                     />
 

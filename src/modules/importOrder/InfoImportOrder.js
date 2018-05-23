@@ -145,7 +145,7 @@ class InfoImportOrder extends React.Component{
                                                         <h4 className="card-title"> <strong>Thông tin </strong> </h4>
 
                                                         <div>
-                                                            <label>Chọn mã đặt hàng</label>
+                                                            <label>Mã đặt hàng</label>
                                                             <ReactSelect
                                                                 disabled={true}
                                                                 options={this.changeDataOrder() || []}
@@ -161,7 +161,11 @@ class InfoImportOrder extends React.Component{
                                                                 <FormInputText name="" label="Người nhập hàng"
                                                                                value={data.staff_import_or_export.name}
                                                                                disabled/>
+                                                                <FormInputText name="" label="Công ty nhập hàng"
+                                                                               value={data.companyDebt.name} disabled/>
+
                                                             </div>
+
                                                             <label className="control-label">Ghi chú</label>
                                                             <div className="comment-input-wrapper">
                                                     <textarea

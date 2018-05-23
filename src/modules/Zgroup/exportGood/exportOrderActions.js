@@ -81,6 +81,28 @@ export function loadAllCompanies() {
                 browserHistory.push("/business/export-order");
             });
     };
+}export function loadAllCompaniesToExport() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_COMPANIES_EXPORT_ORDER});
+        exportOrderApi.loadAllCompaniesToExport()
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_ALL_COMPANIES_EXPORT_ORDER_SUCCESS,
+                        companies : res.data.data.company,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_ALL_COMPANIES_EXPORT_ORDER_ERROR});
+                    browserHistory.push("/business/export-order");
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ALL_COMPANIES_EXPORT_ORDER_ERROR});
+                browserHistory.push("/business/export-order");
+            });
+    };
 }
 export function loadAllWarehourses() {
     return function (dispatch) {

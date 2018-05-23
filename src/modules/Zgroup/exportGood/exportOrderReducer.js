@@ -53,7 +53,7 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
             return {
                 ...state,
                 isLoadingCompanies: false,
-                companies: getSelectArray(action.companies),
+                companies: getSelectArrayCompanies(action.companies),
             };
         }
 
@@ -161,6 +161,15 @@ function getSelectArray(arr){
             ...obj,
             value: obj.id,
             label: obj.command_code,
+        };
+    });
+}
+function getSelectArrayCompanies(arr){
+    return arr.map(obj => {
+        return {
+            ...obj,
+            value: obj.id,
+            label: obj.name,
         };
     });
 }

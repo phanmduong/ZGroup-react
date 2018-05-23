@@ -2243,6 +2243,7 @@ export default {
             good: { id: 0, name: "noname" },
             warehouse: { id: 0, name: "noname" },
             company: { id: "", name: "noname" },
+            companyDebt: { id: "", name: "noname" },
             price: 0,
             quantity: 0,
         },
@@ -2374,6 +2375,7 @@ export default {
         importOrders: [],
         importOrder: {
             company: {id: null, name: ""},
+            companyDebt: {id: null, name: ""},
             staff: {id: null, name: ""},
             good: [
                 // {id: null, name: "", quantity: 0,},

@@ -40,7 +40,7 @@ class CreateExportOrderContainer extends React.Component {
 
     componentWillMount() {
         //this.props.exportOrderActions.loadAllGoods();
-        //this.props.exportOrderActions.loadAllCompanies();
+        this.props.exportOrderActions.loadAllCompaniesToExport();
         this.props.exportOrderActions.loadAllWarehourses();
         this.props.exportOrderActions.loadAllOrderedGood();
         let id = this.props.params.exportOrderId;
@@ -146,7 +146,10 @@ class CreateExportOrderContainer extends React.Component {
             helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
             return;
         }
-
+        if (!data.companyDebt.id) {
+            helper.showErrorNotification("Vui lòng chọn công ty xuất hàng");
+            return;
+        }
         let selectedAllWareHouse = true;
         data.goods.forEach(obj => {
             if (!obj.warehouse || !obj.warehouse.id) {
@@ -177,6 +180,7 @@ class CreateExportOrderContainer extends React.Component {
                 ),
                 staff_id: this.props.user.id,
                 total_price: data.price * data.quantity,
+                company_debt_id: data.companyDebt.id,
             });
 
     }
@@ -186,10 +190,15 @@ class CreateExportOrderContainer extends React.Component {
         let newdata = this.state.addModalData;
         this.setState({ addModalData: { ...newdata, warehouse: e } });
     }
-
+    changeCompanies = (e)=>{
+        if(!e) return;
+        let data = {...this.state.data};
+        data.companyDebt = e;
+        this.setState({data});
+    };
     render() {
         let { data, addModalData, showAddModal } = this.state;
-        let { orderedGoods, isLoading, isCommitting, warehouses, params, user } = this.props;
+        let { orderedGoods, isLoading, isCommitting, warehouses, params, user,companies } = this.props;
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
         let modalDiscount = 0;
@@ -353,6 +362,16 @@ class CreateExportOrderContainer extends React.Component {
                                                     <div><label>Chiết khấu truyện tranh</label><br />{data.company.discount_comic || 0}%</div><br />
                                                     <div><label>Chiết khấu truyện chữ</label><br />{data.company.discount_text || 0}%</div><br />
                                                 </div>
+                                                <div>
+                                                    <label>Chọn công ty xuất hàng</label>
+                                                    <ReactSelect
+                                                        disabled={isLoading || isEdit}
+                                                        options={companies || []}
+                                                        onChange={this.changeCompanies}
+                                                        value={data.companyDebt.id}
+                                                        name="order"
+                                                        defaultMessage="Chọn công ty"
+                                                    /></div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">
                                                     <textarea
@@ -507,6 +526,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateExportOrderCon
 
 let defaultData = {
     company: { id: null, name: "" },
+    companyDebt: { id: null, name: "" },
     staff: { id: null, name: "" },
     good: [
         // {id: null, name: "", quantity: 0,},
