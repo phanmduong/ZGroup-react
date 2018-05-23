@@ -34,6 +34,8 @@ class CreateItemImportOrderContainer extends React.Component {
         this.updateFormAdd = this.updateFormAdd.bind(this);
         this.addGood = this.addGood.bind(this);
         this.commitData = this.commitData.bind(this);
+        this.changeDataCompanies = this.changeDataCompanies.bind(this);
+
 
 
     }
@@ -42,8 +44,19 @@ class CreateItemImportOrderContainer extends React.Component {
         this.props.importOrderActions.loadAllOrder();
         this.props.importOrderActions.loadAllWarehourses();
         this.props.importOrderActions.loadAllGoods();
+        this.props.importOrderActions.loadAllCompanies();
     }
-
+    changeDataCompanies() {
+        let data = [];
+        data = this.props.companies.map((pp) => {
+            return {
+                ...pp,
+                value: pp.id,
+                label: pp.name,
+            };
+        });
+        return data;
+    }
     updateFormAdd(e) {
         let name = e.target.name;
         let value = e.target.value;
@@ -101,7 +114,12 @@ class CreateItemImportOrderContainer extends React.Component {
         this.setState({data: e});
 
     }
-
+    changeCompanies = (e)=>{
+        if(!e) return;
+        let data = {...this.state.data};
+        data.companyDebt = e;
+        this.setState({data});
+    };
     updateWareHouseFormAdd(e) {
         if (!e) return;
         let newdata = this.state.addModalData;
@@ -144,6 +162,10 @@ class CreateItemImportOrderContainer extends React.Component {
             helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
             return;
         }
+        if (!data.companyDebt.id) {
+            helper.showErrorNotification("Vui lòng chọn công ty nhập hàng");
+            return;
+        }
 
         let selectedAllWareHouse = true;
         data.goods.forEach(obj => {
@@ -180,6 +202,7 @@ class CreateItemImportOrderContainer extends React.Component {
                     })
                 ),
                 staff_id: this.props.user.id,
+                company_debt_id: data.companyDebt.id,
 
             });
 
@@ -277,6 +300,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                         <td style={textAlign}>{sumQuantity / (count / parseInt(data.good_count))}</td>
                                                         <td/>
                                                         <td/>
+                                                        <td/>
                                                         <td style={textAlign}>{sumImportedQuantity} </td>
                                                         <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                         <td/>
@@ -353,6 +377,17 @@ class CreateItemImportOrderContainer extends React.Component {
                                                     <FormInputText name="" label="Người nhập hàng"
                                                                    value={data.staff_import_or_export.length ? data.staff_import_or_export.name : this.props.user.name}
                                                                    disabled/>
+                                                </div>
+                                                <div>
+                                                    <label> Chọn công ty nhập hàng </label>
+                                                    <ReactSelect
+                                                        disabled={this.props.isLoading}
+                                                        options={this.changeDataCompanies() || []}
+                                                        onChange={this.changeCompanies}
+                                                        value={data.companyDebt.id}
+                                                        name="order"
+                                                        defaultMessage="Chọn công ty"
+                                                    />
                                                 </div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">
@@ -461,6 +496,7 @@ CreateItemImportOrderContainer.propTypes = {
     importOrderActions: PropTypes.object,
     historyImportOrder: PropTypes.array,
     paginator_history: PropTypes.object,
+    companies: PropTypes.array,
 };
 
 function mapStateToProps(state) {
@@ -470,6 +506,7 @@ function mapStateToProps(state) {
         warehouses: state.importOrder.warehouses,
         goods: state.importOrder.goods,
         user: state.login.user,
+        companies: state.importOrder.companies,
     };
 }
 
@@ -482,6 +519,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItemImportOrderContainer);
 let defaultData = {
     company: {id: null, name: ""},
+    companyDebt: {id: null, name: ""},
     staff: {id: null, name: ""},
     good: [
         // {id: null, name: "", quantity: 0,},

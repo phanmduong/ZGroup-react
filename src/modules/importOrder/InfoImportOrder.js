@@ -21,7 +21,9 @@ class InfoImportOrder extends React.Component{
                 label: pp.command_code,
             };
         });
+
         return arr;
+
     }
     render(){
         let {data} = this.props;
@@ -121,6 +123,7 @@ class InfoImportOrder extends React.Component{
                                                                     <td/>
                                                                     <td>Tổng</td>
                                                                     <td style={textAlign}>{sumQuantity / (count / parseInt(data.good_count))}</td>
+                                                                    <td/>
                                                                     <td/>
                                                                     <td/>
                                                                     <td style={textAlign}>{sumImportedQuantity} </td>

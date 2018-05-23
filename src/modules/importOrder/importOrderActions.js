@@ -144,7 +144,7 @@ export function loadAllCompanies() {
                 if (res.data.status === 1) {
                     dispatch({
                         type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_SUCCESS,
-                        data: res.data.data.companies,
+                        data: res.data.data.company,
                     });
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");

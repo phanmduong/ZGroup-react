@@ -106,7 +106,7 @@ class ItemOrderContainer extends React.Component {
     openLoadingModal = () => {
         this.setState({showLoadingModal: true});
         this.props.importOrderActions.loadAllImportOrderNoPaging(this.exportExcel);
-    }
+    };
 
     exportExcel = (input) => {
         if (!input || input.length == 0) {
@@ -163,7 +163,7 @@ class ItemOrderContainer extends React.Component {
         saveWorkBookToExcel(wb, 'Danh sách nhập hàng');
 
         this.setState({showLoadingModal: false});
-    }
+    };
 
     render() {
 
@@ -181,7 +181,7 @@ class ItemOrderContainer extends React.Component {
                         show={this.state.showInfoModal}
                         onHide={this.closeInfoModal}
                         data={this.props.importOrder}
-                        itemOrders={this.props.itemOrders}
+                        itemOrders={this.props.importOrders}
                     />
                     <div className="container-fluid">
                         <div className="row">
@@ -321,7 +321,7 @@ ItemOrderContainer.propTypes = {
     importOrderActions: PropTypes.object,
     companies: PropTypes.array,
     importOrder: PropTypes.object,
-    itemOrders: PropTypes.arr,
+    itemOrders: PropTypes.array,
 };
 
 function mapStateToProps(state) {
