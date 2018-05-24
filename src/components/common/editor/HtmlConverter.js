@@ -55,11 +55,6 @@ const rules = [
             if (obj.object == "block") {
                 switch (obj.type) {
                     case "image": {
-<<<<<<< HEAD
-                        // console.log(obj);
-                        // console.log(children);
-=======
->>>>>>> a7fe9722685ca6a246c40638e89c133fc7300eec
                         const src = obj.data.get("src");
                         const style = { display: "block", width: "100%" };
                         return <img src={src} style={style} />;
