@@ -215,6 +215,7 @@ export default {
         },
         isSavingSubscription: false,
         isLoadingUserpack: false,
+        isLoadingSubscriptions: false,
         isCreatingRegister: false,
         subscriptions: [],
         userpacks: [],
