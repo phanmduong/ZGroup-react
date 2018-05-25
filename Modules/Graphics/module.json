@@ -1,0 +1,16 @@
+{
+    "name": "Graphics",
+    "alias": "graphics",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Graphics\\Providers\\GraphicsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -1,3 +1,35 @@
+<<<<<<< HEAD
+/laradock
+/vendor
+/storage
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+.idea/workspace.xml
+.idea/blade.xml
+.idea/misc.xml
+public/manage/.DS_STORE
+.idea/*
+/public/config.js
+/public/config.css
+socketEnv.js
+.npm/
+.pm2/
+.*
+/public/render-landingpage/tmp/*
+/public/landing-page/*
+/public/landingpage-libs/elements/preview_*.html
+/public/landingpage-libs/elements/images/uploads/*.*
+!/public/landingpage-libs/elements/images/uploads/bg2.jpg
+!/public/landingpage-libs/elements/images/uploads/image.jpg
+!/public/landingpage-libs/elements/images/uploads/pad.png
+!/public/landingpage-libs/elements/images/uploads/tablet-cover.png
+!/public/landingpage-libs/elements/images/uploads/tablet-new.png
+/docker/php/sync.sh
+
+
+=======
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
@@ -65,3 +97,7 @@ typings/
 dist/
 src/config.js
 src/config.css
+<<<<<<< HEAD
+>>>>>>> fc0264b4d43458838bc34f3a4177921bfe6b8f14
+=======
+>>>>>>> a8d2d5e982a6627ba32dba233c5637cc66b820da

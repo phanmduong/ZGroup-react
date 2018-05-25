@@ -106,6 +106,37 @@ class BlogEditor extends React.Component {
         return errors.length == 0;
     }
 
+    // validateForm() {
+    //     let errors = [];
+    //     this.setState({
+    //         errors
+    //     });
+    //     if (!store.post.title) {
+    //         errors.push("Bạn nhập thiếu tên bài viết");
+    //     }
+
+    //     if (!store.post.slug) {
+    //         errors.push("Bạn chưa nhập slug");
+    //     }
+
+    //     if (!store.post.language_id) {
+    //         errors.push("Bạn chưa chọn ngôn ngữ");
+    //     }
+
+    //     if (store.post.content == "<p></p>") {
+    //         errors.push("Bạn nhập thiếu nội dung bài viết");
+    //     }
+
+    //     if (!store.post.url) {
+    //         errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
+    //     }
+
+    //     this.setState({
+    //         errors
+    //     });
+    //     return errors.length == 0;
+    // }
+
     publish = () => {
         if (this.validateForm()) savePost(this, 1, PUBLISHED);
     };

@@ -1,0 +1,16 @@
+{
+    "name": "EmailMaketing",
+    "alias": "emailmaketing",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\EmailMaketing\\Providers\\EmailMaketingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

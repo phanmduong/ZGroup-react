@@ -30,13 +30,17 @@ class ItemOrderContainer extends React.Component {
         this.state = {
             page: 1,
             openFilter: false,
-            companyId: null,
+            
             showInfoModal: false,
             showLoadingModal: false,
+            filter:{
+                companyId: null,
+                command_code: '',
+                page: 1,
+            },
         };
         this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
-        //this.loadImportOrders = this.loadImportOrders.bind(this);
         this.changeDataCompanies = this.changeDataCompanies.bind(this);
         this.searchByCompany = this.searchByCompany.bind(this);
         this.openInfoModal = this.openInfoModal.bind(this);
@@ -44,23 +48,15 @@ class ItemOrderContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.importOrderActions.loadAllImportOrder(1);
+        this.props.importOrderActions.loadAllImportOrder(this.state.filter);
         this.props.importOrderActions.loadAllCompanies();
         this.props.importOrderActions.loadAllOrder();
     }
 
-    // loadImportOrders(page) {
-    //     console.log(page);
-    //     this.setState({page: page});
-    //     this.props.importOrderActions.loadAllImportOrder(page);
-    // }
+    
 
     changeStatus(id) {
-        // this.props.importOrderActions.changeStatusImportOrder(id, () => {
-        //     success();
-        //
-        //     this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
-        // });
+        
         confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
             this.props.importOrderActions.changeStatusImportOrder(id, () => {
                 this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
@@ -85,13 +81,10 @@ class ItemOrderContainer extends React.Component {
     }
 
     searchByCompany(e) {
-        if (!e) {
-            this.setState({companyId: null});
-            this.props.importOrderActions.loadAllImportOrder(1);
-            return;
-        }
-        this.setState({companyId: e.value});
-        this.props.importOrderActions.loadAllImportOrder(1, e.value);
+        e = e ? e : {value:''};
+        this.onFilterChange('companyId', e.value);
+
+        //this.props.importOrderActions.loadAllImportOrder(1, e.value);
     }
 
     openInfoModal(id) {
@@ -105,7 +98,7 @@ class ItemOrderContainer extends React.Component {
 
     openLoadingModal = () => {
         this.setState({showLoadingModal: true});
-        this.props.importOrderActions.loadAllImportOrderNoPaging(this.exportExcel);
+        this.props.importOrderActions.loadAllImportOrderNoPaging(this.state.filter,this.exportExcel);
     }
 
     exportExcel = (input) => {
@@ -163,6 +156,13 @@ class ItemOrderContainer extends React.Component {
         saveWorkBookToExcel(wb, 'Danh sách nhập hàng');
 
         this.setState({showLoadingModal: false});
+    }
+
+    onFilterChange = (name, value = '')=>{
+        let filter = {...this.state.filter};
+        filter[name] = value;
+        this.setState({filter});
+        this.props.importOrderActions.loadAllImportOrder(this.state.filter);
     }
 
     render() {
@@ -265,7 +265,7 @@ class ItemOrderContainer extends React.Component {
                                                             <ReactSelect
                                                                 options={this.changeDataCompanies()}
                                                                 onChange={this.searchByCompany}
-                                                                value={this.state.companyId}
+                                                                value={this.state.filter.companyId}
                                                             />
                                                         </div>
                                                     </div>
@@ -292,7 +292,7 @@ class ItemOrderContainer extends React.Component {
                                                                 <Pagination
                                                                     totalPages={this.props.paginator.total_pages}
                                                                     currentPage={this.props.paginator.current_page}
-                                                                    loadDataPage={this.props.importOrderActions.loadAllImportOrder}
+                                                                    loadDataPage={(page) => this.onFilterChange("page", page)}
                                                                 />
                                                             </div>
                                                         </div>
