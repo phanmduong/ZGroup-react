@@ -259,10 +259,7 @@ export default new class DashboardTrongDongStore {
     }
 
     allRoomsSimilar(room) {
-<<<<<<< HEAD
-=======
         //console.log(room);
->>>>>>> 8e96eeb2beef2fd13443ee9f46410450914eff92
         let rooms = this.rooms;
 
         rooms = rooms.filter(roomItem => roomItem.base_id === room.base.id && room.type.id === roomItem.room_type_id
