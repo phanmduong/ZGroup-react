@@ -25,9 +25,9 @@ class FormInputDateTime extends React.Component {
                 clear: "fa fa-trash",
                 close: "fa fa-remove",
             },
-            defaultDate: this.props.value
-                ? moment(this.props.value, format)
-                : this.props.defaultDate ? this.props.defaultDate : moment(),
+            // defaultDate: this.props.value
+            //     ? moment(this.props.value, format)
+            //     : this.props.defaultDate ? this.props.defaultDate : moment(),
             format,
         });
         if (this.props.minDate && this.props.minDate !== "") {
