@@ -88,6 +88,7 @@ FormInputDateTime.propTypes = {
     defaultDate: PropTypes.object,
     maxDate: PropTypes.string,
     minDate: PropTypes.string,
+    disabled: PropTypes.bool,
 };
 
 export default FormInputDateTime;
