@@ -5,7 +5,7 @@ import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL, CONTRACT_TYPES } from "../../../constants/constants";
 import { browserHistory } from 'react-router';
 
-export const store = new class DashboardStaffStore {
+export const store = new class Store {
     @observable isLoading = false;
     @observable isCommitting = false;
     @observable isInfoModal = false;

@@ -8,9 +8,9 @@ import ProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministrat
 import CreateProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/CreateProposePaymentContainer";
 import BillContainer from "../modules/Zgroup/bill/BillContainer";
 import CreateBillContainer from "../modules/Zgroup/bill/CreateBillContainer";
-
 import ContractContainer from "../modules/Zgroup/contract/ContractContainer";
 import CreateContractContainer from "../modules/Zgroup/contract/CreateContractContainer";
+import FundContainer from "../modules/Zgroup/fund/FundContainer";
 
 
 /**
@@ -90,5 +90,9 @@ export default [
     {
         path: "/administration/contract/edit/:contract_id",
         component: CreateContractContainer,
+    },
+    {
+        path: "/administration/fund",
+        component: FundContainer,
     },
 ];
