@@ -1,0 +1,16 @@
+{
+    "name": "Elearning",
+    "alias": "elearning",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Elearning\\Providers\\ElearningServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
