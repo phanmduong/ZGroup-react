@@ -3,7 +3,7 @@ import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
 export function loadSummarySales( startTime='',endTime='',baseId = '') {
-    let url = env.MANAGE_API_URL + "/bookingRegisterSession-service/bookingRegisterSession/sales/summary?";
+    let url = env.MANAGE_API_URL + "/room-service/room/sales/summary?";
     let token = localStorage.getItem('token');
     // url += `&base_id=${baseId}`;
 

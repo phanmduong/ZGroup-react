@@ -37,14 +37,15 @@ export function editImportOrder(data){
     return axios.post(url,data);
 }
 
-export function loadAllImportOrder(page,id){
+export function loadAllImportOrder(filter){
+    let {page,companyId} = filter;
     let url = env.MANAGE_API_URL + '/company/import-order/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&limit=20";
+        url += "?token=" + token + "&page=" + page + "&limit=20" ;
     }
-    if(id) {
-        url += "&company_id=" + id;
+    if(companyId) {
+        url += "&company_id=" + companyId;
     }
     return axios.get(url);
 }
@@ -77,7 +78,7 @@ export function loadAllGoods() {
 }
 
 export function loadAllCompanies() {
-    let url     = env.MANAGE_API_URL +"/company/share?limit=-1";
+    let url     = env.MANAGE_API_URL +"/company/provided?limit=-1";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;

@@ -1,0 +1,16 @@
+{
+    "name": "WorkShift",
+    "alias": "workshift",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\WorkShift\\Providers\\WorkShiftServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

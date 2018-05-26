@@ -160,7 +160,7 @@ export function deleteSessionApi(session) {
     return axios.delete(url);
 }
 
-//Get all bookingRegisterSession
+//Get all room
 //http://keetool3.xyz/manageapi/v3/?&token=
 export function loadAllRoomsApi(limit) {
     let url = env.MANAGE_API_URL + "/base/rooms";

@@ -67,27 +67,17 @@ class ContractContainer extends Component {
         this.onFilterChange(name, value);
     }
 
-    changeStatus = (id, status) => {
-        switch (status) {
-            case 0: {
-                confirm("warning", "Chuyển trạng thái", "Bạn có chắc chuyển trạng thái sang đã gửi?",
-                    () => { return store.changeStatus(id, status * 1 + 1); }
+    changeStatus = (index,id, status) => {
+        
+                confirm("warning", "Chuyển trạng thái", "Bạn có chắc chuyển trạng thái?",
+                    () => { return store.changeStatus(index,id, status); }
                 );
-                break;
-            }
-            case 1: {
-                confirm("warning", "Chuyển trạng thái", "Bạn có chắc chuyển trạng thái sang đã nhận?",
-                    () => { return store.changeStatus(id, status * 1 + 1); }
-                );
-                break;
-            }
-
-        }
+        
     }
 
     render() {
         let { isLoading, isInfoModal, paginator, contracts, filter, showPanel, allContractType, allStaff, allCompany, allStatus } = store;
-        let { user } = this.props;
+        //let { user } = this.props;
         const filterClass = "col-md-3 col-sm-6 col-xs-6";
         return (
             <div>
@@ -261,6 +251,7 @@ class ContractContainer extends Component {
                                                                     <th>Bên B</th>
                                                                     <th>Người kí</th>
                                                                     <th>Trạng thái</th>
+                                                                    <th>Trạng thái</th>
                                                                     <th>Ngày hết hạn</th>
                                                                     <th />
                                                                 </tr>
@@ -291,20 +282,23 @@ class ContractContainer extends Component {
                                                                             <td>{obj.company_b.name}</td>
                                                                             <td>{obj.sign_staff.name}</td>
                                                                             <td>{status}</td>
-                                                                            {/* <td>{obj.sign_staff.name}</td> */}
+                                                                            <td style={{width: 135}}>
+                                                                                
+                                                                                    <ReactSelect
+                                                                                        options={allStatus || []}        
+                                                                                        onChange={(e) => { this.changeStatus(index,obj.id, e.id); }}
+                                                                                        value={obj.status}
+                                                                                        defaultMessage="Chọn"
+                                                                                        disabled={isLoading}
+                                                                                    />
+                                                                                
+                                                                            </td>
+                                                                            
 
                                                                             <td>{moment(obj.due_date).format("D/M/YYYY")}</td>
                                                                             <td><ButtonGroupAction
                                                                                 editUrl={"/administration/contract/edit/" + obj.id}
                                                                                 disabledDelete={true}
-                                                                                disabledEdit={obj.status > 1 || user.id != obj.staff.id}
-                                                                                children={
-                                                                                    (obj.status < 2 && (user.role == 2 || user.id == obj.staff.id)) ?
-                                                                                        <a key="1" data-toggle="tooltip" title="Đổi trạng thái" type="button" rel="tooltip"
-                                                                                            onClick={() => { this.changeStatus(obj.id, obj.status); }}>
-                                                                                            <i className="material-icons">cached</i></a>
-                                                                                        : <div />
-                                                                                }
                                                                             /></td>
                                                                         </tr>
                                                                     );

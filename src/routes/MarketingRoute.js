@@ -41,7 +41,7 @@ export default [
         component: SummaryMarketingCampaignUpContainer,
     },
     {
-        path: "/marketing/marketing-campaign-bookingRegisterSession/summary",
+        path: "/marketing/marketing-campaign-room/summary",
         component: SummaryMarketingCampaignRoomContainer,
     },
     {
@@ -76,7 +76,7 @@ export default [
     },
 
     {
-        path: "/marketing/sales-bookingRegisterSession",
+        path: "/marketing/sales-room",
         component: SummarySalesRoomContainer,
         children: [
             {

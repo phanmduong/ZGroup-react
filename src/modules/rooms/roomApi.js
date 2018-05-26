@@ -32,7 +32,7 @@ export function getBases() {
 }
 
 export function getTypesApi(search) {
-    let url = env.MANAGE_API_URL + "/v2/base/bookingRegisterSession-type?limit=-1";
+    let url = env.MANAGE_API_URL + "/v2/base/room-type?limit=-1";
     let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
@@ -51,7 +51,7 @@ export function createRoomTypeApi(roomType) {
         price : roomType.price,
         member_price : roomType.member_price,
     };
-    let url = env.MANAGE_API_URL + "/v2/base/bookingRegisterSession-type";
+    let url = env.MANAGE_API_URL + "/v2/base/room-type";
     if (roomType.id) {
         url += "/" + roomType.id;
     }
@@ -82,7 +82,7 @@ export function changeAvatarApi(file, completeHandler, progressHandler, error) {
 }
 
 export function storeRoom(room) {
-    let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/bookingRegisterSession";
+    let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -103,7 +103,7 @@ export function storeRoom(room) {
 
 export function editRoom(room) {
     let url =
-        env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/bookingRegisterSession/" + room.id;
+        env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -129,7 +129,7 @@ export function uploadRoomLayout({
     progressHandler,
     error,
 }) {
-    let url = env.MANAGE_API_URL + "/v2/bookingRegisterSession/" + roomId + "/layout";
+    let url = env.MANAGE_API_URL + "/v2/room/" + roomId + "/layout";
     const token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;

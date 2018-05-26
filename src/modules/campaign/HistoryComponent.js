@@ -96,18 +96,15 @@ class HistoryComponent extends React.Component {
 														<div
 															className="avatar-list-staff"
 															style={{
-																background:
-																	'url(' +
-																	image +
-																	') center center / cover',
+																background: 'url(' + image + ') center center / cover',
 																display: 'inline-block'
 															}}
 														/>
-														<TooltipButton placement="top" text="Tin thứ 6">
+														{/* <TooltipButton placement="top" text="Tin thứ 6">
 															<div className="sent-message">
 																<span style={{ margin: 'auto' }}>6</span>
 															</div>
-														</TooltipButton>
+														</TooltipButton> */}
 													</div>
 												</td>
 												<td>
@@ -141,26 +138,18 @@ class HistoryComponent extends React.Component {
 												<td>
 													<div className="btn-group-action">
 														<div style={{ display: 'inline-block' }}>
-															<TooltipButton
-																placement="top"
-																text="Xem chi tiết">
+															<TooltipButton placement="top" text="Xem chi tiết">
 																<a
 																	onClick={() =>
-																		this.showHistoryDetailModal(his.user)}>
-																	<i className="material-icons">
-																		add_circle
-																	</i>
+																		this.showHistoryDetailModal(his.user)}
+																>
+																	<i className="material-icons">add_circle</i>
 																</a>
 															</TooltipButton>
 														</div>
 														<TooltipButton placement="top" text="Sửa">
 															<a>
 																<i className="material-icons">edit</i>
-															</a>
-														</TooltipButton>
-														<TooltipButton placement="top" text="Xóa">
-															<a>
-																<i className="material-icons">delete</i>
 															</a>
 														</TooltipButton>
 													</div>
@@ -200,7 +189,7 @@ HistoryComponent.propTypes = {
 	limitHistory: PropTypes.number.isRequired,
 	totalCountHistory: PropTypes.number.isRequired,
 	totalPagesHistory: PropTypes.number.isRequired,
-	params: PropTypes.object.isRequired,
+	params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

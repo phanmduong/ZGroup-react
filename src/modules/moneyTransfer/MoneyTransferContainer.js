@@ -70,7 +70,7 @@ class MoneyTransferContainer extends React.Component {
     }
 
     createTransaction() {
-        if (isEmptyInput(this.state.staff)) {
+        if (this.state.staff == undefined || this.state.staff == null || isEmptyInput(this.state.staff.id)) {
             showTypeNotification("Vui lòng chọn nhân viên", 'warning');
             return;
         }
@@ -87,7 +87,7 @@ class MoneyTransferContainer extends React.Component {
                 return;
             }
 
-            this.props.moneyTransferActions.createTransaction(this.state.staff, this.state.money);
+            this.props.moneyTransferActions.createTransaction(this.state.staff.id, this.state.money);
         }
     }
 

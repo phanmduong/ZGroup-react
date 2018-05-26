@@ -40,7 +40,7 @@ class Calendar extends React.Component {
                 center: "title",
                 right: "month,agendaWeek,agendaDay,listWeek"
             },
-            locale: "vn",
+            locale: "vi",
             defaultDate: today,
             selectable: true,
             selectHelper: true,

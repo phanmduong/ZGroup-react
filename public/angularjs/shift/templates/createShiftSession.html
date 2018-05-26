@@ -1,0 +1,11 @@
+<div ng-show="message" class="green-text darken-4">[[message]]</div>
+<label>Tên</label>
+<input type="text" ng-model="shiftSession.name">
+<label>Giờ bắt đâu</label>
+<input type="text" ng-model="shiftSession.start_time" class="timepicker">
+<label>Giờ kết thúc</label>
+<input type="text" ng-model="shiftSession.end_time" class="timepicker">
+<button type="button" ng-click="save()" class="btn darken-2 red">Save</button>
+<script>
+    $('.timepicker').timepicker({'timeFormat': 'H:i'});
+</script>

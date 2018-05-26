@@ -758,7 +758,7 @@ img .product-image {
   text-align: center;
   vertical-align: middle;
   box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42),
-    0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
   border: 0 none;
   background-size: cover;
   background-position: center center;
@@ -928,7 +928,7 @@ a.btn-seat.active {
 }
 
 .nav-pills-rose > .active > a {
-    background-color: rgba(197, 0, 0, 1);
+  background-color: rgba(197, 0, 0, 1);
 }
 
 .nav-pills > li > a > i {
@@ -942,29 +942,32 @@ a.btn-seat.active {
   padding: 30px 30px 90px 30px;
   margin-bottom: 30px;
 }
+
 .modal-title {
   font-weight: bold;
 }
 
 .campaign-message-type {
-    width: 150px;
-    height: 40px;
-    border-radius: 5px;
-    display: flex;
-    cursor: auto;
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  cursor: auto;
 }
+
 .campaign-message-type > span {
-    margin: auto;
-    font-weight: 600;
-    color: white;
-    font-size: 12px;
-	width: 150px;
-	height: 40px;
-	border-radius: 5px;
-	display: flex;
-	cursor: auto;
+  margin: auto;
+  font-weight: 600;
+  color: white;
+  font-size: 12px;
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  cursor: auto;
 
 }
+
 .fileinput {
   width: 100%;
 }
@@ -995,16 +998,17 @@ a.btn-seat.active {
   width: 35px;
   border-radius: 50%;
 }
+
 .sent-message {
-	height: 30px;
-	width: 30px;
-	border-radius: 50%;
-	color: white;
-	display: flex;
-	border: none;
-	margin: 0px auto 0 -10px;
-	background-color: #74d512;
-	cursor: auto;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  border: none;
+  margin: 0px auto 0 -10px;
+  background-color: #74d512;
+  cursor: auto;
 
 }
 
@@ -1023,24 +1027,26 @@ a.btn-seat.active {
   background: rgba(197, 0, 0, 1) !important;
   border-color: rgba(197, 0, 0, 1) !important;
   box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-    0 7px 10px -5px rgba(197, 0, 0, 0.4) !important;
+  0 7px 10px -5px rgba(197, 0, 0, 0.4) !important;
 }
+
 .flex-end {
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    justify-content: flex-end;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  justify-content: flex-end;
 }
-.card-content .card-top .btn-round i{
-    font-weight: bold;
-    font-size: 18px;
-    margin: auto;
-    top: 0px;
-    color: white;
-    border: none;
-    margin-top: 5px;
-    background-color: #74d512;
-    cursor: auto;
+
+.card-content .card-top .btn-round i {
+  font-weight: bold;
+  font-size: 18px;
+  margin: auto;
+  top: 0px;
+  color: white;
+  border: none;
+  margin-top: 5px;
+  background-color: #74d512;
+  cursor: auto;
 
 }
 
@@ -1059,8 +1065,9 @@ a.btn-seat.active {
   background: rgba(197, 0, 0, 1) !important;
   border-color: rgba(197, 0, 0, 1) !important;
   box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-    0 7px 10px -5px rgba(197, 0, 0, 0.4) !important;
+  0 7px 10px -5px rgba(197, 0, 0, 0.4) !important;
 }
+
 .flex-end {
 
   display: -webkit-box !important;
@@ -1068,6 +1075,7 @@ a.btn-seat.active {
   display: flex !important;
   justify-content: flex-end;
 }
+
 .card-content .card-top .btn-round i {
   font-weight: bold;
   font-size: 18px;
@@ -1075,25 +1083,28 @@ a.btn-seat.active {
   top: 0px;
 }
 
-
 //** Film Zgroup: Le Kha Hai
-.text-paly{
-    color: #868686;
-    cursor: pointer;
+.text-paly {
+  color: #868686;
+  cursor: pointer;
 }
+
 .text-paly:hover {
   color: black;
   cursor: pointer;
 }
-.film-name{
-	color: #404040;
-	font-weight: 500;
-	cursor: pointer;
+
+.film-name {
+  color: #404040;
+  font-weight: 500;
+  cursor: pointer;
 }
-.film-name:hover{
-	color: black;
-	cursor: pointer;
+
+.film-name:hover {
+  color: black;
+  cursor: pointer;
 }
+
 //** Film Zgroup: Le Kha Hai
 
 .btn-header-card {
