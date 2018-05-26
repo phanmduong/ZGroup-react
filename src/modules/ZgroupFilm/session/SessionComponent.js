@@ -32,7 +32,8 @@ class SessionComponent extends React.Component {
                         <th>Phòng</th>
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
-                        <th>Chất lượng phim</th>
+                        <th>FQ</th>
+                        <th>Giá vé</th>
                         <th/>
                     </tr>
                     </thead>
@@ -40,21 +41,22 @@ class SessionComponent extends React.Component {
 
                     {this.props.sessions && this.props.sessions.map((session, index) => {
                         let a = this.props.allFilms.filter((film) => (film.id == session.film_id))[0];
+                        let b = this.props.rooms.filter((room) => (room.id === session.room_id))[0];
                         return (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td className="film-name">
-                                    <TooltipButton text={(a && a.name)||''} placement="top">
-                                        <div onClick={() => {
+                                    <TooltipButton text={(a && a.name) || ''} placement="top">
+                                        <span onClick={() => {
                                             this.props.filmAction.showAddEditFilmModalAtSession();
                                             this.props.filmAction.handleFilmModal(a);
                                         }}>
-                                            {a && (a.name.length >= 30 ? a.name.slice(0, 29).concat("...") : a.name)}
-                                        </div>
+                                            {a && (a.name.length >= 15 ? a.name.slice(0, 14).concat("...") : a.name)}
+                                        </span>
                                     </TooltipButton>
                                 </td>
                                 <td>
-                                    Phòng {session.room_id}
+                                    {b && b.base_name} - {b && b.name}
                                 </td>
                                 <td>
                                     {session.start_date}
@@ -64,6 +66,34 @@ class SessionComponent extends React.Component {
                                 </td>
                                 <td>
                                     {session.film_quality}
+                                </td>
+                                <td style={{display: 'flex'}}>
+                                    {
+                                        session.seats && session.seats.map((seat, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <TooltipButton text={seat.type} placement="top">
+                                                        <button style={{
+                                                            backgroundColor: seat.color,
+                                                            color: "white",
+                                                            marginLeft: "10px",
+                                                            padding: "10px 11px",
+                                                            border: "none",
+                                                            borderRadius: "20px"
+                                                        }}>
+                                                            <b>A1</b>
+                                                        </button>
+                                                    </TooltipButton>
+                                                    <br/>
+                                                    <b>
+                                                        &ensp;{seat.price}đ
+                                                    </b>
+                                                </div>
+                                            );
+                                        })
+                                    }
+
+
                                 </td>
                                 <td>
 
@@ -108,11 +138,13 @@ SessionComponent.propTypes = {
     sessions: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
+    rooms: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         allFilms: state.film.allFilms,
+        rooms: state.film.rooms,
     };
 }
 
