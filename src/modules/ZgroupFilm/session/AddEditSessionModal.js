@@ -19,14 +19,14 @@ class AddEditSessionModal extends React.Component {
         this.changTemplateTypes = this.changTemplateTypes.bind(this);
         this.changTemplateTypes2 = this.changTemplateTypes2.bind(this);
         this.changeFilmQuality = this.changeFilmQuality.bind(this);
+        this.changePrice = this.changePrice.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoadingSeat !== this.props.isLoadingSeat) {
-            console.log("this",this.props.seatTypes);
+        if (nextProps.isLoadingSeat !== this.props.isLoadingSeat && !nextProps.isLoadingSeat) {
             this.props.filmAction.handleSessionModal({
                 ...this.props.sessionModal,
-                seats: this.props.seatTypes
+                seats: nextProps.seatTypes
             });
         }
     }
@@ -64,18 +64,31 @@ class AddEditSessionModal extends React.Component {
         this.props.filmAction.handleSessionModal(session);
         this.props.filmAction.loadAllSeatTypes(value.value);
     }
-
-    submit() {
-        const seat = this.props.seatTypes.map((s)=>{
-            return{
-                color: s.color,
-                price:"99k"
-            };
+    changePrice(e,index){
+        const field = e.target.name;
+        let seats = this.props.sessionModal.seats.map((seat, i)=>{
+            if(i === index){
+                return{
+                    ...seat,
+                    [field]: e.target.value
+                };
+            }
+            return seat;
         });
+
+        let session = {
+            ...this.props.sessionModal,
+            seats: seats
+        };
+        this.props.filmAction.handleSessionModal(session);
+    }
+    submit() {
+        const seat = [...this.props.sessionModal.seats];
         const session = {
             ...this.props.sessionModal,
             seats: JSON.stringify(seat)
         };
+
         if (
             helper.isEmptyInput(session.film_id)
             || helper.isEmptyInput(session.film_quality)
@@ -193,43 +206,48 @@ class AddEditSessionModal extends React.Component {
                             </div>
                             <br/>
                             <label className="label-control">Giá vé</label>
-                            <div className="table-responsive">
-                                <table className="table table-hover">
+                            {
+                                this.props.isLoadingSeat ? <Loading/> :
+                                    <div className="table-responsive">
+                                        <table className="table table-hover">
 
-                                <tbody>
-                                {
-                                    session.seats && session.seats.map((seatType, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                <td>
-                                                    &emsp;
-                                                    <button style={{
-                                                        backgroundColor: seatType.color, color: "white",
-                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
-                                                    }}>
-                                                        <b>A1</b>
-                                                    </button>
+                                            <tbody>
+                                            {
+                                                session.seats && session.seats.map((seatType, index) => {
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td>
+                                                                &emsp;
+                                                                <button style={{
+                                                                    backgroundColor: seatType.color, color: "white",
+                                                                    padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                                }}>
+                                                                    <b>A1</b>
+                                                                </button>
 
-                                                </td>
-                                                <td>{seatType.type}</td>
-                                    <td>
-                                        <FormInputText
-                                            label="Nhập giá vé"
-                                            name="cost"
-                                            updateFormData={()=>{}}
-                                            value={seatType.price}/>
-                                    </td>
+                                                            </td>
+                                                            <td>{seatType.type}</td>
+                                                            <td>
+                                                                <FormInputText
+                                                                    label="Nhập giá vé (đ)"
+                                                                    type="number"
+                                                                    name="price"
+                                                                    updateFormData={(e)=>this.changePrice(e,index)}
+                                                                    value={seatType.price}/>
+                                                            </td>
 
-                                </tr>
+                                                        </tr>
 
 
-                                        );
-                                    })
-                                }
-                                <br/>
+                                                    );
+                                                })
+                                            }
 
-                                </tbody></table>
-                            </div>
+
+                                            </tbody></table><br/>
+                                    </div>
+                            }
+
 
                             {
                                 this.props.isSavingSession ? <Loading/> : (

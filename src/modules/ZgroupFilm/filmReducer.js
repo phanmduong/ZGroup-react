@@ -292,6 +292,7 @@ export default function filmReducer(state = initialState.film, action) {
                         room_id: action.session.room_id,
                         start_time: action.session.start_time,
                         start_date: action.session.start_date,
+                        seats: JSON.parse(action.session.seats),
 
                     };
                 }
@@ -306,7 +307,7 @@ export default function filmReducer(state = initialState.film, action) {
                         room_id: action.session.room_id,
                         start_time: action.session.start_time,
                         start_date: action.session.start_date,
-
+                        seats: JSON.parse(action.session.seats),
                     };
                 }
                 return session2;

@@ -91,7 +91,7 @@ class EditSeatTypeModal extends React.Component {
                                                 type="button"
                                                 className="btn"
                                                 onClick={() => {
-                                                    this.props.filmAction.toggleSeatTypeModal()
+                                                    this.props.filmAction.toggleSeatTypeModal();
                                                 }}
                                             >
                                                 Huỷ

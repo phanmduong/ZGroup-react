@@ -86,7 +86,7 @@ class SessionComponent extends React.Component {
                                                     </TooltipButton>
                                                     <br/>
                                                     <b>
-                                                        &ensp;{seat.price}
+                                                        &ensp;{seat.price}đ
                                                     </b>
                                                 </div>
                                             );

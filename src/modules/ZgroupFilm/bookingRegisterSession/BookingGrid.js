@@ -812,12 +812,12 @@ class BookingGrid extends React.Component {
             .enter()
             .append("g")
             .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
-        g.append("circle").attr('r',function (d) {return 10*d.r} );
+        g.append("circle").attr('r',function (d) {return 10*d.r;} );
         g.append("text").attr('fill', 'white').attr('text-anchor','middle' ).attr('alignment-baseline','central' )
             .attr("font-size", "20px")
             .attr("font-family", "sans-serif").text(function(d){return d.name;});
         function render(dataset) {
-            d3.select('svg').selectAll('g').data(dataset).on('click',function(d){if(d.archived === 1){d.archived =0; render(data)} else {d.archived=1; render(data)}}).select("circle").style('fill', function (d){return d.archived == 0 ? d.color : "gray" })
+            d3.select('svg').selectAll('g').data(dataset).on('click',function(d){if(d.archived === 1){d.archived =0; render(data);} else {d.archived=1; render(data);}}).select("circle").style('fill', function (d){return d.archived == 0 ? d.color : "gray" ;});
         }
         render(data);
 
