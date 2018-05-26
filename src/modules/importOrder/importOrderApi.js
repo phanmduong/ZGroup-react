@@ -38,14 +38,22 @@ export function editImportOrder(data){
 }
 
 export function loadAllImportOrder(filter){
-    let {page,companyId} = filter;
+    let {page,companyId, end_time, start_time} = filter;
     let url = env.MANAGE_API_URL + '/company/import-order/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&limit=20" ;
+        url += "?token=" + token + 
+        "&page=" + page + 
+        
+        "&limit=20" 
+        ;
     }
     if(companyId) {
         url += "&company_id=" + companyId;
+    }
+    if(start_time && end_time) {
+        url += "&start_time=" + start_time;
+        url += "&end_time=" + end_time;
     }
     return axios.get(url);
 }

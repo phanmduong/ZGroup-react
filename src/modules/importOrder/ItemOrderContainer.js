@@ -1,17 +1,17 @@
 import React from "react";
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as importOrderActions from "./importOrderActions";
 import Loading from "../../components/common/Loading";
 import ImportItemOrderList from "./ImportItemOrderList";
 import PropTypes from "prop-types";
 import Pagination from "../../components/common/Pagination";
-
-import {Panel, Modal} from "react-bootstrap";
+import { Panel, Modal } from "react-bootstrap";
 import ReactSelect from 'react-select';
 import InfoImportOrder from "./InfoImportOrder";
 import TooltipButton from '../../components/common/TooltipButton';
+import FormInputDate from '../../components/common/FormInputDate';
 import {
     newWorkBook,
     appendArrayToWorkBook,
@@ -21,7 +21,7 @@ import {
     showErrorMessage,
 } from "../../helpers/helper";
 import moment from "moment";
-import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../constants/constants";
 
 
 class ItemOrderContainer extends React.Component {
@@ -30,12 +30,14 @@ class ItemOrderContainer extends React.Component {
         this.state = {
             page: 1,
             openFilter: false,
-            
+
             showInfoModal: false,
             showLoadingModal: false,
-            filter:{
+            filter: {
                 companyId: null,
                 command_code: '',
+                start_time: '',
+                end_time: '',
                 page: 1,
             },
         };
@@ -53,10 +55,10 @@ class ItemOrderContainer extends React.Component {
         this.props.importOrderActions.loadAllOrder();
     }
 
-    
+
 
     changeStatus(id) {
-        
+
         confirm('success', 'Đồng ý', "Bạn muốn xác nhận yêu cầu này không?", () => {
             this.props.importOrderActions.changeStatusImportOrder(id, () => {
                 this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
@@ -81,24 +83,24 @@ class ItemOrderContainer extends React.Component {
     }
 
     searchByCompany(e) {
-        e = e ? e : {value:''};
+        e = e ? e : { value: '' };
         this.onFilterChange('companyId', e.value);
 
         //this.props.importOrderActions.loadAllImportOrder(1, e.value);
     }
 
     openInfoModal(id) {
-        this.setState({showInfoModal: true});
+        this.setState({ showInfoModal: true });
         this.props.importOrderActions.loadImportOrder(id);
     }
 
     closeInfoModal() {
-        this.setState({showInfoModal: false});
+        this.setState({ showInfoModal: false });
     }
 
     openLoadingModal = () => {
-        this.setState({showLoadingModal: true});
-        this.props.importOrderActions.loadAllImportOrderNoPaging(this.state.filter,this.exportExcel);
+        this.setState({ showLoadingModal: true });
+        this.props.importOrderActions.loadAllImportOrderNoPaging(this.state.filter, this.exportExcel);
     }
 
     exportExcel = (input) => {
@@ -112,8 +114,8 @@ class ItemOrderContainer extends React.Component {
         let cols = renderExcelColumnArray([15, 15, 25, 25, 15, 20]);//độ rộng cột  
         let merges = [];
         merges.push(
-            {s: {r: 2, c: 0}, e: {r: 2, c: 5}},
-            {s: {r: 0, c: 0}, e: {r: 1, c: 0}},
+            { s: { r: 2, c: 0 }, e: { r: 2, c: 5 } },
+            { s: { r: 0, c: 0 }, e: { r: 1, c: 0 } },
         );
 
         input.forEach((e, od) => {
@@ -155,18 +157,24 @@ class ItemOrderContainer extends React.Component {
         //xuất file
         saveWorkBookToExcel(wb, 'Danh sách nhập hàng');
 
-        this.setState({showLoadingModal: false});
+        this.setState({ showLoadingModal: false });
     }
 
-    onFilterChange = (name, value = '')=>{
-        let filter = {...this.state.filter};
+    onFilterChange = (name, value = '') => {
+        let filter = { ...this.state.filter };
         filter[name] = value;
-        this.setState({filter});
+        this.setState({ filter });
         this.props.importOrderActions.loadAllImportOrder(this.state.filter);
     }
 
-    render() {
+    onDateFilterChange = (e) => {
+        let { name, value } = e.target;
+        this.onFilterChange(name, value);
+    }
 
+    render() {
+        const filterClass = "col-md-3 col-sm-6 col-xs-6";
+        let { filter } = this.state;
         return (
             <div>
                 <Modal
@@ -174,7 +182,7 @@ class ItemOrderContainer extends React.Component {
                     onHide={() => {
                     }}>
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
-                    <Modal.Body><Loading/></Modal.Body>
+                    <Modal.Body><Loading /></Modal.Body>
                 </Modal>
                 <div className="content">
                     <InfoImportOrder
@@ -199,7 +207,7 @@ class ItemOrderContainer extends React.Component {
                                                 <h4 className="card-title"><strong>Nhập hàng</strong></h4>
                                                 <div>
                                                     <Link to="/business/import-order/item/create"
-                                                          className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                        className="btn btn-rose btn-round btn-xs button-add none-margin">
                                                         <strong>+</strong>
                                                     </Link>
 
@@ -208,7 +216,7 @@ class ItemOrderContainer extends React.Component {
                                                     <TooltipButton text="Lọc" placement="top">
                                                         <button
                                                             className="btn btn-rose"
-                                                            onClick={() => this.setState({openFilter: !this.state.openFilter})}
+                                                            onClick={() => this.setState({ openFilter: !this.state.openFilter })}
                                                             style={{
                                                                 borderRadius: 30,
                                                                 padding: "0px 11px",
@@ -270,12 +278,32 @@ class ItemOrderContainer extends React.Component {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div className="row">
+                                                    <div className={filterClass}>
+                                                        <FormInputDate
+                                                            name="start_time"
+                                                            id="start_time"
+                                                            value={filter.start_time}
+                                                            label="Từ ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                        />
+                                                    </div>
+                                                    <div className={filterClass}>
+                                                        <FormInputDate
+                                                            name="end_time"
+                                                            id="end_time"
+                                                            value={filter.end_time}
+                                                            label="Đến ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                        />
+                                                    </div>
+                                                </div>
                                             </Panel>
                                         </div>
                                         <div className="row">
                                             <div className="col-md-12">
                                                 {
-                                                    this.props.isLoadingItemOrder ? <Loading/> :
+                                                    this.props.isLoadingItemOrder ? <Loading /> :
                                                         <div>
                                                             <ImportItemOrderList
                                                                 data={this.props.importOrders}
