@@ -97,7 +97,4 @@ typings/
 dist/
 src/config.js
 src/config.css
-<<<<<<< HEAD
->>>>>>> fc0264b4d43458838bc34f3a4177921bfe6b8f14
-=======
->>>>>>> a8d2d5e982a6627ba32dba233c5637cc66b820da
+
