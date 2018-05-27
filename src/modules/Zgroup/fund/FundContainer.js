@@ -5,9 +5,12 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { store } from "./fundStore";
 import CreateFundModal from "./CreateFundModal";
+import TransferModal from "./TransferModal";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import Pagination from "../../../components/common/Pagination";
-import {dotNumber} from "../../../helpers/helper";
+import { dotNumber } from "../../../helpers/helper";
+import TooltipButton from '../../../components/common/TooltipButton';
+import { browserHistory } from 'react-router';
 @observer
 class FundContainer extends Component {
     constructor(props, context) {
@@ -17,15 +20,17 @@ class FundContainer extends Component {
 
     componentWillMount() {
         store.loadAllFund();
+        store.loadAllFundNoPaging();
     }
 
- 
+
     render() {
-        
-        let {isLoading, funds, paginator} = store;
+
+        let { isLoading, funds, paginator } = store;
         return (
             <div>
-                <CreateFundModal/>
+                <CreateFundModal />
+                <TransferModal />
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
@@ -33,12 +38,28 @@ class FundContainer extends Component {
                                 <div className="flex-row flex">
                                     <h4 className="card-title"><strong>Quỹ</strong></h4>
                                     <div>
-                                        <button onClick={()=>{
+                                        <button onClick={() => {
                                             store.showCreateModal = true;
                                             store.resetData();
                                         }} className="btn btn-rose btn-round btn-xs button-add none-margin">
                                             <strong>+</strong>
                                         </button>
+                                    </div>
+                                    <div>
+                                        <TooltipButton text="Lịch sử" placement="top">
+                                            <button
+                                                className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                onClick={() => { browserHistory.push('/administration/history-fund'); }}
+                                                disabled={isLoading}
+                                            >
+                                                <i className="material-icons" style={{
+                                                    width: 14,
+                                                    marginLeft: -4,
+                                                    paddingTop: 2,
+                                                }}>history</i>
+                                            </button>
+
+                                        </TooltipButton>
                                     </div>
                                 </div>
                                 <br />
@@ -61,24 +82,36 @@ class FundContainer extends Component {
                                                             </thead>
                                                             <tbody>
                                                                 {funds.map((obj, index) => {
-                                                                    
+
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>
-                                                                                <b style={{ cursor: "pointer" }} onClick={() => {  }}>
+                                                                                <b style={{ cursor: "pointer" }} onClick={() => { }}>
                                                                                     {obj.name}
                                                                                 </b>
                                                                             </td>
 
                                                                             <td>{dotNumber(obj.money_value)}</td>
-                                                                            
+
                                                                             <td><ButtonGroupAction
-                                                                                edit={()=>{
-                                                                                    store.createData = {...obj};
-                                                                                   store.showCreateModal = true;
+                                                                                edit={() => {
+                                                                                    store.createData = { ...obj };
+                                                                                    store.showCreateModal = true;
                                                                                 }}
                                                                                 disabledDelete={true}
+                                                                                children={
+                                                                                    (this.props.user.role == 2 ?
+                                                                                        <a data-toggle="tooltip" title="Chuyển quỹ"
+                                                                                            type="button"
+                                                                                            onClick={() => { store.openTransferModal(obj); }}
+                                                                                            rel="tooltip"
+                                                                                        >
+                                                                                            <i className="material-icons">import_export</i>
+                                                                                        </a>
+                                                                                        : <div />
+                                                                                    )
+                                                                                }
                                                                             /></td>
                                                                         </tr>
                                                                     );
@@ -89,7 +122,7 @@ class FundContainer extends Component {
                                                             <Pagination
                                                                 currentPage={paginator.current_page}
                                                                 totalPages={paginator.total_pages}
-                                                                loadDataPage={(page) => { this.onFilterChange("page", page); }} />
+                                                                loadDataPage={(page) => { store.loadAllFund(page); }} />
                                                         </div>
                                                     </div>
                                             }

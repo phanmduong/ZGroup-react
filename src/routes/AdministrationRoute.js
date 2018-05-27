@@ -11,6 +11,7 @@ import CreateBillContainer from "../modules/Zgroup/bill/CreateBillContainer";
 import ContractContainer from "../modules/Zgroup/contract/ContractContainer";
 import CreateContractContainer from "../modules/Zgroup/contract/CreateContractContainer";
 import FundContainer from "../modules/Zgroup/fund/FundContainer";
+import TransferHistoryContainer from "../modules/Zgroup/fund/TransferHistoryContainer";
 
 
 /**
@@ -94,5 +95,9 @@ export default [
     {
         path: "/administration/fund",
         component: FundContainer,
+    },
+    {
+        path: "/administration/history-fund",
+        component: TransferHistoryContainer,
     },
 ];
