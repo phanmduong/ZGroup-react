@@ -1,0 +1,15 @@
+{
+    "name": "nwidart/marketingcampaign",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Modules\\MarketingCampaign\\": ""
+        }
+    }
+}

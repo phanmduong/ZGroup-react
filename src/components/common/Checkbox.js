@@ -12,9 +12,12 @@ class Checkbox extends React.Component {
 
     render() {
         return (
-            <div className="checkbox">
+            <div className="checkbox" style={{zIndex: 0}}>
                 <label className={"flex-row-center"}
-                       style={this.props.checkBoxLeft ? {flexDirection: 'row-reverse', float: 'left'} : {}}>
+                       style={this.props.checkBoxLeft ? {
+                           flexDirection: 'row-reverse',
+                           justifyContent: 'flex-end'
+                       } : {}}>
                     <div style={{marginRight: '10px'}}>{this.props.label}</div>
                     <input type="checkbox"
                            name={this.props.name}

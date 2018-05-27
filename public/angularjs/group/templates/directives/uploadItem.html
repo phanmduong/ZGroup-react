@@ -1,0 +1,31 @@
+<div class="row card-panel" style="margin-left:0;margin-right:0">
+    <div class="col s12 m3">
+        <div style="width:100%;padding-bottom: 100%;background-image:url('[[file.url]]');background-size:cover;background-position: center">
+        </div>
+    </div>
+    <div class="col s12 m9">
+
+        <div>
+            Name: <b>[[file.data.name]]</b>
+        </div>
+        <div>
+            Size: <b>[[file.data.size / 1000]] Kb</b>
+        </div>
+        <div>
+            Type: <b>[[file.data.type]]</b>
+        </div>
+        <div ng-show="file.uploading">
+            <div class="progress">
+                <div class="determinate" style="width: [[file.percent]]%"></div>
+            </div>
+        </div>
+        <div ng-show="file.message" class=" green-text darken-2">
+            [[file.message]]
+        </div>
+        <div ng-hide="file.uploading || submiting">
+            <!--<button class="btn-upload btn-upload-green" ng-click="uploadFile(file)">Upload</button>-->
+            <button class="btn-upload btn-upload-red" ng-click="removeFile()">Remove</button>
+        </div>
+    </div>
+
+</div>

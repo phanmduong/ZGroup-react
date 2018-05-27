@@ -120,7 +120,7 @@ class ListNotificationTypeContainer extends React.Component {
 
 
                 </div>
-                <Modal show={this.state.showModal} onHide={this.closeModal}>
+                <Modal show={this.state.showModal} bsSize={"large"} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.state.edit ? 'Sửa' : 'Tạo'}</Modal.Title>
                     </Modal.Header>

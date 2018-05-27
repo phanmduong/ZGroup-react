@@ -22,19 +22,7 @@ class AppContainer extends React.Component {
         };
         this.openModalRule = this.openModalRule.bind(this);
         this.closeModalRule = this.closeModalRule.bind(this);
-        /* eslint-disable */
-        if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0 && window.OneSignal) {
-            helper.onesignalSetUserId(this.props.user.id);
-            /* eslint-disable */
-            if (window.OneSignal) {
-                window.OneSignal.sendTag("device_type", "manage", function (tagsSent) {
-                    console.log("tag ok ", tagsSent);
-                });
-            }
 
-            /* eslint-enable */
-        }
-        /* eslint-enable */
     }
 
     componentWillMount() {
@@ -44,6 +32,14 @@ class AppContainer extends React.Component {
 
     componentDidUpdate() {
         helper.initMaterial();
+        /* eslint-disable */
+        if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0) {
+            console.log('send tag user_id');
+            window.sendTagNoti('user_id',this.props.user.id);
+
+            /* eslint-enable */
+        }
+        /* eslint-enable */
     }
 
     checkToken() {

@@ -1,0 +1,58 @@
+<div>
+    <select class="browser-default" ng-model="current_gen_id" ng-change="onChangeGen()">
+        <option ng-repeat="gen in gens" value="[[gen.id]]">Khoá [[gen.name]]</option>
+    </select>
+    <select class="browser-default" ng-model="current_base_id" ng-change="onChangeBase()">
+        <option ng-repeat="base in bases" value="[[base.id]]">[[base.name]]: [[base.address]]</option>
+    </select>
+    <h4 ng-show="weeks.length == 0 && !isChangingGen">
+        Khoá này cơ sở này chưa có tuần nào để trực
+    </h4>
+    <div ng-show="isChangingGen" style="padding-top:20px">
+        Đang tải ...
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
+    <div ng-hide="isChangingGen">
+        <div ng-repeat="week in weeks">
+            <h3 class="header">Tuần [[week.week]]</h3>
+            <div class="row">
+                <div ng-repeat="date in week.dates" class="col s12 m3 " style="padding:10px 8px">
+                    <div class="shift-date  z-depth-1">
+                        <b>[[date.date]]</b>
+                        <div ng-repeat="shift in date.shifts">
+                            <div ng-hide="shift.user"
+                                 ng-click="regisShift(shift)"
+                                 class="shift-item unregister">
+                                <div ng-show="shift.regisMessage">
+                                    [[shift.regisMessage]]
+                                </div>
+                                <div ng-hide="shift.regisMessage">
+                                    <div>[[shift.name]]: [[shift.start_time]] - [[shift.end_time]]</div>
+                                </div>
+                            </div>
+                            <div ng-show="shift.user && shift.user.id != user_id"
+                                 class="shift-item registered">
+                                <img class="circle" ng-src="[[shift.user.avatar_url]]"/>
+                                <span style="margin-left:-20px">[[shift.user.name]]</span>
+                            </div>
+                            <div ng-show="shift.user.id == user_id"
+                                 ng-click="removeShift(shift)"
+                                 class="shift-item my-registered">
+                                <div ng-show="shift.regisMessage">
+                                    [[shift.regisMessage]]
+                                </div>
+                                <img ng-hide="shift.regisMessage" class="circle"
+                                     ng-src="[[shift.user.avatar_url]]"/>
+                                <span ng-hide="shift.regisMessage"
+                                      style="margin-left:-20px">[[shift.user.name]]</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

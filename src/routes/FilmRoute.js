@@ -1,4 +1,4 @@
-import RoomControlContainer from "../modules/ZgroupFilm/room/RoomContainer";
+import BookingRegisterSessionContainer from "../modules/ZgroupFilm/bookingRegisterSession/BookingRegisterSessionContainer";
 import FilmContainer from "../modules/ZgroupFilm/film/FilmContainer";
 import ShowFilmContainer from "../modules/ZgroupFilm/film/ShowFilmContainer";
 import AllFilmContainer from "../modules/ZgroupFilm/film/AllFilmContainer";
@@ -7,6 +7,7 @@ import ShowingFilmContainer from "../modules/ZgroupFilm/film/ShowingFilmContaine
 import SessionContainer from "../modules/ZgroupFilm/session/SessionContainer";
 import AllSessionContainer from "../modules/ZgroupFilm/session/AllSessionContainer";
 import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessionContainer";
+import SeatTypeContainer from "../modules/ZgroupFilm/seatType/SeatTypeContainer";
 
 
 
@@ -15,8 +16,8 @@ import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessio
  */
 export default [
     {
-        path: "/film/room-control",
-        component: RoomControlContainer,
+        path: "/film/booking",
+        component: BookingRegisterSessionContainer,
     },
     {
         path: "/film",
@@ -53,5 +54,9 @@ export default [
     {
         path:"film/film/:filmId",
         component: ShowFilmContainer
+    },
+    {
+        path:"film/seat-type",
+        component: SeatTypeContainer
     },
 ];

@@ -109,17 +109,24 @@ export const store = new class DashboardStaffStore {
             });
     }
     @action
-    changeStatus(id, status) {
-        this.isLoading = true;
+    changeStatus(index, id, status) {
+        
+        let newobj = { ...this.contracts[index] };
+        newobj.status = status;
+        let newdata = [
+            ...this.contracts.slice(0, index),
+            newobj,
+            ...this.contracts.slice(index + 1, this.contracts.length),
+        ];
+        let oldData = this.contracts;
+        this.contracts = newdata;
         contractApi.changeStatusContract(id, status)
             .then(() => {
                 showNotification("Đổi trạng thái thành công");
-                this.loadAllContract();
             })
             .catch(() => {
-                this.isLoading = false;
                 showErrorNotification("Có lỗi xảy ra.");
-
+                this.contracts = oldData;
             });
     }
     @action

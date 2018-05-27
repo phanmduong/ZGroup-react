@@ -1,0 +1,23 @@
+<table class="striped responsive-table">
+    <thead>
+    <tr>
+        <th>Người trực</th>
+        <th>Ca trực</th>
+        <th>Trạng thái</th>
+        <th>Thời gian</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="shiftPick in shiftPicks">
+        <td>[[shiftPick.user.name]]</td>
+        <td>[[shiftPick.shift.date]]: [[shiftPick.shift.name]]: [[shiftPick.shift.start_time]] - [[shiftPick.shift.end_time]]</td>
+        <td ng-class="shiftPick.status==1?'green-text':'red-text'">[[shiftPick.status==1?'Đăng ký':'Huỷ']]</td>
+        <td>[[shiftPick.created_at]]</td>
+    </tr>
+    <tr>
+        <td colspan="4" style="text-align: center"><button ng-click="loadMore()" ng-disabled="isLoading" class="btn red darken-4">[[loadingText]]</button></td>
+    </tr>
+    </tbody>
+</table>
+
