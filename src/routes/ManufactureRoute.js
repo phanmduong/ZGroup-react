@@ -19,7 +19,6 @@ export default [
     },
     {
         path: "/manufacture/good/:type/all",
-        // path: "/good/:type/all",
         component: GoodListContainer,
     },
     {
