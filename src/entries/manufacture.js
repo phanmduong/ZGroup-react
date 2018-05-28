@@ -16,8 +16,9 @@ import { browserHistory, Router } from "react-router";
 import { Provider } from "react-redux";
 import configureStore from "../store/configureStore";
 
-import rootReducer from "../reducers/index";
-const store = configureStore({}, rootReducer);
+import manufactureRootReducer from "../reducers/manufacture";
+
+const store = configureStore({}, manufactureRootReducer);
 
 render(
     <Provider store={store}>
