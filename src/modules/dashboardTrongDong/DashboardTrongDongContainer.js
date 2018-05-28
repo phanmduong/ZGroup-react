@@ -157,7 +157,8 @@ class DashboardTrongDongContainer extends Component {
     }
 
     render() {
-        const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
+        // const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
+        const disableCreateRegister = false;
         return (
             <div>
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
