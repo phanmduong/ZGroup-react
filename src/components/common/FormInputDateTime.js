@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {DATETIME_FORMAT} from "../../constants/constants";
+<<<<<<< HEAD
+=======
+// import moment from "moment";
+>>>>>>> ab831609286cd3cbe1b0581367c4268ede2477cf
 
 class FormInputDateTime extends React.Component {
     constructor(props, context) {
