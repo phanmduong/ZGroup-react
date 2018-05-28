@@ -1,14 +1,16 @@
 import axios from "axios";
 import * as env from "../../constants/env";
 
-export function analytics(campaigId = 0) {
-    let url = env.MANAGE_API_URL + "/crm/analytics";
+export function clients(page = 1, campaigId = 0, type = -1) {
+    let url = env.MANAGE_API_URL + "/crm/clients";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
 
+    url += '&page=' + page;
     url += '&campaign_id=' + campaigId;
+    url += '&type=' + type;
 
     return axios.get(url);
 }
