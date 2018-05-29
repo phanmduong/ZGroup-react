@@ -157,11 +157,11 @@ export function changeImage(file, length, first_length) {
     };
 }
 
-export function loadRoomsData(page, search, baseId) {
+export function loadRoomsData(page, search, baseId,limit) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ROOMS_DATA});
         roomApi
-            .getRooms(page, search, baseId)
+            .getRooms(page, search, baseId,limit)
             .then(function (res) {
                 dispatch({
                     type: types.LOAD_ROOMS_DATA_SUCCESS,

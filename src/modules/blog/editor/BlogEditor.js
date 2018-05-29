@@ -1,7 +1,7 @@
 import React from "react";
 import ImageUploader from "../../../components/common/ImageUploader";
 import store from "./BlogEditorStore";
-import { NO_IMAGE, BASE_URL } from "../../../constants/env";
+import { NO_IMAGE, BLOG_PREVIEW_BASE_URL } from "../../../constants/env";
 import { observer } from "mobx-react";
 import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from "react-select";
@@ -20,9 +20,11 @@ import TagsInput from "../../../components/common/TagsInput";
 import { savePostV2 } from "../apis/blogApi";
 import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
-import { PUBLISH_STATUS, PUBLISHED, DRAFT } from "../constants/blogConstant";
+import { PUBLISHED, DRAFT } from "../constants/blogConstant";
 import PropTypes from "prop-types";
 import { postTextToValue, postValueToText } from "./blogEditorHelper";
+import Loading from "../../../components/common/Loading";
+import StickyMenu from "./StickyMenu";
 
 const savePost = async (editor, status, publish_status) => {
     editor.setState({
@@ -92,10 +94,6 @@ class BlogEditor extends React.Component {
             errors.push("Bạn chưa chọn ngôn ngữ");
         }
 
-        // if (store.post.content == "<p></p>") {
-        //     errors.push("Bạn nhập thiếu nội dung bài viết");
-        // }
-
         if (!store.post.url) {
             errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
         }
@@ -142,7 +140,12 @@ class BlogEditor extends React.Component {
     };
 
     saveDraft = async () => {
-        if (this.validateForm()) savePost(this, 0, DRAFT);
+        if (store.post.id) {
+            if (this.validateForm())
+                savePost(this, store.post.status, store.post.publish_status);
+        } else {
+            if (this.validateForm()) savePost(this, 0, DRAFT);
+        }
     };
 
     preview = async () => {
@@ -151,8 +154,8 @@ class BlogEditor extends React.Component {
                 this,
                 store.post.status,
                 store.post.publish_status
-            ); // status == 3 mean keep the current status
-            const url = BASE_URL + "/" + data.slug;
+            );
+            const url = BLOG_PREVIEW_BASE_URL + "/" + data.product.slug;
             const win = window.open(url, "_blank");
             win.focus();
         }
@@ -208,104 +211,88 @@ class BlogEditor extends React.Component {
     };
 
     render() {
-        return (
-            <div className="container-fluid">
-                <AddLanguageModal />
-                <AddCategoryModal />
-                <div className="col-sm-6 col-md-8">
-                    <div className="card">
-                        <div className="card-content">
-                            <FormInputText
-                                label="Tên bài viết"
-                                required
-                                isNotValid={this.fieldNotValid("title")}
-                                name="title"
-                                updateFormData={e =>
-                                    this.updatePost("title", e.target.value)
-                                }
-                                value={store.post.title}
-                            />
+        if (store.isLoading) {
+            return <Loading />;
+        } else
+            return (
+                <div className="container-fluid">
+                    <AddLanguageModal />
+                    <AddCategoryModal />
+                    <div className="col-sm-6 col-md-8">
+                        <div className="card">
+                            <div className="card-content">
+                                <FormInputText
+                                    label="Tên bài viết"
+                                    required
+                                    isNotValid={this.fieldNotValid("title")}
+                                    name="title"
+                                    updateFormData={e =>
+                                        this.updatePost("title", e.target.value)
+                                    }
+                                    value={store.post.title}
+                                />
 
-                            <FormInputText
-                                height="100%"
-                                label="Slug"
-                                required
-                                name="slug"
-                                isNotValid={this.fieldNotValid("slug")}
-                                updateFormData={e =>
-                                    this.updatePost("slug", e.target.value)
-                                }
-                                value={store.post.slug}
-                            >
-                                <TooltipButton
-                                    placement="top"
-                                    text="Tạo từ tiêu đề bài viết"
+                                <FormInputText
+                                    height="100%"
+                                    label="Slug"
+                                    required
+                                    name="slug"
+                                    isNotValid={this.fieldNotValid("slug")}
+                                    updateFormData={e =>
+                                        this.updatePost("slug", e.target.value)
+                                    }
+                                    value={store.post.slug}
                                 >
-                                    <a
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        style={{
-                                            position: "absolute",
-                                            right: 0,
-                                            top: 0
-                                        }}
-                                        onClick={this.generateFromTitle}
-                                    >
-                                        <i className="material-icons">
-                                            autorenew
-                                        </i>
-                                    </a>
-                                </TooltipButton>
-                            </FormInputText>
-
-                            {this.renderTextFlexField(
-                                "description",
-                                "Mô tả ngắn"
-                            )}
-
-                            <KeetoolSelect
-                                label="Loại bài viết"
-                                value={store.post.kind}
-                                options={BLOG_KINDS}
-                                onChange={e => this.updatePost("kind", e.value)}
-                                placeholder="Chọn loại bài viết"
-                            />
-                            <KeetoolSelect
-                                onChange={e =>
-                                    this.updatePost("language_id", e.value)
-                                }
-                                label="Ngôn ngữ"
-                                value={store.post.language_id}
-                                options={store.getLanguages}
-                                placeholder="Chọn ngôn ngữ"
-                                required={true}
-                            >
-                                <TooltipButton
-                                    placement="top"
-                                    text="Thêm ngôn ngữ"
-                                >
-                                    <button
-                                        onClick={this.openAddLanguageModal}
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        type="button"
-                                    >
-                                        <strong>+</strong>
-                                        <div className="ripple-container" />
-                                    </button>
-                                </TooltipButton>
-                            </KeetoolSelect>
-
-                            <div className="form-group">
-                                <label
-                                    className="control-label"
-                                    style={{ marginBottom: "10px" }}
-                                >
-                                    Nhóm bài viết
                                     <TooltipButton
                                         placement="top"
-                                        text="Thêm nhóm bài viết"
+                                        text="Tạo từ tiêu đề bài viết"
+                                    >
+                                        <a
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            style={{
+                                                position: "absolute",
+                                                right: 0,
+                                                top: 0
+                                            }}
+                                            onClick={this.generateFromTitle}
+                                        >
+                                            <i className="material-icons">
+                                                autorenew
+                                            </i>
+                                        </a>
+                                    </TooltipButton>
+                                </FormInputText>
+
+                                {this.renderTextFlexField(
+                                    "description",
+                                    "Mô tả ngắn"
+                                )}
+
+                                <KeetoolSelect
+                                    label="Loại bài viết"
+                                    value={store.post.kind}
+                                    options={BLOG_KINDS}
+                                    onChange={e =>
+                                        this.updatePost("kind", e.value)
+                                    }
+                                    placeholder="Chọn loại bài viết"
+                                />
+                                <KeetoolSelect
+                                    onChange={e =>
+                                        this.updatePost("language_id", e.value)
+                                    }
+                                    label="Ngôn ngữ"
+                                    value={store.post.language_id}
+                                    options={store.getLanguages}
+                                    placeholder="Chọn ngôn ngữ"
+                                    required={true}
+                                >
+                                    <TooltipButton
+                                        placement="top"
+                                        text="Thêm ngôn ngữ"
                                     >
                                         <button
-                                            onClick={this.openAddCategoryModal}
+                                            onClick={this.openAddLanguageModal}
                                             className="btn btn-primary btn-round btn-xs button-add none-margin"
                                             type="button"
                                         >
@@ -313,183 +300,103 @@ class BlogEditor extends React.Component {
                                             <div className="ripple-container" />
                                         </button>
                                     </TooltipButton>
-                                </label>
-                                <ReactSelect
-                                    value={store.post.category_id}
-                                    options={store.getCategories}
-                                    onChange={e =>
-                                        this.updatePost("category_id", e.value)
-                                    }
-                                    placeholder="Chọn nhóm bài viết"
+                                </KeetoolSelect>
+
+                                <div className="form-group">
+                                    <label
+                                        className="control-label"
+                                        style={{ marginBottom: "10px" }}
+                                    >
+                                        Nhóm bài viết
+                                        <TooltipButton
+                                            placement="top"
+                                            text="Thêm nhóm bài viết"
+                                        >
+                                            <button
+                                                onClick={
+                                                    this.openAddCategoryModal
+                                                }
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                type="button"
+                                            >
+                                                <strong>+</strong>
+                                                <div className="ripple-container" />
+                                            </button>
+                                        </TooltipButton>
+                                    </label>
+                                    <ReactSelect
+                                        value={store.post.category_id}
+                                        options={store.getCategories}
+                                        onChange={e =>
+                                            this.updatePost(
+                                                "category_id",
+                                                e.value
+                                            )
+                                        }
+                                        placeholder="Chọn nhóm bài viết"
+                                    />
+                                </div>
+
+                                {this.renderTextFlexField(
+                                    "meta_title",
+                                    "Meta title"
+                                )}
+                                {this.renderTextFlexField(
+                                    "meta_description",
+                                    "Meta description"
+                                )}
+                                {this.renderTextFlexField(
+                                    "keyword",
+                                    "Keywords"
+                                )}
+
+                                <TagsInput
+                                    id="blog-editor-tags"
+                                    tags={store.post.tags}
+                                    onChange={values => {
+                                        this.updatePost("tags", values);
+                                    }}
+                                />
+                                <EditorFormGroup
+                                    label="Nội dung"
+                                    required={true}
+                                    value={store.post.content}
+                                    onChange={value => {
+                                        this.updatePost("content", value);
+                                    }}
                                 />
                             </div>
-
-                            {this.renderTextFlexField(
-                                "meta_title",
-                                "Meta title"
-                            )}
-                            {this.renderTextFlexField(
-                                "meta_description",
-                                "Meta description"
-                            )}
-                            {this.renderTextFlexField("keyword", "Keywords")}
-
-                            <TagsInput
-                                id="blog-editor-tags"
-                                tags={store.post.tags}
-                                onChange={values => {
-                                    this.updatePost("tags", values);
-                                }}
-                            />
-                            <EditorFormGroup
-                                label="Nội dung"
-                                required={true}
-                                value={store.post.content}
-                                onChange={value => {
-                                    this.updatePost("content", value);
-                                }}
-                            />
                         </div>
+                    </div>
+                    <div className="col-sm-6 col-md-4">
+                        <div className="card blog-editor-avatar">
+                            <div className="card-content">
+                                <label>Ảnh đại diện</label>
+                                <ImageUploader
+                                    handleFileUpload={url =>
+                                        this.updatePost("url", url)
+                                    }
+                                    tooltipText="Ảnh đại diện"
+                                    image_url={
+                                        store.post.url
+                                            ? store.post.url
+                                            : NO_IMAGE
+                                    }
+                                />
+                            </div>
+                        </div>
+
+                        <StickyMenu
+                            post={store.post}
+                            errors={this.state.errors}
+                            isSavingPost={this.state.isSavingPost}
+                            publish={this.publish}
+                            saveDraft={this.saveDraft}
+                            preview={this.preview}
+                        />
                     </div>
                 </div>
-                <div className="col-sm-6 col-md-4">
-                    <div className="card">
-                        <div className="card-content">
-                            <label>Ảnh đại diện</label>
-                            <ImageUploader
-                                handleFileUpload={url =>
-                                    this.updatePost("url", url)
-                                }
-                                tooltipText="Ảnh đại diện"
-                                image_url={
-                                    store.post.url ? store.post.url : NO_IMAGE
-                                }
-                            />
-                        </div>
-                    </div>
-                    {this.state.errors.length > 0 && (
-                        <div
-                            className="alert alert-danger"
-                            style={{ marginBottom: 0 }}
-                        >
-                            {this.state.errors.map((error, index) => (
-                                <div key={index}>{error}</div>
-                            ))}
-                        </div>
-                    )}
-                    <div
-                        className="card"
-                        style={{
-                            padding: "65px 15px",
-                            position: "relative"
-                        }}
-                    >
-                        <div>
-                            <i
-                                style={{
-                                    position: "relative",
-                                    top: "7px"
-                                }}
-                                className="material-icons"
-                            >
-                                drafts
-                            </i>{" "}
-                            Trạng thái:{" "}
-                            <strong>
-                                {!store.post.id
-                                    ? "Chưa lưu"
-                                    : PUBLISH_STATUS[store.post.publish_status]}
-                            </strong>
-                        </div>
-                        <div>
-                            <i
-                                style={{
-                                    position: "relative",
-                                    top: "7px"
-                                }}
-                                className="material-icons"
-                            >
-                                remove_red_eye
-                            </i>{" "}
-                            Hiển thị:{" "}
-                            <strong>
-                                {store.post.status == 1 ? "Hiện" : "Ẩn"}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <i
-                                style={{
-                                    position: "relative",
-                                    top: "7px"
-                                }}
-                                className="material-icons"
-                            >
-                                calendar_today
-                            </i>{" "}
-                            Ngày tạo:{" "}
-                            <strong>
-                                {store.post.created_at && store.post.created_at}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <i
-                                style={{
-                                    position: "relative",
-                                    top: "7px"
-                                }}
-                                className="material-icons"
-                            >
-                                timelapse
-                            </i>{" "}
-                            Ngày sửa:{" "}
-                            <strong>
-                                {store.post.updated_at && store.post.updated_at}
-                            </strong>
-                        </div>
-
-                        <button
-                            style={{
-                                position: "absolute",
-                                bottom: 5,
-                                right: 15
-                            }}
-                            disabled={this.state.isSavingPost}
-                            onClick={this.publish}
-                            className="btn btn-rose"
-                        >
-                            {this.state.isSavingPost && (
-                                <i className="fa fa-circle-o-notch fa-spin" />
-                            )}{" "}
-                            Xuất bản
-                        </button>
-                        <button
-                            style={{ position: "absolute", top: 5, left: 15 }}
-                            disabled={this.state.isSavingPost}
-                            onClick={this.saveDraft}
-                            className="btn btn-default"
-                        >
-                            {this.state.isSavingPost && (
-                                <i className="fa fa-circle-o-notch fa-spin" />
-                            )}{" "}
-                            Lưu
-                        </button>
-                        <button
-                            style={{ position: "absolute", top: 5, right: 15 }}
-                            disabled={this.state.isSavingPost}
-                            onClick={this.preview}
-                            className="btn btn-default"
-                        >
-                            {this.state.isSavingPost && (
-                                <i className="fa fa-circle-o-notch fa-spin" />
-                            )}{" "}
-                            Xem trước
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
+            );
     }
 }
 
