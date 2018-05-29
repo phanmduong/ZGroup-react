@@ -224,7 +224,7 @@ class CreatePaymentContainer extends React.Component {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-content">
-                                    <h4 className="card-title">Ảnh hóa đơn</h4>
+                                    <h4 className="card-title">Bút toán</h4>
 
                                     {
                                         this.props.isUploading ? (

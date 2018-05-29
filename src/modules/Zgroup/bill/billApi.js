@@ -8,12 +8,14 @@ export function createPayment(object){
         url += "?token=" + token;
     }
     return axios.post(url,{
+        'bill_image_url': object.bill_image_url,
         'payer_id': object.payer.id,
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
         'staff_id': object.staff_id,
         'description': object.description,
         'type': "bill",
+        'vat': object.vat,
     });
 
 }
@@ -24,12 +26,14 @@ export function editPayment(id,object){
         url += "?token=" + token;
     }
     return axios.put(url,{
+        'bill_image_url': object.bill_image_url,
         'payer_id': object.payer.id,
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
         'description': object.description,
         'staff_id': object.staff.id,
         'type': "bill",
+        'vat': object.vat,
     });
 
 }

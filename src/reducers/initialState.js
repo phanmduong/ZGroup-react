@@ -2109,6 +2109,7 @@ export default {
         payment: {
             id: 0,
             money_value: 0,
+            vat: 0,
             bill_imiage_url: "",
             payer: {
                 id: 0,

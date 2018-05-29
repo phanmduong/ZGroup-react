@@ -18,7 +18,7 @@ class PaymentList extends React.Component {
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead className="text-rose">
                     <tr>
-                        <th/>
+                        <th>STT</th>
                         <th>Bên gửi</th>
                         <th>Bên nhận</th>
                         <th>Số tiền</th>
@@ -31,16 +31,17 @@ class PaymentList extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.data.map((pp) => {
+                        this.props.data.map((pp,index) => {
+                            const onFunc = () => this.props.openInfoModal(pp);
                             return (
                                 <tr key={pp.id}>
-                                    <td/>
-                                    <td>{pp.payer.name}</td>
-                                    <td>{pp.receiver.name}</td>
-                                    <td>{helper.dotStringNumber(pp.money_value)}</td>
-                                    <td> {pp.description ? pp.description : "Không có"}</td>
-                                    <td> {pp.created_at} </td>
-                                    <td>
+                                    <td onClick={onFunc}>{index+1}</td>
+                                    <td onClick={onFunc}>{pp.payer.name}</td>
+                                    <td onClick={onFunc}>{pp.receiver.name}</td>
+                                    <td onClick={onFunc}>{helper.dotStringNumber(pp.money_value)}</td>
+                                    <td onClick={onFunc}> {pp.description ? pp.description : "Không có"}</td>
+                                    <td onClick={onFunc}> {pp.created_at} </td>
+                                    <td onClick={onFunc}>
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
                                     </td>
                                     <td>
@@ -58,11 +59,11 @@ class PaymentList extends React.Component {
                                                     <i className="material-icons">edit</i>
                                                 </Link>
                                             </div>
-                                            <a data-toggle="tooltip" title="Thông tin"
+                                            {/* <a data-toggle="tooltip" title="Thông tin"
                                                onClick={() => this.props.openInfoModal(pp)} type="button"
                                                rel="tooltip">
                                                 <i className="material-icons">info</i>
-                                            </a>
+                                            </a> */}
                                         </div> : null }
                                     </td>
                                     <td/>
