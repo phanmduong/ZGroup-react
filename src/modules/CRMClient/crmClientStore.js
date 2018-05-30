@@ -1,22 +1,28 @@
 import {observable, action, computed} from "mobx";
 import {showErrorNotification} from "../../helpers/helper";
-import * as crmAnalyticsApi from "./crmAnalyticsApi";
+import * as crmClientApi from "./crmClientApi";
 
 export default new class CRMAnalyticsStore {
     @observable isLoading = true;
-    @observable analytics = {};
+    @observable clients = [];
     @observable isLoadingCampaigns = true;
     @observable campaigns = [];
     @observable selectedCampaignId = 0;
+    @observable selectedTypeClient = -1;
+    @observable currentPage = 1;
+    @observable totalPages = 1;
 
     @action
-    loadAnalytics() {
+    loadClients() {
         this.isLoading = true;
-        crmAnalyticsApi
-            .analytics(this.selectedCampaignId)
+        crmClientApi
+            .clients(this.currentPage, this.selectedCampaignId, this.selectedTypeClient)
             .then(res => {
-                this.analytics = res.data.data.analytics;
                 this.isLoading = false;
+                this.clients = res.data.users;
+                this.currentPage = res.data.paginator.current_page;
+                this.totalPages = res.data.paginator.total_pages;
+
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
@@ -28,7 +34,7 @@ export default new class CRMAnalyticsStore {
 
     loadCampaigns() {
         this.isLoadingCampaigns = true;
-        crmAnalyticsApi
+        crmClientApi
             .allCampagins()
             .then(res => {
                 this.campaigns = res.data.data.marketing_campaigns;
@@ -38,25 +44,6 @@ export default new class CRMAnalyticsStore {
                 showErrorNotification("Có lỗi xảy ra.");
                 this.isLoadingCampaigns = false;
             });
-    }
-
-    @computed
-    get analyticsData() {
-        return [
-            {
-                title: 'Nhận biết',
-                value: this.analytics.no_time
-            }, {
-                title: 'Dùng thử',
-                value: this.analytics.one_time
-            }, {
-                title: 'Thân thiết',
-                value: this.analytics.two_times
-            }, {
-                title: 'Trung thành',
-                value: this.analytics.more_times
-            }
-        ];
     }
 
     @computed
@@ -82,6 +69,4 @@ export default new class CRMAnalyticsStore {
             ...campaignsData
         ];
     }
-
-
 }();

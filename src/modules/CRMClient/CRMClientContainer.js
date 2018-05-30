@@ -1,12 +1,13 @@
 import React from 'react';
-import PyramidChart from "../../components/common/pyramidChart/PyramidChart";
 import {observer} from "mobx-react";
-import store from './crmAnalyticsStore';
+import store from './crmClientStore';
 import Loading from "../../components/common/Loading";
 import Select from "../../components/common/Select";
+import ListClient from "./ListClient";
+import {CRM_TYPE_CLIENT} from "../../constants/constants";
 
 @observer
-class CRMAnalytics extends React.Component {
+class CRMClientContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -14,13 +15,19 @@ class CRMAnalytics extends React.Component {
 
     componentWillMount() {
         store.loadCampaigns();
-        store.loadAnalytics();
     }
 
     onChangeCampaign = (value) => {
         store.selectedCampaignId = value;
-        store.loadAnalytics();
-    }
+        store.currentPage = 1;
+        store.loadClients();
+    };
+
+    onChangeTypeClient = (value) => {
+        store.selectedTypeClient = value;
+        store.currentPage = 1;
+        store.loadClients();
+    };
 
     render() {
         return (
@@ -36,16 +43,21 @@ class CRMAnalytics extends React.Component {
                                     onChange={this.onChangeCampaign}
                                 />
                             </div>
+                            <div className="col-sm-4 col-xs-6">
+                                <Select
+                                    defaultMessage={"Chọn phân loại"}
+                                    options={CRM_TYPE_CLIENT}
+                                    value={store.selectedTypeClient}
+                                    onChange={this.onChangeTypeClient}
+                                />
+                            </div>
                         </div>
                         <div className="card">
                             <div className="card-content">
                                 <h4 className="card-title">
-                                    Phân tích người dùng
+                                    Khách hàng
                                 </h4>
-                                {
-                                    store.isLoading ? <Loading/> :
-                                        <PyramidChart id={"crm-analtics-chart"} data={store.analyticsData}/>
-                                }
+                                <ListClient/>
                             </div>
                         </div>
                     </div>
@@ -57,4 +69,4 @@ class CRMAnalytics extends React.Component {
     }
 }
 
-export default CRMAnalytics;
+export default CRMClientContainer;
