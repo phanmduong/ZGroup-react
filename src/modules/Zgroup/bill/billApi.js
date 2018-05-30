@@ -16,6 +16,7 @@ export function createPayment(object){
         'description': object.description,
         'type': "bill",
         'vat': object.vat,
+        'kind': object.kind,
     });
 
 }
@@ -34,6 +35,7 @@ export function editPayment(id,object){
         'staff_id': object.staff.id,
         'type': "bill",
         'vat': object.vat,
+        'kind': object.kind,
     });
 
 }

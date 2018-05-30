@@ -2120,6 +2120,7 @@ export default {
                 account_number: "",
             },
             staff: null,
+            kind: 'in',
             deadline: null,
             description: "",
         },

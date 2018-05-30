@@ -167,7 +167,7 @@ class CreateBillContainer extends React.Component {
                                             />
 
                                         </div>
-                                        <div className="col-md-12">
+                                        <div className="col-md-6">
                                             <FormInputText
                                                 label="Nội dung"
                                                 type="text"
@@ -175,6 +175,29 @@ class CreateBillContainer extends React.Component {
                                                 updateFormData={this.updateFormData}
                                                 value={this.props.data.description || ""}
 
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label>Loại</label>
+                                            <ReactSelect
+                                                required
+                                                options={[
+                                                    {value:'in',label:'Đầu vào'},
+                                                    {value:'out',label:'Đầu ra'},
+                                                ]}
+                                                onChange={(obj)=>{
+                                                    if(!obj) return;
+                                                    let e = {
+                                                        target:{
+                                                            name:'kind',
+                                                            value: obj.value,
+                                                        },
+                                                    };
+                                                    return this.updateFormData(e);
+                                                }}
+                                                value={this.props.data.kind || ""}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="receiver"
                                             />
                                         </div>
                                         <div className="col-md-12">

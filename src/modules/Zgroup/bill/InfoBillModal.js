@@ -1,15 +1,15 @@
 import React from "react";
 import ReactSelect from 'react-select';
 import FormInputText from "../../../components/common/FormInputText";
-import {Modal} from 'react-bootstrap';
-import {bindActionCreators} from "redux";
+import { Modal } from 'react-bootstrap';
+import { bindActionCreators } from "redux";
 import * as billActions from "./billActions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 //import FormInputMoney from "../../../components/common/FormInputMoney";
 
-class InfoBillModal extends React.Component{
+class InfoBillModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeCompanies = this.changeCompanies.bind(this);
@@ -29,16 +29,16 @@ class InfoBillModal extends React.Component{
         return data;
 
     }
-    render(){
+    render() {
         const vatNum = this.props.data.money_value * this.props.data.vat / 100;
         const total = this.props.data.money_value * (1 * this.props.data.vat + 100) / 100;
-        return(
+        return (
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
                 bsSize="large"
             >
-                <Modal.Header closeButton/>
+                <Modal.Header closeButton />
                 <Modal.Body>
                     <div className="content">
                         <form role="form" id="form-payment" onSubmit={(e) => e.preventDefault()}>
@@ -100,7 +100,7 @@ class InfoBillModal extends React.Component{
 
                                                         </div>
 
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
                                                                 label="Nội dung"
                                                                 type="text"
@@ -108,6 +108,20 @@ class InfoBillModal extends React.Component{
                                                                 disabled
                                                                 value={this.props.data.description || ""}
 
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <label>Loại</label>
+                                                            <ReactSelect
+                                                                disabled
+                                                                options={[
+                                                                    { value: 'in', label: 'Đầu vào' },
+                                                                    { value: 'out', label: 'Đầu ra' },
+                                                                ]}
+                                                                onChange={()=>{}}
+                                                                value={this.props.data.kind || ""}
+                                                                defaultMessage="Tuỳ chọn"
+                                                                name="receiver"
                                                             />
                                                         </div>
                                                         <div className="col-md-12">
@@ -165,7 +179,7 @@ class InfoBillModal extends React.Component{
                                             <h4 className="card-title">Ảnh hóa đơn</h4>
 
                                             {
-                                                 (
+                                                (
                                                     <div>
                                                         <div style={{
                                                             maxWidth: "100%",
@@ -178,7 +192,7 @@ class InfoBillModal extends React.Component{
                                                             display: "inline-block"
                                                         }}>
                                                             <a href={this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                               target="_blank"
+                                                                target="_blank"
                                                             >
                                                                 <img
                                                                     src={this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
@@ -193,7 +207,7 @@ class InfoBillModal extends React.Component{
                                                                         backgroundSize: "cover",
                                                                         backgroundPosition: "center",
                                                                         borderRadius: "4px",
-                                                                    }}/>
+                                                                    }} />
                                                             </a>
                                                         </div>
 
