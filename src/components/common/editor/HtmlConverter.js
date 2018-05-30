@@ -125,6 +125,16 @@ const rules = [
                     }
                 };
             }
+        },
+        serialize(obj, children) {
+            if (obj.object == "inline") {
+                switch (obj.type) {
+                    case "link": {
+                        const href = obj.data.get("href");
+                        return <a href={href}>{children}</a>;
+                    }
+                }
+            }
         }
     },
     {
