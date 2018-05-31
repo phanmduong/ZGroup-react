@@ -946,12 +946,18 @@ export function saveCardCommentSuccess(comment) {
 }
 
 export function archiveCard(card) {
+    return function () {
+        
+        taskApi.toggleArchive(card);
+    };
+}
+
+export function removeArchiveCard(card) {
     return function (dispatch) {
         dispatch({
             type: types.ARCHIVE_CARD,
             card
         });
-        taskApi.toggleArchive(card);
     };
 }
 

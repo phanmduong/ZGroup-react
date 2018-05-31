@@ -76,6 +76,34 @@ class BookBoardListContainer extends React.Component {
         this.props.taskActions.editBoard(board);
     }
 
+    archiveExecute = (inputCard) => {
+        
+        this.props.boards.forEach((board) => {
+            
+                board.cards.forEach((card) => {
+                    if(card.good_id == inputCard.good_id){
+                        this.props.taskActions.archiveCard(card);
+                    }
+                });
+                
+            
+            
+        });
+    
+    }
+    
+    archiveExecute = (inputCard) => {
+        this.props.taskActions.removeArchiveCard(inputCard);
+        this.props.boards.forEach((board) => {
+                board.cards.forEach((card) => {
+                    if(card.good_id == inputCard.good_id){
+                        this.props.taskActions.archiveCard(card);
+                    }
+                });
+        });
+        
+    }
+
     render() {
         const isAdmin =
             this.props.user.role === 2 ||
@@ -104,7 +132,7 @@ class BookBoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
-                            archiveCard={this.props.taskActions.archiveCard}
+                            archiveCard={this.archiveExecute}
                             updateCardInBoard={
                                 this.props.taskActions.updateCardInBoard
                             }

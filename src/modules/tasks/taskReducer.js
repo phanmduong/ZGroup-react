@@ -621,16 +621,16 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     boards: state.boardList.boards.map((board) => {
-                        if (board.id === action.card.board_id) {
+                        //if (board.id === action.card.board_id) {
                             const cards = board.cards.filter((card) => {
-                                return card.id !== action.card.id;
+                                return card.good_id !== action.card.good_id;
                             });
                             return {
                                 ...board,
                                 cards
                             };
-                        }
-                        return board;
+                        //}
+                        //return board;
                     })
                 }
             };
