@@ -42,43 +42,74 @@ export function saveChildGood(good) {
         dispatch({
             type: types.BEGIN_SAVE_CHILD_GOOD,
         });
-        taskApi.barcodeNotEmpty(good.type).then(res => {
-            const { count } = res.data.data;
-            if (Number(count) > 0) {
-                goodApi.saveChildGood(good).then(res => {
-                    if (res.data.status === 1) {
-                        showNotification("Thêm sản phẩm con thành công");
-                        dispatch({
-                            type: types.CREATE_CARD_SUCCESS,
-                            card: res.data.data.card,
-                        });
-                        dispatch({
-                            type: types.SAVE_CHILD_GOOD_SUCCESS,
-                        });
 
-                        dispatch({
-                            type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
-                            showModal: false,
-                            card: {},
-                        });
-                    } else {
-                        dispatch({
-                            type: types.SAVE_CHILD_GOOD_FAIL,
-                        });
+        if (good.barcodeType == "parent") {
+            goodApi.saveChildGood(good).then(res => {
+                if (res.data.status === 1) {
+                    showNotification("Thêm sản phẩm con thành công");
+                    dispatch({
+                        type: types.CREATE_CARD_SUCCESS,
+                        card: res.data.data.card,
+                    });
+                    dispatch({
+                        type: types.SAVE_CHILD_GOOD_SUCCESS,
+                    });
 
-                        showErrorNotification(res.data.message);
-                    }
-                });
-            } else {
-                dispatch({
-                    type: types.SAVE_CHILD_GOOD_SUCCESS,
-                });
+                    dispatch({
+                        type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+                        showModal: false,
+                        card: {},
+                    });
+                } else {
+                    dispatch({
+                        type: types.SAVE_CHILD_GOOD_FAIL,
+                    });
 
-                showErrorMessage(
-                    "Không tạo được sản phẩm",
-                    "Không còn barcode khả dụng",
-                );
-            }
-        });
+                    showErrorNotification(res.data.message);
+                }
+            });
+        }
+
+        if (good.barcodeType == "new") {
+            taskApi.barcodeNotEmpty(good.type).then(res => {
+                const { count } = res.data.data;
+                if (Number(count) > 0) {
+                    goodApi.saveChildGood(good).then(res => {
+                        if (res.data.status === 1) {
+                            showNotification("Thêm sản phẩm con thành công");
+                            dispatch({
+                                type: types.CREATE_CARD_SUCCESS,
+                                card: res.data.data.card,
+                            });
+                            dispatch({
+                                type: types.SAVE_CHILD_GOOD_SUCCESS,
+                            });
+    
+                            dispatch({
+                                type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+                                showModal: false,
+                                card: {},
+                            });
+                        } else {
+                            dispatch({
+                                type: types.SAVE_CHILD_GOOD_FAIL,
+                            });
+    
+                            showErrorNotification(res.data.message);
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: types.SAVE_CHILD_GOOD_SUCCESS,
+                    });
+    
+                    showErrorMessage(
+                        "Không tạo được sản phẩm",
+                        "Không còn barcode khả dụng",
+                    );
+                }
+            });
+        }
+        
     };
 }
