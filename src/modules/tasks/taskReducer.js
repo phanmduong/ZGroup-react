@@ -644,23 +644,24 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 archiveCard: {
                     ...state.archiveCard,
-                    cards: state.archiveCard.cards.filter(card => card.id !== action.card.id)
+                    cards: state.archiveCard.cards.filter(card => card.good_id !== action.card.good_id)
                 },
-                boardList: {
-                    ...state.boardList,
-                    boards: state.boardList.boards.map((board) => {
-                        if (board.id === action.card.board_id) {
-                            const cards = [...board.cards, {...action.card, status: "open"}].sort(function (a, b) {
-                                return parseFloat(a.order) - parseFloat(b.order);
-                            });
-                            return {
-                                ...board,
-                                cards
-                            };
-                        }
-                        return board;
-                    })
-                }
+                // boardList: {
+                //     ...state.boardList,
+                //     boards: state.boardList.boards.map((board) => {
+                //         //if (board.id === action.card.board_id) {
+                //             const cards = [...board.cards, {...action.card, status: "open"}]
+                //             .sort((a, b) => {
+                //                 return parseFloat(a.order) - parseFloat(b.order);
+                //             });
+                //             return {
+                //                 ...board,
+                //                 cards
+                //             };
+                //         // }
+                //         // return board;
+                //     })
+                // }
             };
         case types.CHANGE_ROLE_PROJECT_MEMBER:
             return {

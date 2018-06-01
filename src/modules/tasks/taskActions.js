@@ -962,12 +962,13 @@ export function removeArchiveCard(card) {
     };
 }
 
-export function unarchiveCard(card) {
+export function unarchiveCard(card, loadBoards) {
     return function (dispatch) {
         dispatch({
             type: types.UNARCHIVE_CARD,
             card
         });
+        loadBoards();
         taskApi.toggleArchive(card);
     };
 }

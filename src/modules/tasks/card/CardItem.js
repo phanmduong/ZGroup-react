@@ -38,7 +38,7 @@ class CardItem extends React.Component {
     }
 
     unarchiveCard() {
-        this.props.unarchiveCard(this.props.card);
+        this.props.unarchiveCard(this.props.card, this.props.loadBoards);
     }
 
 
@@ -208,7 +208,8 @@ CardItem.propTypes = {
     updateCardInBoard: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
     archiveCard: PropTypes.func,
-    unarchiveCard: PropTypes.func
+    unarchiveCard: PropTypes.func,
+    loadBoards: PropTypes.func.isRequired,
 };
 
 export default CardItem;

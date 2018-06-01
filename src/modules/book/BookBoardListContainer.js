@@ -126,6 +126,7 @@ class BookBoardListContainer extends React.Component {
                         <BookCardFilterContainer
                             isAdmin={isAdmin}
                             projectId={Number(this.props.projectId)}
+                            loadBoards={()=> {return this.props.bookActions.loadBoards(this.props.params.type);}}
                         />
                         <BookBoardList
                             archiveBoard={this.props.boardActions.archiveBoard}
