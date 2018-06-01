@@ -11,6 +11,7 @@ import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 /*eslint no-console: 0 */
 
 export function updateCardData(card) {
+    
     return (dispatch) => {
         dispatch({
             type: types.UPDATE_CARD_DATA,

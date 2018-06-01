@@ -3,6 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+import {updateCardTitle} from "./taskApi";
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
@@ -16,18 +17,21 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     boards: state.boardList.boards.map((board) => {
-                        if (action.card.board_id === board.id) {
+                        //if (action.card.board_id === board.id) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    if (card.id === action.card.id) {
-                                        return action.card;
+                                    if (card.good_id === action.card.good_id) {
+                                        const title = action.card.title;
+                                        const res = {...card, title};
+                                        updateCardTitle(res);
+                                        return res;
                                     }
                                     return card;
                                 })
                             };
-                        }
-                        return board;
+                        //}
+                        //return board;
                     })
                 }
             };
