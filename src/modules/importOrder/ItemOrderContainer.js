@@ -85,8 +85,6 @@ class ItemOrderContainer extends React.Component {
     searchByCompany(e) {
         e = e ? e : { value: '' };
         this.onFilterChange('companyId', e.value);
-
-        //this.props.importOrderActions.loadAllImportOrder(1, e.value);
     }
 
     openInfoModal(id) {

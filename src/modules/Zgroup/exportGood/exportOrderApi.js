@@ -3,12 +3,23 @@ import axios    from 'axios';
 import * as env from '../../../constants/env';
 
 
-export function loadExportOrders(page,search) {
+export function loadExportOrders(filter) {
+    let {companyId,command_code,start_time,end_time,page,} =  filter || {};
     //http://manageapi.keetool.xyz/company/export-order/all?token=
     let url     = env.MANAGE_API_URL +"/company/export-order/all?";
     let token   = localStorage.getItem('token');
     if (token) {
-        url +=  "page=" + page + "&search=" + search + "&token=" + token;
+        url +=  
+        "page=" + (page || 1) 
+        + "&company_id=" + (companyId || '')
+        + "&command_code=" + (command_code || '')
+        + "&token=" + token;
+    }
+    if(start_time && end_time){
+        url +=  
+        "start_time=" + start_time 
+        +"end_time=" + end_time ;
+
     }
     return axios.get(url);
 }

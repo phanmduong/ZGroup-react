@@ -4,10 +4,10 @@ import * as types from "../../../constants/actionTypes";
 import {browserHistory} from 'react-router';
 
 
-export function loadExportOrders(page=1, search='',good_id='', company_id = '', warehouse_id='') {
+export function loadExportOrders(filter) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_EXPORT_ORDERS});
-        exportOrderApi.loadExportOrders(page, search,good_id, company_id, warehouse_id)
+        exportOrderApi.loadExportOrders(filter)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_EXPORT_ORDERS_SUCCESS,

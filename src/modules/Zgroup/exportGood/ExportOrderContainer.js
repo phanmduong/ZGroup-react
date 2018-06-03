@@ -5,10 +5,8 @@ import PropTypes from 'prop-types';
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import * as exportOrderActions from "./exportOrderActions";
-//import Search from "../../../components/common/Search";
 import { Link } from "react-router";
 import ListExportGood from "./ListExportOrder";
-import { Modal } from "react-bootstrap";
 import TooltipButton from '../../../components/common/TooltipButton';
 import {
     newWorkBook,
@@ -19,6 +17,10 @@ import {
 } from "../../../helpers/helper";
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from "../../../constants/constants";
+import FormInputDate from '../../../components/common/FormInputDate';
+import FormInputText from '../../../components/common/FormInputText';
+import { Panel, Modal } from "react-bootstrap";
+import ReactSelect from 'react-select';
 
 class ExportOrderContainer extends React.Component {
     constructor(props, context) {
@@ -26,17 +28,28 @@ class ExportOrderContainer extends React.Component {
         this.state = {
             query: "",
             showLoadingModal: false,
+            openFilter: false,
+            filter: {
+                companyId: null,
+                command_code: '',
+                start_time: '',
+                end_time: '',
+                page: 1,
+            },
         };
 
     }
 
     componentWillMount() {
         this.props.exportOrderActions.loadExportOrders();
+        this.props.exportOrderActions.loadAllCompanies();
     }
 
     // componentWillReceiveProps(nextProps) {
     //     console.log(nextProps);
     // }
+
+
 
     openLoadingModal = () => {
         this.setState({ showLoadingModal: true });
@@ -105,8 +118,27 @@ class ExportOrderContainer extends React.Component {
         this.setState({ showLoadingModal: false });
     }
     
+    onFilterChange = (name, value = '') => {
+        let filter = { ...this.state.filter };
+        filter[name] = value;
+        this.setState({ filter });
+        this.props.exportOrderActions.loadExportOrders(this.state.filter);
+    }
+
+    onDateFilterChange = (e) => {
+        let { name, value } = e.target;
+        this.onFilterChange(name, value);
+    }
+
+    searchByCompany = (e) => {
+        e = e ? e : { value: '' };
+        this.onFilterChange('companyId', e.value);
+    }
+
     render() {
+        const filterClass = "col-md-3 col-sm-6 col-xs-6";
         let { isLoading, paginator, exportOrderActions } = this.props;
+        let {filter} = this.state;
         return (
             <div className="content">
             <Modal
@@ -130,7 +162,7 @@ class ExportOrderContainer extends React.Component {
                                                     </Link>
 
                                                 </div>
-                                                {/* <div>
+                                                <div>
                                                     <TooltipButton text="Lọc" placement="top">
                                                         <button
                                                             className="btn btn-rose"
@@ -148,7 +180,7 @@ class ExportOrderContainer extends React.Component {
                                                             >filter_list</i>
                                                         </button>
                                                     </TooltipButton>
-                                                </div> */}
+                                                </div>
                                             </div>
                                             <div className="flex-end">
                                                 <div>
@@ -171,6 +203,48 @@ class ExportOrderContainer extends React.Component {
                                                     </TooltipButton>
                                                 </div>
                                             </div>
+                                    </div>
+                                    <div>
+                                            <Panel collapsible expanded={this.state.openFilter}>
+                                                <div className="row">
+                                                <div className={filterClass}>
+                                                        <FormInputText
+                                                            name="command_code"
+                                                            id="command_code"
+                                                            value={filter.command_code}
+                                                            label="Mã đơn hàng"
+                                                            updateFormData={()=>{}}
+                                                        />
+                                                    </div>
+                                                <div className={filterClass}>
+                                                            <label> Công ty </label>
+                                                            <ReactSelect
+                                                                options={this.props.companies || []}
+                                                                onChange={this.searchByCompany}
+                                                                value={this.state.filter.companyId}
+                                                            />
+                                                        </div>
+                                                    
+                                                    <div className={filterClass}>
+                                                        <FormInputDate
+                                                            name="start_time"
+                                                            id="start_time"
+                                                            value={filter.start_time}
+                                                            label="Từ ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                        />
+                                                    </div>
+                                                    <div className={filterClass}>
+                                                        <FormInputDate
+                                                            name="end_time"
+                                                            id="end_time"
+                                                            value={filter.end_time}
+                                                            label="Đến ngày"
+                                                            updateFormData={this.onDateFilterChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </Panel>
                                         </div>
                                     {
                                         isLoading ? <Loading /> :
@@ -194,13 +268,15 @@ ExportOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     user: PropTypes.object,
     paginator: PropTypes.object,
+    companies: PropTypes.array,
     exportOrderActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.printOrder.isLoading,
-        paginator: state.printOrder.paginator,
+        isLoading: state.exportOrder.isLoading,
+        paginator: state.exportOrder.paginator,
+        companies: state.exportOrder.companies,
         user: state.login.user,
     };
 }
