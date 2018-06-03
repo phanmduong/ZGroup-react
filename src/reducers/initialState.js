@@ -53,6 +53,10 @@ export default {
 
         //********Booking
         addBookingRegisterSessionModal: false,
+        isLoadingSeatBySessionId: false,
+        seatForBooking: [],
+        width:1200,
+        height:10,
     },
 
     campaignList: {

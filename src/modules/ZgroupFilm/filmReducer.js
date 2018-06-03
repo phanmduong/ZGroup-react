@@ -403,6 +403,26 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 addBookingRegisterSessionModal: !state.addBookingRegisterSessionModal,
             };
+        case types.BEGIN_LOAD_SEAT_BY_SESSION_ID:
+            return{
+                ...state,
+                isLoadingSeatBySessionId: true,
+            };
+        case types.LOAD_SEAT_BY_SESSION_ID_SUCCESS:
+            return{
+                ...state,
+                isLoadingSeatBySessionId:false,
+                seatForBooking: action.seatForBooking,
+                width: action.width,
+                height: action.height
+            };
+        case types.CLEAR_SEAT_BY_SESSION_ID:
+            return {
+                ...state,
+                seatForBooking:[],
+                width: 1200,
+                height: 10
+            };
         default:
             return state;
     }

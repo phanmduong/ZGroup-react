@@ -102,11 +102,11 @@ class StoreNotificationType extends React.Component {
                         <label className="label-control">Loại thông báo</label>
                         <div className="row">
                             {
-                                TYPE_NOTI.map((item) => {
+                                TYPE_NOTI.map((item, index) => {
                                     let type = this.state.notificationType.type ? this.state.notificationType.type.split(',') : [];
                                     const checked = type.indexOf(item.value) >= 0;
                                     return (
-                                        <div className="col-md-3">
+                                        <div className="col-md-3" key={index}>
                                             <Checkbox checked={checked} label={item.label} checkBoxLeft
                                                       onChange={(event) => this.changeType(event, item)}/>
                                         </div>

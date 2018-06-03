@@ -8,7 +8,7 @@ import SessionContainer from "../modules/ZgroupFilm/session/SessionContainer";
 import AllSessionContainer from "../modules/ZgroupFilm/session/AllSessionContainer";
 import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessionContainer";
 import SeatTypeContainer from "../modules/ZgroupFilm/seatType/SeatTypeContainer";
-
+import CodeContainer from "../modules/ZgroupFilm/code/CodeContainer";
 
 
 /**
@@ -38,7 +38,7 @@ export default [
         ]
     },
     {
-        path:"/film/session",
+        path: "/film/session",
         component: SessionContainer,
         children: [
             {
@@ -52,11 +52,15 @@ export default [
         ]
     },
     {
-        path:"film/film/:filmId",
+        path: "film/film/:filmId",
         component: ShowFilmContainer
     },
     {
-        path:"film/seat-type",
+        path: "film/seat-type",
         component: SeatTypeContainer
     },
+    {
+        path: "film/code",
+        component: CodeContainer
+    }
 ];

@@ -197,3 +197,11 @@ export function EditSeatTypesApi(seatType) {
     }
     return axios.put(url,seatType);
 }
+
+
+//lay cho ngoi theo session => booking
+///session/{id}/seat
+export function loadSeatBySessionIdApi(id) {
+    let url = env.API_URL + "/session/"+ id +"/seat";
+    return axios.get(url);
+}

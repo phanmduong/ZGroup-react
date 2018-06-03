@@ -33,7 +33,7 @@ class SessionComponent extends React.Component {
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
                         <th>FQ</th>
-                        <th>Giá vé</th>
+                        <th>&emsp;Giá vé</th>
                         <th/>
                     </tr>
                     </thead>

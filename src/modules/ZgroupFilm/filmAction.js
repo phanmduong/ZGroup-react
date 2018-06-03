@@ -435,3 +435,25 @@ export function toggleBookingModal() {
     });
 }
 
+export function loadSeatBySessionId(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SEAT_BY_SESSION_ID
+        });
+        filmApi.loadSeatBySessionIdApi(id)
+            .then((res)=>{
+                dispatch({
+                    type: types.LOAD_SEAT_BY_SESSION_ID_SUCCESS,
+                    seatForBooking: res.data.seats,
+                    width: res.data.width,
+                    height: res.data.height
+                });
+            });
+    };
+}
+
+export function clearSeatBySessionId() {
+    return ({
+        type: types.CLEAR_SEAT_BY_SESSION_ID
+    });
+}
