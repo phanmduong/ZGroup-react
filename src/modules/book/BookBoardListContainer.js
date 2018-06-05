@@ -132,6 +132,7 @@ class BookBoardListContainer extends React.Component {
                             archiveBoard={this.props.boardActions.archiveBoard}
                             display={this.props.setting.display || "full"}
                             isAdmin={isAdmin}
+                            isLoadingBoardsDetail={this.props.isLoadingBoardsDetail}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
                             archiveCard={this.archiveExecute}
@@ -169,6 +170,7 @@ BookBoardListContainer.propTypes = {
     location: PropTypes.object.isRequired,
     setting: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
+    isLoadingBoardsDetail: PropTypes.bool.isRequired,
     canDragBoard: PropTypes.oneOfType([
         PropTypes.number.isRequired,
         PropTypes.bool.isRequired,
@@ -183,7 +185,7 @@ BookBoardListContainer.propTypes = {
 function mapStateToProps(state) {
     const { selectedCardLabels, selectedMembers } = state.cardFilter;
     const boards = state.task.boardList.boards.map(board => {
-        const cards = board.cards
+        const cards = (board ?  board.cards : [])
             .map(card => {
                 let hasCardLabel = selectedCardLabels.length > 0;
                 let hasMember = selectedMembers.length > 0;
@@ -235,6 +237,7 @@ function mapStateToProps(state) {
     return {
         projectId: Number(state.task.boardList.projectId),
         isLoadingBoards: state.task.boardList.isLoadingBoards,
+        isLoadingBoardsDetail: state.task.boardList.isLoadingBoardsDetail,
         canDragBoard: state.task.boardList.canDragBoard,
         canDragCard: state.task.boardList.canDragCard,
         members: state.task.boardList.members,

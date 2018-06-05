@@ -858,6 +858,7 @@ export default {
             boards: [],
             setting: {},
             isLoadingBoards: false,
+            isLoadingBoardsDetail: false,
             canDragCard: false,
             canDragBoard: false
         },

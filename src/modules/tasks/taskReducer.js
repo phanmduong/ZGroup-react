@@ -1533,6 +1533,22 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     isLoadingBoards: false,
+                    isLoadingBoardsDetail: true,
+                    boards: action.boards,
+                    setting: action.setting,
+                    projectId: action.projectId,
+                    members: action.members,
+                    canDragBoard: action.canDragBoard,
+                    canDragCard: action.canDragCard
+                }
+            };
+        case types.LOAD_BOARD_DETAIL_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    isLoadingBoards: false,
+                    isLoadingBoardsDetail: false,
                     boards: action.boards,
                     setting: action.setting,
                     projectId: action.projectId,

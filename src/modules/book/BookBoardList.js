@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dragula from 'react-dragula';
 import CardList from "../tasks/card/CardList";
-
+import Loading from "../../components/common/Loading";
 class BoardList extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -109,15 +109,15 @@ class BoardList extends React.Component {
                     {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
                         return (
                             <div key={board.id} data-order={board.order} id={board.id}
-                                 className="card card-container keetool-board">
+                                className="card card-container keetool-board">
                                 <div className="board-title undraggable">
-                                    <span style={{fontWeight: 600}}>{board.title}</span>
+                                    <span style={{ fontWeight: 600 }}>{board.title}</span>
                                     <div className="board-action">
                                         {
                                             this.props.isAdmin ? (
                                                 <div className="dropdown">
                                                     <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                                       data-toggle="dropdown">
+                                                        data-toggle="dropdown">
                                                         <i className="material-icons">more_horiz</i>
                                                     </a>
                                                     <ul className="dropdown-menu dropdown-menu-right">
@@ -148,35 +148,39 @@ class BoardList extends React.Component {
                                                     </ul>
                                                 </div>
                                             ) : (
-                                                <div>
-                                                    {
-                                                        !!board.is_start && (
-                                                            <a onClick={() => this.props.addCard(board)}>
-                                                                <i className="material-icons">add</i>
-                                                            </a>
-                                                        )
-                                                    }
-                                                </div>
-                                            )
+                                                    <div>
+                                                        {
+                                                            !!board.is_start && (
+                                                                <a onClick={() => this.props.addCard(board)}>
+                                                                    <i className="material-icons">add</i>
+                                                                </a>
+                                                            )
+                                                        }
+                                                    </div>
+                                                )
                                         }
 
 
                                     </div>
                                 </div>
 
-                                <CardList
-                                    board={board}
-                                    display={this.props.display}
-                                    archiveCard={this.props.archiveCard}
-                                    updateCardInBoard={this.props.updateCardInBoard}
-                                    openCardDetailModal={this.props.openCardDetailModal}
-                                />
+                                {this.props.isLoadingBoardsDetail ? <Loading /> :
+
+                                    <CardList
+                                        board={board}
+                                        display={this.props.display}
+                                        archiveCard={this.props.archiveCard}
+                                        updateCardInBoard={this.props.updateCardInBoard}
+                                        openCardDetailModal={this.props.openCardDetailModal}
+                                    />
+
+                                }
                             </div>
                         );
                     })}
                     <div className="card-container undraggable" data-order="-1">
-                        <div className="create-new-board" style={{marginTop: 0}}
-                             onClick={this.props.openCreateBoardModal}>
+                        <div className="create-new-board" style={{ marginTop: 0 }}
+                            onClick={this.props.openCreateBoardModal}>
                             <div>
                                 <i className="material-icons flex-item">control_point</i>
                             </div>
@@ -211,7 +215,8 @@ BoardList.propTypes = {
     moveBoard: PropTypes.func.isRequired,
     openCardDetailModal: PropTypes.func.isRequired,
     editBoard: PropTypes.func.isRequired,
-    isAdmin: PropTypes.bool.isRequired
+    isAdmin: PropTypes.bool.isRequired,
+    isLoadingBoardsDetail: PropTypes.bool.isRequired,
 };
 
 export default BoardList;
