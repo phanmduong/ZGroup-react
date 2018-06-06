@@ -157,7 +157,8 @@ class DashboardTrongDongContainer extends Component {
     }
 
     render() {
-        const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
+        // const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
+        const disableCreateRegister = false;
         return (
             <div>
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
@@ -165,7 +166,7 @@ class DashboardTrongDongContainer extends Component {
                 ) : (
                     <div>
                         <div className="row">
-                            <div className="col-sm-4 col-xs-6">
+                            <div className="col-sm-4 col-xs-5">
                                 <Select
                                     defaultMessage={"Chọn cơ sở"}
                                     options={store.basesData}
@@ -173,7 +174,7 @@ class DashboardTrongDongContainer extends Component {
                                     onChange={this.onChangeBase}
                                 />
                             </div>
-                            <div className="col-sm-3 col-xs-3">
+                            <div className="col-sm-4 col-xs-3">
                                 <Select
                                     defaultMessage={"Chọn loại phòng"}
                                     options={store.roomTypesData}
@@ -181,7 +182,7 @@ class DashboardTrongDongContainer extends Component {
                                     onChange={this.onChangeRoomType}
                                 />
                             </div>
-                            <div className="col-sm-3 col-xs-3">
+                            <div className="col-sm-4 col-xs-4">
                                 <Select
                                     defaultMessage={"Chọn phòng"}
                                     options={store.roomsData}

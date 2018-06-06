@@ -1,20 +1,20 @@
-# zGroup Backend
+# zGroup React
 
 ## What is it?
 
-This project is the Backend for website http://zGroup.ga of our Startup KEE Education. 
+This project is the new interface for website http://zGroup.ga of our Startup KEE Education. 
 We are a startup in Vietnam offers design courses. We provide new learning experiences for studying 
 design.
-This Project Provide the API for the client web application using React redux (https://github.com/phanmduong/ZGroup-react)
-It also is a Content Management System (CMS) for our Company. It is deployed on the Amazon Web Service (AWS) 
-
-This project is built as replacement for the old one using CodeIgniter.
- 
+This project is replacement for the old one which use server side rendering by Laravel and Blade view engine. 
+It consume the API built by Laravel 5.2 (https://github.com/phanmduong/ZGroup-server)
 ## Main Technologies
 
- - Laravel: The open-source PHP Framework intended for the development of web applications following the model–view–controller (MVC) architectural pattern.
+ - React: Javscript Library for creating user interface
+ - Redux: Manage State for Application
+ - Axios: Promise based HTTP client used to make http request
  - Bootstrap: an html, css, javascript framework for creating user interface.
  - Jquery: Manipulate the HTML document.
+ - React Slingshot: comprehensive starter kit for rapid application development using React.
 
 ## Author
 
@@ -25,6 +25,7 @@ Cao Anh Quan
 Phan Minh Duong
 - Facebook: https://www.facebook.com/phanmduong.1997
 - Email: duong@colorme.vn
+
 
  
 

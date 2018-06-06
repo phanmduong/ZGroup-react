@@ -1,1 +1,0 @@
-{{$time . ' ' . $name . ' ' . $phone . ' ' . $email}}

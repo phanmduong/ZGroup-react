@@ -19,12 +19,12 @@ class BookCreateCardModalContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(
-            this,
+            this
         );
         this.state = {
             taskListTemplate: {},
             goodPropertiesOutput: {},
-            goodProperties: [],
+            goodProperties: []
         };
     }
 
@@ -41,7 +41,7 @@ class BookCreateCardModalContainer extends React.Component {
     submit() {
         const isValid = isNotEmptyGoodProperty(
             this.props.goodPropertyItems,
-            this.state.goodPropertiesOutput,
+            this.state.goodPropertiesOutput
         );
         if (isValid) {
             let goodProperties = [];
@@ -52,18 +52,21 @@ class BookCreateCardModalContainer extends React.Component {
                     name: key,
                     value:
                         property.value +
-                        (property.unit ? " " + property.unit : ""),
+                        (property.unit ? " " + property.unit : "")
                 };
                 goodProperties.push(obj);
             }
 
-            this.props.taskActions.createCardGood({
-                ...this.props.card,
-                board_id: this.props.board.id,
-                task_list_id: this.state.taskListTemplate.id,
-                good_id: null,
-                good_properties: JSON.stringify(goodProperties),
-            }, this.props.type);
+            this.props.taskActions.createCardGood(
+                {
+                    ...this.props.card,
+                    board_id: this.props.board.id,
+                    task_list_id: this.state.taskListTemplate.id,
+                    good_id: null,
+                    good_properties: JSON.stringify(goodProperties)
+                },
+                this.props.type
+            );
         }
     }
 
@@ -73,15 +76,17 @@ class BookCreateCardModalContainer extends React.Component {
 
     updateFormData(event) {
         const value = event.target.value;
+
         let card = { ...this.props.card };
         const field = event.target.name;
         card[field] = value;
+
         this.props.taskActions.updateCreateCardFormData(card);
     }
 
     handleChange(val) {
         this.setState({
-            taskListTemplate: val,
+            taskListTemplate: val
         });
         this.props.taskActions.loadGoodPropertyItems(val.id);
     }
@@ -122,15 +127,51 @@ class BookCreateCardModalContainer extends React.Component {
                                                 }
                                                 value={this.props.card.title}
                                             />
-                                            <FormInputText
-                                                placeholder="Nhập nhãn sách"
-                                                label="Nhãn sách"
-                                                name="label"
-                                                updateFormData={
-                                                    this.updateFormData
-                                                }
-                                                value={this.props.card.label}
-                                            />
+
+                                            <div>
+                                                <label className="control-label">
+                                                    Nhãn sách
+                                                </label>
+                                                <Select
+                                                    defaultMessage="Chọn nhãn sách"
+                                                    label="Nhãn sách"
+                                                    value={
+                                                        this.props.card.label
+                                                    }
+                                                    options={[
+                                                        {
+                                                            value: "Cẩm Phong",
+                                                            label: "Cẩm Phong"
+                                                        },
+                                                        {
+                                                            value: "Bão",
+                                                            label: "Bão"
+                                                        },
+                                                        {
+                                                            value: "Akachan",
+                                                            label: "Akachan"
+                                                        },
+                                                        {
+                                                            value: "Uranix",
+                                                            label: "Uranix"
+                                                        },
+                                                        {
+                                                            value: "zBooks",
+                                                            label: "zBooks"
+                                                        }
+                                                    ]}
+                                                    onChange={option => {
+                                                        let card = {
+                                                            ...this.props.card
+                                                        };
+                                                        card.label =
+                                                            option.value;
+                                                        this.props.taskActions.updateCreateCardFormData(
+                                                            card
+                                                        );
+                                                    }}
+                                                />
+                                            </div>
 
                                             <InputGoodProperties
                                                 goodPropertiesOutput={
@@ -160,11 +201,11 @@ class BookCreateCardModalContainer extends React.Component {
                                                         disabled={
                                                             isEmptyInput(
                                                                 this.props.card
-                                                                    .title,
+                                                                    .title
                                                             ) ||
                                                             isEmptyInput(
                                                                 this.props.card
-                                                                    .label,
+                                                                    .label
                                                             )
                                                         }
                                                         type="button"
@@ -198,7 +239,7 @@ BookCreateCardModalContainer.propTypes = {
     goodPropertyItems: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired,
-    isSaving: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -211,16 +252,16 @@ function mapStateToProps(state) {
         board: state.task.createCard.board,
         isLoading: state.task.createCard.isLoading,
         taskListTemplates: state.task.createCard.taskListTemplates,
-        goodPropertyItems: state.task.createCard.goodPropertyItems,
+        goodPropertyItems: state.task.createCard.goodPropertyItems
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        taskActions: bindActionCreators(taskActions, dispatch),
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    BookCreateCardModalContainer,
+    BookCreateCardModalContainer
 );

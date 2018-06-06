@@ -140,7 +140,7 @@ class ReceiveTransactions extends React.Component {
                                                     transaction.status == -1 ? "Hủy" : "Đang giao dịch";
 
                                                 const classStatus = transaction.status == 1 ? " btn-success " :
-                                                    transaction.status == -1 ? " btn-danger " : " btn-info ";
+                                                    transaction.status == -1 ? " btn-warning " : " btn-info ";
                                                 return (
                                                     <tr key={transaction.id}>
                                                         <td>
