@@ -86,6 +86,7 @@ import smsCampaignReducer from "../modules/campaign/campaignReducer";
 import filmReducer from "../modules/ZgroupFilm/filmReducer";
 import bookingHistoryReducer from "../modules/ZgroupFilm/bookingHistory/bookingHistoryReducer";
 import codeReducer from "../modules/ZgroupFilm/code/codeReducer";
+import seatTypeReducer from "../modules/ZgroupFilm/seatType/seatTypeReducer";
 
 const appReducer = combineReducers({
     blogType:blogTypeReducer,
@@ -175,6 +176,7 @@ const appReducer = combineReducers({
     film: filmReducer,
     code: codeReducer,
     bookingHistory: bookingHistoryReducer,
+    seatType : seatTypeReducer,
 });
 
 const rootReducer = (state, action) => {

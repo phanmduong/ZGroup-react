@@ -17,7 +17,7 @@ export default {
         percent: 0,
         isSavingFilm: false,
         filmModal: {},
-        //-----------
+
 
         //********Session
         search: '',
@@ -39,16 +39,6 @@ export default {
         addEditSessionModal: false,
         sessionModal: {},
         rooms: [],
-        //-----------
-
-
-        //********Seat-types
-        isLoadingSeat: false,
-        seatTypes:[],
-        openModal: false,
-        isEditSeatType: false,
-        handleSeatTypeModal:{},
-        //-----------
 
 
         //********Booking
@@ -57,9 +47,15 @@ export default {
         seatForBooking: [],
         width:1200,
         height:10,
-        //********
 
 
+    },
+    seatType:{
+        isLoadingSeat: false,
+        seatTypes:[],
+        openModal: false,
+        isEditSeatType: false,
+        handleSeatTypeModal:{},
     },
     code: {
         codes: [],
