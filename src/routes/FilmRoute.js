@@ -6,8 +6,6 @@ import ShowingFilmContainer from "../modules/ZgroupFilm/film/ShowingFilmContaine
 import SessionContainer from "../modules/ZgroupFilm/session/SessionContainer";
 import AllSessionContainer from "../modules/ZgroupFilm/session/AllSessionContainer";
 import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessionContainer";
-import SeatTypeContainer from "../modules/ZgroupFilm/seatType/SeatTypeContainer";
-import CodeContainer from "../modules/ZgroupFilm/code/CodeContainer";
 import BookingHistoryContainer from "../modules/ZgroupFilm/bookingHistory/BookingHistoryContainer";
 
 
@@ -50,14 +48,6 @@ export default [
                 component: ShowingSessionContainer
             }
         ]
-    },
-    {
-        path: "film/seat-type",
-        component: SeatTypeContainer
-    },
-    {
-        path: "film/code",
-        component: CodeContainer
     },
     {
         path: "film/booking-history",
