@@ -40,7 +40,7 @@ class ClassContainer extends React.Component {
                                     <th>Tình trạng học</th>
                                     <th>Mã học viên</th>
                                     <th>Học phí</th>
-                                    <th />
+                                    <th>Thiết bị</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -112,6 +112,38 @@ class ClassContainer extends React.Component {
                                                         </TooltipButton>
                                                         : 'Chưa nộp'
                                                 }
+                                            </td>
+                                            <td>
+                                                <div  style={{display: "flex"}}>
+                                                    {
+                                                        register.student.devices && register.student.devices.map((dv, index) => {
+                                                            return (
+                                                                <div key={index}>
+                                                                    <TooltipButton
+                                                                        text={"Name: " + dv.name + " Os: " + dv.os + " Device_id: " + dv.device_id}
+                                                                        placement="top"
+                                                                    >
+                                                                        {
+                                                                            dv.os.search("pple") !== -1 ?
+
+                                                                                <img
+                                                                                    style={{height: 24, width: 24,cursor:"pointer"}}
+                                                                                    src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1528267590z7F1mpbo0YspRmU.png"
+                                                                                    alt=""/>
+
+                                                                                :
+                                                                                <i className="material-icons" style={{cursor:"pointer"}}>
+                                                                                    android
+                                                                                </i>
+
+                                                                        }
+                                                                    </TooltipButton>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    }
+                                                </div>
+
                                             </td>
 
                                         </tr>

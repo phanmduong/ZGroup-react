@@ -57,6 +57,21 @@ export default {
         seatForBooking: [],
         width:1200,
         height:10,
+        //********
+
+
+    },
+    code: {
+        codes: [],
+        showCodeModal:false,
+        addEditCodeModal: false,
+        handleCodeModal: {},
+        isLoadingCode: false,
+        isAddEditCode: false,
+    },
+    bookingHistory: {
+        isLoadingBookingHistory: false,
+        bookingHistories: [],
     },
 
     campaignList: {

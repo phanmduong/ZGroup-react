@@ -1,43 +1,24 @@
-import React from 'react';
+import React from "react";
+import BookingHistoryComponent from "./BookingHistoryComponent";
 import TooltipButton from "../../../components/common/TooltipButton";
 import Search from "../../../components/common/Search";
 import Pagination from "../../../components/common/Pagination";
 import Loading from "../../../components/common/Loading";
-import CodeComponent from "./CodeComponent";
-import AddEditCodeModal from "./AddEditCodeModal";
 import {connect} from "react-redux";
-import * as codeAction from "./codeAction";
+import * as bookingHistoryAction from "./bookingHistoryAction";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
-import ShowCodeModal from "./ShowCodeModal";
 
-
-
-
-
-class CodeContainer extends React.Component {
-    render() {
+class BookingHistoryContainer extends React.Component{
+    render(){
         return (
             <div className="card">
                 <div className="card-content">
                     <div className="tab-content">
                         <div className="flex-row flex">
                             <h4 className="card-title">
-                                <strong>Danh sách tất cả mã giảm giá</strong>
+                                <strong>Lịch sử đặt vé</strong>
                             </h4>
-                            <div>
-                                <TooltipButton
-                                    placement="top"
-                                    text="Thêm mã giảm giá">
-                                    <button
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        type="button"
-                                        onClick={() => {this.props.codeAction.openModal();}}>
-
-                                        <strong>+</strong>
-                                    </button>
-                                </TooltipButton>
-                            </div>
                             <div>
                                 <TooltipButton
                                     placement="top"
@@ -60,17 +41,16 @@ class CodeContainer extends React.Component {
                             onChange={() => {
                             }}
                             value={""}
-                            placeholder="Nhập nội dung để tìm kiếm"
+                            placeholder="Nhập tên, email, số điện thoại để tìm kiếm"
                         />
                         <br/>
 
                     </div>
                     <div>
                         {
-                            this.props.isLoadingCode ? <Loading/> :
-                                <CodeComponent/>
+                            this.props.isLoadingBookingHistory ? <Loading/> :
+                                <BookingHistoryComponent/>
                         }
-
 
                         <br/>
                         <div className="row float-right">
@@ -89,30 +69,26 @@ class CodeContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <ShowCodeModal/>
-                <AddEditCodeModal/>
             </div>
         );
     }
 }
 
-CodeContainer.propTypes = {
-    addEditCodeModal: PropTypes.bool.require,
-    isLoadingCode: PropTypes.bool.require,
-    codeAction: PropTypes.object.require,
+BookingHistoryContainer.propTypes = {
+    isLoadingBookingHistory: PropTypes.bool.require,
+    bookingHistoryAction: PropTypes.object.require,
 };
 
 function mapStateToProps(state) {
     return {
-        addEditCodeModal: state.code.addEditCodeModal,
-        isLoadingCode: state.code.isLoadingCode,
+        isLoadingBookingHistory: state.bookingHistory.isLoadingBookingHistory,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        codeAction: bindActionCreators(codeAction, dispatch)
+        bookingHistoryAction: bindActionCreators(bookingHistoryAction, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CodeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BookingHistoryContainer);
