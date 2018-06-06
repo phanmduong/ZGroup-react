@@ -84,7 +84,7 @@ import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBRedu
 import labelManageReducer from "../modules/labelManage/labelManageReducer";
 import smsCampaignReducer from "../modules/campaign/campaignReducer";
 import filmReducer from "../modules/ZgroupFilm/filmReducer";
-import bookHistoryReducer from "../modules/ZgroupFilm/bookingHistory/bookingHistoryReducer";
+import bookingHistoryReducer from "../modules/ZgroupFilm/bookingHistory/bookingHistoryReducer";
 import codeReducer from "../modules/ZgroupFilm/code/codeReducer";
 
 const appReducer = combineReducers({
@@ -174,7 +174,7 @@ const appReducer = combineReducers({
     emailCommentFB: emailCommentFBReducer,
     film: filmReducer,
     code: codeReducer,
-    bookHistory: bookHistoryReducer,
+    bookingHistory: bookingHistoryReducer,
 });
 
 const rootReducer = (state, action) => {
