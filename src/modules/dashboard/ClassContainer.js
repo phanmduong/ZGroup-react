@@ -124,7 +124,7 @@ class ClassContainer extends React.Component {
                                                                         placement="top"
                                                                     >
                                                                         {
-                                                                            dv.os.search("pple") !== -1 ?
+                                                                            (dv.os.toLowerCase().search("pple") !== -1) || (dv.os.toLowerCase().search("ios") !== -1) ?
 
                                                                                 <img
                                                                                     style={{height: 24, width: 24,cursor:"pointer"}}

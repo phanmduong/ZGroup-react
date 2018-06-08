@@ -10,9 +10,24 @@ export default function filmReducer(state = initialState.code, action) {
                 addEditCodeModal: !state.addEditCodeModal,
             };
         case types.TOGGLE_OPEN_SHOW_CODE_MODAL:
-            return{
+            return {
                 ...state,
                 showCodeModal: !state.showCodeModal,
+            };
+        case types.BEGIN_SAVE_CODE:
+            return {
+                ...state,
+                isAddEditCode: false
+            };
+        case types.SAVE_CODE_SUCCESS:
+            return {
+                ...state,
+                isAddEditCode: true
+            };
+        case types.HANDLE_CODE_MODAL:
+            return{
+                ...state,
+                handleCodeModal: action.code
             };
         default:
             return state;
