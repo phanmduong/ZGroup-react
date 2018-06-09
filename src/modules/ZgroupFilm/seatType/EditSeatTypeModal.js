@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
-import * as filmAction from "../filmAction";
+import * as seatTypeAction from "./seatTypeAction";
 import * as helper from "../../../helpers/helper";
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
@@ -23,13 +23,13 @@ class EditSeatTypeModal extends React.Component {
             ...this.props.handleSeatTypeModal,
             [field]: e.target.value
         };
-        this.props.filmAction.handleSeatTypeModal(seatType);
+        this.props.seatTypeAction.handleSeatTypeModal(seatType);
     }
 
     editSeatType() {
         if (helper.isEmptyInput(this.props.handleSeatTypeModal.type))
             helper.showErrorNotification("Bạn cần nhập loại ghế");
-        else this.props.filmAction.editSeatType(this.props.handleSeatTypeModal);
+        else this.props.seatTypeAction.editSeatType(this.props.handleSeatTypeModal);
     }
 
 
@@ -40,12 +40,12 @@ class EditSeatTypeModal extends React.Component {
                 onHide={() => {
                     helper.confirm("warning", "Quay lại", "Bạn có chắc muốn quay lại, dữ liệu hiện tại sẽ không được cập nhật",
                         () => {
-                            this.props.filmAction.toggleSeatTypeModal();
+                            this.props.seatTypeAction.toggleSeatTypeModal();
                         });
 
                 }}>
                 <a onClick={() => {
-                    this.props.filmAction.toggleSeatTypeModal();
+                    this.props.seatTypeAction.toggleSeatTypeModal();
                 }}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
@@ -91,7 +91,7 @@ class EditSeatTypeModal extends React.Component {
                                                 type="button"
                                                 className="btn"
                                                 onClick={() => {
-                                                    this.props.filmAction.toggleSeatTypeModal();
+                                                    this.props.seatTypeAction.toggleSeatTypeModal();
                                                 }}
                                             >
                                                 Huỷ
@@ -110,7 +110,7 @@ class EditSeatTypeModal extends React.Component {
 }
 
 EditSeatTypeModal.propTypes = {
-    filmAction: PropTypes.object.isRequired,
+    seatTypeAction: PropTypes.object.isRequired,
     handleSeatTypeModal: PropTypes.object.isRequired,
     openModal: PropTypes.bool.isRequired,
     isEditSeatType: PropTypes.bool.isRequired,
@@ -118,15 +118,15 @@ EditSeatTypeModal.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        openModal: state.film.openModal,
-        isEditSeatType: state.film.isEditSeatType,
-        handleSeatTypeModal: state.film.handleSeatTypeModal,
+        openModal: state.seatType.openModal,
+        isEditSeatType: state.seatType.isEditSeatType,
+        handleSeatTypeModal: state.seatType.handleSeatTypeModal,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        filmAction: bindActionCreators(filmAction, dispatch)
+        seatTypeAction: bindActionCreators(seatTypeAction, dispatch)
     };
 }
 

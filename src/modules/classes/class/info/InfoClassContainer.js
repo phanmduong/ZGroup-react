@@ -89,7 +89,7 @@ class InfoClassContainer extends React.Component {
                                     <th>Tình trạng học</th>
                                     <th>Mã học viên</th>
                                     <th>Học phí</th>
-                                    <th/>
+                                    <th>Thiết bị</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -110,7 +110,7 @@ class InfoClassContainer extends React.Component {
                                                 />
                                             </td>
                                             <td><a href={`/sales/info-student/${register.student.id}`}
-                                                      className="text-name-student-register">
+                                                   className="text-name-student-register">
                                                 {register.student.name}
                                             </a></td>
                                             <td><h6>{register.total_attendances}/{register.attendances.length}</h6>
@@ -161,6 +161,38 @@ class InfoClassContainer extends React.Component {
                                                         </TooltipButton>
                                                         : 'Chưa nộp'
                                                 }
+                                            </td>
+                                            <td>
+                                                <div  style={{display: "flex"}}>
+                                                    {
+                                                        register.student.devices && register.student.devices.map((dv, index) => {
+                                                            return (
+                                                                <div key={index}>
+                                                                    <TooltipButton
+                                                                        text={"Name: " + dv.name + " Os: " + dv.os + " Device_id: " + dv.device_id}
+                                                                        placement="top"
+                                                                    >
+                                                                        {
+                                                                            (dv.os.toLowerCase().search("pple") !== -1) || (dv.os.toLowerCase().search("ios") !== -1)?
+
+                                                                                    <img
+                                                                                        style={{height: 24, width: 24,cursor:"pointer"}}
+                                                                                        src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1528267590z7F1mpbo0YspRmU.png"
+                                                                                        alt=""/>
+
+                                                                                :
+                                                                                <i className="material-icons" style={{cursor:"pointer"}}>
+                                                                                    android
+                                                                                </i>
+
+                                                                        }
+                                                                    </TooltipButton>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    }
+                                                </div>
+
                                             </td>
 
                                         </tr>

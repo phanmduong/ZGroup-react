@@ -31,6 +31,7 @@ class BookingRegisterSessionComponent extends React.Component {
         this.setState({select_day: select_day, roomId:''});
         this.props.filmAction.loadAllFilms('', this.state.select_day.name);
         this.props.filmAction.loadAllSessions(1,'','','','',-1);
+        this.props.filmAction.clearSeatBySessionId();
 
     }
     updateFormData2(event) {
@@ -39,10 +40,12 @@ class BookingRegisterSessionComponent extends React.Component {
         select_film[field] = event.target.value;
         this.setState({select_film:select_film, roomId:''});
         this.props.filmAction.loadAllSessions(1,'','','',this.state.select_day.name, select_film.id);
+        this.props.filmAction.clearSeatBySessionId();
     }
 
     changeRoom(value) {
         this.setState({roomId: value});
+        this.props.filmAction.loadSeatBySessionId(value);
     }
 
     render() {
@@ -88,7 +91,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} Phòng {room.room_id}{" "}
+                                            {room.start_time} {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
@@ -104,7 +107,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} Phòng {room.room_id}{" "}
+                                            {room.start_time} {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
@@ -113,9 +116,8 @@ class BookingRegisterSessionComponent extends React.Component {
                     </ul>
                     <hr/>
                     {
-                        this.props.isLoading ? <Loading/> :
-                            <BookingGrid
-                                room_id={this.state.roomId}/>
+                        this.props.isLoading||this.props.isLoadingAllSessions||this.props.isLoadingSeatBySessionId ? <Loading/> :
+                            <BookingGrid/>
                     }
 
 
@@ -131,6 +133,8 @@ BookingRegisterSessionComponent.propTypes = {
     allSessions: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isLoadingAllSessions: PropTypes.bool.isRequired,
+    isLoadingSeatBySessionId: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -138,6 +142,10 @@ function mapStateToProps(state) {
         allFilms: state.film.allFilms,
         allSessions: state.film.allSessions,
         isLoading: state.film.isLoading,
+        isLoadingAllSessions: state.film.isLoadingAllSessions,
+        width: state.film.width,
+        height: state.film.height,
+        isLoadingSeatBySessionId: state.film.isLoadingSeatBySessionId,
     };
 }
 

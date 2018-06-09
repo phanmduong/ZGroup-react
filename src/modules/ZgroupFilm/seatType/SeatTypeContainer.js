@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import * as filmAction from "../filmAction";
+import * as seatTypeAction from "./seatTypeAction";
 import * as roomActions from "../../rooms/roomActions";
 import {bindActionCreators} from 'redux';
 import TooltipButton from "../../../components/common/TooltipButton";
@@ -65,7 +65,7 @@ class SeatTypeContainer extends React.Component {
             };
         });
         this.setState({selectRoomId: roomsData[0].key});
-        this.props.filmAction.loadAllSeatTypes(roomsData[0].key);
+        this.props.seatTypeAction.loadAllSeatTypes(roomsData[0].key);
         return [...roomsData];
     }
 
@@ -76,7 +76,7 @@ class SeatTypeContainer extends React.Component {
 
     onChangeRoom(value) {
         this.setState({selectRoomId: value, page: 1});
-        this.props.filmAction.loadAllSeatTypes(value);
+        this.props.seatTypeAction.loadAllSeatTypes(value);
     }
 
     render() {
@@ -160,8 +160,8 @@ class SeatTypeContainer extends React.Component {
                                                                             text="Sửa">
                                                                             <a style={{color: "#878787"}}
                                                                                onClick={()=>{
-                                                                                   this.props.filmAction.toggleSeatTypeModal();
-                                                                                   this.props.filmAction.handleSeatTypeModal(seatType);
+                                                                                   this.props.seatTypeAction.toggleSeatTypeModal();
+                                                                                   this.props.seatTypeAction.handleSeatTypeModal(seatType);
                                                                                }}
                                                                             >
                                                                                 <i className="material-icons">edit</i>
@@ -190,7 +190,7 @@ class SeatTypeContainer extends React.Component {
 }
 
 SeatTypeContainer.propTypes = {
-    filmAction: PropTypes.object.isRequired,
+    seatTypeAction: PropTypes.object.isRequired,
     roomActions: PropTypes.object.isRequired,
     seatTypes: PropTypes.object.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
@@ -206,14 +206,14 @@ function mapStateToProps(state) {
         isLoadingBases: state.rooms.isLoadingBases,
         rooms: state.rooms.rooms,
         bases: state.rooms.bases,
-        isLoadingSeat: state.film.isLoadingSeat,
-        seatTypes: state.film.seatTypes,
+        isLoadingSeat: state.seatType.isLoadingSeat,
+        seatTypes: state.seatType.seatTypes,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        filmAction: bindActionCreators(filmAction, dispatch),
+        seatTypeAction: bindActionCreators(seatTypeAction, dispatch),
         roomActions: bindActionCreators(roomActions, dispatch),
     };
 }

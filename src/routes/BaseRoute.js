@@ -8,6 +8,8 @@ import RegisterManageRoomContainer from "../modules/registerManageRoom/RegisterM
 import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/container/RegisterManageMeetingRoomContainer";
 import test from "../modules/roomRegisterList_TrongDong/container/RoomRegisterListContainer";
 import RoomRegisterListContainer from "../modules/roomRegisterListTrongDong/RoomRegisterListContainer";
+import SeatTypeContainer from "../modules/ZgroupFilm/seatType/SeatTypeContainer";
+import CodeContainer from "../modules/ZgroupFilm/code/CodeContainer";
 
 /**
  * Tab Cơ sở
@@ -60,6 +62,14 @@ export default [
     {
         path: "base/test",
         component: test
+    },
+    {
+        path: "base/film/seat-type",
+        component: SeatTypeContainer
+    },
+    {
+        path: "base/film/code",
+        component: CodeContainer
     },
 
 ];

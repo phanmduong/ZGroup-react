@@ -33,7 +33,7 @@ class SessionComponent extends React.Component {
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
                         <th>FQ</th>
-                        <th>Giá vé</th>
+                        <th>&emsp;Giá vé</th>
                         <th/>
                     </tr>
                     </thead>
@@ -98,28 +98,21 @@ class SessionComponent extends React.Component {
                                 <td>
 
                                     <div className="btn-group-action">
-                                        <div style={{display: "inline-block"}}>
+                                        <TooltipButton text="Sửa" placement="top" style={{display: "inline-block"}}>
                                             <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Sửa"
                                                onClick={() => {
                                                    this.props.filmAction.toggleSessionModal();
                                                    this.props.filmAction.handleSessionModal(session);
                                                }}>
                                                 <i className="material-icons">edit</i>
                                             </a>
-                                        </div>
-
-                                        <div style={{display: "inline-block"}}>
+                                        </TooltipButton>
+                                        <TooltipButton text="Xóa" placement="top" style={{display: "inline-block"}}>
                                             <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Sửa"
                                                onClick={() => this.delSession(session)}>
                                                 <i className="material-icons">delete</i>
                                             </a>
-                                        </div>
+                                        </TooltipButton>
                                     </div>
                                 </td>
                             </tr>

@@ -241,7 +241,7 @@ export default new class DashboardTrongDongStore {
         return [
             {
                 key: 0,
-                value: "Tất cả"
+                value: "Tất cả phòng tại cơ sở"
             },
             ...rooms
         ];
