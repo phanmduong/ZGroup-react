@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FormInputText from "../../components/common/FormInputText";
 import {CirclePicker} from "react-color";
-import ReactSelect from 'react-select';
 import {linkUploadImageEditor, TYPE_NOTI} from "../../constants/constants";
 import ReactEditor from "../../components/common/ReactEditor";
 import * as notificationTypeActions from "./notificationTypeActions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {isEmptyInput, setFormValidation, showTypeNotification} from "../../helpers/helper";
+import Checkbox from "../../components/common/Checkbox";
 
 class StoreNotificationType extends React.Component {
     constructor(props, context) {
@@ -35,11 +35,25 @@ class StoreNotificationType extends React.Component {
         this.setState({notificationType});
     }
 
-    changeType(value) {
-        let type = value && value.value ? value.value : "";
-        let notificationType = {...this.state.notificationType};
-        notificationType.type = type;
-        this.setState({notificationType});
+    changeType(event, item) {
+        if (event.target.checked) {
+            const type = this.state.notificationType.type ? this.state.notificationType.type + ',' + item.value : item.value;
+            this.setState({
+                notificationType: {
+                    ...this.state.notificationType,
+                    type: type
+                }
+            });
+        } else {
+            let type = this.state.notificationType.type ? this.state.notificationType.type.split(',') : [];
+            type = type.filter((value) => value != item.value);
+            this.setState({
+                notificationType: {
+                    ...this.state.notificationType,
+                    type: type.toString()
+                }
+            });
+        }
     }
 
     updateFormData(event) {
@@ -86,13 +100,21 @@ class StoreNotificationType extends React.Component {
                     />
                     <div className="form-group">
                         <label className="label-control">Loại thông báo</label>
-                        <ReactSelect
-                            name="form-field-name"
-                            value={this.state.notificationType.type}
-                            options={TYPE_NOTI}
-                            onChange={this.changeType}
-                            placeholder="Chọn loại thông báo"
-                        />
+                        <div className="row">
+                            {
+                                TYPE_NOTI.map((item, index) => {
+                                    let type = this.state.notificationType.type ? this.state.notificationType.type.split(',') : [];
+                                    const checked = type.indexOf(item.value) >= 0;
+                                    return (
+                                        <div className="col-md-3" key={index}>
+                                            <Checkbox checked={checked} label={item.label} checkBoxLeft
+                                                      onChange={(event) => this.changeType(event, item)}/>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+
                     </div>
                     <div className="form-group">
                         <label className="label-control">Chọn màu</label>

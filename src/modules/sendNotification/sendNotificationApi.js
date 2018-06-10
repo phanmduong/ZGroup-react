@@ -1,7 +1,9 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import moment from "moment/moment";
 
-export function sendNotification(notificationTypeId, name) {
+export function sendNotification(notificationTypeId, name, sendTime) {
     let url = env.MANAGE_API_URL + '/notification/notification-type/send';
     let token = localStorage.getItem('token');
     if (token) {
@@ -10,7 +12,8 @@ export function sendNotification(notificationTypeId, name) {
 
     return axios.post(url, {
         'notification_type_id': notificationTypeId,
-        'name': name
+        'name': name,
+        'send_time': sendTime ? moment(sendTime, [DATETIME_FORMAT_SQL, DATETIME_FORMAT]).format(DATETIME_FORMAT_SQL) : ''
     });
 }
 

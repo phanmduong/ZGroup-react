@@ -126,7 +126,7 @@ const CardBody = ({
                     />
                 )}
                 {isProcess ? (
-                    <ProcessTaskContainer />
+                    <ProcessTaskContainer  />
                 ) : (
                     <div>{card.id && <TaskListsContainer />}</div>
                 )}

@@ -1,0 +1,60 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+  app:
+    container_name: app
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+  cron:
+    container_name: cron
+    build:
+      context: ./docker/cron
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+  supervisor:
+    container_name: supervisor
+    build:
+      context: ./docker/supervisor
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+  web:    
+    container_name: web
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - 80:80
+    depends_on: 
+      - app
+      - database
+      - redis
+  database:
+    container_name: mysql
+    image: mysql:5.7.21
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+        - "33061:3306"
+
+volumes:
+  dbdata:

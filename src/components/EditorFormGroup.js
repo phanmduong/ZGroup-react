@@ -15,7 +15,6 @@ class EditorFormGroup extends React.Component {
             isNotValid && !this.state.isPristine
                 ? "form-group has-error"
                 : "form-group";
-
         return (
             <div className={className}>
                 <label
