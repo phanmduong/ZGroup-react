@@ -118,6 +118,6 @@ export function createRegisterApi(register) {
         "phone": register.phone,
         "email": register.email,
         "base_id" : register.base_id,
-        "subscription_id" : register.subscriptions,
+        "subscription_id" : register.subscription_id,
     });
 }
