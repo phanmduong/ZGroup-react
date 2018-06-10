@@ -63,6 +63,7 @@ class HistoryComponent extends React.Component {
 					onChange={this.historySearchChange}
 					value={this.state.query}
 					placeholder="Nhập tên hoặc số điện thoại người nhận để tìm"
+					disabled={this.props.isLoadingHistory}
 				/>
 				<br />
 				{this.props.isLoadingHistory ? (

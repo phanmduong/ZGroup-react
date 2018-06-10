@@ -58,12 +58,13 @@ class CampaignComponent extends React.Component {
 					onChange={this.templatesSearchChange}
 					value={this.state.query}
 					placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+					disabled={this.props.isLoadingMessage}
 				/>
 				<br />
 				{this.props.isLoadingMessage ? (
 					<Loading />
 				) : (
-					<div className="table-responsive">
+					<div className="table-responsive" style={{ overflowY: 'hidden' }}>
 						<table className="table table-hover">
 							<thead className="text-rose">
 								<tr className="text-rose">
