@@ -17,7 +17,7 @@ class ListRegister extends React.Component {
         return (
             <div className="table-responsive">
                 <table id="datatables"
-                       className="table table-striped table-no-bordered table-hover"
+                       className="table table-no-bordered table-hover"
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead className="text-rose">
                     <tr>
@@ -52,8 +52,27 @@ class ListRegister extends React.Component {
                             btn = ' btn-info';
                             titleCall = 'Đang gọi';
                         }
+
+                        let color = "";
+                        switch (register.status) {
+                            case 1:
+                                color = "success";
+                                break;
+                            case 2:
+                                color = "warning";
+                                break;
+                            case 3:
+                                color = "danger";
+                                break;
+                            case 4:
+                                color = "info";
+                                break;
+                            case 5:
+                                color = "gray";
+                                break;
+                        }
                         return (
-                            <tr key={register.id}>
+                            <tr key={register.id} className={color}>
                                 <td>
                                     <div className="container-dot-bottom-right">
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
@@ -185,12 +204,29 @@ class ListRegister extends React.Component {
                                         delete={this.props.deleteRegister}
                                         object={register}
                                         disabledDelete={!register.is_delete}>
-                                        <a data-toggle="tooltip" title="Đổi lớp"
-                                           onClick={() => this.props.openModalChangeClass(register.id)}
-                                           type="button"
-                                           rel="tooltip">
-                                            <i className="material-icons">swap_vertical_circle</i>
-                                        </a>
+                                        <div className={"flex"}>
+                                            {
+                                                register.status <= 4 &&
+                                                <TooltipButton text={register.status == 3 ? "Học lại" : "Đổi lớp"}
+                                                               placement={"top"}>
+                                                    <a onClick={() => this.props.openModalChangeClass(register.id, (register.status == 3 || register.status == 2))}
+                                                       type="button"
+                                                    >
+                                                        <i className="material-icons">{register.status == 3 ? "restore" : "swap_vertical_circle"}</i>
+                                                    </a>
+                                                </TooltipButton>
+
+                                            }
+                                            {
+                                                register.status == 1 &&
+                                                <a data-toggle="tooltip" title="Bảo lưu"
+                                                   onClick={() => this.props.changeStatusPause(register)}
+                                                   type="button"
+                                                   rel="tooltip">
+                                                    <i className="material-icons">highlight_off</i>
+                                                </a>
+                                            }
+                                        </div>
                                     </ButtonGroupAction>
                                 </td>
                             </tr>);

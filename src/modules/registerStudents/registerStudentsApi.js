@@ -2,20 +2,19 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
-export function getAllRegisterStudent(
-    page = 1, 
-    genId, 
-    search = '', 
-    salerId = '', 
-    campaignId = '', 
-    classId = '', 
-    paid_status = '', 
-    class_status = '', 
-    startTime = '', 
-    endTime = '', 
-    base_id = '', 
-    query_coupon = '', 
-    appointment_payment = '') {
+export function getAllRegisterStudent(page = 1,
+                                      genId,
+                                      search = '',
+                                      salerId = '',
+                                      campaignId = '',
+                                      classId = '',
+                                      paid_status = '',
+                                      class_status = '',
+                                      startTime = '',
+                                      endTime = '',
+                                      base_id = '',
+                                      query_coupon = '',
+                                      appointment_payment = '') {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
         "page=" + page +
@@ -37,8 +36,8 @@ export function getAllRegisterStudent(
     return axios.get(url);
 }
 
-export function getRegisterStudent(page = 1, limit ,genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
-                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '',query_coupon) {
+export function getRegisterStudent(page = 1, limit, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
+                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon) {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -52,7 +51,7 @@ export function getRegisterStudent(page = 1, limit ,genId, search = '', salerId 
         urlType +
         "/register-list?" +
         "page=" + page +
-        "&limit=" + limit+
+        "&limit=" + limit +
         "&gen_id=" + genId +
         "&search=" + search +
         "&saler_id=" + salerId +
@@ -61,7 +60,7 @@ export function getRegisterStudent(page = 1, limit ,genId, search = '', salerId 
         "&status=" + paid_status +
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
-        "&type=" + class_status+
+        "&type=" + class_status +
         "&search_coupon=" + query_coupon
     ;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
@@ -159,9 +158,24 @@ export function deleteRegisterStudent(registerId) {
     );
 }
 
-export function loadClasses(registerId) {
+export function changeStatusPause(registerId) {
+    let url = env.MANAGE_API_URL + "/register-student/change-register-status-pause";
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes?token=` + token;
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+            register_id: registerId
+        }
+    );
+}
+
+export function loadClasses(registerId, isGenNow) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes_without_waiting?token=` + token;
+    if (isGenNow) {
+        url += '&is_gen_now=1';
+    }
     return axios.get(url);
 }
 
@@ -234,7 +248,7 @@ export function saveRegisterApi(register) {
         phone: register.phone,
         email: register.email,
         class_id: register.class_id,
-        coupon : register.coupon,
+        coupon: register.coupon,
     });
 }
 
