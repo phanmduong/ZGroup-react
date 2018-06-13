@@ -300,6 +300,12 @@ class RegisterListContainer extends React.Component {
         this.setState({selectedClassId: res, page: 1});
     }
 
+    changeStatusPause = (register) => {
+        helper.confirm('warning', 'Bảo lưu', `Bạn có muốn cho học viên ${register.name} của lớp ${register.class.name}  thực hiện bảo lưu không?`, () => {
+            this.props.registerActions.changeStatusPause(register.id);
+        });
+    }
+
     onBaseFilterChange(obj) {
         let res = '';
         if (obj) {
@@ -553,12 +559,12 @@ class RegisterListContainer extends React.Component {
         this.setState({showModalChangeClass: false});
     }
 
-    openModalChangeClass(registerId) {
+    openModalChangeClass(registerId, isGenNow) {
         this.setState({
             showModalChangeClass: true,
             selectRegisterId: registerId
         });
-        this.props.registerActions.loadClasses(registerId);
+        this.props.registerActions.loadClasses(registerId, isGenNow);
     }
 
     viewCall(register) {
@@ -708,9 +714,9 @@ class RegisterListContainer extends React.Component {
     }
 
     closeLoadingModal() {
-        
+
         let json = this.props.excel;
-        if(!json || !json.registers || json.registers.length == 0) {
+        if (!json || !json.registers || json.registers.length == 0) {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
@@ -1038,6 +1044,77 @@ class RegisterListContainer extends React.Component {
                                             </div>
 
                                         </Panel>
+                                        <div className="row">
+                                            <div className="col-sm-2">
+                                                <div className={"flex"}>
+                                                    <div
+                                                        style={{
+                                                            background: '#ffffff',
+                                                            border: 'solid 1px',
+                                                            height: '15px',
+                                                            width: '30px',
+                                                            margin: '3px 10px'
+                                                        }}/>
+                                                    < p> Chưa đóng tiền</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <div className={"flex"}>
+                                                    <div style={{
+                                                        background: '#dff0d8',
+                                                        height: '15px',
+                                                        width: '30px',
+                                                        margin: '3px 10px'
+                                                    }}/>
+                                                    <p>Đã nộp tiền</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <div className={"flex"}>
+                                                    <div
+                                                        style={{
+                                                            background: '#fcf8e3',
+                                                            height: '15px',
+                                                            width: '30px',
+                                                            margin: '3px 10px'
+                                                        }}/>
+                                                    <p>Danh sách chờ</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <div className={"flex"}>
+                                                    <div style={{
+                                                        background: '#f2dede',
+                                                        height: '15px',
+                                                        width: '30px',
+                                                        margin: '3px 10px'
+                                                    }}/>
+                                                    <p> Đang bảo lưu</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <div className={"flex"}>
+                                                    <div style={{
+                                                        background: '#daedf7',
+                                                        height: '15px',
+                                                        width: '30px',
+                                                        margin: '3px 10px'
+                                                    }}/>
+                                                    <p>Đang học lại</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <div className={"flex"}>
+                                                    <div style={{
+                                                        background: '#8c8c8c',
+                                                        height: '15px',
+                                                        width: '30px',
+                                                        margin: '3px 10px'
+                                                    }}/>
+                                                    <p>Đã học xong</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {
                                             this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
                                             this.props.isLoading ?
@@ -1051,6 +1128,7 @@ class RegisterListContainer extends React.Component {
                                                     loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
                                                     openModalChangeClass={this.openModalChangeClass}
                                                     openModalChangeInfoStudent={this.openModalChangeInfoStudent}
+                                                    changeStatusPause={this.changeStatusPause}
                                                 />
                                         }
                                         <div className="row float-right">
@@ -1325,8 +1403,10 @@ class RegisterListContainer extends React.Component {
                                                                 }
                                                                 {
                                                                     history.appointment_payment &&
-                                                                    <div className="timeline-body">
-                                                                        Hẹn nộp tiền: {history.appointment_payment}
+                                                                    <div
+                                                                        className="timeline-body">
+                                                                        Hẹn nộp
+                                                                        tiền: {history.appointment_payment}
                                                                     </div>
                                                                 }
 

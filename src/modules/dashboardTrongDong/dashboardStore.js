@@ -16,17 +16,22 @@ export default new class DashboardTrongDongStore {
     @observable roomTypes = [];
     @observable selectedRoomTypeId = 0;
     @observable isLoading = false;
-    @observable registerRooms = {};
+    @observable registerRooms = [];
 
     @action
-    loadDashboard() {
-        this.isLoading = true;
+    loadDashboard(closeModal = null) {
+        if (closeModal == null)
+            this.isLoading = true;
         dashboardApi
             .loadDashboard(this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId)
             .then(res => {
                 this.registerRooms = res.data.data.rooms;
                 this.isLoading = false;
                 // console.log(this.registerRooms,"store");
+                if (closeModal) {
+                    closeModal();
+                    this.isCreatingRegister = false;
+                }
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra.");
@@ -105,6 +110,26 @@ export default new class DashboardTrongDongStore {
     }
 
     @action
+    registerMergeRooms() {
+        let registers = [];
+        if (this.registerRooms) {
+            let registersTemp = [];
+            this.registerRooms.forEach((room) => {
+                registersTemp = [...registersTemp, ...room.register_rooms];
+            });
+
+            registersTemp.forEach((register) => {
+                if (registers.filter((item) => item.register_id == register.register_id).length <= 0) {
+                    registers = [...registers, register];
+                }
+            })
+
+
+        }
+        return registers;
+    }
+
+    @action
     loadCampaigns() {
         this.isLoadingCampaigns = true;
         dashboardApi
@@ -140,13 +165,15 @@ export default new class DashboardTrongDongStore {
         dashboardApi
             .storeRegister(register)
             .then(res => {
-                this.isCreatingRegister = false;
+
 
                 if (res.data.status == 1) {
-                    closeModal();
+
                     if (register.register_id) {
-                        this.loadDashboard();
+                        this.loadDashboard(closeModal);
                     } else {
+                        this.isCreatingRegister = false;
+                        closeModal();
                         this.registerRooms = this.registerRooms.map(room => {
                             let roomData = room;
                             res.data.data.register_rooms.map(register_room => {
@@ -234,7 +261,8 @@ export default new class DashboardTrongDongStore {
         rooms = rooms.map(function (base) {
             return {
                 key: base.id,
-                value: base.name
+                value: base.name,
+                id: base.id
             };
         });
 
@@ -261,9 +289,13 @@ export default new class DashboardTrongDongStore {
     allRoomsSimilar(room) {
         //console.log(room);
         let rooms = this.rooms;
+        if (this.selectedBaseId != 0) {
+            rooms = rooms.filter(room => room.base_id == this.selectedBaseId);
+        }
 
-        rooms = rooms.filter(roomItem => roomItem.base_id === room.base.id && room.type.id === roomItem.room_type_id
-            && roomItem.id != room.id);
+        if (room) {
+            rooms = rooms.filter(roomItem => roomItem.id != room.id);
+        }
 
         return rooms;
     }
