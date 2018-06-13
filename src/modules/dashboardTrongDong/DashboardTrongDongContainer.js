@@ -236,7 +236,7 @@ class DashboardTrongDongContainer extends Component {
     }
 
     render() {
-        console.log(store.registerMergeRooms().map((item) => item.register_id));
+        //console.log(store.registerMergeRooms().map((item) => item.register_id));
         // const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
         const disableCreateRegister = (this.props.route && this.props.route.path === '/dashboard/view-register');
         return (
@@ -281,7 +281,7 @@ class DashboardTrongDongContainer extends Component {
                                 this.renderCalendar(store.registerMergeRooms(), disableCreateRegister)
                             ) : (
                                 store.registerRooms.map((room) => {
-                                    return this.renderCalendar(store.registerMergeRooms(), disableCreateRegister, room)
+                                    return this.renderCalendar(store.registerMergeRooms(), disableCreateRegister, room);
                                 })
                             )
 

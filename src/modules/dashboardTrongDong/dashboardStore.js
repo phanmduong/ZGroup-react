@@ -122,12 +122,12 @@ export default new class DashboardTrongDongStore {
                 if (registers.filter((item) => item.register_id == register.register_id).length <= 0) {
                     registers = [...registers, register];
                 }
-            })
+            });
 
 
         }
         return registers;
-    }
+    } 
 
     @action
     loadCampaigns() {

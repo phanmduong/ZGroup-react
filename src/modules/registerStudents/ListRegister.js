@@ -247,6 +247,7 @@ ListRegister.propTypes = {
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
     loadRegisterStudentBySaler: PropTypes.func,
     openModalChangeInfoStudent: PropTypes.func,
+    changeStatusPause: PropTypes.func,
     genId: PropTypes.number,
 };
 
