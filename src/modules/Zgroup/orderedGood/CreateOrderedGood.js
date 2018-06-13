@@ -212,8 +212,8 @@ class CreateOrderedGood extends React.Component {
                                                 </div>
                                             </div>
 
-                                            <div className="table-responsive">
-                                                <table className="table">
+                                            <div className="table-responsive" style={{ minHeight: 440 }}>
+                                                <table className="table" >
                                                     <thead className="text-rose">
                                                         <tr>
                                                             <th style={{ width: "10%" }}>STT</th>
@@ -222,6 +222,7 @@ class CreateOrderedGood extends React.Component {
                                                             <th style={textAlign}>Phân loại</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Thành tiền</th>
+                                                            <th/>
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
@@ -277,14 +278,70 @@ class CreateOrderedGood extends React.Component {
                                                         </tbody>
 
                                                     }
+
                                                     <tfoot style={{ fontWeight: "bolder", fontSize: "1.1em" }}>
+                                                        {!showAddModal &&
+                                                            <tr>
+                                                                <td />
+                                                                <td><div>
+                                                                    <label>Chọn sản phẩm</label>
+                                                                    <ReactSelect
+                                                                        options={getUnselectedGoods(data.goods, goods, this.isEditModal ? addModalData.id : 0) || []}
+                                                                        onChange={this.updateFormAdd}
+                                                                        value={addModalData.id}
+                                                                        defaultMessage="Chọn sản phẩm"
+                                                                    />
+                                                                </div></td>
+                                                                <td><form role="form" id="form-ordered-good">
+                                                                    <FormInputText
+                                                                        name="quantity" type="number"
+                                                                        label="Số lượng"
+                                                                        value={addModalData.quantity}
+                                                                        minValue="0"
+                                                                        updateFormData={this.updateFormAdd}
+                                                                        onKeyPress={(e) => {
+                                                                            const key = e.keyCode || e.which;
+                                                                            if (key == 13) {
+                                                                                this.addGood();
+                                                                            }
+                                                                        }}
+                                                                        placeholder="Nhập số lượng"
+                                                                        required
+                                                                    /></form>
+                                                                </td>
+                                                                <td />
+                                                                <td style={{textAlign:'right'}}><FormInputText
+                                                                    name="price" type="number"
+                                                                    label="Đơn giá"
+                                                                    value={addModalData.price}
+                                                                    minValue="0"
+                                                                    updateFormData={() => { }}
+                                                                    placeholder="Nhập giá"
+                                                                    disabled
+                                                                /></td>
+                                                                <td><FormInputText
+                                                                    name="" type="number"
+                                                                    label="Thành tiền"
+                                                                    value={addModalData.price * addModalData.quantity}
+                                                                    updateFormData={() => { }}
+                                                                    placeholder="Thành tiền"
+                                                                    disabled
+                                                                /></td>
+                                                                <td><button className="btn btn-fill btn-rose btn-xs" type="button"
+                                                                    onClick={this.addGood}
+                                                                ><i className="material-icons">add</i></button></td>
+                                                            </tr>
+
+                                                        }
                                                         <tr>
                                                             <td />
                                                             <td>Tổng</td>
                                                             <td style={textAlign}>{sumQuantity}</td>
                                                             <td />
                                                             <td colSpan={2} style={textAlign}>{helper.dotNumber(sumPrice)}</td>
+                                                            <td />
                                                         </tr>
+
                                                     </tfoot>
                                                 </table>
                                             </div>
@@ -392,7 +449,7 @@ class CreateOrderedGood extends React.Component {
                                     options={getUnselectedGoods(data.goods, goods, this.isEditModal ? addModalData.id : 0) || []}
                                     onChange={this.updateFormAdd}
                                     value={addModalData.id}
-                                    defaultMessage="Chọn nhà sản phẩm"
+                                    defaultMessage="Chọn sản phẩm"
                                 />
                             </div><br />
                             <FormInputText

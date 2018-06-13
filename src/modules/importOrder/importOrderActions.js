@@ -55,7 +55,7 @@ export function createImportOrder(data) {
                     type: types.CREATE_IMPORT_ORDER_SUCCESS,
                 });
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.CREATE_IMPORT_ORDER_ERROR,
             });
@@ -75,7 +75,7 @@ export function editImportOrder(data) {
                     type: types.EDIT_IMPORT_ORDER_SUCCESS,
                 });
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.EDIT_IMPORT_ORDER_ERROR,
             });

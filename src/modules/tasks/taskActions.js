@@ -282,6 +282,7 @@ export function deleteCard(cardId) {
  * @returns {Function}
  */
 export function createCardGood(card, type = "book") {
+    console.log('check', card);
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD

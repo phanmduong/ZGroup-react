@@ -213,7 +213,7 @@ class CreateBillContainer extends React.Component {
                                         </div>
                                         <div className="col-md-12">
                                             <FormInputText
-                                                label="VAT"
+                                                label="VAT(%)"
                                                 type="number"
                                                 required
                                                 name="vat"
@@ -228,7 +228,7 @@ class CreateBillContainer extends React.Component {
                                                 disabled
                                                 name="vat"
                                                 updateFormData={()=>{}}
-                                                value={vatNum || 0}
+                                                value={helper.dotNumber(vatNum)}
                                             />
                                         </div>
                                         <div className="col-md-12">
@@ -238,7 +238,7 @@ class CreateBillContainer extends React.Component {
                                                 disabled
                                                 name="vat"
                                                 updateFormData={()=>{}}
-                                                value={total || 0}
+                                                value={helper.dotNumber(total)}
                                             />
                                         </div>
                                         <div className="col-md-12"

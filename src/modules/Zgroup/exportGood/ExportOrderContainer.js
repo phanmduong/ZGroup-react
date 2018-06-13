@@ -96,14 +96,14 @@ class ExportOrderContainer extends React.Component {
             let time = moment(e.created_at.date || {}, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
 
             const info = [
-                ['Thông tin', 'Đối tác', 'Người tạo','Người xuất', 'Mã xuất hàng', 'Ngày tạo', 'Trạng thái'],
+                ['Thông tin', 'Đối tác', 'Người tạo','Người xuất', 'Mã xuất hàng', 'Ngày tạo', ],
                 ['',
                     e.company ? e.company.name : "Không tên",
                     e.staff ? e.staff.name : 'Không tên',
                     e.staff_import_or_export ? e.staff_import_or_export.name : 'Không tên',
                     e.command_code ? e.command_code : "Không có",
                     time,
-                    (e.status && e.status > 2) ? "Đã duyệt" : "Chưa duyệt",],
+                ],
                     ['Danh sách sản phẩm'],
             ];
 

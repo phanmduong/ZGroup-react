@@ -63,7 +63,7 @@ class BookCreateCardModalContainer extends React.Component {
                     board_id: this.props.board.id,
                     task_list_id: this.state.taskListTemplate.id,
                     good_id: null,
-                    good_properties: JSON.stringify(goodProperties)
+                    good_properties: JSON.stringify(goodProperties),
                 },
                 this.props.type
             );
@@ -165,6 +165,39 @@ class BookCreateCardModalContainer extends React.Component {
                                                             ...this.props.card
                                                         };
                                                         card.label =
+                                                            option.value;
+                                                        this.props.taskActions.updateCreateCardFormData(
+                                                            card
+                                                        );
+                                                    }}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="control-label">
+                                                    Phân loại
+                                                </label>
+                                                <Select
+                                                    defaultMessage="Chọn loại"
+                                                    label="Phân loại"
+                                                    value={
+                                                        this.props.card.kind
+                                                    }
+                                                    options={[
+                                                        {
+                                                            value: "book_text",
+                                                            label: "Truyện chữ"
+                                                        }, 
+                                                        {
+                                                            value: "book_comic",
+                                                            label: "Truyện tranh"
+                                                        },
+                                                        
+                                                    ]}
+                                                    onChange={option => {
+                                                        let card = {
+                                                            ...this.props.card
+                                                        };
+                                                        card.kind =
                                                             option.value;
                                                         this.props.taskActions.updateCreateCardFormData(
                                                             card

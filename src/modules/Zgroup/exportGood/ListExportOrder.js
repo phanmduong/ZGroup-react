@@ -93,18 +93,18 @@ class ListExportOrder extends React.Component {
                                     <td><ButtonGroupAction
                                         editUrl={"/business/export-order/edit/" + order.id}
                                         disabledDelete={true}
-                                        disabledEdit={order.status > 2}
-                                        children={
-                                            (order.status && (order.status == 2)) ?
-                                                <a data-toggle="tooltip" title="Duyệt"
-                                                    type="button"
-                                                    onClick={() => { return this.confirm(order.id); }}
-                                                    rel="tooltip"
-                                                >
-                                                    <i className="material-icons">done</i>
-                                                </a>
-                                                : <div />
-                                        }
+                                        //disabledEdit={order.status > 2}
+                                        // children={
+                                        //     (order.status && (order.status == 2)) ?
+                                        //         <a data-toggle="tooltip" title="Duyệt"
+                                        //             type="button"
+                                        //             onClick={() => { return this.confirm(order.id); }}
+                                        //             rel="tooltip"
+                                        //         >
+                                        //             <i className="material-icons">done</i>
+                                        //         </a>
+                                        //         : <div />
+                                        // }
                                     /></td>
                                 </tr>
                             );

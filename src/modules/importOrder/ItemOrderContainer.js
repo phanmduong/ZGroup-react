@@ -137,13 +137,14 @@ class ItemOrderContainer extends React.Component {
             let time = moment(e.created_at.date || {}, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
 
             const info = [
-                ['Thông tin', 'Đối tác', 'Người tạo', 'Mã nhập hàng', 'Ngày tạo', 'Trạng thái'],
+                ['Thông tin', 'Đối tác', 'Người tạo', 'Mã nhập hàng', 'Ngày tạo', ],
                 ['',
                     e.company ? e.company.name : "Không tên",
                     e.staff ? e.staff.name : 'Không tên',
                     e.command_code ? e.command_code : "Không có",
                     time,
-                    (e.status && e.status > 2) ? "Đã duyệt" : "Chưa duyệt",],
+                    //(e.status && e.status > 2) ? "Đã duyệt" : "Chưa duyệt",
+                ],
                 ['Danh sách sản phẩm'],
             ];
 
@@ -312,6 +313,7 @@ class ItemOrderContainer extends React.Component {
                                                                 historyImportOrder={this.props.historyImportOrder}
                                                                 paginator={this.props.paginator_history}
                                                                 openInfoModal={this.openInfoModal}
+                                                                isAdmin={this.props.user.role == 2}
 
                                                             />
                                                             <div>
@@ -347,6 +349,7 @@ ItemOrderContainer.propTypes = {
     importOrderActions: PropTypes.object,
     companies: PropTypes.array,
     importOrder: PropTypes.object,
+    user: PropTypes.object,
     itemOrders: PropTypes.arr,
 };
 
@@ -360,6 +363,7 @@ function mapStateToProps(state) {
         companies: state.importOrder.companies,
         importOrder: state.importOrder.importOrder,
         itemOrders: state.importOrder.itemOrders,
+        user: state.login.user,
     };
 }
 

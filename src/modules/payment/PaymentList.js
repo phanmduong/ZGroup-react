@@ -25,7 +25,7 @@ class PaymentList extends React.Component {
                         <th>Bên nhận</th>
                         <th>Số tiền</th>
                         <th>Nội dung</th>
-                        <th>Trạng thái</th>
+                        {/* <th>Trạng thái</th> */}
                         <th/>
                         <th/>
                     </tr>
@@ -41,18 +41,18 @@ class PaymentList extends React.Component {
                                     <td onClick={onFunc}>{pp.receiver.name}</td>
                                     <td onClick={onFunc}>{helper.dotStringNumber(pp.money_value)}</td>
                                     <td onClick={onFunc}> {pp.description ? pp.description : "Không có"}</td>
-                                    <td onClick={onFunc}>
+                                    {/* <td onClick={onFunc}>
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
-                                    </td>
+                                    </td> */}
                                     <td>
                                         { (pp.status === 0) ?
                                         <div className="
                                         btn-group-action">
-                                            <a data-toggle="tooltip" title="Duyệt"
+                                            {/* <a data-toggle="tooltip" title="Duyệt"
                                                onClick={() => this.props.changeStatus(pp.id, 1)} type="button"
                                                rel="tooltip">
                                                 <i className="material-icons">done</i>
-                                            </a>
+                                            </a> */}
                                             <div style={{display: "inline-block"}}>
                                                 <Link data-toggle="tooltip" title="Sửa"
                                                       to={"/business/company/payment/edit/" + pp.id}
