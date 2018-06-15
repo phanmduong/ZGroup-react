@@ -73,7 +73,13 @@ class CardDetailModalContainer extends React.Component {
 
 
     render() {
-
+        let barcode = {
+            value : "Không có",
+            image_url : '',
+        };
+        if(this.props.card.good && this.props.card.good.barcode ){
+            barcode = this.props.card.good.barcode;
+        }
         return (
             <Modal
                 enforceFocus={false}
@@ -92,6 +98,20 @@ class CardDetailModalContainer extends React.Component {
                     <p>
                         Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong>
                         <small style={{color: "#8f8f8f"}}> - {this.props.card.deadline_elapse}</small>
+                    </p>
+                    <p>
+                        Barcode <br/> <strong>{barcode.value}</strong>
+                        {barcode.image_url && (
+															<img
+																style={{
+																	height: '25px',
+                                                                    width: '150px',
+                                                                    marginLeft: 10
+																}}
+																src={barcode.image_url}
+																alt=""
+															/>
+														)}
                     </p>
                 </Modal.Header>
                 <Modal.Body style={{paddingTop: 0}}>

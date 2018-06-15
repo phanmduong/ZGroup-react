@@ -127,6 +127,15 @@ class BookCreateCardModalContainer extends React.Component {
                                                 }
                                                 value={this.props.card.title}
                                             />
+                                            <FormInputText
+                                                placeholder="Nhập giá sản phẩm"
+                                                label="Giá"
+                                                name="price"
+                                                updateFormData={
+                                                    this.updateFormData
+                                                }
+                                                value={this.props.card.price}
+                                            />
 
                                             <div>
                                                 <label className="control-label">
