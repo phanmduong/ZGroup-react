@@ -13,22 +13,17 @@ class BookingRegisterSessionModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            user_info:{
-                name:'',
-                email:'',
-                phone_number:''
-            },
-            confirm: false,
+            confirm:false,
         };
         this.updateFormData = this.updateFormData.bind(this);
     }
     updateFormData(event) {
         const field = event.target.name;
         let film = {
-            ...this.state.user_info,
-            [field]: event.target.value
+            ...this.props.handleBookingModal,
+            [field]: event.target.value,
         };
-        this.setState({...this.state,user_info:film});
+        this.props.filmAction.handleBookingModal(film);
     }
     render(){
         return(
@@ -50,21 +45,21 @@ class BookingRegisterSessionModal extends React.Component {
                         label="Họ tên"
                         name="name"
                         updateFormData={this.updateFormData}
-                        value={this.state.user_info.name || ''}
+                        value={this.props.handleBookingModal.name || ''}
                         required
                     />
                     <FormInputText
                         label="Số điện thoại"
-                        name="phone_number"
+                        name="phone"
                         updateFormData={this.updateFormData}
-                        value={this.state.user_info.phone_number || ''}
+                        value={this.props.handleBookingModal.phone|| ''}
                         required
                     />
                     <FormInputText
                         label="Email"
                         name="email"
                         updateFormData={this.updateFormData}
-                        value={this.state.user_info.email || ''}
+                        value={this.props.handleBookingModal.email || ''}
                         required
                     />
                     <br/>
@@ -84,6 +79,10 @@ class BookingRegisterSessionModal extends React.Component {
                             <button
                                 type="button"
                                 className="btn btn-rose"
+                                onClick={()=>{
+                                    //console.log("a",this.props.handleBookingModal);
+                                    this.props.filmAction.bookingSeat(this.props.handleBookingModal);
+                                }}
                             >
                                 Xác nhận
                             </button>
@@ -105,10 +104,12 @@ class BookingRegisterSessionModal extends React.Component {
 BookingRegisterSessionModal.propTypes = {
     addBookingRegisterSessionModal: PropTypes.bool.isRequired,
     filmAction: PropTypes.object.isRequired,
+    handleBookingModal: PropTypes.object.isRequired,
 };
 function mapStateToProps(state) {
     return {
         addBookingRegisterSessionModal: state.film.addBookingRegisterSessionModal,
+        handleBookingModal: state.film.handleBookingModal,
     };
 }
 

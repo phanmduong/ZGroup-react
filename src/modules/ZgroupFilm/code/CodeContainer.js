@@ -16,6 +16,18 @@ import ShowCodeModal from "./ShowCodeModal";
 
 
 class CodeContainer extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+    }
+
+    componentWillMount() {
+        this.props.codeAction.getCode();
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isAddEditCode !== this.props.isAddEditCode && !nextProps.isAddEditCode) {
+            this.props.codeAction.getCode();
+        }
+    }
     render() {
         return (
             <div className="card">
@@ -32,7 +44,10 @@ class CodeContainer extends React.Component {
                                     <button
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
                                         type="button"
-                                        onClick={() => {this.props.codeAction.openModal();}}>
+                                        onClick={() => {
+                                            this.props.codeAction.openModal();
+                                            this.props.codeAction.handleCodeModal({});
+                                        }}>
 
                                         <strong>+</strong>
                                     </button>
@@ -68,7 +83,8 @@ class CodeContainer extends React.Component {
                     <div>
                         {
                             this.props.isLoadingCode ? <Loading/> :
-                                <CodeComponent/>
+                                <CodeComponent
+                                code={this.props.code}/>
                         }
 
 
@@ -97,15 +113,17 @@ class CodeContainer extends React.Component {
 }
 
 CodeContainer.propTypes = {
-    addEditCodeModal: PropTypes.bool.require,
-    isLoadingCode: PropTypes.bool.require,
-    codeAction: PropTypes.object.require,
+    isLoadingCode: PropTypes.bool.isRequired,
+    isAddEditCode: PropTypes.bool.isRequired,
+    codeAction: PropTypes.object.isRequired,
+    code: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        addEditCodeModal: state.code.addEditCodeModal,
         isLoadingCode: state.code.isLoadingCode,
+        code: state.code.code,
+        isAddEditCode: state.code.isAddEditCode,
     };
 }
 

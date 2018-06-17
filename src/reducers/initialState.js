@@ -43,6 +43,7 @@ export default {
 
         //********Booking
         addBookingRegisterSessionModal: false,
+        handleBookingModal:{},
         isLoadingSeatBySessionId: false,
         seatForBooking: [],
         width:1200,
@@ -58,11 +59,12 @@ export default {
         handleSeatTypeModal:{},
     },
     code: {
-        codes: [],
+        code: [],
         showCodeModal:false,
         addEditCodeModal: false,
         handleCodeModal: {},
         isLoadingCode: false,
+        codes:[],
         isAddEditCode: false,
     },
     bookingHistory: {

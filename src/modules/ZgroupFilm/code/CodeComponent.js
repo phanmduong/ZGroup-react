@@ -4,8 +4,18 @@ import * as codeAction from "./codeAction";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import TooltipButton from '../../../components/common/TooltipButton';
+import {confirm} from "../../../helpers/helper";
 
 class CodeComponent extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.delCode = this.delCode.bind(this);
+    }
+    delCode(code) {
+        confirm("error", "Xóa mã giảm giá", "Bạn có chắc muốn xóa mã giảm giá này", () => {
+            this.props.codeAction.deleteCode(code);
+        });
+    }
     render() {
         return (
             <div className="table-responsive">
@@ -23,54 +33,63 @@ class CodeComponent extends React.Component {
                     </thead>
                     <tbody>
 
+                    {
+                        this.props.code && this.props.code.map((code, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{index+1}</td>
+                                    <td className="film-name">
+                                        {code.description}
+                                    </td>
+                                    <td><b>{code.value}đ</b></td>
+                                    <td>
+                                        {code.number}
+                                    </td>
+                                    <td>
+                                        {code.start_date}
+                                    </td>
+                                    <td>
+                                        {code.end_date}
+                                    </td>
 
-                    <tr>
-                        <td>1</td>
-                        <td className="film-name">
-                            Thế chắc tui thuộc 1% còn lại chắc
-                        </td>
-                        <td><b>10.000 đ</b></td>
-                        <td>
-                            23
-                        </td>
-                        <td>
-                            2917-23-12
-                        </td>
-                        <td>
-                            2917-23-12
-                        </td>
 
+                                    <td>
 
-                        <td>
+                                        <div className="btn-group-action">
+                                            <TooltipButton text="Chi tiết" placement="top"
+                                                           style={{display: "inline-block"}}>
+                                                <a style={{color: "#878787"}}
+                                                   onClick={() => {
+                                                       this.props.codeAction.openShowCodeModal();
+                                                       this.props.codeAction.handlShowCodesModal(code.codes);
+                                                   }}>
+                                                    <i className="material-icons">add_circle</i>
+                                                </a>
+                                            </TooltipButton>
+                                            <TooltipButton text="Sửa" placement="top" style={{display: "inline-block"}}>
+                                                <a style={{color: "#878787"}}
+                                                   onClick={() => {
+                                                       this.props.codeAction.openModal();
+                                                       this.props.codeAction.handleCodeModal(code);
+                                                   }}>
+                                                    <i className="material-icons">edit</i>
+                                                </a>
+                                            </TooltipButton>
 
-                            <div className="btn-group-action">
-                                <TooltipButton text="Chi tiết" placement="top" style={{display: "inline-block"}}>
-                                    <a style={{color: "#878787"}}
-                                       onClick={() => {
-                                           this.props.codeAction.openShowCodeModal();
-                                       }}>
-                                        <i className="material-icons">add_circle</i>
-                                    </a>
-                                </TooltipButton>
-                                <TooltipButton text="Sửa" placement="top" style={{display: "inline-block"}}>
-                                    <a style={{color: "#878787"}}
-                                       onClick={() => {
-                                           this.props.codeAction.openModal();
-                                       }}>
-                                        <i className="material-icons">edit</i>
-                                    </a>
-                                </TooltipButton>
+                                            <TooltipButton text="Xóa" placement="top" style={{display: "inline-block"}}>
+                                                <a style={{color: "#878787"}}
+                                                   onClick={() => {
+                                                       this.delCode(code);
+                                                   }}>
+                                                    <i className="material-icons">delete</i>
+                                                </a>
+                                            </TooltipButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
 
-                                <TooltipButton text="Xóa" placement="top" style={{display: "inline-block"}}>
-                                    <a style={{color: "#878787"}}
-                                       onClick={() => {
-                                       }}>
-                                        <i className="material-icons">delete</i>
-                                    </a>
-                                </TooltipButton>
-                            </div>
-                        </td>
-                    </tr>
 
                     </tbody>
                 </table>
@@ -82,8 +101,9 @@ class CodeComponent extends React.Component {
 }
 
 CodeComponent.propTypes = {
-    addEditCodeModal: PropTypes.bool.require,
-    codeAction: PropTypes.object.require,
+    addEditCodeModal: PropTypes.bool.isRequired,
+    codeAction: PropTypes.object.isRequired,
+    code: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

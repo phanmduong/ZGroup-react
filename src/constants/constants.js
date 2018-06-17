@@ -497,7 +497,7 @@ export const CRM_TYPE_CLIENT = [
         key: 3,
         value: 'Trung thành'
     },
-]
+];
 
 export const STATUS_ISSUE = {
     pending: {

@@ -398,3 +398,25 @@ export function clearSeatBySessionId() {
         type: types.CLEAR_SEAT_BY_SESSION_ID
     });
 }
+
+export function handleBookingModal(handleBookingModal) {
+    return ({
+        type: types.HANDLE_BOOKING_MODAL,
+        handleBookingModal
+    });
+}
+
+export function bookingSeat(booking) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLEAR_SEAT_BY_SESSION_ID
+        });
+        filmApi.bookingSeatApi(booking)
+            .then(()=>{
+                dispatch({
+                    type: types.CLEAR_SEAT_BY_SESSION_ID
+                });
+            });
+    };
+
+}

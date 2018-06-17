@@ -6,17 +6,21 @@ import {bindActionCreators} from "redux";
 import * as codeAction from "./codeAction";
 
 
-
 class ShowCodeModal extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
-    render(){
-        return(
+
+    render() {
+        let a = this.props.codes.filter((code) => code.status === 0);
+        let b = this.props.codes.filter((code) => code.status === 1);
+        return (
             <Modal
                 show={this.props.showCodeModal}
-                onHide={() => {this.props.codeAction.openShowCodeModal();}}>
-                <a onClick={()=>{
+                onHide={() => {
+                    this.props.codeAction.openShowCodeModal();
+                }}>
+                <a onClick={() => {
                     this.props.codeAction.openShowCodeModal();
                 }}
                    id="btn-close-modal"/>
@@ -26,31 +30,27 @@ class ShowCodeModal extends React.Component {
                 <Modal.Body>
                     <div className="row">
                         <div className="col-md-6">
-                            <h4 style={{fontWeight:"500"}}>Mã giảm giá chưa dùng (23)
+                            <h4 style={{fontWeight: "500"}}>Mã giảm giá chưa dùng
                             </h4>
-                            <p>1. TT1oT9qDFPIl</p>
-                            <p>2. TT1oT9qDFPIl</p>
-                            <p>3. TT1oT9qDFPIl</p>
-                            <p>4. TT1oT9qDFPIl</p>
-                            <p>5. TT1oT9qDFPIl</p>
-                            <p>6. TT1oT9qDFPIl</p>
+                            {
+                                a && a.map((code, index) => {
+                                    return(
+                                        <p key={index}>{index + 1}. {code.code}</p>
+                                    );
+                                })
+                            }
                         </div>
                         <div className="col-md-6">
-                            <h4 style={{fontWeight:"500"}}>
-                                Mã giảm giá đã dùng (17)
+                            <h4 style={{fontWeight: "500"}}>
+                                Mã giảm giá đã dùng
                             </h4>
-                            <p>1. TT1oT9qDFPIl</p>
-                            <p>2. TT1oT9qDFPIl</p>
-                            <p>3. TT1oT9qDFPIl</p>
-                            <p>4. TT1oT9qDFPIl</p>
-                            <p>5. TT1oT9qDFPIl</p>
-                            <p>6. TT1oT9qDFPIl</p>
-                            <p>7. TT1oT9qDFPIl</p>
-                            <p>8. TT1oT9qDFPIl</p>
-                            <p>9. TT1oT9qDFPIl</p>
-                            <p>10. TT1oT9qDFPIl</p>
-                            <p>11. TT1oT9qDFPIl</p>
-                            <p>12. TT1oT9qDFPIl</p>
+                            {
+                                b && b.map((code, index) => {
+                                    return(
+                                        <p key={index}>{index + 1}. {code.code}</p>
+                                    );
+                                })
+                            }
                         </div>
                     </div>
                     <div style={{textAlign: "right"}}>
@@ -58,7 +58,7 @@ class ShowCodeModal extends React.Component {
                             <button
                                 type="button"
                                 className="btn"
-                                onClick={()=>{
+                                onClick={() => {
                                     this.props.codeAction.openShowCodeModal();
                                 }}
                             >
@@ -72,14 +72,17 @@ class ShowCodeModal extends React.Component {
         );
     }
 }
+
 ShowCodeModal.propTypes = {
-    codeAction: PropTypes.object.require,
-    showCodeModal: PropTypes.bool.require,
+    codeAction: PropTypes.object.isRequired,
+    codes: PropTypes.array.isRequired,
+    showCodeModal: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        showCodeModal: state.code.showCodeModal
+        showCodeModal: state.code.showCodeModal,
+        codes: state.code.codes,
     };
 }
 

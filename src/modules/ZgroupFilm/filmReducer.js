@@ -373,6 +373,11 @@ export default function filmReducer(state = initialState.film, action) {
                 width: 1200,
                 height: 10
             };
+        case types.HANDLE_BOOKING_MODAL:
+            return{
+                ...state,
+                handleBookingModal: action.handleBookingModal,
+            };
         default:
             return state;
     }

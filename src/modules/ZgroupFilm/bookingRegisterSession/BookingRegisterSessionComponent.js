@@ -46,6 +46,9 @@ class BookingRegisterSessionComponent extends React.Component {
     changeRoom(value) {
         this.setState({roomId: value});
         this.props.filmAction.loadSeatBySessionId(value);
+        this.props.filmAction.handleBookingModal({...this.props.handleBookingModal,
+            session_id: value
+        });
     }
 
     render() {
@@ -81,7 +84,7 @@ class BookingRegisterSessionComponent extends React.Component {
                         {this.props.allSessions.map((room, index) => {
                             if (this.state.roomId === room.id) {
                                 return (
-                                    <li className="active">
+                                    <li className="active" key={index}>
                                         <a
                                             href={"#" + index}
                                             data-toggle="tab"
@@ -97,7 +100,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                 );
                             } else {
                                 return (
-                                    <li className="">
+                                    <li className="" key={index}>
                                         <a
                                             href={"#" + index}
                                             data-toggle="tab"
@@ -132,6 +135,7 @@ BookingRegisterSessionComponent.propTypes = {
     allFilms: PropTypes.array.isRequired,
     allSessions: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
+    handleBookingModal: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingAllSessions: PropTypes.bool.isRequired,
     isLoadingSeatBySessionId: PropTypes.bool.isRequired,
@@ -146,6 +150,7 @@ function mapStateToProps(state) {
         width: state.film.width,
         height: state.film.height,
         isLoadingSeatBySessionId: state.film.isLoadingSeatBySessionId,
+        handleBookingModal: state.film.handleBookingModal,
     };
 }
 

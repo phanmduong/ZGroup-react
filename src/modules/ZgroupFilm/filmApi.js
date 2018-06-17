@@ -182,3 +182,15 @@ export function loadSeatBySessionIdApi(id) {
     let url = env.API_URL + "/session/"+ id +"/seat";
     return axios.get(url);
 }
+
+
+//dat ve
+///booking/seat
+export function bookingSeatApi(booking) {
+    let url = env.MANAGE_API_URL + "/booking/seat";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, booking);
+}

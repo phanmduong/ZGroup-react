@@ -10,6 +10,13 @@ import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 
 class BookingHistoryContainer extends React.Component{
+    constructor(props, context) {
+        super(props, context);
+    }
+
+    componentWillMount() {
+        this.props.bookingHistoryAction.getBookingHistory();
+    }
     render(){
         return (
             <div className="card">

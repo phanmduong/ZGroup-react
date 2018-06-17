@@ -6,12 +6,16 @@ import {bindActionCreators} from 'redux';
 import * as d3 from "d3";
 
 //import * as helper from "../../../helpers/helper";
-
-
+let ghedachon = [];
 class BookingGrid extends React.Component {
+
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            a: [],
+        };
         this.creatBarChart = this.creatBarChart.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     componentDidMount() {
@@ -19,15 +23,31 @@ class BookingGrid extends React.Component {
 
     }
 
-    componentDidUpdate() {
-        this.creatBarChart();
+    submit(){
+
+        let seat_ids = ghedachon.map(a=>{
+            return {
+                id:a.id
+            };
+
+        });
+        //console.log("a",seat_ids);
+        this.props.filmAction.toggleBookingModal();
+        this.props.filmAction.handleBookingModal({
+            ...this.props.handleBookingModal,
+            seat: seat_ids
+        });
+        //console.log("b", this.props.handleBookingModal);
     }
+
+    // componentDidUpdate() {
+    //     this.creatBarChart();
+    // }
 
     creatBarChart() {
         const node = this.node;
         const node2 = this.node2;
         let data = this.props.seatForBooking;
-        let ghedachon = [];
         const height = this.props.height;
         const width = this.props.width;
         let sum = 0;
@@ -53,7 +73,6 @@ class BookingGrid extends React.Component {
         });
 
         function add(dataSet) {
-            //let rightColum =
             d3.select(node2)
                 .selectAll("span")
                 .data(dataSet)
@@ -63,20 +82,18 @@ class BookingGrid extends React.Component {
                 .text(function (d) {
                     return d.name + "         ";
                 });
-
         }
 
         function render(dataset) {
             d3.select('svg').selectAll('g').data(dataset)
-                .on('click', function (d) {
-
+                .on('click', d => {
                     if (d.archived === 1) {
                         sum = sum - parseInt(d.price);
                         d.archived = 0;
                         ghedachon = ghedachon.filter((e) => e !== d);
                         d3.selectAll(".total-pay")
                             .text(
-                                sum/1000+".000 VNĐ"
+                                sum / 1000 + ".000 VNĐ"
                             );
                         add(ghedachon);
                         render(data);
@@ -86,7 +103,7 @@ class BookingGrid extends React.Component {
                         ghedachon = [...ghedachon, d];
                         d3.selectAll(".total-pay")
                             .text(
-                                (sum)/1000+".000 VNĐ"
+                                (sum) / 1000 + ".000 VNĐ"
                             );
                         add(ghedachon);
                         render(data);
@@ -98,10 +115,12 @@ class BookingGrid extends React.Component {
 
             });
 
+
         }
 
         render(data);
         add(ghedachon);
+
 
     }
 
@@ -117,7 +136,7 @@ class BookingGrid extends React.Component {
                                 type="button"
                                 className="btn btn-rose"
                                 onClick={() => {
-                                    this.props.filmAction.toggleBookingModal();
+                                    this.submit();
                                 }}
                             >
                                 Xác nhận
@@ -142,9 +161,9 @@ class BookingGrid extends React.Component {
 }
 
 BookingGrid.propTypes = {
-    room_id: PropTypes.number.isRequired,
     filmAction: PropTypes.object.isRequired,
-    rooms: PropTypes.object.isRequired,
+    rooms: PropTypes.array.isRequired,
+    handleBookingModal: PropTypes.object.isRequired,
     seatForBooking: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
@@ -156,6 +175,7 @@ function mapStateToProps(state) {
         seatForBooking: state.film.seatForBooking,
         width: state.film.width,
         height: state.film.height,
+        handleBookingModal: state.film.handleBookingModal,
     };
 }
 
@@ -166,3 +186,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingGrid);
+
