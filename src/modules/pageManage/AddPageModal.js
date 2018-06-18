@@ -56,14 +56,14 @@ class AddPageModal extends Component {
                 <Modal.Body>
                         <form id="form-page">
                             <FormInputText
-                                label="Tên"
+                                label="Tên tiếng việt"
                                 required
                                 name="name"
                                 updateFormData={this.updateFormPage}
                                 value={store.page && store.page.name}
                             />
                             <FormInputText
-                                label="Email"
+                                label="Tên tiếng anh"
                                 required
                                 name="name_en"
                                 updateFormData={this.updateFormPage}

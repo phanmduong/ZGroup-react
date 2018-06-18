@@ -9,6 +9,10 @@ import Select from "../../components/common/Select";
 import AddPageModal from "./AddPageModal";
 import AddPageItemModal from "./AddPageItemModal";
 import ListPageItems from "./ListPageItems";
+import ListProducts from "./ListProducts";
+import Pagination from "../../components/common/Pagination";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import AddProductModal from "./AddProductModal";
 
 
 @observer
@@ -18,6 +22,7 @@ class PageManageContainer extends Component {
         this.onChangePage = this.onChangePage.bind(this);
         this.openAddPageModal = this.openAddPageModal.bind(this);
         this.openAddPageItemModal = this.openAddPageItemModal.bind(this);
+        this.openAddProduct = this.openAddProduct.bind(this);
     }
 
     componentWillMount() {
@@ -26,11 +31,18 @@ class PageManageContainer extends Component {
 
     onChangePage(value) {
         store.page_id = value;
-        store.loadPageItems(store.page_id);
+        if (value === '4' || value === '5') {
+            store.loadProducts(value,1);
+        }
+        store.loadPageItems(value);
     }
 
     openAddPageModal() {
         store.isOpenAddPageModal = true;
+    }
+
+    openAddProduct() {
+        store.isOpenAddProductModal = true;
     }
 
     openAddPageItemModal() {
@@ -39,6 +51,7 @@ class PageManageContainer extends Component {
     }
 
     render() {
+        const Add = <Tooltip id="tooltip">Thêm bài viết</Tooltip>;
 
         return (
             <div>
@@ -86,29 +99,66 @@ class PageManageContainer extends Component {
                                                                         Thêm trang
                                                                     </a>
                                                                 </li>
-                                                                <li>
-                                                                    <a
-                                                                        onClick={() => this.openAddPageItemModal()}
-                                                                    >
-                                                                        Thêm từ khóa
-                                                                    </a>
-                                                                </li>
+                                                                {/*<li>*/}
+                                                                {/*<a*/}
+                                                                {/*onClick={() => this.openAddPageItemModal()}*/}
+                                                                {/*>*/}
+                                                                {/*Thêm từ khóa*/}
+                                                                {/*</a>*/}
+                                                                {/*</li>*/}
                                                             </ul>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <ListPageItems/>
-
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    {
+                                        store.page_id === '4' || store.page_id === '5' ?
+                                            <div className="card">
+                                                <div className="card-content">
+                                                    <div className="tab-content">
+
+                                                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                                                            <div style={{display: "flex"}}>
+                                                                <h4 className="card-title">
+                                                                    <strong>Bài viết</strong>
+                                                                </h4>
+                                                                <div>
+                                                                    <OverlayTrigger
+                                                                        placement="top"
+                                                                        overlay={Add}
+                                                                    >
+                                                                        <a
+                                                                            className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                                            onClick={()=>this.openAddProduct()}
+                                                                        >
+                                                                            <strong>+</strong>
+                                                                        </a>
+                                                                    </OverlayTrigger>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ListProducts/>
+                                                        <Pagination
+                                                            totalPages={store.totalProductPages}
+                                                            currentPage={store.productPage}
+                                                            loadDataPage={(productPage) => store.loadProducts(store.page_id,productPage)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div> : null
+                                    }
                                 </div>
                             </div>
                         )
                 }
                 <AddPageModal/>
                 <AddPageItemModal/>
+                <AddProductModal/>
             </div>
         );
     }

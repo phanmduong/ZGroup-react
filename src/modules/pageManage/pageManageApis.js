@@ -20,6 +20,18 @@ export function loadPageItemsApi(page_id) {
     }
     return axios.get(url);
 }
+export function loadProductsApi(page_id,productPage) {
+    let url = env.MANAGE_API_URL + "/trongdong/products/" + page_id + "?limit=2";
+    let token = localStorage.getItem("token");
+    if (productPage) {
+        url += "&page=" + productPage;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
 
 export function createPageApi(page) {
     let url = env.MANAGE_API_URL + "/trongdong/pages/store";
@@ -45,6 +57,20 @@ export function editPageItemApi(pageItem) {
     });
 }
 
+export function createPageItemApi(pageItem, page_id) {
+    let url = env.MANAGE_API_URL + "/trongdong/page/" + page_id;
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,{
+        name : pageItem.name,
+        value_en : pageItem.value_en,
+        value_vi : pageItem.value_vi,
+        // keyword : pageItem.keyword,
+    });
+}
+
 export function changeIsActivedApi(id) {
     let url = env.MANAGE_API_URL + "/trongdong/change-is-actived/" +id;
     let token = localStorage.getItem("token");
@@ -52,6 +78,18 @@ export function changeIsActivedApi(id) {
         url += "?token=" + token;
     }
     return axios.put(url);
+}
+
+
+export function uploadImage(file, completeHandler, error) {
+    let url = env.API_URL + "/upload-image-froala";
+    let formdata = new FormData();
+    formdata.append("image", file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+    ajax.addEventListener("error", error, false);
 }
 
 

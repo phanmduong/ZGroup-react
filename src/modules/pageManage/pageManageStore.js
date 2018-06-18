@@ -6,7 +6,7 @@ import * as helper from "../../helpers/helper";
 export default new class pageManageStore {
     @observable isLoadingPages = false;
     @observable pages = [];
-    @observable page_id = 0;
+    @observable page_id = 1;
     @observable page = {}; // name,name_en
 
     @observable item_id = 0;
@@ -14,12 +14,25 @@ export default new class pageManageStore {
     @observable pageItem = {}; //
     @observable pageItems = [];
 
+    @observable productPage = 0;
+    @observable totalProductPages = 0;
+    @observable isLoadingProducts = false;
+    @observable products = [];
+    @observable product = {
+        isUpdatingImage : false,
+        imageUrl : '',
+
+    };
+    @observable product_id = 0;
+
     @observable isEditPageItem = false;
 
     @observable isCreatingPage = false;
     @observable isCreatingPageItem = false;
     @observable isOpenAddPageModal = false;
     @observable isOpenAddPageItemModal = false;
+
+    @observable isOpenAddProductModal = false;
 
     @observable isEdittingPageItem = false;
 
@@ -32,6 +45,7 @@ export default new class pageManageStore {
             .then(res => {
                 this.pages = res.data.data;
                 this.isLoadingPages = false;
+                this.loadPageItems(this.pages[0].id);
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
@@ -53,6 +67,23 @@ export default new class pageManageStore {
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 this.isLoadingPageItems = false;
+            });
+    }
+
+    @action
+    loadProducts(page_id, productPage) {
+        this.productPage = productPage;
+        this.isLoadingProducts = true;
+        pageManageApis
+            .loadProductsApi(page_id, this.productPage)
+            .then(res => {
+                this.products = res.data.products;
+                this.isLoadingProducts = false;
+                this.totalProductPages = res.data.paginator.total_pages;
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                this.isLoadingProducts = false;
             });
     }
 
@@ -106,12 +137,12 @@ export default new class pageManageStore {
                 this.pageItems = this.pageItems.map((item) => {
 
                     if (item.id === id) {
-                        return {...item, is_actived: 1- is_actived};
+                        return {...item, is_actived: 1 - is_actived};
                     }
                     return item;
                 });
                 if (is_actived) {
-                    helper.showNotification("Đã ẩn" + name);
+                    helper.showNotification("Đã ẩn " + name);
                 } else {
                     helper.showNotification("Đã hiện " + name);
                 }
@@ -123,6 +154,65 @@ export default new class pageManageStore {
 
     @action
     createPageItem() {
+        this.isCreatingPageItem = true;
+        pageManageApis
+            .createPageItemApi(this.pageItem, this.page_id)
+            .then((res) => {
+                this.isCreatingPageItem = false;
+                this.pageItems = [res.data.data.page_item, ...this.pageItems];
+                //     this.pageItems.map((item) => {
+                //     if (item.id === this.pageItem.id) {
+                //         return this.pageItem;
+                //     }
+                //     return item;
+                // });
+                this.isOpenAddPageItemModal = false;
+                helper.showNotification("Thêm " + this.pageItem.name + " thành công");
+                this.pageItem = {};
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                this.isCreatingPageItem = false;
+            });
+    }
+
+    @action
+    uploadImageSuccess(imageUrl) {
+            this.product = {
+            ...this.product,
+            isUpdatingImage: false,
+            updateImageError: false,
+            imageUrl: imageUrl,
+        };
+    }
+
+    @action
+    uploadImageFailed() {
+        this.product = {
+            ...this.product,
+            isUpdatingImage: false,
+            updateImageError: true,
+        };
+    }
+
+    @action
+    uploadImage(file) {
+        this.product = {
+            ...this.product,
+            isUpdatingImage: true,
+            updateImageError: false,
+        };
+        pageManageApis.uploadImage(
+            file,
+            function (event) {
+                let data = JSON.parse(event.currentTarget.response);
+                this.uploadImageSuccess(data.link);
+            },
+            () => {
+                helper.showErrorNotification("Đăng ảnh thất bại.");
+                this.uploadImageFailed();
+            },
+        );
     }
 
 
