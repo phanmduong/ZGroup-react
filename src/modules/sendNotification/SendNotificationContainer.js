@@ -7,13 +7,15 @@ import * as sendNotificationApi from './sendNotificationApi';
 import * as sendNotificationActions from './sendNotificationActions';
 import FormInputText from "../../components/common/FormInputText";
 import {setFormValidation} from "../../helpers/helper";
+import FormInputDateTime from "../../components/common/FormInputDateTime";
 
 class SendNotificationContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             selectedNotificationType: null,
-            name: ''
+            name: '',
+            send_time: ''
         };
         this.loadNotificationTypes = this.loadNotificationTypes.bind(this);
         this.selectNotificationType = this.selectNotificationType.bind(this);
@@ -50,7 +52,7 @@ class SendNotificationContainer extends React.Component {
     sendNotification() {
         setFormValidation("#form-send-notification-type");
         if ($('#form-send-notification-type').valid()) {
-            this.props.sendNotificationActions.sendNotification(this.state.selectedNotificationType.id, this.state.name, this.props.closeModal);
+            this.props.sendNotificationActions.sendNotification(this.state.selectedNotificationType.id, this.state.name, this.state.send_time, this.props.closeModal);
         }
     }
 
@@ -79,6 +81,11 @@ class SendNotificationContainer extends React.Component {
                         value={this.state.selectedNotificationType}
                     />
                 </div>
+                <FormInputDateTime
+                    label={"Thời gian gửi"}
+                    id={'send_time_notification'}
+                    value={this.state.send_time}
+                    updateFormData={(event) => this.setState({send_time: event.target.value})}/>
                 {this.props.isSending ?
                     (
                         <button className="btn btn-fill btn-rose disabled" type="button">

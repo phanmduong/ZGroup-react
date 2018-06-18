@@ -27,6 +27,8 @@ class Calendar extends React.Component {
 
         let today = new Date();
 
+        let dateClickFun = this.props.onClickDay;
+
         $calendar.fullCalendar({
             viewRender: function (view, element) {
                 if (view.name != "month") {
@@ -63,16 +65,13 @@ class Calendar extends React.Component {
             eventClick: event => {
                 this.props.onClick(event);
             },
-            // dayClick: date =>{
-            //     this.props.onClickDay(date);
-            // },
-            dayClick: (date) => {
-                if (this.props.onClickDay) {
-                    this.props.onClickDay(date);
+            dayClick: function (date) {
+                $('td.fc-day.fc-widget-content').css('background-color', 'white');
+                $(this).css('background-color', '#bfbdbd');
+                if (dateClickFun) {
+                    dateClickFun(date);
                 }
-            },
 
-            select: ()=> {
             },
             editable: true,
             droppable: true,

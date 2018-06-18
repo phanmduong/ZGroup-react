@@ -7,6 +7,8 @@
   },
   "scripts": {
     "preinstall": "node tools/nodeVersionCheck.js",
+    "start:group": "MODULE=group npm-run-all --parallel open:src lint:watch",
+    "build:group": "npm run lint && rimraf ./dist/group && mkdir dist/group && MODULE=group babel-node tools/build/module.js",
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
@@ -79,7 +81,8 @@
     "start:issue": "MODULE=issue npm-run-all --parallel open:src lint:watch",
     "build:issue": "npm run lint && rimraf ./dist/issue && mkdir dist/issue && MODULE=issue babel-node tools/build/module.js",
 
-
+    "start:crm": "MODULE=crm npm-run-all --parallel open:src lint:watch",
+    "build:crm": "npm run lint && rimraf ./dist/crm && mkdir dist/crm && MODULE=crm babel-node tools/build/module.js",
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",

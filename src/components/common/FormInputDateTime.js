@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {DATETIME_FORMAT} from "../../constants/constants";
-import moment from "moment";
 
 class FormInputDateTime extends React.Component {
     constructor(props, context) {
@@ -25,9 +24,9 @@ class FormInputDateTime extends React.Component {
                 clear: "fa fa-trash",
                 close: "fa fa-remove",
             },
-            defaultDate: this.props.value
-                ? moment(this.props.value, format)
-                : this.props.defaultDate ? this.props.defaultDate : moment(),
+            // defaultDate: this.props.value
+            //     ? moment(this.props.value, format)
+            //     : this.props.defaultDate ? this.props.defaultDate : moment(),
             format,
         });
         if (this.props.minDate && this.props.minDate !== "") {
@@ -88,6 +87,7 @@ FormInputDateTime.propTypes = {
     defaultDate: PropTypes.object,
     maxDate: PropTypes.string,
     minDate: PropTypes.string,
+    disabled: PropTypes.bool,
 };
 
 export default FormInputDateTime;

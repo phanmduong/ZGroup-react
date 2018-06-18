@@ -10,14 +10,12 @@ import Checkbox from '../../components/common/Checkbox';
 import FormInputText from '../../components/common/FormInputText';
 import UsersList from './UsersList';
 import Pagination from '../../components/common/Pagination';
-import  {isEmptyInput} from '../../helpers/helper';
+import { isEmptyInput, showErrorNotification } from '../../helpers/helper';
 import PropertyReactSelectValue from '../createProduct/PropertyReactSelectValue';
 import Select from 'react-select';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
 import { searchStaffs, getReceiversModal } from './campaignApi';
 import Loading from '../../components/common/Loading';
-
-//import Loading from "../../components/common/Loading";
 
 class AddReceiverModal extends React.Component {
 	constructor(props, context) {
@@ -72,10 +70,7 @@ class AddReceiverModal extends React.Component {
 					chosenItems: chosenItems
 				});
 			}
-		if (
-			nextProps.isChoosingReceivers !== this.props.isChoosingReceivers &&
-			!nextProps.isChoosingReceivers
-		) {
+		if (nextProps.isChoosingReceivers !== this.props.isChoosingReceivers && !nextProps.isChoosingReceivers) {
 			let time = {
 				startTime: '',
 				endTime: ''
@@ -162,18 +157,26 @@ class AddReceiverModal extends React.Component {
 			isAll: false,
 			chosenItems: []
 		});
-		this.props.campaignAction.getReceiversModal(
-			this.campaignId,
-			1,
-			this.state.gens,
-			this.state.classes,
-			this.state.time.startTime,
-			this.state.time.endTime,
-			value,
-			this.state.carer_id,
-			this.state.rate,
-			this.state.limit,
-			this.state.paid_course_quantity
+		if (this.timeOut !== null) {
+			clearTimeout(this.timeOut);
+		}
+		this.timeOut = setTimeout(
+			function() {
+				this.props.campaignAction.getReceiversModal(
+					this.campaignId,
+					1,
+					this.state.gens,
+					this.state.classes,
+					this.state.time.startTime,
+					this.state.time.endTime,
+					value,
+					this.state.carer_id,
+					this.state.rate,
+					this.state.limit,
+					this.state.paid_course_quantity
+				);
+			}.bind(this),
+			500
 		);
 	}
 
@@ -295,18 +298,26 @@ class AddReceiverModal extends React.Component {
 			isAll: false,
 			chosenItems: []
 		});
-		this.props.campaignAction.getReceiversModal(
-			this.campaignId,
-			1,
-			this.state.gens,
-			this.state.classes,
-			this.state.time.startTime,
-			this.state.time.endTime,
-			this.state.top,
-			this.state.carer_id,
-			this.state.rate,
-			this.state.limit,
-			value
+		if (this.timeOut !== null) {
+			clearTimeout(this.timeOut);
+		}
+		this.timeOut = setTimeout(
+			function() {
+				this.props.campaignAction.getReceiversModal(
+					this.campaignId,
+					1,
+					this.state.gens,
+					this.state.classes,
+					this.state.time.startTime,
+					this.state.time.endTime,
+					this.state.top,
+					this.state.carer_id,
+					this.state.rate,
+					this.state.limit,
+					value
+				);
+			}.bind(this),
+			500
 		);
 	}
 
@@ -435,14 +446,14 @@ class AddReceiverModal extends React.Component {
 				this.props.campaignAction.chooseReceivers(this.campaignId, users);
 			});
 		} else {
-			this.props.campaignAction.chooseReceivers(this.campaignId, this.state.chosenItems);
+			if (this.state.chosenItems.length === 0) {
+				showErrorNotification('Bạn chưa chọn người để thêm vào nhóm');
+			} else this.props.campaignAction.chooseReceivers(this.campaignId, this.state.chosenItems);
 		}
 	}
 
 	render() {
-		let first = this.props.totalCountModal
-			? (this.props.currentPageModal - 1) * this.props.limitModal + 1
-			: 0;
+		let first = this.props.totalCountModal ? (this.props.currentPageModal - 1) * this.props.limitModal + 1 : 0;
 		let end =
 			this.props.currentPageModal < this.props.totalPagesModal
 				? this.props.currentPageModal * this.props.limitModal
@@ -461,7 +472,8 @@ class AddReceiverModal extends React.Component {
 							position: 'relative',
 							width: '100%',
 							margin: '25px 0'
-						}}>
+						}}
+					>
 						<div className="row">
 							<div className="col-md-6">
 								<Select.Creatable
@@ -476,6 +488,7 @@ class AddReceiverModal extends React.Component {
 									onChange={this.gensSearchChange}
 									value={this.state.gens}
 									valueComponent={PropertyReactSelectValue}
+									disabled={this.props.isLoadingReceiversModal}
 								/>
 							</div>
 							<div className="col-md-6">
@@ -491,6 +504,7 @@ class AddReceiverModal extends React.Component {
 									onChange={this.classesSearchChange}
 									value={this.state.classes}
 									valueComponent={PropertyReactSelectValue}
+									disabled={this.props.isLoadingReceiversModal}
 								/>
 							</div>
 							<div className="col-md-6">
@@ -526,6 +540,7 @@ class AddReceiverModal extends React.Component {
 												onChange={(value) => {
 													this.changeRate(value);
 												}}
+												disable={this.props.isLoadingReceiversModal}
 											/>
 										</div>
 									</div>
@@ -541,21 +556,12 @@ class AddReceiverModal extends React.Component {
 										onChange={this.changeStaff}
 										value={this.state.carer_id}
 										optionRenderer={(option) => {
-											return (
-												<ItemReactSelect
-													label={option.label}
-													url={option.avatar_url}
-												/>
-											);
+											return <ItemReactSelect label={option.label} url={option.avatar_url} />;
 										}}
 										valueRenderer={(option) => {
-											return (
-												<ItemReactSelect
-													label={option.label}
-													url={option.avatar_url}
-												/>
-											);
+											return <ItemReactSelect label={option.label} url={option.avatar_url} />;
 										}}
+										disabled={this.props.isLoadingReceiversModal}
 									/>
 								</div>
 							</div>
@@ -566,6 +572,7 @@ class AddReceiverModal extends React.Component {
 									onChange={this.chooseAll}
 									name="isAll"
 									checked={this.state.isAll}
+									disabled={this.props.isLoadingReceiversModal}
 								/>
 							</div>
 							<div className="col-md-4">
@@ -577,6 +584,7 @@ class AddReceiverModal extends React.Component {
 									updateFormData={this.changeTop}
 									value={this.state.top}
 									className="none-padding none-margin"
+									disabled={this.props.isLoadingReceiversModal}
 								/>
 							</div>
 							<div className="col-md-4">
@@ -588,6 +596,7 @@ class AddReceiverModal extends React.Component {
 									updateFormData={this.changeQuantity}
 									value={this.state.paid_course_quantity}
 									className="none-padding none-margin"
+									disabled={this.props.isLoadingReceiversModal}
 								/>
 							</div>
 						</div>
@@ -604,9 +613,7 @@ class AddReceiverModal extends React.Component {
 							</div>
 						</div>
 						<div className="row float-right">
-							<div
-								className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-								style={{ textAlign: 'right' }}>
+							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{ textAlign: 'right' }}>
 								<b style={{ marginRight: '15px' }}>
 									Hiển thị kêt quả từ {first}
 									- {end}/{this.props.totalCountModal}

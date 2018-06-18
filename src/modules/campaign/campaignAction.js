@@ -177,7 +177,7 @@ export function beginSubmit() {
 		dispatch({
 			type: DISPLAY_GLOBAL_LOADING
 		});
-		showTypeNotification('Đang chỉnh sửa ghi chú', 'info');
+		showTypeNotification('Đang thêm người dùng', 'info');
 	};
 }
 

@@ -3,10 +3,10 @@ import * as sendNotificationApi from './sendNotificationApi';
 import {showErrorNotification, showNotification} from "../../helpers/helper";
 
 
-export function sendNotification(notificationTypeId, name, closeModal) {
+export function sendNotification(notificationTypeId, name, sendTime, closeModal) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_SEND_NOTIFICATION});
-        sendNotificationApi.sendNotification(notificationTypeId, name, closeModal)
+        sendNotificationApi.sendNotification(notificationTypeId, name, sendTime, closeModal)
             .then((res) => {
                 if (res.data.status === 1) {
                     showNotification("Gửi thành công");

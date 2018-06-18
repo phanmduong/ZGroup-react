@@ -30,6 +30,8 @@ class FilmComponent extends React.Component {
 
     openSessionModal(id) {
         this.props.filmAction.toggleSessionModal();
+        this.props.filmAction.addFilmSessionOnTabFilm();
+        this.props.filmAction.loadAllRooms();
         this.props.filmAction.handleSessionModal({
             film_id: id
         });

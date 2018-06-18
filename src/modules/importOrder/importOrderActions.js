@@ -83,12 +83,12 @@ export function editImportOrder(data) {
     };
 }
 
-export function loadAllImportOrder(page,id = null) {
+export function loadAllImportOrder(filter) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_IMPORT_ORDER,
         });
-        importOrderApi.loadAllImportOrder(page,id)
+        importOrderApi.loadAllImportOrder(filter)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_IMPORT_ORDER_SUCCESS,
@@ -102,10 +102,10 @@ export function loadAllImportOrder(page,id = null) {
         });
     };
 }
-export function loadAllImportOrderNoPaging(success) {
+export function loadAllImportOrderNoPaging(filter,success) {
     return function () {
         
-        importOrderApi.loadAllImportOrderNoPaging()
+        importOrderApi.loadAllImportOrderNoPaging(filter)
             .then((res) => {
                 success(res.data.data['import-orders']);
             });

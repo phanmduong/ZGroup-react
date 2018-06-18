@@ -60,6 +60,31 @@ export function loadBaseFilter() {
     };
 }
 
+export function changeStatusPause(registerId) {
+    return function (dispatch) {
+        showTypeNotification("Đang bảo lưu", "info");
+        dispatch({
+            type: types.BEGIN_CHANGE_STATUS_PAUSE,
+        });
+        registerStudentsApi
+            .changeStatusPause(registerId)
+            .then(res => {
+                showTypeNotification("Bảo lưu thành công", "success");
+                dispatch({
+                    type: types.CHANGE_STATUS_PAUSE_SUCCESS,
+                    registerId: res.data.data.register_id,
+                    status: res.data.data.status,
+                });
+            })
+            .catch(() => {
+                showTypeNotification("Bảo lưu thất bại", "error");
+                dispatch({
+                    type: types.CHANGE_STATUS_PAUSE_ERROR,
+                });
+            });
+    };
+}
+
 export function loadClassFilter(genid) {
     return function (dispatch) {
         dispatch({
@@ -352,13 +377,13 @@ export function deleteRegisterStudent(registerId) {
     };
 }
 
-export function loadClasses(registerId) {
+export function loadClasses(registerId, isGenNow) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT,
         });
         registerStudentsApi
-            .loadClasses(registerId)
+            .loadClasses(registerId, isGenNow)
             .then(res => {
                 dispatch({
                     type: types.LOAD_CLASSES_REGISTER_STUDENT_SUCCESS,
@@ -404,12 +429,21 @@ export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
             .then(res => {
                 showNotification(res.data.data.message);
                 closeModalChangeClass();
-                dispatch({
-                    type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_SUCCESS,
-                    registerId: registerId,
-                    class: res.data.data.class,
-                    code: res.data.data.code,
-                });
+                if (res.data.data.class) {
+                    dispatch({
+                        type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_SUCCESS,
+                        registerId: res.data.data.registerId,
+                        class: res.data.data.class,
+                        code: res.data.data.code,
+                    });
+                } else {
+                    // bảo lưu thành học lại
+                    dispatch({
+                        type: types.CHANGE_STATUS_PAUSE_SUCCESS,
+                        registerId: registerId,
+                        status: 5,
+                    });
+                }
             })
             .catch(() => {
                 showErrorNotification("Thay đổi lớp thất bại");

@@ -89,7 +89,8 @@ class CampaignListContainer extends React.Component {
 								<button
 									className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
 									type="button"
-									data-toggle="dropdown">
+									data-toggle="dropdown"
+								>
 									<strong>+</strong>
 								</button>
 								<ul className="dropdown-menu dropdown-primary">
@@ -98,14 +99,13 @@ class CampaignListContainer extends React.Component {
 											onClick={() =>
 												this.showCreateEditCampaignModal({
 													status: 'open'
-												})}>
+												})}
+										>
 											Thêm chiến dịch
 										</a>
 									</li>
 									<li>
-										<a
-											onClick={() =>
-												this.props.campaignListAction.showManageTemplateTypesModal()}>
+										<a onClick={() => this.props.campaignListAction.showManageTemplateTypesModal()}>
 											Thêm loại tin nhắn
 										</a>
 									</li>
@@ -116,6 +116,7 @@ class CampaignListContainer extends React.Component {
 							onChange={this.campaignsSearchChange}
 							value={this.state.query}
 							placeholder="Nhập tên chiến dịch để tìm"
+							disabled={this.props.isLoading}
 						/>
 					</div>
 					<br />
@@ -129,9 +130,7 @@ class CampaignListContainer extends React.Component {
 						/>
 					)}
 					<div className="row float-right">
-						<div
-							className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-							style={{ textAlign: 'right' }}>
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{ textAlign: 'right' }}>
 							<b style={{ marginRight: '15px' }}>
 								Hiển thị kêt quả từ {first}
 								- {end}/{this.props.totalCount}

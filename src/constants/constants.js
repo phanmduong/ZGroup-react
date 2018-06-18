@@ -476,6 +476,29 @@ export const STATUS_REGISTER_ROOM = [
     }
 ];
 
+export const CRM_TYPE_CLIENT = [
+    {
+        key: -1,
+        value: 'Tất cả'
+    },
+    {
+        key: 0,
+        value: 'Nhận biết'
+    },
+    {
+        key: 1,
+        value: 'Dùng thử'
+    },
+    {
+        key: 2,
+        value: 'Thân thiết'
+    },
+    {
+        key: 3,
+        value: 'Trung thành'
+    },
+]
+
 export const STATUS_ISSUE = {
     pending: {
         label: "Đang xác nhận",

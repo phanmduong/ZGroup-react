@@ -18,6 +18,10 @@ class AddChildGoodContainer extends React.Component {
         this.saveChildGood = this.saveChildGood.bind(this);
     }
 
+    state = {
+        barcodeType: "new"
+    };
+
     close() {
         this.props.addChildGoodActions.showAddChildGoodModal(false);
     }
@@ -38,6 +42,7 @@ class AddChildGoodContainer extends React.Component {
 
     saveChildGood() {
         const { good, taskId } = this.props;
+        const { barcodeType } = this.state;
         if (
             isEmptyInput(good.name) ||
             isEmptyInput(good.code) ||
@@ -48,12 +53,13 @@ class AddChildGoodContainer extends React.Component {
                 "Bạn vui lòng nhập đủ tất cả các mục",
                 "top",
                 "right",
-                "warning",
+                "warning"
             );
         } else {
             this.props.addChildGoodActions.saveChildGood({
                 ...good,
                 taskId: taskId,
+                barcodeType
             });
         }
     }
@@ -88,6 +94,27 @@ class AddChildGoodContainer extends React.Component {
                     />
 
                     <div className="form-group">
+                        <label>Barcode</label>
+                        <Select
+                            name="barcode"
+                            value={this.state.barcodeType}
+                            options={[
+                                {
+                                    label: "Lấy từ sản phẩm mẹ",
+                                    value: "parent"
+                                },
+                                {
+                                    label: "Lấy barcode mới",
+                                    value: "new"
+                                }
+                            ]}
+                            onChange={({ value }) =>
+                                this.setState({ barcodeType: value })
+                            }
+                        />
+                    </div>
+
+                    <div className="form-group">
                         <label>Bảng xuất phát</label>
                         <Select
                             name="board-id"
@@ -98,7 +125,7 @@ class AddChildGoodContainer extends React.Component {
                                           return {
                                               ...task,
                                               value: task.id,
-                                              label: task.title,
+                                              label: task.title
                                           };
                                       })
                                     : []
@@ -137,7 +164,7 @@ AddChildGoodContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     taskId: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
-    isSaving: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -146,16 +173,16 @@ function mapStateToProps(state) {
         tasks: state.task.cardDetail.card.tasks,
         showModal: state.task.addChildGood.showModal,
         taskId: state.task.addChildGood.taskId,
-        isSaving: state.task.addChildGood.isSaving,
+        isSaving: state.task.addChildGood.isSaving
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        addChildGoodActions: bindActionCreators(addChildGoodActions, dispatch),
+        addChildGoodActions: bindActionCreators(addChildGoodActions, dispatch)
     };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    AddChildGoodContainer,
+    AddChildGoodContainer
 );
