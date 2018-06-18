@@ -72,7 +72,9 @@ class BookingRegisterSessionModal extends React.Component {
                         }}
                         label="Xác nhận số tiền đã thu là:"
                     />
-                    <p style={{textAlign:'center',fontSize:'24px', fontWeight:'400'}}>$450000vnđ</p>
+                    <p style={{textAlign:'center',fontSize:'24px', fontWeight:'400'}}>
+                        {this.props.handleBookingModal.sum/1000 || ''}.000 VNĐ
+                    </p>
                     <br/>
                     <div style={{textAlign: "right"}}>
                         <div>

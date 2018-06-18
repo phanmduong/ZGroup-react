@@ -7,6 +7,8 @@ import * as d3 from "d3";
 
 //import * as helper from "../../../helpers/helper";
 let ghedachon = [];
+let sum = 0;
+
 class BookingGrid extends React.Component {
 
     constructor(props, context) {
@@ -23,19 +25,19 @@ class BookingGrid extends React.Component {
 
     }
 
-    submit(){
+    submit() {
 
-        let seat_ids = ghedachon.map(a=>{
-            return {
-                id:a.id
-            };
+        let seat_ids = ghedachon.map(a => {
+            return a.id
+                ;
 
         });
         //console.log("a",seat_ids);
         this.props.filmAction.toggleBookingModal();
         this.props.filmAction.handleBookingModal({
             ...this.props.handleBookingModal,
-            seat: seat_ids
+            seats: JSON.stringify(seat_ids),
+            sum: sum
         });
         //console.log("b", this.props.handleBookingModal);
     }
@@ -50,7 +52,6 @@ class BookingGrid extends React.Component {
         let data = this.props.seatForBooking;
         const height = this.props.height;
         const width = this.props.width;
-        let sum = 0;
         //console.log("size",height,width);
         let svg = d3
             .select(node)
@@ -73,47 +74,78 @@ class BookingGrid extends React.Component {
         });
 
         function add(dataSet) {
-            d3.select(node2)
+            let aa = d3.select(node2)
                 .selectAll("span")
                 .data(dataSet)
+                .style("font-size", "28px")
+                .style("font-weight", 600)
+                .style("border", "2px 2px red solid");
+            aa
+                .text(' ')
+                .text(function (d) {
+                    return d.name + " ";
+                });
+
+            aa
                 .enter()
                 .append("span")
-                .text('')
+                .style("font-size", "28px")
+                .style("font-weight", 600)
+                .style("border", "#ff0000 solid 2px")
+                .text(' ')
                 .text(function (d) {
-                    return d.name + "         ";
+                    return d.name + " ";
                 });
+
+            aa.exit().remove();
         }
 
         function render(dataset) {
             d3.select('svg').selectAll('g').data(dataset)
                 .on('click', d => {
-                    if (d.archived === 1) {
-                        sum = sum - parseInt(d.price);
-                        d.archived = 0;
-                        ghedachon = ghedachon.filter((e) => e !== d);
-                        d3.selectAll(".total-pay")
-                            .text(
-                                sum / 1000 + ".000 VNĐ"
-                            );
-                        add(ghedachon);
-                        render(data);
-                    } else {
-                        d.archived = 1;
-                        sum = sum + parseInt(d.price);
-                        ghedachon = [...ghedachon, d];
-                        d3.selectAll(".total-pay")
-                            .text(
-                                (sum) / 1000 + ".000 VNĐ"
-                            );
-                        add(ghedachon);
-                        render(data);
-                    }
+                    if (d.status !== 3)
+                        if (d.status === 1) {
+                            sum = sum - parseInt(d.price);
+                            data = data.map((ds)=>{
+                                if (ds.id === d.id)
+                                    return {
+                                        ...ds,
+                                        status: 0
+                                    };
+                                else return ds;
+                            });
+                            ghedachon = ghedachon.filter((e) => e !== d);
+                            d3.selectAll(".total-pay")
+                                .text(
+                                    sum / 1000 + ".000 VNĐ"
+                                );
+                            add(ghedachon);
+                            render(data);
+                        } else {
+                            sum = sum + parseInt(d.price);
+                            data = data.map((ds)=>{
+                                if (ds.id === d.id)
+                                    return {
+                                        ...ds,
+                                        status: 1
+                                    };
+                                else return ds;
+                            });
+                            ghedachon = [...ghedachon, d];
+                            d3.selectAll(".total-pay")
+                                .text(
+                                    (sum) / 1000 + ".000 VNĐ"
+                                );
+                            add(ghedachon);
+                            render(data);
+                        }
 
                 })
-                .select("circle").style('fill', function (d) {
-                return d.archived !== 1 ? d.color : "gray";
-
-            });
+                .select("circle").style('fill',
+                function (d) {
+                    return d.status === 3 ? "black" : (d.status !== 1 ? d.color : "gray");
+                })
+                .style("cursor", "pointer");
 
 
         }
@@ -145,8 +177,9 @@ class BookingGrid extends React.Component {
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <h1>Các ghế đã đặt</h1>
+                    <h2>Các ghế đã đặt</h2>
                     <div ref={node2 => this.node2 = node2}/>
+                    <hr/>
                     <h2>
                         Giá vé
                         <p className="total-pay"/>

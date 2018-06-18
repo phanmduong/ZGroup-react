@@ -94,7 +94,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} {room.room_id}{" "}
+                                            {room.start_time} Phòng {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
@@ -110,7 +110,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} {room.room_id}{" "}
+                                            {room.start_time} Phòng {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
