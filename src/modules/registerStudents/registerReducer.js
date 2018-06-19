@@ -9,6 +9,7 @@ import {
     BEGIN_SAVE_REGISTER,
 
 } from "./createRegisterActionType";
+
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
     switch (action.type) {
@@ -338,22 +339,28 @@ export default function registerReducer(state = initialState.registerStudents, a
                 }
             };
         case BEGIN_SAVE_REGISTER:
-            return{
+            return {
                 ...state,
-                isSavingRegister : true,
+                isSavingRegister: true,
 
             };
         case  SAVED_REGISTER_SUCCESS:
-            return{
+            return {
                 ...state,
-                isSavingRegister : false,
-                registers : [action.register,...state.registers],
+                isSavingRegister: false,
+                registers: [action.register, ...state.registers],
                 // ...initialState.registerStudents
             };
         case SAVED_REGISTER_ERROR:
-            return{
+            return {
                 ...state,
                 isSavingRegister: false,
+            };
+        case types.CHANGE_STATUS_PAUSE_SUCCESS:
+            registers = changeRegisterStatus(state.registers, action.registerId, action.status);
+            return {
+                ...state,
+                registers: registers,
             };
         default:
             return state;
@@ -385,6 +392,22 @@ function changeClassRegister(registerId, classData, registers, code) {
                         ...register,
                         class: classData,
                         code: code
+                    };
+                }
+                return register;
+            }
+        );
+    }
+    return registers;
+}
+
+function changeRegisterStatus(registers, registerId, status) {
+    if (registers) {
+        registers = registers.map(register => {
+                if (register.id === registerId) {
+                    return {
+                        ...register,
+                        status: status,
                     };
                 }
                 return register;

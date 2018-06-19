@@ -20,16 +20,13 @@ class ReceiversComponent extends React.Component {
 		};
 		this.timeOut = null;
 		this.loadOrders = this.loadOrders.bind(this);
-		this.templatesSearchChange = this.templatesSearchChange.bind(this);
+		this.receiversSearchChange = this.receiversSearchChange.bind(this);
 		this.removeUserFromCampaign = this.removeUserFromCampaign.bind(this);
 		this.showHistoryDetailModal = this.showHistoryDetailModal.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (
-			nextProps.isChoosingReceivers !== this.props.isChoosingReceivers &&
-			!nextProps.isChoosingReceivers
-		) {
+		if (nextProps.isChoosingReceivers !== this.props.isChoosingReceivers && !nextProps.isChoosingReceivers) {
 			this.setState({
 				page: 1,
 				query: ''
@@ -38,7 +35,7 @@ class ReceiversComponent extends React.Component {
 		}
 	}
 
-	templatesSearchChange(value) {
+	receiversSearchChange(value) {
 		this.setState({
 			query: value,
 			page: 1
@@ -82,9 +79,10 @@ class ReceiversComponent extends React.Component {
 		return (
 			<div>
 				<Search
-					onChange={this.templatesSearchChange}
+					onChange={this.receiversSearchChange}
 					value={this.state.query}
-					placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+					placeholder="Nhập tên, email hoặc số điện thoại để tìm"
+					disabled={this.props.isLoadingReceiver}
 				/>
 				<br />
 				{this.props.isLoadingReceiver ? (
@@ -117,10 +115,7 @@ class ReceiversComponent extends React.Component {
 														<div
 															className="avatar-list-staff"
 															style={{
-																background:
-																	'url(' +
-																	image +
-																	') center center / cover',
+																background: 'url(' + image + ') center center / cover',
 																display: 'inline-block'
 															}}
 														/>
@@ -156,14 +151,12 @@ class ReceiversComponent extends React.Component {
 												<td>
 													<div className="btn-group-action">
 														<div style={{ display: 'inline-block' }}>
-															<TooltipButton
-																placement="top"
-																text="Xem chi tiết">
-																<a onClick={() =>
-																		this.showHistoryDetailModal(receiver)}>
-																	<i className="material-icons">
-																		add_circle
-																	</i>
+															<TooltipButton placement="top" text="Xem chi tiết">
+																<a
+																	onClick={() =>
+																		this.showHistoryDetailModal(receiver)}
+																>
+																	<i className="material-icons">add_circle</i>
 																</a>
 															</TooltipButton>
 														</div>
@@ -173,9 +166,7 @@ class ReceiversComponent extends React.Component {
 															</a>
 														</TooltipButton>
 														<TooltipButton placement="top" text="Xóa">
-															<a
-																onClick={() =>
-																	this.removeUserFromCampaign(receiver)}>
+															<a onClick={() => this.removeUserFromCampaign(receiver)}>
 																<i className="material-icons">delete</i>
 															</a>
 														</TooltipButton>

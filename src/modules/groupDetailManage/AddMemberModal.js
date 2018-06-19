@@ -1,30 +1,28 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import * as campaignAction from './campaignAction';
 import FormInputDate from '../../components/common/FormInputDate';
 import Star from '../../components/common/Star';
 import Checkbox from '../../components/common/Checkbox';
 import FormInputText from '../../components/common/FormInputText';
-import UsersList from './UsersList';
+import UserList from './UserList';
 import Pagination from '../../components/common/Pagination';
 import { isEmptyInput, showErrorNotification } from '../../helpers/helper';
 import PropertyReactSelectValue from '../createProduct/PropertyReactSelectValue';
 import Select from 'react-select';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
-import { searchStaffs, getReceiversModal } from './campaignApi';
+import { searchStaffs, getMembersModal } from './groupApi';
 import Loading from '../../components/common/Loading';
+import { observer } from 'mobx-react';
+import { store } from './groupStore';
 
-class AddReceiverModal extends React.Component {
+@observer
+class AddMemberModal extends React.Component {
 	constructor(props, context) {
 		super(props, context);
-		this.campaignId = this.props.campaignId;
+		this.clusterId = this.props.clusterId;
 		this.timeOut = null;
 		this.state = {
-			isAll: false,
-			chosenItems: [],
 			page: 1,
 			gens: [],
 			classes: [],
@@ -35,69 +33,24 @@ class AddReceiverModal extends React.Component {
 			top: null,
 			carer_id: null,
 			rate: null,
-			limit: 20,
+			limit: 10,
 			paid_course_quantity: null
 		};
-		this.loadUsers = this.loadUsers.bind(this);
-		this.updateFormDate = this.updateFormDate.bind(this);
-		this.loadStaffs = this.loadStaffs.bind(this);
-		this.gensSearchChange = this.gensSearchChange.bind(this);
-		this.classesSearchChange = this.classesSearchChange.bind(this);
-		this.changeStaff = this.changeStaff.bind(this);
-		this.changeTop = this.changeTop.bind(this);
-		this.changeRate = this.changeRate.bind(this);
-		this.chooseAll = this.chooseAll.bind(this);
-		this.chooseItem = this.chooseItem.bind(this);
-		this.onHideModal = this.onHideModal.bind(this);
-		this.submit = this.submit.bind(this);
-		this.changeQuantity = this.changeQuantity.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.currentPageModal !== this.props.currentPageModal)
-			if (this.state.isAll) {
-				let chosenItems = [ ...this.state.chosenItems ];
-				nextProps.receiversModal.forEach((user) => {
-					chosenItems = [
-						...chosenItems,
-						{
-							id: user.id,
-							checked: true
-						}
-					];
-				});
-				this.setState({
-					chosenItems: chosenItems
-				});
-			}
-		if (nextProps.isChoosingReceivers !== this.props.isChoosingReceivers && !nextProps.isChoosingReceivers) {
-			let time = {
-				startTime: '',
-				endTime: ''
-			};
-			this.setState({
-				isAll: false,
-				chosenItems: [],
-				page: 1,
-				gens: [],
-				classes: [],
-				time: time,
-				top: null,
-				carer_id: null,
-				paid_course_quantity: null,
-				rate: null
-			});
-			this.props.campaignAction.getReceiversModal(this.campaignId);
-		}
-	}
-
-	updateFormDate(event) {
+	updateFormDate = (event) => {
 		const field = event.target.name;
 		let time = { ...this.state.time };
 		time[field] = event.target.value;
+		this.setState({
+			time: time,
+			page: 1
+		});
+		store.isAll = false;
+		store.chosenItems = [];
 		if (!isEmptyInput(time.startTime) && !isEmptyInput(time.endTime)) {
-			this.props.campaignAction.getReceiversModal(
-				this.campaignId,
+			store.getMembersModal(
+				this.clusterId,
 				1,
 				this.state.gens,
 				this.state.classes,
@@ -109,23 +62,10 @@ class AddReceiverModal extends React.Component {
 				this.state.limit,
 				this.state.paid_course_quantity
 			);
-			this.setState({
-				time: time,
-				page: 1,
-				isAll: false,
-				chosenItems: []
-			});
-		} else {
-			this.setState({
-				time: time,
-				page: 1,
-				isAll: false,
-				chosenItems: []
-			});
 		}
-	}
+	};
 
-	loadStaffs(input, callback) {
+	loadStaffs = (input, callback) => {
 		if (this.timeOut !== null) {
 			clearTimeout(this.timeOut);
 		}
@@ -147,23 +87,23 @@ class AddReceiverModal extends React.Component {
 			}.bind(this),
 			500
 		);
-	}
+	};
 
-	changeTop(event) {
+	changeTop = (event) => {
 		const value = event.target.value;
 		this.setState({
 			top: value,
-			page: 1,
-			isAll: false,
-			chosenItems: []
+			page: 1
 		});
+		store.chosenItems = [];
+		store.isAll = false;
 		if (this.timeOut !== null) {
 			clearTimeout(this.timeOut);
 		}
 		this.timeOut = setTimeout(
 			function() {
-				this.props.campaignAction.getReceiversModal(
-					this.campaignId,
+				store.getMembersModal(
+					this.clusterId,
 					1,
 					this.state.gens,
 					this.state.classes,
@@ -178,17 +118,17 @@ class AddReceiverModal extends React.Component {
 			}.bind(this),
 			500
 		);
-	}
+	};
 
-	gensSearchChange(value) {
+	gensSearchChange = (value) => {
 		this.setState({
 			page: 1,
-			gens: value,
-			isAll: false,
-			chosenItems: []
+			gens: value
 		});
-		this.props.campaignAction.getReceiversModal(
-			this.campaignId,
+		store.chosenItems = [];
+		store.isAll = false;
+		store.getMembersModal(
+			this.clusterId,
 			1,
 			value,
 			this.state.classes,
@@ -200,17 +140,17 @@ class AddReceiverModal extends React.Component {
 			this.state.limit,
 			this.state.paid_course_quantity
 		);
-	}
+	};
 
-	classesSearchChange(value) {
+	classesSearchChange = (value) => {
 		this.setState({
 			page: 1,
-			classes: value,
-			isAll: false,
-			chosenItems: []
+			classes: value
 		});
-		this.props.campaignAction.getReceiversModal(
-			this.campaignId,
+		store.chosenItems = [];
+		store.isAll = false;
+		store.getMembersModal(
+			this.clusterId,
 			1,
 			this.state.gens,
 			value,
@@ -222,18 +162,18 @@ class AddReceiverModal extends React.Component {
 			this.state.limit,
 			this.state.paid_course_quantity
 		);
-	}
+	};
 
-	changeStaff(value) {
+	changeStaff = (value) => {
 		if (value) {
 			this.setState({
 				page: 1,
-				carer_id: value.id,
-				isAll: false,
-				chosenItems: []
+				carer_id: value.id
 			});
-			this.props.campaignAction.getReceiversModal(
-				this.campaignId,
+			store.chosenItems = [];
+			store.isAll = false;
+			store.getMembersModal(
+				this.clusterId,
 				1,
 				this.state.gens,
 				this.state.classes,
@@ -248,12 +188,12 @@ class AddReceiverModal extends React.Component {
 		} else {
 			this.setState({
 				page: 1,
-				carer_id: null,
-				isAll: false,
-				chosenItems: []
+				carer_id: null
 			});
-			this.props.campaignAction.getReceiversModal(
-				this.campaignId,
+			store.chosenItems = [];
+			store.isAll = false;
+			store.getMembersModal(
+				this.clusterId,
 				1,
 				this.state.gens,
 				this.state.classes,
@@ -266,17 +206,17 @@ class AddReceiverModal extends React.Component {
 				this.state.paid_course_quantity
 			);
 		}
-	}
+	};
 
-	changeRate(value) {
+	changeRate = (value) => {
 		this.setState({
 			page: 1,
-			rate: value,
-			isAll: false,
-			chosenItems: []
+			rate: value
 		});
-		this.props.campaignAction.getReceiversModal(
-			this.campaignId,
+		store.chosenItems = [];
+		store.isAll = false;
+		store.getMembersModal(
+			this.clusterId,
 			1,
 			this.state.gens,
 			this.state.classes,
@@ -288,23 +228,23 @@ class AddReceiverModal extends React.Component {
 			this.state.limit,
 			this.state.paid_course_quantity
 		);
-	}
+	};
 
-	changeQuantity(event) {
+	changeQuantity = (event) => {
 		const value = event.target.value;
 		this.setState({
 			paid_course_quantity: value,
-			page: 1,
-			isAll: false,
-			chosenItems: []
+			page: 1
 		});
+		store.chosenItems = [];
+		store.isAll = false;
 		if (this.timeOut !== null) {
 			clearTimeout(this.timeOut);
 		}
 		this.timeOut = setTimeout(
 			function() {
-				this.props.campaignAction.getReceiversModal(
-					this.campaignId,
+				store.getMembersModal(
+					this.clusterId,
 					1,
 					this.state.gens,
 					this.state.classes,
@@ -319,12 +259,12 @@ class AddReceiverModal extends React.Component {
 			}.bind(this),
 			500
 		);
-	}
+	};
 
-	loadUsers(page = 1) {
+	loadUsers = (page = 1) => {
 		this.setState({ page: page });
-		this.props.campaignAction.getReceiversModal(
-			this.campaignId,
+		store.getMembersModal(
+			this.clusterId,
 			page,
 			this.state.gens,
 			this.state.classes,
@@ -336,21 +276,21 @@ class AddReceiverModal extends React.Component {
 			this.state.limit,
 			this.state.paid_course_quantity
 		);
-	}
+	};
 
-	chooseAll(event) {
-		this.setState({ isAll: event.target.checked });
-		this.changeStatusAll(event.target.checked, this.props);
-	}
+	chooseAll = (event) => {
+		store.isAll = event.target.checked;
+		this.changeStatusAll(event.target.checked);
+	};
 
-	changeStatusAll(status, props) {
-		let users = props.receiversModal.map((user) => {
+	changeStatusAll = (status) => {
+		let users = store.users.map((user) => {
 			return {
 				...user,
 				checked: status
 			};
 		});
-		let chosenItems = this.state.chosenItems.map((user) => {
+		let chosenItems = store.chosenItems.map((user) => {
 			return {
 				...user,
 				checked: status
@@ -362,12 +302,12 @@ class AddReceiverModal extends React.Component {
 				chosenItems.push(user);
 			}
 		});
-		this.setState({ chosenItems: [ ...chosenItems.filter((user) => user.checked) ] });
-	}
+		store.chosenItems = [ ...chosenItems.filter((user) => user.checked) ];
+	};
 
-	chooseItem(id, checked) {
+	chooseItem = (id, checked) => {
 		if (!checked) {
-			let chosenItems = this.state.chosenItems.map((item) => {
+			let chosenItems = store.chosenItems.map((item) => {
 				if (id === item.id) {
 					return {
 						...item,
@@ -376,13 +316,13 @@ class AddReceiverModal extends React.Component {
 				}
 				return item;
 			});
-			this.setState({
-				isAll: false,
-				chosenItems: chosenItems
-			});
+
+			store.chosenItems = chosenItems;
+
+			store.isAll = false;
 		} else {
 			let inArray = false;
-			let chosenItems = this.state.chosenItems.map((item) => {
+			let chosenItems = store.chosenItems.map((item) => {
 				if (id === item.id) {
 					inArray = true;
 					return {
@@ -400,21 +340,19 @@ class AddReceiverModal extends React.Component {
 						checked: true
 					}
 				];
-			this.setState({
-				chosenItems: chosenItems
-			});
+			store.chosenItems = chosenItems;
 		}
-	}
+	};
 
-	onHideModal() {
-		this.props.campaignAction.showAddReceiverModal();
+	onHideModal = () => {
+		this.props.onHide();
 		let time = {
 			startTime: '',
 			endTime: ''
 		};
+		store.isAll = false;
+		store.chosenItems = [];
 		this.setState({
-			isAll: false,
-			chosenItems: [],
 			page: 1,
 			gens: [],
 			classes: [],
@@ -424,13 +362,13 @@ class AddReceiverModal extends React.Component {
 			paid_course_quantity: null,
 			rate: null
 		});
-	}
+	};
 
-	submit() {
-		this.props.campaignAction.beginSubmit();
-		if (this.state.isAll && !this.state.top) {
-			getReceiversModal(
-				this.campaignId,
+	submit = () => {
+		store.beginSubmit();
+		if (store.isAll && !this.state.top) {
+			getMembersModal(
+				this.clusterId,
 				this.state.page,
 				this.state.gens,
 				this.state.classes,
@@ -443,24 +381,40 @@ class AddReceiverModal extends React.Component {
 				this.state.paid_course_quantity
 			).then((res) => {
 				let users = res.data.data.users;
-				this.props.campaignAction.chooseReceivers(this.campaignId, users);
+				store.chooseMembers(this.clusterId, users);
 			});
 		} else {
-			if (this.state.chosenItems.length === 0) {
+			if (store.chosenItems.length === 0) {
 				showErrorNotification('Bạn chưa chọn người để thêm vào nhóm');
-			} else this.props.campaignAction.chooseReceivers(this.campaignId, this.state.chosenItems);
+			} else store.chooseMembers(this.clusterId, store.chosenItems);
 		}
-	}
+		let time = {
+			startTime: '',
+			endTime: ''
+		};
+		store.isAll = false;
+		store.chosenItems = [];
+		this.setState({
+			page: 1,
+			gens: [],
+			classes: [],
+			time: time,
+			top: null,
+			carer_id: null,
+			paid_course_quantity: null,
+			rate: null
+		});
+	};
 
 	render() {
-		let first = this.props.totalCountModal ? (this.props.currentPageModal - 1) * this.props.limitModal + 1 : 0;
+		let first = store.totalCountModal ? (store.currentPageModal - 1) * store.limitModal + 1 : 0;
 		let end =
-			this.props.currentPageModal < this.props.totalPagesModal
-				? this.props.currentPageModal * this.props.limitModal
-				: this.props.totalCountModal;
+			store.currentPageModal < store.totalPagesModal
+				? store.currentPageModal * store.limitModal
+				: store.totalCountModal;
 
 		return (
-			<Modal show={this.props.addReceiverModal} onHide={() => this.onHideModal()} bsSize="large">
+			<Modal show={this.props.addMemberModal} onHide={() => this.onHideModal()} bsSize="large">
 				<a onClick={() => this.onHideModal()} id="btn-close-modal" />
 				<Modal.Header closeButton>
 					<Modal.Title className="modal-title">Nhóm người dùng</Modal.Title>
@@ -479,7 +433,7 @@ class AddReceiverModal extends React.Component {
 								<Select.Creatable
 									multi={true}
 									placeholder="Chọn khóa (nhiều)"
-									options={this.props.gens.map((course) => {
+									options={store.gens.map((course) => {
 										return {
 											value: course.id,
 											label: course.name
@@ -488,14 +442,14 @@ class AddReceiverModal extends React.Component {
 									onChange={this.gensSearchChange}
 									value={this.state.gens}
 									valueComponent={PropertyReactSelectValue}
-									disabled={this.props.isLoadingReceiversModal}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 							<div className="col-md-6">
 								<Select.Creatable
 									multi={true}
 									placeholder="Chọn lớp (nhiều)"
-									options={this.props.classes.map((studyClass) => {
+									options={store.classes.map((studyClass) => {
 										return {
 											value: studyClass.id,
 											label: studyClass.name
@@ -504,7 +458,7 @@ class AddReceiverModal extends React.Component {
 									onChange={this.classesSearchChange}
 									value={this.state.classes}
 									valueComponent={PropertyReactSelectValue}
-									disabled={this.props.isLoadingReceiversModal}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 							<div className="col-md-6">
@@ -515,6 +469,7 @@ class AddReceiverModal extends React.Component {
 									id="form-start-time"
 									value={this.state.time.startTime}
 									maxDate={this.state.time.endTime}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 							<div className="col-md-6">
@@ -525,11 +480,12 @@ class AddReceiverModal extends React.Component {
 									id="form-end-time"
 									value={this.state.time.endTime}
 									minDate={this.state.time.startTime}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 
 							<div className="col-md-6">
-								{this.props.isChoosingReceivers ? (
+								{store.isChoosingMembers ? (
 									<Loading />
 								) : (
 									<div className="form-group">
@@ -540,7 +496,7 @@ class AddReceiverModal extends React.Component {
 												onChange={(value) => {
 													this.changeRate(value);
 												}}
-												disable={this.props.isLoadingReceiversModal}
+												disable={store.isLoadingMembersModal}
 											/>
 										</div>
 									</div>
@@ -561,18 +517,18 @@ class AddReceiverModal extends React.Component {
 										valueRenderer={(option) => {
 											return <ItemReactSelect label={option.label} url={option.avatar_url} />;
 										}}
-										disabled={this.props.isLoadingReceiversModal}
+										disabled={store.isLoadingMembersModal}
 									/>
 								</div>
 							</div>
 							<div className="col-md-4" style={{ zIndex: 0 }}>
 								<Checkbox
-									label={`Chọn tất cả (${this.props.totalCountModal})`}
+									label={`Chọn tất cả (${store.totalCountModal})`}
 									checkBoxLeft
 									onChange={this.chooseAll}
 									name="isAll"
-									checked={this.state.isAll}
-									disabled={this.props.isLoadingReceiversModal}
+									checked={store.isAll}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 							<div className="col-md-4">
@@ -584,7 +540,7 @@ class AddReceiverModal extends React.Component {
 									updateFormData={this.changeTop}
 									value={this.state.top}
 									className="none-padding none-margin"
-									disabled={this.props.isLoadingReceiversModal}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 							<div className="col-md-4">
@@ -596,32 +552,26 @@ class AddReceiverModal extends React.Component {
 									updateFormData={this.changeQuantity}
 									value={this.state.paid_course_quantity}
 									className="none-padding none-margin"
-									disabled={this.props.isLoadingReceiversModal}
+									disabled={store.isLoadingMembersModal}
 								/>
 							</div>
 						</div>
 
 						<div className="row">
 							<div className="col-md-12">
-								<UsersList
-									isAll={this.state.isAll}
-									chosenItems={this.state.chosenItems}
-									chooseItem={this.chooseItem}
-									users={this.props.receiversModal}
-									isLoading={this.props.isLoadingReceiversModal}
-								/>
+								<UserList isAll={store.isAll} chooseItem={this.chooseItem} />
 							</div>
 						</div>
 						<div className="row float-right">
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{ textAlign: 'right' }}>
 								<b style={{ marginRight: '15px' }}>
 									Hiển thị kêt quả từ {first}
-									- {end}/{this.props.totalCountModal}
+									- {end}/{store.totalCountModal}
 								</b>
 								<br />
 								<Pagination
-									totalPages={this.props.totalPagesModal}
-									currentPage={this.props.currentPageModal}
+									totalPages={store.totalPagesModal}
+									currentPage={store.currentPageModal}
 									loadDataPage={this.loadUsers}
 								/>
 							</div>
@@ -643,40 +593,10 @@ class AddReceiverModal extends React.Component {
 	}
 }
 
-AddReceiverModal.propTypes = {
-	campaignAction: PropTypes.object.isRequired,
-	receiversModal: PropTypes.array.isRequired,
-	isLoadingReceiversModal: PropTypes.bool.isRequired,
-	currentPageModal: PropTypes.number.isRequired,
-	limitModal: PropTypes.number.isRequired,
-	totalCountModal: PropTypes.number.isRequired,
-	totalPagesModal: PropTypes.number.isRequired,
-	addReceiverModal: PropTypes.bool.isRequired,
-	gens: PropTypes.array.isRequired,
-	classes: PropTypes.array.isRequired,
-	campaignId: PropTypes.string.isRequired,
-	isChoosingReceivers: PropTypes.bool.isRequired
+AddMemberModal.propTypes = {
+	clusterId: PropTypes.string.isRequired,
+	addMemberModal: PropTypes.bool.isRequired,
+	onHide: PropTypes.func.isRequired
 };
 
-function mapStateToProps(state) {
-	return {
-		receiversModal: state.smsCampaign.receiversModal,
-		isLoadingReceiversModal: state.smsCampaign.isLoadingReceiversModal,
-		currentPageModal: state.smsCampaign.currentPageModal,
-		limitModal: state.smsCampaign.limitModal,
-		totalCountModal: state.smsCampaign.totalCountModal,
-		totalPagesModal: state.smsCampaign.totalPagesModal,
-		addReceiverModal: state.smsCampaign.addReceiverModal,
-		gens: state.smsCampaign.gens,
-		classes: state.smsCampaign.classes,
-		isChoosingReceivers: state.smsCampaign.isChoosingReceivers
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		campaignAction: bindActionCreators(campaignAction, dispatch)
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddReceiverModal);
+export default AddMemberModal;

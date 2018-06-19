@@ -66,8 +66,8 @@ class Calendar extends React.Component {
                 this.props.onClick(event);
             },
             dayClick: function (date) {
-                $('td.fc-day.fc-widget-content').css('background-color', '#bfbdbd');
-                $(this).css('background-color', 'red');
+                $('td.fc-day.fc-widget-content').css('background-color', 'white');
+                $(this).css('background-color', '#bfbdbd');
                 if (dateClickFun) {
                     dateClickFun(date);
                 }
