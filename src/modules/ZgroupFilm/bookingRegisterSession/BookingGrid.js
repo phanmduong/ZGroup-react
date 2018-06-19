@@ -4,8 +4,9 @@ import {connect} from "react-redux";
 import * as filmAction from "../filmAction";
 import {bindActionCreators} from 'redux';
 import * as d3 from "d3";
-
 //import * as helper from "../../../helpers/helper";
+
+
 let ghedachon = [];
 let sum = 0;
 
@@ -20,6 +21,11 @@ class BookingGrid extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
+    componentWillMount() {
+        sum = 0;
+        ghedachon = [];
+    }
+
     componentDidMount() {
         this.creatBarChart();
 
@@ -28,18 +34,14 @@ class BookingGrid extends React.Component {
     submit() {
 
         let seat_ids = ghedachon.map(a => {
-            return a.id
-                ;
-
+            return a.id;
         });
-        //console.log("a",seat_ids);
         this.props.filmAction.toggleBookingModal();
         this.props.filmAction.handleBookingModal({
             ...this.props.handleBookingModal,
             seats: JSON.stringify(seat_ids),
             sum: sum
         });
-        //console.log("b", this.props.handleBookingModal);
     }
 
     // componentDidUpdate() {
@@ -69,6 +71,7 @@ class BookingGrid extends React.Component {
         });
         g.append("text").attr('fill', 'white').attr('text-anchor', 'middle').attr('alignment-baseline', 'central')
             .attr("font-size", "20px")
+            .attr("cursor", "pointer")
             .attr("font-family", "sans-serif").text(function (d) {
             return d.name;
         });
@@ -78,8 +81,8 @@ class BookingGrid extends React.Component {
                 .selectAll("span")
                 .data(dataSet)
                 .style("font-size", "28px")
-                .style("font-weight", 600)
-                .style("border", "2px 2px red solid");
+                .style("font-weight", 600);
+            // .style("border", "2px 2px red solid");
             aa
                 .text(' ')
                 .text(function (d) {
@@ -91,7 +94,7 @@ class BookingGrid extends React.Component {
                 .append("span")
                 .style("font-size", "28px")
                 .style("font-weight", 600)
-                .style("border", "#ff0000 solid 2px")
+                // .style("border", "#ff0000 solid 2px")
                 .text(' ')
                 .text(function (d) {
                     return d.name + " ";
@@ -106,7 +109,7 @@ class BookingGrid extends React.Component {
                     if (d.status !== 3)
                         if (d.status === 1) {
                             sum = sum - parseInt(d.price);
-                            data = data.map((ds)=>{
+                            data = data.map((ds) => {
                                 if (ds.id === d.id)
                                     return {
                                         ...ds,
@@ -114,7 +117,7 @@ class BookingGrid extends React.Component {
                                     };
                                 else return ds;
                             });
-                            ghedachon = ghedachon.filter((e) => e !== d);
+                            ghedachon = ghedachon.filter((e) => e.id !== d.id);
                             d3.selectAll(".total-pay")
                                 .text(
                                     sum / 1000 + ".000 VNĐ"
@@ -123,7 +126,7 @@ class BookingGrid extends React.Component {
                             render(data);
                         } else {
                             sum = sum + parseInt(d.price);
-                            data = data.map((ds)=>{
+                            data = data.map((ds) => {
                                 if (ds.id === d.id)
                                     return {
                                         ...ds,
@@ -162,6 +165,7 @@ class BookingGrid extends React.Component {
                 <div className="col-md-8">
                     <img src="https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-screen.png"/><br/><br/>
                     <div ref={node => this.node = node}/>
+
                     <div style={{textAlign: "right"}}>
                         <div>
                             <button
@@ -175,13 +179,15 @@ class BookingGrid extends React.Component {
                             </button>
                         </div>
                     </div>
+
+
                 </div>
                 <div className="col-md-4">
-                    <h2>Các ghế đã đặt</h2>
+                    <h2>Các ghế đã đặt:</h2>
                     <div ref={node2 => this.node2 = node2}/>
                     <hr/>
                     <h2>
-                        Giá vé
+                        Tổng giá vé:
                         <p className="total-pay"/>
                     </h2>
                 </div>

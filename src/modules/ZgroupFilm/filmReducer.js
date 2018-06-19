@@ -378,6 +378,23 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 handleBookingModal: action.handleBookingModal,
             };
+        case types.BEGIN_BOOKING_SEAT:
+            return{
+                ...state,
+                isBookingSeat: true
+            };
+        case types.BOOKING_SEAT_SUCCESS:
+            return{
+                ...state,
+                isBookingSeat: false,
+                addBookingRegisterSessionModal: false
+            };
+        case types.BOOKING_SEAT_ERROR:
+            return{
+                ...state,
+                isBookingSeat: false,
+                addBookingRegisterSessionModal: false
+            };
         default:
             return state;
     }

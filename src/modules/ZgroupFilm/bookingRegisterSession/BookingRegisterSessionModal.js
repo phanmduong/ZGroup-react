@@ -7,16 +7,25 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import *as filmAction from "../filmAction";
+import Loading from "../../../components/common/Loading";
 
 
 class BookingRegisterSessionModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            confirm:false,
+            confirm: false,
         };
         this.updateFormData = this.updateFormData.bind(this);
+        this.pay = this.pay.bind(this);
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isBookingSeat !== this.props.isBookingSeat && !nextProps.isBookingSeat) {
+            this.props.filmAction.loadSeatBySessionId(this.props.handleBookingModal.session_id);
+        }
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let film = {
@@ -25,12 +34,32 @@ class BookingRegisterSessionModal extends React.Component {
         };
         this.props.filmAction.handleBookingModal(film);
     }
-    render(){
-        return(
+
+    pay() {
+        const bk = {...this.props.handleBookingModal};
+        if (
+            helper.isEmptyInput(bk.name) ||
+            helper.isEmptyInput(bk.phone) ||
+            helper.isEmptyInput(bk.email)
+        ) {
+            if (helper.isEmptyInput(bk.name)) helper.showErrorNotification("Bạn cần nhập họ tên");
+            if (helper.isEmptyInput(bk.phone)) helper.showErrorNotification("Bạn cần nhập số điện thoại");
+            if (helper.isEmptyInput(bk.email)) helper.showErrorNotification("Bạn cần nhập email");
+        }
+        else if (this.state.confirm === false) helper.showErrorNotification("Bạn cần xác nhận thanh toán");
+        else {
+            helper.showNotification("Đang thanh toán");
+            //console.log("bk", bk);
+            this.props.filmAction.bookingSeat(bk);
+        }
+    }
+
+    render() {
+        return (
             <Modal show={this.props.addBookingRegisterSessionModal}
                    onHide={() => {
                        helper.confirm("warning", "Quay lại", "Bạn có chắc muốn quay lại, dữ liệu hiện tại sẽ không được cập nhật", () => {
-                            this.props.filmAction.toggleBookingModal();
+                           this.props.filmAction.toggleBookingModal();
                        });
 
                    }}
@@ -41,62 +70,85 @@ class BookingRegisterSessionModal extends React.Component {
                     <Modal.Title className="modal-title">Đặt vé </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormInputText
-                        label="Họ tên"
-                        name="name"
-                        updateFormData={this.updateFormData}
-                        value={this.props.handleBookingModal.name || ''}
-                        required
-                    />
-                    <FormInputText
-                        label="Số điện thoại"
-                        name="phone"
-                        updateFormData={this.updateFormData}
-                        value={this.props.handleBookingModal.phone|| ''}
-                        required
-                    />
-                    <FormInputText
-                        label="Email"
-                        name="email"
-                        updateFormData={this.updateFormData}
-                        value={this.props.handleBookingModal.email || ''}
-                        required
-                    />
-                    <br/>
+                    <div className="row">
+                        <div className="col-md-7">
+                            <FormInputText
+                                label="Họ tên"
+                                name="name"
+                                updateFormData={this.updateFormData}
+                                value={this.props.handleBookingModal.name || ''}
+                                required
+                            />
+                            <FormInputText
+                                label="Số điện thoại"
+                                name="phone"
+                                updateFormData={this.updateFormData}
+                                value={this.props.handleBookingModal.phone || ''}
+                                required
+                            />
+                            <FormInputText
+                                label="Email"
+                                name="email"
+                                updateFormData={this.updateFormData}
+                                value={this.props.handleBookingModal.email || ''}
+                                required
+                            />
+                            <br/>
+                        </div>
+                        <div className="col-md-5">
+                            <br/>
+                            <h4> Tổng giá tiền: {this.props.handleBookingModal.sum / 1000 || ''}.000 VNĐ</h4>
+                            <FormInputText
+                                label="Nhập mã giảm giá"
+                                name="code"
+                                updateFormData={this.updateFormData}
+                                value={this.props.handleBookingModal.code || ''}
+                            />
+                            <h4>Giảm giá: 0 VNĐ
+                            </h4>
+
+                            <h4>Thanh toán: {this.props.handleBookingModal.sum / 1000 || ''}.000 VNĐ</h4>
+                        </div>
+                    </div>
                     <CheckBoxMaterial
                         name="display"
                         checked={this.state.confirm}
-                        onChange={()=>{
-                            this.setState({...this.state,
-                            confirm:!this.state.confirm});
+                        onChange={() => {
+                            this.setState({
+                                ...this.state,
+                                confirm: !this.state.confirm
+                            });
                         }}
                         label="Xác nhận số tiền đã thu là:"
                     />
-                    <p style={{textAlign:'center',fontSize:'24px', fontWeight:'400'}}>
-                        {this.props.handleBookingModal.sum/1000 || ''}.000 VNĐ
+                    <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
+                        {this.props.handleBookingModal.sum / 1000 || ''}.000 VNĐ
                     </p>
                     <br/>
-                    <div style={{textAlign: "right"}}>
-                        <div>
-                            <button
-                                type="button"
-                                className="btn btn-rose"
-                                onClick={()=>{
-                                    //console.log("a",this.props.handleBookingModal);
-                                    this.props.filmAction.bookingSeat(this.props.handleBookingModal);
-                                }}
-                            >
-                                Xác nhận
-                            </button>
-                            <button
-                                type="button"
-                                className="btn"
-                                onClick={() => {this.props.filmAction.toggleBookingModal();}}
-                            >
-                                Huỷ
-                            </button>
-                        </div>
-                    </div>
+                    {
+                        this.props.isBookingSeat ? <Loading/> :
+                            <div style={{textAlign: "right"}}>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="btn btn-rose"
+                                        onClick={this.pay}
+                                    >
+                                        Thanh toán
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn"
+                                        onClick={() => {
+                                            this.props.filmAction.toggleBookingModal();
+                                        }}
+                                    >
+                                        Huỷ
+                                    </button>
+                                </div>
+                            </div>
+                    }
+
                 </Modal.Body>
             </Modal>
         );
@@ -105,19 +157,22 @@ class BookingRegisterSessionModal extends React.Component {
 
 BookingRegisterSessionModal.propTypes = {
     addBookingRegisterSessionModal: PropTypes.bool.isRequired,
+    isBookingSeat: PropTypes.bool.isRequired,
     filmAction: PropTypes.object.isRequired,
     handleBookingModal: PropTypes.object.isRequired,
 };
+
 function mapStateToProps(state) {
     return {
         addBookingRegisterSessionModal: state.film.addBookingRegisterSessionModal,
         handleBookingModal: state.film.handleBookingModal,
+        isBookingSeat: state.film.isBookingSeat,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        filmAction: bindActionCreators( filmAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch)
     };
 }
 

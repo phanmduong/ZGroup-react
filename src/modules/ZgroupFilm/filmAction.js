@@ -382,7 +382,7 @@ export function loadSeatBySessionId(id) {
             type: types.BEGIN_LOAD_SEAT_BY_SESSION_ID
         });
         filmApi.loadSeatBySessionIdApi(id)
-            .then((res)=>{
+            .then((res) => {
                 dispatch({
                     type: types.LOAD_SEAT_BY_SESSION_ID_SUCCESS,
                     seatForBooking: res.data.seats,
@@ -409,12 +409,27 @@ export function handleBookingModal(handleBookingModal) {
 export function bookingSeat(booking) {
     return function (dispatch) {
         dispatch({
-            type: types.CLEAR_SEAT_BY_SESSION_ID
+            type: types.BEGIN_BOOKING_SEAT
         });
         filmApi.bookingSeatApi(booking)
-            .then(()=>{
+            .then((res) => {
+                if (res.data.status){
+                    helper.showNotification("Đặt vé thành công");
+                    dispatch({
+                        type: types.BOOKING_SEAT_SUCCESS
+                    });
+                }
+                else {
+                    helper.showErrorNotification("Đặt vé thất bại, có ghế đã được đặt");
+                    dispatch({
+                        type: types.BOOKING_SEAT_ERROR
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Đặt vé thất bại");
                 dispatch({
-                    type: types.CLEAR_SEAT_BY_SESSION_ID
+                    type: types.BOOKING_SEAT_ERROR
                 });
             });
     };

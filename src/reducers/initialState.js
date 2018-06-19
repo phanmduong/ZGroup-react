@@ -48,7 +48,7 @@ export default {
         seatForBooking: [],
         width:1200,
         height:10,
-
+        isBookingSeat: false
 
     },
     seatType:{
