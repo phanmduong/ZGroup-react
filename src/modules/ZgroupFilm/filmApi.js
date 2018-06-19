@@ -46,18 +46,18 @@ export function postFilmApi(film) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url,film);
+    return axios.post(url, film);
 }
 
 // Sua Film
-  export function editFilmApi(film) {
-      let url = env.MANAGE_API_URL + "/film/"+film.id;
-      let token = localStorage.getItem('token');
-      if (token) {
-          url += "?token=" + token;
-      }
-      return axios.put(url,film);
-  }
+export function editFilmApi(film) {
+    let url = env.MANAGE_API_URL + "/film/" + film.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, film);
+}
 
 // Sua Status Film
 // 0 chưa dùng, 1 đang chiếu, 2 sắp chiếu
@@ -66,9 +66,9 @@ export function editStatusApi(film_id, film_status) {
 
     let token = localStorage.getItem('token');
     if (film_id) {
-        url += film_id +"/change";
+        url += film_id + "/change";
     }
-    url += "?film_status="+film_status;
+    url += "?film_status=" + film_status;
     if (token) {
         url += "&token=" + token;
     }
@@ -81,15 +81,14 @@ export function changeFavoriteFilmApi(film) {
 
     let token = localStorage.getItem('token');
     if (film) {
-        url += film.id +"/change";
+        url += film.id + "/change";
     }
-    url += "?is_favorite="+(1-film.is_favorite);
+    url += "?is_favorite=" + (1 - film.is_favorite);
     if (token) {
         url += "&token=" + token;
     }
     return axios.put(url);
 }
-
 
 
 //Load All Session
@@ -102,9 +101,9 @@ export function loadAllSessionsApi(page, search, from_date, to_date, start_date,
     if (page) {
         url += "&page=" + page;
     }
-    if(from_date){
-        if(to_date){
-            url += "&from_date=" + from_date +"&to_date=" + to_date;
+    if (from_date) {
+        if (to_date) {
+            url += "&from_date=" + from_date + "&to_date=" + to_date;
         }
     }
     if (start_date) {
@@ -152,7 +151,7 @@ export function editSessionApi(session) {
 
 //Delete Session
 export function deleteSessionApi(session) {
-    let url = env.MANAGE_API_URL + "/session/"+session.id;
+    let url = env.MANAGE_API_URL + "/session/" + session.id;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -175,11 +174,10 @@ export function loadAllRoomsApi(limit) {
 }
 
 
-
 //lay cho ngoi theo session => booking
 ///session/{id}/seat
 export function loadSeatBySessionIdApi(id) {
-    let url = env.API_URL + "/session/"+ id +"/seat";
+    let url = env.API_URL + "/session/" + id + "/seat";
     return axios.get(url);
 }
 
@@ -193,4 +191,11 @@ export function bookingSeatApi(booking) {
         url += "?token=" + token;
     }
     return axios.post(url, booking);
+}
+
+//check code APi
+// /http://keetool3.xyz/api/v3/code/7CX0SQLHLG
+export function checkCodeApi(code) {
+    let url = env.API_URL + "/code/" + code;
+    return axios.get(url);
 }

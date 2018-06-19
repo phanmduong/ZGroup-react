@@ -37,8 +37,13 @@ class BookingGrid extends React.Component {
             return a.id;
         });
         this.props.filmAction.toggleBookingModal();
+        this.props.filmAction.clearCode();
         this.props.filmAction.handleBookingModal({
             ...this.props.handleBookingModal,
+            phone:"",
+            email:'',
+            name:'',
+            code:'',
             seats: JSON.stringify(seat_ids),
             sum: sum
         });

@@ -400,11 +400,12 @@ export function clearSeatBySessionId() {
 }
 
 
-export  function clearAllBeginBooking() {
-    return({
-       type: types.CLEAR_ALL_BEGIN_BOOKING
+export function clearAllBeginBooking() {
+    return ({
+        type: types.CLEAR_ALL_BEGIN_BOOKING
     });
 }
+
 export function handleBookingModal(handleBookingModal) {
     return ({
         type: types.HANDLE_BOOKING_MODAL,
@@ -419,7 +420,7 @@ export function bookingSeat(booking) {
         });
         filmApi.bookingSeatApi(booking)
             .then((res) => {
-                if (res.data.status){
+                if (res.data.status) {
                     helper.showNotification("Đặt vé thành công");
                     dispatch({
                         type: types.BOOKING_SEAT_SUCCESS
@@ -440,5 +441,33 @@ export function bookingSeat(booking) {
                 });
             });
     };
+
+}
+
+export function checkCode(code) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHECK_CODE
+        });
+        filmApi.checkCodeApi(code)
+            .then((res) => {
+                dispatch({
+                    type: types.CHECK_CODE_SUCCESS,
+                    code: res.data
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: types.CHECK_CODE_ERROR,
+                });
+            });
+    };
+
+}
+
+export function clearCode() {
+    return ({
+        type: types.CLEAR_CODE_BEGIN_BOOKING
+    });
 
 }

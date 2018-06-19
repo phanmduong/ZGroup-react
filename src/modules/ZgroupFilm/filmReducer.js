@@ -405,6 +405,27 @@ export default function filmReducer(state = initialState.film, action) {
                 isBookingSeat: false,
                 addBookingRegisterSessionModal: false
             };
+        case types.BEGIN_CHECK_CODE:
+            return{
+                ...state,
+                isCheckingCode: true,
+            };
+        case types.CHECK_CODE_SUCCESS:
+            return{
+                ...state,
+                isCheckingCode: false,
+                codeInfo: action.code
+            };
+        case types.CHECK_CODE_ERROR:
+            return{
+                ...state,
+                isCheckingCode: false,
+            };
+        case types.CLEAR_CODE_BEGIN_BOOKING:
+            return{
+                ...state,
+                codeInfo:{}
+            };
         default:
             return state;
     }

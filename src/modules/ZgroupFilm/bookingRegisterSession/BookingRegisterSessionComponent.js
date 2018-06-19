@@ -65,7 +65,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                 name="name"
                                 minDate={moment().format('YYYY-MM-DD')}
                                 id="select_day"
-                                label="Ngày chiếu"
+                                label="Chọn Ngày Chiếu"
                                 value={this.state.select_day.name}
                                 updateFormData={this.updateFormData}
                             />
@@ -73,7 +73,7 @@ class BookingRegisterSessionComponent extends React.Component {
                         </div>
                         <div className="col-md-6">
                             <FormInputSelect
-                                label="Thêm phim"
+                                label="Chọn Tên Phim"
                                 updateFormData={this.updateFormData2}
                                 name="id"
                                 id="select_film"

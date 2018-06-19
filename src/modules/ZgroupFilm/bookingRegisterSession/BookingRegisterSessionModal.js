@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import *as filmAction from "../filmAction";
 import Loading from "../../../components/common/Loading";
+import Search from '../../../components/common/Search';
 
 
 class BookingRegisterSessionModal extends React.Component {
@@ -16,8 +17,10 @@ class BookingRegisterSessionModal extends React.Component {
         this.state = {
             confirm: false,
         };
+        this.timeOut = null;
         this.updateFormData = this.updateFormData.bind(this);
         this.pay = this.pay.bind(this);
+        this.receiversSearchChange = this.receiversSearchChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -33,6 +36,22 @@ class BookingRegisterSessionModal extends React.Component {
             [field]: event.target.value,
         };
         this.props.filmAction.handleBookingModal(film);
+    }
+
+    receiversSearchChange(value) {
+        this.props.filmAction.handleBookingModal({
+            ...this.props.handleBookingModal,
+            code: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(
+            function () {
+                this.props.filmAction.checkCode(value);
+            }.bind(this),
+            500
+        );
     }
 
     pay() {
@@ -55,6 +74,7 @@ class BookingRegisterSessionModal extends React.Component {
     }
 
     render() {
+        let sum = this.props.handleBookingModal.sum;
         return (
             <Modal show={this.props.addBookingRegisterSessionModal}
                    onHide={() => {
@@ -97,17 +117,23 @@ class BookingRegisterSessionModal extends React.Component {
                         </div>
                         <div className="col-md-5">
                             <br/>
-                            <h4> Tổng giá tiền: {this.props.handleBookingModal.sum / 1000 || ''}.000 VNĐ</h4>
-                            <FormInputText
-                                label="Nhập mã giảm giá"
+                            <h5> Tổng tiền: {(sum || 0) / 1000 || ''}.000 VNĐ</h5>
+                            <Search
+                                placeholder="Nhập mã giảm giá"
                                 name="code"
-                                updateFormData={this.updateFormData}
-                                value={this.props.handleBookingModal.code || ''}
+                                onChange={this.receiversSearchChange}
+                                value={this.props.handleBookingModal.code}
                             />
-                            <h4>Giảm giá: 0 VNĐ
-                            </h4>
+                            {
+                                this.props.isCheckingCode ? <Loading/> :
+                                    <div>
+                                        <h5>Giảm giá: {(this.props.codeInfo.value || 0) / 1000}.000VNĐ
+                                        </h5>
 
-                            <h4>Thanh toán: {this.props.handleBookingModal.sum / 1000 || ''}.000 VNĐ</h4>
+                                        <h5>Thanh toán: {(sum||0)/1000-((this.props.codeInfo.value || 0) / 1000)}.000 VNĐ</h5>
+                                    </div>
+                            }
+
                         </div>
                     </div>
                     <CheckBoxMaterial
@@ -121,9 +147,12 @@ class BookingRegisterSessionModal extends React.Component {
                         }}
                         label="Xác nhận số tiền đã thu là:"
                     />
-                    <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
-                        {this.props.handleBookingModal.sum / 1000 || ''}.000 VNĐ
-                    </p>
+                    {
+                        this.props.isCheckingCode ? <Loading/> :
+                            <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
+                                {(sum||0)/1000-((this.props.codeInfo.value || 0) / 1000)}.000 VNĐ
+                            </p>
+                    }
                     <br/>
                     {
                         this.props.isBookingSeat ? <Loading/> :
@@ -158,8 +187,10 @@ class BookingRegisterSessionModal extends React.Component {
 BookingRegisterSessionModal.propTypes = {
     addBookingRegisterSessionModal: PropTypes.bool.isRequired,
     isBookingSeat: PropTypes.bool.isRequired,
+    isCheckingCode: PropTypes.bool.isRequired,
     filmAction: PropTypes.object.isRequired,
     handleBookingModal: PropTypes.object.isRequired,
+    codeInfo: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -167,6 +198,8 @@ function mapStateToProps(state) {
         addBookingRegisterSessionModal: state.film.addBookingRegisterSessionModal,
         handleBookingModal: state.film.handleBookingModal,
         isBookingSeat: state.film.isBookingSeat,
+        isCheckingCode: state.film.isCheckingCode,
+        codeInfo: state.film.codeInfo,
     };
 }
 

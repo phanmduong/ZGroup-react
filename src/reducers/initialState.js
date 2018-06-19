@@ -48,7 +48,9 @@ export default {
         seatForBooking: [],
         width:1200,
         height:10,
-        isBookingSeat: false
+        isBookingSeat: false,
+        codeInfo:{},
+        isCheckingCode: false,
 
     },
     seatType:{
