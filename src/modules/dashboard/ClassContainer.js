@@ -31,6 +31,77 @@ class ClassContainer extends React.Component {
                     <div className="col-sm-7 col-md-8">
 
                         <h4><strong>Danh sách học viên </strong></h4>
+                        <div className="row">
+                            <div className="col-sm-4">
+                                <div className={"flex"}>
+                                    <div
+                                        style={{
+                                            background: '#ffffff',
+                                            border: 'solid 1px',
+                                            height: '15px',
+                                            width: '30px',
+                                            margin: '3px 10px'
+                                        }}/>
+                                    < p> Chưa đóng tiền</p>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className={"flex"}>
+                                    <div style={{
+                                        background: '#dff0d8',
+                                        height: '15px',
+                                        width: '30px',
+                                        margin: '3px 10px'
+                                    }}/>
+                                    <p>Đã nộp tiền</p>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className={"flex"}>
+                                    <div
+                                        style={{
+                                            background: '#fcf8e3',
+                                            height: '15px',
+                                            width: '30px',
+                                            margin: '3px 10px'
+                                        }}/>
+                                    <p>Danh sách chờ</p>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className={"flex"}>
+                                    <div style={{
+                                        background: '#f2dede',
+                                        height: '15px',
+                                        width: '30px',
+                                        margin: '3px 10px'
+                                    }}/>
+                                    <p> Đang bảo lưu</p>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className={"flex"}>
+                                    <div style={{
+                                        background: '#daedf7',
+                                        height: '15px',
+                                        width: '30px',
+                                        margin: '3px 10px'
+                                    }}/>
+                                    <p>Đang học lại</p>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className={"flex"}>
+                                    <div style={{
+                                        background: '#8c8c8c',
+                                        height: '15px',
+                                        width: '30px',
+                                        margin: '3px 10px'
+                                    }}/>
+                                    <p>Đã học xong</p>
+                                </div>
+                            </div>
+                        </div>
                         <div className="table-responsive">
                             <table className="table">
                                 <thead className="text-rose">
@@ -47,8 +118,26 @@ class ClassContainer extends React.Component {
                                 {_.reverse(_.sortBy(classData.registers, 'total_attendances')).map((register) => {
                                     let avatar = helper.avatarEmpty(register.student.avatar_url) ?
                                         NO_AVATAR : register.student.avatar_url;
+                                    let color = "";
+                                    switch (register.status) {
+                                        case 1:
+                                            color = "success";
+                                            break;
+                                        case 2:
+                                            color = "warning";
+                                            break;
+                                        case 3:
+                                            color = "danger";
+                                            break;
+                                        case 4:
+                                            color = "info";
+                                            break;
+                                        case 5:
+                                            color = "gray";
+                                            break;
+                                    }
                                     return (
-                                        <tr key={register.id}>
+                                        <tr key={register.id} className={color}>
                                             <td>
                                                 <div style={{
                                                     background: "url('" + avatar + "') center center / cover",

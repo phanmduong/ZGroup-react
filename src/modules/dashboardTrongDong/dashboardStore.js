@@ -192,6 +192,7 @@ export default new class DashboardTrongDongStore {
                     }
                 } else {
                     showErrorNotification(res.data.message);
+                    this.isCreatingRegister = false;
                 }
             })
             .catch(() => {
