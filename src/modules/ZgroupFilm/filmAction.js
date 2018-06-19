@@ -399,6 +399,12 @@ export function clearSeatBySessionId() {
     });
 }
 
+
+export  function clearAllBeginBooking() {
+    return({
+       type: types.CLEAR_ALL_BEGIN_BOOKING
+    });
+}
 export function handleBookingModal(handleBookingModal) {
     return ({
         type: types.HANDLE_BOOKING_MODAL,

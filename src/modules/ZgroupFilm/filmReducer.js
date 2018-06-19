@@ -373,6 +373,16 @@ export default function filmReducer(state = initialState.film, action) {
                 width: 1200,
                 height: 10
             };
+        case types.CLEAR_ALL_BEGIN_BOOKING:
+            return{
+                ...state,
+                seatForBooking:[],
+                allFilms:[],
+                allSessions:[],
+                width: 1200,
+                height: 10,
+
+            };
         case types.HANDLE_BOOKING_MODAL:
             return{
                 ...state,

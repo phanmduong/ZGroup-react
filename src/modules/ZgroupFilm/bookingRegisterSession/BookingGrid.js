@@ -106,7 +106,7 @@ class BookingGrid extends React.Component {
         function render(dataset) {
             d3.select('svg').selectAll('g').data(dataset)
                 .on('click', d => {
-                    if (d.status !== 3)
+                    if (d.status !== 3 && d.status !== 2)
                         if (d.status === 1) {
                             sum = sum - parseInt(d.price);
                             data = data.map((ds) => {
@@ -146,7 +146,7 @@ class BookingGrid extends React.Component {
                 })
                 .select("circle").style('fill',
                 function (d) {
-                    return d.status === 3 ? "black" : (d.status !== 1 ? d.color : "gray");
+                    return (d.status === 3 || d.status === 2) ? "black" : (d.status !== 1 ? d.color : "gray");
                 })
                 .style("cursor", "pointer");
 

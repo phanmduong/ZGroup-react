@@ -24,6 +24,10 @@ class BookingRegisterSessionComponent extends React.Component {
         this.updateFormData2 = this.updateFormData2.bind(this);
     }
 
+    componentWillMount(){
+        this.props.filmAction.clearAllBeginBooking();
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let select_day = {...this.state.select_day};
