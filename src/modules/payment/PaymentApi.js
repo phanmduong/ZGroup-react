@@ -13,6 +13,7 @@ export function createPayment(object){
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
         'description': object.description,
+        'command_code': object.command_code,
         'type': "payment",
     });
 
@@ -29,6 +30,7 @@ export function editPayment(id,object){
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
         'description': object.description,
+        'command_code': object.command_code,
         'type': "payment",
     });
 
@@ -56,6 +58,15 @@ export function loadPaymentsNoPaging(){
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token + "&limit=-1" + "&type=payment";
+    }
+    return axios.get(url);
+}
+
+export function loadProposePayments(){
+    let url = env.MANAGE_API_URL + '/company/payment/all';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1" + "&type=propose_payment";
     }
     return axios.get(url);
 }

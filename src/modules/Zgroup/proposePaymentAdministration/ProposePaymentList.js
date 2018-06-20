@@ -55,7 +55,7 @@ class PaymentList extends React.Component {
                                             </a>
                                             <div style={{display: "inline-block"}}>
                                                 <Link data-toggle="tooltip" title="Sửa"
-                                                      to={"/administration/propose-payment/edit/" + pp.id}
+                                                      to={"/business/propose-payment/edit/" + pp.id}
                                                       type="button" rel="tooltip">
                                                     <i className="material-icons">edit</i>
                                                 </Link>

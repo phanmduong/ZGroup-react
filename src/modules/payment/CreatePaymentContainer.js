@@ -22,11 +22,26 @@ class CreatePaymentContainer extends React.Component {
         this.handleUpload = this.handleUpload.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.submit = this.submit.bind(this);
+        this.state = {
+            propose: [],
+        };
     }
 
     componentWillMount() {
         helper.setFormValidation('#form-payment');
         this.props.PaymentActions.loadCompanies();
+        this.props.PaymentActions.loadProposePayments((propose)=>{
+            
+            if(!propose) return;
+            propose = propose.map((obj) => {
+                return {
+                    ...obj,
+                    value: obj.id,
+                    label: obj.command_code,
+                };
+            });
+            this.setState({propose});
+        });
         if (this.props.params.paymentId)
             this.props.PaymentActions.loadPayment(this.props.params.paymentId);
         else this.props.PaymentActions.resetDataPayment();
@@ -84,17 +99,24 @@ class CreatePaymentContainer extends React.Component {
         let newdata = { ...this.props.data, [field]: value };
         this.props.PaymentActions.updateFormData(newdata);
     }
+    updateCommandCode = (e) => {
+        if (!e) return;
+        
+        let newdata = { ...this.props.data, ...e, bill_image_url: this.props.data.bill_image_url };
+        this.props.PaymentActions.updateFormData(newdata);
+    }
 
     submit() {
+        
         if (!this.props.link && !this.props.data.bill_image_url) {
             helper.showErrorNotification("Vui lòng chọn ảnh hóa đơn");
             return;
         }
-        if ($('#form-payment').valid()) {
+        if (this.props.data.id) {
             helper.showNotification("Đang lưu...");
             if (!this.props.params.paymentId) this.props.PaymentActions.addPayment(this.props.data);
             else this.props.PaymentActions.editPayment(this.props.params.paymentId, this.props.data);
-        } else helper.showErrorNotification("Vui lòng nhập đủ các thông tin");
+        } else helper.showErrorNotification("Vui chọn đề xuất");
     }
     cancel() {
         helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này?", () => {
@@ -117,13 +139,24 @@ class CreatePaymentContainer extends React.Component {
                                         (this.props.isLoadingCompanies) ? <Loading /> :
 
                                             <div>
+                                                <div className="col-md-12">
+                                                    <label>
+                                                        Chọn đề xuất
+                                                    </label>
+                                                    <ReactSelect
+                                                        options={this.state.propose || []}
+                                                        onChange={this.updateCommandCode}
+                                                        value={this.props.data.id || ""}
+                                                        defaultMessage="Tuỳ chọn"
+                                                    />
+                                                </div>
                                                 <div className="col-md-6">
                                                     <label>
                                                         Bên gửi
                                                     </label>
                                                     <ReactSelect
-                                                        required
-                                                        disabled={false}
+                                                        
+                                                        disabled
                                                         options={this.changeCompanies()}
                                                         onChange={this.updateFormDataPayer}
                                                         value={this.props.data.payer.id || ""}
@@ -137,7 +170,7 @@ class CreatePaymentContainer extends React.Component {
                                                         type="text"
                                                         name="stk2"
                                                         value={this.props.data.payer.account_number || ""}
-
+                                                        disabled
                                                     />
 
                                                 </div>
@@ -146,8 +179,8 @@ class CreatePaymentContainer extends React.Component {
                                                         Bên nhận
                                                     </label>
                                                     <ReactSelect
-                                                        required
-                                                        disabled={false}
+                                                        
+                                                        disabled
                                                         options={this.changeCompanies()}
                                                         onChange={this.updateFormDataReceiver}
                                                         value={this.props.data.receiver.id || ""}
@@ -161,7 +194,7 @@ class CreatePaymentContainer extends React.Component {
                                                         type="text"
                                                         name="stk"
                                                         value={this.props.data.receiver.account_number || ""}
-
+                                                        disabled
                                                     />
 
                                                 </div>
@@ -169,11 +202,11 @@ class CreatePaymentContainer extends React.Component {
                                                     <FormInputMoney
                                                         label="Số tiền"
                                                         type="text"
-                                                        required
+                                                        
                                                         name="money_value"
                                                         updateFormData={this.updateFormData}
                                                         value={this.props.data.money_value || ""}
-
+                                                        disabled
                                                     />
                                                 </div>
                                                 <div className="col-md-12">
@@ -183,7 +216,7 @@ class CreatePaymentContainer extends React.Component {
                                                         name="description"
                                                         updateFormData={this.updateFormData}
                                                         value={this.props.data.description || ""}
-
+                                                        disabled
                                                     />
                                                 </div>
                                                 <div className="col-md-12"

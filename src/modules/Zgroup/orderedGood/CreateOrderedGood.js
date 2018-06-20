@@ -322,7 +322,7 @@ class CreateOrderedGood extends React.Component {
                                                                 <td><FormInputText
                                                                     name="" type="number"
                                                                     label="Thành tiền"
-                                                                    value={addModalData.price * addModalData.quantity}
+                                                                    value={helper.dotNumber(addModalData.price * addModalData.quantity)}
                                                                     updateFormData={() => { }}
                                                                     placeholder="Thành tiền"
                                                                     disabled

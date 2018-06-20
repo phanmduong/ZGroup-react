@@ -149,7 +149,7 @@ class ProposePaymentContainer extends React.Component {
                                                         data-toggle="tooltip"
                                                         rel="tootip"
                                                         title="Tạo thanh toán"
-                                                        to="/administration/propose-payment/create"
+                                                        to="/business/propose-payment/create"
                                                     >
                                                         <strong>+</strong>
                                                     </Link>

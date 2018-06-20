@@ -15,6 +15,8 @@ import OrderedGoodContainer from "../modules/Zgroup/orderedGood/OrderedGoodConta
 import CreateOrderGoodContainer from "../modules/Zgroup/orderGood/CreateOrderGoodContainer";
 import OrderGoodContainer from "../modules/Zgroup/orderGood/OrderGoodContainer";
 import WarehouseContainer from "../modules/Zgroup/warehouse/WarehouseContainer";
+import ProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/ProposePaymentContainer";
+import CreateProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/CreateProposePaymentContainer";
 
 /**
  * Tab Kinh Doanh
@@ -119,5 +121,18 @@ export default [
     {
         path: "/business/zwarehouse",
         component: WarehouseContainer,
+    },
+    {
+        path: "/business/propose-payment",
+        component: ProposePaymentContainer,
+    },
+    {
+        path: "/business/propose-payment/create",
+        component: CreateProposePaymentContainer,
+    },
+    {
+        path: "/administration/propose-payment/edit/:paymentId",
+        component: CreateProposePaymentContainer,
+        type: "edit",
     },
 ];

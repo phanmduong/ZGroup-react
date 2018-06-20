@@ -1,14 +1,15 @@
 import React from "react";
-import {bindActionCreators} from "redux";
-import {connect} from 'react-redux';
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
 import * as warehouseAction from "./warehouseAction";
 import PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 import GoodList from "./GoodList";
 import HistoryGoodComponent from "./HistoryGoodComponent";
 import Pagination from "../../../components/common/Pagination";
+import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from 'react-select';
-import {Modal, Panel} from 'react-bootstrap';
+import { Modal, Panel } from 'react-bootstrap';
 import * as helper from "../../../helpers/helper";
 import TooltipButton from '../../../components/common/TooltipButton';
 class WarehouseContainer extends React.Component {
@@ -19,8 +20,13 @@ class WarehouseContainer extends React.Component {
             page: 1,
             id: 1,
             showLoadingModal: false,
+            addModal: false,
             openFilter: false,
-            goodId: 0,
+            goodId: '',
+            data: {
+                name: "",
+                location: "",
+            }
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -33,19 +39,20 @@ class WarehouseContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.warehouseAction.loadSummaryGoods(1,this.state.goodId);
+        this.props.warehouseAction.loadSummaryGoods(1, this.state.goodId);
         this.props.warehouseAction.loadAllGood();
+        helper.setFormValidation('#form-payment');
     }
 
     openModal(id) {
-        this.setState({showModal: true, id: id});
+        this.setState({ showModal: true, id: id });
         this.props.warehouseAction.loadHistoryGood(1, id);
     }
-    searchByGood(e){
-        this.setState({ goodId: e.value});
-        this.props.warehouseAction.loadSummaryGoods(1,e.value);
+    searchByGood(e) {
+        this.setState({ goodId: e.value });
+        this.props.warehouseAction.loadSummaryGoods(1, e.value);
     }
-    changeDataGoodAll(){
+    changeDataGoodAll() {
         let data = [];
         data = this.props.goodAll.map((pp) => {
             return {
@@ -57,12 +64,12 @@ class WarehouseContainer extends React.Component {
         data = [{
             value: 0,
             label: "Tất cả",
-        },...data];
+        }, ...data];
         return data;
 
     }
     closeModal() {
-        this.setState({showModal: false});
+        this.setState({ showModal: false });
     }
 
     loadHistory(page, id) {
@@ -70,12 +77,12 @@ class WarehouseContainer extends React.Component {
     }
 
     loadGoodList(page) {
-        this.setState({page: page});
+        this.setState({ page: page });
         this.props.warehouseAction.loadSummaryGoods(page);
     }
 
     openLoadingModal() {
-        this.setState({showLoadingModal: true});
+        this.setState({ showLoadingModal: true });
         this.props.warehouseAction.loadAllSummaryGoods(this.exportExcel);
     }
 
@@ -87,7 +94,7 @@ class WarehouseContainer extends React.Component {
         }
         let wb = helper.newWorkBook();
         let data;
-        let cols = [{"wch": 5}, {"wch": 50}, {"wch": 20}, {"wch": 20}, {"wch": 20},];//độ rộng cột
+        let cols = [{ "wch": 5 }, { "wch": 50 }, { "wch": 20 }, { "wch": 20 }, { "wch": 20 },];//độ rộng cột
 
         data = input.map((item, index) => {
             let hnLeft = item.summary_warehouse[0].sum_quantity;
@@ -109,11 +116,32 @@ class WarehouseContainer extends React.Component {
         //xuất file
         helper.saveWorkBookToExcel(wb, 'Danh sách tồn kho Zgroup');
 
-        this.setState({showLoadingModal: false});
+        this.setState({ showLoadingModal: false });
         helper.showNotification("Xuất file thành công!");
     }
 
+    updateFormAdd = (e) => {
+        let { name, value } = e.target;
+        let { data } = this.state;
+        data = { ...data, [name]: value };
+        this.setState({ data });
+    }
+
+    sumbitWarehouse = () => {
+        this.setState({addModal: false});
+        if ($('#form-add').valid()) {
+            
+            this.props.warehouseAction.createWarehouse(this.state.data,
+                ()=> {
+                    
+                    this.props.warehouseAction.loadSummaryGoods(1, this.state.goodId);
+                }
+            );
+        }
+    }
+
     render() {
+        let { data } = this.state;
         return (
             <div className="content">
                 <HistoryGoodComponent
@@ -130,7 +158,48 @@ class WarehouseContainer extends React.Component {
                     }}
                 >
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
-                    <Modal.Body><Loading/></Modal.Body>
+                    <Modal.Body><Loading /></Modal.Body>
+                </Modal>
+                <Modal
+                    show={this.state.addModal}
+                    onHide={() => {
+                        this.setState({ addModal: false });
+                    }}>
+                    <Modal.Header>Thêm kho hàng</Modal.Header>
+                    <Modal.Body>
+                        <form role="form" id="form-add" onSubmit={(e) => e.preventDefault()}>
+                            <FormInputText
+                                name="name" type="text"
+                                id="name"
+                                label="Tên"
+                                value={data.name}
+                                updateFormData={this.updateFormAdd}
+                                placeholder="Nhập"
+                                required
+                            />
+                            <FormInputText
+                                name="location" type="text"
+                                id="location"
+                                label="Vị trí"
+                                value={data.location}
+                                updateFormData={this.updateFormAdd}
+                                placeholder="Nhập"
+                                required
+                            />
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="col-md-12"
+                            style={{ display: "flex", flexFlow: "row-reverse" }}>
+                            
+                                <div>
+                                    <button onClick={this.sumbitWarehouse}  className="btn btn-rose">Lưu</button>
+                                    <button className="btn" onClick={()=>this.setState({addModal: false})} type="button">Hủy</button>
+                                </div>
+                            
+
+                        </div>
+                    </Modal.Footer>
                 </Modal>
                 <div className="container-fluid">
                     <div className="row">
@@ -142,11 +211,31 @@ class WarehouseContainer extends React.Component {
                                     <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <div className="flex-row flex">
                                             <h4 className="card-title"><strong>Quản lý kho hàng</strong> </h4>
+
+                                            <div style={{ marginLeft: 10 }}>
+                                                <TooltipButton text="Thêm kho hàng" placement="top">
+                                                    <button
+                                                        className="btn btn-rose"
+                                                        onClick={() => this.setState({ addModal: true })}
+                                                        style={{
+                                                            borderRadius: 30,
+                                                            padding: "0px 11px",
+                                                            margin: "-1px 10px",
+                                                            minWidth: 25,
+                                                            height: 25,
+                                                            width: "55%",
+                                                        }}
+                                                    >
+                                                        <i className="material-icons" style={{ height: 5, width: 5, marginLeft: -12, marginTop: -10 }}
+                                                        >add</i>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                             <div>
                                                 <TooltipButton text="Lọc" placement="top">
                                                     <button
                                                         className="btn btn-rose"
-                                                        onClick={() => this.setState({openFilter: !this.state.openFilter})}
+                                                        onClick={() => this.setState({ openFilter: !this.state.openFilter })}
                                                         style={{
                                                             borderRadius: 30,
                                                             padding: "0px 11px",
@@ -203,7 +292,7 @@ class WarehouseContainer extends React.Component {
                                     </div>
 
                                     {
-                                        this.props.isLoading || this.props.isLoadingGoodAll ? <Loading/> :
+                                        this.props.isLoading || this.props.isLoadingGoodAll ? <Loading /> :
                                             <div>
                                                 <GoodList
                                                     data={this.props.goods}
@@ -214,7 +303,7 @@ class WarehouseContainer extends React.Component {
                                                     float: "right"
                                                 }}>
                                                     <Pagination
-                                                        totalPages={this.props.paginator.total_pages}
+                                                        totalPages={this.props.paginator ? this.props.paginator.total_pages :  0}
                                                         currentPage={this.state.page}
                                                         loadDataPage={this.loadGoodList}
                                                     />

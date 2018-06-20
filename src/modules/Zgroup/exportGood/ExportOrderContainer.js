@@ -213,7 +213,7 @@ class ExportOrderContainer extends React.Component {
                                                             id="command_code"
                                                             value={filter.command_code}
                                                             label="Mã đơn hàng"
-                                                            updateFormData={()=>{}}
+                                                            updateFormData={this.onDateFilterChange}
                                                         />
                                                     </div>
                                                 <div className={filterClass}>

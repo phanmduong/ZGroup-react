@@ -49,6 +49,12 @@ class InfoPaymentModal extends React.Component{
                                             <div className="row">{
                                                 (this.props.isLoadingCompanies) ? <Loading/> :
                                                     <div>
+                                                        <div className="col-md-12">
+                                                            <label>
+                                                                Mã thanh toán
+                                                            </label><br/>
+                                                            {this.props.data.command_code}
+                                                        </div>
                                                         <div className="col-md-6">
                                                             <label>
                                                                 Bên gửi

@@ -24,7 +24,6 @@ class InfoImportOrder extends React.Component{
         return arr;
     }
     render(){
-        console.log(this.props);
         let {data} = this.props;
         let sumQuantity = 0, sumPrice = 0, sumImportedQuantity=0;
         let count = 0;
