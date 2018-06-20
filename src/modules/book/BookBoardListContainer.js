@@ -77,21 +77,21 @@ class BookBoardListContainer extends React.Component {
     }
 
     // archiveExecute = (inputCard) => {
-        
+
     //     this.props.boards.forEach((board) => {
-            
+
     //             board.cards.forEach((card) => {
     //                 if(card.good_id == inputCard.good_id){
     //                     this.props.taskActions.archiveCard(card);
     //                 }
     //             });
-                
-            
-            
+
+
+
     //     });
-    
+
     // }
-    
+
     archiveExecute = (inputCard) => {
         this.props.taskActions.removeArchiveCard(inputCard);
         this.props.taskActions.archiveCard(inputCard);
@@ -102,7 +102,7 @@ class BookBoardListContainer extends React.Component {
         //             }
         //         });
         // });
-        
+
     }
 
     render() {
@@ -122,38 +122,38 @@ class BookBoardListContainer extends React.Component {
                 {this.props.isLoadingBoards ? (
                     <Loading />
                 ) : (
-                    <div>
-                        <BookCardFilterContainer
-                            isAdmin={isAdmin}
-                            projectId={Number(this.props.projectId)}
-                            loadBoards={()=> {return this.props.bookActions.loadBoards(this.props.params.type);}}
-                        />
-                        <BookBoardList
-                            archiveBoard={this.props.boardActions.archiveBoard}
-                            display={this.props.setting.display || "full"}
-                            isAdmin={isAdmin}
-                            isLoadingBoardsDetail={this.props.isLoadingBoardsDetail}
-                            canDragBoard={isAdmin || this.props.canDragBoard}
-                            canDragCard={isAdmin || this.props.canDragCard}
-                            archiveCard={this.archiveExecute}
-                            updateCardInBoard={
-                                this.props.taskActions.updateCardInBoard
-                            }
-                            openCardDetailModal={
-                                this.props.taskActions.openCardDetailModal
-                            }
-                            moveBoard={this.props.taskActions.moveBoard}
-                            changeOrderCard={
-                                this.props.taskActions.changeOrderCard
-                            }
-                            moveCard={this.moveCard}
-                            addCard={this.addCard}
-                            editBoard={this.editBoard}
-                            openCreateBoardModal={this.openCreateBoardModal}
-                            boards={this.props.boards}
-                        />
-                    </div>
-                )}
+                        <div>
+                            <BookCardFilterContainer
+                                isAdmin={isAdmin}
+                                projectId={Number(this.props.projectId)}
+                                loadBoards={() => { return this.props.bookActions.loadBoards(this.props.params.type); }}
+                            />
+                            <BookBoardList
+                                archiveBoard={this.props.boardActions.archiveBoard}
+                                display={this.props.setting.display || "full"}
+                                isAdmin={isAdmin}
+                                isLoadingBoardsDetail={this.props.isLoadingBoardsDetail}
+                                canDragBoard={this.props.canDragBoard}
+                                canDragCard={this.props.canDragCard}
+                                archiveCard={this.archiveExecute}
+                                updateCardInBoard={
+                                    this.props.taskActions.updateCardInBoard
+                                }
+                                openCardDetailModal={
+                                    this.props.taskActions.openCardDetailModal
+                                }
+                                moveBoard={this.props.taskActions.moveBoard}
+                                changeOrderCard={
+                                    this.props.taskActions.changeOrderCard
+                                }
+                                moveCard={this.moveCard}
+                                addCard={this.addCard}
+                                editBoard={this.editBoard}
+                                openCreateBoardModal={this.openCreateBoardModal}
+                                boards={this.props.boards}
+                            />
+                        </div>
+                    )}
             </div>
         );
     }
@@ -185,7 +185,7 @@ BookBoardListContainer.propTypes = {
 function mapStateToProps(state) {
     const { selectedCardLabels, selectedMembers } = state.cardFilter;
     const boards = state.task.boardList.boards.map(board => {
-        const cards = (board ?  board.cards : [])
+        const cards = (board ? board.cards : [])
             .map(card => {
                 let hasCardLabel = selectedCardLabels.length > 0;
                 let hasMember = selectedMembers.length > 0;
@@ -203,7 +203,7 @@ function mapStateToProps(state) {
                     if (
                         selectedCardLabels.length > 0 &&
                         intersect(selectedCardLabels, card.cardLabels).length >
-                            0
+                        0
                     ) {
                         return card;
                     }
@@ -219,7 +219,7 @@ function mapStateToProps(state) {
                     // filter by both CardLabel and Member
                     if (
                         intersect(selectedCardLabels, card.cardLabels).length >
-                            0 &&
+                        0 &&
                         intersect(selectedMembers, card.members).length > 0
                     ) {
                         return card;

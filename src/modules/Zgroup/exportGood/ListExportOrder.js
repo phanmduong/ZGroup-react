@@ -34,7 +34,7 @@ class ListExportOrder extends React.Component {
     // }
 
     confirm(id) {
-        helper.confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
+        helper.confirm("done", "Xác Nhận Đã giao hàng", "Sau khi duyệt sẽ không thể hoàn tác?",
             () => {
                 return this.props.exportOrderActions.confirmOrder(id,
                     () => {
@@ -94,17 +94,17 @@ class ListExportOrder extends React.Component {
                                         editUrl={"/business/export-order/edit/" + order.id}
                                         disabledDelete={true}
                                         //disabledEdit={order.status > 2}
-                                        // children={
-                                        //     (order.status && (order.status == 2)) ?
-                                        //         <a data-toggle="tooltip" title="Duyệt"
-                                        //             type="button"
-                                        //             onClick={() => { return this.confirm(order.id); }}
-                                        //             rel="tooltip"
-                                        //         >
-                                        //             <i className="material-icons">done</i>
-                                        //         </a>
-                                        //         : <div />
-                                        // }
+                                        children={
+                                            (order.status && (order.status == 2)) ?
+                                                <a data-toggle="tooltip" title="Xác nhận giao hàng"
+                                                    type="button"
+                                                    onClick={() => { return this.confirm(order.id); }}
+                                                    rel="tooltip"
+                                                >
+                                                    <i className="material-icons">done</i>
+                                                </a>
+                                                : <div />
+                                        }
                                     /></td>
                                 </tr>
                             );
