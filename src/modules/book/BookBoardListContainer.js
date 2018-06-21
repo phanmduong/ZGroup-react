@@ -11,7 +11,7 @@ import Loading from "../../components/common/Loading";
 import * as taskActions from "../tasks/taskActions";
 import * as bookActions from "./bookActions";
 import * as boardActions from "./../tasks/board/boardActions";
-import { intersect } from "../../helpers/helper";
+import { intersect, confirm } from "../../helpers/helper";
 import BookCardFilterContainer from "./BookCardFilterContainer";
 import BookBoardList from "./BookBoardList";
 import BookCreateCardModalContainer from "./BookCreateCardModalContainer";
@@ -93,8 +93,10 @@ class BookBoardListContainer extends React.Component {
     // }
 
     archiveExecute = (inputCard) => {
-        this.props.taskActions.removeArchiveCard(inputCard);
-        this.props.taskActions.archiveCard(inputCard);
+        confirm('warning','Lưu trữ thẻ','Bạn có chắc muốn lưu trữ tất cả các thẻ của sản phẩm này?',()=>{
+            this.props.taskActions.removeArchiveCard(inputCard);
+            this.props.taskActions.archiveCard(inputCard);
+        });
         // this.props.boards.forEach((board) => {
         //         board.cards.forEach((card) => {
         //             if(card.good_id == inputCard.good_id){
