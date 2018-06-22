@@ -20,7 +20,7 @@ class ListClient extends React.Component {
     };
 
     render() {
-        console.log(store.isLoading);
+        //console.log(store.isLoading);
         return (
             <div>
                 {store.isLoading ? <Loading/> :

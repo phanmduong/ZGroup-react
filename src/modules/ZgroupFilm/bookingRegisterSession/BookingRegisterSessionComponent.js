@@ -24,6 +24,10 @@ class BookingRegisterSessionComponent extends React.Component {
         this.updateFormData2 = this.updateFormData2.bind(this);
     }
 
+    componentWillMount(){
+        this.props.filmAction.clearAllBeginBooking();
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let select_day = {...this.state.select_day};
@@ -46,6 +50,9 @@ class BookingRegisterSessionComponent extends React.Component {
     changeRoom(value) {
         this.setState({roomId: value});
         this.props.filmAction.loadSeatBySessionId(value);
+        this.props.filmAction.handleBookingModal({...this.props.handleBookingModal,
+            session_id: value
+        });
     }
 
     render() {
@@ -58,7 +65,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                 name="name"
                                 minDate={moment().format('YYYY-MM-DD')}
                                 id="select_day"
-                                label="Ngày chiếu"
+                                label="Chọn Ngày Chiếu"
                                 value={this.state.select_day.name}
                                 updateFormData={this.updateFormData}
                             />
@@ -66,7 +73,7 @@ class BookingRegisterSessionComponent extends React.Component {
                         </div>
                         <div className="col-md-6">
                             <FormInputSelect
-                                label="Thêm phim"
+                                label="Chọn Tên Phim"
                                 updateFormData={this.updateFormData2}
                                 name="id"
                                 id="select_film"
@@ -81,7 +88,7 @@ class BookingRegisterSessionComponent extends React.Component {
                         {this.props.allSessions.map((room, index) => {
                             if (this.state.roomId === room.id) {
                                 return (
-                                    <li className="active">
+                                    <li className="active" key={index}>
                                         <a
                                             href={"#" + index}
                                             data-toggle="tab"
@@ -91,13 +98,13 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} {room.room_id}{" "}
+                                            {room.start_time} Phòng {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
                             } else {
                                 return (
-                                    <li className="">
+                                    <li className="" key={index}>
                                         <a
                                             href={"#" + index}
                                             data-toggle="tab"
@@ -107,7 +114,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} {room.room_id}{" "}
+                                            {room.start_time} Phòng {room.room_id}{" "}
                                         </a>
                                     </li>
                                 );
@@ -132,6 +139,7 @@ BookingRegisterSessionComponent.propTypes = {
     allFilms: PropTypes.array.isRequired,
     allSessions: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
+    handleBookingModal: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingAllSessions: PropTypes.bool.isRequired,
     isLoadingSeatBySessionId: PropTypes.bool.isRequired,
@@ -146,6 +154,7 @@ function mapStateToProps(state) {
         width: state.film.width,
         height: state.film.height,
         isLoadingSeatBySessionId: state.film.isLoadingSeatBySessionId,
+        handleBookingModal: state.film.handleBookingModal,
     };
 }
 

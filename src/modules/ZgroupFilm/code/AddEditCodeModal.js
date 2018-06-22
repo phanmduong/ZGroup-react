@@ -14,13 +14,41 @@ class AddEditCodeModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
+        this.submit = this.submit.bind(this);
 
     }
+
     updateFormData(event) {
         const field = event.target.name;
         let code = {...this.props.handleCodeModal};
         code[field] = event.target.value;
         this.props.codeAction.handleCodeModal(code);
+    }
+
+    submit(code) {
+        let a = {
+            ...code,
+            length: 10,
+        };
+        if (
+            helper.isEmptyInput(code.description)
+            || helper.isEmptyInput(code.number)
+            || helper.isEmptyInput(code.start_date)
+            || helper.isEmptyInput(code.end_date)
+            || helper.isEmptyInput(code.value)
+        ) {
+            if (helper.isEmptyInput(code.description)) helper.showErrorNotification("Bạn cần miêu tả mã giảm giá");
+            if (helper.isEmptyInput(code.number)) helper.showErrorNotification("Bạn cần nhập số lượng");
+            if (helper.isEmptyInput(code.value)) helper.showErrorNotification("Bạn cần nhập giá trị");
+            if (helper.isEmptyInput(code.start_date)) helper.showErrorNotification("Bạn cần nhập ngày áp dụng");
+            if (helper.isEmptyInput(code.end_date)) helper.showErrorNotification("Bạn cần nhập ngày kết thúc");
+        } else {
+            //console.log("aaa", a);
+            if (code.codes) this.props.codeAction.editCode(a);
+            else this.props.codeAction.creatCode(a);
+
+
+        }
     }
 
     render() {
@@ -60,11 +88,11 @@ class AddEditCodeModal extends React.Component {
                                     label="Số lượng"
                                     name="number"
                                     updateFormData={this.updateFormData}
-                                    value={code.number||''}
+                                    value={code.number || ''}
                                     type="number"
                                     required
-                                    minValue={1}
-                                    maxValue = "20"
+                                    minValue="1"
+                                    maxValue="20"
                                 />
                             </div>
                             <div>
@@ -73,7 +101,7 @@ class AddEditCodeModal extends React.Component {
                                     label="Trị giá"
                                     name="value"
                                     updateFormData={this.updateFormData}
-                                    value={code.value||''}
+                                    value={code.value || ''}
                                     required
                                 />
                             </div>
@@ -102,10 +130,7 @@ class AddEditCodeModal extends React.Component {
                                             <button
                                                 type="button"
                                                 className="btn btn-rose"
-                                                onClick={()=>{
-                                                    //console.log("aaa",code)
-                                                    //this.props.codeAction.creatCode(code)
-                                                }}
+                                                onClick={()=>this.submit(code)}
                                             >
                                                 Lưu
                                             </button>
@@ -134,10 +159,10 @@ class AddEditCodeModal extends React.Component {
 }
 
 AddEditCodeModal.propTypes = {
-    addEditCodeModal: PropTypes.bool.require,
-    isAddEditCode: PropTypes.bool.require,
-    codeAction: PropTypes.object.require,
-    handleCodeModal: PropTypes.object.require,
+    addEditCodeModal: PropTypes.bool.isRequired,
+    isAddEditCode: PropTypes.bool.isRequired,
+    codeAction: PropTypes.object.isRequired,
+    handleCodeModal: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

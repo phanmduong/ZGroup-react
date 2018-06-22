@@ -373,6 +373,59 @@ export default function filmReducer(state = initialState.film, action) {
                 width: 1200,
                 height: 10
             };
+        case types.CLEAR_ALL_BEGIN_BOOKING:
+            return{
+                ...state,
+                seatForBooking:[],
+                allFilms:[],
+                allSessions:[],
+                width: 1200,
+                height: 10,
+
+            };
+        case types.HANDLE_BOOKING_MODAL:
+            return{
+                ...state,
+                handleBookingModal: action.handleBookingModal,
+            };
+        case types.BEGIN_BOOKING_SEAT:
+            return{
+                ...state,
+                isBookingSeat: true
+            };
+        case types.BOOKING_SEAT_SUCCESS:
+            return{
+                ...state,
+                isBookingSeat: false,
+                addBookingRegisterSessionModal: false
+            };
+        case types.BOOKING_SEAT_ERROR:
+            return{
+                ...state,
+                isBookingSeat: false,
+                addBookingRegisterSessionModal: false
+            };
+        case types.BEGIN_CHECK_CODE:
+            return{
+                ...state,
+                isCheckingCode: true,
+            };
+        case types.CHECK_CODE_SUCCESS:
+            return{
+                ...state,
+                isCheckingCode: false,
+                codeInfo: action.code
+            };
+        case types.CHECK_CODE_ERROR:
+            return{
+                ...state,
+                isCheckingCode: false,
+            };
+        case types.CLEAR_CODE_BEGIN_BOOKING:
+            return{
+                ...state,
+                codeInfo:{}
+            };
         default:
             return state;
     }

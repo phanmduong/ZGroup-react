@@ -1,7 +1,6 @@
 import * as types from './codeActionTypes';
 import * as codeApi from "./codeApi";
 import * as helper from "../../../helpers/helper";
-import {browserHistory} from "react-router";
 
 
 export function openModal() {
@@ -28,7 +27,6 @@ export function creatCode(code) {
                     dispatch({
                         type: types.SAVE_CODE_SUCCESS,
                     });
-                    browserHistory.push('/base/film/code');
                 }
                 else helper.showNotification(res.data.message);
             });
@@ -41,4 +39,67 @@ export function handleCodeModal(code) {
         code
     });
 
+}
+export function handlShowCodesModal(code) {
+    return({
+       type: types.HANDLE_SHOW_CODES_MODAL,
+        code
+    });
+}
+
+export function getCode() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CODE,
+        });
+        codeApi.getCodeApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CODE_SUCCESS,
+                    code: res.data,
+                });
+
+            });
+    };
+}
+
+export function editCode(code) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_CODE,
+        });
+        codeApi.editCodeApi(code)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Sửa mã giảm giá thành công");
+                    dispatch({
+                        type: types.SAVE_CODE_SUCCESS,
+                    });
+                }
+                else helper.showNotification(res.data.message);
+            });
+    };
+}
+export function deleteCode(code) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_CODE
+        });
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        codeApi.deleteCodeApi(code)
+            .then(() => {
+                // if (res.data.status) {
+                    helper.showNotification("Xóa mã giảm giá thành công");
+                    dispatch({
+                        type: types.SAVE_CODE_SUCCESS,
+                    });
+                // }
+                // else helper.showNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
 }
