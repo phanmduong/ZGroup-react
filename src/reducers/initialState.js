@@ -4,6 +4,7 @@ export default {
         isLoading: false,
         isSaving: false,
         allFilms: [],
+        shownFilms: [],
         allFilmsHavePagination: [],
         currentPage: 0,
         limit: 0,
@@ -68,10 +69,19 @@ export default {
         isLoadingCode: false,
         codes:[],
         isAddEditCode: false,
+        totalCount: 0,
+        currentPage: 0,
+        totalPages:0,
+        limit: ""
     },
     bookingHistory: {
         isLoadingBookingHistory: false,
         bookingHistories: [],
+        totalCount: 0,
+        currentPage: 0,
+        totalPages:0,
+        limit: ""
+
     },
 
     campaignList: {

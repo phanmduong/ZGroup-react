@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import * as filmAction from "../filmAction";
 import {bindActionCreators} from 'redux';
 import * as d3 from "d3";
-//import * as helper from "../../../helpers/helper";
+import * as helper from "../../../helpers/helper";
 
 
 let ghedachon = [];
@@ -40,10 +40,10 @@ class BookingGrid extends React.Component {
         this.props.filmAction.clearCode();
         this.props.filmAction.handleBookingModal({
             ...this.props.handleBookingModal,
-            phone:"",
-            email:'',
-            name:'',
-            code:'',
+            phone: "",
+            email: '',
+            name: '',
+            code: '',
             seats: JSON.stringify(seat_ids),
             sum: sum
         });
@@ -89,9 +89,8 @@ class BookingGrid extends React.Component {
                 .style("font-weight", 600);
             // .style("border", "2px 2px red solid");
             aa
-                .text(' ')
                 .text(function (d) {
-                    return d.name + " ";
+                    return " -" + d.name + "- ";
                 });
 
             aa
@@ -100,9 +99,8 @@ class BookingGrid extends React.Component {
                 .style("font-size", "28px")
                 .style("font-weight", 600)
                 // .style("border", "#ff0000 solid 2px")
-                .text(' ')
                 .text(function (d) {
-                    return d.name + " ";
+                    return " -" + d.name + "- ";
                 });
 
             aa.exit().remove();
@@ -167,10 +165,109 @@ class BookingGrid extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-7">
                     <img src="https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-screen.png"/><br/><br/>
                     <div ref={node => this.node = node}/>
 
+
+
+
+
+                </div>
+                <div className="col-md-5">
+                    <h2>Các ghế đã đặt:</h2>
+                    <div ref={node2 => this.node2 = node2}/>
+                    <hr/>
+                    <h2>
+                        Tổng giá vé:
+                        <p className="total-pay"/>
+                    </h2>
+                    {
+                        helper.isEmptyInput(this.props.seatForBooking) ? "":
+                            <div className="row">
+                                <div className="col-md-7">
+                                    <div className="table-responsive">
+                                        <table className="table table-hover">
+
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    &emsp;
+                                                    <button style={{
+                                                        backgroundColor: "rgb(244, 67, 54)", color: "white",
+                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                    }}>
+                                                        <b>A1</b>
+                                                    </button>
+
+                                                </td>
+                                                <td>Ghế Thường</td>
+                                                <td>
+                                                    79.000 VNĐ
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &emsp;
+                                                    <button style={{
+                                                        backgroundColor: "rgb(156, 39, 176)", color: "white",
+                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                    }}>
+                                                        <b>A1</b>
+                                                    </button>
+
+                                                </td>
+                                                <td>Ghế Xịn</td>
+                                                <td>
+                                                    99.000 VNĐ
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="col-md-5">
+                                    <div className="table-responsive">
+                                        <table className="table table-hover">
+
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    &emsp;
+                                                    <button style={{
+                                                        backgroundColor: "black", color: "white",
+                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                    }}>
+                                                        <b>A1</b>
+                                                    </button>
+
+                                                </td>
+                                                <td>Đã được đặt</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &emsp;
+                                                    <button style={{
+                                                        backgroundColor: "grey", color: "white",
+                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                    }}>
+                                                        <b>A1</b>
+                                                    </button>
+
+                                                </td>
+                                                <td>Ghế đang chọn</td>
+
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    }
                     <div style={{textAlign: "right"}}>
                         <div>
                             <button
@@ -184,17 +281,6 @@ class BookingGrid extends React.Component {
                             </button>
                         </div>
                     </div>
-
-
-                </div>
-                <div className="col-md-4">
-                    <h2>Các ghế đã đặt:</h2>
-                    <div ref={node2 => this.node2 = node2}/>
-                    <hr/>
-                    <h2>
-                        Tổng giá vé:
-                        <p className="total-pay"/>
-                    </h2>
                 </div>
 
             </div>

@@ -21,6 +21,12 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 isLoading: true
             };
+        case types.LOAD_SHOWN_FILMS_SUCCESS:
+            return{
+                ...state,
+                shownFilms: action.films,
+                isLoading: false
+            };
         case types.LOAD_ALL_FILMS_SUCCESS:
             return {
                 ...state,
@@ -420,6 +426,7 @@ export default function filmReducer(state = initialState.film, action) {
             return{
                 ...state,
                 isCheckingCode: false,
+                codeInfo: {}
             };
         case types.CLEAR_CODE_BEGIN_BOOKING:
             return{

@@ -26,6 +26,18 @@ export function loadAllFilmsHavePaginationApi(page, search) {
     return axios.get(url);
 }
 
+//Load Film da chieu
+//http://keetool3.xyz/api/v3/films/shown
+export function loadShownFilmsApi() {
+    let url = env.API_URL + "/films/shown";
+    // if (search) {
+    //     url += "&search=" + search;
+    // }
+
+    return axios.get(url);
+}
+
+
 //Xoa Film
 export function deleteFilmApi(id) {
     let url = env.MANAGE_API_URL + "/film/";

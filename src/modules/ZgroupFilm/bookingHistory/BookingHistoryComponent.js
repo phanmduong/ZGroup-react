@@ -20,7 +20,7 @@ class BookingHistoryComponent extends React.Component {
                         <th>Phòng</th>
                         <th>Ghế</th>
                         <th>Mã giảm giá</th>
-                        <th>Tiền</th>
+                        <th>Tiền (VNĐ)</th>
                         <th>Thời gian đặt vé</th>
                         <th>Loại thanh toán</th>
                     </tr>
@@ -46,8 +46,8 @@ class BookingHistoryComponent extends React.Component {
                                     </td>
                                     <td>{bk.seat_name}</td>
                                     <td>{bk.code}</td>
-                                    <td>{bk.price}</td>
-                                    <td>{bk.time} 12:34</td>
+                                    <td>{bk.price/1000}.000</td>
+                                    <td>{bk.time}</td>
                                     <td>{bk.payment_method}</td>
                                 </tr>
                             );

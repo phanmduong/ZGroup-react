@@ -25,17 +25,20 @@ class FilmContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.filmAction.loadShownFilms();
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllFilmsHavePagination(1);
         this.props.filmAction.clearToLoadPage();
     }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
             this.props.filmAction.loadAllFilmsHavePagination(1);
             this.props.filmAction.loadAllFilms();
         }
     }
-    filmsSearchChange(value){
+
+    filmsSearchChange(value) {
         this.setState({
             query: value,
             page: 1
@@ -48,6 +51,7 @@ class FilmContainer extends React.Component {
             this.props.filmAction.loadAllFilms(value);
         }.bind(this), 500);
     }
+
     render() {
         this.path = this.props.location.pathname;
         return (
@@ -57,6 +61,14 @@ class FilmContainer extends React.Component {
                             className={this.path === `${this.state.link}/all` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
                         Tất cả phim
+                        <div className="ripple-container"/>
+                    </button>
+                </Link>&emsp;
+                <Link to={`${this.state.link}/shown`} style={{color: "white", width: 160}}>
+                    <button type="button"
+                            className={this.path === `${this.state.link}/shown` ? 'btn-primary btn btn-round' : 'btn btn-round'}
+                            data-dismiss="modal">
+                        Phim đã chiếu
                         <div className="ripple-container"/>
                     </button>
                 </Link>&emsp;
@@ -94,7 +106,7 @@ class FilmContainer extends React.Component {
                                             onClick={() => {
                                                 this.props.filmAction.showAddEditFilmModal();
                                                 this.props.filmAction.handleFilmModal({
-                                                    images_url:'',
+                                                    images_url: '',
                                                 });
                                             }}>
 
