@@ -6,6 +6,11 @@ import Loading from "../../components/common/Loading";
 // import * as helper from "../../helpers/helper";
 import Switch from "react-bootstrap-switch";
 import TooltipButton from "../../components/common/TooltipButton";
+import {NO_IMAGE} from "../../constants/env";
+import {isEmptyInput} from "../../helpers/helper";
+// import {NO_IMAGE} from "../../constants/env";
+// import * as helper from "../../helpers/helper";
+// import ImageUploader from "../../components/common/ImageUploader";
 
 // import {OverlayTrigger,Tooltip} from "react-bootstrap";
 
@@ -26,8 +31,8 @@ class ListPageItems extends Component {
         store.isEditPageItem = true;
     }
 
-    handleSwitch(id, is_actived,name) {
-        store.changeIsActived(id,is_actived,name);
+    handleSwitch(id, is_actived, name) {
+        store.changeIsActived(id, is_actived, name);
     }
 
     render() {
@@ -43,7 +48,7 @@ class ListPageItems extends Component {
                                 <th>Tên</th>
                                 <th>Nội dung tiếng anh</th>
                                 <th>Nội dung tiếng việt</th>
-                                <th>Keyword</th>
+                                {/*<th>Keyword</th>*/}
                                 <th/>
                                 <th/>
                             </tr>
@@ -52,18 +57,37 @@ class ListPageItems extends Component {
                             {store.pageItems && store.pageItems.map((item) => {
                                 return (
                                     <tr key={item.id}>
-                                        <td>
+                                        <td style={{minWidth: 150}}>
                                             {item.name}
                                         </td>
                                         <td>
                                             {item.value_en}
+
                                         </td>
-                                        <td>
-                                            {item.value_vi}
-                                        </td>
-                                        <td>
-                                            {item.keyword}
-                                        </td>
+                                        {item.type === "img" ?
+
+                                            <td style={{display: "flex", justifyContent: "right"}}>
+                                                <img
+                                                    src={
+                                                        isEmptyInput(item.value_en)
+                                                            ? NO_IMAGE
+                                                            : item.value_en
+                                                    }
+                                                    style={{
+                                                        height: "30%",
+                                                        width: "30%",
+                                                        display: "block",
+                                                        backgroundSize: "cover",
+                                                        backgroundPosition: "center",
+                                                        boxShadow:
+                                                            " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+                                                        borderRadius: "10px",
+                                                    }}
+                                                />
+                                            </td>
+                                            :
+                                            <td>{item.value_vi}</td>
+                                        }
                                         <td>
                                             <div
                                                 style={{

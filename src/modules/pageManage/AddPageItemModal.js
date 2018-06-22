@@ -5,6 +5,8 @@ import {Modal} from "react-bootstrap";
 // import {observable} from "mobx";
 import FormInputText from "../../components/common/FormInputText";
 import * as helper from "../../helpers/helper";
+import ImageUploader from "../../components/common/ImageUploader";
+import {NO_IMAGE} from "../../constants/env";
 // import {OverlayTrigger,Tooltip} from "react-bootstrap";
 
 // let self;
@@ -14,11 +16,10 @@ class AddPageItemModal extends Component {
     constructor(props) {
         super(props);
         this.closeAddPageItemModal = this.closeAddPageItemModal.bind(this);
-        this.updateFormPageItem = this.updateFormPageItem.bind(this);
         this.savePageItem = this.savePageItem.bind(this);
-        // self = this;
     }
-    closeAddPageItemModal(){
+
+    closeAddPageItemModal() {
         helper.confirm("warning", "Cảnh báo",
             "Bạn có chắc muốn đóng ? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
             () => {
@@ -27,16 +28,25 @@ class AddPageItemModal extends Component {
             },
         );
     }
-    updateFormPageItem(event){
-        const field = event.target.name;
-        let data = {...store.pageItem};
-        data[field] = event.target.value;
-        store.pageItem = data;
-    }
 
-    savePageItem(){
+
+    updateFormPageItem = (field, value) => {
+        let data = {...store.pageItem};
+        data[field] = value;
+        store.pageItem = data;
+    };
+
+    updateFormImagePageItem = (value) => {
+        let data = {...store.pageItem};
+        data["value_en"] = value;
+        data["value_vi"] = value;
+        store.pageItem = data;
+    };
+
+    savePageItem() {
         store.isEditPageItem ? store.editPageItem() : store.createPageItem();
     }
+
     render() {
 
         return (
@@ -59,35 +69,57 @@ class AddPageItemModal extends Component {
                             label="Tên Item"
                             required
                             name="name"
-                            updateFormData={this.updateFormPageItem}
+                            updateFormData={(e) => this.updateFormPageItem('name', e.target.value)}
                             value={store.pageItem && store.pageItem.name}
                         />
-                        <FormInputText
-                            label="Nội dung tiếng anh"
-                            // required
-                            name="value_en"
-                            updateFormData={this.updateFormPageItem}
-                            value={store.pageItem && store.pageItem.value_en}
-                        />
-                        <FormInputText
-                            label="Nội dung tiếng việt"
-                            // required
-                            name="value_vi"
-                            updateFormData={this.updateFormPageItem}
-                            value={store.pageItem && store.pageItem.value_vi}
-                        />
-                        {/*<FormInputText*/}
-                            {/*label="Từ khóa"*/}
-                            {/*// required*/}
-                            {/*name="keyword"*/}
-                            {/*updateFormData={this.updateFormPageItem}*/}
-                            {/*value={store.pageItem && store.pageItem.keyword}*/}
-                        {/*/>*/}
+
+                        {store.pageItem.type === "img" ?
+                            <div>
+                                <label>Banner</label>
+                                <ImageUploader
+                                    handleFileUpload={value =>
+                                        this.updateFormImagePageItem(value)
+                                    }
+                                    tooltipText="Tải từ máy tính"
+                                    image_url={
+                                        store.pageItem.value_en
+                                            ? helper.validateLinkImage(store.pageItem.value_en)
+                                            : NO_IMAGE
+                                    }
+                                />
+                                <FormInputText
+                                    label="Link"
+                                    name="value_en"
+                                    updateFormData={(e) => this.updateFormImagePageItem( e.target.value)}
+                                    value={store.pageItem && store.pageItem.value_en}
+                                />
+                            </div>
+                            :
+                            (
+                                <div>
+                                    <FormInputText
+                                        label="Nội dung tiếng anh"
+                                        // required
+                                        name="value_en"
+                                        updateFormData={(e) => this.updateFormPageItem('value_en', e.target.value)}
+                                        value={store.pageItem && store.pageItem.value_en}
+                                    />
+                                    <FormInputText
+                                        label="Nội dung tiếng việt"
+                                        // required
+                                        name="value_vi"
+                                        updateFormData={(e) => this.updateFormPageItem('value_vi', e.target.value)}
+                                        value={store.pageItem && store.pageItem.value_vi}
+                                    />
+                                </div>
+                            )
+                        }
+
                         <div className="modal-footer">
-                            {store.isCreatingPageItem || store.isEdittingPageItem?
+                            {store.isCreatingPageItem || store.isEdittingPageItem ?
                                 (
                                     <button type="button" className="btn btn-rose disabled">
-                                        <i className="fa fa-spinner fa-spin "/>{store.isEditPageItem? "Đang sửa" : "Đang thêm"}
+                                        <i className="fa fa-spinner fa-spin "/>{store.isEditPageItem ? "Đang sửa" : "Đang thêm"}
                                     </button>
                                 )
                                 :
@@ -97,7 +129,7 @@ class AddPageItemModal extends Component {
                                                 () => {
                                                     this.savePageItem();
                                                 }}
-                                    >{store.isEditPageItem? "Sửa" : "Thêm"}</button>
+                                    >{store.isEditPageItem ? "Sửa" : "Thêm"}</button>
                                 )
                             }
                             <button type="button"

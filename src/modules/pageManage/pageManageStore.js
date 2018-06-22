@@ -6,6 +6,7 @@ import * as helper from "../../helpers/helper";
 export default new class pageManageStore {
     @observable isLoadingPages = false;
     @observable pages = [];
+    @observable language_id = 0;
     @observable page_id = 1;
     @observable page = {}; // name,name_en
 
@@ -18,25 +19,25 @@ export default new class pageManageStore {
     @observable totalProductPages = 0;
     @observable isLoadingProducts = false;
     @observable products = [];
-    @observable product = {
-        isUpdatingImage : false,
-        imageUrl : '',
-
-    };
+    @observable product = {};
     @observable product_id = 0;
 
-    @observable isEditPageItem = false;
 
     @observable isCreatingPage = false;
-    @observable isCreatingPageItem = false;
     @observable isOpenAddPageModal = false;
+
     @observable isOpenAddPageItemModal = false;
+    @observable isEditPageItem = false;
+    @observable isEdittingPageItem = false;
+    @observable isCreatingPageItem = false;
 
     @observable isOpenAddProductModal = false;
+    @observable isEditProduct = false;
+    @observable isCreatingProduct = false;
+    @observable isEdittingProduct = false;
 
-    @observable isEdittingPageItem = false;
 
-
+    //              PAGE
     @action
     loadPages() {
         this.isLoadingPages = true;
@@ -52,41 +53,6 @@ export default new class pageManageStore {
                 this.isLoadingPages = false;
             });
     }
-
-    @action
-    loadPageItems(page_id) {
-        this.isLoadingPageItems = true;
-        pageManageApis
-            .loadPageItemsApi(page_id)
-            .then(res => {
-                // this.pageItems = _.map(_.toPairs(res.data.data.page_item), d => _.fromPairs([d]));
-                this.pageItems = res.data.data.page_items;
-                // console.log(this.pageItems,'aaaaaaa',_.map(_.toPairs(res.data.data.page_item), d => _.fromPairs([d])));
-                this.isLoadingPageItems = false;
-            })
-            .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra.");
-                this.isLoadingPageItems = false;
-            });
-    }
-
-    @action
-    loadProducts(page_id, productPage) {
-        this.productPage = productPage;
-        this.isLoadingProducts = true;
-        pageManageApis
-            .loadProductsApi(page_id, this.productPage)
-            .then(res => {
-                this.products = res.data.products;
-                this.isLoadingProducts = false;
-                this.totalProductPages = res.data.paginator.total_pages;
-            })
-            .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra.");
-                this.isLoadingProducts = false;
-            });
-    }
-
     @action
     createPage() {
         this.isCreatingPage = true;
@@ -106,6 +72,27 @@ export default new class pageManageStore {
     }
 
 
+
+
+    //                  PAGE_ITEM
+
+
+
+
+    @action
+    loadPageItems(page_id) {
+        this.isLoadingPageItems = true;
+        pageManageApis
+            .loadPageItemsApi(page_id)
+            .then(res => {
+                this.pageItems = res.data.data.page_items;
+                this.isLoadingPageItems = false;
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                this.isLoadingPageItems = false;
+            });
+    }
     @action
     editPageItem() {
         this.isEdittingPageItem = true;
@@ -128,7 +115,6 @@ export default new class pageManageStore {
                 this.isEdittingPageItem = false;
             });
     }
-
     @action
     changeIsActived(id, is_actived, name) {
         pageManageApis
@@ -160,12 +146,6 @@ export default new class pageManageStore {
             .then((res) => {
                 this.isCreatingPageItem = false;
                 this.pageItems = [res.data.data.page_item, ...this.pageItems];
-                //     this.pageItems.map((item) => {
-                //     if (item.id === this.pageItem.id) {
-                //         return this.pageItem;
-                //     }
-                //     return item;
-                // });
                 this.isOpenAddPageItemModal = false;
                 helper.showNotification("Thêm " + this.pageItem.name + " thành công");
                 this.pageItem = {};
@@ -176,44 +156,105 @@ export default new class pageManageStore {
             });
     }
 
-    @action
-    uploadImageSuccess(imageUrl) {
-            this.product = {
-            ...this.product,
-            isUpdatingImage: false,
-            updateImageError: false,
-            imageUrl: imageUrl,
-        };
-    }
+
+
+
+    //                          PRODUCT
+
+
+
 
     @action
-    uploadImageFailed() {
-        this.product = {
-            ...this.product,
-            isUpdatingImage: false,
-            updateImageError: true,
-        };
+    loadProducts(page_id, productPage,language_id) {
+        this.productPage = productPage;
+        this.isLoadingProducts = true;
+        pageManageApis
+            .loadProductsApi(page_id, this.productPage,language_id)
+            .then(res => {
+                this.products = res.data.products;
+                this.isLoadingProducts = false;
+                this.totalProductPages = res.data.paginator.total_pages;
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                this.isLoadingProducts = false;
+            });
+    }
+    @action
+    createProduct() {
+        this.isCreatingProduct = true;
+        pageManageApis
+            .createProductApi(this.product, this.page_id,this.language_id)
+            .then((res) => {
+                this.isCreatingProduct = false;
+                this.products = [res.data.product, ...this.products];
+                this.isOpenAddProductModal = false;
+                helper.showNotification("Thêm " + this.product.title + " thành công");
+                this.product = {};
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                this.isCreatingProduct = false;
+            });
+    }
+    @action
+    editProduct() {
+        this.isEdittingProduct = true;
+        pageManageApis
+            .editProductApi(this.product,this.language_id)
+            .then(() => {
+                this.isEdittingProduct = false;
+                this.products = this.products.map((product) => {
+                    if (product.id === this.product.id) {
+                        return this.product;
+                    } else return product;
+                });
+                this.isOpenAddProductModal = false;
+                helper.showNotification("Sửa " + this.product.title + " thành công");
+                this.product = {};
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                this.isEdittingProduct = false;
+            });
+    }
+    @action
+    changeStatus(product_id, status, title) {
+        pageManageApis
+            .changeStatusApi(product_id)
+            .then(() => {
+                this.products = this.products.map((item) => {
+
+                    if (item.id === product_id) {
+                        return {...item, status: 1 - status};
+                    }
+                    return item;
+                });
+                if (status) {
+                    helper.showNotification("Đã ẩn " + title);
+                } else {
+                    helper.showNotification("Đã hiện " + title);
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+            });
+    }
+    @action
+    deleteProduct(product_id) {
+        pageManageApis
+            .deleteProductApi(product_id)
+            .then(() => {
+                this.products = this.products.filter((product) =>
+                    product.id !== product_id);
+                this.isOpenAddProductModal = false;
+                helper.showNotification("Xóa thành công");
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+            });
     }
 
-    @action
-    uploadImage(file) {
-        this.product = {
-            ...this.product,
-            isUpdatingImage: true,
-            updateImageError: false,
-        };
-        pageManageApis.uploadImage(
-            file,
-            function (event) {
-                let data = JSON.parse(event.currentTarget.response);
-                this.uploadImageSuccess(data.link);
-            },
-            () => {
-                helper.showErrorNotification("Đăng ảnh thất bại.");
-                this.uploadImageFailed();
-            },
-        );
-    }
 
 
     @computed
@@ -224,12 +265,5 @@ export default new class pageManageStore {
                 value: page.name
             };
         });
-        // return [
-        //     {
-        //         key: 0,
-        //         value: "Tất cả"
-        //     },
-        //     ...pagesData
-        // ];
     }
 }();
