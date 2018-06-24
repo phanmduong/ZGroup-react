@@ -81,6 +81,15 @@ export function loadBases() {
 
     return axios.get(url);
 }
+
+export function loadSubscriptionApi(userpack_id) {
+    let url = env.MANAGE_API_URL + "/coworking-space/user-pack/" + userpack_id + "/subscription";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
 export function loadUserpackApi(){
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + `/coworking-space/user-pack?&token=${token}&limit=-1`;
@@ -99,7 +108,7 @@ export function saveSubscriptionApi(register_id,select) {
 }
 
 export function createRegisterApi(register) {
-    let url = env.MANAGE_API_URL + '/coworking-space/booking?';
+    let url = env.MANAGE_API_URL + '/coworking-space/register?';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -108,5 +117,7 @@ export function createRegisterApi(register) {
         "name": register.name,
         "phone": register.phone,
         "email": register.email,
+        "base_id" : register.base_id,
+        "subscription_id" : register.subscription_id,
     });
 }

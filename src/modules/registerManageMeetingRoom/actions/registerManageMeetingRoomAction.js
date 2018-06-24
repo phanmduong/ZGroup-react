@@ -25,6 +25,27 @@ export function loadAllBases() {
     };
 }
 
+export function loadBasesByProvince(province_id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BASES_BY_PROVINCE,
+        });
+        registerManageMeetingRoomApi
+            .loadBasesByProvinceApi(province_id)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_BASES_BY_PROVINCE_SUCCESS,
+                    bases: res.data.data.bases,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_BASES_BY_PROVINCE_ERROR,
+                });
+            });
+    };
+}
+
 export function loadAllProvinces() {
     return function (dispatch) {
         dispatch({

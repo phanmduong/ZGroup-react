@@ -133,6 +133,48 @@ export function loadBasesData() {
     };
 }
 
+export function loadSubscription(userpack_id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SUBSCRIPTION_IN_REGISTER_MANAGE,
+        });
+        registerManageApi
+            .loadSubscriptionApi(userpack_id)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIPTION_IN_REGISTER_MANAGE_SUCCESS,
+                    subscriptions: res.data.data.subscriptions,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIPTION_IN_REGISTER_MANAGE_ERROR,
+                });
+            });
+    };
+}
+
+export function loadUserpacks() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_USERPACKS_IN_REGISTER_MANAGE,
+        });
+        registerManageApi
+            .loadUserpackApi()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_USERPACKS_IN_REGISTER_MANAGE_SUCCESS,
+                    userpacks: res.data.data.user_packs,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_USERPACKS_IN_REGISTER_MANAGE_ERROR,
+                });
+            });
+    };
+}
+
 export const showGlobalLoading = () => {
     return dispatch => {
         dispatch({
@@ -148,26 +190,6 @@ export const hideGlobalLoading = () => {
     };
 };
 
-
-export function loadUserpacks() {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_USERPACKS_IN_REGISTER,
-        });
-        registerManageApi.loadUserpackApi()
-            .then((res) => {
-                dispatch({
-                    type: types.LOADED_USERPACKS_SUCCESS_IN_REGISTER,
-                    userpacks: res.data.data.user_packs,
-                });
-            })
-            .catch(() => {
-                dispatch({
-                    type: types.LOADED_USERPACKS_ERROR_IN_REGISTER,
-                });
-            });
-    };
-}
 
 export function addSubscription(register_id, select, closeModal) {
     return function (dispatch) {
@@ -226,7 +248,7 @@ export function closeAddRegisterModal() {
     };
 }
 
-export function createRegister(register, close) {
+export function createRegister(register) {
     return (dispatch) => {
         dispatch({type: types.BEGIN_CREATE_REGISTER});
         registerManageApi.createRegisterApi(register)
@@ -237,7 +259,8 @@ export function createRegister(register, close) {
                     });
                     helper.showNotification("Thêm đăng kí thành công");
                     dispatch(loadAllRegisters());
-                    close();
+                    dispatch(closeAddRegisterModal());
+                    // close();
                 }
                 else {
                     helper.showErrorNotification("Thêm thất bại");
