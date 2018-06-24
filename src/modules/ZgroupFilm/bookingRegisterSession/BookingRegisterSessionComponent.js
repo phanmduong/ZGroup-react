@@ -48,8 +48,10 @@ class BookingRegisterSessionComponent extends React.Component {
     }
 
     changeRoom(value) {
+        let ass = this.props.allSessions.filter((ss)=>ss.id === value)[0].seats;
         this.setState({roomId: value});
         this.props.filmAction.loadSeatBySessionId(value);
+        this.props.filmAction.handleSeatTypes(ass);
         this.props.filmAction.handleBookingModal({...this.props.handleBookingModal,
             session_id: value
         });

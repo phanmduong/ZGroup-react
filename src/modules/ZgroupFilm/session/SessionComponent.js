@@ -67,7 +67,7 @@ class SessionComponent extends React.Component {
                                 <td>
                                     {session.film_quality}
                                 </td>
-                                <td style={{display: 'flex', marginBottom: '-16px'}}>
+                                <td style={{display: 'flex'}}>
                                     {
                                         session.seats && session.seats.map((seat, index) => {
                                             return (
@@ -87,7 +87,6 @@ class SessionComponent extends React.Component {
                                                             <b style={{margin:"auto"}}>{seat.price/1000}</b>
                                                         </button>
                                                     </TooltipButton>
-                                                    <br/>
                                                 </div>
                                             );
                                         })

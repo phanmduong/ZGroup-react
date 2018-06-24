@@ -64,14 +64,7 @@ class FilmContainer extends React.Component {
                         <div className="ripple-container"/>
                     </button>
                 </Link>&emsp;
-                <Link to={`${this.state.link}/shown`} style={{color: "white", width: 160}}>
-                    <button type="button"
-                            className={this.path === `${this.state.link}/shown` ? 'btn-primary btn btn-round' : 'btn btn-round'}
-                            data-dismiss="modal">
-                        Phim đã chiếu
-                        <div className="ripple-container"/>
-                    </button>
-                </Link>&emsp;
+
                 <Link to={`${this.state.link}/showing`} style={{color: "white", width: 160}}>
                     <button type="button"
                             className={this.path === `${this.state.link}/showing` ? 'btn-primary btn btn-round' : 'btn btn-round'}
@@ -85,6 +78,14 @@ class FilmContainer extends React.Component {
                             className={this.path === `${this.state.link}/coming` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                             data-dismiss="modal">
                         Phim sắp chiếu
+                    </button>
+                </Link>&emsp;
+                <Link to={`${this.state.link}/shown`} style={{color: "white", width: 160}}>
+                    <button type="button"
+                            className={this.path === `${this.state.link}/shown` ? 'btn-primary btn btn-round' : 'btn btn-round'}
+                            data-dismiss="modal">
+                        Phim đã chiếu
+                        <div className="ripple-container"/>
                     </button>
                 </Link>
 

@@ -52,6 +52,7 @@ export default {
         isBookingSeat: false,
         codeInfo:{},
         isCheckingCode: false,
+        seats: [],
 
     },
     seatType:{

@@ -386,7 +386,12 @@ export function loadAllRooms(limit) {
     };
 }
 
-
+export function handleSeatTypes(seats) {
+    return ({
+        type: types.HANDLE_SEAT_TYPES,
+        seats
+    });
+}
 export function toggleBookingModal() {
     return ({
         type: types.TOGGLE_ADD_BOOKING_MODAL

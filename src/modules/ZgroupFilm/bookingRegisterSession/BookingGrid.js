@@ -90,7 +90,7 @@ class BookingGrid extends React.Component {
             // .style("border", "2px 2px red solid");
             aa
                 .text(function (d) {
-                    return " -" + d.name + "- ";
+                    return " " + d.name + ". ";
                 });
 
             aa
@@ -100,7 +100,7 @@ class BookingGrid extends React.Component {
                 .style("font-weight", 600)
                 // .style("border", "#ff0000 solid 2px")
                 .text(function (d) {
-                    return " -" + d.name + "- ";
+                    return " " + d.name + ". ";
                 });
 
             aa.exit().remove();
@@ -190,40 +190,32 @@ class BookingGrid extends React.Component {
                                         <table className="table table-hover">
 
                                             <tbody>
-                                            <tr>
-                                                <td>
-                                                    &emsp;
-                                                    <button style={{
-                                                        backgroundColor: "rgb(244, 67, 54)", color: "white",
-                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
-                                                    }}>
-                                                        <b>A1</b>
-                                                    </button>
+                                            {
+                                                this.props.seats && this.props.seats.map(
+                                                    (ass, index)=>{
+                                                        return(
+                                                            <tr key={index}>
+                                                                <td>
+                                                                    &emsp;
+                                                                    <button style={{
+                                                                        backgroundColor: ass.color, color: "white",
+                                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                                    }}>
+                                                                        <b>A1</b>
+                                                                    </button>
 
-                                                </td>
-                                                <td>Ghế Thường</td>
-                                                <td>
-                                                    79.000 VNĐ
-                                                </td>
+                                                                </td>
+                                                                <td>{ass.type}</td>
+                                                                <td>
+                                                                    {ass.price/1000}.000 VNĐ
+                                                                </td>
 
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    &emsp;
-                                                    <button style={{
-                                                        backgroundColor: "rgb(156, 39, 176)", color: "white",
-                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
-                                                    }}>
-                                                        <b>A1</b>
-                                                    </button>
+                                                            </tr>
+                                                        );
+                                                    }
+                                                )
+                                            }
 
-                                                </td>
-                                                <td>Ghế Xịn</td>
-                                                <td>
-                                                    99.000 VNĐ
-                                                </td>
-
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -295,6 +287,7 @@ BookingGrid.propTypes = {
     rooms: PropTypes.array.isRequired,
     handleBookingModal: PropTypes.object.isRequired,
     seatForBooking: PropTypes.array.isRequired,
+    seats: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
 };
@@ -306,6 +299,7 @@ function mapStateToProps(state) {
         width: state.film.width,
         height: state.film.height,
         handleBookingModal: state.film.handleBookingModal,
+        seats: state.film.seats,
     };
 }
 

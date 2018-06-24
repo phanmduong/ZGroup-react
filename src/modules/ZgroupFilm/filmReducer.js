@@ -22,7 +22,7 @@ export default function filmReducer(state = initialState.film, action) {
                 isLoading: true
             };
         case types.LOAD_SHOWN_FILMS_SUCCESS:
-            return{
+            return {
                 ...state,
                 shownFilms: action.films,
                 isLoading: false
@@ -360,14 +360,14 @@ export default function filmReducer(state = initialState.film, action) {
                 addBookingRegisterSessionModal: !state.addBookingRegisterSessionModal,
             };
         case types.BEGIN_LOAD_SEAT_BY_SESSION_ID:
-            return{
+            return {
                 ...state,
                 isLoadingSeatBySessionId: true,
             };
         case types.LOAD_SEAT_BY_SESSION_ID_SUCCESS:
-            return{
+            return {
                 ...state,
-                isLoadingSeatBySessionId:false,
+                isLoadingSeatBySessionId: false,
                 seatForBooking: action.seatForBooking,
                 width: action.width,
                 height: action.height
@@ -375,63 +375,68 @@ export default function filmReducer(state = initialState.film, action) {
         case types.CLEAR_SEAT_BY_SESSION_ID:
             return {
                 ...state,
-                seatForBooking:[],
+                seatForBooking: [],
                 width: 1200,
                 height: 10
             };
         case types.CLEAR_ALL_BEGIN_BOOKING:
-            return{
+            return {
                 ...state,
-                seatForBooking:[],
-                allFilms:[],
-                allSessions:[],
+                seatForBooking: [],
+                allFilms: [],
+                allSessions: [],
                 width: 1200,
                 height: 10,
 
             };
         case types.HANDLE_BOOKING_MODAL:
-            return{
+            return {
                 ...state,
                 handleBookingModal: action.handleBookingModal,
             };
+        case types.HANDLE_SEAT_TYPES:
+            return {
+                ...state,
+                seats: action.seats
+            };
         case types.BEGIN_BOOKING_SEAT:
-            return{
+            return {
                 ...state,
                 isBookingSeat: true
             };
         case types.BOOKING_SEAT_SUCCESS:
-            return{
+            return {
                 ...state,
                 isBookingSeat: false,
                 addBookingRegisterSessionModal: false
             };
         case types.BOOKING_SEAT_ERROR:
-            return{
+            return {
                 ...state,
                 isBookingSeat: false,
                 addBookingRegisterSessionModal: false
             };
         case types.BEGIN_CHECK_CODE:
-            return{
+            return {
                 ...state,
                 isCheckingCode: true,
             };
         case types.CHECK_CODE_SUCCESS:
-            return{
+            return {
                 ...state,
                 isCheckingCode: false,
                 codeInfo: action.code
             };
         case types.CHECK_CODE_ERROR:
-            return{
+            return {
                 ...state,
                 isCheckingCode: false,
                 codeInfo: {}
             };
         case types.CLEAR_CODE_BEGIN_BOOKING:
-            return{
+            return {
                 ...state,
-                codeInfo:{}
+                codeInfo: {}
             };
         default:
             return state;
