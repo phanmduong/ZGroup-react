@@ -15,7 +15,7 @@ class BookingRegisterSessionComponent extends React.Component {
         super(props, context);
         this.path = '';
         this.state = {
-            select_day: {name: ''},
+            select_day: {name: moment().format('YYYY-MM-DD')},
             select_film:{id:-1},
             roomId: '',
         };
