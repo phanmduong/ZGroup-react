@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import { browserHistory } from "react-router";
 import FormInputMoney from "../../../components/common/FormInputMoney";
 import UploadButton from "../../../components/common/uploadButton/UploadButton";
+import FormInputDate from "../../../components/common/FormInputDate";
+//import {DATETIME_VN_FORMAT} from "../../../constants/constants";
 
 //import Lightbox from 'react-images';
 
@@ -198,6 +200,17 @@ class CreateBillContainer extends React.Component {
                                                 value={this.props.data.kind || ""}
                                                 defaultMessage="Tuỳ chọn"
                                                 name="receiver"
+                                            />
+                                        </div>
+                                        <div className="col-md-12">
+                                            <FormInputDate
+                                                label="Ngày xuất"
+                                                name="export_date"
+                                                id="export_date"
+                                                updateFormData={this.updateFormData}
+                                                format={"YYYY-MM-DD"}
+                                                value={this.props.data.export_date || ""}
+
                                             />
                                         </div>
                                         <div className="col-md-12">

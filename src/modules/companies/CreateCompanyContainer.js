@@ -184,6 +184,17 @@ class CreateCompanyContainer extends React.Component {
                                                             />
                                                         </div>
                                                         <div className="col-md-12">
+                                                            <FormInputText
+                                                                label="Email"
+                                                                required
+                                                                type="text"
+                                                                name="email"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.email || ""}
+
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-12">
                                                             <label>
                                                                 Thông tin tài khoản
                                                             </label></div>

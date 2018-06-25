@@ -135,8 +135,8 @@ class BookBoardListContainer extends React.Component {
                                 display={this.props.setting.display || "full"}
                                 isAdmin={isAdmin}
                                 isLoadingBoardsDetail={this.props.isLoadingBoardsDetail}
-                                canDragBoard={this.props.canDragBoard}
-                                canDragCard={this.props.canDragCard}
+                                canDragBoard={isAdmin || this.props.canDragBoard}
+                                canDragCard={isAdmin || this.props.canDragCard}
                                 archiveCard={this.archiveExecute}
                                 updateCardInBoard={
                                     this.props.taskActions.updateCardInBoard

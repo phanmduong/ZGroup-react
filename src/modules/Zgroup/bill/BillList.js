@@ -23,7 +23,7 @@ class PaymentList extends React.Component {
                         <th>Bên nhận</th>
                         <th>Số tiền</th>
                         <th>Nội dung</th>
-                        <th> Ngày tạo </th>
+                        <th>Ngày xuất</th>
                         <th>Trạng thái</th>
                         <th/>
                         <th/>
@@ -39,8 +39,8 @@ class PaymentList extends React.Component {
                                     <td onClick={onFunc}>{pp.payer.name}</td>
                                     <td onClick={onFunc}>{pp.receiver.name}</td>
                                     <td onClick={onFunc}>{helper.dotStringNumber(pp.money_value)}</td>
-                                    <td onClick={onFunc}> {pp.description ? pp.description : "Không có"}</td>
-                                    <td onClick={onFunc}> {pp.created_at} </td>
+                                    <td onClick={onFunc}>{pp.description ? pp.description : "Không có"}</td>
+                                    <td onClick={onFunc}>{pp.export_date}</td>
                                     <td onClick={onFunc}>
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
                                     </td>
