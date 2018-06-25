@@ -17,17 +17,38 @@ export default function filmReducer(state = initialState.code, action) {
         case types.BEGIN_SAVE_CODE:
             return {
                 ...state,
-                isAddEditCode: false
+                isAddEditCode: true
             };
         case types.SAVE_CODE_SUCCESS:
             return {
                 ...state,
-                isAddEditCode: true
+                isAddEditCode: false,
+                addEditCodeModal: false,
             };
         case types.HANDLE_CODE_MODAL:
-            return{
+            return {
                 ...state,
                 handleCodeModal: action.code
+            };
+        case types.HANDLE_SHOW_CODES_MODAL:
+            return{
+                ...state,
+                codes: action.code
+            };
+        case types.BEGIN_LOAD_CODE:
+            return {
+                ...state,
+                isLoadingCode: true,
+            };
+        case types.LOAD_CODE_SUCCESS:
+            return {
+                ...state,
+                isLoadingCode: false,
+                code: action.code,
+                totalCount: action.total_count,
+                totalPages: action.total_pages,
+                currentPage: action.current_page,
+                limit: action.limit,
             };
         default:
             return state;

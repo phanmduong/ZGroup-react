@@ -4,6 +4,7 @@ export default {
         isLoading: false,
         isSaving: false,
         allFilms: [],
+        shownFilms: [],
         allFilmsHavePagination: [],
         currentPage: 0,
         limit: 0,
@@ -43,11 +44,15 @@ export default {
 
         //********Booking
         addBookingRegisterSessionModal: false,
+        handleBookingModal:{},
         isLoadingSeatBySessionId: false,
         seatForBooking: [],
         width:1200,
         height:10,
-
+        isBookingSeat: false,
+        codeInfo:{},
+        isCheckingCode: false,
+        seats: [],
 
     },
     seatType:{
@@ -58,16 +63,26 @@ export default {
         handleSeatTypeModal:{},
     },
     code: {
-        codes: [],
+        code: [],
         showCodeModal:false,
         addEditCodeModal: false,
         handleCodeModal: {},
         isLoadingCode: false,
+        codes:[],
         isAddEditCode: false,
+        totalCount: 0,
+        currentPage: 0,
+        totalPages:0,
+        limit: ""
     },
     bookingHistory: {
         isLoadingBookingHistory: false,
         bookingHistories: [],
+        totalCount: 0,
+        currentPage: 0,
+        totalPages:0,
+        limit: ""
+
     },
 
     campaignList: {
@@ -232,6 +247,7 @@ export default {
         },
         isSavingSubscription: false,
         isLoadingUserpack: false,
+        isLoadingSubscriptions: false,
         isCreatingRegister: false,
         subscriptions: [],
         userpacks: [],

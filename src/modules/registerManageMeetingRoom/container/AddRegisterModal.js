@@ -15,13 +15,12 @@ import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import {DATETIME_FORMAT_SQL} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import ReactSelect from "react-select";
-import * as registerManageMeetingRoomApi from '../apis/registerManageMeetingRoomApi';
 import ConfirmModal from "./ConfirmModal";
 
 // import ConfirmModal from "./ConfirmModal";
 
 
-function addSelectProvince(items) {
+function addSelect(items) {
     return items && items.map(item => {
         return {
             value: item.id,
@@ -36,7 +35,6 @@ class AddRegisterModal extends React.Component {
 
         this.state = {rooms: []};
         this.closeAddRegisterModal = this.closeAddRegisterModal.bind(this);
-        this.loadBasesByProvince = this.loadBasesByProvince.bind(this);
         this.updateFormRegister = this.updateFormRegister.bind(this);
         this.updateProvince = this.updateProvince.bind(this);
         this.updateBase = this.updateBase.bind(this);
@@ -69,6 +67,8 @@ class AddRegisterModal extends React.Component {
         let register = {...this.props.register};
         register["province_id"] = e.value;
         this.props.registerManageMeetingRoomAction.updateRegister(register);
+        this.props.registerManageMeetingRoomAction.loadBasesByProvince(e.value);
+
     }
 
     updateBase(e) {
@@ -76,30 +76,6 @@ class AddRegisterModal extends React.Component {
         register["base_id"] = e.value;
         this.props.registerManageMeetingRoomAction.updateRegister(register);
         this.props.registerManageMeetingRoomAction.loadRooms(e.value, this.props.register.start_time, this.props.register.end_time);
-    }
-
-    loadBasesByProvince(input, callback) {
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            registerManageMeetingRoomApi.loadBasesByProvinceApi(this.props.register.province_id, input)
-                .then((res) => {
-                    let bases;
-                    if (res.data.status) {
-                        bases = res.data.data.bases.map((base) => {
-                            return {
-                                value: base.id,
-                                label: base.name,
-                            };
-                        });
-                    }
-                    else {
-                        bases = [];
-                    }
-                    callback(null, {options: bases, complete: true});
-                });
-        }.bind(this), 500);
     }
 
 
@@ -160,21 +136,21 @@ class AddRegisterModal extends React.Component {
                                 <div className="col-md-6">
                                     <ReactSelect
                                         value={this.props.register.province_id}
-                                        options={addSelectProvince(this.props.provinces)}
+                                        options={addSelect(this.props.provinces)}
                                         onChange={this.updateProvince}
                                         placeholder="Chọn tỉnh"
                                     />
                                 </div>
                                 <div className="col-md-6">
                                     {this.props.register.province_id ?
-                                        <ReactSelect.Async
-                                            loadOptions={this.loadBasesByProvince}
-                                            loadingPlaceholder="Đang tải..."
-                                            placeholder="Chọn cơ sở"
-                                            searchPromptText="Không có dữ liệu "
-                                            onChange={this.updateBase}
-                                            value={this.props.register.base_id}
-                                        /> : null
+                                        <ReactSelect
+                                        value={this.props.register.base_id}
+                                        options={addSelect(this.props.basesByProvince)}
+                                        onChange={this.updateBase}
+                                        isLoading={this.props.isLoadingBasesByProvince}
+                                        searchPromptText="Không có dữ liệu "
+                                        />
+                                        :null
                                     }
                                 </div>
                             </div>
@@ -278,9 +254,11 @@ class AddRegisterModal extends React.Component {
 AddRegisterModal.propTypes = {
     register: PropTypes.object.isRequired,
     provinces: PropTypes.array.isRequired,
+    basesByProvince: PropTypes.array.isRequired,
     rooms: PropTypes.array.isRequired,
     // isCreatingRegister: PropTypes.bool.isRequired,
     isLoadingProvinces: PropTypes.bool.isRequired,
+    isLoadingBasesByProvince: PropTypes.bool.isRequired,
     isLoadingRooms: PropTypes.bool.isRequired,
     registerManageMeetingRoomAction: PropTypes.object.isRequired,
     isOpenAddRegisterModal: PropTypes.bool.isRequired,
@@ -291,8 +269,10 @@ function mapStateToProps(state) {
         isOpenAddRegisterModal: state.registerManageMeetingRoom.isOpenAddRegisterModal,
         isLoadingProvinces: state.registerManageMeetingRoom.isLoadingProvinces,
         isLoadingRooms: state.registerManageMeetingRoom.isLoadingProvinces,
+        isLoadingBasesByProvince: state.registerManageMeetingRoom.isLoadingBasesByProvince,
         register: state.registerManageMeetingRoom.register,
         provinces: state.registerManageMeetingRoom.provinces,
+        basesByProvince: state.registerManageMeetingRoom.basesByProvince,
         rooms: state.registerManageMeetingRoom.rooms,
         // isCreatingRegister: state.registerManageMeetingRoom.isCreatingRegister,
     };

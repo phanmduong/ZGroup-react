@@ -66,6 +66,7 @@ class RegisterManageContainer extends React.Component {
         this.props.registerManageAction.loadAllRegisters();
         this.props.registerManageAction.getAllSalers();
         this.props.registerManageAction.loadBasesData();
+        this.props.registerManageAction.loadUserpacks();
     }
 
     componentWillReceiveProps(nextProps) {

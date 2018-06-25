@@ -13,6 +13,8 @@ import { ProgressBar } from "react-bootstrap";
 
 function uploadImage(file, completeHandler, progressHandler, error) {
     let url = MANAGE_API_URL + "/file/upload";
+    // let url = "http://colorme.vn/api/v3/upload-image-froala";
+    // let url = "http://colorme.vn/manageapi/v3/file/upload";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;

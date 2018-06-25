@@ -192,7 +192,7 @@ class SeatTypeContainer extends React.Component {
 SeatTypeContainer.propTypes = {
     seatTypeAction: PropTypes.object.isRequired,
     roomActions: PropTypes.object.isRequired,
-    seatTypes: PropTypes.object.isRequired,
+    seatTypes: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingSeat: PropTypes.bool.isRequired,

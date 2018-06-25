@@ -16,10 +16,12 @@ let conferenceRoomInitState = {
         room_id: 0,
     },
     isLoadingBases: false,
+    isLoadingBasesByProvince: false,
     isLoadingProvinces: false,
     isLoadingSalers: false,
     isLoadingRooms: false,
     bases: [],
+    basesByProvince: [],
     rooms: [],
     provinces: [],
     isSavingPayment: false,
@@ -49,6 +51,24 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             return {
                 ...state,
                 isLoadingBases: false,
+            };
+
+
+        case types.BEGIN_LOAD_BASES_BY_PROVINCE:
+            return {
+                ...state,
+                isLoadingBasesByProvince: true,
+            };
+        case types.LOAD_BASES_BY_PROVINCE_SUCCESS:
+            return {
+                ...state,
+                isLoadingBasesByProvince: false,
+                basesByProvince: action.bases,
+            };
+        case types.LOAD_BASES_BY_PROVINCE_ERROR:
+            return {
+                ...state,
+                isLoadingBasesByProvince: false,
             };
 
 

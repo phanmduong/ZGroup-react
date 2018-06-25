@@ -76,18 +76,17 @@ class SessionComponent extends React.Component {
                                                         <button style={{
                                                             backgroundColor: seat.color,
                                                             color: "white",
-                                                            marginLeft: "10px",
-                                                            padding: "10px 11px",
+                                                            marginRight: "10px",
+                                                            //marginTop: "12px",
                                                             border: "none",
-                                                            borderRadius: "20px"
+                                                            borderRadius: "20px",
+                                                            display: "flex",
+                                                            width: 40,
+                                                            height: 40,
                                                         }}>
-                                                            <b>A1</b>
+                                                            <b style={{margin:"auto"}}>{seat.price/1000}</b>
                                                         </button>
                                                     </TooltipButton>
-                                                    <br/>
-                                                    <b>
-                                                        &ensp;{seat.price}đ
-                                                    </b>
                                                 </div>
                                             );
                                         })

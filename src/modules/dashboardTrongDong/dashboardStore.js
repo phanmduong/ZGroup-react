@@ -122,12 +122,20 @@ export default new class DashboardTrongDongStore {
                 if (registers.filter((item) => item.register_id == register.register_id).length <= 0) {
                     registers = [...registers, register];
                 }
+<<<<<<< HEAD
             });
+=======
+            })
+>>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
 
 
         }
         return registers;
+<<<<<<< HEAD
     } 
+=======
+    }
+>>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
 
     @action
     loadCampaigns() {
@@ -192,6 +200,7 @@ export default new class DashboardTrongDongStore {
                     }
                 } else {
                     showErrorNotification(res.data.message);
+                    this.isCreatingRegister = false;
                 }
             })
             .catch(() => {

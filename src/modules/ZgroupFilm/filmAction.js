@@ -19,6 +19,23 @@ export function loadAllFilms(value, start_date) {
     };
 }
 
+
+
+export function loadShownFilms() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_FILMS
+        });
+        filmApi.loadShownFilmsApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_SHOWN_FILMS_SUCCESS,
+                    films: res.data
+                });
+            });
+    };
+}
+
 export function loadAllFilmsHavePagination(page, search) {
     return function (dispatch) {
         dispatch({
@@ -369,7 +386,12 @@ export function loadAllRooms(limit) {
     };
 }
 
-
+export function handleSeatTypes(seats) {
+    return ({
+        type: types.HANDLE_SEAT_TYPES,
+        seats
+    });
+}
 export function toggleBookingModal() {
     return ({
         type: types.TOGGLE_ADD_BOOKING_MODAL
@@ -382,7 +404,7 @@ export function loadSeatBySessionId(id) {
             type: types.BEGIN_LOAD_SEAT_BY_SESSION_ID
         });
         filmApi.loadSeatBySessionIdApi(id)
-            .then((res)=>{
+            .then((res) => {
                 dispatch({
                     type: types.LOAD_SEAT_BY_SESSION_ID_SUCCESS,
                     seatForBooking: res.data.seats,
@@ -397,4 +419,77 @@ export function clearSeatBySessionId() {
     return ({
         type: types.CLEAR_SEAT_BY_SESSION_ID
     });
+}
+
+
+export function clearAllBeginBooking() {
+    return ({
+        type: types.CLEAR_ALL_BEGIN_BOOKING
+    });
+}
+
+export function handleBookingModal(handleBookingModal) {
+    return ({
+        type: types.HANDLE_BOOKING_MODAL,
+        handleBookingModal
+    });
+}
+
+export function bookingSeat(booking) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_BOOKING_SEAT
+        });
+        filmApi.bookingSeatApi(booking)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Đặt vé thành công");
+                    dispatch({
+                        type: types.BOOKING_SEAT_SUCCESS
+                    });
+                }
+                else {
+                    helper.showErrorNotification("Đặt vé thất bại, có ghế đã được đặt");
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.BOOKING_SEAT_ERROR
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Đặt vé thất bại");
+                dispatch({
+                    type: types.BOOKING_SEAT_ERROR
+                });
+            });
+    };
+
+}
+
+export function checkCode(code) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHECK_CODE
+        });
+        filmApi.checkCodeApi(code)
+            .then((res) => {
+                dispatch({
+                    type: types.CHECK_CODE_SUCCESS,
+                    code: res.data
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: types.CHECK_CODE_ERROR,
+                });
+            });
+    };
+
+}
+
+export function clearCode() {
+    return ({
+        type: types.CLEAR_CODE_BEGIN_BOOKING
+    });
+
 }

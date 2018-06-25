@@ -12,25 +12,54 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
         case types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE:
             return {
                 ...state,
-                ...{
-                    isLoadingBases: true,
-
-                }
+                isLoadingBases: true,
             };
         case types.LOAD_BASES_IN_REGISTER_MANAGE_SUCCESS:
             return {
                 ...state,
-                ...{
-                    isLoadingBases: false,
-                    bases: action.bases,
-                }
+                isLoadingBases: false,
+                bases: action.bases,
             };
         case types.LOAD_BASES_IN_REGISTER_MANAGE_ERROR:
             return {
                 ...state,
-                ...{
-                    isLoadingBases: false,
-                }
+                isLoadingBases: false,
+            };
+
+
+        case types.BEGIN_LOAD_SUBSCRIPTION_IN_REGISTER_MANAGE:
+            return {
+                ...state,
+                isLoadingSubscriptions: true,
+            };
+        case types.LOAD_SUBSCRIPTION_IN_REGISTER_MANAGE_SUCCESS:
+            return {
+                ...state,
+                isLoadingSubscriptions: false,
+                subscriptions: action.subscriptions,
+            };
+        case types.LOAD_SUBSCRIPTION_IN_REGISTER_MANAGE_ERROR:
+            return {
+                ...state,
+                isLoadingSubscriptions: false,
+            };
+
+
+        case types.BEGIN_LOAD_USERPACKS_IN_REGISTER_MANAGE:
+            return {
+                ...state,
+                isLoadingUserpacks: true,
+            };
+        case types.LOAD_USERPACKS_IN_REGISTER_MANAGE_SUCCESS:
+            return {
+                ...state,
+                isLoadingUserpacks: false,
+                userpacks: action.userpacks,
+            };
+        case types.LOAD_USERPACKS_IN_REGISTER_MANAGE_ERROR:
+            return {
+                ...state,
+                isLoadingUserpacks: false,
             };
 
 
@@ -130,9 +159,9 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
 
             };
         case types.UPDATE_REGISTER_IN_CHOOSE_SEAT:
-            return{
+            return {
                 ...state,
-                register : action.register,
+                register: action.register,
             };
 
 

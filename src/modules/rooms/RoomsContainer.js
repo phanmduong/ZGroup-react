@@ -109,7 +109,7 @@ class RoomsContainer extends React.Component {
                     {
                         (this.state.selectBaseId >= 0 && this.state.bases.length > 0) ?
 
-                            <div className="col-md-12">
+                            <div className="col-md-4">
                                  <Select
                                     defaultMessage={'Chọn cơ sở'}
                                     options={this.state.bases}

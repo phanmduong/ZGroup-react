@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import *as filmAction from "../filmAction";
+import *as seatTypeAction from "../seatType/seatTypeAction";
 import Select from "react-select";
 import FormInputDate from '../../../components/common/FormInputDate';
-import FormInputText from '../../../components/common/FormInputText';
+import FormInputMoney from '../../../components/common/FormInputMoney';
 import {TIME_FORMAT_H_M} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import * as helper from "../../../helpers/helper";
@@ -62,7 +63,7 @@ class AddEditSessionModal extends React.Component {
             room_id: value ? value.value : '',
         };
         this.props.filmAction.handleSessionModal(session);
-        this.props.filmAction.loadAllSeatTypes(value.value);
+        this.props.seatTypeAction.loadAllSeatTypes(value.value);
     }
     changePrice(e,index){
         const field = e.target.name;
@@ -228,12 +229,12 @@ class AddEditSessionModal extends React.Component {
                                                             </td>
                                                             <td>{seatType.type}</td>
                                                             <td>
-                                                                <FormInputText
-                                                                    label="Nhập giá vé (đ)"
+                                                                <FormInputMoney
+                                                                    label="Nhập giá vé (VNĐ)"
                                                                     type="number"
                                                                     name="price"
                                                                     updateFormData={(e)=>this.changePrice(e,index)}
-                                                                    value={seatType.price}/>
+                                                                    value={seatType.price || ""}/>
                                                             </td>
 
                                                         </tr>
@@ -293,6 +294,7 @@ AddEditSessionModal.propTypes = {
     addFilmSession: PropTypes.bool.isRequired,
     isLoadingSeat: PropTypes.bool.isRequired,
     filmAction: PropTypes.object.isRequired,
+    seatTypeAction: PropTypes.object.isRequired,
     seatTypes: PropTypes.array.isRequired,
     sessionModal: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
@@ -306,15 +308,16 @@ function mapStateToProps(state) {
         sessionModal: state.film.sessionModal,
         allFilms: state.film.allFilms,
         rooms: state.film.rooms,
-        isLoadingSeat: state.film.isLoadingSeat,
+        isLoadingSeat: state.seatType.isLoadingSeat,
         addFilmSession: state.film.addFilmSession,
-        seatTypes: state.film.seatTypes,
+        seatTypes: state.seatType.seatTypes,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        filmAction: bindActionCreators(filmAction, dispatch)
+        filmAction: bindActionCreators(filmAction, dispatch),
+        seatTypeAction: bindActionCreators(seatTypeAction, dispatch)
     };
 }
 

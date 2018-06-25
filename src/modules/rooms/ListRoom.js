@@ -68,7 +68,6 @@ class ListRoom extends React.Component {
                 </div>
             );
         }
-
     }
 }
 
