@@ -50,20 +50,12 @@ class DashboardTrongDongContainer extends Component {
     store.loadCampaigns();
   }
 
-<<<<<<< HEAD
-    @observable showModalChangeStatus = false;
-    @observable showModalBooking = false;
-    @observable booking = {};
-    @observable registerRoomSelected = {};
-    @observable disableCreateRegister = false;
-=======
   @observable showModalChangeStatus = false;
   @observable showModalBooking = false;
   @observable booking = {};
   @observable registerRoomSelected = {};
   @observable disableCreateRegister = false;
   @observable selectedUser = {};
->>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
 
   onChangeRoom(value) {
     store.selectedRoomId = value;
