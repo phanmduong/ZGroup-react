@@ -10,7 +10,8 @@ import * as codeAction from "./codeAction";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import ShowCodeModal from "./ShowCodeModal";
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import * as helper from "../../../helpers/helper";
 
 class CodeContainer extends React.Component {
     constructor(props, context) {
@@ -21,6 +22,8 @@ class CodeContainer extends React.Component {
         };
         this.descriptionSearchChange = this.descriptionSearchChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
+        this.showLoadingModal = this.showLoadingModal.bind(this);
+        this.closeLoadingModal = this.closeLoadingModal.bind(this);
     }
 
     componentWillMount() {
@@ -53,10 +56,62 @@ class CodeContainer extends React.Component {
         );
     }
 
+    showLoadingModal() {
+        this.props.codeAction.getAllCode(
+            this.closeLoadingModal
+        );
+    }
+
+    closeLoadingModal() {
+
+        let json = this.props.excel;
+        if (!json || json.length === 0) {
+            helper.showErrorNotification("Không có dữ liệu");
+            return;
+        }
+        let cols = [{"wch": 3}, {"wch": 30}, {"wch": 10}, {"wch": 6}, {"wch": 6}, {"wch": 6}, {"wch": 6}, {"wch": 11}, {"wch": 11},{"wch": 31},{"wch": 31}];//độ rộng cột
+        //begin điểm danh
+        json = this.props.excel.map((item, index) => {
+            if (item) {
+                let aa = "";
+                let bb = "";
+                let a = item.codes.filter((code) => code.status === 0);
+                let b = item.codes.filter((code) => code.status === 1);
+                a && a.map((code) => {
+                       aa += code.code + "; ";
+                });
+                b && b.map((code) => {
+                    bb += code.code + "; ";
+                });
+                let res = {
+                    'STT': index + 1,
+                    'Ý nghĩa': item.description,
+                    'Giảm giá': item.value/1000 + ".000 VNĐ",
+                    'Số lượng': item.number,
+                    "Sử dụng": b.length,
+                    "Còn lại": a.length,
+                    'Ký tự': item.length,
+                    'Áp dụng': item.start_date,
+                    'Kết thúc': item.end_date,
+                    'Danh sách chưa dùng': aa || " ",
+                    'Danh sách đã dùng': bb || " ",
+                    //'Danh sách mã giảm giá': item.saler ? item.saler.name : "Không có",
+                };
+                /* eslint-enable */
+                return res;
+            }
+        });
+        let wb = helper.newWorkBook();
+        helper.appendJsonToWorkBook(json, wb, 'Danh sách', cols, []);
+        helper.saveWorkBookToExcel(wb,
+            'Danh sách mã giảm giá'
+        );
+    }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
+        //const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
         const Export = <Tooltip id="tooltip">Xuất thành file excel</Tooltip>;
         const Add = <Tooltip id="tooltip">Thêm mã giảm giá</Tooltip>;
         return (
@@ -86,25 +141,25 @@ class CodeContainer extends React.Component {
                                         </button>
                                     </OverlayTrigger>
                                 </div>
-                                <div>
-                                    <OverlayTrigger
-                                        placement="top"
-                                        overlay={Filter}
-                                    >
-                                        <button
-                                            //onClick={this.openFilterPanel}
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                            disabled={
-                                                this.props.isLoadingCode
-                                            }
+                                {/*<div>*/}
+                                {/*<OverlayTrigger*/}
+                                {/*placement="top"*/}
+                                {/*overlay={Filter}*/}
+                                {/*>*/}
+                                {/*<button*/}
+                                {/*//onClick={this.openFilterPanel}*/}
+                                {/*className="btn btn-primary btn-round btn-xs button-add none-margin "*/}
+                                {/*disabled={*/}
+                                {/*this.props.isLoadingCode*/}
+                                {/*}*/}
 
-                                        >
-                                            <i className="material-icons"
-                                               style={{margin: "0px -4px", top: 0}}
-                                            >filter_list</i>
-                                        </button>
-                                    </OverlayTrigger>
-                                </div>
+                                {/*>*/}
+                                {/*<i className="material-icons"*/}
+                                {/*style={{margin: "0px -4px", top: 0}}*/}
+                                {/*>filter_list</i>*/}
+                                {/*</button>*/}
+                                {/*</OverlayTrigger>*/}
+                                {/*</div>*/}
                             </div>
                             <div>
                                 <OverlayTrigger
@@ -112,7 +167,7 @@ class CodeContainer extends React.Component {
                                     overlay={Export}
                                 >
                                     <button
-                                        //onClick={this.showLoadingModal}
+                                        onClick={this.showLoadingModal}
                                         className="btn btn-primary btn-round btn-xs button-add none-margin "
                                         disabled={
                                             this.props.isLoadingCode
@@ -160,6 +215,14 @@ class CodeContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Modal
+                    show={this.props.isLoadingExcel}
+                    onHide={() => {
+                    }}
+                >
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading/></Modal.Body>
+                </Modal>
                 <ShowCodeModal/>
                 <AddEditCodeModal/>
             </div>
@@ -170,8 +233,10 @@ class CodeContainer extends React.Component {
 CodeContainer.propTypes = {
     isLoadingCode: PropTypes.bool.isRequired,
     isAddEditCode: PropTypes.bool.isRequired,
+    isLoadingExcel: PropTypes.bool.isRequired,
     codeAction: PropTypes.object.isRequired,
     code: PropTypes.array.isRequired,
+    excel: PropTypes.array.isRequired,
     totalCount: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
@@ -190,6 +255,8 @@ function mapStateToProps(state) {
         totalPages: state.code.totalPages,
         currentPage: state.code.currentPage,
         limit: state.code.limit,
+        excel: state.code.excel,
+        isLoadingExcel: state.code.isLoadingExcel,
     };
 }
 

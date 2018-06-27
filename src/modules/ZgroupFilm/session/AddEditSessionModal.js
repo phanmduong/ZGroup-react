@@ -11,6 +11,7 @@ import FormInputMoney from '../../../components/common/FormInputMoney';
 import {TIME_FORMAT_H_M} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import * as helper from "../../../helpers/helper";
+import moment from "moment/moment";
 
 class AddEditSessionModal extends React.Component {
     constructor(props, context) {
@@ -167,6 +168,7 @@ class AddEditSessionModal extends React.Component {
                                 <div className="col-md-6"><br/>
                                     <FormInputDate
                                         label="Ngày chiếu"
+                                        minDate={moment().format('YYYY-MM-DD')}
                                         name="start_date"
                                         updateFormData={this.updateSession}
                                         value={session.start_date || ''}

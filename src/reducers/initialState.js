@@ -70,10 +70,12 @@ export default {
         isLoadingCode: false,
         codes:[],
         isAddEditCode: false,
+        isLoadingExcel: false,
         totalCount: 0,
         currentPage: 0,
         totalPages:0,
-        limit: ""
+        limit: "",
+        excel: [],
     },
     bookingHistory: {
         isLoadingBookingHistory: false,

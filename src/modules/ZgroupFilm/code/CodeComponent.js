@@ -27,14 +27,14 @@ class CodeComponent extends React.Component {
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th>STT</th>
-                        <th>Ý nghĩa</th>
-                        <th>Giảm giá</th>
+                        <th>Ý Nghĩa</th>
+                        <th>Giảm Giá</th>
                         <th>Số Lượng</th>
                         <th>Sử Dụng</th>
                         <th>Còn Lại</th>
-                        <th>Ký tự</th>
-                        <th>Áp dụng</th>
-                        <th>Kết thúc</th>
+                        <th>Ký Tự</th>
+                        <th>Áp Dụng</th>
+                        <th>Kết Thúc</th>
                         <th/>
                     </tr>
                     </thead>

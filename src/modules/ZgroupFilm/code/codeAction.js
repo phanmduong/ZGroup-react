@@ -67,6 +67,22 @@ export function getCode(page,limit,description) {
     };
 }
 
+export function getAllCode(exportExcel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_DATA_EXCEL_CODE,
+        });
+        codeApi.getCodeApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_DATA_EXCEL_CODE_SUCCESS,
+                    excel: res.data
+                });
+                exportExcel();
+            });
+    };
+}
+
 export function editCode(code) {
     return function (dispatch) {
         dispatch({
