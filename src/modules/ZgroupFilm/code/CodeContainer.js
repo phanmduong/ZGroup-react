@@ -86,7 +86,7 @@ class CodeContainer extends React.Component {
                 let res = {
                     'STT': index + 1,
                     'Ý nghĩa': item.description,
-                    'Giảm giá': item.value/1000 + ".000 VNĐ",
+                    'Giảm giá': item.value + " VNĐ",
                     'Số lượng': item.number,
                     "Sử dụng": b.length,
                     "Còn lại": a.length,

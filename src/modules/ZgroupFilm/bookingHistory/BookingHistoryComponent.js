@@ -46,7 +46,7 @@ class BookingHistoryComponent extends React.Component {
                                     </td>
                                     <td>{bk.seat_name}</td>
                                     <td>{bk.code}</td>
-                                    <td>{bk.price/1000}.000</td>
+                                    <td>{Math.floor(bk.price/1000)}.000</td>
                                     <td>{bk.time}</td>
                                     <td>{bk.payment_method}</td>
                                 </tr>

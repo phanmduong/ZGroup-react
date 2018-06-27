@@ -207,7 +207,7 @@ class BookingGrid extends React.Component {
                                                                 </td>
                                                                 <td>{ass.type}</td>
                                                                 <td>
-                                                                    {ass.price/1000}.000 VNĐ
+                                                                    {Math.floor(ass.price/1000)}.000 VNĐ
                                                                 </td>
 
                                                             </tr>

@@ -19,6 +19,17 @@ export default function filmReducer(state = initialState.bookingHistory, action)
                 limit: action.limit,
                 isLoadingBookingHistory: false
             };
+        case types.BEGIN_LOAD_EXCEL_BOOKING_HISTORY:
+            return {
+                ...state,
+                isLoadingExcel: true,
+            };
+        case types.LOAD_EXCEL_BOOKING_HISTORY_SUCCESS:
+            return {
+                ...state,
+                isLoadingExcel: false,
+                excel: action.excel
+            };
         default:
             return state;
     }

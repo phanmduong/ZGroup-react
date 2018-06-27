@@ -40,6 +40,8 @@ export default {
         addEditSessionModal: false,
         sessionModal: {},
         rooms: [],
+        excelSession: [],
+        isLoadingExcelSession: false,
 
 
         //********Booking
@@ -83,7 +85,9 @@ export default {
         totalCount: 0,
         currentPage: 0,
         totalPages:0,
-        limit: ""
+        limit: "",
+        excel: [],
+        isLoadingExcel: false,
 
     },
 

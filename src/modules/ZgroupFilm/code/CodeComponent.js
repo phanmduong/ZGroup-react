@@ -53,7 +53,7 @@ class CodeComponent extends React.Component {
                                             <div>{description.length < 30 ? description : description.concat('...')}</div>
                                         </TooltipButton>
                                     </td>
-                                    <td><b>{code.value / 1000}.000 VNĐ</b></td>
+                                    <td><b>{Math.floor(code.value / 1000)}.000 VNĐ</b></td>
                                     <td>
                                         &emsp;&emsp;{code.number}
                                     </td>

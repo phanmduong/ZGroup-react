@@ -228,6 +228,17 @@ export default function filmReducer(state = initialState.film, action) {
 
 
         //Session Reducer
+        case types.BEGIN_LOAD_DATA_EXCEL_SESSIONS:
+            return {
+                ...state,
+                isLoadingExcelSession: true
+            };
+        case types.LOAD_DATA_EXCEL_CODE_SUCCESS:
+            return {
+                ...state,
+                isLoadingExcelSession: false,
+                excelSession: action.excelSession,
+            };
         case types.BEGIN_LOAD_ALL_SESSIONS:
             return {
                 ...state,

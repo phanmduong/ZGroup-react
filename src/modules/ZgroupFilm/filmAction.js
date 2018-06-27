@@ -242,6 +242,23 @@ export function loadAllSessions(page, search, from_date, to_date, start_date, fi
     };
 }
 
+
+export function exportSessions(search, from_date, to_date, exportExcel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_DATA_EXCEL_SESSIONS
+        });
+        filmApi.exportSessionsApi(search, from_date, to_date)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_DATA_EXCEL_CODE_SUCCESS,
+                    excelSession: res.data.sessions
+                });
+                exportExcel();
+            });
+    };
+}
+
 export function loadShowingSession(page, search) {
     return function (dispatch) {
         dispatch({

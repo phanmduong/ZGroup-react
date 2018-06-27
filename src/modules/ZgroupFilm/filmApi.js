@@ -128,6 +128,20 @@ export function loadAllSessionsApi(page, search, from_date, to_date, start_date,
 }
 
 
+export function exportSessionsApi(search, from_date, to_date) {
+    let url = env.API_URL + "/sessions";
+    url += "?limit=-1";
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (from_date) {
+        if (to_date) {
+            url += "&from_date=" + from_date + "&to_date=" + to_date;
+        }
+    }
+    return axios.get(url);
+}
+
 //Load Session Dang Chieu
 export function loadShowingSessionApi(page, search) {
     let url = env.API_URL + "/sessions/showing?limit=20";
