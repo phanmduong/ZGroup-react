@@ -89,12 +89,16 @@ export function loadAllSalers() {
     };
 }
 
-export function loadRooms(base_id, start_time, end_time) {
+export function loadRooms(
+    // base_id, start_time, end_time
+) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ROOMS,
         });
-        registerManageMeetingRoomApi.loadRoomsApi(base_id, start_time, end_time).then(res => {
+        registerManageMeetingRoomApi.loadRoomsApi(
+            // base_id, start_time, end_time
+        ).then(res => {
             dispatch({
                 type: types.LOAD_ROOMS_SUCCESS,
                 rooms: res.data.data.rooms,
@@ -196,6 +200,7 @@ export function savePayment(hour, minute, money, note, register_id, user_id, clo
 //     };
 // };
 export function updateRegister(register) {
+    console.log(register);
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_REGISTER,
@@ -269,11 +274,26 @@ export function closePaymentModal() {
 }
 
 
-export function openAddRegisterModal() {
+export function openAddRegisterModal(disableCreateRegister,register = null) {
     return function (dispatch) {
-        dispatch({
-            type: types.OPEN_ADD_REGISTER_MODAL,
-        });
+        if (!disableCreateRegister) {
+            if(register === null) {
+                dispatch({
+                    type: types.OPEN_ADD_REGISTER_MODAL,
+                    register : {},
+                });
+            }
+            else{
+                dispatch({
+                    type: types.OPEN_ADD_REGISTER_MODAL,
+                    register :register,
+                });
+            }
+
+        }
+        else {
+            helper.showErrorNotification("Không được phân quyền");
+        }
     };
 }
 
@@ -289,7 +309,7 @@ export function openConfirmModal(room_id) {
     return function (dispatch) {
         dispatch({
             type: types.OPEN_CONFIRM_MODAL,
-            room_id : room_id,
+            room_id: room_id,
         });
     };
 }
@@ -302,28 +322,88 @@ export function closeConfirmModal() {
     };
 }
 
-export function createRegister(register, close) {
-    return (dispatch) => {
-        dispatch({type: types.BEGIN_CREATE_REGISTER});
-        registerManageMeetingRoomApi.createRegisterApi(register)
-            .then((res) => {
-                if (res.data.status) {
-                    dispatch({
-                        type: types.CREATE_REGISTER_SUCCESS,
-                    });
-                    helper.showNotification("Thêm đăng kí thành công");
-                    dispatch(loadAllRegisters());
-                    close();
-                }
-                else {
-                    helper.showErrorNotification("Thêm thất bại");
-                    dispatch({
-                        type: types.CREATE_REGISTER_ERROR
-                    });
-                }
+// export function createRegister(register, close) {
+//     return (dispatch) => {
+//         dispatch({type: types.BEGIN_CREATE_REGISTER});
+//         registerManageMeetingRoomApi.createRegisterApi(register)
+//             .then((res) => {
+//                 if (res.data.status) {
+//                     dispatch({
+//                         type: types.CREATE_REGISTER_SUCCESS,
+//                     });
+//                     helper.showNotification("Thêm đăng kí thành công");
+//                     dispatch(loadAllRegisters());
+//                     close();
+//                 }
+//                 else {
+//                     helper.showErrorNotification("Thêm thất bại");
+//                     dispatch({
+//                         type: types.CREATE_REGISTER_ERROR
+//                     });
+//                 }
+//             });
+//     };
+// }
+export function loadCampaigns() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CAMPAIGNS,
+        });
+        registerManageMeetingRoomApi
+            .loadCampaigns()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_CAMPAIGNS_SUCCESS,
+                    campaigns: res.data.data.marketing_campaigns,
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({
+                    type: types.LOAD_CAMPAIGNS_ERROR,
+                });
             });
     };
 }
+
+
+///////////                 LÀM TIẾP TỪ ĐÂY            /////////////////
+
+export function createRegister(register) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_REGISTER,
+        });
+        registerManageMeetingRoomApi
+            .storeRegisterApi(register)
+            .then(res => {
+                if (res.data.status == 1) {
+                    dispatch({
+                        type: types.CREATE_REGISTER_SUCCESS,
+                    });
+                    dispatch(closeAddRegisterModal());
+                    dispatch(loadAllRegisters( 10, 1));
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.CREATE_REGISTER_ERROR,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("" + "Có lỗi xảy ra.");
+                dispatch({
+                    type: types.CREATE_REGISTER_ERROR,
+                });
+            });
+    };
+}
+
+
+
+
+
+
 
 
 

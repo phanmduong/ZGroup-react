@@ -29,6 +29,7 @@ class ListRegisters extends React.Component {
         // };
         this.openPaymentModal = this.openPaymentModal.bind(this);
         this.openDatetimeModal = this.openDatetimeModal.bind(this);
+        this.openEditRegister = this.openEditRegister.bind(this);
     }
 
     openPaymentModal(register) {
@@ -37,6 +38,9 @@ class ListRegisters extends React.Component {
 
     openDatetimeModal(register) {
         this.props.registerManageMeetingRoomAction.openDatetimeModal(register);
+    }
+    openEditRegister(register){
+        this.props.registerManageMeetingRoomAction.openAddRegisterModal(this.props.disableCreateRegister,register);
     }
 
 
@@ -68,7 +72,9 @@ class ListRegisters extends React.Component {
                             return (
                                 <tr key={register.id}>
                                     <td>
-                                        <a className="text-name-student-register">
+                                        <a className="text-name-student-register"
+                                        onClick={()=>{this.openEditRegister(register);}}
+                                        >
                                             {register.user && register.user.name}
                                         </a>
                                     </td>
@@ -157,6 +163,7 @@ class ListRegisters extends React.Component {
 
 ListRegisters.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    disableCreateRegister: PropTypes.bool.isRequired,
     registers: PropTypes.array.isRequired,
     register: PropTypes.object.isRequired,
     openPaymentModal: PropTypes.func.isRequired,

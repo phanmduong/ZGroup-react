@@ -1,4 +1,6 @@
 import types from '../constants/actionTypes';
+import moment from "moment/moment";
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../../constants/constants";
 // import moment from "moment/moment";
 // import initialState from '../../../reducers/initialState';
 
@@ -13,6 +15,7 @@ let conferenceRoomInitState = {
     totalCount: 1,
     limit: 20,
     register: {
+        similar_room: [],
         room_id: 0,
     },
     isLoadingBases: false,
@@ -20,7 +23,9 @@ let conferenceRoomInitState = {
     isLoadingProvinces: false,
     isLoadingSalers: false,
     isLoadingRooms: false,
+    isLoadingCampaigns: false,
     bases: [],
+    campaigns: [],
     basesByProvince: [],
     rooms: [],
     provinces: [],
@@ -51,6 +56,24 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             return {
                 ...state,
                 isLoadingBases: false,
+            };
+
+
+        case types.BEGIN_LOAD_CAMPAIGNS:
+            return {
+                ...state,
+                isLoadingCampaigns: true,
+            };
+        case types.LOAD_CAMPAIGNS_SUCCESS:
+            return {
+                ...state,
+                isLoadingCampaigns: false,
+                campaigns: action.campaigns,
+            };
+        case types.LOAD_CAMPAIGNS_ERROR:
+            return {
+                ...state,
+                isLoadingCampaigns: false,
             };
 
 
@@ -243,9 +266,31 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
         case types.OPEN_ADD_REGISTER_MODAL:
+            // let register = action.register;
             return {
                 ...state,
                 isOpenAddRegisterModal: true,
+                // register: {
+                //     ...state.register,
+                //     id: register.id ? register.id : "",
+                //     name: register.user.name,
+                //     email: register.user.email,
+                //     phone: register.user.phone,
+                //     address: register.user.address,
+                //     status: register.status,
+                //     base_id: register.base_id,
+                //     start_time: moment(register.start_time, [
+                //         DATETIME_FORMAT,
+                //         DATETIME_FORMAT_SQL
+                //     ]).format(DATETIME_FORMAT_SQL),
+                //     end_time: moment(register.end_time, [
+                //         DATETIME_FORMAT,
+                //         DATETIME_FORMAT_SQL
+                //     ]).format(DATETIME_FORMAT_SQL),
+                //     note: register.note,
+                //     campaign_id: register.campaign_id,
+                //     similar_room: register.similar_room
+                // },
             };
 
 

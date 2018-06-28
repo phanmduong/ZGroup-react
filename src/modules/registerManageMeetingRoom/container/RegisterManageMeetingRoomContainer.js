@@ -68,6 +68,7 @@ class RegisterManageRoomContainer extends React.Component {
                 endTime: "",
             },
             month: {year: 0, month: 0},
+            disableCreateRegister : false,
         };
         this.timeOut = null;
         this.loadAllRegisters = this.loadAllRegisters.bind(this);
@@ -88,7 +89,21 @@ class RegisterManageRoomContainer extends React.Component {
     componentWillMount() {
         this.props.registerManageMeetingRoomAction.loadAllSalers();
         this.props.registerManageMeetingRoomAction.loadAllBases();
-        this.props.registerManageMeetingRoomAction.loadAllRegisters();
+        // this.props.registerManageMeetingRoomAction.loadAllRegisters(
+        //     this.state.limit,
+        //     this.state.page,
+        //     this.state.query,
+        //     this.state.saler_id,
+        //     this.props.user.base_id,
+        //     this.state.startTime,
+        //     this.state.endTime,);
+        this.props.registerManageMeetingRoomAction.loadCampaigns();
+        this.props.registerManageMeetingRoomAction.loadRooms();
+        this.onChangeBase(this.props.user.base_id);
+        // console.log(this.props.user.base_id,"xxxxxxxxx");
+    }
+    componentDidMount(){
+        this.onChangeBase(this.props.user.base_id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -108,7 +123,6 @@ class RegisterManageRoomContainer extends React.Component {
 
 
     onChangeBase(value) {
-        this.setState({base_id: value});
         this.props.registerManageMeetingRoomAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -117,6 +131,13 @@ class RegisterManageRoomContainer extends React.Component {
             value,
             this.state.startTime,
             this.state.endTime,
+            () => {
+                this.setState({base_id: value});
+                this.setState({disableCreateRegister : !(
+                        this.props.user.base_id == value ||
+                        this.props.user.base_id <= 0
+                    )});
+            }
         );
     }
 
@@ -249,6 +270,7 @@ class RegisterManageRoomContainer extends React.Component {
     }
 
     render() {
+        // console.log("aaaaaaaaaa",this.state.bases,this.state.base_id);
         const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
         const Add = <Tooltip id="tooltip">Thêm đăng kí</Tooltip>;
         let first = this.props.totalCount
@@ -260,7 +282,7 @@ class RegisterManageRoomContainer extends React.Component {
                 : this.props.totalCount;
         return (
             <div id="page-wrapper">
-                {this.props.isLoadingBases || this.props.isLoadingSalers ? (
+                {this.props.isLoadingBases || this.props.isLoadingSalers || this.props.isLoadingRooms || this.props.isLoadingCampaigns ? (
                     <Loading/>
                 ) : (
                     <div>
@@ -317,7 +339,7 @@ class RegisterManageRoomContainer extends React.Component {
                                                         type="button" onClick={
                                                         (e) => {
                                                             e.preventDefault();
-                                                            this.props.registerManageMeetingRoomAction.openAddRegisterModal();
+                                                            this.props.registerManageMeetingRoomAction.openAddRegisterModal(this.state.disableCreateRegister);
                                                         }}>
                                                         <strong>+</strong>
                                                     </button>
@@ -378,6 +400,7 @@ class RegisterManageRoomContainer extends React.Component {
                                         </div>
                                     </Panel>
                                     <ListRegisters
+                                        disableCreateRegister = {this.state.disableCreateRegister}
                                         registers={this.props.registers}
                                         isLoading={this.props.isLoading}
                                         filterBySaler={this.filterBySaler}
@@ -404,7 +427,10 @@ class RegisterManageRoomContainer extends React.Component {
                         </div>
                         <DatetimeModal/>
                         <PaymentModal/>
-                        <AddRegisterModal/>
+                        <AddRegisterModal
+                            base_id = {this.state.base_id}
+                            disableCreateRegister = {this.state.disableCreateRegister}
+                        />
                         {/*<ConfirmModal/>*/}
                     </div>
 
@@ -425,7 +451,10 @@ RegisterManageRoomContainer.propTypes = {
     salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoadingSalers: PropTypes.bool.isRequired,
+    isLoadingRooms: PropTypes.bool.isRequired,
+    isLoadingCampaigns: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -439,7 +468,10 @@ function mapStateToProps(state) {
         salers: state.registerManageMeetingRoom.salers,
         isLoadingBases: state.registerManageMeetingRoom.isLoadingBases,
         isLoadingSalers: state.registerManageMeetingRoom.isLoadingSalers,
+        isLoadingRooms: state.registerManageMeetingRoom.isLoadingRooms,
+        isLoadingCampaigns: state.registerManageMeetingRoom.isLoadingCampaigns,
         bases: state.registerManageMeetingRoom.bases,
+        user: state.login.user
     };
 }
 
