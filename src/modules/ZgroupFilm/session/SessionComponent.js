@@ -87,7 +87,6 @@ class SessionComponent extends React.Component {
                                                             <b style={{margin:"auto"}}>{seat.price/1000}</b>
                                                         </button>
                                                     </TooltipButton>
-                                                    <br/>
                                                 </div>
                                             );
                                         })

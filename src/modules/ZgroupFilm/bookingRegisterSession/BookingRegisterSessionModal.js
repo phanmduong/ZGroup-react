@@ -127,7 +127,7 @@ class BookingRegisterSessionModal extends React.Component {
                             {
                                 this.props.isCheckingCode ? <Loading/> :
                                     <div>
-                                        <h5>Giảm giá: {(this.props.codeInfo.value || 0) / 1000}.000VNĐ
+                                        <h5>Giảm giá: {this.props.codeInfo.value ? this.props.codeInfo.value/1000 + ".000 VNĐ" : "0 VNĐ"}
                                         </h5>
 
                                         <h5>Thanh toán: {(sum||0)/1000-((this.props.codeInfo.value || 0) / 1000)}.000 VNĐ</h5>

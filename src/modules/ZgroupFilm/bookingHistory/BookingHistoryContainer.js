@@ -12,12 +12,21 @@ import PropTypes from "prop-types";
 class BookingHistoryContainer extends React.Component{
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            page: 1
+        };
+        this.loadOrders = this.loadOrders.bind(this);
     }
-
     componentWillMount() {
-        this.props.bookingHistoryAction.getBookingHistory();
+        this.props.bookingHistoryAction.getBookingHistory(20);
+    }
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.bookingHistoryAction.getBookingHistory(20,page);
     }
     render(){
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
+        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div className="card">
                 <div className="card-content">
@@ -64,13 +73,12 @@ class BookingHistoryContainer extends React.Component{
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                                  style={{textAlign: 'right'}}>
                                 <b style={{marginRight: '15px'}}>
-                                    Hiển thị kêt quả từ {1}
-                                    - {3}/{7}</b><br/>
+                                    Hiển thị kêt quả từ {first}
+                                    - {end}/{this.props.totalCount}</b><br/>
                                 <Pagination
-                                    totalPages={7}
-                                    currentPage={5}
-                                    loadDataPage={() => {
-                                    }}
+                                    totalPages={this.props.totalPages}
+                                    currentPage={this.props.currentPage}
+                                    loadDataPage={this.loadOrders}
                                 />
                             </div>
                         </div>
@@ -84,11 +92,22 @@ class BookingHistoryContainer extends React.Component{
 BookingHistoryContainer.propTypes = {
     isLoadingBookingHistory: PropTypes.bool.require,
     bookingHistoryAction: PropTypes.object.require,
+    totalCount: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    limit: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.string.isRequired
+    ]),
 };
 
 function mapStateToProps(state) {
     return {
         isLoadingBookingHistory: state.bookingHistory.isLoadingBookingHistory,
+        totalCount: state.bookingHistory.totalCount,
+        totalPages: state.bookingHistory.totalPages,
+        currentPage: state.bookingHistory.currentPage,
+        limit: state.bookingHistory.limit,
     };
 }
 

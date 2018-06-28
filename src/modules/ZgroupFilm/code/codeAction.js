@@ -47,16 +47,20 @@ export function handlShowCodesModal(code) {
     });
 }
 
-export function getCode() {
+export function getCode(page,limit,description) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CODE,
         });
-        codeApi.getCodeApi()
+        codeApi.getCodeApi(page,limit,description)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_CODE_SUCCESS,
-                    code: res.data,
+                    code: res.data.codes,
+                    total_count: res.data.paginator.total_count,
+                    total_pages: res.data.paginator.total_pages,
+                    current_page: res.data.paginator.current_page,
+                    limit: res.data.paginator.limit,
                 });
 
             });

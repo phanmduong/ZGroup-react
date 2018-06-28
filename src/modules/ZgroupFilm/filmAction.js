@@ -19,6 +19,23 @@ export function loadAllFilms(value, start_date) {
     };
 }
 
+
+
+export function loadShownFilms() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_FILMS
+        });
+        filmApi.loadShownFilmsApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_SHOWN_FILMS_SUCCESS,
+                    films: res.data
+                });
+            });
+    };
+}
+
 export function loadAllFilmsHavePagination(page, search) {
     return function (dispatch) {
         dispatch({
@@ -369,7 +386,12 @@ export function loadAllRooms(limit) {
     };
 }
 
-
+export function handleSeatTypes(seats) {
+    return ({
+        type: types.HANDLE_SEAT_TYPES,
+        seats
+    });
+}
 export function toggleBookingModal() {
     return ({
         type: types.TOGGLE_ADD_BOOKING_MODAL

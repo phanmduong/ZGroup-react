@@ -15,7 +15,7 @@ class BookingRegisterSessionComponent extends React.Component {
         super(props, context);
         this.path = '';
         this.state = {
-            select_day: {name: ''},
+            select_day: {name: moment().format('YYYY-MM-DD')},
             select_film:{id:-1},
             roomId: '',
         };
@@ -48,8 +48,10 @@ class BookingRegisterSessionComponent extends React.Component {
     }
 
     changeRoom(value) {
+        let ass = this.props.allSessions.filter((ss)=>ss.id === value)[0].seats;
         this.setState({roomId: value});
         this.props.filmAction.loadSeatBySessionId(value);
+        this.props.filmAction.handleSeatTypes(ass);
         this.props.filmAction.handleBookingModal({...this.props.handleBookingModal,
             session_id: value
         });
@@ -98,7 +100,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} Phòng {room.room_id}{" "}
+                                            {room.start_time} {room.room_name}{" "}
                                         </a>
                                     </li>
                                 );
@@ -114,7 +116,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} Phòng {room.room_id}{" "}
+                                            {room.start_time} {room.room_name}{" "}
                                         </a>
                                     </li>
                                 );
