@@ -73,7 +73,7 @@ class InfoProposePaymentModal extends React.Component{
                                                                 type="text"
                                                                 name="stk2"
                                                                 value={this.props.data.payer.account_number || ""}
-
+                                                                disabled
                                                             />
 
                                                         </div>
@@ -121,7 +121,7 @@ class InfoProposePaymentModal extends React.Component{
                                                                 updateFormData={this.updateFormData}
                                                                 label="Hạn thanh toán"
                                                                 format={DATE_FORMAT}
-                                                                disable
+                                                                disabled
                                                                 placeholder={DATE_FORMAT}
                                                                 required={true}
                                                             />

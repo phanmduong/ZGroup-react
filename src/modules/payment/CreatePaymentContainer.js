@@ -164,6 +164,16 @@ class CreatePaymentContainer extends React.Component {
                                                         name="payer"
                                                     />
                                                 </div>
+                                                
+                                                <div className="col-md-12"/>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Tên chủ tài khoản"
+                                                        type="text" name=""
+                                                        value={this.props.data.payer.account_name || ""}
+                                                        disabled
+                                                    />
+                                                </div>
                                                 <div className="col-md-6">
                                                     <FormInputText
                                                         label="Số tài khoản"
@@ -173,6 +183,22 @@ class CreatePaymentContainer extends React.Component {
                                                         disabled
                                                     />
 
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Ngân hàng"
+                                                        type="text" name=""
+                                                        value={this.props.data.payer.bank_name || ""}
+                                                        disabled
+                                                    />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Chi nhánh"
+                                                        type="text" name=""
+                                                        value={this.props.data.payer.bank_branch || ""}
+                                                        disabled
+                                                    />
                                                 </div>
                                                 <div className="col-md-6">
                                                     <label>
@@ -188,15 +214,40 @@ class CreatePaymentContainer extends React.Component {
                                                         name="receiver"
                                                     />
                                                 </div>
+                                                <div className="col-md-12"/>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Tên chủ tài khoản"
+                                                        type="text" name=""
+                                                        value={this.props.data.receiver.account_name || ""}
+                                                        disabled
+                                                    />
+                                                </div>
                                                 <div className="col-md-6">
                                                     <FormInputText
                                                         label="Số tài khoản"
                                                         type="text"
-                                                        name="stk"
+                                                        name="stk2"
                                                         value={this.props.data.receiver.account_number || ""}
                                                         disabled
                                                     />
 
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Ngân hàng"
+                                                        type="text" name=""
+                                                        value={this.props.data.receiver.bank_name || ""}
+                                                        disabled
+                                                    />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Chi nhánh"
+                                                        type="text" name=""
+                                                        value={this.props.data.receiver.bank_branch || ""}
+                                                        disabled
+                                                    />
                                                 </div>
                                                 <div className="col-md-12">
                                                     <FormInputMoney

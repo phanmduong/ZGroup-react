@@ -131,7 +131,7 @@ export default [
         component: CreateProposePaymentContainer,
     },
     {
-        path: "/administration/propose-payment/edit/:paymentId",
+        path: "/business/propose-payment/edit/:paymentId",
         component: CreateProposePaymentContainer,
         type: "edit",
     },
