@@ -10,6 +10,7 @@ export const store = new class Store {
     @observable isCommitting = false;
     @observable showCreateModal = false;
     @observable showTransferModal = false;
+    @observable showPanel = false;
     @observable historyFund = [];
     @observable funds = [];
     @observable allFund = [];
@@ -21,6 +22,10 @@ export const store = new class Store {
         total_pages: 1,
     };
     @observable createData = defaultData;
+    @observable filter = {
+        send_id: null,
+        receive_id: null,
+    };
     @observable transferData = {
         payer_id: null,
         receiver_id: null,
@@ -109,7 +114,7 @@ export const store = new class Store {
     @action
     loadAllHistoryFund(page) {
         this.isLoading = true;
-        fundApi.loadAllHistoryFund(page)
+        fundApi.loadAllHistoryFund(page, this.filter)
             .then((res) => {
                 this.paginator = res.data.paginator;
                 this.historyFund = res.data.historyFunds;

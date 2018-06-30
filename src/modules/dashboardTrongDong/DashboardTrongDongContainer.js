@@ -88,40 +88,6 @@ class DashboardTrongDongContainer extends Component {
     );
   }
 
-<<<<<<< HEAD
-    openModalBooking(day, room, register) {
-        self.showModalBooking = true;
-        if (register) {
-            self.booking = {
-                email: register.register_data.user.email,
-                name: register.register_data.user.name,
-                phone: register.register_data.user.phone,
-                address: register.register_data.user.address,
-                id: register.register_room_id,
-                register_id: register.register_id,
-                campaign_id: register.register_data.campaign_id,
-                room: room,
-                base_id: room && room.base ? room.base.id : "",
-                room_id: room ? room.id : "",
-                type: register.type,
-                start_time: register.start.format(DATETIME_FORMAT),
-                end_time: register.end.format(DATETIME_FORMAT),
-                status: register.status,
-                note: register.register_data.note,
-                similar_room: register.register_data.similar_room
-            };
-        } else {
-            self.booking = {
-                room: room,
-                base_id: room && room.base ? room.base.id : "",
-                room_id: room ? room.id : "",
-                start_time: day.add('9', 'hours').format(DATETIME_FORMAT),
-                end_time: day.add('5', 'hours').format(DATETIME_FORMAT),
-                status: "seed",
-                similar_room: room ? [room.id] : []
-            };
-        }
-=======
   openModalBooking(day, room, register) {
     self.showModalBooking = true;
     self.selectedUser = {};
@@ -154,7 +120,6 @@ class DashboardTrongDongContainer extends Component {
         status: "seed",
         similar_room: room ? [room.id] : []
       };
->>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
     }
   }
 
@@ -255,190 +220,6 @@ class DashboardTrongDongContainer extends Component {
         } else {
           title = "Ca tối: ";
         }
-<<<<<<< HEAD
-    };
-
-    renderCalendar(registers, disableCreateRegister, room) {
-        let registersData = registers.map(register => {
-            let startTime = moment(register.start_time, DATETIME_FORMAT_SQL);
-            let endTime = moment(register.end_time, DATETIME_FORMAT_SQL);
-            let startSecond = convertTimeToSecond(startTime.format("HH:mm"));
-            let endSecond = convertTimeToSecond(endTime.format("HH:mm"));
-            let time = convertTimeToSecond("14:00");
-            let title = "";
-            if (startTime.format("MM-DD") == endTime.format("MM-DD")) {
-                if (startSecond <= time && time < endSecond) {
-                    title = "Cả ngày: ";
-                } else if (startSecond <= time && endSecond <= time) {
-                    title = "Ca sáng: ";
-                } else {
-                    title = "Ca tối: ";
-                }
-            }
-            title += register.user.name;
-            let color = this.colorBook(register.status);
-            return {
-                title: title,
-                register_room_id: register.id,
-                register_name: register.user.name,
-                register_data: register,
-                room: room ? room.name : null,
-                type: room && room.type ? room.type.name : null,
-                register_id: register.register_id,
-                start: register.start_time,
-                end: register.end_time,
-                status: register.status,
-                color: color,
-                overlay: 1
-            };
-        });
-
-        return (
-            <div className="card" key={room ? room.id : ""}>
-                <div className="card-content">
-                    {room ?
-                        <div>
-                            <h4 className="card-title">
-                                <strong>{`Phòng ${room.name} - ${room.type.name} - ${
-                                    room.seats_count
-                                    } chỗ ngồi`}</strong>
-                            </h4>
-                            <div>{`Cơ sở ${room.base.name} - ${room.base.address}`}</div>
-                        </div>
-                        :
-                        <h4 className="card-title">
-                            <strong>Lịch đặt phòng</strong>
-                        </h4>
-                    }
-                    <Calendar
-                        id={"room-calender-" + (room ? room.id : "")}
-                        calendarEvents={registersData}
-                        onDropTime={value => this.updateTime(value)}
-                        onClick={value => {
-                            this.registerRoomSelected = {
-                                id: value.register_id,
-                                status: value.status,
-                                register_name: value.register_name,
-                                room: value.room,
-                                type: value.type,
-                                start_time: value.start.format(DATETIME_FORMAT),
-                                end_time: value.end.format(DATETIME_FORMAT)
-                            };
-                            self.openModalBooking(null, room, value);
-                        }}
-                        onClickDay={day => {
-                            if (disableCreateRegister) return;
-                            self.openModalBooking(day, room);
-                        }}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    render() {
-        //console.log(store.registerMergeRooms().map((item) => item.register_id));
-        // const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
-        const disableCreateRegister = (this.props.route && this.props.route.path === '/dashboard/view-register');
-        return (
-            <div>
-                {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
-                    <Loading/>
-                ) : (
-                    <div>
-                        <div className="row">
-                            <div className="col-sm-4 col-xs-5">
-                                <Select
-                                    defaultMessage={"Chọn cơ sở"}
-                                    options={store.basesData}
-                                    value={store.selectedBaseId}
-                                    onChange={this.onChangeBase}
-                                />
-                            </div>
-                            <div className="col-sm-4 col-xs-3">
-                                <Select
-                                    defaultMessage={"Chọn loại phòng"}
-                                    options={store.roomTypesData}
-                                    value={store.selectedRoomTypeId}
-                                    onChange={this.onChangeRoomType}
-                                />
-                            </div>
-                            <div className="col-sm-4 col-xs-4">
-                                <Select
-                                    defaultMessage={"Chọn phòng"}
-                                    options={store.roomsData}
-                                    value={store.selectedRoomId}
-                                    onChange={this.onChangeRoom}
-                                />
-                            </div>
-                        </div>
-                        {store.isLoading ? (
-                            <Loading/>
-                        ) : (
-
-                            store.registerRooms &&
-
-                            store.selectedRoomId == 0 ? (
-                                this.renderCalendar(store.registerMergeRooms(), disableCreateRegister)
-                            ) : (
-                                store.registerRooms.map((room) => {
-                                    return this.renderCalendar(store.registerMergeRooms(), disableCreateRegister, room);
-                                })
-                            )
-
-
-                        )}
-                    </div>
-                )}
-                <Modal
-                    show={this.showModalChangeStatus}
-                    onHide={() => {
-                        this.showModalChangeStatus = false;
-                    }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                            {this.registerRoomSelected.register_name} phòng {this.registerRoomSelected.room}{" "}
-                            loại {this.registerRoomSelected.type}
-                        </Modal.Title>
-                        <div>
-                            Từ {this.registerRoomSelected.start_time} đến {this.registerRoomSelected.end_time}
-                        </div>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="form-group">
-                            <label className="label-control">Thay đổi trạng thái</label>
-                            <ReactSelect
-                                name="form-field-name"
-                                value={this.registerRoomSelected.status}
-                                options={STATUS_REGISTER_ROOM}
-                                onChange={this.onChangeStatus}
-                                placeholder="Chọn trang thái"
-                                disabled={disableCreateRegister}
-                            />
-                        </div>
-                    </Modal.Body>
-                </Modal>
-                <Modal
-                    show={this.showModalBooking}
-                    onHide={this.closeModalBooking}>
-                    <Modal.Header closeButton>
-                        {this.booking.room ?
-                            <Modal.Title>
-                                {this.booking.room && this.booking.id == undefined
-                                    ? `Tạo đặt phòng ${this.booking.room.name} - ${this.booking.room.type.name}`
-                                    : ""}
-                                {this.booking.id ? `${this.booking.name} đặt phòng ${this.booking.room.name} loại ${this.booking.type}` : ''}
-                            </Modal.Title>
-                            :
-                            <Modal.Title>
-                                {this.booking.id == undefined ? "Tạo đặt phòng" : "Sửa đặt phòng"}
-                            </Modal.Title>
-                        }
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form id="form-book-room">
-                            <FormInputText
-=======
       }
       title += register.user ? register.user.name : "";
 
@@ -453,7 +234,6 @@ class DashboardTrongDongContainer extends Component {
             title += room.name + ", ";
           }
         });
->>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
 
         title = title.substr(0, title.length - 2);
 
@@ -520,19 +300,6 @@ class DashboardTrongDongContainer extends Component {
     );
   }
 
-<<<<<<< HEAD
-                                {store.allRoomsSimilar(this.booking.room).map((room, index) => {
-                                    const checked = this.booking.similar_room
-                                        && (this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0);
-                                    return (
-                                        <div className="col-md-4" key={index}>
-                                            <Checkbox label={room.name} checked={checked} checkBoxLeft
-                                                      disabled={disableCreateRegister}
-                                                      onChange={(event) => this.changeSimilarRoom(event, room)}/>
-                                        </div>
-                                    );
-                                })}
-=======
   selectUser = value => {
     let booking = { ...this.booking };
     booking.name = value.name;
@@ -542,7 +309,6 @@ class DashboardTrongDongContainer extends Component {
     this.booking = booking;
     this.selectedUser = value;
   };
->>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
 
   render() {
     // const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
@@ -800,13 +566,8 @@ class DashboardTrongDongContainer extends Component {
 }
 
 DashboardTrongDongContainer.propTypes = {
-<<<<<<< HEAD
-    user: PropTypes.object.isRequired,
-    route: PropTypes.object,
-=======
   user: PropTypes.object.isRequired,
   route: PropTypes.object
->>>>>>> 63b606cbe576e4a5ad2ba79693eb43a0da14ddb6
 };
 
 function mapStateToProps(state) {

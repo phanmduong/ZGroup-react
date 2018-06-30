@@ -101,7 +101,7 @@ class FundContainer extends Component {
                                                                                 }}
                                                                                 disabledDelete={true}
                                                                                 children={
-                                                                                    (this.props.user.role == 2 ?
+                                                                                    // (this.props.user.role == 2 ?
                                                                                         <a data-toggle="tooltip" title="Chuyển quỹ"
                                                                                             type="button"
                                                                                             onClick={() => { store.openTransferModal(obj); }}
@@ -109,8 +109,7 @@ class FundContainer extends Component {
                                                                                         >
                                                                                             <i className="material-icons">import_export</i>
                                                                                         </a>
-                                                                                        : <div />
-                                                                                    )
+                                                                                        // : <div />)
                                                                                 }
                                                                             /></td>
                                                                         </tr>

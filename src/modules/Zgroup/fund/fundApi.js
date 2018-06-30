@@ -3,7 +3,7 @@
 import axios from 'axios';
 import * as env from '../../../constants/env';
 
-export function loadAllHistoryFund(page = 1) {
+export function loadAllHistoryFund(page = 1, filter = {}) {
     let url = env.MANAGE_API_URL + "/company/history-fund/all?";
     let token = localStorage.getItem('token');
     if (token) {
@@ -11,6 +11,14 @@ export function loadAllHistoryFund(page = 1) {
     }
     if (page) {
         url += "&page=" + page;
+    }
+    if(filter){
+        if(filter.send_id){
+            url += "&send_id=" + filter.send_id;
+        }
+        if(filter.receive_id){
+            url += "&receive_id=" + filter.receive_id;
+        }
     }
     return axios.get(url);
 }
