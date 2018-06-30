@@ -97,20 +97,28 @@ class AddPageItemModal extends Component {
                             :
                             (
                                 <div>
-                                    <FormInputText
-                                        label="Nội dung tiếng anh"
-                                        // required
-                                        name="value_en"
-                                        updateFormData={(e) => this.updateFormPageItem('value_en', e.target.value)}
-                                        value={store.pageItem && store.pageItem.value_en}
-                                    />
-                                    <FormInputText
-                                        label="Nội dung tiếng việt"
-                                        // required
-                                        name="value_vi"
-                                        updateFormData={(e) => this.updateFormPageItem('value_vi', e.target.value)}
-                                        value={store.pageItem && store.pageItem.value_vi}
-                                    />
+                                    <div className="form-group">
+                                        <label className="control-label">
+                                            Nội dung tiếng anh
+                                        </label>
+                                        <textarea
+                                            className="form-control"
+                                            name="value_en"
+                                            rows="10"
+                                            value={store.pageItem && store.pageItem.value_en}
+                                            onChange={(e) => this.updateFormPageItem('value_en', e.target.value)}/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="control-label">
+                                            Nội dung tiếng việt
+                                        </label>
+                                        <textarea
+                                            className="form-control"
+                                            name="value_en"
+                                            rows="10"
+                                            value={store.pageItem && store.pageItem.value_vi}
+                                            onChange={(e) => this.updateFormPageItem('value_en', e.target.value)}/>
+                                    </div>
                                 </div>
                             )
                         }
