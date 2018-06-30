@@ -19,6 +19,23 @@ export function loadAllFilms(value, start_date) {
     };
 }
 
+
+
+export function loadShownFilms() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_FILMS
+        });
+        filmApi.loadShownFilmsApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_SHOWN_FILMS_SUCCESS,
+                    films: res.data
+                });
+            });
+    };
+}
+
 export function loadAllFilmsHavePagination(page, search) {
     return function (dispatch) {
         dispatch({
@@ -225,6 +242,23 @@ export function loadAllSessions(page, search, from_date, to_date, start_date, fi
     };
 }
 
+
+export function exportSessions(search, from_date, to_date, exportExcel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_DATA_EXCEL_SESSIONS
+        });
+        filmApi.exportSessionsApi(search, from_date, to_date)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_DATA_EXCEL_CODE_SUCCESS,
+                    excelSession: res.data.sessions
+                });
+                exportExcel();
+            });
+    };
+}
+
 export function loadShowingSession(page, search) {
     return function (dispatch) {
         dispatch({
@@ -369,7 +403,12 @@ export function loadAllRooms(limit) {
     };
 }
 
-
+export function handleSeatTypes(seats) {
+    return ({
+        type: types.HANDLE_SEAT_TYPES,
+        seats
+    });
+}
 export function toggleBookingModal() {
     return ({
         type: types.TOGGLE_ADD_BOOKING_MODAL

@@ -4,6 +4,7 @@ export default {
         isLoading: false,
         isSaving: false,
         allFilms: [],
+        shownFilms: [],
         allFilmsHavePagination: [],
         currentPage: 0,
         limit: 0,
@@ -39,6 +40,8 @@ export default {
         addEditSessionModal: false,
         sessionModal: {},
         rooms: [],
+        excelSession: [],
+        isLoadingExcelSession: false,
 
 
         //********Booking
@@ -51,6 +54,7 @@ export default {
         isBookingSeat: false,
         codeInfo:{},
         isCheckingCode: false,
+        seats: [],
 
     },
     seatType:{
@@ -68,10 +72,23 @@ export default {
         isLoadingCode: false,
         codes:[],
         isAddEditCode: false,
+        isLoadingExcel: false,
+        totalCount: 0,
+        currentPage: 0,
+        totalPages:0,
+        limit: "",
+        excel: [],
     },
     bookingHistory: {
         isLoadingBookingHistory: false,
         bookingHistories: [],
+        totalCount: 0,
+        currentPage: 0,
+        totalPages:0,
+        limit: "",
+        excel: [],
+        isLoadingExcel: false,
+
     },
 
     campaignList: {

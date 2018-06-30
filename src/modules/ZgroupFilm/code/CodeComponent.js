@@ -5,17 +5,21 @@ import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import TooltipButton from '../../../components/common/TooltipButton';
 import {confirm} from "../../../helpers/helper";
+import moment from "moment/moment";
+
 
 class CodeComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.delCode = this.delCode.bind(this);
     }
+
     delCode(code) {
         confirm("error", "Xóa mã giảm giá", "Bạn có chắc muốn xóa mã giảm giá này", () => {
             this.props.codeAction.deleteCode(code);
         });
     }
+
     render() {
         return (
             <div className="table-responsive">
@@ -23,11 +27,14 @@ class CodeComponent extends React.Component {
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th>STT</th>
-                        <th>Ý nghĩa</th>
-                        <th>Giảm giá</th>
-                        <th>Số lượng</th>
-                        <th>Ngày áp dụng</th>
-                        <th>Ngày kết thúc</th>
+                        <th>Ý Nghĩa</th>
+                        <th>Giảm Giá</th>
+                        <th>Số Lượng</th>
+                        <th>Sử Dụng</th>
+                        <th>Còn Lại</th>
+                        <th>Ký Tự</th>
+                        <th>Áp Dụng</th>
+                        <th>Kết Thúc</th>
                         <th/>
                     </tr>
                     </thead>
@@ -35,15 +42,29 @@ class CodeComponent extends React.Component {
 
                     {
                         this.props.code && this.props.code.map((code, index) => {
+                            let a = code.codes.filter((code) => code.status === 1);
+                            let b = code.codes.filter((code) => code.status === 0);
+                            let description = code.description.slice(0, 30);
                             return (
                                 <tr key={index}>
-                                    <td>{index+1}</td>
+                                    <td>{index + 1}</td>
                                     <td className="film-name">
-                                        {code.description}
+                                        <TooltipButton placement="top" text={code.description}>
+                                            <div>{description.length < 30 ? description : description.concat('...')}</div>
+                                        </TooltipButton>
                                     </td>
-                                    <td><b>{code.value}đ</b></td>
+                                    <td><b>{Math.floor(code.value / 1000)}.000 VNĐ</b></td>
                                     <td>
-                                        {code.number}
+                                        &emsp;&emsp;{code.number}
+                                    </td>
+                                    <td>
+                                        &emsp;{a.length}
+                                    </td>
+                                    <td>
+                                        {b.length}
+                                    </td>
+                                    <td>
+                                        {code.length}
                                     </td>
                                     <td>
                                         {code.start_date}
@@ -66,24 +87,32 @@ class CodeComponent extends React.Component {
                                                     <i className="material-icons">add_circle</i>
                                                 </a>
                                             </TooltipButton>
-                                            <TooltipButton text="Sửa" placement="top" style={{display: "inline-block"}}>
-                                                <a style={{color: "#878787"}}
-                                                   onClick={() => {
-                                                       this.props.codeAction.openModal();
-                                                       this.props.codeAction.handleCodeModal(code);
-                                                   }}>
-                                                    <i className="material-icons">edit</i>
-                                                </a>
-                                            </TooltipButton>
+                                            {
+                                                moment(code.start_date, "YYYY-MM-DD").fromNow()[0] !== "i" ? "" :
+                                                    <div>
+                                                        <TooltipButton text="Sửa" placement="top"
+                                                                       style={{display: "inline-block"}}>
+                                                            <a style={{color: "#878787"}}
+                                                               onClick={() => {
+                                                                   this.props.codeAction.openModal();
+                                                                   this.props.codeAction.handleCodeModal(code);
+                                                               }}>
+                                                                <i className="material-icons">edit</i>
+                                                            </a>
+                                                        </TooltipButton>
 
-                                            <TooltipButton text="Xóa" placement="top" style={{display: "inline-block"}}>
-                                                <a style={{color: "#878787"}}
-                                                   onClick={() => {
-                                                       this.delCode(code);
-                                                   }}>
-                                                    <i className="material-icons">delete</i>
-                                                </a>
-                                            </TooltipButton>
+                                                        <TooltipButton text="Xóa" placement="top"
+                                                                       style={{display: "inline-block"}}>
+                                                            <a style={{color: "#878787"}}
+                                                               onClick={() => {
+                                                                   this.delCode(code);
+                                                               }}>
+                                                                <i className="material-icons">delete</i>
+                                                            </a>
+                                                        </TooltipButton>
+                                                    </div>
+                                            }
+
                                         </div>
                                     </td>
                                 </tr>

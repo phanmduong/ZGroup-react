@@ -26,6 +26,18 @@ export function loadAllFilmsHavePaginationApi(page, search) {
     return axios.get(url);
 }
 
+//Load Film da chieu
+//http://keetool3.xyz/api/v3/films/shown
+export function loadShownFilmsApi() {
+    let url = env.API_URL + "/films/shown";
+    // if (search) {
+    //     url += "&search=" + search;
+    // }
+
+    return axios.get(url);
+}
+
+
 //Xoa Film
 export function deleteFilmApi(id) {
     let url = env.MANAGE_API_URL + "/film/";
@@ -115,6 +127,20 @@ export function loadAllSessionsApi(page, search, from_date, to_date, start_date,
     return axios.get(url);
 }
 
+
+export function exportSessionsApi(search, from_date, to_date) {
+    let url = env.API_URL + "/sessions";
+    url += "?limit=-1";
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (from_date) {
+        if (to_date) {
+            url += "&from_date=" + from_date + "&to_date=" + to_date;
+        }
+    }
+    return axios.get(url);
+}
 
 //Load Session Dang Chieu
 export function loadShowingSessionApi(page, search) {

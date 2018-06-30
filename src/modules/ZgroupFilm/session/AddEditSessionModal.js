@@ -7,10 +7,11 @@ import *as filmAction from "../filmAction";
 import *as seatTypeAction from "../seatType/seatTypeAction";
 import Select from "react-select";
 import FormInputDate from '../../../components/common/FormInputDate';
-import FormInputText from '../../../components/common/FormInputText';
+import FormInputMoney from '../../../components/common/FormInputMoney';
 import {TIME_FORMAT_H_M} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import * as helper from "../../../helpers/helper";
+import moment from "moment/moment";
 
 class AddEditSessionModal extends React.Component {
     constructor(props, context) {
@@ -167,6 +168,7 @@ class AddEditSessionModal extends React.Component {
                                 <div className="col-md-6"><br/>
                                     <FormInputDate
                                         label="Ngày chiếu"
+                                        minDate={moment().format('YYYY-MM-DD')}
                                         name="start_date"
                                         updateFormData={this.updateSession}
                                         value={session.start_date || ''}
@@ -229,12 +231,12 @@ class AddEditSessionModal extends React.Component {
                                                             </td>
                                                             <td>{seatType.type}</td>
                                                             <td>
-                                                                <FormInputText
-                                                                    label="Nhập giá vé (đ)"
+                                                                <FormInputMoney
+                                                                    label="Nhập giá vé (VNĐ)"
                                                                     type="number"
                                                                     name="price"
                                                                     updateFormData={(e)=>this.changePrice(e,index)}
-                                                                    value={seatType.price}/>
+                                                                    value={seatType.price || ""}/>
                                                             </td>
 
                                                         </tr>

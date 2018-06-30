@@ -15,8 +15,8 @@ class BookingRegisterSessionComponent extends React.Component {
         super(props, context);
         this.path = '';
         this.state = {
-            select_day: {name: ''},
-            select_film:{id:-1},
+            select_day: "",
+            select_film: "",
             roomId: '',
         };
         this.changeRoom = this.changeRoom.bind(this);
@@ -24,33 +24,55 @@ class BookingRegisterSessionComponent extends React.Component {
         this.updateFormData2 = this.updateFormData2.bind(this);
     }
 
-    componentWillMount(){
-        this.props.filmAction.clearAllBeginBooking();
+    componentWillMount() {
+        this.props.filmAction.loadShowingSession();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoadingShowingSession !== this.props.isLoadingShowingSession && !nextProps.isLoadingShowingSession) {
+            this.setState({
+                select_day: {name: nextProps.showingSession[0].start_date},
+                select_film: {id: nextProps.showingSession[0].film_id,},
+                roomId: nextProps.showingSession[0].id,
+            });
+            this.props.filmAction.loadAllFilms('', nextProps.showingSession[0].start_date);
+            this.props.filmAction.loadAllSessions(1, '', '', '', nextProps.showingSession[0].start_date, nextProps.showingSession[0].film_id);
+            this.props.filmAction.loadSeatBySessionId(nextProps.showingSession[0].id);
+            this.props.filmAction.handleSeatTypes(nextProps.showingSession[0].seats);
+            this.props.filmAction.handleBookingModal({
+                ...this.props.handleBookingModal,
+                session_id: nextProps.showingSession[0].id
+            });
+        }
     }
 
     updateFormData(event) {
         const field = event.target.name;
         let select_day = {...this.state.select_day};
         select_day[field] = event.target.value;
-        this.setState({select_day: select_day, roomId:''});
+        this.setState({select_day: select_day, roomId: ''});
         this.props.filmAction.loadAllFilms('', this.state.select_day.name);
-        this.props.filmAction.loadAllSessions(1,'','','','',-1);
+        this.props.filmAction.loadAllSessions(1, '', '', '', '', -1);
         this.props.filmAction.clearSeatBySessionId();
 
     }
+
     updateFormData2(event) {
         const field = event.target.name;
         let select_film = {...this.state.select_film};
         select_film[field] = event.target.value;
-        this.setState({select_film:select_film, roomId:''});
-        this.props.filmAction.loadAllSessions(1,'','','',this.state.select_day.name, select_film.id);
+        this.setState({select_film: select_film, roomId: ''});
+        this.props.filmAction.loadAllSessions(1, '', '', '', this.state.select_day.name, select_film.id);
         this.props.filmAction.clearSeatBySessionId();
     }
 
     changeRoom(value) {
+        let ass = this.props.allSessions.filter((ss) => ss.id === value)[0].seats;
         this.setState({roomId: value});
         this.props.filmAction.loadSeatBySessionId(value);
-        this.props.filmAction.handleBookingModal({...this.props.handleBookingModal,
+        this.props.filmAction.handleSeatTypes(ass);
+        this.props.filmAction.handleBookingModal({
+            ...this.props.handleBookingModal,
             session_id: value
         });
     }
@@ -77,7 +99,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                 updateFormData={this.updateFormData2}
                                 name="id"
                                 id="select_film"
-                                data={[{id:-1,name:''}].concat(this.props.allFilms)}
+                                data={[{id: -1, name: ''}].concat(this.props.allFilms)}
                                 value={this.state.select_film.id}
                                 required={true}
                             />
@@ -98,7 +120,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} Phòng {room.room_id}{" "}
+                                            {room.start_time} {room.room_name}{" "}
                                         </a>
                                     </li>
                                 );
@@ -114,7 +136,7 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time} Phòng {room.room_id}{" "}
+                                            {room.start_time} {room.room_name}{" "}
                                         </a>
                                     </li>
                                 );
@@ -123,7 +145,8 @@ class BookingRegisterSessionComponent extends React.Component {
                     </ul>
                     <hr/>
                     {
-                        this.props.isLoading||this.props.isLoadingAllSessions||this.props.isLoadingSeatBySessionId ? <Loading/> :
+                        this.props.isLoading || this.props.isLoadingAllSessions || this.props.isLoadingSeatBySessionId ?
+                            <Loading/> :
                             <BookingGrid/>
                     }
 
@@ -137,12 +160,14 @@ class BookingRegisterSessionComponent extends React.Component {
 BookingRegisterSessionComponent.propTypes = {
     children: PropTypes.element,
     allFilms: PropTypes.array.isRequired,
+    showingSession: PropTypes.array.isRequired,
     allSessions: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
     handleBookingModal: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingAllSessions: PropTypes.bool.isRequired,
     isLoadingSeatBySessionId: PropTypes.bool.isRequired,
+    isLoadingShowingSession: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -155,6 +180,8 @@ function mapStateToProps(state) {
         height: state.film.height,
         isLoadingSeatBySessionId: state.film.isLoadingSeatBySessionId,
         handleBookingModal: state.film.handleBookingModal,
+        showingSession: state.film.showingSession,
+        isLoadingShowingSession: state.film.isLoadingShowingSession,
     };
 }
 

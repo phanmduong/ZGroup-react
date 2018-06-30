@@ -87,7 +87,6 @@ class SessionComponent extends React.Component {
                                                             <b style={{margin:"auto"}}>{seat.price/1000}</b>
                                                         </button>
                                                     </TooltipButton>
-                                                    <br/>
                                                 </div>
                                             );
                                         })
@@ -96,24 +95,29 @@ class SessionComponent extends React.Component {
 
                                 </td>
                                 <td>
+                                    {
+                                        moment(session.start_date, "YYYY-MM-DD").add(1, 'days').fromNow()[0] !== "i" ? "" :
 
-                                    <div className="btn-group-action">
-                                        <TooltipButton text="Sửa" placement="top" style={{display: "inline-block"}}>
-                                            <a style={{color: "#878787"}}
-                                               onClick={() => {
-                                                   this.props.filmAction.toggleSessionModal();
-                                                   this.props.filmAction.handleSessionModal(session);
-                                               }}>
-                                                <i className="material-icons">edit</i>
-                                            </a>
-                                        </TooltipButton>
-                                        <TooltipButton text="Xóa" placement="top" style={{display: "inline-block"}}>
-                                            <a style={{color: "#878787"}}
-                                               onClick={() => this.delSession(session)}>
-                                                <i className="material-icons">delete</i>
-                                            </a>
-                                        </TooltipButton>
-                                    </div>
+                                            <div className="btn-group-action">
+                                                <TooltipButton text="Sửa" placement="top"
+                                                               style={{display: "inline-block"}}>
+                                                    <a style={{color: "#878787"}}
+                                                       onClick={() => {
+                                                           this.props.filmAction.toggleSessionModal();
+                                                           this.props.filmAction.handleSessionModal(session);
+                                                       }}>
+                                                        <i className="material-icons">edit</i>
+                                                    </a>
+                                                </TooltipButton>
+                                                <TooltipButton text="Xóa" placement="top"
+                                                               style={{display: "inline-block"}}>
+                                                    <a style={{color: "#878787"}}
+                                                       onClick={() => this.delSession(session)}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                </TooltipButton>
+                                            </div>
+                                    }
                                 </td>
                             </tr>
                         );

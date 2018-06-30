@@ -44,7 +44,26 @@ export default function filmReducer(state = initialState.code, action) {
             return {
                 ...state,
                 isLoadingCode: false,
-                code: action.code
+                code: action.code,
+                totalCount: action.total_count,
+                totalPages: action.total_pages,
+                currentPage: action.current_page,
+                limit: action.limit,
+            };
+        case types.BEGIN_LOAD_DATA_EXCEL_CODE:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: true,
+                }
+            };
+        case types.LOAD_DATA_EXCEL_CODE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                    excel: action.excel
+                }
             };
         default:
             return state;
