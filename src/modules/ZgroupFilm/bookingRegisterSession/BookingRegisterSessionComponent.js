@@ -38,14 +38,10 @@ class BookingRegisterSessionComponent extends React.Component {
             this.props.filmAction.loadAllFilms('', nextProps.showingSession[0].start_date);
             this.props.filmAction.loadAllSessions(1, '', '', '', nextProps.showingSession[0].start_date, nextProps.showingSession[0].film_id);
             this.props.filmAction.loadSeatBySessionId(nextProps.showingSession[0].id);
-
-        }
-        if (nextProps.isLoadingAllSessions !== this.props.isLoadingAllSessions && !nextProps.isLoadingAllSessions) {
-            let ass = nextProps.allSessions.filter((ss) => ss.id === this.state.roomId)[0].seats;
-            this.props.filmAction.handleSeatTypes(ass);
+            this.props.filmAction.handleSeatTypes(nextProps.showingSession[0].seats);
             this.props.filmAction.handleBookingModal({
                 ...this.props.handleBookingModal,
-                session_id: this.state.roomId
+                session_id: nextProps.showingSession[0].id
             });
         }
     }
