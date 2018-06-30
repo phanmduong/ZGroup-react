@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import *as filmAction from "../filmAction";
 import Loading from "../../../components/common/Loading";
 import Search from '../../../components/common/Search';
+import moment from "moment/moment";
 
 
 class BookingRegisterSessionModal extends React.Component {
@@ -74,6 +75,9 @@ class BookingRegisterSessionModal extends React.Component {
     }
 
     render() {
+        let dk = moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+            moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+            this.props.codeInfo.status === 1;
         let sum = this.props.handleBookingModal.sum;
         return (
             <Modal show={this.props.addBookingRegisterSessionModal}
@@ -127,10 +131,23 @@ class BookingRegisterSessionModal extends React.Component {
                             {
                                 this.props.isCheckingCode ? <Loading/> :
                                     <div>
-                                        <h5>Giảm giá: {this.props.codeInfo.value ? this.props.codeInfo.value/1000 + ".000 VNĐ" : "0 VNĐ"}
-                                        </h5>
+                                        <h5>Giảm giá: {
 
-                                        <h5>Thanh toán: {(sum||0)/1000-((this.props.codeInfo.value || 0) / 1000)}.000 VNĐ</h5>
+                                            dk ? "0 VNĐ" :
+                                                (this.props.codeInfo.value ? this.props.codeInfo.value / 1000 + ".000 VNĐ" : "0 VNĐ")
+                                        }
+                                        </h5>
+                                        <b>{!helper.isEmptyInput(this.props.codeInfo.start_date) ?
+                                            (
+                                                dk ? "Mã giảm giá đã sử dụng, hoặc hết hạn hay không khả dụng" : ""
+                                            )
+                                            : ""
+                                        }</b>
+
+                                        <h5>Thanh toán:
+                                            {dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                            VNĐ
+                                        </h5>
                                     </div>
                             }
 
@@ -150,7 +167,8 @@ class BookingRegisterSessionModal extends React.Component {
                     {
                         this.props.isCheckingCode ? <Loading/> :
                             <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
-                                {(sum||0)/1000-((this.props.codeInfo.value || 0) / 1000)}.000 VNĐ
+                                {dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                VNĐ
                             </p>
                     }
                     <br/>

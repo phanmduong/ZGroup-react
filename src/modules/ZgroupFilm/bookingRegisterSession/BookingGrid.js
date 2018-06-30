@@ -199,7 +199,8 @@ class BookingGrid extends React.Component {
                                                                     &emsp;
                                                                     <button style={{
                                                                         backgroundColor: ass.color, color: "white",
-                                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                                        fontSize: 10,
+                                                                        padding: "8px 9px", border: "none", borderRadius: "20px"
                                                                     }}>
                                                                         <b>A1</b>
                                                                     </button>
@@ -230,7 +231,8 @@ class BookingGrid extends React.Component {
                                                     &emsp;
                                                     <button style={{
                                                         backgroundColor: "black", color: "white",
-                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                        fontSize: 10,
+                                                        padding: "8px 9px", border: "none", borderRadius: "20px"
                                                     }}>
                                                         <b>A1</b>
                                                     </button>
@@ -243,8 +245,8 @@ class BookingGrid extends React.Component {
                                                 <td>
                                                     &emsp;
                                                     <button style={{
-                                                        backgroundColor: "grey", color: "white",
-                                                        padding: "10px 11px", border: "none", borderRadius: "20px"
+                                                        backgroundColor: "grey", color: "white", fontSize: 10,
+                                                        padding: "8px 9px", border: "none", borderRadius: "20px"
                                                     }}>
                                                         <b>A1</b>
                                                     </button>
