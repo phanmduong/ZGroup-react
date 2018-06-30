@@ -6,7 +6,6 @@ import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
 import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 import RegisterManageRoomContainer from "../modules/registerManageRoom/RegisterManageRoomContainer";
 import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/container/RegisterManageMeetingRoomContainer";
-import test from "../modules/roomRegisterList_TrongDong/container/RoomRegisterListContainer";
 import RoomRegisterListContainer from "../modules/roomRegisterListTrongDong/RoomRegisterListContainer";
 import SeatTypeContainer from "../modules/ZgroupFilm/seatType/SeatTypeContainer";
 import CodeContainer from "../modules/ZgroupFilm/code/CodeContainer";
@@ -58,10 +57,6 @@ export default [
     {
         path: "base/room-register-list",
         component: RoomRegisterListContainer
-    },
-    {
-        path: "base/test",
-        component: test
     },
     {
         path: "base/film/seat-type",

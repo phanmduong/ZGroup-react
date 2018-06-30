@@ -6,7 +6,6 @@ import {
 } from "../../helpers/helper";
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL,  } from "../../constants/constants";
-//import { browserHistory } from 'react-router';
 
 const date_format = "H:M D-M-Y";
 
@@ -25,10 +24,12 @@ export const store = new class DashboardStaffStore {
         total_pages: 1,
     };
     @observable createData = defaultData;
+    @observable disableCreateRegister = false;
+    @observable month = {};
+    @observable isShowMonthBox = false;
     @observable filter = {
-        start_time: "",
-        end_time: "",
-      
+        time : {},
+        base_id : 0,
     };
 
 
@@ -47,11 +48,11 @@ export const store = new class DashboardStaffStore {
     @action
     submitBooking() {
         this.isBooking = true;
-        roomApi.submitBooking(this.createData)
+        roomApi.submitBooking(this.createData, this.filter)
         .then(() => {
             this.isBooking = false;
             this.showCreateModal = false;
-            this.loadRegisters(this.filter);
+            this.loadRegisters();
             showNotification("Lưu thành công!");
         })
         .catch(() => {
@@ -61,12 +62,23 @@ export const store = new class DashboardStaffStore {
     }
 
     @action
-    loadRegisters() {
+    loadRegisters(key = null, value) {
+        let filter = {};
+        if(key
+            && key !== "time"
+        ){
+            filter[key] = value;
+        }
+        else if (key === "time"){
+            filter = {...this.filter};
+            filter[key] = value;
+        }
+        this.filter = filter;
         this.isLoading = true;
-        roomApi.loadRegisters(this.filter)
+        roomApi.loadRegisters(filter)
             .then((res) => {
                 this.isLoading = false;
-                this.registers =  res.data.data;
+                this.registers =  res.data.room_service_registers;
                 this.paginator = res.data.paginator;
             })
             .catch(() => {
@@ -108,6 +120,9 @@ export const store = new class DashboardStaffStore {
     }
 
 
+
+
+
     @computed
     get allBases() {
         let data = this.bases || [];
@@ -131,17 +146,51 @@ export const store = new class DashboardStaffStore {
             };
         });
     }
+    // @computed
+    // get allRooms() {
+    //     let data = this.rooms || [];
+    //     return data.map(function (obj) {
+    //         return {
+    //             value: obj.id,
+    //             label: obj.name,
+    //             ...obj
+    //         };
+    //     });
+    // }
+
     @computed
-    get allRooms() {
-        let data = this.rooms || [];
-        return data.map(function (obj) {
+    get baseData() {
+        let selectData = this.bases.map(function (base) {
             return {
-                value: obj.id,
-                label: obj.name,
-                ...obj
+                key: base.id,
+                value: base.name,
+            };
+        });
+        return [
+            {
+                key: 0,
+                value: "Tất cả",
+            },
+            ...selectData,
+        ];
+    }
+    //
+    // @computed
+    // get disableCreateRegister(){
+    //     return this.filter
+    // }
+
+    @computed
+    get campaignData() {
+        return this.campaigns && this.campaigns.map(function (campaign) {
+            return {
+                ...campaign,
+                value: campaign.id,
+                label: campaign.name
             };
         });
     }
+
 
 }();
 

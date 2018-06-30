@@ -157,7 +157,6 @@ export function loadRegisters(filter) {
         url += "&end_time=" + endTime;
     }
     if (base_id) {
-      console.log(base_id);
         url += "&base_id=" + (base_id == -1 ? '' : base_id);
     }
     return axios.get(url);
