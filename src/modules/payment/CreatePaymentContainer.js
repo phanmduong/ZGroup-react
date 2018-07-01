@@ -30,9 +30,9 @@ class CreatePaymentContainer extends React.Component {
     componentWillMount() {
         helper.setFormValidation('#form-payment');
         this.props.PaymentActions.loadCompanies();
-        this.props.PaymentActions.loadProposePayments((propose)=>{
-            
-            if(!propose) return;
+        this.props.PaymentActions.loadProposePayments((propose) => {
+
+            if (!propose) return;
             propose = propose.map((obj) => {
                 return {
                     ...obj,
@@ -40,7 +40,7 @@ class CreatePaymentContainer extends React.Component {
                     label: obj.command_code,
                 };
             });
-            this.setState({propose});
+            this.setState({ propose });
         });
         if (this.props.params.paymentId)
             this.props.PaymentActions.loadPayment(this.props.params.paymentId);
@@ -101,18 +101,25 @@ class CreatePaymentContainer extends React.Component {
     }
     updateCommandCode = (e) => {
         if (!e) return;
-        
-        let newdata = { ...this.props.data, ...e, bill_image_url: this.props.data.bill_image_url };
+
+        let newdata = {
+            ...this.props.data,
+            ...e,
+            bill_image_url: this.props.data.bill_image_url,
+            id: this.props.data.id,
+            propose_id: e.id,
+        };
+
         this.props.PaymentActions.updateFormData(newdata);
     }
 
     submit() {
-        
+
         if (!this.props.link && !this.props.data.bill_image_url) {
             helper.showErrorNotification("Vui lòng chọn ảnh hóa đơn");
             return;
         }
-        if (this.props.data.id) {
+        if (this.props.data.propose_id) {
             helper.showNotification("Đang lưu...");
             if (!this.props.params.paymentId) this.props.PaymentActions.addPayment(this.props.data);
             else this.props.PaymentActions.editPayment(this.props.params.paymentId, this.props.data);
@@ -139,23 +146,33 @@ class CreatePaymentContainer extends React.Component {
                                         (this.props.isLoadingCompanies) ? <Loading /> :
 
                                             <div>
-                                                <div className="col-md-12">
-                                                    <label>
-                                                        Chọn đề xuất
+                                                {this.props.params.paymentId ?
+                                                    
+                                                        <div className="col-md-12"><b>Mã thanh toán: </b>{this.props.data.command_code}</div>
+                                                        
+                                                    
+                                                    : 
+                                                
+                                                    <div className="col-md-12">
+                                                        <label>
+                                                            Chọn đề xuất
                                                     </label>
-                                                    <ReactSelect
-                                                        options={this.state.propose || []}
-                                                        onChange={this.updateCommandCode}
-                                                        value={this.props.data.id || ""}
-                                                        defaultMessage="Tuỳ chọn"
-                                                    />
-                                                </div>
-                                                <div className="col-md-6">
+                                                        <ReactSelect
+                                                            options={this.state.propose || []}
+                                                            onChange={this.updateCommandCode}
+                                                            value={this.props.data.propose_id || ""}
+                                                            defaultMessage="Tuỳ chọn"
+                                                        />
+                                                    </div>
+                                                
+                                                }
+                                                    
+                                                <div className="col-md-6" style={{marginTop: 10}}>
                                                     <label>
                                                         Bên gửi
                                                     </label>
                                                     <ReactSelect
-                                                        
+
                                                         disabled
                                                         options={this.changeCompanies()}
                                                         onChange={this.updateFormDataPayer}
@@ -164,8 +181,8 @@ class CreatePaymentContainer extends React.Component {
                                                         name="payer"
                                                     />
                                                 </div>
-                                                
-                                                <div className="col-md-12"/>
+
+                                                <div className="col-md-12" />
                                                 <div className="col-md-6">
                                                     <FormInputText
                                                         label="Tên chủ tài khoản"
@@ -205,7 +222,7 @@ class CreatePaymentContainer extends React.Component {
                                                         Bên nhận
                                                     </label>
                                                     <ReactSelect
-                                                        
+
                                                         disabled
                                                         options={this.changeCompanies()}
                                                         onChange={this.updateFormDataReceiver}
@@ -214,7 +231,7 @@ class CreatePaymentContainer extends React.Component {
                                                         name="receiver"
                                                     />
                                                 </div>
-                                                <div className="col-md-12"/>
+                                                <div className="col-md-12" />
                                                 <div className="col-md-6">
                                                     <FormInputText
                                                         label="Tên chủ tài khoản"
@@ -253,7 +270,7 @@ class CreatePaymentContainer extends React.Component {
                                                     <FormInputMoney
                                                         label="Số tiền"
                                                         type="text"
-                                                        
+
                                                         name="money_value"
                                                         updateFormData={this.updateFormData}
                                                         value={this.props.data.money_value || ""}

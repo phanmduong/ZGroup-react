@@ -36,6 +36,17 @@ class PaymentList extends React.Component {
                                     (this.props.user.role == 2 || this.props.user.id == pp.staff.id) 
                                         ?  () => this.props.openInfoModal(pp) 
                                             : ()=>{};
+                                let status = 'Chưa duyệt'                                            ;
+                                switch(pp.status){
+                                    case 1:{
+                                        status = 'Đã duyệt';
+                                        break;
+                                    }
+                                    case 2:{
+                                        status = 'Đã thanh toán';
+                                        break;
+                                    }
+                                }
                                 return (
                                     <tr key={pp.id}>
                                         <td onClick={toggleInfo}>{index + 1}</td>
@@ -44,9 +55,7 @@ class PaymentList extends React.Component {
                                         <td onClick={toggleInfo}>{pp.receiver.name}</td>
                                         <td onClick={toggleInfo}>{pp.deadline}</td>
                                         <td onClick={toggleInfo}>{pp.created_at}</td>
-                                        <td onClick={toggleInfo}>
-                                            {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
-                                        </td>
+                                        <td onClick={toggleInfo}>{status}</td>
                                         <td>
                                             {(pp.status === 0 && this.props.user.role == 2) ?
                                                 <div className="btn-group-action">
