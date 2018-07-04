@@ -52,7 +52,18 @@ class BookingRegisterSessionModal extends React.Component {
             [field]: event.target.value,
         };
         this.props.filmAction.handleBookingModal(film);
-        this.props.filmAction.checkUser(event.target.value);
+
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        let value = event.target.value;
+        let call = () => {
+            return this.props.filmAction.checkUser(value);
+        };
+        this.timeOut = setTimeout(
+            call.bind(this),
+            500
+        );
     }
 
     receiversSearchChange(value) {
@@ -67,7 +78,7 @@ class BookingRegisterSessionModal extends React.Component {
             function () {
                 this.props.filmAction.checkCode(value);
             }.bind(this),
-            500
+            1500
         );
     }
 
