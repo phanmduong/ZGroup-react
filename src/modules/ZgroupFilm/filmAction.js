@@ -470,8 +470,8 @@ export function bookingSeat(booking) {
                     });
                 }
                 else {
-                    helper.showErrorNotification("Đặt vé thất bại, có ghế đã được đặt");
-                    helper.showErrorNotification(res.data.message);
+                    helper.showErrorNotification("Đặt vé thất bại, có ghế bạn chọn đã được đặt");
+                    //helper.showErrorNotification(res.data.message);
                     dispatch({
                         type: types.BOOKING_SEAT_ERROR
                     });
