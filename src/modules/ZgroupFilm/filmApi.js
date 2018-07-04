@@ -28,11 +28,15 @@ export function loadAllFilmsHavePaginationApi(page, search) {
 
 //Load Film da chieu
 //http://keetool3.xyz/api/v3/films/shown
-export function loadShownFilmsApi() {
+export function loadShownFilmsApi(page,search) {
     let url = env.API_URL + "/films/shown";
-    // if (search) {
-    //     url += "&search=" + search;
-    // }
+    url += "?limit=" + 12;
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
 
     return axios.get(url);
 }
@@ -223,5 +227,15 @@ export function bookingSeatApi(booking) {
 // /http://keetool3.xyz/api/v3/code/7CX0SQLHLG
 export function checkCodeApi(code) {
     let url = env.API_URL + "/code/" + code;
+    return axios.get(url);
+}
+
+//check User Api
+//http://ledahlia.vn/api/v3/user?search=l
+export function checkUserApi(search) {
+    let url = env.API_URL + "/user";
+    if (search) {
+        url += "?search=" + search;
+    }
     return axios.get(url);
 }

@@ -69,7 +69,7 @@ class CodeContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 3}, {"wch": 30}, {"wch": 10}, {"wch": 6}, {"wch": 6}, {"wch": 6}, {"wch": 6}, {"wch": 11}, {"wch": 11},{"wch": 31},{"wch": 31}];//độ rộng cột
+        let cols = [{"wch": 3}, {"wch": 7}, {"wch": 30}, {"wch": 10}, {"wch": 6}, {"wch": 6}, {"wch": 6}, {"wch": 6}, {"wch": 11}, {"wch": 11},{"wch": 31},{"wch": 31}];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.map((item, index) => {
             if (item) {
@@ -85,6 +85,7 @@ class CodeContainer extends React.Component {
                 });
                 let res = {
                     'STT': index + 1,
+                    'Tên': item.name,
                     'Ý nghĩa': item.description,
                     'Giảm giá': item.value + " VNĐ",
                     'Số lượng': item.number,

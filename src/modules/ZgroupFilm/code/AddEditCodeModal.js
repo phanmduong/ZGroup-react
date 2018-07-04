@@ -32,11 +32,13 @@ class AddEditCodeModal extends React.Component {
         if (
             helper.isEmptyInput(code.description)
             || helper.isEmptyInput(code.number)
+            || helper.isEmptyInput(code.name)
             || helper.isEmptyInput(code.start_date)
             || helper.isEmptyInput(code.end_date)
             || helper.isEmptyInput(code.value)
             || helper.isEmptyInput(code.length)
         ) {
+            if (helper.isEmptyInput(code.name)) helper.showErrorNotification("Bạn cần nhập tên mã giảm giá");
             if (helper.isEmptyInput(code.description)) helper.showErrorNotification("Bạn cần miêu tả mã giảm giá");
             if (helper.isEmptyInput(code.number)) helper.showErrorNotification("Bạn cần nhập số lượng");
             if (helper.isEmptyInput(code.value)) helper.showErrorNotification("Bạn cần nhập giá trị");
@@ -75,6 +77,15 @@ class AddEditCodeModal extends React.Component {
                     <div className="form-group">
 
                         <form role="form">
+                            <div>
+                                <FormInputText
+                                    label="Tên"
+                                    name="name"
+                                    updateFormData={this.updateFormData}
+                                    value={code.name || ''}
+                                    required
+                                />
+                            </div>
                             <div>
                                 <FormInputText
                                     label="Ý nghĩa"

@@ -29,6 +29,7 @@ class FilmContainer extends React.Component {
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllFilmsHavePagination(1);
         this.props.filmAction.clearToLoadPage();
+        this.props.filmAction.loadAllRooms(20);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -49,6 +50,7 @@ class FilmContainer extends React.Component {
         this.timeOut = setTimeout(function () {
             this.props.filmAction.loadAllFilmsHavePagination(1, value);
             this.props.filmAction.loadAllFilms(value);
+            this.props.filmAction.loadShownFilms(1, value);
         }.bind(this), 500);
     }
 

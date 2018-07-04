@@ -19,6 +19,9 @@ class BookingRegisterSessionModal extends React.Component {
             confirm: false,
         };
         this.timeOut = null;
+        this.dk = moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+            moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+            this.props.codeInfo.status === 1;
         this.updateFormData = this.updateFormData.bind(this);
         this.pay = this.pay.bind(this);
         this.receiversSearchChange = this.receiversSearchChange.bind(this);
@@ -27,6 +30,18 @@ class BookingRegisterSessionModal extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.isBookingSeat !== this.props.isBookingSeat && !nextProps.isBookingSeat) {
             this.props.filmAction.loadSeatBySessionId(this.props.handleBookingModal.session_id);
+        }
+        if (nextProps.isCheckingUser !== this.props.isCheckingUser && !nextProps.isCheckingUser) {
+            if(nextProps.user.length === 1){
+                let a = nextProps.user[0];
+                this.props.filmAction.handleBookingModal({
+                    ...this.props.handleBookingModal,
+                    name: a.name,
+                    phone: a.phone,
+                    email: a.email,
+                    disable: true
+                });
+            }
         }
     }
 
@@ -37,6 +52,7 @@ class BookingRegisterSessionModal extends React.Component {
             [field]: event.target.value,
         };
         this.props.filmAction.handleBookingModal(film);
+        this.props.filmAction.checkUser(event.target.value);
     }
 
     receiversSearchChange(value) {
@@ -56,29 +72,35 @@ class BookingRegisterSessionModal extends React.Component {
     }
 
     pay() {
-        const bk = {...this.props.handleBookingModal};
-        if (
-            helper.isEmptyInput(bk.name) ||
-            helper.isEmptyInput(bk.phone) ||
-            helper.isEmptyInput(bk.email)
-        ) {
-            if (helper.isEmptyInput(bk.name)) helper.showErrorNotification("Bạn cần nhập họ tên");
-            if (helper.isEmptyInput(bk.phone)) helper.showErrorNotification("Bạn cần nhập số điện thoại");
-            if (helper.isEmptyInput(bk.email)) helper.showErrorNotification("Bạn cần nhập email");
-        }
-        else if (this.state.confirm === false) helper.showErrorNotification("Bạn cần xác nhận thanh toán");
+        let bk = (helper.isEmptyInput(this.props.handleBookingModal.name) &&
+            helper.isEmptyInput(this.props.handleBookingModal.phone) &&
+            helper.isEmptyInput(this.props.handleBookingModal.email)) ?
+            (this.dk ? {
+                ...this.props.handleBookingModal,
+                code: '',
+                name: "#",
+                phone: "#",
+                email: '#'
+            } : {
+                ...this.props.handleBookingModal,
+                name: "#",
+                phone: "#",
+                email: '#'
+            })
+            :
+            (this.dk ? {...this.props.handleBookingModal, code: ''} : {...this.props.handleBookingModal});
+
+        if (this.state.confirm === false) helper.showErrorNotification("Bạn cần xác nhận thanh toán");
         else {
             helper.showNotification("Đang thanh toán");
-            //console.log("bk", bk);
             this.props.filmAction.bookingSeat(bk);
         }
     }
 
     render() {
-        let dk = moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
-            moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-            this.props.codeInfo.status === 1;
+
         let sum = this.props.handleBookingModal.sum;
+        let modal = this.props.handleBookingModal;
         return (
             <Modal show={this.props.addBookingRegisterSessionModal}
                    onHide={() => {
@@ -100,24 +122,27 @@ class BookingRegisterSessionModal extends React.Component {
                                 label="Họ tên"
                                 name="name"
                                 updateFormData={this.updateFormData}
-                                value={this.props.handleBookingModal.name || ''}
-                                required
+                                value={modal.name || ''}
+                                disabled={modal.disable}
                             />
                             <FormInputText
                                 label="Số điện thoại"
                                 name="phone"
                                 updateFormData={this.updateFormData}
-                                value={this.props.handleBookingModal.phone || ''}
-                                required
+                                value={modal.phone || ''}
+                                disabled={modal.disable}
                             />
                             <FormInputText
                                 label="Email"
                                 name="email"
                                 updateFormData={this.updateFormData}
-                                value={this.props.handleBookingModal.email || ''}
-                                required
+                                value={modal.email || ''}
+                                disabled={modal.disable}
                             />
                             <br/>
+                            {
+                                this.props.isCheckingUser ? <Loading/> : ''
+                            }
                         </div>
                         <div className="col-md-5">
                             <br/>
@@ -133,19 +158,19 @@ class BookingRegisterSessionModal extends React.Component {
                                     <div>
                                         <h5>Giảm giá: {
 
-                                            dk ? "0 VNĐ" :
+                                            this.dk ? "0 VNĐ" :
                                                 (this.props.codeInfo.value ? this.props.codeInfo.value / 1000 + ".000 VNĐ" : "0 VNĐ")
                                         }
                                         </h5>
                                         <b>{!helper.isEmptyInput(this.props.codeInfo.start_date) ?
                                             (
-                                                dk ? "Mã giảm giá đã sử dụng, hoặc hết hạn hay không khả dụng" : ""
+                                                this.dk ? "Mã giảm giá đã sử dụng, hoặc hết hạn hay không khả dụng" : ""
                                             )
                                             : ""
                                         }</b>
 
                                         <h5>Thanh toán:
-                                            {dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                            {this.dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
                                             VNĐ
                                         </h5>
                                     </div>
@@ -167,7 +192,7 @@ class BookingRegisterSessionModal extends React.Component {
                     {
                         this.props.isCheckingCode ? <Loading/> :
                             <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
-                                {dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                {this.dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
                                 VNĐ
                             </p>
                     }
@@ -206,9 +231,11 @@ BookingRegisterSessionModal.propTypes = {
     addBookingRegisterSessionModal: PropTypes.bool.isRequired,
     isBookingSeat: PropTypes.bool.isRequired,
     isCheckingCode: PropTypes.bool.isRequired,
+    isCheckingUser: PropTypes.bool.isRequired,
     filmAction: PropTypes.object.isRequired,
     handleBookingModal: PropTypes.object.isRequired,
     codeInfo: PropTypes.object.isRequired,
+    user: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -218,6 +245,8 @@ function mapStateToProps(state) {
         isBookingSeat: state.film.isBookingSeat,
         isCheckingCode: state.film.isCheckingCode,
         codeInfo: state.film.codeInfo,
+        isCheckingUser: state.film.isCheckingUser,
+        user: state.film.user,
     };
 }
 

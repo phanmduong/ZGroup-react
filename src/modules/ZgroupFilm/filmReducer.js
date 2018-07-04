@@ -25,7 +25,11 @@ export default function filmReducer(state = initialState.film, action) {
             return {
                 ...state,
                 shownFilms: action.films,
-                isLoading: false
+                isLoading: false,
+                currentPageShown: action.currentPage,
+                limitShown: action.limit,
+                totalCountShown: action.totalCount,
+                totalPagesShown: action.totalPages
             };
         case types.LOAD_ALL_FILMS_SUCCESS:
             return {
@@ -137,12 +141,34 @@ export default function filmReducer(state = initialState.film, action) {
                 }
                 return film;
             });
+            let film3 = state.shownFilms.map((film) => {
+                if (film.id === action.film.id) {
+                    return {
+                        ...film,
+                        name: action.film.name,
+                        avatar_url: action.film.avatar_url,
+                        trailer_url: action.film.trailer_url,
+                        director: action.film.director,
+                        cast: action.film.cast,
+                        running_time: action.film.running_time,
+                        release_date: action.film.release_date,
+                        country: action.film.country,
+                        language: action.film.language,
+                        film_genre: action.film.film_genre,
+                        rate: action.film.rate,
+                        summary: action.film.summary,
+                        film_rated: action.film.film_rated,
+                    };
+                }
+                return film;
+            });
             return {
                 ...state,
                 isSavingFilm: false,
                 addEditFilmModal: false,
                 allFilms: film,
-                allFilmsHavePagination: film2
+                allFilmsHavePagination: film2,
+                shownFilms: film3
             };
         }
         case types.EDIT_STATUS_SUCCESS: {
@@ -164,10 +190,20 @@ export default function filmReducer(state = initialState.film, action) {
                 }
                 return film;
             });
+            let film3 = state.shownFilms.map((film) => {
+                if (film.id === action.id) {
+                    return {
+                        ...film,
+                        film_status: action.status,
+                    };
+                }
+                return film;
+            });
             return {
                 ...state,
                 allFilms: film,
                 allFilmsHavePagination: film2,
+                shownFilms: film3
             };
         }
         case types.EDIT_FAVORITE_SUCCESS: {
@@ -189,10 +225,20 @@ export default function filmReducer(state = initialState.film, action) {
                 }
                 return film;
             });
+            let film3 = state.shownFilms.map((film) => {
+                if (film.id === action.film.id) {
+                    return {
+                        ...film,
+                        is_favorite: 1 - action.film.is_favorite,
+                    };
+                }
+                return film;
+            });
             return {
                 ...state,
                 allFilms: film,
                 allFilmsHavePagination: film2,
+                shownFilms: film3
             };
         }
         case types.HANDLE_IMAGES_WEBSITE_FILM:
@@ -444,9 +490,27 @@ export default function filmReducer(state = initialState.film, action) {
                 isCheckingCode: false,
                 codeInfo: {}
             };
+        case types.BEGIN_CHECK_USER:
+            return {
+                ...state,
+                isCheckingUser: true,
+            };
+        case types.CHECK_USER_SUCCESS:
+            return {
+                ...state,
+                isCheckingUser: false,
+                user: action.user
+            };
+        case types.CHECK_USER_ERROR:
+            return {
+                ...state,
+                isCheckingUser: false,
+                user: []
+            };
         case types.CLEAR_CODE_BEGIN_BOOKING:
             return {
                 ...state,
+                user: [],
                 codeInfo: {}
             };
         default:

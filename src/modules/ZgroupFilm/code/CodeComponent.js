@@ -27,6 +27,7 @@ class CodeComponent extends React.Component {
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th>STT</th>
+                        <th>Tên</th>
                         <th>Ý Nghĩa</th>
                         <th>Giảm Giá</th>
                         <th>Số Lượng</th>
@@ -44,21 +45,26 @@ class CodeComponent extends React.Component {
                         this.props.code && this.props.code.map((code, index) => {
                             let a = code.codes.filter((code) => code.status === 1);
                             let b = code.codes.filter((code) => code.status === 0);
-                            let description = code.description.slice(0, 30);
+                            let description = code.description.slice(0, 25);
                             return (
                                 <tr key={index}>
-                                    <td>{index + 1}</td>
+                                    <td>
+                                        &ensp;{index + 1}
+                                    </td>
+                                    <td className="film-name">
+                                        {code.name}
+                                    </td>
                                     <td className="film-name">
                                         <TooltipButton placement="top" text={code.description}>
-                                            <div>{description.length < 30 ? description : description.concat('...')}</div>
+                                            <div>{description.length < 25 ? description : description.concat('...')}</div>
                                         </TooltipButton>
                                     </td>
                                     <td><b>{Math.floor(code.value / 1000)}.000 VNĐ</b></td>
                                     <td>
-                                        &emsp;&emsp;{code.number}
+                                        &emsp;{code.number}
                                     </td>
                                     <td>
-                                        &emsp;{a.length}
+                                        &ensp;{a.length}
                                     </td>
                                     <td>
                                         {b.length}
