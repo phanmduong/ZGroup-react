@@ -62,7 +62,7 @@ class BookingRegisterSessionModal extends React.Component {
         };
         this.timeOut = setTimeout(
             call.bind(this),
-            500
+            200
         );
     }
 
@@ -78,7 +78,7 @@ class BookingRegisterSessionModal extends React.Component {
             function () {
                 this.props.filmAction.checkCode(value);
             }.bind(this),
-            1500
+            500
         );
     }
 
