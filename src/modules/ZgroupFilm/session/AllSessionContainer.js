@@ -61,7 +61,7 @@ class AllSessionContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 5}, {"wch": 25}, {"wch": 16}, {"wch": 8}, {"wch": 12}, {"wch": 10},{"wch":60}];//độ rộng cột
+        let cols = [{"wch": 5}, {"wch": 25}, {"wch": 16}, {"wch": 8}, {"wch": 12}, {"wch": 10}, {"wch": 60}];//độ rộng cột
         //begin điểm danh
         json = this.props.excelSession.map((item, index) => {
             let a = this.props.allFilms.filter((film) => (film.id == item.film_id))[0];
@@ -70,7 +70,7 @@ class AllSessionContainer extends React.Component {
                 /* eslint-disable */
                 let aa = "";
                 item.seats && item.seats.map((seat) => {
-                    aa += seat.type +  ": " + (seat.price == '' ? 0 : seat.price) + " Vnđ; ";
+                    aa += seat.type + ": " + (seat.price == '' ? 0 : seat.price) + " Vnđ; ";
                 });
                 let res = {
                     'STT': index + 1,
@@ -146,23 +146,29 @@ class AllSessionContainer extends React.Component {
                                 <h4 className="card-title">
                                     <strong>Danh sách tất cả suất chiếu</strong>
                                 </h4>
-                                <div>
-                                    <OverlayTrigger
-                                        placement="top"
-                                        overlay={Add}
-                                    >
-                                        <button
-                                            onClick={() => {
-                                                this.props.filmAction.toggleSessionModal();
-                                                this.props.filmAction.handleSessionModal({});
-                                            }}
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button">
-                                            <strong>+</strong>
-                                            <div className="ripple-container"/>
-                                        </button>
-                                    </OverlayTrigger>
-                                </div>
+                                {
+                                    this.props.user.role === 2 ?
+                                        <div>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={Add}
+                                            >
+                                                <button
+                                                    onClick={() => {
+                                                        this.props.filmAction.toggleSessionModal();
+                                                        this.props.filmAction.handleSessionModal({});
+                                                    }}
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button">
+                                                    <strong>+</strong>
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </OverlayTrigger>
+                                        </div>
+                                        :
+                                        ""
+                                }
+
                                 <div>
                                     <OverlayTrigger
                                         placement="top"
@@ -307,6 +313,7 @@ AllSessionContainer.propTypes = {
     ]),
     currentPageAll: PropTypes.number.isRequired,
     rooms: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -322,6 +329,7 @@ function mapStateToProps(state) {
         isLoadingExcelSession: state.film.isLoadingExcelSession,
         excelSession: state.film.excelSession,
         rooms: state.film.rooms,
+        user: state.login.user,
     };
 }
 

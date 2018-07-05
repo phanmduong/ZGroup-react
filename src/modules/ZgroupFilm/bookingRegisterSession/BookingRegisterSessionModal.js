@@ -32,7 +32,7 @@ class BookingRegisterSessionModal extends React.Component {
             this.props.filmAction.loadSeatBySessionId(this.props.handleBookingModal.session_id);
         }
         if (nextProps.isCheckingUser !== this.props.isCheckingUser && !nextProps.isCheckingUser) {
-            if(nextProps.user.length === 1){
+            if (nextProps.user.length === 1) {
                 let a = nextProps.user[0];
                 this.props.filmAction.handleBookingModal({
                     ...this.props.handleBookingModal,
@@ -83,7 +83,7 @@ class BookingRegisterSessionModal extends React.Component {
     }
 
     pay() {
-        let bk = (helper.isEmptyInput(this.props.handleBookingModal.name) &&
+        let bk = (
             helper.isEmptyInput(this.props.handleBookingModal.phone) &&
             helper.isEmptyInput(this.props.handleBookingModal.email)) ?
             (this.dk ? {
@@ -100,11 +100,19 @@ class BookingRegisterSessionModal extends React.Component {
             })
             :
             (this.dk ? {...this.props.handleBookingModal, code: ''} : {...this.props.handleBookingModal});
-
-        if (this.state.confirm === false) helper.showErrorNotification("Bạn cần xác nhận thanh toán");
+        if ((helper.isEmptyInput(this.props.handleBookingModal.phone) ||
+                helper.isEmptyInput(this.props.handleBookingModal.email)) &&
+            !(helper.isEmptyInput(this.props.handleBookingModal.phone) &&
+                helper.isEmptyInput(this.props.handleBookingModal.email))) {
+            if (helper.isEmptyInput(this.props.handleBookingModal.phone)) helper.showErrorNotification("Bạn cần nhập số điện thoại");
+            if (helper.isEmptyInput(this.props.handleBookingModal.email)) helper.showErrorNotification("Bạn cần nhập email");
+        }
         else {
-            helper.showNotification("Đang thanh toán");
-            this.props.filmAction.bookingSeat(bk);
+            if (this.state.confirm === false) helper.showErrorNotification("Bạn cần xác nhận thanh toán");
+            else {
+                helper.showNotification("Đang thanh toán");
+                this.props.filmAction.bookingSeat(bk);
+            }
         }
     }
 
@@ -134,7 +142,6 @@ class BookingRegisterSessionModal extends React.Component {
                                 name="name"
                                 updateFormData={this.updateFormData}
                                 value={modal.name || ''}
-                                disabled={modal.disable}
                             />
                             <FormInputText
                                 label="Số điện thoại"

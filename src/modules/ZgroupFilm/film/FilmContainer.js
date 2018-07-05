@@ -99,24 +99,28 @@ class FilmContainer extends React.Component {
                                 <h4 className="card-title">
                                     <strong>Danh sách phim</strong>
                                 </h4>
-                                <div>
-                                    <TooltipButton
-                                        placement="top"
-                                        text="Thêm film">
-                                        <button
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button"
-                                            onClick={() => {
-                                                this.props.filmAction.showAddEditFilmModal();
-                                                this.props.filmAction.handleFilmModal({
-                                                    images_url: '',
-                                                });
-                                            }}>
+                                {
+                                    this.props.user.role === 2 ?
+                                        <div>
+                                            <TooltipButton
+                                                placement="top"
+                                                text="Thêm film">
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button"
+                                                    onClick={() => {
+                                                        this.props.filmAction.showAddEditFilmModal();
+                                                        this.props.filmAction.handleFilmModal({
+                                                            images_url: '',
+                                                        });
+                                                    }}>
 
-                                            <strong>+</strong>
-                                        </button>
-                                    </TooltipButton>
-                                </div>
+                                                    <strong>+</strong>
+                                                </button>
+                                            </TooltipButton>
+                                        </div>
+                                        : ''
+                                }
                             </div>
 
 
@@ -151,12 +155,14 @@ FilmContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     children: PropTypes.element,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.film.isLoading,
         isSaving: state.film.isSaving,
+        user: state.login.user,
     };
 }
 
