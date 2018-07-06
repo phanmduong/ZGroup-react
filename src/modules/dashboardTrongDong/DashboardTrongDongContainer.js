@@ -634,7 +634,7 @@ class DashboardTrongDongContainer extends Component {
                 {/*onClick={this.createBookRoom}*/}
                 {/*label={'Lưu'}*/}
                 {/*labelLoading={'Đang lưu'}*/}
-                {/*className={'btn btn-rose'}*/}
+                {/*className={'btn btn-rose'}*/}s
                 {/*isLoading={store.isCreatingRegister}*/}
                 {/*/>*/}
                 {/*)}*/}
