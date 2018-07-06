@@ -69,7 +69,6 @@ export function loadRegisters(filter) {
         time,
         campaign_id,
     } = filter;
-    console.log(base_id);
     let url = env.MANAGE_API_URL + '/trongdong/register-room/all?page=' + page;
     if (search) {
         url += "&search=" + search;

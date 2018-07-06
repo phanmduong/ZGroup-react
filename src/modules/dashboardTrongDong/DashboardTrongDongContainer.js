@@ -23,9 +23,9 @@ import FormInputText from "../../components/common/FormInputText";
 import Button from "../../components/common/Button";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
 import Checkbox from "../../components/common/Checkbox";
-import {loadDashboard, loadRegisters, loadUsers} from "./dashboardApi";
+import { loadRegisters, loadUsers} from "./dashboardApi";
 import {OverlayTrigger, Modal, Tooltip} from "react-bootstrap";
-import {loadAllRegistersApi} from "../registerManage/registerManageApi";
+// import {loadAllRegistersApi} from "../registerManage/registerManageApi";
 import XLSX from "xlsx";
 
 

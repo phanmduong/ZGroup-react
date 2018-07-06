@@ -190,7 +190,9 @@ class RoomRegisterListContainer extends React.Component {
                                                 return (
                                                     <tr key={register.id}>
                                                         <td>
-                                                            <a className="text-name-student-register">
+                                                            <a className="text-name-student-register"
+                                                            style={{width : "200px"}}
+                                                            >
                                                                 {register.user && register.user.name}
                                                             </a>
                                                         </td>

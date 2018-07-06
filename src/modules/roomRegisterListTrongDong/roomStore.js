@@ -7,7 +7,8 @@ import {
 import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL,  } from "../../constants/constants";
 
-const date_format = "H:M D-M-Y";
+const date_format = "Y-M-D H-M";
+// const date_format = "H:M D-M-Y";
 
 export const store = new class DashboardStaffStore {
     @observable isLoading = false;
