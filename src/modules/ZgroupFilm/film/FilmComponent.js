@@ -89,43 +89,48 @@ class FilmComponent extends React.Component {
                                             flexDirection: "column",
                                             justifyContent: "space-between"
                                         }}>
-                                            <div className="dropdown" style={{position: "relative"}}>
-                                                <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                                   data-toggle="dropdown">
-                                                    <i className="material-icons">more_horiz</i>
-                                                </a>
-                                                <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
-                                                    <li className="more-dropdown-item">
-                                                        <a onClick={() => {
-                                                            event.stopPropagation(event);
-                                                            this.props.filmAction.showAddEditFilmModal();
-                                                            this.props.filmAction.handleFilmModal({
-                                                                ...film,
-                                                            });
-                                                        }}>
-                                                            <i className="material-icons">edit</i> Sửa
+                                            {
+                                                this.props.user.role === 2 ?
+                                                    <div className="dropdown" style={{position: "relative"}}>
+                                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
+                                                           data-toggle="dropdown">
+                                                            <i className="material-icons">more_horiz</i>
                                                         </a>
+                                                        <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
+                                                            <li className="more-dropdown-item">
+                                                                <a onClick={() => {
+                                                                    event.stopPropagation(event);
+                                                                    this.props.filmAction.showAddEditFilmModal();
+                                                                    this.props.filmAction.handleFilmModal({
+                                                                        ...film,
+                                                                    });
+                                                                }}>
+                                                                    <i className="material-icons">edit</i> Sửa
+                                                                </a>
 
-                                                    </li>
-                                                    <li className="more-dropdown-item">
-                                                        <a onClick={(event) => {
-                                                            event.stopPropagation(event);
-                                                            this.delFilm(film);
-                                                        }}>
-                                                            <i className="material-icons">delete</i> Xóa
-                                                        </a>
-                                                    </li>
-                                                    <li className="more-dropdown-item">
-                                                        <a onClick={() => {
-                                                            event.stopPropagation(event);
-                                                            this.openSessionModal(film.id);
-                                                        }}>
-                                                            <i className="material-icons">add</i> Thêm suất chiếu
-                                                        </a>
-                                                    </li>
+                                                            </li>
+                                                            <li className="more-dropdown-item">
+                                                                <a onClick={(event) => {
+                                                                    event.stopPropagation(event);
+                                                                    this.delFilm(film);
+                                                                }}>
+                                                                    <i className="material-icons">delete</i> Xóa
+                                                                </a>
+                                                            </li>
+                                                            <li className="more-dropdown-item">
+                                                                <a onClick={() => {
+                                                                    event.stopPropagation(event);
+                                                                    this.openSessionModal(film.id);
+                                                                }}>
+                                                                    <i className="material-icons">add</i> Thêm suất chiếu
+                                                                </a>
+                                                            </li>
 
-                                                </ul>
-                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                    : ''
+                                            }
+
                                         </div>
                                     </div>
                                     <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
@@ -139,12 +144,20 @@ class FilmComponent extends React.Component {
                                         {
                                             film.film_status == 1 ? <p/> : <div>
                                                 {film.film_status == 0 ?
-                                                    <b onClick={() => this.props.filmAction.editStatus(film.id, 2)}
+                                                    <b onClick={() => {
+                                                        this.props.user.role === 2 ?
+                                                            this.props.filmAction.editStatus(film.id, 2) :
+                                                            "";
+                                                    }}
                                                        className="text-paly">
                                                         {/*<i className="material-icons">done</i>*/}
                                                         Chưa dùng
                                                     </b> :
-                                                    <b onClick={() => this.props.filmAction.editStatus(film.id, 0)}
+                                                    <b onClick={() => {
+                                                        this.props.user.role === 2 ?
+                                                            this.props.filmAction.editStatus(film.id, 0)
+                                                            : "";
+                                                    }}
                                                        style={{cursor: "pointer"}}>
                                                         {/*<i className="material-icons">done_all</i>*/}
                                                         Sắp chiếu
@@ -159,6 +172,7 @@ class FilmComponent extends React.Component {
                                                 value={film.is_favorite == 1}
                                                 onText="Thích" offText="Không"
                                                 bsSize="mini"
+                                                disabled={this.props.user.role !== 2}
                                             />
                                         </div>
 
@@ -180,10 +194,13 @@ class FilmComponent extends React.Component {
 FilmComponent.propTypes = {
     films: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        user: state.login.user,
+    };
 }
 
 function mapDispatchToProps(dispatch) {

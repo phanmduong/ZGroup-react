@@ -30,18 +30,19 @@ class BookingRegisterSessionComponent extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingShowingSession !== this.props.isLoadingShowingSession && !nextProps.isLoadingShowingSession) {
+            let a = nextProps.showingSession.reverse()[0];
             this.setState({
-                select_day: {name: nextProps.showingSession[0].start_date},
-                select_film: {id: nextProps.showingSession[0].film_id,},
-                roomId: nextProps.showingSession[0].id,
+                select_day: {name: a.start_date},
+                select_film: {id: a.film_id,},
+                roomId: a.id,
             });
-            this.props.filmAction.loadAllFilms('', nextProps.showingSession[0].start_date);
-            this.props.filmAction.loadAllSessions(1, '', '', '', nextProps.showingSession[0].start_date, nextProps.showingSession[0].film_id);
-            this.props.filmAction.loadSeatBySessionId(nextProps.showingSession[0].id);
-            this.props.filmAction.handleSeatTypes(nextProps.showingSession[0].seats);
+            this.props.filmAction.loadAllFilms('', a.start_date);
+            this.props.filmAction.loadAllSessions(1, '', '', '', a.start_date, a.film_id);
+            this.props.filmAction.loadSeatBySessionId(a.id);
+            this.props.filmAction.handleSeatTypes(a.seats);
             this.props.filmAction.handleBookingModal({
                 ...this.props.handleBookingModal,
-                session_id: nextProps.showingSession[0].id
+                session_id: a.id
             });
         }
     }
@@ -49,8 +50,13 @@ class BookingRegisterSessionComponent extends React.Component {
     updateFormData(event) {
         const field = event.target.name;
         let select_day = {...this.state.select_day};
+        let select_film = {...this.state.select_film, id: -1};
         select_day[field] = event.target.value;
-        this.setState({select_day: select_day, roomId: ''});
+        this.setState({
+            select_day: select_day,
+            roomId: '',
+            select_film: select_film
+        });
         this.props.filmAction.loadAllFilms('', this.state.select_day.name);
         this.props.filmAction.loadAllSessions(1, '', '', '', '', -1);
         this.props.filmAction.clearSeatBySessionId();
@@ -61,7 +67,10 @@ class BookingRegisterSessionComponent extends React.Component {
         const field = event.target.name;
         let select_film = {...this.state.select_film};
         select_film[field] = event.target.value;
-        this.setState({select_film: select_film, roomId: ''});
+        this.setState({
+            select_film: select_film,
+            roomId: ''
+        });
         this.props.filmAction.loadAllSessions(1, '', '', '', this.state.select_day.name, select_film.id);
         this.props.filmAction.clearSeatBySessionId();
     }

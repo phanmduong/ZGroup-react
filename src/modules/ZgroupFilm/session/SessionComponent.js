@@ -84,7 +84,7 @@ class SessionComponent extends React.Component {
                                                             width: 40,
                                                             height: 40,
                                                         }}>
-                                                            <b style={{margin:"auto"}}>{seat.price/1000}</b>
+                                                            <b style={{margin: "auto"}}>{seat.price / 1000}</b>
                                                         </button>
                                                     </TooltipButton>
                                                 </div>
@@ -96,7 +96,8 @@ class SessionComponent extends React.Component {
                                 </td>
                                 <td>
                                     {
-                                        moment(session.start_date, "YYYY-MM-DD").add(1, 'days').fromNow()[0] !== "i" ? "" :
+                                        (moment(session.start_date, "YYYY-MM-DD").add(1, 'days').fromNow()[0] !== "i"
+                                            || this.props.user.role !== 2) ? "" :
 
                                             <div className="btn-group-action">
                                                 <TooltipButton text="Sửa" placement="top"
@@ -136,12 +137,14 @@ SessionComponent.propTypes = {
     filmAction: PropTypes.object.isRequired,
     allFilms: PropTypes.array.isRequired,
     rooms: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         allFilms: state.film.allFilms,
         rooms: state.film.rooms,
+        user: state.login.user,
     };
 }
 

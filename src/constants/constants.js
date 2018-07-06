@@ -476,6 +476,31 @@ export const STATUS_REGISTER_ROOM = [
     }
 ];
 
+export const KIND_REGISTER_ROOM = [
+    {
+        label: "Tiệc cưới",
+        value: "Tiệc cưới",
+    },
+    {
+        label: "Hội nghị - Hội thảo",
+        value: "Hội nghị - Hội thảo",
+    },
+    {
+        label: "Tiệc tri ân khách hàng",
+        value: "Tiệc tri ân khách hàng",
+    },
+    {
+        label: "Tiệc sinh nhật",
+        value: "Tiệc sinh nhật",
+    }, {
+        label: "Sự kiện ca nhạc, thời trang",
+        value: "Sự kiện ca nhạc, thời trang",
+    }, {
+        label: "Tiệc ngoài trời",
+        value: "Tiệc ngoài trời",
+    }
+];
+
 export const CRM_TYPE_CLIENT = [
     {
         key: -1,

@@ -102,6 +102,8 @@ export function storeRegister(register) {
     address: register.address,
     status: register.status,
     base_id: register.base_id,
+    kind: register.kind,
+    number_person: register.number_person,
     start_time: moment(register.start_time, [
       DATETIME_FORMAT,
       DATETIME_FORMAT_SQL

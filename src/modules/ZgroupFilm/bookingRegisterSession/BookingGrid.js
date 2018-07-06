@@ -40,6 +40,7 @@ class BookingGrid extends React.Component {
         this.props.filmAction.clearCode();
         this.props.filmAction.handleBookingModal({
             ...this.props.handleBookingModal,
+            disable: false,
             phone: "",
             email: '',
             name: '',
@@ -175,13 +176,15 @@ class BookingGrid extends React.Component {
 
                 </div>
                 <div className="col-md-5">
-                    <h2>Các ghế đã đặt:</h2>
+                    <b style={{fontSize: 27}}>Các ghế đã chọn:</b><br/><br/>
                     <div ref={node2 => this.node2 = node2}/>
                     <hr/>
-                    <h2>
+                    <b style={{fontSize: 27}}>
                         Tổng giá vé:
+                        <br/>
+                        <br/>
                         <p className="total-pay"/>
-                    </h2>
+                    </b>
                     {
                         helper.isEmptyInput(this.props.seatForBooking) ? "":
                             <div className="row">

@@ -33,14 +33,16 @@ class ShowingSessionContainer extends React.Component {
         this.loadOrders = this.loadOrders.bind(this);
         this.showingSessionSearchChange = this.showingSessionSearchChange.bind(this);
     }
-    componentWillMount(){
-        if(!helper.isEmptyInput(this.props.search)){
+
+    componentWillMount() {
+        if (!helper.isEmptyInput(this.props.search)) {
             this.setState({
                 query: this.props.search,
                 page: 1
             });
         }
     }
+
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.filmAction.loadShowingSession(page);
@@ -52,7 +54,7 @@ class ShowingSessionContainer extends React.Component {
     //     filter[field] = event.target.value;
     //     this.setState({filter: filter});
     // }
-    showingSessionSearchChange(value){
+    showingSessionSearchChange(value) {
         this.setState({
             query: value,
             page: 1
@@ -66,6 +68,7 @@ class ShowingSessionContainer extends React.Component {
             this.props.filmAction.loadAllSessions(1, value);
         }.bind(this), 500);
     }
+
     render() {
         let first = this.props.totalCountShowing ? (this.props.currentPageShowing - 1) * this.props.limitShowing + 1 : 0;
         let end = this.props.currentPageShowing < this.props.totalPagesShowing ? this.props.currentPageShowing * this.props.limitShowing : this.props.totalCountShowing;
@@ -77,35 +80,39 @@ class ShowingSessionContainer extends React.Component {
                             <h4 className="card-title">
                                 <strong>Danh sách suất chiếu đang chiếu</strong>
                             </h4>
-                            <div>
-                                <TooltipButton
-                                    placement="top"
-                                    text="Thêm suất chiếu">
-                                    <button
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        type="button"
-                                        onClick={() => {
-                                            this.props.filmAction.toggleSessionModal();
-                                            this.props.filmAction.handleSessionModal({});
-                                        }}>
+                            {
+                                this.props.user.role === 2 ?
+                                    <div>
+                                        <TooltipButton
+                                            placement="top"
+                                            text="Thêm suất chiếu">
+                                            <button
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                type="button"
+                                                onClick={() => {
+                                                    this.props.filmAction.toggleSessionModal();
+                                                    this.props.filmAction.handleSessionModal({});
+                                                }}>
 
-                                        <strong>+</strong>
-                                    </button>
-                                </TooltipButton>
-                            </div>
+                                                <strong>+</strong>
+                                            </button>
+                                        </TooltipButton>
+                                    </div>
+                                    : ""
+                            }
                             {/*<div>*/}
-                                {/*<TooltipButton*/}
-                                    {/*placement="top"*/}
-                                    {/*text="Lọc theo ngày">*/}
-                                    {/*<button*/}
-                                        {/*className="btn btn-primary btn-round btn-xs button-add none-margin"*/}
-                                        {/*type="button"*/}
-                                        {/*onClick={() => this.setState({openFilter: !this.state.openFilter,})}>*/}
-                                        {/*<i className="material-icons">*/}
-                                            {/*filter_list*/}
-                                        {/*</i>*/}
-                                    {/*</button>*/}
-                                {/*</TooltipButton>*/}
+                            {/*<TooltipButton*/}
+                            {/*placement="top"*/}
+                            {/*text="Lọc theo ngày">*/}
+                            {/*<button*/}
+                            {/*className="btn btn-primary btn-round btn-xs button-add none-margin"*/}
+                            {/*type="button"*/}
+                            {/*onClick={() => this.setState({openFilter: !this.state.openFilter,})}>*/}
+                            {/*<i className="material-icons">*/}
+                            {/*filter_list*/}
+                            {/*</i>*/}
+                            {/*</button>*/}
+                            {/*</TooltipButton>*/}
                             {/*</div>*/}
                         </div>
 
@@ -116,60 +123,60 @@ class ShowingSessionContainer extends React.Component {
                             placeholder="Nhập tên phim để tìm kiếm"
                         /><br/>
                         {/*<Panel collapsible expanded={this.state.openFilter}>*/}
-                            {/*<div className="row">*/}
-                                {/*<div className="col-md-3">*/}
-                                    {/*<br/>*/}
-                                    {/*<label className="label-control">Tên phim</label>*/}
-                                    {/*<Select*/}
-                                        {/*disabled={false}*/}
-                                        {/*value={''}*/}
-                                        {/*options={this.props.allFilms.map((film) => {*/}
-                                            {/*return {*/}
-                                                {/*...film,*/}
-                                                {/*value: film.id,*/}
-                                                {/*label: film.name*/}
-                                            {/*};*/}
-                                        {/*})}*/}
-                                        {/*onChange={() => {*/}
-                                        {/*}}*/}
+                        {/*<div className="row">*/}
+                        {/*<div className="col-md-3">*/}
+                        {/*<br/>*/}
+                        {/*<label className="label-control">Tên phim</label>*/}
+                        {/*<Select*/}
+                        {/*disabled={false}*/}
+                        {/*value={''}*/}
+                        {/*options={this.props.allFilms.map((film) => {*/}
+                        {/*return {*/}
+                        {/*...film,*/}
+                        {/*value: film.id,*/}
+                        {/*label: film.name*/}
+                        {/*};*/}
+                        {/*})}*/}
+                        {/*onChange={() => {*/}
+                        {/*}}*/}
 
-                                    {/*/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3">*/}
-                                    {/*<FormInputDate*/}
-                                        {/*label="Từ ngày"*/}
-                                        {/*name="startTime"*/}
-                                        {/*updateFormData={() =>*/}
-                                            {/*this*/}
-                                                {/*.updateFormFilter*/}
-                                        {/*}*/}
-                                        {/*id="form-start-time"*/}
-                                        {/*value={*/}
-                                            {/*this.state.filter.startTime*/}
-                                        {/*}*/}
-                                        {/*maxDate={*/}
-                                            {/*this.state.filter.endTime*/}
-                                        {/*}*/}
-                                    {/*/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3">*/}
-                                    {/*<FormInputDate*/}
-                                        {/*label="Đến ngày"*/}
-                                        {/*name="endTime"*/}
-                                        {/*updateFormData={() =>*/}
-                                            {/*this.updateFormFilter*/}
-                                        {/*}*/}
-                                        {/*id="form-end-time"*/}
-                                        {/*value={*/}
-                                            {/*this.state.filter.endTime*/}
-                                        {/*}*/}
-                                        {/*minDate={*/}
-                                            {/*this.state.filter.startTime*/}
-                                        {/*}*/}
-                                    {/*/>*/}
-                                {/*</div>*/}
+                        {/*/>*/}
+                        {/*</div>*/}
+                        {/*<div className="col-md-3">*/}
+                        {/*<FormInputDate*/}
+                        {/*label="Từ ngày"*/}
+                        {/*name="startTime"*/}
+                        {/*updateFormData={() =>*/}
+                        {/*this*/}
+                        {/*.updateFormFilter*/}
+                        {/*}*/}
+                        {/*id="form-start-time"*/}
+                        {/*value={*/}
+                        {/*this.state.filter.startTime*/}
+                        {/*}*/}
+                        {/*maxDate={*/}
+                        {/*this.state.filter.endTime*/}
+                        {/*}*/}
+                        {/*/>*/}
+                        {/*</div>*/}
+                        {/*<div className="col-md-3">*/}
+                        {/*<FormInputDate*/}
+                        {/*label="Đến ngày"*/}
+                        {/*name="endTime"*/}
+                        {/*updateFormData={() =>*/}
+                        {/*this.updateFormFilter*/}
+                        {/*}*/}
+                        {/*id="form-end-time"*/}
+                        {/*value={*/}
+                        {/*this.state.filter.endTime*/}
+                        {/*}*/}
+                        {/*minDate={*/}
+                        {/*this.state.filter.startTime*/}
+                        {/*}*/}
+                        {/*/>*/}
+                        {/*</div>*/}
 
-                            {/*</div>*/}
+                        {/*</div>*/}
                         {/*</Panel>*/}
                         <br/>
 
@@ -214,6 +221,7 @@ ShowingSessionContainer.propTypes = {
     limitShowing: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
     currentPageShowing: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -226,6 +234,7 @@ function mapStateToProps(state) {
         limitShowing: state.film.limitShowing,
         allFilms: state.film.allFilms,
         search: state.film.search,
+        user: state.login.user,
     };
 }
 

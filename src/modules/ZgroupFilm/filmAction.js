@@ -21,16 +21,20 @@ export function loadAllFilms(value, start_date) {
 
 
 
-export function loadShownFilms() {
+export function loadShownFilms(page,search) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_FILMS
         });
-        filmApi.loadShownFilmsApi()
+        filmApi.loadShownFilmsApi(page,search)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_SHOWN_FILMS_SUCCESS,
-                    films: res.data
+                    films: res.data.films,
+                    currentPage: res.data.paginator.current_page,
+                    limit: res.data.paginator.limit,
+                    totalCount: res.data.paginator.total_count,
+                    totalPages: res.data.paginator.total_pages,
                 });
             });
     };
@@ -466,8 +470,8 @@ export function bookingSeat(booking) {
                     });
                 }
                 else {
-                    helper.showErrorNotification("Đặt vé thất bại, có ghế đã được đặt");
-                    helper.showErrorNotification(res.data.message);
+                    helper.showErrorNotification("Đặt vé thất bại, có ghế bạn chọn đã được đặt");
+                    //helper.showErrorNotification(res.data.message);
                     dispatch({
                         type: types.BOOKING_SEAT_ERROR
                     });
@@ -498,6 +502,28 @@ export function checkCode(code) {
             .catch(()=>{
                 dispatch({
                     type: types.CHECK_CODE_ERROR,
+                });
+            });
+    };
+
+}
+
+
+export function checkUser(search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHECK_USER
+        });
+        filmApi.checkUserApi(search)
+            .then((res) => {
+                dispatch({
+                    type: types.CHECK_USER_SUCCESS,
+                    user: res.data
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: types.CHECK_USER_ERROR,
                 });
             });
     };

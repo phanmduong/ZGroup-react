@@ -18,6 +18,11 @@ export default {
         percent: 0,
         isSavingFilm: false,
         filmModal: {},
+        currentPageShown: 0,
+        limitShown: 0,
+        totalCountShown: 0,
+        totalPagesShown: 0,
+
 
 
         //********Session
@@ -53,7 +58,9 @@ export default {
         height:10,
         isBookingSeat: false,
         codeInfo:{},
+        user: [],
         isCheckingCode: false,
+        isCheckingUser: false,
         seats: [],
 
     },
