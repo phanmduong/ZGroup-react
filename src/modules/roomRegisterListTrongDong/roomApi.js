@@ -18,13 +18,15 @@ export function submitBooking(register, filter) {
         url += "?token=" + token;
     }
     return axios.put(url, {
-        id: register.id ? register.id : "",
+        register_id: register.id ? register.id : "",
         name: register.name,
         email: register.email,
         phone: register.phone,
         address: register.address,
         status: register.status,
         base_id: filter.base_id,
+        kind: register.kind,
+        number_person: register.number_person,
         start_time: moment(register.start_time, [
             DATETIME_FORMAT,
             DATETIME_FORMAT_SQL

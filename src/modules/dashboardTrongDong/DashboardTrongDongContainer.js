@@ -253,7 +253,7 @@ class DashboardTrongDongContainer extends Component {
             }
 
             if (register.kind) {
-                title += `(Hình thức: ${register.kind})`
+                title += `(Hình thức: ${register.kind})`;
             }
             if (register.number_person) {
                 title += `(SLK: ${register.number_person})`;

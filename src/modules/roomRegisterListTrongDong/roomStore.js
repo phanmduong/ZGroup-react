@@ -53,7 +53,7 @@ export const store = new class DashboardStaffStore {
         .then(() => {
             this.isBooking = false;
             this.showCreateModal = false;
-            this.loadRegisters();
+            this.loadRegisters("base_id", this.filter.base_id);
             showNotification("Lưu thành công!");
         })
         .catch(() => {
@@ -69,13 +69,17 @@ export const store = new class DashboardStaffStore {
             && key !== "time"
         ){
             filter[key] = value;
+            // console.log("key\n" +
+            //     "            && key !== \"time\"", filter);
         }
         else if (key === "time"){
             filter = {...this.filter};
             filter[key] = value;
+            // console.log("key === \"time\")", filter);
         }
         this.filter = filter;
         this.isLoading = true;
+        // console.log(filter,"ssssssssss");
         roomApi.loadRegisters(filter)
             .then((res) => {
                 this.isLoading = false;

@@ -11,7 +11,7 @@ import {
     showErrorNotification,
     confirm,
 } from "../../helpers/helper";
-import { DATETIME_FORMAT_SQL, STATUS_REGISTER_ROOM} from "../../constants/constants";
+import {DATETIME_FORMAT_SQL, KIND_REGISTER_ROOM, STATUS_REGISTER_ROOM} from "../../constants/constants";
 //import moment from "moment";
 import {store} from './roomStore';
 import { observer } from "mobx-react";
@@ -230,7 +230,7 @@ class AddRegisterModal extends React.Component {
                                     disabled={disableCreateRegister}
                                 />
                                 <FormInputText
-                                    label="Đại chỉ"
+                                    label="Địa chỉ"
                                     name="address"
                                     updateFormData={this.formTextChange}
                                     value={createData.address}
@@ -244,6 +244,28 @@ class AddRegisterModal extends React.Component {
                                     type={"email"}
                                     disabled={disableCreateRegister}
                                 />
+
+                                <FormInputText
+                                    label="Số lượng khách"
+                                    name="number_person"
+                                    updateFormData={this.formTextChange}
+                                    value={createData.number_person}
+                                    disabled={disableCreateRegister}
+                                />
+
+                                <div className="form-group">
+                                    <label className="label-control">Hình thức tiệc</label>
+                                    <ReactSelect
+                                        name="form-field-name"
+                                        value={createData.kind}
+                                        options={KIND_REGISTER_ROOM}
+                                        onChange={(value) => {
+                                            this.updateFormData("kind",value.value);
+                                        }}
+                                        placeholder="Chọn hình thức tiệc"
+                                        disabled={disableCreateRegister}
+                                    />
+                                </div>
 
                                 <FormInputText
                                     label="Ghi chú khách hàng"

@@ -57,6 +57,8 @@ class RoomRegisterListContainer extends React.Component {
         data['end_time'] = register.end_time;
         data['selectedUser'] = register.user && register.user.id;
         data['similar_room'] = register.similar_room;
+        data['number_person'] = register.number_person;
+        data['kind'] = register.kind;
         data['campaign_id'] = register.campaign && register.campaign.id;
 
         store.createData = data;
