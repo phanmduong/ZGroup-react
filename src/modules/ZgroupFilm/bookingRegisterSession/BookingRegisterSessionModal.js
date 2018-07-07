@@ -19,9 +19,6 @@ class BookingRegisterSessionModal extends React.Component {
             confirm: false,
         };
         this.timeOut = null;
-        this.dk = moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
-            moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-            this.props.codeInfo.status === 1;
         this.updateFormData = this.updateFormData.bind(this);
         this.pay = this.pay.bind(this);
         this.receiversSearchChange = this.receiversSearchChange.bind(this);
@@ -86,7 +83,9 @@ class BookingRegisterSessionModal extends React.Component {
         let bk = (
             helper.isEmptyInput(this.props.handleBookingModal.phone) &&
             helper.isEmptyInput(this.props.handleBookingModal.email)) ?
-            (this.dk ? {
+            ((moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                this.props.codeInfo.status === 1) ? {
                 ...this.props.handleBookingModal,
                 code: '',
                 name: "#",
@@ -99,7 +98,9 @@ class BookingRegisterSessionModal extends React.Component {
                 email: '#'
             })
             :
-            (this.dk ? {...this.props.handleBookingModal, code: ''} : {...this.props.handleBookingModal});
+            ((moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                this.props.codeInfo.status === 1) ? {...this.props.handleBookingModal, code: ''} : {...this.props.handleBookingModal});
         if ((helper.isEmptyInput(this.props.handleBookingModal.phone) ||
                 helper.isEmptyInput(this.props.handleBookingModal.email)) &&
             !(helper.isEmptyInput(this.props.handleBookingModal.phone) &&
@@ -176,19 +177,25 @@ class BookingRegisterSessionModal extends React.Component {
                                     <div>
                                         <h5>Giảm giá: {
 
-                                            this.dk ? "0 VNĐ" :
+                                            (moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                                moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                                this.props.codeInfo.status === 1) ? "0 VNĐ" :
                                                 (this.props.codeInfo.value ? this.props.codeInfo.value / 1000 + ".000 VNĐ" : "0 VNĐ")
                                         }
                                         </h5>
                                         <b>{!helper.isEmptyInput(this.props.codeInfo.start_date) ?
                                             (
-                                                this.dk ? "Mã giảm giá đã sử dụng, hoặc hết hạn hay không khả dụng" : ""
+                                                (moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                                    moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                                    this.props.codeInfo.status === 1) ? "Mã giảm giá đã sử dụng, hoặc hết hạn hay không khả dụng" : ""
                                             )
                                             : ""
                                         }</b>
 
                                         <h5>Thanh toán:
-                                            {this.dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                            {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                                moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                                this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
                                             VNĐ
                                         </h5>
                                     </div>
@@ -210,7 +217,9 @@ class BookingRegisterSessionModal extends React.Component {
                     {
                         this.props.isCheckingCode ? <Loading/> :
                             <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
-                                {this.dk ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                    moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                    this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
                                 VNĐ
                             </p>
                     }
