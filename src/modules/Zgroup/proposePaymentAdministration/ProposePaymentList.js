@@ -33,16 +33,16 @@ class PaymentList extends React.Component {
                         {
                             this.props.data.map((pp, index) => {
                                 const toggleInfo =
-                                    (this.props.user.role == 2 || this.props.user.id == pp.staff.id) 
-                                        ?  () => this.props.openInfoModal(pp) 
-                                            : ()=>{};
-                                let status = 'Chưa duyệt'                                            ;
-                                switch(pp.status){
-                                    case 1:{
+                                    (this.props.user.role == 2 || this.props.user.id == pp.staff.id)
+                                        ? () => this.props.openInfoModal(pp)
+                                        : () => { };
+                                let status = 'Chưa duyệt';
+                                switch (pp.status) {
+                                    case 1: {
                                         status = 'Đã duyệt';
                                         break;
                                     }
-                                    case 2:{
+                                    case 2: {
                                         status = 'Đã thanh toán';
                                         break;
                                     }
@@ -61,7 +61,7 @@ class PaymentList extends React.Component {
                                                 <div className="btn-group-action">
                                                     <a data-toggle="tooltip" title="Duyệt"
                                                         onClick={() => {
-                                                            helper.confirm('warning','Duyệt đề xuất', 'Bạn có chắc muốn duyệt?', ()=>this.props.changeStatus(pp.id, 1));
+                                                            helper.confirm('warning', 'Duyệt đề xuất', 'Bạn có chắc muốn duyệt?', () => this.props.changeStatus(pp.id, 1));
                                                         }} type="button"
                                                         rel="tooltip">
                                                         <i className="material-icons">done</i>
@@ -73,11 +73,15 @@ class PaymentList extends React.Component {
                                                             <i className="material-icons">edit</i>
                                                         </Link>
                                                     </div>
-                                                    {/* <a data-toggle="tooltip" title="Thông tin"
-                                               onClick={() => this.props.openInfoModal(pp)} type="button"
-                                               rel="tooltip">
-                                                <i className="material-icons">info</i>
-                                            </a> */}
+                                                    <a data-toggle="tooltip" title="Xoá"
+                                                        // onClick={() => this.props.openInfoModal(pp)} 
+                                                        onClick={() => {
+                                                            helper.confirm('warning', 'Xoá đề xuất', 'Bạn có chắc muốn xoá?', () => this.props.changeStatus(pp.id, -1));
+                                                        }}
+                                                        type="button"
+                                                        rel="tooltip">
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
                                                 </div> : null}
                                         </td>
                                     </tr>

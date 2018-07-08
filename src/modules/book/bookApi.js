@@ -63,7 +63,7 @@ export function saveTaskSpan(task) {
 
 
 export function loadBoards(type = "book") {
-    let url = env.MANAGE_API_URL + `/book/${type}/project`;
+    let url = env.MANAGE_API_URL + `/book/${type}/project/v2`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

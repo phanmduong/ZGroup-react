@@ -948,9 +948,13 @@ export function saveCardCommentSuccess(comment) {
 }
 
 export function archiveCard(card) {
-    return function () {
+    return function (dispatch) {
         
         taskApi.toggleArchive(card);
+        dispatch({
+            type: types.ARCHIVE_CARD,
+            card
+        });
     };
 }
 
@@ -967,9 +971,10 @@ export function unarchiveCard(card, loadBoards) {
     return function (dispatch) {
         dispatch({
             type: types.UNARCHIVE_CARD,
-            card
+            card,
+            isManufacture: loadBoards ? true : false,
         });
-        loadBoards();
+        if(loadBoards) loadBoards();
         taskApi.toggleArchive(card);
     };
 }
