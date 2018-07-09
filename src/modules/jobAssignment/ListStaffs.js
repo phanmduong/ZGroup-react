@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ListGroup, ListGroupItem,Modal} from "react-bootstrap";
+import { ListGroup, ListGroupItem, Modal } from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
 import * as helper from "../../helpers/helper";
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
@@ -15,47 +15,49 @@ class ListStaffs extends React.Component {
         this.onHide = this.onHide.bind(this);
     }
 
-    onHide(){
-        this.setState({show: false});
+    onHide() {
+        this.setState({ show: false });
     }
 
     render() {
         return (
             <div className="col-md-12">
-                <div><strong>Tổng số nhân viên:</strong> {this.props.staffs.length}</div><br/>
-                <ListGroup>
-                    <div style={{overflowY:"scroll", maxHeight:300}}>
-                    {this.props.staffs.map((m,index) =>
-                        (
-                            <ListGroupItem
-                                key={index}
-                                onClick={(e) => {e.preventDefault();}}>
+                <div><strong>Tổng số nhân viên:</strong> {this.props.staffs.length}</div><br />
+                <ListGroup style={{}}>
+                    <div style={{ overflow: "hidden", height: '300px', width:'100%',}}>
+                        <div style={{ overflowY: "scroll", height: '100%', width:'100%', paddingRight: 17, boxSizing: 'content-box' }}>
+                            {this.props.staffs.map((m, index) =>
+                                (
+                                    <ListGroupItem
+                                        key={index}
+                                        onClick={(e) => { e.preventDefault(); }}>
 
-                                <div style={{display: "flex", justifyContent: "space-between",lineHeight: "30px"}}>
-                                    <div style={{display: "flex"}}>
-                                        <Avatar size={30} url={helper.validateLinkImage(m.avatar_url)}/>{m.label || m.name}
-                                    </div>
-                                    <div style={{display: "flex"}}>{
-                                        m.id ?
-                                            <div onClick={()=>{return this.setState({show: true, staffId:m.id});}}>
-                                                <i className="material-icons">info</i>
+                                        <div style={{ display: "flex", justifyContent: "space-between", lineHeight: "30px" }}>
+                                            <div style={{ display: "flex" }}>
+                                                <Avatar size={30} url={helper.validateLinkImage(m.avatar_url)} />{m.label || m.name}
                                             </div>
-                                            :
-                                            <div/>
-                                    }
-                                        {
-                                            this.props.remove ?
-                                                <div onClick={() => {return this.props.remove(m);}}>
-                                                    <i className="material-icons">highlight_off</i>
-                                                </div>
-                                                :
-                                                <div/>
-                                        }</div>
+                                            <div style={{ display: "flex" }}>{
+                                                m.id ?
+                                                    <div onClick={() => { return this.setState({ show: true, staffId: m.id }); }}>
+                                                        <i className="material-icons">info</i>
+                                                    </div>
+                                                    :
+                                                    <div />
+                                            }
+                                                {
+                                                    this.props.remove ?
+                                                        <div onClick={() => { return this.props.remove(m); }}>
+                                                            <i className="material-icons">highlight_off</i>
+                                                        </div>
+                                                        :
+                                                        <div />
+                                                }</div>
 
-                                </div>
-                            </ListGroupItem>
-                        )
-                    )}
+                                        </div>
+                                    </ListGroupItem>
+                                )
+                            )}
+                        </div>
                     </div>
                 </ListGroup>
 
@@ -64,7 +66,7 @@ class ListStaffs extends React.Component {
                     onHide={this.onHide}
                     bsSize="large"
                 >
-                    <Modal.Header closeButton/>
+                    <Modal.Header closeButton />
                     <Modal.Body>
                         <InfoStaffContainer staffId={this.state.staffId} />
                     </Modal.Body>

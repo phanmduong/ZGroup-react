@@ -669,7 +669,7 @@ export default function taskReducer(state = initialState.task, action) {
                         return board;
                     }) 
                 },
-            }
+            };
             else
             {
                 return {
@@ -698,7 +698,7 @@ export default function taskReducer(state = initialState.task, action) {
                     //         return board;
                     //     }) 
                     // }: state.boardList,
-                }
+                };
             }
         case types.CHANGE_ROLE_PROJECT_MEMBER:
             return {

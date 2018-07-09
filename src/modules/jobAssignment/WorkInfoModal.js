@@ -102,7 +102,7 @@ class WorkInfoModal extends React.Component {
                                                                 <label className="">
                                                                     Thưởng
                                                             </label>
-                                                                <div>{data.bonus_value + " - " + (data.currency ? (data.currency.name || "") : "")}</div>
+                                                                <div>{data.bonus_value + ((data.currency && data.currency.name) ? (" - " + data.currency.name) : "" )}</div>
                                                             </div>
 
                                                         </div>
