@@ -99,6 +99,7 @@ class FundContainer extends Component {
                                                                                     store.createData = { ...obj };
                                                                                     store.showCreateModal = true;
                                                                                 }}
+                                                                                disabledEdit={this.props.user.role != 2}
                                                                                 disabledDelete={true}
                                                                                 children={
                                                                                     // (this.props.user.role == 2 ?

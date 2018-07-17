@@ -974,8 +974,11 @@ export function unarchiveCard(card, loadBoards) {
             card,
             isManufacture: loadBoards ? true : false,
         });
-        if(loadBoards) loadBoards();
-        taskApi.toggleArchive(card);
+        taskApi.toggleArchive(card).then(()=>{
+            if(loadBoards) loadBoards();
+        });
+        
+        
     };
 }
 

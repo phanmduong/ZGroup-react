@@ -25,6 +25,8 @@ export const store = new class Store {
     @observable filter = {
         send_id: null,
         receive_id: null,
+        start_time: null,
+        end_time: null,
     };
     @observable transferData = {
         payer_id: null,

@@ -31,7 +31,7 @@ class TaskItem extends React.Component {
                 key={task.id}
                 style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
                 <div className="checkbox" id={"task" + task.id}>
-                    <label style={{fontWeight: 700, color: "#858585"}}>
+                    <label style={{fontWeight: 700, color: "#858585",  wordWrap: 'break-word', whiteSpace: 'initial'}}>
                         <input
                             checked={task.status || false}
                             onChange={() => this.props.toggleTaskStatus(task)}

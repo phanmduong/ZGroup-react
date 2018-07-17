@@ -19,6 +19,10 @@ export function loadAllHistoryFund(page = 1, filter = {}) {
         if(filter.receive_id){
             url += "&receive_id=" + filter.receive_id;
         }
+        if(filter.start_time && filter.end_time){
+            url += "&start_time=" + filter.start_time;
+            url += "&end_time=" + filter.end_time;
+        }
     }
     return axios.get(url);
 }

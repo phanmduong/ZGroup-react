@@ -21,7 +21,9 @@ export default function taskReducer(state = initialState.task, action) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    if (card.good_id === action.card.good_id) {
+                                    if ((card.good_id === action.card.good_id && card.good_id)
+                                    || card.id === action.card.id)
+                                    {
                                         const title = action.card.title;
                                         const res = {...card, title};
                                         updateCardTitle(res);

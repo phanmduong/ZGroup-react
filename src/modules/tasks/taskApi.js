@@ -16,7 +16,7 @@ export function loadArchiveCards(projectId, page = 1) {
 }
 
 export function toggleArchive(card) {
-    let url = env.MANAGE_API_URL + `/card/${card.good_id}/toggle-archive`;
+    let url = env.MANAGE_API_URL + `/card/${card.id}/toggle-archive`;
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

@@ -291,6 +291,7 @@ class PaymentContainer extends React.Component {
                                             this.props.isLoadingPayments ? <Loading /> :
                                                 <PaymentList
                                                     data={this.props.data || []}
+                                                    user={this.props.user || {}}
                                                     openInfoModal={this.openInfoModal}
                                                     changeStatus={this.changeStatus}
                                                 />
@@ -318,6 +319,7 @@ PaymentContainer.propTypes = {
     isLoadingPayments: PropTypes.bool.isRequired,
     data: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     company: PropTypes.array.isRequired,
 };
 
@@ -328,6 +330,7 @@ function mapStateToProps(state) {
         paginator: state.payment.paginator,
         company: state.payment.company,
         summary_money: state.payment.summary_money,
+        user: state.login.user,
     };
 }
 

@@ -9,11 +9,12 @@ import { dotNumber } from "../../../helpers/helper";
 import TooltipButton from '../../../components/common/TooltipButton';
 import Select from 'react-select';
 import { Panel } from 'react-bootstrap';
+import FormInputDate from "../../../components/common/FormInputDate";
+
 @observer
 class TransferHistoryContainer extends Component {
     constructor(props, context) {
         super(props, context);
-
     }
 
     componentWillMount() {
@@ -22,8 +23,13 @@ class TransferHistoryContainer extends Component {
     }
 
     filterChange = (name, e)=>{
-        store.filter[name] = e ? e.id : null;
+        store.filter[name] = (e && e.id) ? e.id : e;
         store.loadAllHistoryFund(1);
+    }
+
+    onDateFilterChange = (e) => {
+        let { name, value } = e.target;
+        this.filterChange(name, value);
     }
 
     render() {
@@ -81,9 +87,30 @@ class TransferHistoryContainer extends Component {
                                                     />
                                                 </div>
 
-                                              
+ 
                                             </div>
-                                           
+                                            <div className="row"> 
+                                                <div className={filterClass}>
+                                                    <FormInputDate
+                                                        name="start_time"
+                                                        id="start_time"
+                                                        value={filter.start_time}
+                                                        label="Từ ngày"
+                                                        updateFormData={this.onDateFilterChange}
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
+                                                <div className={filterClass}>
+                                                    <FormInputDate
+                                                        name="end_time"
+                                                        id="end_time"
+                                                        value={filter.end_time}
+                                                        label="Đến ngày"
+                                                        updateFormData={this.onDateFilterChange}
+                                                        disabled={isLoading}
+                                                    />
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -105,6 +132,7 @@ class TransferHistoryContainer extends Component {
                                                                     <th>Quỹ gửi</th>
                                                                     <th>Quỹ nhận</th>
                                                                     <th>Số tiền</th>
+                                                                    <th>Nội dung</th>
                                                                     <th>Thời gian</th>
                                                                     
                                                                 </tr>
@@ -127,6 +155,8 @@ class TransferHistoryContainer extends Component {
                                                                             </td>
 
                                                                             <td>{dotNumber(obj.money_value)}</td>
+                                                                            <td style={{maxWidth: 150,wordWrap: 'break-word',whiteSpace: 'initial'}}>
+                                                                            {obj.content}</td>
                                                                             <td>{obj.created_at}</td>
 
                                                                             

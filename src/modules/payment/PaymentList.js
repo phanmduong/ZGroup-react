@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router';
 import PropTypes from "prop-types";
-import * as helper from "../../helpers/helper";
+// import * as helper from "../../helpers/helper";
 
 class PaymentList extends React.Component {
     constructor(props, context) {
@@ -23,8 +23,8 @@ class PaymentList extends React.Component {
                         <th>STT</th>
                         <th>Bên gửi</th>
                         <th>Bên nhận</th>
-                        <th>Số tiền</th>
-                        <th>Nội dung</th>
+                        {/* <th>Số tiền</th>
+                        <th>Nội dung</th> */}
                         {/* <th>Trạng thái</th> */}
                         <th/>
                         <th/>
@@ -33,14 +33,16 @@ class PaymentList extends React.Component {
                     <tbody>
                     {
                         this.props.data.map((pp,index) => {
-                            const onFunc = () => this.props.openInfoModal(pp);
+                            const onFunc = (this.props.user.role == 2 || pp.staff.id == this.props.user.id) ?
+                            () => this.props.openInfoModal(pp)
+                            : ()=>{};
                             return (
                                 <tr key={index} >
                                     <td onClick={onFunc}>{index+1}</td>
                                     <td onClick={onFunc}>{pp.payer.name}</td>
                                     <td onClick={onFunc}>{pp.receiver.name}</td>
-                                    <td onClick={onFunc}>{helper.dotStringNumber(pp.money_value)}</td>
-                                    <td onClick={onFunc}> {pp.description ? pp.description : "Không có"}</td>
+                                    {/* <td onClick={onFunc}>{helper.dotStringNumber(pp.money_value)}</td>
+                                    <td onClick={onFunc}> {pp.description ? pp.description : "Không có"}</td> */}
                                     {/* <td onClick={onFunc}>
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
                                     </td> */}
@@ -84,5 +86,6 @@ PaymentList.propTypes = {
     data: PropTypes.array.isRequired,
     openInfoModal: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
 };
 export default PaymentList;
