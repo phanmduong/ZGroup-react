@@ -60,9 +60,9 @@ class FormInputText extends React.Component {
                         required={this.props.required}
                         onChange={e => {
                             this.props.updateFormData(e);
-                            this.setState({
-                                isPristine: false
-                            });
+                            // this.setState({
+                            //     isPristine: false
+                            // });
                         }}
                         name={this.props.name}
                         value={this.props.value ? this.props.value : ""}
