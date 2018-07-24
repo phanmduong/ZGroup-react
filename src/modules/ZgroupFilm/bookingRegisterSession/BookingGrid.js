@@ -73,10 +73,13 @@ class BookingGrid extends React.Component {
                 return 'translate(' + d.x + ',' + d.y + ')';
             });
         g.append("circle").attr('r', function (d) {
-            return 10 * d.r;
+            return 6.5 * d.r;
         });
         g.append("text").attr('fill', 'white').attr('text-anchor', 'middle').attr('alignment-baseline', 'central')
-            .attr("font-size", "20px")
+            .attr("font-size", function (d) {
+                return 6 * d.r;
+            })
+            .attr("font-weight", 555)
             .attr("cursor", "pointer")
             .attr("font-family", "sans-serif").text(function (d) {
             return d.name;
@@ -166,7 +169,7 @@ class BookingGrid extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-7">
+                <div className="col-md-8">
                     <img src="https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-screen.png"/><br/><br/>
                     <div ref={node => this.node = node}/>
 
@@ -175,22 +178,25 @@ class BookingGrid extends React.Component {
 
 
                 </div>
-                <div className="col-md-5">
-                    <b style={{fontSize: 27}}>Các ghế đã chọn:</b><br/><br/>
-                    <div ref={node2 => this.node2 = node2}/>
-                    <hr/>
-                    <b style={{fontSize: 27}}>
-                        Tổng giá vé:
+                <div className="col-md-4">
+                    <div>
                         <br/>
                         <br/>
-                        <p className="total-pay"/>
-                    </b>
+                        <b style={{fontSize: 22}}>Các ghế đã chọn:</b><br/><br/>
+                        <div ref={node2 => this.node2 = node2}/>
+                        <hr/>
+                        <b style={{fontSize: 22}}>
+                            Tổng giá vé:&ensp;
+                            <span style={{float:"right"}} className="total-pay"/>
+                        </b>
+                    </div>
+                    <hr style={{marginBottom: 0}}/>
                     {
                         helper.isEmptyInput(this.props.seatForBooking) ? "":
                             <div className="row">
-                                <div className="col-md-7">
+                                <div className="col-md-12">
                                     <div className="table-responsive">
-                                        <table className="table table-hover">
+                                        <table className="table table-hover" style={{marginBottom: 80}}>
 
                                             <tbody>
                                             {
@@ -200,17 +206,17 @@ class BookingGrid extends React.Component {
                                                             <tr key={index}>
                                                                 <td>
                                                                     &emsp;
-                                                                    <button style={{
+                                                                    <span style={{
                                                                         backgroundColor: ass.color, color: "white",
                                                                         fontSize: 10,
-                                                                        padding: "8px 9px", border: "none", borderRadius: "20px"
+                                                                        padding: "10px 9px", border: "none", borderRadius: "20px"
                                                                     }}>
                                                                         <b>A1</b>
-                                                                    </button>
+                                                                    </span>
 
                                                                 </td>
                                                                 <td>{ass.type}</td>
-                                                                <td>
+                                                                <td style={{fontWeight:555}}>
                                                                     {Math.floor(ass.price/1000)}.000 VNĐ
                                                                 </td>
 
@@ -219,66 +225,64 @@ class BookingGrid extends React.Component {
                                                     }
                                                 )
                                             }
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div className="col-md-5">
-                                    <div className="table-responsive">
-                                        <table className="table table-hover">
-
-                                            <tbody>
                                             <tr>
                                                 <td>
                                                     &emsp;
-                                                    <button style={{
+                                                    <span style={{
                                                         backgroundColor: "black", color: "white",
                                                         fontSize: 10,
-                                                        padding: "8px 9px", border: "none", borderRadius: "20px"
+                                                        padding: "10px 9px", border: "none", borderRadius: "20px"
                                                     }}>
                                                         <b>A1</b>
-                                                    </button>
+                                                    </span>
 
                                                 </td>
                                                 <td>Đã được đặt</td>
+                                                <td/>
 
                                             </tr>
                                             <tr>
                                                 <td>
                                                     &emsp;
-                                                    <button style={{
+                                                    <span style={{
                                                         backgroundColor: "grey", color: "white", fontSize: 10,
-                                                        padding: "8px 9px", border: "none", borderRadius: "20px"
+                                                        padding: "10px 9px", border: "none", borderRadius: "20px"
                                                     }}>
                                                         <b>A1</b>
-                                                    </button>
+                                                    </span>
 
                                                 </td>
                                                 <td>Ghế đang chọn</td>
-
+                                                <td/>
 
                                             </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                     }
-                    <div style={{textAlign: "right"}}>
-                        <div>
-                            <button
-                                type="button"
-                                className="btn btn-rose"
-                                onClick={() => {
-                                    this.submit();
-                                }}
-                            >
-                                Xác nhận
-                            </button>
-                        </div>
-                    </div>
                 </div>
+
+                {
+                    helper.isEmptyInput(this.props.seatForBooking) ? ""
+                        :
+                        <div style={{bottom: 17, right: "8%", position: "absolute"}}>
+                            <div>
+                                <button
+                                    type="button"
+                                    className="btn btn-rose"
+                                    onClick={() => {
+                                        this.submit();
+                                    }}
+                                >
+                                    Xác nhận
+                                </button>
+                            </div>
+                        </div>
+                }
+
 
             </div>
 

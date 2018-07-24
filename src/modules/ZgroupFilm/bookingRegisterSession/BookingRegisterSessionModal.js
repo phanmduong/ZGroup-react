@@ -11,12 +11,13 @@ import Loading from "../../../components/common/Loading";
 import Search from '../../../components/common/Search';
 import moment from "moment/moment";
 
+//import jsPDF from 'jspdf';
 
 class BookingRegisterSessionModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            confirm: false,
+            confirm: true,
         };
         this.timeOut = null;
         this.updateFormData = this.updateFormData.bind(this);
@@ -59,7 +60,7 @@ class BookingRegisterSessionModal extends React.Component {
         };
         this.timeOut = setTimeout(
             call.bind(this),
-            200
+            100
         );
     }
 
@@ -79,7 +80,9 @@ class BookingRegisterSessionModal extends React.Component {
         );
     }
 
+
     pay() {
+
         let bk = (
             helper.isEmptyInput(this.props.handleBookingModal.phone) &&
             helper.isEmptyInput(this.props.handleBookingModal.email)) ?
@@ -100,7 +103,10 @@ class BookingRegisterSessionModal extends React.Component {
             :
             ((moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
                 moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-                this.props.codeInfo.status === 1) ? {...this.props.handleBookingModal, code: ''} : {...this.props.handleBookingModal});
+                this.props.codeInfo.status === 1) ? {
+                ...this.props.handleBookingModal,
+                code: ''
+            } : {...this.props.handleBookingModal});
         if ((helper.isEmptyInput(this.props.handleBookingModal.phone) ||
                 helper.isEmptyInput(this.props.handleBookingModal.email)) &&
             !(helper.isEmptyInput(this.props.handleBookingModal.phone) &&
@@ -111,11 +117,13 @@ class BookingRegisterSessionModal extends React.Component {
         else {
             if (this.state.confirm === false) helper.showErrorNotification("Bạn cần xác nhận thanh toán");
             else {
+
                 helper.showNotification("Đang thanh toán");
                 this.props.filmAction.bookingSeat(bk);
             }
         }
     }
+
 
     render() {
 
