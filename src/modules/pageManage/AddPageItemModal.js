@@ -114,10 +114,10 @@ class AddPageItemModal extends Component {
                                         </label>
                                         <textarea
                                             className="form-control"
-                                            name="value_en"
+                                            name="value_vi"
                                             rows="10"
                                             value={store.pageItem && store.pageItem.value_vi}
-                                            onChange={(e) => this.updateFormPageItem('value_en', e.target.value)}/>
+                                            onChange={(e) => this.updateFormPageItem('value_vi', e.target.value)}/>
                                     </div>
                                 </div>
                             )

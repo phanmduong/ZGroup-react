@@ -124,6 +124,42 @@ export function loadUsers(search) {
   if (token) {
     url += "&token=" + token;
   }
-
   return axios.get(url);
+}
+
+export function loadRegisters(filter) {
+    filter = filter ? filter : {};
+    let {
+        limit,
+        page = 1,
+        search,
+        saler_id,
+        base_id,
+        startTime,
+        endTime
+    } = filter;
+    let url = env.MANAGE_API_URL + '/trongdong/register-room/all?page=' + page;
+    if (search) {
+        url += "&search=" + search;
+    }
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    if (saler_id) {
+        url += "&saler_id=" + (saler_id == -1 ? '' : saler_id);
+    }
+    if (limit) {
+        url += "&limit=" + limit;
+    }
+    if (startTime) {
+        url += "&start_time=" + startTime;
+    }
+    if (endTime) {
+        url += "&end_time=" + endTime;
+    }
+    if (base_id) {
+        url += "&base_id=" + (base_id == -1 ? '' : base_id);
+    }
+    return axios.get(url);
 }

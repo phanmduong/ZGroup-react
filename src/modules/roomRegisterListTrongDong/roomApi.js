@@ -4,7 +4,7 @@ import moment from "moment";
 import { DATETIME_FORMAT, DATETIME_FORMAT_SQL } from '../../constants/constants';
 
 
-export function submitBooking(register) {
+export function submitBooking(register, filter) {
     let url = env.MANAGE_API_URL;
 
     if (register.id) {
@@ -18,18 +18,26 @@ export function submitBooking(register) {
         url += "?token=" + token;
     }
     return axios.put(url, {
-        id: register.id ? register.id : '',
+        register_id: register.id ? register.id : "",
         name: register.name,
         email: register.email,
         phone: register.phone,
         address: register.address,
         status: register.status,
-        base_id: register.base_id,
-        room_id: register.room_id,
-        start_time: moment(register.start_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL),
-        end_time: moment(register.end_time, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL),
+        base_id: filter.base_id,
+        kind: register.kind,
+        number_person: register.number_person,
+        start_time: moment(register.start_time, [
+            DATETIME_FORMAT,
+            DATETIME_FORMAT_SQL
+        ]).format(DATETIME_FORMAT_SQL),
+        end_time: moment(register.end_time, [
+            DATETIME_FORMAT,
+            DATETIME_FORMAT_SQL
+        ]).format(DATETIME_FORMAT_SQL),
         note: register.note,
         campaign_id: register.campaign_id,
+        similar_room: register.similar_room
     });
 }
 
@@ -60,8 +68,8 @@ export function loadRegisters(filter) {
         search,
         saler_id,
         base_id,
-        startTime,
-        endTime
+        time,
+        campaign_id,
     } = filter;
     let url = env.MANAGE_API_URL + '/trongdong/register-room/all?page=' + page;
     if (search) {
@@ -77,14 +85,14 @@ export function loadRegisters(filter) {
     if (limit) {
         url += "&limit=" + limit;
     }
-    if (startTime) {
-        url += "&start_time=" + startTime;
-    }
-    if (endTime) {
-        url += "&end_time=" + endTime;
+    if (time) {
+        url += "&start_time=" + time.start_time + "&end_time=" + time.end_time;
     }
     if (base_id) {
         url += "&base_id=" + (base_id == -1 ? '' : base_id);
+    }
+    if (campaign_id) {
+        url += "&campaign_id=" + (campaign_id == -1 ? '' : campaign_id);
     }
     return axios.get(url);
 }
@@ -108,3 +116,12 @@ export function loadAllSalersApi() {
     return axios.get(url);
 }
 
+export function loadUsers(search) {
+    let url = env.MANAGE_API_URL + `/trongdong/find-users?search=` + search;
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
