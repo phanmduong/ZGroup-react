@@ -313,6 +313,21 @@ class EditBaseModalContainer extends React.Component {
                                 value={base.longitude || ''}
                             />
                             <div className="form-group">
+                                <label className="label-control">Thông tin cơ bản</label>
+                                <textarea
+                                    // row = {5}
+                                    type="text"
+                                    rows={5}
+                                    className="form-control"
+                                    value={
+                                        base.basic_info ? base.basic_info : ""
+                                    }
+                                    name="basic_info"
+                                    onChange={this.updateFormData}
+                                />
+                                <span className="material-input"/>
+                            </div>
+                            <div className="form-group">
                                 <label className="label-control">Mô tả</label>
                                 <textarea type="text" className="form-control"
                                           value={base.description ? base.description : ''}

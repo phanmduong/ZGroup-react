@@ -268,13 +268,16 @@ class DashboardTrongDongContainer extends Component {
                 room: room ? room.name : null,
                 type: room && room.type ? room.type.name : null,
                 register_id: register.register_id,
-                start: register.start_time,
+                start: register.start_time, // "2018-05-24 09:00:00"
                 end: register.end_time,
                 status: register.status,
                 color: color,
                 overlay: 1
             };
         });
+
+        // console.log(registersData,"ssssssssssss");
+
 
         return (
             <div className="card" key={room ? room.id : ''}>

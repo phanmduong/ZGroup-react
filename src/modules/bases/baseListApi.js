@@ -61,6 +61,7 @@ export function createBase(base) {
         center: base.center,
         longtitude: base.longitude,
         display_status: base.display_status,
+        basic_info: base.basic_info,
     });
 }
 
@@ -81,6 +82,7 @@ export function editBase(base) {
         center: base.center,
         longtitude: base.longitude,
         display_status: base.display_status,
+        basic_info: base.basic_info,
     });
 }
 

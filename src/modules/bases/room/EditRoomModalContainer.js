@@ -567,6 +567,25 @@ class EditRoomModalContainer extends React.Component {
                                     </TooltipButton>
                                 </div>
                             </div>
+
+
+                            {/*<div className="form-group">*/}
+                                {/*<label className="label-control">Thông tin cơ bản</label>*/}
+                                {/*<textarea*/}
+                                    {/*// row = {5}*/}
+                                    {/*type="text"*/}
+                                    {/*rows={5}*/}
+                                    {/*className="form-control"*/}
+                                    {/*value={*/}
+                                        {/*room.basic_info ? room.basic_info : ""*/}
+                                    {/*}*/}
+                                    {/*name="basic_info"*/}
+                                    {/*onChange={this.updateFormData}*/}
+                                {/*/>*/}
+                                {/*<span className="material-input"/>*/}
+                            {/*</div>*/}
+
+
                             <div className="form-group" style={{zIndex : 0}}>
                                 <h4 className="label-control">
                                     Chi tiết phòng
@@ -581,7 +600,9 @@ class EditRoomModalContainer extends React.Component {
                             <div className="form-group">
                                 <label className="label-control">Mô tả</label>
                                 <textarea
+                                    // row = {5}
                                     type="text"
+                                    rows={8}
                                     className="form-control"
                                     value={
                                         room.description ? room.description : ""
