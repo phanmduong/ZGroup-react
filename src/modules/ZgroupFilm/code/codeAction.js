@@ -97,6 +97,9 @@ export function editCode(code) {
                     });
                 }
                 else helper.showNotification(res.data.message);
+                dispatch({
+                    type: types.SAVE_CODE_SUCCESS,
+                });
             });
     };
 }

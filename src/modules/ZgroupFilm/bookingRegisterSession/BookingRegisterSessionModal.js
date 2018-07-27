@@ -173,8 +173,11 @@ class BookingRegisterSessionModal extends React.Component {
                         </div>
                         <div className="col-md-5">
                             <br/>
-                            <h5> Tổng tiền: {(sum || 0) / 1000 || ''}.000 VNĐ</h5>
+                            <h5> Tổng tiền:
+                                <span style={{float: "right", fontWeight: 500}}>{(sum || 0) / 1000 || ''}.000 VNĐ</span>
+                            </h5>
                             <Search
+                                style={{textTransform: "Uppercase"}}
                                 placeholder="Nhập mã giảm giá"
                                 name="code"
                                 onChange={this.receiversSearchChange}
@@ -183,13 +186,15 @@ class BookingRegisterSessionModal extends React.Component {
                             {
                                 this.props.isCheckingCode ? <Loading/> :
                                     <div>
-                                        <h5>Giảm giá: {
-
-                                            (moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
-                                                moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-                                                this.props.codeInfo.status === 1) ? "0 VNĐ" :
-                                                (this.props.codeInfo.value ? this.props.codeInfo.value / 1000 + ".000 VNĐ" : "0 VNĐ")
-                                        }
+                                        <h5>Giảm giá:
+                                            <span style={{float: "right", fontWeight: 500}}>
+                                                {
+                                                    (moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                                        moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                                        this.props.codeInfo.status === 1) ? "0 VNĐ" :
+                                                        (this.props.codeInfo.value ? this.props.codeInfo.value / 1000 + ".000 VNĐ" : "0 VNĐ")
+                                                }
+                                            </span>
                                         </h5>
                                         <b>{!helper.isEmptyInput(this.props.codeInfo.start_date) ?
                                             (
@@ -201,37 +206,46 @@ class BookingRegisterSessionModal extends React.Component {
                                         }</b>
 
                                         <h5>Thanh toán:
+                                            <span style={{float: "right", fontWeight: 500}}>
                                             {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
                                                 moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
                                                 this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
                                             VNĐ
+                                            </span>
                                         </h5>
                                     </div>
                             }
 
                         </div>
                     </div>
-                    <CheckBoxMaterial
-                        name="display"
-                        checked={this.state.confirm}
-                        onChange={() => {
-                            this.setState({
-                                ...this.state,
-                                confirm: !this.state.confirm
-                            });
-                        }}
-                        label="Xác nhận số tiền đã thu là:"
-                    />
-                    {
-                        this.props.isCheckingCode ? <Loading/> :
-                            <p style={{textAlign: 'center', fontSize: '24px', fontWeight: '400'}}>
-                                {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
-                                    moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-                                    this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
-                                VNĐ
-                            </p>
-                    }
-                    <br/>
+                    <div>
+                        <CheckBoxMaterial
+                            style={{display: "flex", justifyContent: "space-between"}}
+                            name="display"
+                            checked={this.state.confirm}
+                            onChange={() => {
+                                this.setState({
+                                    ...this.state,
+                                    confirm: !this.state.confirm
+                                });
+                            }}
+                            label="Xác nhận số tiền đã thu là:"
+                        />
+                        {
+                            this.props.isCheckingCode ? <Loading/> :
+                                <p style={{
+                                    textAlign: 'center',
+                                    fontSize: 30,
+                                    fontWeight: 400,
+                                }}>
+                                    {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                        moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                        this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                    VNĐ
+                                </p>
+                        }
+                        <br/>
+                    </div>
                     {
                         this.props.isBookingSeat ? <Loading/> :
                             <div style={{textAlign: "right"}}>
