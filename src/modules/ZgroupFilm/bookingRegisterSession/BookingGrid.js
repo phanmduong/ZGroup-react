@@ -209,7 +209,7 @@ class BookingGrid extends React.Component {
                                                                     <span style={{
                                                                         backgroundColor: ass.color, color: "white",
                                                                         fontSize: 10,
-                                                                        padding: "10px 9px", border: "none", borderRadius: "20px"
+                                                                        padding: "10px 9.5px", border: "none", borderRadius: "20px"
                                                                     }}>
                                                                         <b>A1</b>
                                                                     </span>
@@ -231,7 +231,7 @@ class BookingGrid extends React.Component {
                                                     <span style={{
                                                         backgroundColor: "black", color: "white",
                                                         fontSize: 10,
-                                                        padding: "10px 9px", border: "none", borderRadius: "20px"
+                                                        padding: "10px 9.5px", border: "none", borderRadius: "20px"
                                                     }}>
                                                         <b>A1</b>
                                                     </span>
@@ -246,7 +246,7 @@ class BookingGrid extends React.Component {
                                                     &emsp;
                                                     <span style={{
                                                         backgroundColor: "grey", color: "white", fontSize: 10,
-                                                        padding: "10px 9px", border: "none", borderRadius: "20px"
+                                                        padding: "10px 9.5px", border: "none", borderRadius: "20px"
                                                     }}>
                                                         <b>A1</b>
                                                     </span>
@@ -268,7 +268,7 @@ class BookingGrid extends React.Component {
                 {
                     helper.isEmptyInput(this.props.seatForBooking) ? ""
                         :
-                        <div style={{bottom: 17, right: "8%", position: "absolute"}}>
+                        <div style={{bottom: 17, right: "9%", position: "absolute"}}>
                             <div>
                                 <button
                                     type="button"

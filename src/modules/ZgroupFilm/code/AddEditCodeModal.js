@@ -132,7 +132,7 @@ class AddEditCodeModal extends React.Component {
                             <FormInputDate
                                 label="Ngày áp dụng"
                                 name="start_date"
-                                minDate={moment().add(1, 'days').format('YYYY-MM-DD')}
+                                minDate={moment().format('YYYY-MM-DD')}
                                 updateFormData={this.updateFormData}
                                 value={"" || code.start_date}
                                 id="form-start-day"
