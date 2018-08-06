@@ -996,6 +996,7 @@ class RegisterListContainer extends React.Component {
                                                         label="Từ ngày"
                                                         name="startTime"
                                                         updateFormData={this.updateFormDate}
+
                                                         id="form-start-time"
                                                         value={this.state.time.startTime}
                                                         maxDate={this.state.time.endTime}

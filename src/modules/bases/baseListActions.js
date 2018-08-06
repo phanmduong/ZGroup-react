@@ -89,9 +89,10 @@ export function createBase(base) {
                     type: types.CREATE_BASE_SUCCESS_MODAL
                 });
                 browserHistory.push('/base/bases');
-            }).catch(() => {
-            helper.showErrorNotification('Có lỗi xảy ra');
-        });
+            });
+        //     .catch(() => {
+        //     helper.showErrorNotification('Có lỗi xảy ra');
+        // });
     };
 }
 
@@ -108,9 +109,10 @@ export function editBase(base) {
                     type: types.CREATE_BASE_SUCCESS_MODAL
                 });
                 browserHistory.push('/base/bases');
-            }).catch(() => {
-            helper.showErrorNotification('Có lỗi xảy ra');
-        });
+            });
+        //     .catch(() => {
+        //     helper.showErrorNotification('Có lỗi xảy ra');
+        // });
     };
 }
 

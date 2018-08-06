@@ -12,6 +12,12 @@ export default new class statisticsStore {
     @observable register_by_date_view = [];
 
 
+    @observable new_register_by_date_seed = [];
+    @observable new_register_by_date_cancel = [];
+    @observable new_register_by_date_done = [];
+    @observable new_register_by_date_view = [];
+    @observable new_date_array = [];
+
     @observable isLoadingRooms = false;
     @observable rooms = [];
     @observable selectedRoomId = 0;
@@ -26,20 +32,56 @@ export default new class statisticsStore {
     @observable roomTypes = [];
     @observable selectedRoomTypeId = 0;
 
-    @observable start_time = "";
+    // @observable start_time = "";
+    // @observable end_time = "";
+    @observable start_time_form = "";
+    @observable end_time_form = "";
 
+    @observable registers = [];
+    @observable isLoadingRegisters = false;
+    @observable registerPage = 0;
+    @observable totalRegisterPages = 0;
+    @observable isExporting = false;
+
+
+
+
+    // @action
+    // loadChart() {
+    //     this.isLoadingRegisterSummary = true;
+    //     statisticsApis
+    //         .loadChartApi(this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId,this.start_time)
+    //         .then(res => {
+    //             this.date_array = res.data.data.date_array;
+    //             this.register_by_date_cancel = res.data.data.register_by_date.cancel;
+    //             this.register_by_date_done = res.data.data.register_by_date.done;
+    //             this.register_by_date_view = res.data.data.register_by_date.view;
+    //             this.register_by_date_seed = res.data.data.register_by_date.seed;
+    //             this.isLoadingRegisterSummary = false;
+    //
+    //         })
+    //         .catch(() => {
+    //             showErrorNotification("Có lỗi xảy ra.");
+    //             this.isLoadingRegisterSummary = false;
+    //         });
+    // }
 
     @action
     loadChart() {
         this.isLoadingRegisterSummary = true;
         statisticsApis
-            .loadChartApi(this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId,this.start_time)
+            .loadChartApi(this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId, this.start_time_form, this.end_time_form)
             .then(res => {
                 this.date_array = res.data.data.date_array;
+                this.new_date_array = res.data.data.date_array;
                 this.register_by_date_cancel = res.data.data.register_by_date.cancel;
+                this.new_register_by_date_cancel = res.data.data.register_by_date.cancel;
                 this.register_by_date_done = res.data.data.register_by_date.done;
+                this.new_register_by_date_done = res.data.data.register_by_date.done;
                 this.register_by_date_view = res.data.data.register_by_date.view;
+                this.new_register_by_date_view = res.data.data.register_by_date.view;
                 this.register_by_date_seed = res.data.data.register_by_date.seed;
+                this.new_register_by_date_seed = res.data.data.register_by_date.seed;
                 this.isLoadingRegisterSummary = false;
 
             })
@@ -47,6 +89,23 @@ export default new class statisticsStore {
                 showErrorNotification("Có lỗi xảy ra.");
                 this.isLoadingRegisterSummary = false;
             });
+    }
+
+    @action
+    loadRegisters(registerPage){
+        this.registerPage = registerPage;
+        this.isLoadingRegisters = true;
+        statisticsApis
+            .loadRegistersApi(20,this.registerPage,this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId, this.start_time_form, this.end_time_form)
+            .then(res => {
+                this.registers = res.data.room_service_registers;
+                this.totalRegisterPages = res.data.paginator.total_pages;
+                this.isLoadingRegisters = false;
+            });
+            // .catch(() => {
+            //     showErrorNotification("Có lỗi xảy ra.");
+            //     this.isLoadingRegisters = false;
+            // });
     }
 
 
@@ -98,7 +157,7 @@ export default new class statisticsStore {
 
 
     @computed
-    get register_by_date_view_data(){
+    get register_by_date_view_data() {
         return this.register_by_date_view.map((val) => {
             return val;
         });
@@ -139,32 +198,32 @@ export default new class statisticsStore {
     }
 
     @computed
-    get dataSet () {
+    get dataSet() {
         return {
-            labels: this.date_array,
+            labels: this.new_date_array,
             datasets: [{
                 label: "view",
                 backgroundColor: '#ffaa00',
                 borderColor: '#ffaa00',
-                data: this.register_by_date_view.slice(),
+                data: this.new_register_by_date_view && this.new_register_by_date_view.slice(),
             },
                 {
                     label: "done",
                     backgroundColor: '#4caa00',
                     borderColor: '#4caa00',
-                    data: this.register_by_date_done.slice(),
+                    data: this.new_register_by_date_done && this.new_register_by_date_done.slice(),
                 },
                 {
                     label: "cancel",
                     backgroundColor: '#ff4444',
                     borderColor: '#ff4444',
-                    data: this.register_by_date_cancel.slice(),
+                    data: this.new_register_by_date_cancel&&this.new_register_by_date_cancel.slice(),
                 },
                 {
                     label: "seed",
                     backgroundColor: '#9b9b9b',
                     borderColor: '#9b9b9b',
-                    data: this.register_by_date_seed.slice(),
+                    data: this.new_register_by_date_seed&&this.new_register_by_date_seed.slice(),
                 },
             ]
         };

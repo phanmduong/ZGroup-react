@@ -27,7 +27,6 @@ export function getBases() {
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.get(url);
 }
 

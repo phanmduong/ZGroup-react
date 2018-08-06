@@ -1,27 +1,13 @@
 import React from "react";
 import Loading from "../../components/common/Loading";
-// import * as helper from "../../helpers/helper";
 import PropTypes from "prop-types";
 import store from "./statisticsStore";
 import Select from '../../components/common/Select';
 import {connect} from "react-redux";
 import {observer} from "mobx-react/index";
-import moment from "moment";
-import {Bar} from 'react-chartjs-2';
-
-// const legendOpts = {
-//     display: false,
-//     position: 'top',
-//     fullWidth: true,
-// };
-function getMonday(d) {
-    d = new Date(d);
-    let day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-    return new Date(d.setDate(diff));
-}
-
-// getMonday(new Date());
+import FormInputDate from "../../components/common/FormInputDate";
+import ListRegisters from "./ListRegisters";
+import RegistersChart from "./RegistersChart";
 
 @observer
 class StatisticsContainer extends React.Component {
@@ -30,179 +16,129 @@ class StatisticsContainer extends React.Component {
         this.onChangeRoom = this.onChangeRoom.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.onChangeRoomType = this.onChangeRoomType.bind(this);
-        this.state = {
-            dataSet: {
-                labels: ["sd","sad","wqed"],
-                datasets: [{
-                    label: "view",
-                    backgroundColor: '#ffaa00',
-                    borderColor: '#ffaa00',
-                    data: [2, 2, 2],
-                },
-                ]
-            },
-            options :  {scale : {
-                    yAxes: [{
-                        ticks: {
-                            suggestedMin: 0,
-                            suggestedMax: 3,
-                        }
-                    }]
-                }},
-        };
     }
 
     componentWillMount() {
         store.selectedBaseId = this.props.user.base_id;
-        this.onChangeToThisWeek();
         store.loadBases();
         store.loadRooms();
         store.loadRoomTypes();
-    }
-
-    initChart = (dataSet) => {
-        this.setState({dataSet});
+        store.loadChart();
+        store.loadRegisters(1);
+        // this.onChangeToThisWeek();
     }
 
     onChangeRoom(value) {
         store.selectedRoomId = value;
         store.loadChart();
+        store.loadRegisters(1);
+
     }
 
     onChangeBase(value) {
         store.selectedBaseId = value;
         store.loadChart();
+        store.loadRegisters(1);
+
     }
 
     onChangeRoomType(value) {
         store.selectedRoomTypeId = value;
         store.loadChart();
+        store.loadRegisters(1);
+
     }
 
-    onChangeToLastWeek = () => {
-        store.start_time = store.start_time.subtract(7, 'days');
-        store.loadChart();
-    }
 
-    onChangeToNextWeek = () => {
-        store.start_time = store.start_time.add(7, 'days');
+    updateFormDate = (event) => {
+        const field = event.target.name;
+        store[field] = event.target.value;
+        // console.log(store[field],"kkkkkkk",field);
+        // console.log("xxxxxxx",moment(store.start_time_form_form).format("YYYY-MM-DD"));
         store.loadChart();
-    }
-
-    onChangeToThisWeek = () => {
-        store.start_time = moment(getMonday(new Date()));
-        store.loadChart();
+        store.loadRegisters(1);
     }
 
 
     render() {
 
+        // console.log(store.totalRegisterPages,"ssssss");
 
 
         return (
             <div>
-                {
-                    store.isLoadingBases || store.isLoadingRooms || store.isLoadingRoomTypes
-                        ?
-                        (
-                            <Loading/>
-                        )
-                        :
-                        <div>
-                            <div>
-                                <div className="row">
-                                    <div className="col-sm-4 col-xs-5">
-                                        <Select
-                                            defaultMessage={'Chọn cơ sở'}
-                                            options={store.basesData}
-                                            value={store.selectedBaseId}
-                                            onChange={this.onChangeBase}
-                                        />
-                                    </div>
-                                    <div className="col-sm-4 col-xs-3">
-                                        <Select
-                                            defaultMessage={'Chọn loại phòng'}
-                                            options={store.roomTypesData}
-                                            value={store.selectedRoomTypeId}
-                                            onChange={this.onChangeRoomType}
-                                        />
-                                    </div>
-                                    <div className="col-sm-4 col-xs-4">
-                                        <Select
-                                            defaultMessage={'Chọn phòng'}
-                                            options={store.roomsData}
-                                            value={store.selectedRoomId}
-                                            onChange={this.onChangeRoom}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                {store.isExporting ?
+                    <Loading/>
+                    :
+                    <div>
+                        {
+                            store.isLoadingBases || store.isLoadingRooms || store.isLoadingRoomTypes
+                                ?
+                                (
+                                    <Loading/>
+                                )
+                                :
+                                <div>
+                                    <div>
+                                        <div className="row">
+                                            <div className="col-sm-4 col-xs-5">
+                                                <Select
+                                                    defaultMessage={'Chọn cơ sở'}
+                                                    options={store.basesData}
+                                                    value={store.selectedBaseId}
+                                                    onChange={this.onChangeBase}
+                                                />
+                                            </div>
+                                            <div className="col-sm-4 col-xs-3">
+                                                <Select
+                                                    defaultMessage={'Chọn loại phòng'}
+                                                    options={store.roomTypesData}
+                                                    value={store.selectedRoomTypeId}
+                                                    onChange={this.onChangeRoomType}
+                                                />
+                                            </div>
+                                            <div className="col-sm-4 col-xs-4">
+                                                <Select
+                                                    defaultMessage={'Chọn phòng'}
+                                                    options={store.roomsData}
+                                                    value={store.selectedRoomId}
+                                                    onChange={this.onChangeRoom}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <FormInputDate
+                                                    label="Từ ngày"
+                                                    name="start_time_form"
 
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="card">
-                                        <div className="card-content">
-                                            <div className="tab-content">
-                                                <div style={{display: "flex", justifyContent: "space-between"}}>
-                                                    <h4 className="card-title">
-                                                        <strong>Số lượng đăng kí theo tuần</strong>
-                                                    </h4>
-
-                                                    <div id="room-calender-" className="fc fc-unthemed fc-ltr"
-                                                        // style={{padding: 20}}
-                                                    >
-                                                        <div className="fc-toolbar fc-header-toolbar">
-                                                            <div className="fc-left">
-                                                                <div className="fc-button-group">
-                                                                    <button type="button"
-                                                                            className="fc-prev-button fc-button fc-state-default fc-corner-left"
-                                                                            aria-label="prev"
-                                                                            onClick={() => this.onChangeToLastWeek()}
-                                                                    >
-                                                                    <span
-                                                                        className="fc-icon fc-icon-left-single-arrow"/>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                            className="fc-next-button fc-button fc-state-default fc-corner-right"
-                                                                            aria-label="next"
-                                                                            onClick={() => this.onChangeToNextWeek()}
-                                                                    >
-                                                                    <span
-                                                                        className="fc-icon fc-icon-right-single-arrow"/>
-                                                                    </button>
-                                                                </div>
-                                                                <button type="button"
-                                                                        className="fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right "
-                                                                    // disabled   fc-state-disabled
-                                                                        onClick={() => this.onChangeToThisWeek()}
-                                                                >Tuần này
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <br/>
-                                                <br/>
-
-                                                {
-                                                    store.isLoadingRegisterSummary  ?
-                                                        <Loading/>
-                                                        :
-                                                        <Bar
-                                                            data={store.dataSet}
-                                                        />
-                                                }
-
+                                                    updateFormData={this.updateFormDate}
+                                                    id="form-start-time"
+                                                    value={store.start_time_form}
+                                                    maxDate={store.end_time_form}
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <FormInputDate
+                                                    label="Đến ngày"
+                                                    name="end_time_form"
+                                                    updateFormData={this.updateFormDate}
+                                                    id="form-end-time"
+                                                    value={store.end_time_form}
+                                                    minDate={store.start_time_form}
+                                                />
                                             </div>
                                         </div>
                                     </div>
+                                    <RegistersChart/>
+                                    <ListRegisters/>
                                 </div>
-                            </div>
-                        </div>
+                        }
+                    </div>
                 }
 
             </div>
+
         );
     }
 }
@@ -218,3 +154,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(StatisticsContainer);
+
+// Có 2 trường start_time và start_time_form để chỉ tgian bắt đầu nhưng do thư viện moment nên start_time ko có end_time (end_time
+// tự tính trong apis)

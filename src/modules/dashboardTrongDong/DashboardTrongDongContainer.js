@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import store from './dashboardStore';
 import Loading from '../../components/common/Loading';
 import Select from '../../components/common/Select';
-import Calendar from '../../components/common/Calendar';
+import Calendar from './Calendar';
 import moment from 'moment';
 import {
     DATETIME_FORMAT_SQL, DATETIME_FORMAT, STATUS_REGISTER_ROOM,
@@ -17,7 +17,7 @@ import {
     appendJsonToWorkBook,
     saveWorkBookToExcel,
     newWorkBook,
-    renderExcelColumnArray
+    renderExcelColumnArray, showErrorNotification
 } from '../../helpers/helper';
 import {observable} from 'mobx';
 import {Modal} from 'react-bootstrap';
@@ -88,8 +88,8 @@ class DashboardTrongDongContainer extends Component {
     updateTime(value) {
         store.changeTime(
             value.register_id,
-            value.start.format(DATETIME_FORMAT_SQL),
-            value.end.format(DATETIME_FORMAT_SQL)
+            value.start&&value.start.format(DATETIME_FORMAT_SQL),
+            value.end&&value.end.format(DATETIME_FORMAT_SQL)
         );
     }
 
@@ -109,8 +109,8 @@ class DashboardTrongDongContainer extends Component {
                 base_id: room && room.base ? room.base.id : '',
                 room_id: room ? room.id : '',
                 type: register.type,
-                start_time: register.start.format(DATETIME_FORMAT),
-                end_time: register.end.format(DATETIME_FORMAT),
+                start_time: register.start&&register.start.format(DATETIME_FORMAT),
+                end_time: register.end&&register.end.format(DATETIME_FORMAT),
                 status: register.status,
                 note: register.register_data.note,
                 kind: register.register_data.kind,
@@ -272,7 +272,10 @@ class DashboardTrongDongContainer extends Component {
                 end: register.end_time,
                 status: register.status,
                 color: color,
-                overlay: 1
+                overlay: 1,
+                number_person : register.number_person,
+                phone : register.user && register.user.phone,
+                note : register.note,
             };
         });
 
@@ -329,19 +332,26 @@ class DashboardTrongDongContainer extends Component {
                         calendarEvents={registersData}
                         onDropTime={(value) => this.updateTime(value)}
                         onClick={(value) => {
+                            if (disableCreateRegister){
+                                showErrorNotification("Không được phân quyền.");
+                                return;
+                            }
                             this.registerRoomSelected = {
                                 id: value.register_id,
                                 status: value.status,
                                 register_name: value.register_name,
                                 room: value.room,
                                 type: value.type,
-                                start_time: value.start.format(DATETIME_FORMAT),
-                                end_time: value.end.format(DATETIME_FORMAT)
+                                start_time: value.start&&value.start.format(DATETIME_FORMAT),
+                                end_time: value.end&&value.end.format(DATETIME_FORMAT)
                             };
                             self.openModalBooking(null, room, value);
                         }}
                         onClickDay={(day) => {
-                            if (disableCreateRegister) return;
+                            if (disableCreateRegister){
+                                showErrorNotification("Không được phân quyền.");
+                                return;
+                            }
                             self.openModalBooking(day, room);
                         }}
                     />
@@ -778,6 +788,15 @@ class DashboardTrongDongContainer extends Component {
                                 placeholder="Chọn trang thái"
                                 disabled={disableCreateRegister}
                             />
+                        </div>
+                        <div className="form-group">
+                            <label className="label-control">Ghi chú </label>
+                            <textarea type="text" className="form-control"
+                                      rows={5}
+                                      value={this.booking && this.booking.note}
+                                      name="note"
+                                      onChange={this.updateFormData}/>
+                            <span className="material-input"/>
                         </div>
                         <div className="form-group">
                             <label className="label-control">Ghép phòng</label>

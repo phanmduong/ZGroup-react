@@ -315,7 +315,6 @@ class EditBaseModalContainer extends React.Component {
                             <div className="form-group">
                                 <label className="label-control">Thông tin cơ bản</label>
                                 <textarea
-                                    // row = {5}
                                     type="text"
                                     rows={5}
                                     className="form-control"
@@ -330,6 +329,7 @@ class EditBaseModalContainer extends React.Component {
                             <div className="form-group">
                                 <label className="label-control">Mô tả</label>
                                 <textarea type="text" className="form-control"
+                                          rows={10}
                                           value={base.description ? base.description : ''}
                                           name="description"
                                           onChange={this.updateFormData}/>
