@@ -126,7 +126,8 @@ class DashboardTrongDongContainer extends Component {
                 end_time: day.add('5', 'hours').format(DATETIME_FORMAT),
                 status: 'seed',
                 kind: '',
-                similar_room: room ? [room.id] : []
+                similar_room: room ? [room.id] : [],
+                note : '',
             };
         }
     }
@@ -154,6 +155,7 @@ class DashboardTrongDongContainer extends Component {
 
     closeModalBooking = () => {
         this.showModalBooking = false;
+        self.booking= {};
     };
 
     colorBook(status) {
@@ -343,7 +345,9 @@ class DashboardTrongDongContainer extends Component {
                                 room: value.room,
                                 type: value.type,
                                 start_time: value.start&&value.start.format(DATETIME_FORMAT),
-                                end_time: value.end&&value.end.format(DATETIME_FORMAT)
+                                end_time: value.end&&value.end.format(DATETIME_FORMAT),
+                                note : value.note,
+                                kind : value.kind,
                             };
                             self.openModalBooking(null, room, value);
                         }}
