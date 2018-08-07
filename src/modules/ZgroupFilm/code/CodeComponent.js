@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import TooltipButton from '../../../components/common/TooltipButton';
 import {confirm} from "../../../helpers/helper";
-import moment from "moment/moment";
+//import moment from "moment/moment";
 
 
 class CodeComponent extends React.Component {
@@ -93,31 +93,30 @@ class CodeComponent extends React.Component {
                                                     <i className="material-icons">add_circle</i>
                                                 </a>
                                             </TooltipButton>
-                                            {
-                                                moment(code.start_date, "YYYY-MM-DD").fromNow()[0] !== "i" ? "" :
-                                                    <div>
-                                                        <TooltipButton text="Sửa" placement="top"
-                                                                       style={{display: "inline-block"}}>
-                                                            <a style={{color: "#878787"}}
-                                                               onClick={() => {
-                                                                   this.props.codeAction.openModal();
-                                                                   this.props.codeAction.handleCodeModal(code);
-                                                               }}>
-                                                                <i className="material-icons">edit</i>
-                                                            </a>
-                                                        </TooltipButton>
 
-                                                        <TooltipButton text="Xóa" placement="top"
-                                                                       style={{display: "inline-block"}}>
-                                                            <a style={{color: "#878787"}}
-                                                               onClick={() => {
-                                                                   this.delCode(code);
-                                                               }}>
-                                                                <i className="material-icons">delete</i>
-                                                            </a>
-                                                        </TooltipButton>
-                                                    </div>
-                                            }
+                                            <div>
+                                                <TooltipButton text="Sửa" placement="top"
+                                                               style={{display: "inline-block"}}>
+                                                    <a style={{color: "#878787"}}
+                                                       onClick={() => {
+                                                           this.props.codeAction.openModal();
+                                                           this.props.codeAction.handleCodeModal(code);
+                                                       }}>
+                                                        <i className="material-icons">edit</i>
+                                                    </a>
+                                                </TooltipButton>
+
+                                                <TooltipButton text="Xóa" placement="top"
+                                                               style={{display: "inline-block"}}>
+                                                    <a style={{color: "#878787"}}
+                                                       onClick={() => {
+                                                           this.delCode(code);
+                                                       }}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                </TooltipButton>
+                                            </div>
+
 
                                         </div>
                                     </td>

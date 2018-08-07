@@ -290,31 +290,65 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 isLoadingAllSessions: true,
             };
-        case types.LOAD_ALL_SESSIONS_SUCCESS:
+        case types.LOAD_ALL_SESSIONS_SUCCESS: {
+            let ar = action.allSessions;
+            let length = action.allSessions.length;
+            let j = 0;
+            let i = 0;
+            for (j = 0; j < length - 1; j++) {
+                for (i = 0; i < length - 1 - j; i++) {
+                    if (ar[i].start_date === ar[i + 1].start_date) {
+                        if (ar[i].start_time.slice(0, 2) < ar[i + 1].start_time.slice(0, 2)) {
+                            let t = ar[i];
+                            ar[i] = ar[i + 1];
+                            ar[i + 1] = t;
+                        }
+                    }
+                }
+            }
             return {
                 ...state,
-                allSessions: action.allSessions,
+                allSessions: ar,
                 isLoadingAllSessions: false,
                 currentPageAll: action.currentPageAll,
                 limitAll: action.limitAll,
                 totalCountAll: action.totalCountAll,
                 totalPagesAll: action.totalPagesAll,
             };
+        }
+
         case types.BEGIN_LOAD_SHOWING_SESSION:
             return {
                 ...state,
                 isLoadingShowingSession: true,
             };
-        case types.LOAD_SHOWING_SESSION_SUCCESS:
+        case types.LOAD_SHOWING_SESSION_SUCCESS: {
+            let ar = action.showingSession;
+            let length = action.showingSession.length;
+            let j = 0;
+            let i = 0;
+            for (j = 0; j < length - 1; j++) {
+                for (i = 0; i < length - 1 - j; i++) {
+                    if (ar[i].start_date === ar[i + 1].start_date) {
+                        if (ar[i].start_time.slice(0, 2) < ar[i + 1].start_time.slice(0, 2)) {
+                            let t = ar[i];
+                            ar[i] = ar[i + 1];
+                            ar[i + 1] = t;
+                        }
+                    }
+                }
+            }
             return {
                 ...state,
-                showingSession: action.showingSession,
+                showingSession: ar,
                 currentPageShowing: action.currentPageShowing,
                 limitShowing: action.limitShowing,
                 totalCountShowing: action.totalCountShowing,
                 totalPagesShowing: action.totalPagesShowing,
                 isLoadingShowingSession: false,
             };
+        }
+
         case types.TOGGLE_ADD_EDIT_SESSION_MODAL:
             return {
                 ...state,

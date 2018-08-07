@@ -3,7 +3,7 @@ import React from "react";
 //import Loading from "../../../components/common/Loading";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-
+import Switch from 'react-bootstrap-switch';
 
 class BookingHistoryComponent extends React.Component {
     render() {
@@ -29,7 +29,7 @@ class BookingHistoryComponent extends React.Component {
                             return (
                                 <tr key={index}>
                                     <td>&ensp;{index + 1}</td>
-                                    <td>{bk.time}</td>
+                                    <td>{bk.time.slice(11, 16)} - {bk.time.slice(8, 10)}/{bk.time.slice(5, 7)}/{bk.time.slice(0, 4)}</td>
                                     <td>
                                         {bk.user_name}
                                     </td>
@@ -49,7 +49,12 @@ class BookingHistoryComponent extends React.Component {
                                         {bk.code_name}
                                     </td>
                                     <td>
-                                        {bk.payment_method}
+
+                                        <Switch
+                                            value={bk.payment_method === "online"}
+                                            onText="Online" offText="Offline"
+                                            bsSize="mini"
+                                        />
                                     </td>
                                 </tr>
                             );
