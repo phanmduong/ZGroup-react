@@ -126,7 +126,6 @@ class BookingRegisterSessionModal extends React.Component {
 
 
     render() {
-
         let sum = this.props.handleBookingModal.sum;
         let modal = this.props.handleBookingModal;
         return (
@@ -154,6 +153,7 @@ class BookingRegisterSessionModal extends React.Component {
                             />
                             <FormInputText
                                 label="Số điện thoại"
+                                type="number"
                                 name="phone"
                                 updateFormData={this.updateFormData}
                                 value={modal.phone || ''}

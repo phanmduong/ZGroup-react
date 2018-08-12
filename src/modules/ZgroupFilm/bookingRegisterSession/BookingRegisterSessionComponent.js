@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import Loading from "../../../components/common/Loading";
 import moment from "moment";
+import * as helper from "../../../helpers/helper";
 
 
 class BookingRegisterSessionComponent extends React.Component {
@@ -45,6 +46,23 @@ class BookingRegisterSessionComponent extends React.Component {
                 session_id: a.id
             });
         }
+        //isLoadingAllSessions
+        if (nextProps.isLoadingAllSessions !== this.props.isLoadingAllSessions && !nextProps.isLoadingAllSessions) {
+            if(!helper.isEmptyInput(nextProps.allSessions)){
+                let a = nextProps.allSessions.reverse()[0];
+                this.setState({
+                    roomId: a.id,
+                });
+                this.props.filmAction.loadSeatBySessionId(a.id);
+                this.props.filmAction.handleSeatTypes(a.seats);
+                this.props.filmAction.handleBookingModal({
+                    ...this.props.handleBookingModal,
+                    session_id: a.id
+                });
+            }
+
+        }
+
     }
 
     updateFormData(event) {

@@ -23,10 +23,14 @@ class SessionContainer extends React.Component {
     componentWillMount() {
         !helper.isEmptyInput(this.props.search) ? this.props.filmAction.loadAllSessions(1, this.props.search) :this.props.filmAction.loadAllSessions();
         !helper.isEmptyInput(this.props.search) ? this.props.filmAction.loadShowingSession(1, this.props.search) :this.props.filmAction.loadShowingSession();
+        !helper.isEmptyInput(this.props.search) ? this.props.filmAction.loadShownSession(1, this.props.search) :this.props.filmAction.loadShownSession();
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllRooms(20);
     }
 
+    componentDidMount(){
+        this.props.filmAction.showFilmSession("");
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSaving !== this.props.isSaving && !nextProps.isSaving) {
             this.props.filmAction.loadAllSessions();
@@ -44,6 +48,14 @@ class SessionContainer extends React.Component {
                                 className={this.path === `${this.state.link}/all` ? 'btn-primary btn btn-round' : 'btn btn-round'}
                                 data-dismiss="modal">
                             Tất cả
+                            <div className="ripple-container"/>
+                        </button>
+                    </Link>&emsp;
+                    <Link to={`${this.state.link}/shown`} style={{color: "white"}}>
+                        <button type="button"
+                                className={this.path === `${this.state.link}/shown` ? 'btn-primary btn btn-round' : 'btn btn-round'}
+                                data-dismiss="modal">
+                            Đã chiếu
                             <div className="ripple-container"/>
                         </button>
                     </Link>&emsp;

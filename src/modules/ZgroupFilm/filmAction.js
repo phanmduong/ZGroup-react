@@ -3,7 +3,37 @@ import * as filmApi from "./filmApi";
 import * as helper from "../../helpers/helper";
 import {browserHistory} from "react-router";
 
+export function loadAllCustomer(page, search) {
+    return function (dispatch) {
+        dispatch({
+           type: types.BEGIN_LOAD_ALL_CUSTOMER
+        });
+        filmApi.loadAllCustomerApi(page, search)
+            .then(res =>{
+                dispatch({
+                    type: types.LOAD_ALL_CUSTOMER_SUCCESS,
+                    customer: res.data.users,
+                    paginator: res.data.paginator
+                });
+            });
+    };
+}
 
+export function exportCustomer(search, exportExcel) {
+    return function (dispatch) {
+        dispatch({
+           type: types.BEGIN_EXPORT_CUSTOMER
+        });
+        filmApi.exportCustomerApi(search)
+            .then(res =>{
+                dispatch({
+                    type: types.EXPORT_CUSTOMER_SUCCESS,
+                    exportCustomer: res.data.users,
+                });
+                exportExcel();
+            });
+    };
+}
 export function loadAllFilms(value, start_date) {
     return function (dispatch) {
         dispatch({
@@ -277,6 +307,25 @@ export function loadShowingSession(page, search) {
                     limitShowing: res.data.paginator.limit,
                     totalCountShowing: res.data.paginator.total_count,
                     totalPagesShowing: res.data.paginator.total_pages,
+                });
+            });
+    };
+}
+
+export function loadShownSession(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SHOWN_SESSION,
+        });
+        filmApi.loadShownSessionApi(page, search)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_SHOWN_SESSION_SUCCESS,
+                    shownSession: res.data.sessions,
+                    currentPageSSShown: res.data.paginator.current_page,
+                    limitSSShown: res.data.paginator.limit,
+                    totalCountSSShown: res.data.paginator.total_count,
+                    totalPagesSSShown: res.data.paginator.total_pages,
                 });
             });
     };

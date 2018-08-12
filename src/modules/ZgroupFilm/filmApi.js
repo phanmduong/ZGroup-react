@@ -1,6 +1,27 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+//LoadAllCustomer
+export function loadAllCustomerApi(page, search) {
+    let url = env.API_URL + "/user?limit=20";
+    if (search) {
+        url += "&like_search=" + search;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    return axios.get(url);
+}
+
+export function exportCustomerApi(search) {
+    let url = env.API_URL + "/user?limit=-1";
+    if (search) {
+        url += "&like_search=" + search;
+    }
+    return axios.get(url);
+}
+
+
 //Load All Film
 export function loadAllFilmsApi(search, start_date) {
     let url = env.API_URL + "/films?limit=-1";
@@ -149,6 +170,17 @@ export function exportSessionsApi(search, from_date, to_date) {
 //Load Session Dang Chieu
 export function loadShowingSessionApi(page, search) {
     let url = env.API_URL + "/sessions/showing?limit=20";
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    return axios.get(url);
+}
+
+export function loadShownSessionApi(page, search) {
+    let url = env.API_URL + "/sessions/shown?limit=20";
     if (search) {
         url += "&search=" + search;
     }

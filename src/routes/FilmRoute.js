@@ -7,7 +7,9 @@ import ShownFilmContainer from "../modules/ZgroupFilm/film/ShownFilmContainer";
 import SessionContainer from "../modules/ZgroupFilm/session/SessionContainer";
 import AllSessionContainer from "../modules/ZgroupFilm/session/AllSessionContainer";
 import ShowingSessionContainer from "../modules/ZgroupFilm/session/ShowingSessionContainer";
+import ShownSessionContainer from "../modules/ZgroupFilm/session/ShownSessionContainer";
 import BookingHistoryContainer from "../modules/ZgroupFilm/bookingHistory/BookingHistoryContainer";
+import FIlmCustomerContainer from "../modules/ZgroupFilm/filmCustomer/FIlmCustomerContainer";
 
 
 /**
@@ -51,8 +53,16 @@ export default [
             {
                 path: "showing",
                 component: ShowingSessionContainer
+            },
+            {
+                path: "shown",
+                component: ShownSessionContainer
             }
         ]
+    },
+    {
+        path: "/film/customer",
+        component: FIlmCustomerContainer,
     },
     {
         path: "film/booking-history",

@@ -38,10 +38,22 @@ class BookingHistoryContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.bookingHistoryAction.getBookingHistory(20);
+        !helper.isEmptyInput(this.props.search) ?
+        this.props.bookingHistoryAction.getBookingHistory(20, 1, this.props.search) :
+            this.props.bookingHistoryAction.getBookingHistory(20);
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllRooms(20);
+        if (!helper.isEmptyInput(this.props.search)) {
+            this.setState({
+                query: this.props.search,
+                page: 1
+            });
+        }
 
+    }
+
+    componentDidMount(){
+        this.props.filmAction.showFilmSession("");
     }
 
     showLoadingModal() {
@@ -316,10 +328,10 @@ class BookingHistoryContainer extends React.Component {
 }
 
 BookingHistoryContainer.propTypes = {
-    isLoadingBookingHistory: PropTypes.bool.require,
-    isLoadingExcel: PropTypes.bool.require,
-    bookingHistoryAction: PropTypes.object.require,
-    filmAction: PropTypes.object.require,
+    isLoadingBookingHistory: PropTypes.bool.isRequired,
+    isLoadingExcel: PropTypes.bool.isRequired,
+    bookingHistoryAction: PropTypes.object.isRequired,
+    filmAction: PropTypes.object.isRequired,
     totalCount: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
@@ -330,6 +342,7 @@ BookingHistoryContainer.propTypes = {
     rooms: PropTypes.array.isRequired,
     allFilms: PropTypes.array.isRequired,
     excel: PropTypes.array.isRequired,
+    search: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -343,6 +356,7 @@ function mapStateToProps(state) {
         excel: state.bookingHistory.excel,
         rooms: state.film.rooms,
         allFilms: state.film.allFilms,
+        search: state.film.search,
     };
 }
 
