@@ -13,6 +13,7 @@ import ListProducts from "./ListProducts";
 import Pagination from "../../components/common/Pagination";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import AddProductModal from "./AddProductModal";
+import browserHistory from "react-router/es/browserHistory";
 
 
 @observer
@@ -27,11 +28,15 @@ class PageManageContainer extends Component {
     }
 
     componentWillMount() {
+        // console.log(this.props.params.pageId,"xxxxxxxxxxx");
         store.loadPages();
+        store.page_id = this.props.params.pageId || 1;                       // route
+        this.props.params.pageId ? store.loadProducts(store.page_id, 1, store.language_id) : store.loadProducts(1, 1, store.language_id) ;        // route
     }
 
     onChangePage(value) {
         store.page_id = value;
+        browserHistory.push('/page-manage/page/' + value);              // route
         if (value === '4' || value === '5') {
             store.loadProducts(value, 1, store.language_id);
         }
@@ -40,10 +45,7 @@ class PageManageContainer extends Component {
 
     onChangeLanguage(value) {
         store.language_id = value;
-        // store.product.language_id = value;
         store.loadProducts(store.page_id, 1, value);
-        // console.log(store.language_id,store.product.language_id, "aaaaaaa");
-
     }
 
     openAddPageModal() {
@@ -229,6 +231,7 @@ class PageManageContainer extends Component {
 
 PageManageContainer.propTypes = {
     user: PropTypes.object.isRequired,
+    params: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {

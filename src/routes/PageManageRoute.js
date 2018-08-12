@@ -6,7 +6,11 @@ import PromotionManageContainer from "../modules/promotionManage/PromotionManage
  */
 export default [
     {
-        path: "/page-manage/page",
+        path: "page-manage/page",
+        component: PageManageContainer,
+    },
+    {
+        path: "/page-manage/page/:pageId",
         component: PageManageContainer,
     },
 

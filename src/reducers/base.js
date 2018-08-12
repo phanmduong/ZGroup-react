@@ -8,7 +8,6 @@ import commonReducer from "./commonReducer";
 import registerManageRoomReducer from "../modules/registerManageRoom/registerManageRoomReducer";
 import registerManageReducer from "../modules/registerManage/registerManageReducer";
 import chooseSeatReducer from "../modules/registerManage/chooseSeat/chooseSeatReducer";
-import registerListManageReducer from "../modules/roomRegisterList_TrongDong/reducers/registerListManageReducer";
 import registerManageMeetingRoomReducer from "../modules/registerManageMeetingRoom/reducers/registerManageMeetingRoomReducer";
 import seatTypeReducer from "../modules/ZgroupFilm/seatType/seatTypeReducer";
 import codeReducer from "../modules/ZgroupFilm/code/codeReducer";
@@ -23,7 +22,6 @@ const appReducer = combineReducers({
     registerManage: registerManageReducer,
     registerManageRoom: registerManageRoomReducer,
     registerManageMeetingRoom: registerManageMeetingRoomReducer,
-    registerListManage: registerListManageReducer,
     chooseSeat: chooseSeatReducer,
     seatType: seatTypeReducer,
     code: codeReducer,

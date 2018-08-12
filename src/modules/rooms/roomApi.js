@@ -27,7 +27,6 @@ export function getBases() {
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.get(url);
 }
 
@@ -98,6 +97,7 @@ export function storeRoom(room) {
         cover_type: room.cover_type ? room.cover_type : "",
         description: room.description ? room.description : "",
         detail: room.detail ? room.detail : "",
+        // basic_info: room.basic_info ? room.basic_info : "",
     });
 }
 
@@ -119,6 +119,7 @@ export function editRoom(room) {
         cover_type: room.cover_type ? room.cover_type : "",
         description: room.description ? room.description : "",
         detail: room.detail ? room.detail : "",
+        // basic_info: room.basic_info ? room.basic_info : "",
     });
 }
 
