@@ -44,7 +44,10 @@ class SessionComponent extends React.Component {
                         let b = this.props.rooms.filter((room) => (room.id === session.room_id))[0];
                         return (
                             <tr key={index}>
-                                <td>{index + 1}</td>
+                                <td>{
+                                    this.props.totalCount ? this.props.totalCount + 20 - index - this.props.currentPage * 20
+                                        :
+                                        index + 1}</td>
                                 <td className="film-name">
                                     <TooltipButton text={(a && a.name) || ''} placement="top">
                                         <span onClick={() => {
@@ -138,6 +141,8 @@ SessionComponent.propTypes = {
     allFilms: PropTypes.array.isRequired,
     rooms: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {

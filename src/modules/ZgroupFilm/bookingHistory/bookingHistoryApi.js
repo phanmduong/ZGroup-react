@@ -20,7 +20,7 @@ export function getBookingHistoryApi(limit, page, search, film_name, roomId, tim
         url += "&film_name=" + film_name;
     }
     if (roomId) {
-        url += "&roomId=" + roomId;
+        url += "&session_id=" + roomId;
     }
     if (time) {
         url += "&time=" + time;

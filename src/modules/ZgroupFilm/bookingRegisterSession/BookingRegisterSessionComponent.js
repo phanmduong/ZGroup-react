@@ -31,7 +31,7 @@ class BookingRegisterSessionComponent extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingShowingSession !== this.props.isLoadingShowingSession && !nextProps.isLoadingShowingSession) {
-            let a = nextProps.showingSession.reverse()[0];
+            let a = nextProps.showingSession[0];
             this.setState({
                 select_day: {name: a.start_date},
                 select_film: {id: a.film_id,},

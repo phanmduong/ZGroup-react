@@ -185,6 +185,8 @@ class ShownSessionContainer extends React.Component {
                         {
                             this.props.isLoadingShownSession ? <Loading/> :
                                 <SessionComponent
+                                    totalCount={this.props.totalCountSSShown}
+                                    currentPage={this.props.currentPageSSShown}
                                     sessions={this.props.shownSession}/>
                         }
 

@@ -266,6 +266,8 @@ class AllSessionContainer extends React.Component {
                         {
                             this.props.isLoadingAllSessions ? <Loading/> :
                                 <SessionComponent
+                                    totalCount={this.props.totalCountAll}
+                                    currentPage={this.props.currentPageAll}
                                     sessions={this.props.allSessions}/>
                         }
                         <br/>
