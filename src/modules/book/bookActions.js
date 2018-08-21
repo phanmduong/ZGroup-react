@@ -3,7 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as bookApi from './bookApi';
-import {showNotification} from "../../helpers/helper";
+import { showNotification } from "../../helpers/helper";
 import * as taskApi from "../tasks/taskApi";
 
 // import _ from 'lodash';
@@ -172,15 +172,16 @@ export function updateTaskSpanForm(task) {
 
 export function loadBoards(type = "book") {
     return function (dispatch) {
+        let project = {};
         dispatch({
             type: types.BEGIN_LOAD_BOARDS
         });
         bookApi.loadBoards(type)
             .then((res) => {
-                const project = res.data;
+                project = res.data;
                 dispatch({
                     projectId: project.id,
-                    type: types.LOAD_BOARDS_SUCCESS,
+                    type: types.LOAD_BOARD_DETAIL_SUCCESS,
                     boards: project.boards,
                     setting: res.data.setting ? JSON.parse(res.data.setting) : {},
                     cardLabels: project.cardLabels,
@@ -188,7 +189,45 @@ export function loadBoards(type = "book") {
                     canDragCard: project.canDragCard,
                     canDragBoard: project.canDragBoard
                 });
-            });
+
+                // let promises = [];
+                // let secondLoad = [];
+
+                // project.boards.forEach((board) => {
+
+                //     const prm = new Promise((resolve) => {
+                //         if (board.id)
+                //             bookApi.loadBoardDetail(board.id)
+                //                 .then(respone => {
+                //                     resolve(respone.data);
+                //                 }).catch(err => {
+                //                     console.log(err);
+                //                     secondLoad = [...secondLoad, board];
+                //                 });
+                //     });
+                //         promises = [...promises, prm];
+                // });
+
+                // let boards = [];
+                // Promise.all(promises)
+                //         .then(data => {
+                //             boards = [...boards, ...data];
+                //         }).then(() => {
+                //             if (boards.length == project.boards.length) {
+                //                 dispatch({
+                //                     projectId: project.id,
+                //                     type: types.LOAD_BOARD_DETAIL_SUCCESS,
+                //                     boards: boards,
+                //                     setting: res.data.setting ? JSON.parse(res.data.setting) : {},
+                //                     cardLabels: project.cardLabels,
+                //                     members: project.members,
+                //                     canDragCard: project.canDragCard,
+                //                     canDragBoard: project.canDragBoard
+                //                 });
+                //             }
+                //         });
+                    
+                });
     };
 }
 
@@ -231,7 +270,7 @@ export function saveTaskSpan(task) {
 
 export function saveMemberTask(task, members) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_SAVE_MEMBER_TASK_TEMPLATE});
+        dispatch({ type: types.BEGIN_SAVE_MEMBER_TASK_TEMPLATE });
         const membersStr = JSON.stringify(members);
         taskApi.saveMemberTask(membersStr, task.id)
             .then(() => {

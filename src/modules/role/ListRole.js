@@ -25,7 +25,7 @@ class ListRole extends React.Component {
                         <tr>
                             <th>Chức vụ</th>
                             <th>Số quyền</th>
-                            <th>Sửa</th>
+                            {this.props.disableActions && <th>Sửa</th>}
                         </tr>
                         </thead>
                         <tbody>
@@ -36,11 +36,11 @@ class ListRole extends React.Component {
                                         <td>{role.role_title}</td>
                                         <td>{role.num_tabs}</td>
                                         <td>
-                                            <ButtonGroupAction
+                                            {this.props.disableActions && <ButtonGroupAction
                                                 delete={self.props.deleteRole}
                                                 editUrl={`/hr/role/${role.id}/edit`}
                                                 object={role.id}
-                                            />
+                                            />}
                                         </td>
                                     </tr>);
                             })
@@ -57,6 +57,7 @@ class ListRole extends React.Component {
 ListRole.propTypes = {
     roles: PropTypes.array.isRequired,
     deleteRole: PropTypes.func.isRequired,
+    disableActions: PropTypes.bool.isRequired,
 };
 
 export default ListRole;

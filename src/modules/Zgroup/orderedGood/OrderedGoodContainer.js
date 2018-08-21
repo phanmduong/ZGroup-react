@@ -264,7 +264,7 @@ class OrderedGoodContainer extends React.Component {
                                                         {orderedList.map((order, index) => {
                                                             let date = moment(order.created_at.date);
                                                             return (
-                                                                <tr key={index}>
+                                                                <tr key={index}> 
                                                                     <td>{index + 1}</td>
                                                                     <td><div onClick={()=>this.openInfoModal(order)}><b>{order.command_code}</b></div></td>
                                                                     <td>{order.company.name}</td>

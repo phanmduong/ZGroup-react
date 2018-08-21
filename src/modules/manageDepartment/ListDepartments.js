@@ -25,7 +25,7 @@ class ListDepartments extends React.Component {
                                         <tr>
                                             <th>Bộ phận</th>
                                             <th>Số nhân viên</th>
-                                            <th style={{textAlign:"right"}}>Sửa</th>
+                                            {this.props.disableActions && <th style={{textAlign:"right"}}>Sửa</th>}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -46,8 +46,8 @@ class ListDepartments extends React.Component {
                                                                     </TooltipButton>
                                                                 </td>
                                                                 <td>{obj.employees ? obj.employees.length : 0}</td>
-                                                                <td>
-                                                                <div style={{float:"right"}}>
+                                                                {this.props.disableActions &&<td>
+                                                                 <div style={{float:"right"}}>
                                                                         <ButtonGroupAction
 
                                                                             edit={this.props.edit}
@@ -55,7 +55,7 @@ class ListDepartments extends React.Component {
                                                                             object={obj}
                                                                         />
                                                                 </div>
-                                                                </td>
+                                                                </td>}
 
                                                         </tr>
 
@@ -83,6 +83,7 @@ ListDepartments.propTypes = {
     departments: PropTypes.array,
     staffs : PropTypes.array,
     isLoading : PropTypes.bool,
+    disableActions : PropTypes.bool,
     edit : PropTypes.func,
     delete : PropTypes.func,
 };

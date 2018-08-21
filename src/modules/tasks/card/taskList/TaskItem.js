@@ -30,8 +30,13 @@ class TaskItem extends React.Component {
             <ListGroupItem
                 key={task.id}
                 style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
+<<<<<<< HEAD
                 <div className="checkbox" id={"task" + task.id} style={{width: '100%'}}>
                     <label style={{fontWeight: 700, color: "#858585", wordWrap:'break-word', whiteSpace:'initial'}}>
+=======
+                <div className="checkbox" id={"task" + task.id}>
+                    <label style={{fontWeight: 700, color: "#858585",  wordWrap: 'break-word', whiteSpace: 'initial'}}>
+>>>>>>> 95efe146b635b9a33907427664473dca9a500b87
                         <input
                             checked={task.status || false}
                             onChange={() => this.props.toggleTaskStatus(task)}

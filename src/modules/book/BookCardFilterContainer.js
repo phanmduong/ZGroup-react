@@ -77,7 +77,10 @@ class BookCardFilterContainer extends React.Component {
                 </div>
                 <BookProjectActionContainer
                     isAdmin={this.props.isAdmin}
-                    projectId={this.props.projectId}/>
+                    projectId={this.props.projectId}
+                    loadBoards={this.props.loadBoards}
+                />
+                    
             </div>
         );
     }
@@ -90,7 +93,8 @@ BookCardFilterContainer.propTypes = {
     projectId: PropTypes.number.isRequired,
     selectedCardLabels: PropTypes.array.isRequired,
     selectedMembers: PropTypes.array.isRequired,
-    members: PropTypes.array.isRequired
+    members: PropTypes.array.isRequired,
+    loadBoards: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

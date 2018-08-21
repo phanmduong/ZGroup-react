@@ -43,7 +43,6 @@ class InfoImportOrder extends React.Component{
                                         <div className="row">
                                             <div className="col-md-8">
                                                 <div className="card">
-
                                                     <div className="card-content">
                                                         <h4 className="card-title"><strong> Sản phẩm </strong></h4>
                                                         <div className="table-responsive">
@@ -165,8 +164,8 @@ class InfoImportOrder extends React.Component{
                                                         id="textarea-card-comment"
                                                         name="note"
                                                         value={data.note}
-                                                        onKeyUp={() => {
-                                                        }}
+                                                        disabled
+                                                        onKeyUp={() => {}}
                                                         placeholder=""
                                                         className="comment-input"
                                                         style={{
@@ -178,6 +177,52 @@ class InfoImportOrder extends React.Component{
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div className="card">
+                                                    <div className="card-content">
+                                                        <h4 className="card-title"><strong> Lịch sử </strong></h4>
+                                                        <div className="table-responsive">
+                                                            <table className="table">
+                                                                <thead className="text-rose">
+                                                                <tr>
+                                                                    <th>STT</th>
+                                                                    <th>Tên</th>
+                                                                    <th style={textAlign}>Ngày nhập</th>
+                                                                </tr>
+                                                                </thead>
+                                                                {(data && data.history && data.history.length > 0) ?
+                                                                    <tbody>
+                                                                    {data.history.map(
+                                                                        (obj, index) => {
+                                                                            return (
+                                                                                <tr key={index}>
+                                                                                    
+                                                                                    <td>{index+1}</td>
+                                                                                    <td>{obj.name}</td>
+                                                                                    
+                                                                                    
+                                                                                    <td style={textAlign}>{obj.date}</td>
+                                                                                    
+                                                                                </tr>
+                                                                            );
+                                                                        })}
+                                                                    </tbody>
+                                                                    :
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td/>
+                                                                        <td colSpan={5}>Chưa có sản phẩm</td>
+                                                                    </tr>
+                                                                    </tbody>
+
+                                                                }
+
+                                                                
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

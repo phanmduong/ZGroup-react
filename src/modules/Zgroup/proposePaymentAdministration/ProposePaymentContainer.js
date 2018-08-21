@@ -149,7 +149,7 @@ class ProposePaymentContainer extends React.Component {
                                                         data-toggle="tooltip"
                                                         rel="tootip"
                                                         title="Tạo thanh toán"
-                                                        to="/administration/propose-payment/create"
+                                                        to="/business/propose-payment/create"
                                                     >
                                                         <strong>+</strong>
                                                     </Link>
@@ -218,6 +218,7 @@ class ProposePaymentContainer extends React.Component {
                                                     data={this.props.data || []}
                                                     openInfoModal={this.openInfoModal}
                                                     changeStatus={this.changeStatus}
+                                                    user={this.props.user}
                                                 />
                                         }
                                         <div>
@@ -243,6 +244,7 @@ ProposePaymentContainer.propTypes = {
     isLoadingPayments: PropTypes.bool.isRequired,
     data: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     company: PropTypes.array.isRequired,
 };
 
@@ -253,6 +255,7 @@ function mapStateToProps(state) {
         paginator: state.payment.paginator,
         company: state.payment.company,
         summary_money: state.payment.summary_money,
+        user: state.login.user,
     };
 }
 

@@ -7,6 +7,13 @@ import FormInputText from "../../components/common/FormInputText";
 import * as goodActions from "../good/goodActions";
 import FilesList from "./FilesList";
 import {ListGroup, ListGroupItem, Panel} from "react-bootstrap";
+import {
+    newWorkBook,
+    appendJsonToWorkBook,
+    saveWorkBookToExcel,
+    renderExcelColumnArray,
+    dotNumber
+} from "../../helpers/helper";
 
 class GoodDetailContainer extends React.Component {
     constructor(props, context) {
@@ -21,6 +28,48 @@ class GoodDetailContainer extends React.Component {
         this.props.goodActions.loadGood(this.props.params.goodId);
 
     }
+
+    exportExcel = input => {
+        let wb = newWorkBook();
+        let data;
+        let cols = [5, 30, 20, 30, 30, 15, 20]; //độ rộng cột
+
+        data = input.map((item, index) => {
+            /* eslint-disable */
+            let res = {
+                STT: index + 1,
+                "Tên sản phẩm": item.name || "Không tên",
+                Giá: dotNumber(item.price) || "Không có",
+                "Mã sản phẩm": item.code || "Không có",
+                Barcode: item.barcode || "Không có",
+                "Số lượng": item.quantity || 0
+            };
+            if (item.properties) {
+                res = { ...res, "Thuộc tính =>": "" };
+                item.properties.forEach(e => {
+                    res = { ...res, [e.name]: e.value || "" };
+                    let len = Math.max(
+                        e.name ? e.name.length : 0,
+                        e.value ? e.value.length : 0
+                    );
+                    cols = [...cols, len + 5];
+                });
+            }
+            /* eslint-enable */
+            return res;
+        });
+
+        appendJsonToWorkBook(
+            data,
+            wb,
+            "Danh sách sản phẩm",
+            renderExcelColumnArray(cols)
+        );
+
+        //xuất file
+        saveWorkBookToExcel(wb, 
+            (input && input.length >  0 && input[0].name) ? input[0].name :  "Thông tin sản phẩm");
+    };
 
     render() {
         const good = this.props.good;
@@ -67,6 +116,9 @@ class GoodDetailContainer extends React.Component {
                                                 value={good.price}/>
 
                                         </form>
+                                        <button className="btn btn-rose" style={{float: 'right'}}
+                                            onClick={()=>this.exportExcel([good])}
+                                        >Xuất thông tin sản phẩm</button>
                                     </div>
                                 </div>
 

@@ -11,6 +11,7 @@ import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 /*eslint no-console: 0 */
 
 export function updateCardData(card) {
+    
     return (dispatch) => {
         dispatch({
             type: types.UPDATE_CARD_DATA,
@@ -281,6 +282,7 @@ export function deleteCard(cardId) {
  * @returns {Function}
  */
 export function createCardGood(card, type = "book") {
+    console.log('check', card);
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD
@@ -947,21 +949,36 @@ export function saveCardCommentSuccess(comment) {
 
 export function archiveCard(card) {
     return function (dispatch) {
+        
+        taskApi.toggleArchive(card);
         dispatch({
             type: types.ARCHIVE_CARD,
             card
         });
-        taskApi.toggleArchive(card);
     };
 }
 
-export function unarchiveCard(card) {
+export function removeArchiveCard(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ARCHIVE_CARD,
+            card
+        });
+    };
+}
+
+export function unarchiveCard(card, loadBoards) {
     return function (dispatch) {
         dispatch({
             type: types.UNARCHIVE_CARD,
-            card
+            card,
+            isManufacture: loadBoards ? true : false,
         });
-        taskApi.toggleArchive(card);
+        taskApi.toggleArchive(card).then(()=>{
+            if(loadBoards) loadBoards();
+        });
+        
+        
     };
 }
 

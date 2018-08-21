@@ -1,6 +1,6 @@
 branch=$1
 if [ -z "$branch" ]; then
-    branch=master
+    branch=zgroup
 fi
 
 branch_name=$(git symbolic-ref -q HEAD)

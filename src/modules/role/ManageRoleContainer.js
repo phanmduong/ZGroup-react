@@ -40,7 +40,7 @@ ManageRoleContainer.propTypes = {
     isLoadingDeleteRole: PropTypes.bool.isRequired,
     errorDeleteRole: PropTypes.bool.isRequired,
     roleActions: PropTypes.object.isRequired,
-
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -49,7 +49,8 @@ function mapStateToProps(state) {
         roleListData: state.roles.roleListData,
         errorRoles: state.roles.error,
         isLoadingDeleteRole: state.roles.isLoadingDeleteRole,
-        errorDeleteRole: state.roles.errorDeleteRole
+        errorDeleteRole: state.roles.errorDeleteRole,
+        user: state.login.user,
     };
 }
 

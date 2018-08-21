@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as departmentActions from './departmentActions';
 import HRTab from './HRTab';
 
@@ -39,26 +39,26 @@ class ManageDepartmentContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.isLoading && !nextProps.isLoading) {
-            this.setState({departments: nextProps.data.departments});
+            this.setState({ departments: nextProps.data.departments });
         }
     }
 
     //add
     openModalAddDepartment() {
-        this.setState({openModalAddDepartment: true});
+        this.setState({ openModalAddDepartment: true });
     }
 
     closeModalAddDepartment() {
-        this.setState({openModalAddDepartment: false});
+        this.setState({ openModalAddDepartment: false });
     }
 
     //edit
     openModalEditDepartment(obj) {
-        this.setState({openModalEditDepartment: true, editdata: obj});
+        this.setState({ openModalEditDepartment: true, editdata: obj });
     }
 
     closeModalEditDepartment() {
-        this.setState({openModalEditDepartment: false});
+        this.setState({ openModalEditDepartment: false });
     }
 
     //actions
@@ -87,8 +87,8 @@ class ManageDepartmentContainer extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
-                    <HRTab path="manage-department"/>
-                </div>            
+                    <HRTab path="manage-department" />
+                </div>
                 <div className="col-lg-12">
                     <div className="card">
                         <div className="card-content">
@@ -97,27 +97,27 @@ class ManageDepartmentContainer extends React.Component {
                                     <h5 className="card-title">
                                         <strong>Danh sách bộ phận</strong>
                                     </h5>
-                                    <div>
+                                    {this.props.user.role == 2 && <div>
                                         <button
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        type="button" onClick={this.openModalAddDepartment}>
-                                        <strong>+</strong>
-                                    </button>
-                                    </div>
-                                </div>  
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            type="button" onClick={this.openModalAddDepartment}>
+                                            <strong>+</strong>
+                                        </button>
+                                    </div>}
+                                </div>
                                 <Search
-                                    onChange={() => {
-                                    }}
+                                    onChange={() => { }}
                                     value={''}
                                     placeholder="Tìm kiếm bộ phận"
                                 />
-                                <br/><br/>
+                                <br /><br />
                                 <div className="row">
                                     <ListDepartments
                                         isLoading={this.props.isLoading}
                                         departments={this.props.data.departments}
                                         edit={this.openModalEditDepartment}
                                         delete={this.deleteDepartment}
+                                        disableActions={this.props.user.role == 2}
                                     />
                                 </div>
                                 <ul className="pagination pagination-primary">
@@ -140,7 +140,7 @@ class ManageDepartmentContainer extends React.Component {
 
                                     })}
                                 </ul>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                     <AddDepartmentModal
@@ -157,7 +157,7 @@ class ManageDepartmentContainer extends React.Component {
                         data={this.state.editdata}
                     />
                 </div>
-            </div>    
+            </div>
         );
     }
 }
@@ -166,6 +166,7 @@ ManageDepartmentContainer.propTypes = {
     isLoading: PropTypes.bool,
     data: PropTypes.object,
     departmentActions: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 
 };
 
@@ -174,6 +175,7 @@ function mapStateToProps(state) {
     return {
         isLoading: state.department.isLoading,
         data: state.department.data,
+        user: state.login.user,
 
     };
 }

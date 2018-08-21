@@ -89,7 +89,7 @@ class ManageStaffsComponent extends React.Component {
                                 <div style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <div className="flex-row flex">
                                         <h4 className="card-title"><strong>Danh sách nhân viên</strong></h4>
-                                        <div className="dropdown">
+                                        {this.props.user.role == 2 && <div className="dropdown">
                                             <TooltipButton text="Thêm nhân viên" placement="top">
                                                 <button className="btn btn-rose btn-round btn-xs button-add none-margin" type="button" data-toggle="dropdown">
                                                     <strong>+</strong>
@@ -103,7 +103,7 @@ class ManageStaffsComponent extends React.Component {
                                                     <a onClick={() => this.openModalAddUserToStaff()}>Thêm từ người dùng</a>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div>}
                                     </div>
                                     <div className="flex-end">
                                         <div>
@@ -145,7 +145,7 @@ class ManageStaffsComponent extends React.Component {
                                             changeBaseStaff={this.props.changeBaseStaff}
                                             changeDepartmentStaff={this.props.changeDepartmentStaff}
                                             deleteStaff={this.props.deleteStaff}
-                                            disableActions={false}
+                                            disableActions={this.props.user.role != 2}
                                             titleList="Danh sách nhân viên"
                                         />
                                     )
@@ -204,6 +204,8 @@ ManageStaffsComponent.propTypes = {
     search: PropTypes.string.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
+
 };
 
 export default ManageStaffsComponent;
