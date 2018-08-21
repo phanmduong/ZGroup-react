@@ -11,10 +11,11 @@ import Loading from "../../components/common/Loading";
 import * as taskActions from "../tasks/taskActions";
 import * as bookActions from "./bookActions";
 import * as boardActions from "./../tasks/board/boardActions";
-import { intersect } from "../../helpers/helper";
+import { intersect, confirm } from "../../helpers/helper";
 import BookCardFilterContainer from "./BookCardFilterContainer";
 import BookBoardList from "./BookBoardList";
 import BookCreateCardModalContainer from "./BookCreateCardModalContainer";
+
 
 class BookBoardListContainer extends React.Component {
     constructor(props, context) {
@@ -23,6 +24,7 @@ class BookBoardListContainer extends React.Component {
         this.addCard = this.addCard.bind(this);
         this.editBoard = this.editBoard.bind(this);
         this.moveCard = this.moveCard.bind(this);
+        this.archiveCard = this.archiveCard.bind(this);
     }
 
     componentWillMount() {
@@ -76,6 +78,13 @@ class BookBoardListContainer extends React.Component {
         this.props.taskActions.editBoard(board);
     }
 
+    archiveCard(card) {
+        confirm('warning', 'Lưu trữ thẻ', 'Bạn có chắc muốn lưu trữ thẻ này?', ()=>{
+            this.props.taskActions.archiveCard(card);
+        });
+        
+    }
+
     render() {
         const isAdmin =
             this.props.user.role === 2 ||
@@ -102,9 +111,9 @@ class BookBoardListContainer extends React.Component {
                             archiveBoard={this.props.boardActions.archiveBoard}
                             display={this.props.setting.display || "full"}
                             isAdmin={isAdmin}
-                            canDragBoard={isAdmin || this.props.canDragBoard}
-                            canDragCard={isAdmin || this.props.canDragCard}
-                            archiveCard={this.props.taskActions.archiveCard}
+                            canDragBoard={this.props.canDragBoard}
+                            canDragCard={this.props.canDragCard}
+                            archiveCard={this.archiveCard}
                             updateCardInBoard={
                                 this.props.taskActions.updateCardInBoard
                             }
