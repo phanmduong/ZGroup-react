@@ -26,6 +26,7 @@ class BookingHistoryComponent extends React.Component {
                         <th>Loại giảm giá</th>
                         <th>Người bán</th>
                         <th>HTTT</th>
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,6 +76,24 @@ class BookingHistoryComponent extends React.Component {
                                             onText="On" offText="Off"
                                             bsSize="mini"
                                         />
+                                    </td>
+                                    <td>{
+                                        bk.payment_method === "online" ?
+                                            <div className="btn-group-action">
+                                                <TooltipButton text="Resend Email" placement="top"
+                                                               style={{display: "inline-block"}}>
+                                                    <a style={{color: "#878787"}}
+                                                       onClick={() => {
+
+                                                       }}>
+                                                        <i className="material-icons">send</i>
+                                                    </a>
+                                                </TooltipButton>
+                                            </div>
+                                            : ""
+                                    }
+
+
                                     </td>
                                 </tr>
                             );

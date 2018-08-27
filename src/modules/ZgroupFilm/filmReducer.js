@@ -390,9 +390,9 @@ export default function filmReducer(state = initialState.film, action) {
             let j = 0;
             let i = 0;
             for (j = 0; j < length - 1; j++) {
-                for (i = 0; i < length - 1 - j; i++) {
+                for (i = 0; i < length - 1; i++) {
                     if (ar[i].start_date === ar[i + 1].start_date) {
-                        if (ar[i].start_time.slice(0, 2) < ar[i + 1].start_time.slice(0, 2)) {
+                        if (ar[i].start_time.slice(0, 2) > ar[i + 1].start_time.slice(0, 2)) {
                             let t = ar[i];
                             ar[i] = ar[i + 1];
                             ar[i + 1] = t;

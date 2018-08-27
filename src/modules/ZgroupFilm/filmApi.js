@@ -29,7 +29,7 @@ export function loadAllFilmsApi(search, start_date) {
         url += "&search=" + search;
     }
     if (start_date) {
-        url += "&start_date=" + start_date;
+        url += "&start_date=" + start_date + "&is_showing=1";
     }
     return axios.get(url);
 }

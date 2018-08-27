@@ -1,12 +1,12 @@
 import * as bookingHistoryApi from "./bookingHistoryApi";
 import * as types from "./bookingHistoryActionTypes";
 
-export function getBookingHistory(limit, page, search, film_name, roomId, time) {
+export function getBookingHistory(limit, page, search, film_name, roomId, time, payment_method) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BOOKING_HISTORY,
         });
-        bookingHistoryApi.getBookingHistoryApi(limit, page, search, film_name, roomId, time)
+        bookingHistoryApi.getBookingHistoryApi(limit, page, search, film_name, roomId, time, payment_method)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_BOOKING_HISTORY_SUCCESS,
@@ -20,12 +20,12 @@ export function getBookingHistory(limit, page, search, film_name, roomId, time) 
             });
     };
 }
-export function excelBookingHistory(limit, page, search, film_name, roomId, time, fc) {
+export function excelBookingHistory(limit, page, search, film_name, roomId, time, fc, payment_method) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_EXCEL_BOOKING_HISTORY,
         });
-        bookingHistoryApi.getBookingHistoryApi(limit, page, search, film_name, roomId, time)
+        bookingHistoryApi.getBookingHistoryApi(limit, page, search, film_name, roomId, time, payment_method)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_EXCEL_BOOKING_HISTORY_SUCCESS,
