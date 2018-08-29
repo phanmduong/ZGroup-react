@@ -372,7 +372,14 @@ class BookingHistoryContainer extends React.Component {
                     <div>
                         {
                             this.props.isLoadingBookingHistory ? <Loading/> :
-                                <BookingHistoryComponent/>
+                                <BookingHistoryComponent
+                                sendMail={(register_id, code, payment)=>this.props.bookingHistoryAction.sendMailBookingSuccess(
+                                    register_id, {
+                                        code: code,
+                                        payment: payment
+                                    }
+                                )}
+                                />
                         }
 
                         <br/>

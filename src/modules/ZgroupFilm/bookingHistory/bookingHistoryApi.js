@@ -33,3 +33,14 @@ export function getBookingHistoryApi(limit, page, search, film_name, roomId, tim
     }
     return axios.get(url);
 }
+
+
+//send mail booking success /book_information/{register_id}
+export function sendMailBookingSuccessApi(register_id, book_information) {
+    let url = env.MANAGE_API_URL + "/book_information/" + register_id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,book_information);
+}

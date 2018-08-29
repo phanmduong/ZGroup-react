@@ -84,7 +84,7 @@ class BookingHistoryComponent extends React.Component {
                                                                style={{display: "inline-block"}}>
                                                     <a style={{color: "#878787"}}
                                                        onClick={() => {
-
+                                                            this.props.sendMail(bk.register_id, bk.code, bk.payment_method);
                                                        }}>
                                                         <i className="material-icons">send</i>
                                                     </a>
@@ -111,6 +111,7 @@ BookingHistoryComponent.propTypes = {
     totalCount: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
+    sendMail: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
