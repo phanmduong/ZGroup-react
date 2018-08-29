@@ -44,7 +44,7 @@ class BookingHistoryContainer extends React.Component {
             this.props.bookingHistoryAction.getBookingHistory(20, 1, this.props.search) :
             this.props.bookingHistoryAction.getBookingHistory(20);
         this.props.filmAction.loadAllFilms();
-        this.props.filmAction.loadAllSessions();
+        this.props.filmAction.loadAllSessions(null, null, null, null, null, null, 100);
         if (!helper.isEmptyInput(this.props.search)) {
             this.setState({
                 query: this.props.search,

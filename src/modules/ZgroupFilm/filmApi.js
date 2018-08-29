@@ -49,7 +49,7 @@ export function loadAllFilmsHavePaginationApi(page, search) {
 
 //Load Film da chieu
 //http://keetool3.xyz/api/v3/films/shown
-export function loadShownFilmsApi(page,search) {
+export function loadShownFilmsApi(page, search) {
     let url = env.API_URL + "/films/shown";
     url += "?limit=" + 12;
     if (search) {
@@ -129,9 +129,11 @@ export function changeFavoriteFilmApi(film) {
 
 
 //Load All Session
-export function loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id) {
+export function loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id, limit) {
     let url = env.API_URL + "/sessions";
-    url += "?limit=20";
+    if (!limit)
+        url += "?limit=20";
+    else url += "?limit=" + limit;
     if (search) {
         url += "&search=" + search;
     }
