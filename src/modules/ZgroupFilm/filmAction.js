@@ -3,6 +3,12 @@ import * as filmApi from "./filmApi";
 import * as helper from "../../helpers/helper";
 import {browserHistory} from "react-router";
 
+export function handleFilmSearch(search) {
+    return ({
+        type: types.HANDLE_FILM_SEARCH,
+        search: search
+    });
+}
 export function loadAllCustomer(page, search) {
     return function (dispatch) {
         dispatch({

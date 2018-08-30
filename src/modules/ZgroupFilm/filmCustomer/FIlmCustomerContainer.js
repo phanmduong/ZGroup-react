@@ -32,7 +32,7 @@ class FIlmCustomerContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.filmAction.loadAllCustomer(page);
+        this.props.filmAction.loadAllCustomer(page, this.state.query);
     }
 
     customerSearchChange(value) {

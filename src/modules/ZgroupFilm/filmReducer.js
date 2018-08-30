@@ -4,6 +4,11 @@ import initialState from "../../reducers/initialState";
 
 export default function filmReducer(state = initialState.film, action) {
     switch (action.type) {
+        case types.HANDLE_FILM_SEARCH:
+            return {
+                ...state,
+                filmSearch: action.search
+            };
         case types.DISPLAY_GLOBAL_LOADING:
             return {
                 ...state,

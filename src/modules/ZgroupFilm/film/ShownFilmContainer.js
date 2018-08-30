@@ -18,7 +18,7 @@ class ShownFilmContainer extends React.Component {
     }
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.filmAction.loadShownFilms(page);
+        this.props.filmAction.loadShownFilms(page, this.props.filmSearch);
     }
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
@@ -54,6 +54,7 @@ ShownFilmContainer.propTypes = {
         PropTypes.number.isRequired,
         PropTypes.string.isRequired
     ]),
+    filmSearch: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -63,6 +64,7 @@ function mapStateToProps(state) {
         totalCount: state.film.totalCountShown,
         totalPages: state.film.totalPagesShown,
         currentPage: state.film.currentPageShown,
+        filmSearch: state.film.filmSearch,
     };
 }
 

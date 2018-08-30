@@ -11,6 +11,7 @@ export default {
 
 
         //********Film
+        filmSearch: '',
         isLoading: false,
         isSaving: false,
         allFilms: [],

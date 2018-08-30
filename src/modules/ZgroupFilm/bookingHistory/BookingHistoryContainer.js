@@ -66,7 +66,8 @@ class BookingHistoryContainer extends React.Component {
             this.state.filter.film_name,
             this.state.filter.roomId,
             this.state.filter.time,
-            this.closeLoadingModal
+            this.closeLoadingModal,
+            this.state.offMed ? !this.state.offMed : this.state.onMed
         );
     }
 
@@ -110,7 +111,15 @@ class BookingHistoryContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.bookingHistoryAction.getBookingHistory(20, page);
+        this.props.bookingHistoryAction.getBookingHistory(
+            20,
+            page,
+            this.state.query,
+            this.state.filter.film_name,
+            this.state.filter.roomId,
+            this.state.filter.time,
+            this.state.offMed ? !this.state.offMed : this.state.onMed
+        );
     }
 
     bookingHistorySearchChange(value) {
