@@ -37,10 +37,6 @@ export function getBookingHistoryApi(limit, page, search, film_name, roomId, tim
 
 //send mail booking success /book_information/{register_id}
 export function sendMailBookingSuccessApi(register_id, book_information) {
-    let url = env.MANAGE_API_URL + "/book_information/" + register_id;
-    let token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
+    let url = env.BASE_URL + "/book_information/" + register_id;
     return axios.post(url,book_information);
 }

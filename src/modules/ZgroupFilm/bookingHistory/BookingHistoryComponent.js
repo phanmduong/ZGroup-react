@@ -56,8 +56,8 @@ class BookingHistoryComponent extends React.Component {
                                     <td>
                                         {bk.seat_name}
                                     </td>
-                                    <td className="film-name">
-                                        {Math.floor(bk.price / 1000)}.000
+                                    <td className="film-name" style={{textAlign: "right"}}>
+                                        {bk.price > 0 ? Math.floor(bk.price / 1000) + ".000" : '0 đ '}
                                     </td>
                                     <td className="film-name">
                                         <TooltipButton text={(bk && bk.code_info) || ''} placement="top">
@@ -77,21 +77,19 @@ class BookingHistoryComponent extends React.Component {
                                             bsSize="mini"
                                         />
                                     </td>
-                                    <td>{
-                                        bk.payment_method === "online" ?
-                                            <div className="btn-group-action">
-                                                <TooltipButton text="Resend Email" placement="top"
-                                                               style={{display: "inline-block"}}>
-                                                    <a style={{color: "#878787"}}
-                                                       onClick={() => {
-                                                            this.props.sendMail(bk.register_id, bk.code, bk.payment_method);
-                                                       }}>
-                                                        <i className="material-icons">send</i>
-                                                    </a>
-                                                </TooltipButton>
-                                            </div>
-                                            : ""
-                                    }
+                                    <td>
+
+                                        <div className="btn-group-action">
+                                            <TooltipButton text="Resend Email" placement="top"
+                                                           style={{display: "inline-block"}}>
+                                                <a style={{color: "#878787"}}
+                                                   onClick={() => {
+                                                       this.props.sendMail(bk.register_id, bk.code, bk.payment_method);
+                                                   }}>
+                                                    <i className="material-icons">send</i>
+                                                </a>
+                                            </TooltipButton>
+                                        </div>
 
 
                                     </td>

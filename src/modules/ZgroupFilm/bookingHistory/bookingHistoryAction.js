@@ -48,14 +48,18 @@ export function sendMailBookingSuccess(register_id, book_information) {
             });
             bookingHistoryApi.sendMailBookingSuccessApi(register_id, book_information)
                 .then(function (res) {
-                    if (res.data.status) {
+                    if (res.data) {
                         helper.showNotification("Gửi email thành công");
                         dispatch({
                             type: types.HIDE_GLOBAL_LOADING,
                         });
                     }
-
-
+                })
+                .catch(()=>{
+                    helper.showErrorNotification("Gửi email thất bại, check lại email");
+                    dispatch({
+                        type: types.HIDE_GLOBAL_LOADING,
+                    });
                 });
         }
         else helper.showErrorNotification("Đơn hàng này chưa có Regisrer_id");

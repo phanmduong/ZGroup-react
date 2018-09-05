@@ -27,7 +27,7 @@ class BookingHistoryContainer extends React.Component {
                 film_name: ''
             },
             onMed: false,
-            offMed: false,
+            offMed: true,
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -42,7 +42,15 @@ class BookingHistoryContainer extends React.Component {
     componentWillMount() {
         !helper.isEmptyInput(this.props.search) ?
             this.props.bookingHistoryAction.getBookingHistory(20, 1, this.props.search) :
-            this.props.bookingHistoryAction.getBookingHistory(20);
+            this.props.bookingHistoryAction.getBookingHistory(
+                20,
+                this.state.page,
+                this.state.query,
+                this.state.filter.film_name,
+                this.state.filter.roomId,
+                this.state.filter.time,
+                false
+            );
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllSessions(null, null, null, null, null, null, 100);
         if (!helper.isEmptyInput(this.props.search)) {
@@ -118,7 +126,7 @@ class BookingHistoryContainer extends React.Component {
             this.state.filter.film_name,
             this.state.filter.roomId,
             this.state.filter.time,
-            this.state.offMed ? !this.state.offMed : this.state.onMed
+            this.state.offMed ? !this.state.offMed : (this.state.onMed === false ?'':this.state.onMed)
         );
     }
 
@@ -316,7 +324,7 @@ class BookingHistoryContainer extends React.Component {
                                             if (event.target.checked)
                                                 this.props.bookingHistoryAction.getBookingHistory(
                                                     20,
-                                                    this.state.page,
+                                                    1,
                                                     this.state.query,
                                                     this.state.filter.film_name,
                                                     this.state.filter.roomId,
@@ -325,7 +333,7 @@ class BookingHistoryContainer extends React.Component {
                                                 );
                                             else this.props.bookingHistoryAction.getBookingHistory(
                                                 20,
-                                                this.state.page,
+                                                1,
                                                 this.state.query,
                                                 this.state.filter.film_name,
                                                 this.state.filter.roomId,
@@ -347,7 +355,7 @@ class BookingHistoryContainer extends React.Component {
                                             if (event.target.checked)
                                                 this.props.bookingHistoryAction.getBookingHistory(
                                                     20,
-                                                    this.state.page,
+                                                    1,
                                                     this.state.query,
                                                     this.state.filter.film_name,
                                                     this.state.filter.roomId,
@@ -356,7 +364,7 @@ class BookingHistoryContainer extends React.Component {
                                                 );
                                             else this.props.bookingHistoryAction.getBookingHistory(
                                                 20,
-                                                this.state.page,
+                                                1,
                                                 this.state.query,
                                                 this.state.filter.film_name,
                                                 this.state.filter.roomId,
