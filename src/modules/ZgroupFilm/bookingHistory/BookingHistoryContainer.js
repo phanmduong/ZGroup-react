@@ -27,7 +27,7 @@ class BookingHistoryContainer extends React.Component {
                 film_name: ''
             },
             onMed: false,
-            offMed: true,
+            offMed: false,
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -44,12 +44,12 @@ class BookingHistoryContainer extends React.Component {
             this.props.bookingHistoryAction.getBookingHistory(20, 1, this.props.search) :
             this.props.bookingHistoryAction.getBookingHistory(
                 20,
-                this.state.page,
-                this.state.query,
-                this.state.filter.film_name,
-                this.state.filter.roomId,
-                this.state.filter.time,
-                false
+                // this.state.page,
+                // this.state.query,
+                // this.state.filter.film_name,
+                // this.state.filter.roomId,
+                // this.state.filter.time,
+                // false
             );
         this.props.filmAction.loadAllFilms();
         this.props.filmAction.loadAllSessions(null, null, null, null, null, null, 100);
