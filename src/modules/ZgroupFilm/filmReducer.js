@@ -4,6 +4,11 @@ import initialState from "../../reducers/initialState";
 
 export default function filmReducer(state = initialState.film, action) {
     switch (action.type) {
+        case types.HANDLE_FILM_SEARCH:
+            return {
+                ...state,
+                filmSearch: action.search
+            };
         case types.DISPLAY_GLOBAL_LOADING:
             return {
                 ...state,
@@ -16,6 +21,33 @@ export default function filmReducer(state = initialState.film, action) {
             };
 
         //Film Reducer
+        case types.BEGIN_LOAD_ALL_CUSTOMER:
+            return {
+                ...state,
+                isLoadingCustomer: true
+            };
+        case types.LOAD_ALL_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                isLoadingCustomer: false,
+                customer: action.customer,
+                totalCountCustomer: action.paginator.total_count,
+                totalPagesCustomer: action.paginator.total_pages,
+                currentPageCustomer: action.paginator.current_page,
+            };
+        case types.BEGIN_EXPORT_CUSTOMER:
+            return {
+                ...state,
+                isExportCustomer: true
+            };
+        case types.EXPORT_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                isExportCustomer: false,
+                exportCustomer: action.exportCustomer,
+            };
+
+
         case types.BEGIN_LOAD_ALL_FILMS:
             return {
                 ...state,
@@ -24,7 +56,17 @@ export default function filmReducer(state = initialState.film, action) {
         case types.LOAD_SHOWN_FILMS_SUCCESS:
             return {
                 ...state,
-                shownFilms: action.films,
+                shownFilms: action.films.sort(function (a, b) {
+                    let x = a.name.toLowerCase();
+                    let y = b.name.toLowerCase();
+                    if (x < y) {
+                        return -1;
+                    }
+                    if (x > y) {
+                        return 1;
+                    }
+                    return 0;
+                }),
                 isLoading: false,
                 currentPageShown: action.currentPage,
                 limitShown: action.limit,
@@ -34,13 +76,33 @@ export default function filmReducer(state = initialState.film, action) {
         case types.LOAD_ALL_FILMS_SUCCESS:
             return {
                 ...state,
-                allFilms: action.allFilms,
+                allFilms: action.allFilms.sort(function (a, b) {
+                    let x = a.name.toLowerCase();
+                    let y = b.name.toLowerCase();
+                    if (x < y) {
+                        return -1;
+                    }
+                    if (x > y) {
+                        return 1;
+                    }
+                    return 0;
+                }),
                 isLoading: false,
             };
         case types.LOAD_ALL_FILMS_HAVE_PAGINATION_SUCCESS:
             return {
                 ...state,
-                allFilmsHavePagination: action.allFilms,
+                allFilmsHavePagination: action.allFilms.sort(function (a, b) {
+                    let x = a.name.toLowerCase();
+                    let y = b.name.toLowerCase();
+                    if (x < y) {
+                        return -1;
+                    }
+                    if (x > y) {
+                        return 1;
+                    }
+                    return 0;
+                }),
                 isLoading: false,
                 currentPage: action.currentPage,
                 limit: action.limit,
@@ -322,15 +384,20 @@ export default function filmReducer(state = initialState.film, action) {
                 ...state,
                 isLoadingShowingSession: true,
             };
+        case types.BEGIN_LOAD_SHOWN_SESSION:
+            return {
+                ...state,
+                isLoadingShownSession: true,
+            };
         case types.LOAD_SHOWING_SESSION_SUCCESS: {
             let ar = action.showingSession;
             let length = action.showingSession.length;
             let j = 0;
             let i = 0;
             for (j = 0; j < length - 1; j++) {
-                for (i = 0; i < length - 1 - j; i++) {
+                for (i = 0; i < length - 1; i++) {
                     if (ar[i].start_date === ar[i + 1].start_date) {
-                        if (ar[i].start_time.slice(0, 2) < ar[i + 1].start_time.slice(0, 2)) {
+                        if (ar[i].start_time.slice(0, 2) > ar[i + 1].start_time.slice(0, 2)) {
                             let t = ar[i];
                             ar[i] = ar[i + 1];
                             ar[i + 1] = t;
@@ -346,6 +413,32 @@ export default function filmReducer(state = initialState.film, action) {
                 totalCountShowing: action.totalCountShowing,
                 totalPagesShowing: action.totalPagesShowing,
                 isLoadingShowingSession: false,
+            };
+        }
+        case types.LOAD_SHOWN_SESSION_SUCCESS: {
+            let ar = action.shownSession;
+            let length = action.shownSession.length;
+            let j = 0;
+            let i = 0;
+            for (j = 0; j < length - 1; j++) {
+                for (i = 0; i < length - 1 - j; i++) {
+                    if (ar[i].start_date === ar[i + 1].start_date) {
+                        if (ar[i].start_time.slice(0, 2) < ar[i + 1].start_time.slice(0, 2)) {
+                            let t = ar[i];
+                            ar[i] = ar[i + 1];
+                            ar[i + 1] = t;
+                        }
+                    }
+                }
+            }
+            return {
+                ...state,
+                shownSession: ar,
+                currentPageSSShown: action.currentPageSSShown,
+                limitSSShown: action.limitSSShown,
+                totalCountSSShown: action.totalCountSSShown,
+                totalPagesSSShown: action.totalPagesSSShown,
+                isLoadingShownSession: false,
             };
         }
 

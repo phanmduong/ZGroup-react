@@ -1,6 +1,27 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+//LoadAllCustomer
+export function loadAllCustomerApi(page, search) {
+    let url = env.API_URL + "/user?limit=20";
+    if (search) {
+        url += "&like_search=" + search;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    return axios.get(url);
+}
+
+export function exportCustomerApi(search) {
+    let url = env.API_URL + "/user?limit=-1";
+    if (search) {
+        url += "&like_search=" + search;
+    }
+    return axios.get(url);
+}
+
+
 //Load All Film
 export function loadAllFilmsApi(search, start_date) {
     let url = env.API_URL + "/films?limit=-1";
@@ -8,7 +29,7 @@ export function loadAllFilmsApi(search, start_date) {
         url += "&search=" + search;
     }
     if (start_date) {
-        url += "&start_date=" + start_date;
+        url += "&start_date=" + start_date + "&is_showing=1";
     }
     return axios.get(url);
 }
@@ -28,7 +49,7 @@ export function loadAllFilmsHavePaginationApi(page, search) {
 
 //Load Film da chieu
 //http://keetool3.xyz/api/v3/films/shown
-export function loadShownFilmsApi(page,search) {
+export function loadShownFilmsApi(page, search) {
     let url = env.API_URL + "/films/shown";
     url += "?limit=" + 12;
     if (search) {
@@ -108,9 +129,11 @@ export function changeFavoriteFilmApi(film) {
 
 
 //Load All Session
-export function loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id) {
+export function loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id, limit) {
     let url = env.API_URL + "/sessions";
-    url += "?limit=20";
+    if (!limit)
+        url += "?limit=20";
+    else url += "?limit=" + limit;
     if (search) {
         url += "&search=" + search;
     }
@@ -149,6 +172,17 @@ export function exportSessionsApi(search, from_date, to_date) {
 //Load Session Dang Chieu
 export function loadShowingSessionApi(page, search) {
     let url = env.API_URL + "/sessions/showing?limit=20";
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    return axios.get(url);
+}
+
+export function loadShownSessionApi(page, search) {
+    let url = env.API_URL + "/sessions/shown?limit=20";
     if (search) {
         url += "&search=" + search;
     }

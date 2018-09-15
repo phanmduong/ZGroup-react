@@ -1,6 +1,17 @@
 export default {
     film: {
+        //********Customer
+        customer:[],
+        exportCustomer:[],
+        isLoadingCustomer: false,
+        isExportCustomer: false,
+        totalCountCustomer: 0,
+        totalPagesCustomer: 0,
+        currentPageCustomer: 0,
+
+
         //********Film
+        filmSearch: '',
         isLoading: false,
         isSaving: false,
         allFilms: [],
@@ -47,6 +58,11 @@ export default {
         rooms: [],
         excelSession: [],
         isLoadingExcelSession: false,
+        isLoadingShownSession: false,
+        currentPageSSShown: 0,
+        limitSSShown: 0,
+        totalCountSSShown: 0,
+        totalPagesSSShown: 0,
 
 
         //********Booking

@@ -5,7 +5,7 @@ import filmReducer from "../modules/ZgroupFilm/filmReducer";
 import bookingHistoryReducer from "../modules/ZgroupFilm/bookingHistory/bookingHistoryReducer";
 import seatTypeReducer from "../modules/ZgroupFilm/seatType/seatTypeReducer";
 import roomsReducer from "../modules/rooms/roomsReducer";
-
+import loginReducer from '../modules/login/loginReducer';
 
 
 const appReducer = combineReducers({
@@ -13,7 +13,8 @@ const appReducer = combineReducers({
     film: filmReducer,
     rooms: roomsReducer,
     bookingHistory: bookingHistoryReducer,
-    seatType: seatTypeReducer
+    seatType: seatTypeReducer,
+    login: loginReducer
 
 });
 

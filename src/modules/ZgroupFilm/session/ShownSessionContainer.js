@@ -14,7 +14,7 @@ import * as helper from "../../../helpers/helper";
 // import FormInputDate from "../../components/common/FormInputDate";
 
 
-class ShowingSessionContainer extends React.Component {
+class ShownSessionContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.path = '';
@@ -45,7 +45,7 @@ class ShowingSessionContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.filmAction.loadShowingSession(page, this.state.query);
+        this.props.filmAction.loadShownSession(page, this.state.query);
     }
 
     // updateFormFilter(event) {
@@ -64,22 +64,22 @@ class ShowingSessionContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.filmAction.loadShowingSession(1, value);
             this.props.filmAction.loadShownSession(1, value);
+            this.props.filmAction.loadShowingSession(1, value);
             this.props.filmAction.loadAllSessions(1, value);
         }.bind(this), 500);
     }
 
     render() {
-        let first = this.props.totalCountShowing ? (this.props.currentPageShowing - 1) * this.props.limitShowing + 1 : 0;
-        let end = this.props.currentPageShowing < this.props.totalPagesShowing ? this.props.currentPageShowing * this.props.limitShowing : this.props.totalCountShowing;
+        let first = this.props.totalCountSSShown ? (this.props.currentPageSSShown - 1) * this.props.limitSSShown + 1 : 0;
+        let end = this.props.currentPageSSShown < this.props.totalPagesSSShown ? this.props.currentPageSSShown * this.props.limitSSShown : this.props.totalCountSSShown;
         return (
             <div className="card">
                 <div className="card-content">
                     <div className="tab-content">
                         <div className="flex-row flex">
                             <h4 className="card-title">
-                                <strong>Danh sách suất chiếu đang chiếu</strong>
+                                <strong>Danh sách suất chiếu đã chiếu</strong>
                             </h4>
                             {
                                 this.props.user.role === 2 ?
@@ -184,9 +184,11 @@ class ShowingSessionContainer extends React.Component {
                     </div>
                     <div>
                         {
-                            this.props.isLoadingShowingSession ? <Loading/> :
+                            this.props.isLoadingShownSession ? <Loading/> :
                                 <SessionComponent
-                                    sessions={this.props.showingSession}/>
+                                    totalCount={this.props.totalCountSSShown}
+                                    currentPage={this.props.currentPageSSShown}
+                                    sessions={this.props.shownSession}/>
                         }
 
                         <br/>
@@ -195,10 +197,10 @@ class ShowingSessionContainer extends React.Component {
                                  style={{textAlign: 'right'}}>
                                 <b style={{marginRight: '15px'}}>
                                     Hiển thị kêt quả từ {first}
-                                    - {end}/{this.props.totalCountShowing}</b><br/>
+                                    - {end}/{this.props.totalCountSSShown}</b><br/>
                                 <Pagination
-                                    totalPages={this.props.totalPagesShowing}
-                                    currentPage={this.props.currentPageShowing}
+                                    totalPages={this.props.totalPagesSSShown}
+                                    currentPage={this.props.currentPageSSShown}
                                     loadDataPage={this.loadOrders}
                                 />
                             </div>
@@ -212,27 +214,27 @@ class ShowingSessionContainer extends React.Component {
     }
 }
 
-ShowingSessionContainer.propTypes = {
-    showingSession: PropTypes.array.isRequired,
+ShownSessionContainer.propTypes = {
+    shownSession: PropTypes.array.isRequired,
     allFilms: PropTypes.array.isRequired,
     filmAction: PropTypes.object.isRequired,
-    isLoadingShowingSession: PropTypes.bool.isRequired,
-    totalCountShowing: PropTypes.number.isRequired,
-    totalPagesShowing: PropTypes.number.isRequired,
-    limitShowing: PropTypes.string.isRequired,
+    isLoadingShownSession: PropTypes.bool.isRequired,
+    totalCountSSShown: PropTypes.number.isRequired,
+    totalPagesSSShown: PropTypes.number.isRequired,
+    limitSSShown: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
-    currentPageShowing: PropTypes.number.isRequired,
+    currentPageSSShown: PropTypes.number.isRequired,
     user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        showingSession: state.film.showingSession,
-        isLoadingShowingSession: state.film.isLoadingShowingSession,
-        totalCountShowing: state.film.totalCountShowing,
-        totalPagesShowing: state.film.totalPagesShowing,
-        currentPageShowing: state.film.currentPageShowing,
-        limitShowing: state.film.limitShowing,
+        shownSession: state.film.shownSession,
+        isLoadingShownSession: state.film.isLoadingShownSession,
+        totalCountSSShown: state.film.totalCountSSShown,
+        totalPagesSSShown: state.film.totalPagesSSShown,
+        currentPageSSShown: state.film.currentPageSSShown,
+        limitSSShown: state.film.limitSSShown,
         allFilms: state.film.allFilms,
         search: state.film.search,
         user: state.login.user,
@@ -245,4 +247,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowingSessionContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ShownSessionContainer);

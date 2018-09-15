@@ -41,6 +41,7 @@ class BookingGrid extends React.Component {
         this.props.filmAction.handleBookingModal({
             ...this.props.handleBookingModal,
             disable: false,
+            staff_id: this.props.user2.id,
             phone: "",
             email: '',
             name: '',
@@ -153,7 +154,7 @@ class BookingGrid extends React.Component {
                 })
                 .select("circle").style('fill',
                 function (d) {
-                    return (d.status === 3 || d.status === 2) ? "black" : (d.status !== 1 ? d.color : "gray");
+                    return (d.status === 3 || d.status === 2) ? (d.status === 3 ? "black" : "rgb(76, 175, 80)") : (d.status !== 1 ? d.color : "gray");
                 })
                 .style("cursor", "pointer");
 
@@ -245,6 +246,22 @@ class BookingGrid extends React.Component {
                                                 <td>
                                                     &emsp;
                                                     <span style={{
+                                                        backgroundColor: "rgb(76, 175, 80)", color: "white",
+                                                        fontSize: 10,
+                                                        padding: "10px 9.5px", border: "none", borderRadius: "20px"
+                                                    }}>
+                                                        <b>A1</b>
+                                                    </span>
+
+                                                </td>
+                                                <td>Chờ thanh toán</td>
+                                                <td/>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &emsp;
+                                                    <span style={{
                                                         backgroundColor: "grey", color: "white", fontSize: 10,
                                                         padding: "10px 9.5px", border: "none", borderRadius: "20px"
                                                     }}>
@@ -299,6 +316,7 @@ BookingGrid.propTypes = {
     seats: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    user2: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -309,6 +327,7 @@ function mapStateToProps(state) {
         height: state.film.height,
         handleBookingModal: state.film.handleBookingModal,
         seats: state.film.seats,
+        user2: state.login.user,
     };
 }
 

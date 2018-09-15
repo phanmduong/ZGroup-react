@@ -94,7 +94,11 @@ class AllSessionContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.filmAction.loadAllSessions(page);
+        this.props.filmAction.loadAllSessions(
+            page,
+            this.state.query,
+            this.state.filter.startTime,
+            this.state.filter.endTime,);
     }
 
     updateFormFilter(event) {
@@ -128,6 +132,7 @@ class AllSessionContainer extends React.Component {
                 this.state.filter.endTime,
             );
             this.props.filmAction.loadShowingSession(1, value);
+            this.props.filmAction.loadShownSession(1, value);
         }.bind(this), 500);
     }
 
@@ -266,6 +271,8 @@ class AllSessionContainer extends React.Component {
                         {
                             this.props.isLoadingAllSessions ? <Loading/> :
                                 <SessionComponent
+                                    totalCount={this.props.totalCountAll}
+                                    currentPage={this.props.currentPageAll}
                                     sessions={this.props.allSessions}/>
                         }
                         <br/>

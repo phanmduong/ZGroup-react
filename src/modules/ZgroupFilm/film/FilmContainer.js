@@ -44,6 +44,7 @@ class FilmContainer extends React.Component {
             query: value,
             page: 1
         });
+        this.props.filmAction.handleFilmSearch(value);
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }

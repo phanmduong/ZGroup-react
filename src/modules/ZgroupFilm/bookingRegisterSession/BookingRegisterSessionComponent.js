@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import Loading from "../../../components/common/Loading";
 import moment from "moment";
+import * as helper from "../../../helpers/helper";
 
 
 class BookingRegisterSessionComponent extends React.Component {
@@ -30,7 +31,7 @@ class BookingRegisterSessionComponent extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingShowingSession !== this.props.isLoadingShowingSession && !nextProps.isLoadingShowingSession) {
-            let a = nextProps.showingSession.reverse()[0];
+            let a = nextProps.showingSession[0];
             this.setState({
                 select_day: {name: a.start_date},
                 select_film: {id: a.film_id,},
@@ -45,6 +46,23 @@ class BookingRegisterSessionComponent extends React.Component {
                 session_id: a.id
             });
         }
+        //isLoadingAllSessions
+        if (nextProps.isLoadingAllSessions !== this.props.isLoadingAllSessions && !nextProps.isLoadingAllSessions) {
+            if(!helper.isEmptyInput(nextProps.allSessions)){
+                let a = nextProps.allSessions.reverse()[0];
+                this.setState({
+                    roomId: a.id,
+                });
+                this.props.filmAction.loadSeatBySessionId(a.id);
+                this.props.filmAction.handleSeatTypes(a.seats);
+                this.props.filmAction.handleBookingModal({
+                    ...this.props.handleBookingModal,
+                    session_id: a.id
+                });
+            }
+
+        }
+
     }
 
     updateFormData(event) {
@@ -129,7 +147,8 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time.slice(0,5)} - {room.room_name}{" "}
+                                            {room.start_time.slice(0,5)}
+                                            {/*- {room.room_name}{" "}*/}
                                         </a>
                                     </li>
                                 );
@@ -145,7 +164,8 @@ class BookingRegisterSessionComponent extends React.Component {
                                             }
                                         >
                                             {" "}
-                                            {room.start_time.slice(0,5)} - {room.room_name}{" "}
+                                            {room.start_time.slice(0,5)}
+                                            {/*- {room.room_name}{" "}*/}
                                         </a>
                                     </li>
                                 );

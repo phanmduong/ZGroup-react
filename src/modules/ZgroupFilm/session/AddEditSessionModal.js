@@ -197,7 +197,7 @@ class AddEditSessionModal extends React.Component {
                                     }
                                     options={[
                                         {label: "2D", value: "2D"},
-                                        {label: "3D", value: "2D"},
+                                        {label: "3D", value: "3D"},
                                         {label: "4DX", value: "4DX"},
                                         {label: "IMAX", value: "IMAX"},
                                         {label: "STAR (Starium)", value: "STAR"},

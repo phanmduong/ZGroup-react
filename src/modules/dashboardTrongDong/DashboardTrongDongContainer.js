@@ -3,7 +3,7 @@ import {observer} from 'mobx-react';
 import {connect} from 'react-redux';
 import store from './dashboardStore';
 import Loading from '../../components/common/Loading';
-import Select from '../../components/common/Select';
+// import Select from '../../components/common/Select';
 import Calendar from './Calendar';
 import moment from 'moment';
 import {
@@ -66,17 +66,17 @@ class DashboardTrongDongContainer extends Component {
     @observable excelEndTime = null;
 
     onChangeRoom(value) {
-        store.selectedRoomId = value;
+        store.selectedRoomId = value ? value.value:0;
         store.loadDashboard();
     }
 
     onChangeBase(value) {
-        store.selectedBaseId = value;
+        store.selectedBaseId = value ? value.value:0;
         store.loadDashboard();
     }
 
     onChangeRoomType(value) {
-        store.selectedRoomTypeId = value;
+        store.selectedRoomTypeId =value ? value.value:0;
         store.loadDashboard();
     }
 
@@ -439,27 +439,38 @@ class DashboardTrongDongContainer extends Component {
                     <div>
                         <div className="row">
                             <div className="col-sm-4 col-xs-5">
-                                <Select
+
+                                <ReactSelect
                                     defaultMessage={'Chọn cơ sở'}
                                     options={store.basesData}
                                     value={store.selectedBaseId}
                                     onChange={this.onChangeBase}
+                                    disabled={store.isLoading}
+                                    name="filter_base"
+                                    className="zindex-1000"
+
                                 />
                             </div>
                             <div className="col-sm-4 col-xs-3">
-                                <Select
+                                <ReactSelect
                                     defaultMessage={'Chọn loại phòng'}
                                     options={store.roomTypesData}
                                     value={store.selectedRoomTypeId}
                                     onChange={this.onChangeRoomType}
+                                    disabled={store.isLoading}
+                                    className="zindex-1000"
+                                    name="filter_room_type"
                                 />
                             </div>
                             <div className="col-sm-4 col-xs-4">
-                                <Select
+                                <ReactSelect
                                     defaultMessage={'Chọn phòng'}
                                     options={store.roomsData}
                                     value={store.selectedRoomId}
                                     onChange={this.onChangeRoom}
+                                    disabled={store.isLoading}
+                                    name="filter_room"
+                                    className="zindex-1000"
                                 />
                             </div>
                         </div>
@@ -499,6 +510,7 @@ class DashboardTrongDongContainer extends Component {
                                 onChange={this.onChangeStatus}
                                 placeholder="Chọn trang thái"
                                 disabled={disableCreateRegister}
+
                             />
                         </div>
                     </Modal.Body>
