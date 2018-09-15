@@ -1,0 +1,18 @@
+query getHonors {
+  honors{
+    id
+    start_time
+    end_time
+    avatar_url
+    long_story
+    short_description
+    title
+    user{
+      id
+      name
+      phone
+      email
+      role_id
+    }
+  }
+}

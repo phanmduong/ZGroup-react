@@ -3,7 +3,7 @@ import {observer} from 'mobx-react';
 import {connect} from 'react-redux';
 import store from './dashboardStore';
 import Loading from '../../components/common/Loading';
-import Select from '../../components/common/Select';
+// import Select from '../../components/common/Select';
 import Calendar from './Calendar';
 import moment from 'moment';
 import {
@@ -66,17 +66,19 @@ class DashboardTrongDongContainer extends Component {
     @observable excelEndTime = null;
 
     onChangeRoom(value) {
-        store.selectedRoomId = value;
+        store.selectedRoomId = value ? value.value : 0;
         store.loadDashboard();
     }
 
     onChangeBase(value) {
-        store.selectedBaseId = value;
+        store.selectedBaseId = value ? value.value : 0;
+        store.selectedRoomTypeId = 0;
+        store.selectedRoomId = 0;
         store.loadDashboard();
     }
 
     onChangeRoomType(value) {
-        store.selectedRoomTypeId = value;
+        store.selectedRoomTypeId = value ? value.value : 0;
         store.loadDashboard();
     }
 
@@ -88,8 +90,8 @@ class DashboardTrongDongContainer extends Component {
     updateTime(value) {
         store.changeTime(
             value.register_id,
-            value.start&&value.start.format(DATETIME_FORMAT_SQL),
-            value.end&&value.end.format(DATETIME_FORMAT_SQL)
+            value.start && value.start.format(DATETIME_FORMAT_SQL),
+            value.end && value.end.format(DATETIME_FORMAT_SQL)
         );
     }
 
@@ -109,8 +111,8 @@ class DashboardTrongDongContainer extends Component {
                 base_id: room && room.base ? room.base.id : '',
                 room_id: room ? room.id : '',
                 type: register.type,
-                start_time: register.start&&register.start.format(DATETIME_FORMAT),
-                end_time: register.end&&register.end.format(DATETIME_FORMAT),
+                start_time: register.start && register.start.format(DATETIME_FORMAT),
+                end_time: register.end && register.end.format(DATETIME_FORMAT),
                 status: register.status,
                 note: register.register_data.note,
                 kind: register.register_data.kind,
@@ -127,7 +129,7 @@ class DashboardTrongDongContainer extends Component {
                 status: 'seed',
                 kind: '',
                 similar_room: room ? [room.id] : [],
-                note : '',
+                note: '',
             };
         }
     }
@@ -155,7 +157,7 @@ class DashboardTrongDongContainer extends Component {
 
     closeModalBooking = () => {
         this.showModalBooking = false;
-        self.booking= {};
+        self.booking = {};
     };
 
     colorBook(status) {
@@ -275,9 +277,9 @@ class DashboardTrongDongContainer extends Component {
                 status: register.status,
                 color: color,
                 overlay: 1,
-                number_person : register.number_person,
-                phone : register.user && register.user.phone,
-                note : register.note,
+                number_person: register.number_person,
+                phone: register.user && register.user.phone,
+                note: register.note,
             };
         });
 
@@ -334,7 +336,7 @@ class DashboardTrongDongContainer extends Component {
                         calendarEvents={registersData}
                         onDropTime={(value) => this.updateTime(value)}
                         onClick={(value) => {
-                            if (disableCreateRegister){
+                            if (disableCreateRegister) {
                                 showErrorNotification("Không được phân quyền.");
                                 return;
                             }
@@ -344,15 +346,15 @@ class DashboardTrongDongContainer extends Component {
                                 register_name: value.register_name,
                                 room: value.room,
                                 type: value.type,
-                                start_time: value.start&&value.start.format(DATETIME_FORMAT),
-                                end_time: value.end&&value.end.format(DATETIME_FORMAT),
-                                note : value.note,
-                                kind : value.kind,
+                                start_time: value.start && value.start.format(DATETIME_FORMAT),
+                                end_time: value.end && value.end.format(DATETIME_FORMAT),
+                                note: value.note,
+                                kind: value.kind,
                             };
                             self.openModalBooking(null, room, value);
                         }}
                         onClickDay={(day) => {
-                            if (disableCreateRegister){
+                            if (disableCreateRegister) {
                                 showErrorNotification("Không được phân quyền.");
                                 return;
                             }
@@ -431,6 +433,23 @@ class DashboardTrongDongContainer extends Component {
             (this.props.route && this.props.route.path === '/dashboard/view-register') ||
             !(this.props.user.base_id == store.selectedBaseId || this.props.user.base_id <= 0);
 
+        const similar_rooms = store.allRoomsSimilar(this.booking.room).filter((room) => {
+            const checked =
+                this.booking.similar_room &&
+                this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0;
+            return checked;
+        });
+
+        similar_rooms.push(this.booking.room);
+
+        let similar_room_names = '';
+
+        similar_rooms.forEach((room) => {
+            if (room) {
+                similar_room_names += room.name + ", ";
+            }
+        })
+
         return (
             <div>
                 {store.isLoadingRooms || store.isLoadingRoomTypes || store.isLoadingBases ? (
@@ -439,27 +458,38 @@ class DashboardTrongDongContainer extends Component {
                     <div>
                         <div className="row">
                             <div className="col-sm-4 col-xs-5">
-                                <Select
+
+                                <ReactSelect
                                     defaultMessage={'Chọn cơ sở'}
                                     options={store.basesData}
                                     value={store.selectedBaseId}
                                     onChange={this.onChangeBase}
+                                    disabled={store.isLoading}
+                                    name="filter_base"
+                                    className="zindex-1000"
+
                                 />
                             </div>
                             <div className="col-sm-4 col-xs-3">
-                                <Select
+                                <ReactSelect
                                     defaultMessage={'Chọn loại phòng'}
                                     options={store.roomTypesData}
                                     value={store.selectedRoomTypeId}
                                     onChange={this.onChangeRoomType}
+                                    disabled={store.isLoading}
+                                    className="zindex-1000"
+                                    name="filter_room_type"
                                 />
                             </div>
                             <div className="col-sm-4 col-xs-4">
-                                <Select
+                                <ReactSelect
                                     defaultMessage={'Chọn phòng'}
                                     options={store.roomsData}
                                     value={store.selectedRoomId}
                                     onChange={this.onChangeRoom}
+                                    disabled={store.isLoading}
+                                    name="filter_room"
+                                    className="zindex-1000"
                                 />
                             </div>
                         </div>
@@ -499,6 +529,7 @@ class DashboardTrongDongContainer extends Component {
                                 onChange={this.onChangeStatus}
                                 placeholder="Chọn trang thái"
                                 disabled={disableCreateRegister}
+
                             />
                         </div>
                     </Modal.Body>
@@ -667,7 +698,7 @@ class DashboardTrongDongContainer extends Component {
                                     ''
                                 )}
                                 {this.booking.id ? (
-                                    `${this.booking.name} đặt phòng ${this.booking.room.name} loại ${this.booking.type}`
+                                    `${this.booking.name} đặt phòng ${similar_room_names} loại ${this.booking.type}`
                                 ) : (
                                     ''
                                 )}

@@ -12,7 +12,7 @@ import FormInputDate from "../../../components/common/FormInputDate";
 import Select from "react-select";
 import * as filmAction from "../filmAction";
 import * as helper from "../../../helpers/helper";
-
+import CheckBoxMaterial from "../../../components/common/CheckBoxMaterial";
 
 class BookingHistoryContainer extends React.Component {
     constructor(props, context) {
@@ -26,6 +26,8 @@ class BookingHistoryContainer extends React.Component {
                 roomId: "",
                 film_name: ''
             },
+            onMed: false,
+            offMed: false,
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -40,9 +42,17 @@ class BookingHistoryContainer extends React.Component {
     componentWillMount() {
         !helper.isEmptyInput(this.props.search) ?
             this.props.bookingHistoryAction.getBookingHistory(20, 1, this.props.search) :
-            this.props.bookingHistoryAction.getBookingHistory(20);
+            this.props.bookingHistoryAction.getBookingHistory(
+                20,
+                // this.state.page,
+                // this.state.query,
+                // this.state.filter.film_name,
+                // this.state.filter.roomId,
+                // this.state.filter.time,
+                // false
+            );
         this.props.filmAction.loadAllFilms();
-        this.props.filmAction.loadAllSessions();
+        this.props.filmAction.loadAllSessions(null, null, null, null, null, null, 100);
         if (!helper.isEmptyInput(this.props.search)) {
             this.setState({
                 query: this.props.search,
@@ -64,7 +74,8 @@ class BookingHistoryContainer extends React.Component {
             this.state.filter.film_name,
             this.state.filter.roomId,
             this.state.filter.time,
-            this.closeLoadingModal
+            this.closeLoadingModal,
+            this.state.offMed ? !this.state.offMed : this.state.onMed
         );
     }
 
@@ -75,12 +86,12 @@ class BookingHistoryContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 3}, {"wch": 16}, {"wch": 14}, {"wch": 20}, {"wch": 24}, {"wch": 12}, {"wch": 24}, {"wch": 16}, {"wch": 10}, {"wch": 8}, {"wch": 24},{"wch": 15}];//độ rộng cột
+        let cols = [{"wch": 3}, {"wch": 16}, {"wch": 14}, {"wch": 20}, {"wch": 24}, {"wch": 12}, {"wch": 24}, {"wch": 16}, {"wch": 10}, {"wch": 8}, {"wch": 24}, {"wch": 15}];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.map((item, index) => {
             if (item) {
                 let res = {
-                    'STT': index + 1 +"  ",
+                    'STT': index + 1 + "  ",
                     'Thời gian đặt vé': item.time.slice(11, 16) + " - " + item.time.slice(8, 10) + "/" + item.time.slice(5, 7) + "/" + item.time.slice(0, 4),
                     'Mã đơn hàng': item.order_code,
                     'Họ tên': item.user_name,
@@ -91,7 +102,7 @@ class BookingHistoryContainer extends React.Component {
                     + item.session_date.slice(5, 7) + "/" + item.session_date.slice(0, 4),
                     'Ghế': item.seat_name,
                     'Tiền (VNĐ)': item.price,
-                    "Loại giảm giá":item.code_name,
+                    "Loại giảm giá": item.code_name,
                     'Loại thanh toán': item.payment_method,
 
                 };
@@ -108,7 +119,15 @@ class BookingHistoryContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.bookingHistoryAction.getBookingHistory(20, page);
+        this.props.bookingHistoryAction.getBookingHistory(
+            20,
+            page,
+            this.state.query,
+            this.state.filter.film_name,
+            this.state.filter.roomId,
+            this.state.filter.time,
+            this.state.offMed ? !this.state.offMed : (this.state.onMed === false ?'':this.state.onMed)
+        );
     }
 
     bookingHistorySearchChange(value) {
@@ -276,7 +295,7 @@ class BookingHistoryContainer extends React.Component {
                                     />
 
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-4">
                                     <br/>
                                     <label className="label-control">Theo suất chiếu</label>
                                     <Select
@@ -294,6 +313,72 @@ class BookingHistoryContainer extends React.Component {
                                         onChange={this.changTemplateTypes2}
                                     />
                                 </div>
+                                <div className="col-md-2">
+                                    <br/>
+                                    <label className="label-control">Theo HTTT</label>
+                                    <CheckBoxMaterial
+                                        style={{display: "flex", justifyContent: "space-between"}}
+                                        name="display"
+                                        checked={this.state.onMed}
+                                        onChange={(event) => {
+                                            if (event.target.checked)
+                                                this.props.bookingHistoryAction.getBookingHistory(
+                                                    20,
+                                                    1,
+                                                    this.state.query,
+                                                    this.state.filter.film_name,
+                                                    this.state.filter.roomId,
+                                                    this.state.filter.time,
+                                                    event.target.checked
+                                                );
+                                            else this.props.bookingHistoryAction.getBookingHistory(
+                                                20,
+                                                1,
+                                                this.state.query,
+                                                this.state.filter.film_name,
+                                                this.state.filter.roomId,
+                                                this.state.filter.time,
+                                            );
+                                            this.setState({
+                                                ...this.state,
+                                                onMed: !this.state.onMed,
+                                                offMed: false
+                                            });
+                                        }}
+                                        label="On-line"
+                                    />
+                                    <CheckBoxMaterial
+                                        style={{display: "flex", justifyContent: "space-between"}}
+                                        name="display"
+                                        checked={this.state.offMed}
+                                        onChange={(event) => {
+                                            if (event.target.checked)
+                                                this.props.bookingHistoryAction.getBookingHistory(
+                                                    20,
+                                                    1,
+                                                    this.state.query,
+                                                    this.state.filter.film_name,
+                                                    this.state.filter.roomId,
+                                                    this.state.filter.time,
+                                                    !event.target.checked
+                                                );
+                                            else this.props.bookingHistoryAction.getBookingHistory(
+                                                20,
+                                                1,
+                                                this.state.query,
+                                                this.state.filter.film_name,
+                                                this.state.filter.roomId,
+                                                this.state.filter.time,
+                                            );
+                                            this.setState({
+                                                ...this.state,
+                                                offMed: !this.state.offMed,
+                                                onMed: false
+                                            });
+                                        }}
+                                        label="Off-line"
+                                    />
+                                </div>
 
 
                             </div>
@@ -304,7 +389,14 @@ class BookingHistoryContainer extends React.Component {
                     <div>
                         {
                             this.props.isLoadingBookingHistory ? <Loading/> :
-                                <BookingHistoryComponent/>
+                                <BookingHistoryComponent
+                                sendMail={(register_id, code, payment)=>this.props.bookingHistoryAction.sendMailBookingSuccess(
+                                    register_id, {
+                                        code: code,
+                                        payment: payment
+                                    }
+                                )}
+                                />
                         }
 
                         <br/>
@@ -332,7 +424,8 @@ class BookingHistoryContainer extends React.Component {
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
             </div>
-        );
+        )
+            ;
     }
 }
 

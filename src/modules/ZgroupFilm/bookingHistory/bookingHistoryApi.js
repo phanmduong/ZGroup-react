@@ -1,7 +1,7 @@
 import axios from "axios/index";
 import * as env from "../../../constants/env";
 
-export function getBookingHistoryApi(limit, page, search, film_name, roomId, time) {
+export function getBookingHistoryApi(limit, page, search, film_name, roomId, time,payment_method) {
     let url = env.MANAGE_API_URL + "/booking/history";
     let token = localStorage.getItem('token');
     if (token) {
@@ -25,5 +25,18 @@ export function getBookingHistoryApi(limit, page, search, film_name, roomId, tim
     if (time) {
         url += "&time=" + time;
     }
+    if(payment_method===true){
+        url += "&payment_method=" + (payment_method === false ? "offline" : "online");
+    }
+    if(payment_method===false){
+        url += "&payment_method=" + (payment_method === false ? "offline" : "online");
+    }
     return axios.get(url);
+}
+
+
+//send mail booking success /book_information/{register_id}
+export function sendMailBookingSuccessApi(register_id, book_information) {
+    let url = env.BASE_URL + "/book_information/" + register_id;
+    return axios.post(url,book_information);
 }

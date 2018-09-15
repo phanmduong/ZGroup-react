@@ -207,9 +207,13 @@ class BookingRegisterSessionModal extends React.Component {
 
                                         <h5>Thanh toán:
                                             <span style={{float: "right", fontWeight: 500}}>
-                                            {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                            {((moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
                                                 moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-                                                this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                                this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)) < 0 ? 0 :
+                                                (moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                                    moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                                    this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)
+                                            }.000
                                             VNĐ
                                             </span>
                                         </h5>
@@ -238,9 +242,13 @@ class BookingRegisterSessionModal extends React.Component {
                                     fontSize: 30,
                                     fontWeight: 400,
                                 }}>
-                                    {(moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                    {((moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
                                         moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
-                                        this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)}.000
+                                        this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)) < 0 ? 0 :
+                                        (moment(this.props.codeInfo.start_date, "YYYY-MM-DD").fromNow().search("ago") === -1 ||
+                                            moment(this.props.codeInfo.end_date, "YYYY-MM-DD").add(1, 'days').fromNow().search("in") === -1 ||
+                                            this.props.codeInfo.status === 1) ? (sum || 0) / 1000 : (sum || 0) / 1000 - ((this.props.codeInfo.value || 0) / 1000)
+                                    }.000
                                     VNĐ
                                 </p>
                         }

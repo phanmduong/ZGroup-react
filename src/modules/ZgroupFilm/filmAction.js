@@ -3,6 +3,12 @@ import * as filmApi from "./filmApi";
 import * as helper from "../../helpers/helper";
 import {browserHistory} from "react-router";
 
+export function handleFilmSearch(search) {
+    return ({
+        type: types.HANDLE_FILM_SEARCH,
+        search: search
+    });
+}
 export function loadAllCustomer(page, search) {
     return function (dispatch) {
         dispatch({
@@ -257,12 +263,12 @@ export function handleImagesWebsiteTab(images_url) {
 }
 
 
-export function loadAllSessions(page, search, from_date, to_date, start_date, film_id) {
+export function loadAllSessions(page, search, from_date, to_date, start_date, film_id, limit) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_SESSIONS
         });
-        filmApi.loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id)
+        filmApi.loadAllSessionsApi(page, search, from_date, to_date, start_date, film_id, limit)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_SESSIONS_SUCCESS,

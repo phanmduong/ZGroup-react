@@ -29,7 +29,7 @@ class SessionComponent extends React.Component {
                     <tr className="text-rose">
                         <th>STT</th>
                         <th>Tên phim</th>
-                        <th>Phòng</th>
+                        {/*<th>Phòng</th>*/}
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
                         <th>FQ</th>
@@ -54,13 +54,13 @@ class SessionComponent extends React.Component {
                                             this.props.filmAction.showAddEditFilmModalAtSession();
                                             this.props.filmAction.handleFilmModal(a);
                                         }}>
-                                            {a && (a.name.length >= 15 ? a.name.slice(0, 14).concat("...") : a.name)}
+                                            {a && (a.name.length >= 25 ? a.name.slice(0, 24).concat("...") : a.name)}
                                         </span>
                                     </TooltipButton>
                                 </td>
-                                <td>
-                                    {b && b.base_name} - {b && b.name}
-                                </td>
+                                {/*<td>*/}
+                                    {/*{b && b.base_name} - {b && b.name}*/}
+                                {/*</td>*/}
                                 <td>
                                     {session.start_date}
                                 </td>

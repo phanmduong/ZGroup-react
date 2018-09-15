@@ -45,7 +45,7 @@ class ShowingSessionContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.filmAction.loadShowingSession(page);
+        this.props.filmAction.loadShowingSession(page, this.state.query);
     }
 
     // updateFormFilter(event) {
@@ -65,6 +65,7 @@ class ShowingSessionContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.filmAction.loadShowingSession(1, value);
+            this.props.filmAction.loadShownSession(1, value);
             this.props.filmAction.loadAllSessions(1, value);
         }.bind(this), 500);
     }

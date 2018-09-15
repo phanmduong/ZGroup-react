@@ -20,7 +20,7 @@ class App extends React.Component {
                 <div
                     className="sidebar"
                     data-active-color="rose"
-                    data-background-color="white"
+                    data-background-color="black"
                     data-image="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/img/sidebar-1.jpg">
                     <div className="logo">
                         <Link to="/" className="simple-text">
