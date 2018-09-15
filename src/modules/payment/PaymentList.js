@@ -23,6 +23,7 @@ class PaymentList extends React.Component {
                         <th>STT</th>
                         <th>Bên gửi</th>
                         <th>Bên nhận</th>
+                        <th>Ngày thanh toán</th>
                         {/* <th>Số tiền</th>
                         <th>Nội dung</th> */}
                         {/* <th>Trạng thái</th> */}
@@ -41,6 +42,7 @@ class PaymentList extends React.Component {
                                     <td onClick={onFunc}>{index+1}</td>
                                     <td onClick={onFunc}>{pp.payer.name}</td>
                                     <td onClick={onFunc}>{pp.receiver.name}</td>
+                                    <td onClick={onFunc}>{pp.export_date}</td>
                                     {/* <td onClick={onFunc}>{helper.dotStringNumber(pp.money_value)}</td>
                                     <td onClick={onFunc}> {pp.description ? pp.description : "Không có"}</td> */}
                                     {/* <td onClick={onFunc}>

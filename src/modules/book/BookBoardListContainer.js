@@ -24,7 +24,7 @@ class BookBoardListContainer extends React.Component {
         this.addCard = this.addCard.bind(this);
         this.editBoard = this.editBoard.bind(this);
         this.moveCard = this.moveCard.bind(this);
-        this.archiveCard = this.archiveCard.bind(this);
+        // this.archiveCard = this.archiveCard.bind(this);
     }
 
     componentWillMount() {
@@ -78,13 +78,6 @@ class BookBoardListContainer extends React.Component {
         this.props.taskActions.editBoard(board);
     }
 
-<<<<<<< HEAD
-    archiveCard(card) {
-        confirm('warning', 'Lưu trữ thẻ', 'Bạn có chắc muốn lưu trữ thẻ này?', ()=>{
-            this.props.taskActions.archiveCard(card);
-        });
-        
-=======
     // archiveExecute = (inputCard) => {
 
     //     this.props.boards.forEach((board) => {
@@ -114,7 +107,6 @@ class BookBoardListContainer extends React.Component {
         //         });
         // });
 
->>>>>>> 95efe146b635b9a33907427664473dca9a500b87
     }
 
     render() {
@@ -134,38 +126,6 @@ class BookBoardListContainer extends React.Component {
                 {this.props.isLoadingBoards ? (
                     <Loading />
                 ) : (
-<<<<<<< HEAD
-                    <div>
-                        <BookCardFilterContainer
-                            isAdmin={isAdmin}
-                            projectId={Number(this.props.projectId)}
-                        />
-                        <BookBoardList
-                            archiveBoard={this.props.boardActions.archiveBoard}
-                            display={this.props.setting.display || "full"}
-                            isAdmin={isAdmin}
-                            canDragBoard={this.props.canDragBoard}
-                            canDragCard={this.props.canDragCard}
-                            archiveCard={this.archiveCard}
-                            updateCardInBoard={
-                                this.props.taskActions.updateCardInBoard
-                            }
-                            openCardDetailModal={
-                                this.props.taskActions.openCardDetailModal
-                            }
-                            moveBoard={this.props.taskActions.moveBoard}
-                            changeOrderCard={
-                                this.props.taskActions.changeOrderCard
-                            }
-                            moveCard={this.moveCard}
-                            addCard={this.addCard}
-                            editBoard={this.editBoard}
-                            openCreateBoardModal={this.openCreateBoardModal}
-                            boards={this.props.boards}
-                        />
-                    </div>
-                )}
-=======
                         <div>
                             <BookCardFilterContainer
                                 isAdmin={isAdmin}
@@ -177,8 +137,8 @@ class BookBoardListContainer extends React.Component {
                                 display={this.props.setting.display || "full"}
                                 isAdmin={isAdmin}
                                 isLoadingBoardsDetail={this.props.isLoadingBoardsDetail}
-                                canDragBoard={isAdmin || this.props.canDragBoard}
-                                canDragCard={isAdmin || this.props.canDragCard}
+                                canDragBoard={this.props.canDragBoard}
+                                canDragCard={this.props.canDragCard}
                                 archiveCard={this.archiveExecute}
                                 updateCardInBoard={
                                     this.props.taskActions.updateCardInBoard
@@ -198,7 +158,6 @@ class BookBoardListContainer extends React.Component {
                             />
                         </div>
                     )}
->>>>>>> 95efe146b635b9a33907427664473dca9a500b87
             </div>
         );
     }

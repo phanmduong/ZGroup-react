@@ -209,7 +209,7 @@ class SurveyItem extends React.Component {
                                     alignItems: "center",
                                 }}
                             >
-                                {survey.staff.avatar_url ? (
+                                {survey.staff && survey.staff.avatar_url ? (
                                     <Avatar
                                         size={40}
                                         url={survey.staff.avatar_url}
@@ -217,7 +217,7 @@ class SurveyItem extends React.Component {
                                     />
                                 ) : null}
                                 <div>
-                                    <strong>{survey.staff.name}</strong>
+                                    <strong>{survey.staff &&survey.staff.name}</strong>
                                     <br />
                                     <p
                                         className="category"
