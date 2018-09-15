@@ -85,6 +85,11 @@ export default moduleName => {
                         "postcss-loader",
                         "sass-loader?sourceMap"
                     ]
+                },
+                {
+                    test: /\.(graphql|gql)$/,
+                    exclude: /node_modules/,
+                    loader: 'graphql-tag/loader'
                 }
             ]
         },

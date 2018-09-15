@@ -1116,6 +1116,57 @@ a.btn-seat.active {
   border-radius: 15px;
 }
 
-.gray{
+.gray {
   background: #e4e4e4;
+}
+
+table tr td .avatar-honor {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.table-sortable > thead > tr > .header > span {
+  cursor: pointer;
+  display: inline-block;
+  padding-right: 16px;
+  padding-left: 0;
+}
+
+.table-sortable > thead > tr > .header.text-right > span {
+  padding-left: 16px;
+  padding-right: 0;
+}
+
+.table-sortable > thead > tr > .headerSortUp > span,
+.table-sortable > thead > tr > .headerSortDown > span {
+  position: relative;
+}
+
+.table-sortable > thead > tr > .headerSortUp > span:before,
+.table-sortable > thead > tr > .headerSortDown > span:before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #989898;
+  right: 0;
+  bottom: 6px;
+}
+
+.table-sortable > thead > tr > .headerSortUp.text-right > span,
+.table-sortable > thead > tr > .headerSortDown.text-right > span {
+  padding-right: 16px;
+  padding-left: 0;
+}
+
+.table-sortable > thead > tr > .headerSortDown > span:before {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #989898;
+  border-bottom: none;
 }
