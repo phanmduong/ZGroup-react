@@ -66,17 +66,19 @@ class DashboardTrongDongContainer extends Component {
     @observable excelEndTime = null;
 
     onChangeRoom(value) {
-        store.selectedRoomId = value ? value.value:0;
+        store.selectedRoomId = value ? value.value : 0;
         store.loadDashboard();
     }
 
     onChangeBase(value) {
-        store.selectedBaseId = value ? value.value:0;
+        store.selectedBaseId = value ? value.value : 0;
+        store.selectedRoomTypeId = 0;
+        store.selectedRoomId = 0;
         store.loadDashboard();
     }
 
     onChangeRoomType(value) {
-        store.selectedRoomTypeId =value ? value.value:0;
+        store.selectedRoomTypeId = value ? value.value : 0;
         store.loadDashboard();
     }
 
@@ -88,8 +90,8 @@ class DashboardTrongDongContainer extends Component {
     updateTime(value) {
         store.changeTime(
             value.register_id,
-            value.start&&value.start.format(DATETIME_FORMAT_SQL),
-            value.end&&value.end.format(DATETIME_FORMAT_SQL)
+            value.start && value.start.format(DATETIME_FORMAT_SQL),
+            value.end && value.end.format(DATETIME_FORMAT_SQL)
         );
     }
 
@@ -109,8 +111,8 @@ class DashboardTrongDongContainer extends Component {
                 base_id: room && room.base ? room.base.id : '',
                 room_id: room ? room.id : '',
                 type: register.type,
-                start_time: register.start&&register.start.format(DATETIME_FORMAT),
-                end_time: register.end&&register.end.format(DATETIME_FORMAT),
+                start_time: register.start && register.start.format(DATETIME_FORMAT),
+                end_time: register.end && register.end.format(DATETIME_FORMAT),
                 status: register.status,
                 note: register.register_data.note,
                 kind: register.register_data.kind,
@@ -127,7 +129,7 @@ class DashboardTrongDongContainer extends Component {
                 status: 'seed',
                 kind: '',
                 similar_room: room ? [room.id] : [],
-                note : '',
+                note: '',
             };
         }
     }
@@ -155,7 +157,7 @@ class DashboardTrongDongContainer extends Component {
 
     closeModalBooking = () => {
         this.showModalBooking = false;
-        self.booking= {};
+        self.booking = {};
     };
 
     colorBook(status) {
@@ -275,9 +277,9 @@ class DashboardTrongDongContainer extends Component {
                 status: register.status,
                 color: color,
                 overlay: 1,
-                number_person : register.number_person,
-                phone : register.user && register.user.phone,
-                note : register.note,
+                number_person: register.number_person,
+                phone: register.user && register.user.phone,
+                note: register.note,
             };
         });
 
@@ -334,7 +336,7 @@ class DashboardTrongDongContainer extends Component {
                         calendarEvents={registersData}
                         onDropTime={(value) => this.updateTime(value)}
                         onClick={(value) => {
-                            if (disableCreateRegister){
+                            if (disableCreateRegister) {
                                 showErrorNotification("Không được phân quyền.");
                                 return;
                             }
@@ -344,15 +346,15 @@ class DashboardTrongDongContainer extends Component {
                                 register_name: value.register_name,
                                 room: value.room,
                                 type: value.type,
-                                start_time: value.start&&value.start.format(DATETIME_FORMAT),
-                                end_time: value.end&&value.end.format(DATETIME_FORMAT),
-                                note : value.note,
-                                kind : value.kind,
+                                start_time: value.start && value.start.format(DATETIME_FORMAT),
+                                end_time: value.end && value.end.format(DATETIME_FORMAT),
+                                note: value.note,
+                                kind: value.kind,
                             };
                             self.openModalBooking(null, room, value);
                         }}
                         onClickDay={(day) => {
-                            if (disableCreateRegister){
+                            if (disableCreateRegister) {
                                 showErrorNotification("Không được phân quyền.");
                                 return;
                             }
@@ -430,6 +432,23 @@ class DashboardTrongDongContainer extends Component {
         const disableCreateRegister =
             (this.props.route && this.props.route.path === '/dashboard/view-register') ||
             !(this.props.user.base_id == store.selectedBaseId || this.props.user.base_id <= 0);
+
+        const similar_rooms = store.allRoomsSimilar(this.booking.room).filter((room) => {
+            const checked =
+                this.booking.similar_room &&
+                this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0;
+            return checked;
+        });
+
+        similar_rooms.push(this.booking.room);
+
+        let similar_room_names = '';
+
+        similar_rooms.forEach((room) => {
+            if (room) {
+                similar_room_names += room.name + ", ";
+            }
+        })
 
         return (
             <div>
@@ -679,7 +698,7 @@ class DashboardTrongDongContainer extends Component {
                                     ''
                                 )}
                                 {this.booking.id ? (
-                                    `${this.booking.name} đặt phòng ${this.booking.room.name} loại ${this.booking.type}`
+                                    `${this.booking.name} đặt phòng ${similar_room_names} loại ${this.booking.type}`
                                 ) : (
                                     ''
                                 )}
