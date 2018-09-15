@@ -220,14 +220,14 @@ export default new class DashboardTrongDongStore {
     get basesData() {
         let baseData = this.bases.map(function (base) {
             return {
-                key: base.id,
-                value: base.name
+                value: base.id,
+                label: base.name
             };
         });
         return [
             {
-                key: 0,
-                value: "Tất cả"
+                value: 0,
+                label: "Tất cả cơ sở"
             },
             ...baseData
         ];
@@ -237,14 +237,14 @@ export default new class DashboardTrongDongStore {
     get roomTypesData() {
         let roomTypesData = this.roomTypes.map(function (base) {
             return {
-                key: base.id,
-                value: base.name
+                value: base.id,
+                label: base.name
             };
         });
         return [
             {
-                key: 0,
-                value: "Tất cả"
+                value: 0,
+                label: "Tất cả loại phòng"
             },
             ...roomTypesData
         ];
@@ -261,16 +261,16 @@ export default new class DashboardTrongDongStore {
         }
         rooms = rooms.map(function (base) {
             return {
-                key: base.id,
-                value: base.name,
+                value: base.id,
+                label: base.name,
                 id: base.id
             };
         });
 
         return [
             {
-                key: 0,
-                value: "Tất cả phòng tại cơ sở"
+                value: 0,
+                label: "Tất cả phòng tại cơ sở"
             },
             ...rooms
         ];

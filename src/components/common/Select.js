@@ -21,7 +21,7 @@ class Select extends React.Component {
                     value={this.props.value}
                     onChange={event => this.props.onChange(event.target.value)}
                     className="selectpicker"
-                    data-style={this.props.disableRound ? "btn btn-rose" : "btn btn-rose btn-round"}>
+                    data-style={(this.props.disableRound ? "btn btn-rose" : "btn btn-rose btn-round")}>
                     <option selected disabled>
                         {this.props.defaultMessage || "Please select"}
                     </option>

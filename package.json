@@ -78,10 +78,8 @@
     "build:film": "npm run lint && rimraf ./dist/film && mkdir dist/film && MODULE=film babel-node tools/build/module.js",
     "start:pageManage": "MODULE=pageManage npm-run-all --parallel open:src lint:watch",
     "build:pageManage": "npm run lint && rimraf ./dist/issue && mkdir dist/pageManage && MODULE=pageManage babel-node tools/build/module.js",
-
     "start:statistics": "MODULE=statistics npm-run-all --parallel open:src lint:watch",
     "build:statistics": "npm run lint && rimraf ./dist/issue && mkdir dist/statistics && MODULE=statistics babel-node tools/build/module.js",
-
     "start:issue": "MODULE=issue npm-run-all --parallel open:src lint:watch",
     "build:issue": "npm run lint && rimraf ./dist/issue && mkdir dist/issue && MODULE=issue babel-node tools/build/module.js",
     "start:crm": "MODULE=crm npm-run-all --parallel open:src lint:watch",
