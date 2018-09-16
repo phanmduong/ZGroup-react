@@ -1,18 +1,18 @@
 import React from "react";
 import * as helper from "../../helpers/helper";
-import {browserHistory} from "react-router";
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { browserHistory } from "react-router";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Loading from "../../components/common/Loading";
 import * as importOrderActions from "../importOrder/importOrderActions";
 import FormInputText from "../../components/common/FormInputText";
 import ReactSelect from 'react-select';
-import {Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 
-const textAlign = {textAlign: "right"};
-const btnStyle = {marginRight: 10};
+const textAlign = { textAlign: "right" };
+const btnStyle = { marginRight: 10 };
 
 class CreateItemImportOrderContainer extends React.Component {
     constructor(props, context) {
@@ -47,7 +47,7 @@ class CreateItemImportOrderContainer extends React.Component {
     updateFormAdd(e) {
         let name = e.target.name;
         let value = e.target.value;
-        let {addModalData} = this.state;
+        let { addModalData } = this.state;
         if (!value) return;
         if (name === "id") {
             let good = this.props.goods.filter((obj) => obj.id * 1 === value * 1)[0];
@@ -56,19 +56,19 @@ class CreateItemImportOrderContainer extends React.Component {
                 [name]: value,
             };
         } else
-            addModalData = {...addModalData, [name]: value};
-        this.setState({addModalData});
+            addModalData = { ...addModalData, [name]: value };
+        this.setState({ addModalData });
     }
 
     openAddModal(index) {
         if (index || index === 0) {
             this.isEditModal = true;
-            this.setState({showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index});
+            this.setState({ showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index });
         }
     }
 
     closeAddModal() {
-        this.setState({showAddModal: false});
+        this.setState({ showAddModal: false });
     }
 
 
@@ -98,14 +98,14 @@ class CreateItemImportOrderContainer extends React.Component {
 
     changeOrder(e) {
         if (!e) return;
-        this.setState({data: e});
+        this.setState({ data: { ...e, note: this.state.data.note } });
 
     }
 
     updateWareHouseFormAdd(e) {
         if (!e) return;
         let newdata = this.state.addModalData;
-        this.setState({addModalData: {...newdata, warehouse: e}});
+        this.setState({ addModalData: { ...newdata, warehouse: e } });
     }
 
     addGood() {
@@ -115,31 +115,58 @@ class CreateItemImportOrderContainer extends React.Component {
                 return;
             }
 
-            let {goods} = this.state.data;
+            let { goods } = this.state.data;
             let good = goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
             if (!good) return;
 
             goods = [...goods.slice(0, this.state.editIndex),
-                {
-                    ...this.state.addModalData,
-                    name: good.name,
-                    imported_quantity: this.state.addModalData.imported_quantity
-                },
-                ...goods.slice(this.state.editIndex + 1, goods.length)
+            {
+                ...this.state.addModalData,
+                name: good.name,
+                imported_quantity: this.state.addModalData.imported_quantity
+            },
+            ...goods.slice(this.state.editIndex + 1, goods.length)
             ];
 
 
             this.setState({
-                data: {...this.state.data, goods},
+                data: { ...this.state.data, goods },
                 showAddModal: false,
                 addModalData: defaultAddModalData
             });
         }
     }
 
+    changeGood = (editIndex, name, value) => {
+
+
+
+        let { goods } = this.state.data;
+        let data = { ...goods[editIndex] };
+        data[name] = value;
+        goods = [
+            ...goods.slice(0,editIndex),
+            data,
+            ...goods.slice(editIndex + 1, goods.length)
+        ];
+
+
+        this.setState({
+            data: { ...this.state.data, goods },
+            showAddModal: false,
+            //addModalData: defaultAddModalData
+        });
+
+    }
+
+    updateFormData = (e) => {
+        this.setState({ data: { ...this.state.data, [e.target.name]: e.target.value } });
+    }
+
 
     commitData() {
-        let {data} = this.state;
+        if ($('#form-all').valid()) {
+        let { data } = this.state;
         if (!data.id) {
             helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
             return;
@@ -155,13 +182,13 @@ class CreateItemImportOrderContainer extends React.Component {
         });
 
         if (!selectedAllWareHouse) {
-            helper.showErrorMessage("Vui lòng chọn kho xuất cho tất cả sản phẩm");
+            helper.showErrorMessage("Vui lòng chọn kho nhập cho tất cả sản phẩm");
             return;
         }
         let n = data.good_count;
         let arr = [];
-        for(let i=data.goods.length-1 ; i>data.goods.length -1- n;i--){
-            arr = [data.goods[i],...arr];
+        for (let i = data.goods.length - 1; i > data.goods.length - 1 - n; i--) {
+            arr = [data.goods[i], ...arr];
         }
         this.props.importOrderActions.createImportOrder(
             {
@@ -182,18 +209,19 @@ class CreateItemImportOrderContainer extends React.Component {
                 staff_id: this.props.user.id,
 
             });
+        }
 
     }
 
     render() {
-        let {data, addModalData} = this.state;
-        let sumQuantity = 0, sumPrice = 0, sumImportedQuantity=0;
-        let count = 0;
+        let { data, addModalData } = this.state;
+        let sumQuantity = 0, sumPrice = 0, sumImportedQuantity = 0;
+        //let count = 0;
         return (
             <div className="content">
                 <div className="container-fluid">
-                    {(this.props.isLoading) ? <Loading/> :
-                        <form role="form" id="form-id" onSubmit={(e) => e.preventDefault()}>
+                    {(this.props.isLoading) ? <Loading /> :
+                        <form role="form" id="form-all" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
@@ -203,84 +231,106 @@ class CreateItemImportOrderContainer extends React.Component {
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <thead className="text-rose">
-                                                    <tr>
-                                                        <th style={{width: "10%"}}>Lần nhập</th>
-                                                        <th style={{width: "40%"}}>Tên</th>
-                                                        <th style={textAlign}>Số lượng đặt</th>
-                                                        <th style={textAlign}>Đơn giá</th>
-                                                        <th style={textAlign}>Kho nhập</th>
-                                                        <th style={textAlign}>Ngày nhập</th>
-                                                        <th style={textAlign}>Số lượng nhập</th>
-                                                        <th style={textAlign}>Thành tiền</th>
-
-
-                                                    </tr>
+                                                        <tr>
+                                                            <th style={{ width: "5%" }}>Lần nhập</th>
+                                                            <th style={{ width: "25%" }}>Tên</th>
+                                                            <th style={textAlign}>Số lượng đặt</th>
+                                                            <th style={textAlign}>Đơn giá</th>
+                                                            <th style={{ width: "20%" }}>Kho nhập</th>
+                                                            <th style={{ width: "20%" }}>Ngày nhập</th>
+                                                            <th style={{ width: "20%" }}>Số lượng nhập</th>
+                                                            <th style={textAlign}>Thành tiền</th>
+                                                            {/* <th/> */}
+                                                        </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
                                                         <tbody>
-                                                        {data.goods.map(
-                                                            (obj, index) => {
-                                                                sumPrice += obj.price * parseInt(obj.imported_quantity);
-                                                                sumQuantity += obj.quantity * 1;
-                                                                count += 1;
-                                                                sumImportedQuantity+= parseInt(obj.imported_quantity);
-                                                                return (
-                                                                    <tr key={index}>
-                                                                        <td>{index % data.good_count === 0 ? (index / data.good_count + 1) :
-                                                                            <p/>}</td>
-                                                                        <td>{obj.good.name}</td>
-                                                                        <td style={textAlign}>{obj.quantity}</td>
-                                                                        <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
-                                                                        <td style={{
-                                                                            ...textAlign,
-                                                                            color: (obj.warehouse && obj.warehouse.id) ? "" : "red"
-                                                                        }}>
-                                                                            {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
-                                                                        <td style={textAlign}>{(obj.warehouse && obj.warehouse.id) ? obj.created_at : "Chưa có"}</td>
-                                                                        <td style={textAlign}>{obj.imported_quantity}</td>
-                                                                        <td style={textAlign}>{helper.dotNumber(obj.price * obj.imported_quantity)}</td>
-                                                                        <td>{
-                                                                            (obj.status) ?
-                                                                                <div/> :
-                                                                                <div className="btn-group-action"
-                                                                                     style={{
-                                                                                         display: "flex",
-                                                                                         justifyContent: "center"
-                                                                                     }}>
-                                                                                    <a data-toggle="tooltip" title="Sửa"
-                                                                                       type="button" rel="tooltip"
-                                                                                       onClick={() => {
-                                                                                           return this.openAddModal(index);
-                                                                                       }}><i
-                                                                                        className="material-icons">edit</i>
-                                                                                    </a>
-                                                                                </div>
-                                                                        }</td>
-                                                                    </tr>
-                                                                );
-                                                            })}
+                                                            {data.goods.map(
+                                                                (obj, index) => {
+                                                                    sumPrice += obj.price * parseInt(obj.imported_quantity);
+                                                                    sumQuantity += obj.quantity * 1;
+                                                                    //count += 1;
+                                                                    sumImportedQuantity += parseInt(obj.imported_quantity);
+                                                                    let isDisabled = index < data.goods.length - data.good_count;
+                                                                    return (
+                                                                        <tr key={index}>
+                                                                            <td>{index % data.good_count === 0 ? (index / data.good_count + 1) :
+                                                                                <p />}</td>
+                                                                            <td>{obj.good.name}</td>
+                                                                            <td style={textAlign}>{obj.quantity}</td>
+                                                                            <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
+                                                                            <td >
+                                                                                <div>
+                                                                                    <label>Chọn kho nhập</label>
+                                                                                    <ReactSelect
+                                                                                        disabled={isDisabled}
+                                                                                        options={this.changeDataWarehouse() || []}
+                                                                                        onChange={(e) => {
+                                                                                            if (e) {
+                                                                                                this.changeGood(index, "warehouse", e);
+                                                                                            }
+                                                                                        }}
+                                                                                        value={obj.warehouse.id}
+                                                                                        defaultMessage="Chọn kho xuất"
+                                                                                    /></div>
+                                                                            </td>
+                                                                            <td style={textAlign}>{(obj.warehouse && obj.warehouse.id) ? obj.created_at : "Chưa có"}</td>
+                                                                            <td style={textAlign}>
+                                                                                <FormInputText
+                                                                                    name={index+""} type="number"
+                                                                                    label="Số lượng nhập"
+                                                                                    value={obj.imported_quantity}
+                                                                                    minValue="0"
+                                                                                    updateFormData={(e)=>this.changeGood(index, "imported_quantity", e.target.value)}
+                                                                                    placeholder="Nhập số lượng"
+                                                                                    required={!isDisabled}
+                                                                                    disabled={isDisabled}
+                                                                                />
+                                                                            </td>
+                                                                            <td style={textAlign}>{helper.dotNumber(obj.price * obj.imported_quantity)}</td>
+                                                                            {/* <td>{
+                                                                                (obj.status) ?
+                                                                                    <div /> :
+                                                                                    <div className="btn-group-action"
+                                                                                        style={{
+                                                                                            display: "flex",
+                                                                                            justifyContent: "center"
+                                                                                        }}>
+                                                                                        <a data-toggle="tooltip" title="Sửa"
+                                                                                            type="button" rel="tooltip"
+                                                                                            onClick={() => {
+                                                                                                return this.openAddModal(index);
+                                                                                            }}><i
+                                                                                                className="material-icons">edit</i>
+                                                                                        </a>
+                                                                                    </div>
+                                                                            }</td> */}
+                                                                        </tr>
+                                                                    );
+                                                                })}
                                                         </tbody>
                                                         :
                                                         <tbody>
-                                                        <tr>
-                                                            <td/>
-                                                            <td colSpan={5}>Chưa có sản phẩm</td>
-                                                        </tr>
+                                                            <tr>
+                                                                <td />
+                                                                <td colSpan={5}>Chưa có sản phẩm</td>
+                                                            </tr>
                                                         </tbody>
 
                                                     }
 
-                                                    <tfoot style={{fontWeight: "bolder", fontSize: "1.1em"}}>
-                                                    <tr>
-                                                        <td/>
-                                                        <td>Tổng</td>
-                                                        <td style={textAlign}>{sumQuantity / (count / parseInt(data.good_count))}</td>
-                                                        <td/>
-                                                        <td/>
-                                                        <td style={textAlign}>{sumImportedQuantity} </td>
-                                                        <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
-                                                        <td/>
-                                                    </tr>
+                                                    <tfoot style={{ fontWeight: "bolder", fontSize: "1.1em" }}>
+                                                        <tr>
+                                                            <td />
+                                                            <td>Tổng</td>
+                                                            <td style={textAlign}>{sumQuantity}</td>
+                                                            <td />
+                                                            <td />
+                                                            <td />
+                                                            <td style={textAlign}>{sumImportedQuantity} </td>
+                                                            <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
+                                                            <td />
+                                                        </tr>
                                                     </tfoot>
                                                 </table>
                                             </div>
@@ -292,8 +342,8 @@ class CreateItemImportOrderContainer extends React.Component {
                                                     marginTop: 40
                                                 }}>
                                                     <button style={btnStyle} className="btn btn-rose disabled"
-                                                            type="button" disabled>
-                                                        <i className="fa fa-spinner fa-spin"/> Đang lưu...
+                                                        type="button" disabled>
+                                                        <i className="fa fa-spinner fa-spin" /> Đang lưu...
                                                     </button>
                                                 </div>
                                                 :
@@ -349,10 +399,10 @@ class CreateItemImportOrderContainer extends React.Component {
                                             <div>
                                                 <div>
                                                     <FormInputText name="" label="Nhà cung cấp"
-                                                                   value={data.company.name} disabled/>
+                                                        value={data.company.name} disabled />
                                                     <FormInputText name="" label="Người nhập hàng"
-                                                                   value={data.staff_import_or_export.length ? data.staff_import_or_export.name : this.props.user.name}
-                                                                   disabled/>
+                                                        value={data.staff_import_or_export.length ? data.staff_import_or_export.name : this.props.user.name}
+                                                        disabled />
                                                 </div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">
@@ -383,8 +433,8 @@ class CreateItemImportOrderContainer extends React.Component {
                     <Modal.Header>
                         <Modal.Title>Thuộc tính
                             <a data-toggle="tooltip" title="Đóng" type="button" rel="tooltip"
-                               style={{float: "right", color: "gray"}}
-                               onClick={this.closeAddModal}>
+                                style={{ float: "right", color: "gray" }}
+                                onClick={this.closeAddModal}>
                                 <i className="material-icons">highlight_off</i></a>
                         </Modal.Title>
                     </Modal.Header>
@@ -433,13 +483,13 @@ class CreateItemImportOrderContainer extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
 
-                        <div style={{display: "flex", justifyContent: "flex-end"}}>
+                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
                             <button className="btn btn-fill btn-rose" type="button"
-                                    onClick={this.addGood}
+                                onClick={this.addGood}
                             ><i className="material-icons">done</i> Lưu
                             </button>
                             <button className="btn btn-fill" type="button"
-                                    onClick={this.closeAddModal}
+                                onClick={this.closeAddModal}
                             ><i className="material-icons">cancel</i> Hủy
                             </button>
                         </div>
@@ -481,12 +531,12 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItemImportOrderContainer);
 let defaultData = {
-    company: {id: null, name: ""},
-    staff: {id: null, name: ""},
+    company: { id: null, name: "" },
+    staff: { id: null, name: "" },
     good: [
         // {id: null, name: "", quantity: 0,},
     ],
-    warehouse: {id: null, name: ""},
+    warehouse: { id: null, name: "" },
     imported_quantity: 0,
     quantity: 0,
     staff_import_or_export: [],

@@ -49,6 +49,7 @@ class ArchiveCardsModalContainer extends React.Component {
                         return (
                             <CardItem
                                 unarchiveCard={this.props.taskActions.unarchiveCard}
+                                loadBoards={this.props.loadBoards}
                                 key={card.id}
                                 openCardDetailModal={this.props.taskActions.openCardDetailModal}
                                 updateCardInBoard={this.props.taskActions.updateCardInBoard}
@@ -81,7 +82,8 @@ ArchiveCardsModalContainer.propTypes = {
     isEmpty: PropTypes.bool.isRequired,
     showModal: PropTypes.bool.isRequired,
     projectId: PropTypes.number.isRequired,
-    cards: PropTypes.array.isRequired
+    cards: PropTypes.array.isRequired,
+    loadBoards: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

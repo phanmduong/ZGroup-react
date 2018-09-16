@@ -1,15 +1,15 @@
 import React from "react";
 import ReactSelect from 'react-select';
 import FormInputText from "../../../components/common/FormInputText";
-import {Modal} from 'react-bootstrap';
-import {bindActionCreators} from "redux";
+import { Modal } from 'react-bootstrap';
+import { bindActionCreators } from "redux";
 import * as billActions from "./billActions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
-import FormInputMoney from "../../../components/common/FormInputMoney";
+//import FormInputMoney from "../../../components/common/FormInputMoney";
 
-class InfoBillModal extends React.Component{
+class InfoBillModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeCompanies = this.changeCompanies.bind(this);
@@ -29,26 +29,28 @@ class InfoBillModal extends React.Component{
         return data;
 
     }
-    render(){
-        return(
+    render() {
+        const vatNum = this.props.data.money_value * this.props.data.vat / 100;
+        const total = this.props.data.money_value * (1 * this.props.data.vat + 100) / 100;
+        return (
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
                 bsSize="large"
             >
-                <Modal.Header closeButton/>
+                <Modal.Header closeButton />
                 <Modal.Body>
                     <div className="content">
                         <form role="form" id="form-payment" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
-                                <div className="col-md-12">
+                                <div className="col-md-8">
                                     <div className="card">
 
 
                                         <div className="card-content">
                                             <h4 className="card-title"><strong>Thông tin hóa đơn </strong></h4>
                                             <div className="row">{
-                                                (this.props.isLoadingCompanies) ? <Loading/> :
+                                                (this.props.isLoadingCompanies) ? <Loading /> :
                                                     <div>
                                                         <div className="col-md-6">
                                                             <label>
@@ -65,7 +67,7 @@ class InfoBillModal extends React.Component{
                                                         </div>
                                                         <div className="col-md-6">
                                                             <FormInputText
-                                                                label="Số tài khoản"
+                                                                label="Mã số thuế"
                                                                 type="text"
                                                                 name="stk2"
                                                                 value={this.props.data.payer.account_number || ""}
@@ -88,7 +90,7 @@ class InfoBillModal extends React.Component{
                                                         </div>
                                                         <div className="col-md-6">
                                                             <FormInputText
-                                                                label="Số tài khoản"
+                                                                label="Mã số thuế"
                                                                 type="text"
                                                                 name="stk"
                                                                 disabled
@@ -97,9 +99,33 @@ class InfoBillModal extends React.Component{
                                                             />
 
                                                         </div>
+
                                                         <div className="col-md-6">
-                                                            <label/>
-                                                            <FormInputMoney
+                                                            <FormInputText
+                                                                label="Nội dung"
+                                                                type="text"
+                                                                name="description"
+                                                                disabled
+                                                                value={this.props.data.description || ""}
+
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <label>Loại</label>
+                                                            <ReactSelect
+                                                                disabled
+                                                                options={[
+                                                                    { value: 'in', label: 'Đầu vào' },
+                                                                    { value: 'out', label: 'Đầu ra' },
+                                                                ]}
+                                                                onChange={()=>{}}
+                                                                value={this.props.data.kind || ""}
+                                                                defaultMessage="Tuỳ chọn"
+                                                                name="receiver"
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-12">
+                                                            <FormInputText
                                                                 label="Số tiền"
                                                                 type="text"
                                                                 disabled
@@ -111,15 +137,34 @@ class InfoBillModal extends React.Component{
                                                         </div>
                                                         <div className="col-md-12">
                                                             <FormInputText
-                                                                label="Nội dung"
-                                                                type="text"
-                                                                name="description"
+                                                                label="VAT"
+                                                                type="number"
                                                                 disabled
-                                                                value={this.props.data.description || ""}
-
+                                                                name="vat"
+                                                                updateFormData={() => { }}
+                                                                value={this.props.data.vat || 0}
                                                             />
                                                         </div>
-
+                                                        <div className="col-md-12">
+                                                            <FormInputText
+                                                                label="Số tiền VAT"
+                                                                type="text"
+                                                                disabled
+                                                                name="vat"
+                                                                updateFormData={() => { }}
+                                                                value={vatNum || 0}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-12">
+                                                            <FormInputText
+                                                                label="Tổng"
+                                                                type="text"
+                                                                disabled
+                                                                name="vat"
+                                                                updateFormData={() => { }}
+                                                                value={total || 0}
+                                                            />
+                                                        </div>
                                                     </div>
 
 
@@ -128,53 +173,53 @@ class InfoBillModal extends React.Component{
                                     </div>
                                 </div>
 
-                                {/*<div className="col-md-4">*/}
-                                    {/*<div className="card">*/}
-                                        {/*<div className="card-content">*/}
-                                            {/*<h4 className="card-title">Ảnh hóa đơn</h4>*/}
+                                <div className="col-md-4">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <h4 className="card-title">Ảnh hóa đơn</h4>
 
-                                            {/*{*/}
-                                                 {/*(*/}
-                                                    {/*<div>*/}
-                                                        {/*<div style={{*/}
-                                                            {/*maxWidth: "100%",*/}
-                                                            {/*lineHeight: "250px",*/}
-                                                            {/*marginBottom: "10px",*/}
-                                                            {/*textAlign: "center",*/}
-                                                            {/*verticalAlign: "middle",*/}
-                                                            {/*boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",*/}
-                                                            {/*border: "0 none",*/}
-                                                            {/*display: "inline-block"*/}
-                                                        {/*}}>*/}
-                                                            {/*<a href={this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}*/}
-                                                               {/*target="_blank"*/}
-                                                            {/*>*/}
-                                                                {/*<img*/}
-                                                                    {/*src={this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}*/}
-                                                                    {/*style={{*/}
-                                                                        {/*lineHeight: "164px",*/}
-                                                                        {/*height: "auto",*/}
-                                                                        {/*maxWidth: "100%",*/}
-                                                                        {/*maxHeight: "100%",*/}
-                                                                        {/*display: "block",*/}
-                                                                        {/*marginRight: "auto",*/}
-                                                                        {/*marginLeft: "auto",*/}
-                                                                        {/*backgroundSize: "cover",*/}
-                                                                        {/*backgroundPosition: "center",*/}
-                                                                        {/*borderRadius: "4px",*/}
-                                                                    {/*}}/>*/}
-                                                            {/*</a>*/}
-                                                        {/*</div>*/}
+                                            {
+                                                (
+                                                    <div>
+                                                        <div style={{
+                                                            maxWidth: "100%",
+                                                            lineHeight: "250px",
+                                                            marginBottom: "10px",
+                                                            textAlign: "center",
+                                                            verticalAlign: "middle",
+                                                            boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+                                                            border: "0 none",
+                                                            display: "inline-block"
+                                                        }}>
+                                                            <a href={this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                                    style={{
+                                                                        lineHeight: "164px",
+                                                                        height: "auto",
+                                                                        maxWidth: "100%",
+                                                                        maxHeight: "100%",
+                                                                        display: "block",
+                                                                        marginRight: "auto",
+                                                                        marginLeft: "auto",
+                                                                        backgroundSize: "cover",
+                                                                        backgroundPosition: "center",
+                                                                        borderRadius: "4px",
+                                                                    }} />
+                                                            </a>
+                                                        </div>
 
 
-                                                    {/*</div>*/}
-                                                {/*)*/}
-                                            {/*}*/}
+                                                    </div>
+                                                )
+                                            }
 
-                                        {/*</div>*/}
-                                    {/*</div>*/}
+                                        </div>
+                                    </div>
 
-                                {/*</div>*/}
+                                </div>
 
                             </div>
                         </form>

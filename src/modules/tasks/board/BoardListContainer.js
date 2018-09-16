@@ -11,7 +11,7 @@ import BoardList from "./BoardList";
 import CreateCardModalContainer from "../card/CreateCardModalContainer";
 import CardDetailModalContainer from "../card/CardDetailModalContainer";
 import CardFilterContainer from "./filter/CardFilterContainer";
-import {intersect} from "../../../helpers/helper";
+import {intersect, confirm} from "../../../helpers/helper";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
@@ -65,6 +65,12 @@ class BoardListContainer extends React.Component {
         this.props.taskActions.editBoard(board);
     }
 
+    archiveCard = ()=>{
+        confirm('warning', 'Lưu trữ thẻ', 'Bạn có chắc muốn lưu trữ thẻ này?', ()=>{
+            this.props.taskActions.archiveCard(card);
+        });
+    }
+
 
     render() {
         const isAdmin = this.props.user.role === 2 || this.props.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0;
@@ -83,7 +89,7 @@ class BoardListContainer extends React.Component {
                             display={this.props.setting.display || "full"}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
-                            archiveCard={this.props.taskActions.archiveCard}
+                            archiveCard={this.archiveCard}
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}
                             openCardDetailModal={this.props.taskActions.openCardDetailModal}
                             moveBoard={this.props.taskActions.moveBoard}

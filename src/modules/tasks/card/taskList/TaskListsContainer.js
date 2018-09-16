@@ -69,8 +69,8 @@ class TaskListsContainer extends React.Component {
                         return (
                             <div key={taskList.id}>
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
-                                    <h4>
-                                        <strong>{taskList.title}</strong>
+                                    <h4 style={{width: '100%'}}>
+                                        <strong style={{wordWrap:'break-word'}}>{taskList.title}</strong>
                                     </h4>
                                     {
                                         !isProcess && (

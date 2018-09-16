@@ -32,7 +32,7 @@ class ImportItemOrderList extends React.Component {
                         <th>Nhà cung cấp</th>
                         <th> Số sản phẩm</th>
                         <th> Số lần nhập</th>
-                        <th/>
+                        {/* <th/> */}
                     </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,7 @@ class ImportItemOrderList extends React.Component {
                                     <td>  {pp.company.name}</td>
                                     <td> {pp.good_count} </td>
                                     <td> {(pp.goods.length - pp.good_count) / pp.good_count}</td>
-                                    <td>
+                                    {/* <td>
                                         {(pp.status == 2) ?
                                             <div className="btn-group-action">
                                                 <a data-toggle="tooltip" title="Duyệt"
@@ -60,7 +60,7 @@ class ImportItemOrderList extends React.Component {
                                                 </a></div>
                                             : <div/>}
 
-                                    </td>
+                                    </td> */}
 
                                 </tr>
                             );

@@ -34,7 +34,7 @@ class ListExportOrder extends React.Component {
     // }
 
     confirm(id) {
-        helper.confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
+        helper.confirm("success", "Xác Nhận Đã giao hàng", "Sau khi duyệt sẽ không thể hoàn tác?",
             () => {
                 return this.props.exportOrderActions.confirmOrder(id,
                     () => {
@@ -69,9 +69,10 @@ class ListExportOrder extends React.Component {
                             <th>STT</th>
                             <th>Mã đơn hàng</th>
                             <th>Nhà phân phối</th>
-                            <th>Số sản phẩm</th>
-                            <th>Số lượng xuất</th>
+                            {/* <th>Số sản phẩm</th>
+                            <th>Số lượng xuất</th> */}
                             <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
                             <th>Tổng tiền</th>
                             <th />
                         </tr>
@@ -86,17 +87,23 @@ class ListExportOrder extends React.Component {
                                     <td>{index + 1}</td>
                                     <td><div onClick={()=>this.openInfoModal(order)}><b>{order.command_code}</b></div></td>
                                     <td>{order.company.name}</td>
-                                    <td>{order.goods.length}</td>
-                                    <td>{getSumquantity(order.goods)}</td>
+                                    {/* <td>{order.goods.length}</td>
+                                    <td>{getSumquantity(order.goods)}</td> */}
                                     <td>{date.format("D-M-YYYY")}</td>
+                                    <td>
+                                        {order.status < 3 ? "Chưa giao" : ("Giao " + ("sau " +shipDate(order.created_at, order.ship_date)+ " ngày"))}
+                                        {/* <br/>
+                                        {order.status < 3 ? "" : ("sau " +shipDate(order.created_at, order.ship_date)+ " ngày")} */}
+                                    </td>
+
                                     <td>{helper.dotNumber(getTotalPrice(order.goods, order.company))}</td>
                                     <td><ButtonGroupAction
                                         editUrl={"/business/export-order/edit/" + order.id}
                                         disabledDelete={true}
-                                        disabledEdit={order.status > 2}
+                                        //disabledEdit={order.status > 2}
                                         children={
                                             (order.status && (order.status == 2)) ?
-                                                <a data-toggle="tooltip" title="Duyệt"
+                                                <a data-toggle="tooltip" title="Xác nhận giao hàng"
                                                     type="button"
                                                     onClick={() => { return this.confirm(order.id); }}
                                                     rel="tooltip"
@@ -161,13 +168,13 @@ function getTotalPrice(arr, comp) {
     return sum;
 }
 
-function getSumquantity(arr) {
-    let sum = 0;
-    arr.forEach(e => {
-        sum += e.export_quantity;
-    });
-    return sum;
-}
+// function getSumquantity(arr) {
+//     let sum = 0;
+//     arr.forEach(e => {
+//         sum += e.export_quantity;
+//     });
+//     return sum;
+// }
 
 function isOverTime(inp) {
     let cre_date = moment(inp.date);
@@ -176,6 +183,12 @@ function isOverTime(inp) {
     }
     cre_date = cre_date.add(2, "days");
     let res = moment(moment.now()).isAfter(cre_date);
+    return res;
+}
+function shipDate(start,end) {
+    let start_time = moment(start.date);
+    let end_time = moment(end || moment.now());
+    let res = moment(end_time).diff(start_time, 'days');
     return res;
 }
 

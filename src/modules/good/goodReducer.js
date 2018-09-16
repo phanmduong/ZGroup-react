@@ -59,6 +59,17 @@ export default function goodReducer(state = initialState.good, action) {
                     }
                 }
             };
+        case types.CREATE_BARCODE_ERROR:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    createBarcode: {
+                        ...state.barcode.createBarcode,
+                        isSaving: false,
+                    },
+                }
+            };
         case types.BEGIN_CREATE_BARCODE:
             return {
                 ...state,

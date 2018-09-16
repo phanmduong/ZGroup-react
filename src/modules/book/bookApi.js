@@ -63,7 +63,16 @@ export function saveTaskSpan(task) {
 
 
 export function loadBoards(type = "book") {
-    let url = env.MANAGE_API_URL + `/book/${type}/project`;
+    let url = env.MANAGE_API_URL + `/book/${type}/project/v2`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadBoardDetail(board_id) {
+    let url = env.MANAGE_API_URL + `/book/book/project/v2/board/`+ board_id;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

@@ -36,3 +36,12 @@ export function loadAllGoods() {
     }
     return axios.get(url);
 }
+export function createWarehouse(data) {
+    //http://manageapi.keetool.xyz/good/all/no-paging?token=
+    let url     = env.MANAGE_API_URL +"/company/warehouse/create";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.post(url, {...data});
+}

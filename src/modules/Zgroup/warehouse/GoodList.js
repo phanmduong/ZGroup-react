@@ -19,10 +19,16 @@ class GoodList extends React.Component {
                             <th/>
                             <th>STT</th>
                             <th>Tên sản phẩm</th>
-                            <th>Tồn kho Hà Nội</th>
-                            <th>Tồn kho Sài Gòn</th>
-                            <th> Tồn kho lỗi Hà Nội </th>
-                            <th> Tồn kho lỗi Sài Gòn </th>
+                            {this.props.data && this.props.data.length > 0 && 
+                                                this.props.data[0].summary_warehouse.map((warehouse,dm) => {
+                                                    //sum+=warehouse.sum_quantity;
+                                                    return(
+                                                        <th key={dm}>{warehouse.name} </th>
+
+                                                    );
+                                                })
+                                            }
+                            
 
 
                         </tr>

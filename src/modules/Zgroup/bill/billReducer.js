@@ -94,13 +94,14 @@ export default function proposePaymentReducer(state = initialState.payment, acti
                 percent: 0,
                 isUploading: true,
             };
-        case types.UPLOAD_IMAGE_PAYMENT_SUCCESS:
+        case types.UPLOAD_IMAGE_PAYMENT_SUCCESS:{
             return {
                 ...state,
                 isUploading: false,
                 link: action.data,
                 payment: {...action.pp, bill_image_url: action.data}
             };
+        }
         case types.UPDATE_IMAGE_PROGRESS_PAYMENT:
             return {
                 ...state,

@@ -56,6 +56,7 @@ class ListStaff extends React.Component {
 											{bases !== null &&
 											bases.length > 0 && (
 												<select
+													disabled={this.props.disableActions}
 													className="form-control"
 													value={staff.base_id}
 													onChange={(event) => {
@@ -79,6 +80,7 @@ class ListStaff extends React.Component {
 											{roles !== null &&
 											roles !== undefined && (
 												<select
+													disabled={this.props.disableActions}
 													className="form-control"
 													value={staff.role_id}
 													onChange={(event) => {
@@ -101,6 +103,7 @@ class ListStaff extends React.Component {
 											{departments !== null &&
 											departments !== undefined && (
 												<select
+													disabled={this.props.disableActions}
 													className="form-control"
 													value={staff.department_id}
 													onChange={(event) => {

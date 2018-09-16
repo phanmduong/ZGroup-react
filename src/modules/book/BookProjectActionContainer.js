@@ -59,7 +59,9 @@ class BookProjectActionContainer extends React.Component {
                 <BookProjectDetailModalContainer/>
                 <ProjectPersonalSettingModalContainer/>
                 <ArchiveCardsModalContainer
-                    projectId={this.props.projectId}/>
+                    projectId={this.props.projectId}
+                    loadBoards={this.props.loadBoards}
+                    />
                 <ArchiveBoardsModalContainer
                     projectId={this.props.projectId}/>
             </div>
@@ -72,7 +74,8 @@ BookProjectActionContainer.propTypes = {
     isAdmin: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
     boardActions: PropTypes.object.isRequired,
-    projectPersonalSettingAction: PropTypes.object.isRequired
+    projectPersonalSettingAction: PropTypes.object.isRequired,
+    loadBoards: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

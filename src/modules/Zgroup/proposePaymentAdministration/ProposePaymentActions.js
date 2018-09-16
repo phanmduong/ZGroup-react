@@ -17,7 +17,7 @@ export function loadPayments(page = 1, receiver_id = null, payer_id = null,start
                     paginator: res.data.paginator,
                 });
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.LOAD_PAYMENTS_ERROR,
             });
@@ -38,7 +38,7 @@ export function loadPayment(id) {
                     data: res.data.data.payment,
                 });
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.LOAD_PAYMENT_ERROR,
             });
@@ -59,7 +59,7 @@ export function loadCompanies() {
 
                 });
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.LOAD_COMPANIES_ERROR_PAYMENT,
             });
@@ -78,9 +78,10 @@ export function addPayment(object) {
                 dispatch({
                     type: types.ADD_PAYMENT_SUCCESS,
                 });
-                browserHistory.push("/administration/propose-payment");
+                browserHistory.push("/business/propose-payment");
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+                
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.ADD_PAYMENT_ERROR,
             });
@@ -99,9 +100,9 @@ export function editPayment(id, object) {
                 dispatch({
                     type: types.EDIT_PAYMENT_SUCCESS,
                 });
-                browserHistory.push("/administration/propose-payment");
+                browserHistory.push("/business/propose-payment");
             }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.EDIT_PAYMENT_ERROR,
             });
@@ -112,7 +113,7 @@ export function editPayment(id, object) {
 export function uploadImage(file, pp) {
     return function (dispatch) {
         const error = () => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+            //helper.showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = (event) => {
             helper.showNotification("Tải lên ảnh thành công");

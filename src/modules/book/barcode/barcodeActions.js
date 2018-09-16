@@ -3,6 +3,7 @@
  */
 import * as types from "../../../constants/actionTypes";
 import * as barcodeApi from "./barcodeApi";
+import {showWarningNotification} from '../../../helpers/helper';
 
 /*eslint no-console: 0 */
 
@@ -21,6 +22,10 @@ export function createBarcode(barcode) {
             type: types.BEGIN_CREATE_BARCODE,
         });
         barcodeApi.createBarcode(barcode).then(res => {
+            if(res.data.status == 0){
+                dispatch({type: types.CREATE_BARCODE_ERROR});   
+                showWarningNotification(res.data.message) ;
+            }else
             dispatch({
                 type: types.CREATE_BARCODE_SUCCESS,
                 barcode: res.data.data.barcode,

@@ -127,7 +127,7 @@ class BarcodesContainer extends React.Component {
 													</td>
 													<td>
 														{barcode.good ? (
-															<Link to={`good/${barcode.good.id}/detail`}>
+															<Link to={`/manufacture/good/${barcode.good.id}/detail`}>
 																{barcode.good.name}
 															</Link>
 														) : (

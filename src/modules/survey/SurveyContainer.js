@@ -135,7 +135,7 @@ class SurveyContainer extends React.Component {
                                                                         handleSwitch={this.handleActiveSwitch}
                                                                         editSurvey={this.editSurvey}
                                                                         key={survey.id}
-                                                                        survey={survey}/>
+                                                                        survey={survey || {staff: {}}}/>
                                                                 );
 
                                                             })

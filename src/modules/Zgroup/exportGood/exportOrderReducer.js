@@ -53,7 +53,7 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
             return {
                 ...state,
                 isLoadingCompanies: false,
-                companies: getSelectArray(action.companies),
+                companies: getSelectArrayWareHouse(action.companies),
             };
         }
 

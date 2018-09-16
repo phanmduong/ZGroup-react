@@ -49,6 +49,7 @@ export function addCompany(object) {
         "user_contact2": object.user_contact2,
         "user_contact_phone2": object.user_contact_phone2,
         "type": object.type,
+        "email": object.email,
         discount_comic: object.discount_comic,
         discount_text: object.discount_text,
 
@@ -73,6 +74,7 @@ export function editCompany(id, object) {
         "user_contact": object.user_contact,
         "user_contact_phone": object.user_contact_phone,
         "type": object.type,
+        "email": object.email,
         discount_comic: object.discount_comic,
         discount_text: object.discount_text,
     });
