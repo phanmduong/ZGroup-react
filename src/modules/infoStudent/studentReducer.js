@@ -154,6 +154,31 @@ export default function studySessionReducer(state = initialState.infoStudent, ac
                     errorChangePassword: true,
                 }
             };
+        case types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isChangingStatusCall: true,
+                    errorChangeStatusCall: false
+                }
+            };
+        case types.CHANGE_CALL_STATUS_INFO_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    historyCalls: [...state.historyCalls, action.historyCall],
+                    isChangingStatusCall: false,
+                    errorChangeStatusCall: false,
+                }
+            };
+        case types.CHANGE_CALL_STATUS_INFO_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingStatusCall: false,
+                    errorChangeStatusCall: true,
+                }
+            };
         default:
             return state;
     }
