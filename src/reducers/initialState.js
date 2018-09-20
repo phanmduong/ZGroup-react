@@ -1188,7 +1188,9 @@ export default {
         isEditingStudent: false,
         errorEditing: false,
         isChangingPassword: false,
-        errorChangePassword: false
+        errorChangePassword: false,
+        isChangingStatusCall: false,
+        errorChangeStatusCall: false
     },
 
     dashboard: {
