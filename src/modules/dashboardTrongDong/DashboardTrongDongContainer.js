@@ -448,7 +448,7 @@ class DashboardTrongDongContainer extends Component {
             if (room) {
                 similar_room_names += room.name + ", ";
             }
-        })
+        });
 
         return (
             <div>

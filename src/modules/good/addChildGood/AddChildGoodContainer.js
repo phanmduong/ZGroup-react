@@ -65,6 +65,11 @@ class AddChildGoodContainer extends React.Component {
     }
 
     render() {
+        //console.log(this.props);
+        let tasks = [];
+        //if(this.props.tasks) tasks = this.props.tasks;
+        if(this.props.taskLists && this.props.taskLists[0])
+        tasks = this.props.taskLists[0].tasks;
         return (
             <Modal show={this.props.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
@@ -120,8 +125,8 @@ class AddChildGoodContainer extends React.Component {
                             name="board-id"
                             value={this.props.taskId}
                             options={
-                                this.props.tasks
-                                    ? this.props.tasks.map(task => {
+                                tasks
+                                    ? tasks.map(task => {
                                           return {
                                               ...task,
                                               value: task.id,
@@ -159,6 +164,7 @@ class AddChildGoodContainer extends React.Component {
 
 AddChildGoodContainer.propTypes = {
     tasks: PropTypes.array,
+    taskLists: PropTypes.array,
     good: PropTypes.object.isRequired,
     addChildGoodActions: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
@@ -171,6 +177,7 @@ function mapStateToProps(state) {
     return {
         good: state.task.addChildGood.good,
         tasks: state.task.cardDetail.card.tasks,
+        taskLists: state.task.cardDetail.card.taskLists,
         showModal: state.task.addChildGood.showModal,
         taskId: state.task.addChildGood.taskId,
         isSaving: state.task.addChildGood.isSaving
