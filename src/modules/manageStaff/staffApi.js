@@ -121,7 +121,8 @@ export function editStaff(staff) {
         age: staff.age,
         address: staff.address,
         phone: staff.phone,
-        color: staff.color
+        color: staff.color,
+        kpi: staff.kpi
     });
 }
 
