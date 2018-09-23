@@ -293,8 +293,8 @@ export function editStaffData(staff) {
             .then(function (res) {
                 dispatch(editStaffDataSucessful(res));
             }).catch((error) => {
-            dispatch(editStaffDataError(error.response.data.message));
-            console.log(error);
+                window.error = error;
+               dispatch(editStaffDataError(error.response.data.message));
         });
     };
 }

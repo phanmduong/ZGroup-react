@@ -122,7 +122,7 @@ export function editStaff(staff) {
         address: staff.address,
         phone: staff.phone,
         color: staff.color,
-        kpi: staff.kpi
+        kpis: staff.kpis
     });
 }
 

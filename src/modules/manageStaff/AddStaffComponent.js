@@ -18,12 +18,22 @@ class AddStaffComponent extends React.Component {
         }
     }
 
+    showKPIValues(value) {
+        if (value) {
+            const regexNumber = new RegExp(/\B(?=([0-9]{3})+(?![0-9]))/, 'g');
+            return value.replace(regexNumber, ".").replace(/,/g,", ");
+        } else {
+            return "";
+        }
+
+    }
+
     render() {
 
         let {name, email, role_id, username,
             color, base_id, department_id,
             salary_revenue, salary_allowance,
-            kpi,
+            kpis,
             salary}
             = this.props.staffForm;
 
@@ -128,13 +138,14 @@ class AddStaffComponent extends React.Component {
                                             </select>
                                         </div>
                                         <FormInputText
-                                            label="KPI"
-                                            name="kpi"
-                                            value={kpi}
+                                            label="KPIs (vd: 3000000,4000000,5000000)"
+                                            name="kpis"
+                                            value={kpis}
                                             //required={true}
                                             type="text"
                                             updateFormData={this.props.updateFormData}
                                         />
+                                        <div>{this.showKPIValues(kpis)}</div>
                                         {
 
                                             this.props.roles && (this.props.role == 2) ?

@@ -35,7 +35,9 @@ class AppContainer extends React.Component {
         /* eslint-disable */
         if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0) {
             console.log('send tag user_id');
-            window.sendTagNoti('user_id',this.props.user.id);
+            if (window.sendTagNoti) {
+                window.sendTagNoti('user_id',this.props.user.id);
+            }
 
             /* eslint-enable */
         }
