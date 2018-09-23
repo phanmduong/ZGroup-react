@@ -35,7 +35,7 @@ class LiteCardItem extends React.Component {
     }
 
     unarchiveCard() {
-        this.props.unarchiveCard(this.props.card);
+        this.props.unarchiveCard(this.props.card, this.props.loadBoards);
     }
 
     saveCard() {
@@ -199,7 +199,8 @@ LiteCardItem.propTypes = {
     updateCardInBoard: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
     archiveCard: PropTypes.func,
-    unarchiveCard: PropTypes.func
+    unarchiveCard: PropTypes.func,
+    loadBoards: PropTypes.func.isRequired,
 };
 
 export default LiteCardItem;

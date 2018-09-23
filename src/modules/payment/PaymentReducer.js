@@ -29,7 +29,10 @@ export default function companyReducer(state = initialState.payment, action) {
             return {
                 ...state,
                 isLoadingPayment: false,
-                payment: action.data,
+                payment: {
+                    ...action.data,
+                    propose_id: action.data.id,
+                },
             };
         case types.LOAD_PAYMENT_ERROR:
             return {

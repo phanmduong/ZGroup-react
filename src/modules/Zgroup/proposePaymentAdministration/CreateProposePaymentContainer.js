@@ -1,6 +1,6 @@
 import React from "react";
 import ReactSelect from 'react-select';
-import * as PaymentActions from "../proposePaymentAdministration/ProposePaymentActions";
+import * as PaymentActions from "./ProposePaymentActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Loading from "../../../components/common/Loading";
@@ -102,7 +102,7 @@ class CreateProposePaymentContainer extends React.Component {
 
     cancel() {
         helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này?", () => {
-            browserHistory.push("administration/propose-payment");
+            browserHistory.push("business/propose-payment");
 
         });
     }

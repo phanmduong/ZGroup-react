@@ -4,13 +4,14 @@ import CreateRequestVacationContainer from "../modules/Zgroup/request/requestVac
 import CreateRequestMoneyContainer from "../modules/Zgroup/request/requestMoney/CreateRequestMoneyContainer";
 import WeekendReportContainer from "../modules/Zgroup/weekendReport/WeekendReportContainer";
 import AddReportContainer from "../modules/Zgroup/weekendReport/AddReportContainer";
-import ProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/ProposePaymentContainer";
-import CreateProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/CreateProposePaymentContainer";
+// import ProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/ProposePaymentContainer";
+// import CreateProposePaymentContainer from "../modules/Zgroup/proposePaymentAdministration/CreateProposePaymentContainer";
 import BillContainer from "../modules/Zgroup/bill/BillContainer";
 import CreateBillContainer from "../modules/Zgroup/bill/CreateBillContainer";
-
 import ContractContainer from "../modules/Zgroup/contract/ContractContainer";
 import CreateContractContainer from "../modules/Zgroup/contract/CreateContractContainer";
+import FundContainer from "../modules/Zgroup/fund/FundContainer";
+import TransferHistoryContainer from "../modules/Zgroup/fund/TransferHistoryContainer";
 
 
 /**
@@ -53,19 +54,19 @@ export default [
         path: "/administration/weekend-report/edit/:reportId",
         component: AddReportContainer,
     },
-    {
-        path: "/administration/propose-payment",
-        component: ProposePaymentContainer,
-    },
-    {
-        path: "/administration/propose-payment/create",
-        component: CreateProposePaymentContainer,
-    },
-    {
-        path: "/administration/propose-payment/edit/:paymentId",
-        component: CreateProposePaymentContainer,
-        type: "edit",
-    },
+    // {
+    //     path: "/administration/propose-payment",
+    //     component: ProposePaymentContainer,
+    // },
+    // {
+    //     path: "/administration/propose-payment/create",
+    //     component: CreateProposePaymentContainer,
+    // },
+    // {
+    //     path: "/administration/propose-payment/edit/:paymentId",
+    //     component: CreateProposePaymentContainer,
+    //     type: "edit",
+    // },
     {
         path: "/administration/bill",
         component:BillContainer,
@@ -90,5 +91,13 @@ export default [
     {
         path: "/administration/contract/edit/:contract_id",
         component: CreateContractContainer,
+    },
+    {
+        path: "/administration/fund",
+        component: FundContainer,
+    },
+    {
+        path: "/administration/history-fund",
+        component: TransferHistoryContainer,
     },
 ];

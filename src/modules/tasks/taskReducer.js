@@ -3,6 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+import {updateCardTitle} from "./taskApi";
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
@@ -16,18 +17,23 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     boards: state.boardList.boards.map((board) => {
-                        if (action.card.board_id === board.id) {
+                        //if (action.card.board_id === board.id) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    if (card.id === action.card.id) {
-                                        return action.card;
+                                    if ((card.good_id === action.card.good_id && card.good_id)
+                                    || card.id === action.card.id)
+                                    {
+                                        const title = action.card.title;
+                                        const res = {...card, title};
+                                        updateCardTitle(res);
+                                        return res;
                                     }
                                     return card;
                                 })
                             };
-                        }
-                        return board;
+                        //}
+                        //return board;
                     })
                 }
             };
@@ -621,32 +627,40 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     boards: state.boardList.boards.map((board) => {
-                        if (board.id === action.card.board_id) {
+                        //if (board.id === action.card.board_id) {
                             const cards = board.cards.filter((card) => {
-                                return card.id !== action.card.id;
+                                return card.good_id ? 
+                                card.good_id !== action.card.good_id 
+                                : card.id !== action.card.id ;
                             });
                             return {
                                 ...board,
                                 cards
                             };
-                        }
-                        return board;
+                        //}
+                        //return board;
                     })
                 }
             };
 
         case types.UNARCHIVE_CARD:
+            if(!action.isManufacture)        
             return {
                 ...state,
                 archiveCard: {
                     ...state.archiveCard,
-                    cards: state.archiveCard.cards.filter(card => card.id !== action.card.id)
+                    cards: state.archiveCard.cards.filter(card => 
+                        card.good_id ? 
+                        card.good_id !== action.card.good_id
+                        : card.id !== action.card.id 
+                    )
                 },
                 boardList: {
                     ...state.boardList,
-                    boards: state.boardList.boards.map((board) => {
+                    boards:  state.boardList.boards.map((board) => {
                         if (board.id === action.card.board_id) {
-                            const cards = [...board.cards, {...action.card, status: "open"}].sort(function (a, b) {
+                            const cards = [...board.cards, {...action.card, status: "open"}]
+                            .sort((a, b) => {
                                 return parseFloat(a.order) - parseFloat(b.order);
                             });
                             return {
@@ -655,9 +669,39 @@ export default function taskReducer(state = initialState.task, action) {
                             };
                         }
                         return board;
-                    })
-                }
+                    }) 
+                },
             };
+            else
+            {
+                return {
+                    ...state,
+                    archiveCard: {
+                        ...state.archiveCard,
+                        cards: state.archiveCard.cards.filter(card => 
+                            card.good_id ? 
+                            card.good_id !== action.card.good_id
+                            : card.id !== action.card.id 
+                        )
+                    },
+                    // boardList: !action.isManufacture ? {
+                    //     ...state.boardList,
+                    //     boards:  state.boardList.boards.map((board) => {
+                    //         if (board.id === action.card.board_id) {
+                    //             const cards = [...board.cards, {...action.card, status: "open"}]
+                    //             .sort((a, b) => {
+                    //                 return parseFloat(a.order) - parseFloat(b.order);
+                    //             });
+                    //             return {
+                    //                 ...board,
+                    //                 cards
+                    //             };
+                    //         }
+                    //         return board;
+                    //     }) 
+                    // }: state.boardList,
+                };
+            }
         case types.CHANGE_ROLE_PROJECT_MEMBER:
             return {
                 ...state,
@@ -1190,7 +1234,7 @@ export default function taskReducer(state = initialState.task, action) {
                                         return {
                                             ...card,
                                             completed: !action.task.status && card.is_end,
-                                            tasks: card.tasks.map((task) => {
+                                            tasks: card.tasks ? card.tasks.map((task) => {
                                                 if (task.id === action.task.id) {
                                                     return {
                                                         ...task,
@@ -1198,7 +1242,7 @@ export default function taskReducer(state = initialState.task, action) {
                                                     };
                                                 }
                                                 return task;
-                                            })
+                                            }) : []
                                         };
                                     }
                                     return card;
@@ -1245,7 +1289,9 @@ export default function taskReducer(state = initialState.task, action) {
                                 cards: board.cards.map((card) => {
                                     return {
                                         ...card,
-                                        tasks: card.tasks.filter((task) => task.id !== action.task.id)
+                                        tasks: 
+                                        card.tasks ? card.tasks.filter((task) => task.id !== action.task.id) : []
+                                        
                                     };
                                 })
                             };
@@ -1528,6 +1574,22 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     isLoadingBoards: false,
+                    isLoadingBoardsDetail: true,
+                    boards: action.boards,
+                    setting: action.setting,
+                    projectId: action.projectId,
+                    members: action.members,
+                    canDragBoard: action.canDragBoard,
+                    canDragCard: action.canDragCard
+                }
+            };
+        case types.LOAD_BOARD_DETAIL_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    isLoadingBoards: false,
+                    isLoadingBoardsDetail: false,
                     boards: action.boards,
                     setting: action.setting,
                     projectId: action.projectId,

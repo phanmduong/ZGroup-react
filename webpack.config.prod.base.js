@@ -105,6 +105,11 @@ export default (moduleName) => {
                 {
                     test: /(\.css|\.scss|\.sass)$/,
                     loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
+                },
+                {
+                    test: /\.(graphql|gql)$/,
+                    exclude: /node_modules/,
+                    loader: 'graphql-tag/loader'
                 }
             ]
         },

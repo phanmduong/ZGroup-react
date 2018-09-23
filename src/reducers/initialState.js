@@ -918,6 +918,7 @@ export default {
             boards: [],
             setting: {},
             isLoadingBoards: false,
+            isLoadingBoardsDetail: false,
             canDragCard: false,
             canDragBoard: false
         },
@@ -1187,7 +1188,9 @@ export default {
         isEditingStudent: false,
         errorEditing: false,
         isChangingPassword: false,
-        errorChangePassword: false
+        errorChangePassword: false,
+        isChangingStatusCall: false,
+        errorChangeStatusCall: false
     },
 
     dashboard: {
@@ -2169,6 +2172,7 @@ export default {
         payment: {
             id: 0,
             money_value: 0,
+            vat: 0,
             bill_imiage_url: "",
             payer: {
                 id: 0,
@@ -2179,6 +2183,7 @@ export default {
                 account_number: "",
             },
             staff: null,
+            kind: 'in',
             deadline: null,
             description: "",
         },

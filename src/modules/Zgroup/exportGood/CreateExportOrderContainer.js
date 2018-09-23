@@ -140,7 +140,26 @@ class CreateExportOrderContainer extends React.Component {
         }
     }
 
+    changeGood = (editIndex, name, value) => {
+        let data = {...this.state.data.goods[editIndex]};
+        data[name] = value;
+        let goods = [...this.state.data.goods];
+        goods = [...goods.slice(0, editIndex),
+        { ...data },
+        ...goods.slice(editIndex + 1, goods.length)
+        ];
+
+
+        this.setState({
+            data: { ...this.state.data, goods },
+            showAddModal: false,
+            //addModalData: defaultAddModalData
+        });
+
+    }
+
     commitData() {
+        if ($('#form-all').valid()) {
         let { data } = this.state;
         if (!data.id) {
             helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
@@ -178,7 +197,7 @@ class CreateExportOrderContainer extends React.Component {
                 staff_id: this.props.user.id,
                 total_price: data.price * data.quantity,
             });
-
+        }
     }
 
     updateWareHouseFormAdd(e) {
@@ -190,7 +209,7 @@ class CreateExportOrderContainer extends React.Component {
     render() {
         let { data, addModalData, showAddModal } = this.state;
         let { orderedGoods, isLoading, isCommitting, warehouses, params, user } = this.props;
-        let sumQuantity = 0, sumPrice = 0;
+        let sumQuantity = 0,sumExport = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
         let modalDiscount = 0;
         switch (addModalData.good.kind) {
@@ -209,7 +228,7 @@ class CreateExportOrderContainer extends React.Component {
             <div className="content">
                 <div className="container-fluid">
                     {(isLoading) ? <Loading /> :
-                        <form role="form" id="form-id" onSubmit={(e) => e.preventDefault()}>
+                        <form role="form" id="form-all" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
@@ -220,15 +239,15 @@ class CreateExportOrderContainer extends React.Component {
                                                 <table className="table">
                                                     <thead className="text-rose">
                                                         <tr>
-                                                            <th style={{ width: "10%" }}>STT</th>
-                                                            <th style={{ width: "40%" }}>Tên</th>
+                                                            <th style={{ width: "5%" }}>STT</th>
+                                                            <th style={{ width: "35%" }}>Tên</th>
                                                             <th style={textAlign}>Phân loại</th>
                                                             <th style={textAlign}>Số lượng đặt</th>
-                                                            <th style={textAlign}>Số lượng xuất</th>
+                                                            <th  style={{ width: "20%" }}>Số lượng xuất</th>
                                                             <th style={textAlign}>Đơn giá</th>
-                                                            <th style={textAlign}>Kho xuất</th>
+                                                            <th style={{ width: "20%" }}>Kho xuất</th>
                                                             <th style={textAlign}>Thành tiền</th>
-                                                            <th />
+                                                            {/* <th /> */}
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
@@ -253,7 +272,8 @@ class CreateExportOrderContainer extends React.Component {
                                                                     }
 
                                                                     sumPrice += pr;
-                                                                    sumQuantity += obj.export_quantity * 1;
+                                                                    sumExport += obj.export_quantity * 1;
+                                                                    sumQuantity += obj.quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
@@ -261,18 +281,41 @@ class CreateExportOrderContainer extends React.Component {
                                                                             {/* <td style={textAlign}>{obj.good.code}</td> */}
                                                                             <td style={textAlign}>{typeGood}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
-                                                                            <td style={textAlign}>{obj.export_quantity}</td>
+                                                                            <td>
+                                                                                <FormInputText
+                                                                                    name={index+""} type="number"
+                                                                                    label="Số lượng xuất"
+                                                                                    value={obj.export_quantity}
+                                                                                    minValue="0"
+                                                                                    updateFormData={(e)=>this.changeGood(index, "export_quantity" ,e.target.value)}
+                                                                                    placeholder="Nhập số lượng"
+                                                                                    id={'input '+ index}
+                                                                                    required
+                                                                                />
+                                                                            </td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
-                                                                            <td style={{ ...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red" }}>
-                                                                                {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
+                                                                            <td>
+                                                                                <div>
+                                                                                    <label>Chọn kho xuất</label>
+                                                                                    <ReactSelect
+                                                                                        disabled={isLoading}
+                                                                                        options={warehouses || []}
+                                                                                        onChange={(e) => {
+                                                                                           
+                                                                                            if(e)
+                                                                                            this.changeGood(index, 'warehouse' ,e);
+                                                                                         }}
+                                                                                        value={obj.warehouse.id}
+                                                                                        defaultMessage="Chọn kho xuất"
+                                                                                    /></div></td>
                                                                             <td style={textAlign}>{helper.dotNumber(pr)}</td>
-                                                                            <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
+                                                                            {/* <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
                                                                                     onClick={() => {
                                                                                         return this.openAddModal(index);
                                                                                     }}><i className="material-icons">edit</i>
                                                                                 </a>
-                                                                            </div></td>
+                                                                            </div></td> */}
                                                                         </tr>
                                                                     );
                                                                 })}
@@ -287,11 +330,12 @@ class CreateExportOrderContainer extends React.Component {
                                                     <tfoot style={{ fontWeight: "bolder", fontSize: "1.1em" }}>
                                                         <tr>
                                                             <td />
-                                                            <td />
-                                                            <td colSpan={3} style={textAlign}>Số lượng xuất: {sumQuantity}</td>
-                                                            <td colSpan={3} style={textAlign}>Thành tiền: {helper.dotNumber(sumPrice)}</td>
-
-                                                            <td />
+                                                            <td> Tổng: </td>
+                                                            {/* <td /> */}
+                                                            <td colSpan={2} style={textAlign}> {sumQuantity}</td>
+                                                            <td style={textAlign}> {sumExport}</td>
+                                                            <td /><td />
+                                                            <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

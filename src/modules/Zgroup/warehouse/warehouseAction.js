@@ -83,3 +83,17 @@ export function loadAllGood() {
         });
     };
 }
+
+export function createWarehouse(data, success) {
+    return function () {
+        
+        warehouseApi.createWarehouse(data)
+            .then(() => {
+                success();
+            }).catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                
+            });
+        
+    };
+}

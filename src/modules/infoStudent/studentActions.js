@@ -1,8 +1,43 @@
 import * as types from '../../constants/actionTypes';
 import * as studentApi from './studentApi';
 import * as helper from '../../helpers/helper';
+import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
 
 /*eslint no-console: 0 */
+
+export function changeCallStatusStudent(callStatus,
+                                        studentId,
+                                        note,
+                                        appointmentPayment) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT,
+        });
+        registerStudentsApi
+            .changeCallStatusStudent(
+                callStatus,
+                studentId,
+                '',
+                '',
+                note,
+                '',
+                appointmentPayment,
+            )
+            .then(res => {
+                dispatch({
+                    type: types.CHANGE_CALL_STATUS_INFO_STUDENT_SUCCESS,
+                    historyCall: res.data.data,
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra");
+                dispatch({
+                    type: types.CHANGE_CALL_STATUS_INFO_STUDENT_ERROR,
+                });
+            });
+    };
+}
+
 
 export function loadInfoStudent(studentId) {
     return function (dispatch) {

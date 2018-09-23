@@ -88,6 +88,7 @@ class ManageStaffsContainer extends React.Component {
                 departments={[{id: 0, name: ''}, ...departments]}
                 search={this.state.query}
                 getAllStaffs={this.props.staffActions.getAllStaffs}
+                user={this.props.user}
             />
         );
     }
@@ -107,6 +108,7 @@ ManageStaffsContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     departments: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 ManageStaffsContainer.contextTypes = {
@@ -127,6 +129,7 @@ function mapStateToProps(state) {
         baseListData: state.staffs.bases.basesData,
         errorBases: state.staffs.bases.error,
         departments: state.staffs.departments,
+        user: state.login.user,
 
     };
 }

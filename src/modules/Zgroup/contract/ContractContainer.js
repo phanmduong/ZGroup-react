@@ -249,8 +249,7 @@ class ContractContainer extends Component {
                                                                     <th>Số hợp đồng</th>
                                                                     <th>Bên A</th>
                                                                     <th>Bên B</th>
-                                                                    <th>Người kí</th>
-                                                                    <th>Trạng thái</th>
+                                                                    <th>Người kí</th> 
                                                                     <th>Trạng thái</th>
                                                                     <th>Ngày hết hạn</th>
                                                                     <th />
@@ -258,17 +257,7 @@ class ContractContainer extends Component {
                                                             </thead>
                                                             <tbody>
                                                                 {contracts.map((obj, index) => {
-                                                                    let status = "Chưa gửi";
-                                                                    switch (obj.status) {
-                                                                        case 1: {
-                                                                            status = "Đã gửi";
-                                                                            break;
-                                                                        }
-                                                                        case 2: {
-                                                                            status = "Đã nhận";
-                                                                            break;
-                                                                        }
-                                                                    }
+                                                                  
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
@@ -281,12 +270,14 @@ class ContractContainer extends Component {
                                                                             <td>{obj.company_a.name}</td>
                                                                             <td>{obj.company_b.name}</td>
                                                                             <td>{obj.sign_staff.name}</td>
-                                                                            <td>{status}</td>
+                                                                            
                                                                             <td style={{width: 135}}>
                                                                                 
                                                                                     <ReactSelect
                                                                                         options={allStatus || []}        
-                                                                                        onChange={(e) => { this.changeStatus(index,obj.id, e.id); }}
+                                                                                        onChange={(e) => { 
+                                                                                            if(e) this.changeStatus(index,obj.id, e.id); 
+                                                                                        }}
                                                                                         value={obj.status}
                                                                                         defaultMessage="Chọn"
                                                                                         disabled={isLoading}

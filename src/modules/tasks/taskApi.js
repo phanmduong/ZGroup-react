@@ -21,7 +21,7 @@ export function toggleArchive(card) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.put(url);
+    return axios.put(url, {status: card.status});
 }
 
 export function changeProjectSetting(project) {

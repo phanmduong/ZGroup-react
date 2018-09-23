@@ -60,18 +60,23 @@ class AppContainer extends React.Component {
     }
 
     onLogOut() {
-        helper.closeSidebar();
-        helper.removeDataLoginLocal();
-        helper.onesignalSetUserId(0);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        /* eslint-disable */
-        if (process.env.NODE_ENV === "production") {
-            window.open("/logout", "_self");
-        } else {
-            this.props.router.push("/login");
-        }
-        /* eslint-enable */
+        helper.confirm('warning', 'Đăng xuất', 'Bạn có chắc muốn đăng xuất khỏi hệ thống?', 
+            ()=>{
+                helper.closeSidebar();
+                helper.removeDataLoginLocal();
+                helper.onesignalSetUserId(0);
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                /* eslint-disable */
+                if (process.env.NODE_ENV === "production") {
+                    window.open("/logout", "_self");
+                } else {
+                    this.props.router.push("/login");
+                }
+                /* eslint-enable */
+            }
+        );
+        
     }
 
     closeModalRule() {
