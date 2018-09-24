@@ -18,9 +18,24 @@ class AddStaffComponent extends React.Component {
         }
     }
 
+    showKPIValues(value) {
+        if (value) {
+            const regexNumber = new RegExp(/\B(?=([0-9]{3})+(?![0-9]))/, 'g');
+            return value.replace(regexNumber, ".").replace(/,/g,", ");
+        } else {
+            return "";
+        }
+
+    }
+
     render() {
 
-        let {name, email, role_id, username, color, base_id, department_id, salary_revenue, salary_allowance, salary} = this.props.staffForm;
+        let {name, email, role_id, username,
+            color, base_id, department_id,
+            salary_revenue, salary_allowance,
+            kpis,
+            salary}
+            = this.props.staffForm;
 
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
@@ -122,6 +137,15 @@ class AddStaffComponent extends React.Component {
                                                 })}
                                             </select>
                                         </div>
+                                        <FormInputText
+                                            label="KPIs (vd: 3000000,4000000,5000000)"
+                                            name="kpis"
+                                            value={kpis}
+                                            //required={true}
+                                            type="text"
+                                            updateFormData={this.props.updateFormData}
+                                        />
+                                        <div>{this.showKPIValues(kpis)}</div>
                                         {
 
                                             this.props.roles && (this.props.role == 2) ?
@@ -254,7 +278,7 @@ class AddStaffComponent extends React.Component {
                             <div className="col-md-12">
                                 <div className="card">
                                     {/*<div className="card-header card-header-icon" data-background-color="rose">*/}
-                                        {/*<i className="material-icons">contacts</i>*/}
+                                    {/*<i className="material-icons">contacts</i>*/}
                                     {/*</div>*/}
                                     <div className="card-content">
                                         <h4 className="card-title">Thay đổi mật khẩu</h4>
