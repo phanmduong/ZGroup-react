@@ -25,7 +25,8 @@ class ManageRoleComponent extends React.Component {
                             <div className="tab-content">
                                 <div className="flex-row flex">
                                     <h5 className="card-title"><strong>&#160;&#160;Danh sách chức vụ</strong></h5>
-                                    {this.props.user.role == 2 &&  <div>
+                                    {/*{this.props.user.role == 2 &&  <div>*/}
+                                    {<div>
                                         <button className="btn btn-primary btn-round btn-xs button-add none-margin" onClick={() => this.redirectCreateRole()}>
                                             <strong>+</strong>
                                         </button>
@@ -39,7 +40,8 @@ class ManageRoleComponent extends React.Component {
                                     <ListRole
                                         roles={this.props.roleListData}
                                         deleteRole={this.props.deleteRole}
-                                        disableActions={this.props.user.role == 2}
+                                        disableActions={false}
+                                        // disableActions={this.props.user.role == 2}
 
                                     />
                                 )
