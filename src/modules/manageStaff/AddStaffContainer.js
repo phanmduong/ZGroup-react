@@ -40,18 +40,27 @@ class AddStaffContainer extends React.Component {
         const field = event.target.name;
         let staffForm = {...this.props.staffForm};
         if (staffForm[field] != event.target.value) {
-            if (field === 'email'){
-                if (helper.isEmptyInput(staffForm['username']) || this.usernameEmpty){
+            if (field === 'email') {
+                if (helper.isEmptyInput(staffForm['username']) || this.usernameEmpty) {
                     this.usernameEmpty = true;
                     staffForm['username'] = event.target.value;
                 }
             }
 
-            if (field === 'username'){
+            if (field === 'username') {
                 this.usernameEmpty = false;
             }
 
-            staffForm[field] = event.target.value;
+            let value = event.target.value;
+
+            if (field === "kpis") {
+                // eslint-disable-next-line
+                const regex = new RegExp("[^0-9,]", "ig");
+                value = value.replace(regex, "");
+            }
+
+            staffForm[field] = value;
+
             this.props.staffActions.updateAddStaffFormData(staffForm);
         }
     }
@@ -90,7 +99,7 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
-    resetPassword(){
+    resetPassword() {
         this.props.staffActions.resetPassword(this.props.params.staffId);
     }
 
