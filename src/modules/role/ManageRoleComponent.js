@@ -40,7 +40,6 @@ class ManageRoleComponent extends React.Component {
                                     <ListRole
                                         roles={this.props.roleListData}
                                         deleteRole={this.props.deleteRole}
-                                        disableActions={false}
                                         // disableActions={this.props.user.role == 2}
 
                                     />
