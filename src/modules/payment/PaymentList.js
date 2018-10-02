@@ -49,7 +49,7 @@ class PaymentList extends React.Component {
                                         {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
                                     </td> */}
                                     <td>
-                                        { (pp.status === 0) ?
+                                        {  (this.props.user.role == 2) ?
                                         <div className="
                                         btn-group-action">
                                             {/* <a data-toggle="tooltip" title="Duyệt"
