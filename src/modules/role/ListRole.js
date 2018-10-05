@@ -36,7 +36,7 @@ class ListRole extends React.Component {
                                         <td>{role.role_title}</td>
                                         <td>{role.num_tabs}</td>
                                         <td>
-                                            {this.props.disableActions && <ButtonGroupAction
+                                            {!this.props.disableActions && <ButtonGroupAction
                                                 delete={self.props.deleteRole}
                                                 editUrl={`/hr/role/${role.id}/edit`}
                                                 object={role.id}
