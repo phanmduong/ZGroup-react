@@ -4,6 +4,6 @@ query fetchTargetApi($genId: Int!) {
         achieve,
         target,
         name,
-        month_order
+        gen_order
     }
 }
