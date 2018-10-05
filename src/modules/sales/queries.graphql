@@ -1,0 +1,9 @@
+query fetchTargetApi($genId: Int!) {
+    targetSale(gen_id: $genId) {
+        user_id,
+        achieve,
+        target,
+        name,
+        month_order
+    }
+}
