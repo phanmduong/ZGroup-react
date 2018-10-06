@@ -7,6 +7,7 @@ import summarySalesRoomReducer from "../modules/summarySalesRoom/summarySalesRoo
 import registerReducer from "../modules/registerStudents/registerReducer";
 import studentReducer from "../modules/infoStudent/studentReducer";
 import createRegister from "../modules/registerStudents/createRegisterReducer";
+import targetSaleReducer from "../modules/sales/targetSaleReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
@@ -16,6 +17,7 @@ const appReducer = combineReducers({
     registerStudents: registerReducer,
     infoStudent: studentReducer,
     createRegister,
+    targetSale: targetSaleReducer
 });
 
 const rootReducer = (state, action) => {
