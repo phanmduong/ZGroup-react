@@ -32,7 +32,7 @@ class AddStaffComponent extends React.Component {
 
         let {name, email, role_id, username,
             color, base_id, department_id,
-            salary_revenue, salary_allowance,
+             salary_allowance,
             kpis,
             salary}
             = this.props.staffForm;
@@ -158,16 +158,16 @@ class AddStaffComponent extends React.Component {
                                                         type="number"
                                                         updateFormData={this.props.updateFormData}
                                                     />
-                                                    < FormInputText
-                                                        label="Lương doanh thu"
-                                                        name="salary_revenue"
-                                                        value={salary_revenue}
-                                                        //required={true}
-                                                        type="number"
-                                                        updateFormData={this.props.updateFormData}
-                                                    />
+                                                    {/*< FormInputText*/}
+                                                        {/*label="Lương doanh thu"*/}
+                                                        {/*name="salary_revenue"*/}
+                                                        {/*value={salary_revenue}*/}
+                                                        {/*//required={true}*/}
+                                                        {/*type="number"*/}
+                                                        {/*updateFormData={this.props.updateFormData}*/}
+                                                    {/*/>*/}
                                                     <FormInputText
-                                                        label="Lương phụ cấp"
+                                                        label="Phụ cấp"
                                                         name="salary_allowance"
                                                         value={salary_allowance}
                                                         //required={true}

@@ -11,7 +11,7 @@ class ListHonor extends React.Component {
         super(props, context);
         this.state = {
             sortDown: true
-        }
+        };
     }
 
     changeSort = () => {
@@ -39,7 +39,7 @@ class ListHonor extends React.Component {
                             </th>
                             <th>Đóng góp</th>
                             <th>Mô tả</th>
-                            <th></th>
+                            <th/>
                         </tr>
                         </thead>
                         <tbody>
