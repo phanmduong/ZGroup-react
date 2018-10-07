@@ -665,7 +665,9 @@ export default {
                 literacy: 0,
                 role: 0,
                 start_company: new Date().toISOString().slice(0, 10),
-                avatar_url: ''
+                avatar_url: '',
+                salary: 0,
+                salary_allowance: 0
             },
             isChangingAvatar: false,
             isLoading: false,
