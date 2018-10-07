@@ -7,3 +7,13 @@ query fetchTargetApi($genId: Int!) {
         gen_order
     }
 }
+
+query fetchPersonTargetApi($userId: Int!) {
+    targetSale(user_id: $userId) {
+        user_id,
+        achieve,
+        target,
+        name,
+        gen_name
+    }
+}

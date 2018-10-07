@@ -14,11 +14,16 @@ import RegistersContainer from "../modules/infoStudent/registers/RegistersContai
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import TargetListContainer from '../modules/sales/TargetListContainer';
+import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
 
 /**
  * Tab Quản lý sales
  */
 export default [
+    {
+        path: "sales/target/:userId",
+        component: TargetPersonContainer
+    },
     {
         path: "sales/targets",
         component: TargetListContainer

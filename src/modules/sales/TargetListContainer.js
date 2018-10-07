@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import * as targetSaleActions from './targetSaleActions';
 import {numberWithCommas} from "../../helpers/helper";
+import {Link} from "react-router";
 
 class TargetListContainer extends React.Component {
     constructor(props, context) {
@@ -69,7 +70,11 @@ class TargetListContainer extends React.Component {
                                             {
                                                 this.props.targetSale.map(({user_id, name, target, achieve, gen_order}) => (
                                                     <tr key={user_id}>
-                                                        <td>{name}</td>
+                                                        <td>
+                                                            <Link to={"/sales/target/" + user_id}>
+                                                                {name}
+                                                            </Link>
+                                                        </td>
                                                         <td>Khóa thứ {gen_order}</td>
                                                         <td>
                                                             <div>
