@@ -26,6 +26,25 @@ export function loadGensData(page) {
     };
 }
 
+export function getSalarySales(gen_id, callback) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SALES_SALARY
+        });
+        gensApi.loadSalesSalary(gen_id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_SALES_SALARY_SUCCESS,
+                });
+                callback(res.data.data.salesSalary);
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_SALES_SALARY_ERROR
+            });
+        });
+    };
+}
+
 export function updateGenFormData(gen) {
     return {
         type: types.UPDATE_GEN_FROM,
