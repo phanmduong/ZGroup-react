@@ -10,6 +10,8 @@ export function createBarcode(barcode) {
 	if (token) {
 		url += '?token=' + token;
 	}
+
+	barcode = {...barcode, good_id: barcode.good ? barcode.good.id : null};
 	return axios.post(url, barcode);
 }
 

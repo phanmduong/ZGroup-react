@@ -7,16 +7,25 @@ import {showWarningNotification} from '../../../helpers/helper';
 
 /*eslint no-console: 0 */
 
-export function showCreateBarcodeModal(showModal) {
+export function showCreateBarcodeModal(barcode) {
     return function(dispatch) {
         dispatch({
             type: types.SHOW_CREATE_BARCODE_MODAL,
-            showModal,
+            barcode,
         });
     };
 }
 
-export function createBarcode(barcode) {
+export function closeCreateBarcodeModal(data) {
+    return function(dispatch) {
+        dispatch({
+            type: types.CLOSE_CREATE_BARCODE_MODAL,
+            data,
+        });
+    };
+}
+
+export function createBarcode(barcode, reload) {
     return dispatch => {
         dispatch({
             type: types.BEGIN_CREATE_BARCODE,
@@ -25,11 +34,13 @@ export function createBarcode(barcode) {
             if(res.data.status == 0){
                 dispatch({type: types.CREATE_BARCODE_ERROR});   
                 showWarningNotification(res.data.message) ;
-            }else
-            dispatch({
+            }else{
+            reload();
+                dispatch({
                 type: types.CREATE_BARCODE_SUCCESS,
                 barcode: res.data.data.barcode,
             });
+            }
         });
     };
 }

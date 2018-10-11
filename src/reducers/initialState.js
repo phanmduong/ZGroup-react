@@ -585,7 +585,8 @@ export default {
             createBarcode: {
                 showModal: false,
                 barcode: {},
-                isSaving: false
+                isSaving: false,
+                isEdit: false,
             }
         },
         attachPropertyItem: {
