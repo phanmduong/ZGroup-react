@@ -20,13 +20,9 @@ class ProcessTaskItem extends React.Component {
     render() {
         const { task, isActive, user, card } = this.props;
         const canEditProperty =
-            task.status == 1 &&
-            (user.role == 2 ||
-                card.creator_id == user.id ||
-                (task.members &&
-                    task.members.filter(member => member.id === user.id)
-                        .length > 0 &&
-                    task.status));
+            // task.status == 1 &&
+            (user.role == 2 || card.creator_id == user.id ||
+                (task.members && task.members.filter(member => member.id === user.id).length > 0 && task.status));
 
         return (
             <ListGroupItem>
