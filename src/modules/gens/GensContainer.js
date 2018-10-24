@@ -109,9 +109,43 @@ class GensContainer extends React.Component {
 
     }
 
+    exportSalesSalary = (data)=>{
+        let wb = helper.newWorkBook();
+        let cols = [{ "wch": 5 }, { "wch": 22 }, { "wch": 10 }, { "wch": 10 }, { "wch": 10 }, { "wch": 10 },];//độ rộng cột
+        //begin
+        let salary = data.map((item, index) => {
+            /* eslint-disable */
+            let res = {
+                'STT': index + 1,
+                'Họ và tên': item.name,
+                'Lương cơ bản': item.salary,
+                'Tổng doanh thu': item.sum_paid_personal,
+                'Tổng số đơn': item.total_registers,
+                'Tổng số đơn đã nộp tiền': item.total_paid_registers,
+
+            };
+            item.courses.forEach((obj) => {
+                if(obj.count) res = { ...res, [`${obj.name}`]: obj.count };
+            });
+            return res;
+            /* eslint-enable */
+        });
+        helper.appendJsonToWorkBook(salary, wb, 'Sales', cols);
+        //end
+        //xuất file
+        helper.saveWorkBookToExcel(wb, 'Sales');
+    }
+
     render() {
         return (
             <div>
+                <Modal
+                    show={this.props.isLoadingExcel}
+                    onHide={() => {}}
+                >
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading/></Modal.Body>
+                </Modal>
                 <div className="col-lg-12">
                     <div className="row">
                         <div className="col-md-8">
@@ -121,14 +155,17 @@ class GensContainer extends React.Component {
                                         <h4 className="card-title">
                                             <strong style={{marginLeft: 6}}>Danh sách khóa học</strong>
                                         </h4>
+                                        
                                         <br/>
                                         {this.props.isLoading ? <Loading/> :
                                             <ListGen
+                                                user={this.props.user}
                                                 gens={this.props.gens}
                                                 onClickEdit={this.onClickEdit}
                                                 deleteGen={this.deleteGen}
                                                 changeStatus={this.changeStatus}
                                                 changeTeachStatus={this.changeTeachStatus}
+                                                getSalarySales={(id)=>this.props.genActions.getSalarySales(id, this.exportSalesSalary)}
                                             />
                                         }
                                         <br/>
@@ -282,9 +319,11 @@ GensContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    isLoadingExcel: PropTypes.bool.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -294,8 +333,10 @@ function mapStateToProps(state) {
         isSaving: state.gens.isSaving,
         isEditing: state.gens.isEditing,
         totalPages: state.gens.totalPages,
+        isLoadingExcel: state.gens.isLoadingExcel,
         currentPage: state.gens.currentPage,
         totalCount: state.gens.totalCount,
+        user: state.login.user,
         gen: state.gens.gen
     };
 }

@@ -22,7 +22,9 @@ export function addStaff(staff) {
         address: staff.address,
         phone: staff.phone,
         avatar_url: staff.avatar_url,
-        color: staff.color
+        color: staff.color,
+        revenue: staff.salary,
+        allowance: staff.salary_allowance
     });
 }
 
@@ -122,7 +124,9 @@ export function editStaff(staff) {
         address: staff.address,
         phone: staff.phone,
         color: staff.color,
-        kpis: staff.kpis
+        kpis: staff.kpis,
+        revenue: staff.salary,
+        allowance: staff.salary_allowance
     });
 }
 

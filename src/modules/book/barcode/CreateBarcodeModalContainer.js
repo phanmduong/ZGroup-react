@@ -25,14 +25,14 @@ class CreateBarcodeModalContainer extends React.Component {
     }
 
     close() {
-        this.props.barcodeActions.showCreateBarcodeModal(false);
+        this.props.barcodeActions.closeCreateBarcodeModal(false);
     }
 
     submit() {
         this.props.barcodeActions.createBarcode({
             ...this.props.barcode,
             type: this.props.type,
-        });
+        }, ()=>this.props.barcodeActions.loadBarcodes(this.props.currentPage, this.props.type, null));
     }
 
     render() {
@@ -79,6 +79,8 @@ CreateBarcodeModalContainer.propTypes = {
     barcode: PropTypes.object.isRequired,
     isSaving: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired,
+    currentPage: PropTypes.number.isRequired,
+
 };
 
 function mapStateToProps(state) {

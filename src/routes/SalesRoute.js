@@ -13,11 +13,21 @@ import CareContainer from "../modules/infoStudent/care/CareContainer";
 import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
+import TargetListContainer from '../modules/sales/TargetListContainer';
+import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
 
 /**
  * Tab Quản lý sales
  */
 export default [
+    {
+        path: "sales/target/:userId",
+        component: TargetPersonContainer
+    },
+    {
+        path: "sales/targets",
+        component: TargetListContainer
+    },
     {
         path: "/sales/registerlist(/:salerId)",
         component: RegisterListContainer

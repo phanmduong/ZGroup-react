@@ -2,6 +2,8 @@ import React from 'react';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import Switch from 'react-bootstrap-switch';
 import PropTypes from 'prop-types';
+import TooltipButton from "../../components/common/TooltipButton";
+// import {browserHistory} from "react-router";
 
 class ListGen extends React.Component {
     constructor(props, context) {
@@ -51,6 +53,29 @@ class ListGen extends React.Component {
                                         object={gen}
                                         editUrl=""
                                         edit={this.props.onClickEdit}
+                                        children={
+                                            <div className="flex-row flex">
+                                                {this.props.user.role == 2 && <div className="dropdown">
+                                                    <TooltipButton text="Lương" placement="top">
+                                                        <button className="btn btn-rose btn-round btn-xs button-add none-margin" type="button" data-toggle="dropdown">
+                                                            <i className="material-icons" style={{
+                                                                width: 14,
+                                                                marginLeft: -4,
+                                                                paddingTop: 2,
+                                                            }}>file_download</i>
+                                                        </button>
+                                                    </TooltipButton>
+                                                    <ul className="dropdown-menu dropdown-primary">
+                                                        {/*<li>*/}
+                                                            {/*<a onClick={() => {}}>Giảng viên</a>*/}
+                                                        {/*</li>*/}
+                                                        <li>
+                                                            <a onClick={() => this.props.getSalarySales(gen.id)}>Sales</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>}
+                                            </div>
+                                        }
                                     />
                                 </td>
                             </tr>
@@ -68,7 +93,10 @@ ListGen.propTypes = {
     changeTeachStatus: PropTypes.func.isRequired,
     deleteGen: PropTypes.func.isRequired,
     onClickEdit: PropTypes.func.isRequired,
+    getSalarySales: PropTypes.func.isRequired,
     gens: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+
 };
 
 export default ListGen;
