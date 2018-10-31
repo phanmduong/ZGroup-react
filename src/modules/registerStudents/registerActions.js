@@ -189,19 +189,20 @@ export function loadHistoryCallStudent(studentId, registerId) {
 
 }
 
-export function changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, closeModal, callerId) {
+export function changeCallStatusStudent(callStatus, register, telecallId, genId, note, closeModal, callerId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT
         });
-        registerStudentsApi.changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, callerId)
+        registerStudentsApi.changeCallStatusStudent(callStatus, register.id, register.student_id, telecallId, genId, note, callerId)
             .then((res) => {
                 closeModal();
                 dispatch({
                     type: types.CHANGE_CALL_STATUS_STUDENT_SUCCESS,
                     callStatus: res.data.data.call_status,
                     saler: res.data.data.saler,
-                    studentId: studentId
+                    studentId: register.student_id,
+                    registerId: register.id
                 });
             })
             .catch(() => {

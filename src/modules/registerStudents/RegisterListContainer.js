@@ -537,8 +537,8 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadClassFilter(value);
     }
 
-    changeCallStatusStudent(callStatus, studentId) {
-        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal);
+    changeCallStatusStudent(callStatus, register) {
+        this.props.registerActions.changeCallStatusStudent(callStatus, register, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal);
     }
 
     deleteRegister(register) {
@@ -1068,7 +1068,7 @@ class RegisterListContainer extends React.Component {
                                             <button type="button" className="btn btn-success btn-round"
                                                     data-dismiss="modal"
                                                     onClick={() => {
-                                                        this.changeCallStatusStudent(1, this.state.register.student_id);
+                                                        this.changeCallStatusStudent(1, this.state.register);
                                                     }}>
                                                 <i className="material-icons">phone</i>
                                                 Gọi thành công
@@ -1076,7 +1076,7 @@ class RegisterListContainer extends React.Component {
                                             <button type="button" className="btn btn-danger btn-round"
                                                     data-dismiss="modal"
                                                     onClick={() => {
-                                                        this.changeCallStatusStudent(0, this.state.register.student_id);
+                                                        this.changeCallStatusStudent(0, this.state.register);
                                                     }}>
                                                 <i className="material-icons">phone</i>
                                                 Không gọi được
