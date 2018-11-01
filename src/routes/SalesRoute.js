@@ -21,6 +21,10 @@ import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
  */
 export default [
     {
+        path: "sales/personal-kpi",
+        component: TargetPersonContainer
+    },
+    {
         path: "sales/target/:userId",
         component: TargetPersonContainer
     },

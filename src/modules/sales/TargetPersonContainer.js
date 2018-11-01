@@ -12,7 +12,14 @@ class TargetPersonContainer extends React.Component {
     }
 
     componentDidMount() {
-        store.loadPersonTargetSale(this.props.params.userId);
+        if (this.props.params.userId) {
+            store.loadPersonTargetSale(this.props.params.userId);
+        } else {
+            const user = JSON.parse(localStorage.getItem("user"));
+            console.log(user.id);
+            store.loadPersonTargetSale(user.id);
+        }
+
     }
 
 
