@@ -743,6 +743,7 @@ class RegisterListContainer extends React.Component {
                     'Email': item.email,
                     'Phone': item.phone,
                     'Mã thẻ': item.code,
+                    'Học phí': item.money,
                     'Saler': item.saler ? item.saler.name : "Không có",
                     'Chiến dịch': item.campaign ? item.campaign.name : "Không có",
                     'Cách tiếp cận': item.how_know ? item.how_know : "",
