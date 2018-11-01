@@ -53,10 +53,10 @@ export default function goodReducer(state = initialState.good, action) {
                         barcode: {},
                         showModal: false
                     },
-                    barcodeList: {
-                        ...state.barcode.barcodeList,
-                        barcodes: [...state.barcode.barcodeList.barcodes, action.barcode]
-                    }
+                    // barcodeList: {
+                    //     ...state.barcode.barcodeList,
+                    //     barcodes: [...state.barcode.barcodeList.barcodes, action.barcode]
+                    // }
                 }
             };
         case types.CREATE_BARCODE_ERROR:
@@ -89,7 +89,19 @@ export default function goodReducer(state = initialState.good, action) {
                     ...state.barcode,
                     createBarcode: {
                         ...state.barcode.createBarcode,
-                        showModal: action.showModal
+                        showModal: true,
+                        barcode: action.barcode ? action.barcode : state.barcode.createBarcode.barcode,
+                    }
+                }
+            };
+        case types.CLOSE_CREATE_BARCODE_MODAL:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    createBarcode: {
+                        ...state.barcode.createBarcode,
+                        showModal: false,
                     }
                 }
             };

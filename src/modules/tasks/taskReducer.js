@@ -999,7 +999,8 @@ export default function taskReducer(state = initialState.task, action) {
                         ]
                 }
             };
-        case types.LOAD_CARD_DETAIL_SUCCESS:
+        case types.LOAD_CARD_DETAIL_SUCCESS:{
+            //console.log(action.card);
             return {
                 ...state,
                 cardDetail: {
@@ -1015,6 +1016,7 @@ export default function taskReducer(state = initialState.task, action) {
                     comments: action.card.comments
                 }
             };
+        }
         case types.UPLOAD_ATTACHMENT_SUCCESS:
             return {
                 ...state,

@@ -77,7 +77,7 @@ class AddUserToStaff extends React.Component {
                                 bases={[{id: 0, name: '', address: ''}, ...baseListData]}
                                 changeRoleStaff={this.changeRoleStaff}
                                 changeBaseStaff={this.changeBaseStaff}
-                                disableActions
+                                disableActions={false}
                                 titleList="Danh sách người dùng"
                             />
                         )

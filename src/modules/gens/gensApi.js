@@ -11,6 +11,16 @@ export function loadGens(page = 1) {
     return axios.get(url);
 }
 
+export function loadSalesSalary(gen_id = 1) {
+    let url = env.MANAGE_API_URL + "/gen/sales-salary?gen_id=" + gen_id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function addGen(gen) {
     let url = env.MANAGE_API_URL + '/gen/add';
     let token = localStorage.getItem('token');

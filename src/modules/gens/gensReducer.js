@@ -34,6 +34,31 @@ export default function genssReducer(state = initialState.gens, action) {
                     error: true
                 }
             };
+        case types.BEGIN_LOAD_SALES_SALARY:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: true,
+                    error: false
+
+                }
+            };
+        case types.LOAD_SALES_SALARY_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                    error: false,
+                }
+            };
+        case types.LOAD_SALES_SALARY_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                    error: true
+                }
+            };
         case types.UPDATE_GEN_FROM:
             return {
                 ...state,
