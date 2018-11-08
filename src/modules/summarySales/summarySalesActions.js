@@ -4,7 +4,7 @@ import * as summarySalesApi from "./summarySalesApi";
 /*eslint no-console: 0 */
 
 export function loadGensData() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_GENS_DATA_SUMMARY_SALES,
         });
@@ -26,7 +26,7 @@ export function loadGensData() {
 }
 
 export function loadBasesData() {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BASES_DATA_SUMMARY_SALES,
         });
@@ -47,7 +47,7 @@ export function loadBasesData() {
 }
 
 export function loadSummarySalesData(genId, baseId, startTime, endTime) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SUMMARY_SALES,
         });
@@ -56,7 +56,7 @@ export function loadSummarySalesData(genId, baseId, startTime, endTime) {
             .then(res => {
                 dispatch({
                     type: types.LOAD_SUMMARY_SALES_SUCCESS,
-                    summary: res.data.data.summary_sales,
+                    summary: res.data.data.summary_sales ? res.data.data.summary_sales.reverse() : [],
                 });
             })
             .catch(() => {
