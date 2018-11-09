@@ -16,7 +16,7 @@ class TargetPersonContainer extends React.Component {
             store.loadPersonTargetSale(this.props.params.userId);
         } else {
             const user = JSON.parse(localStorage.getItem("user"));
-            console.log(user.id);
+            // console.log(user.id);
             store.loadPersonTargetSale(user.id);
         }
 
