@@ -4,10 +4,10 @@
 import React from "react";
 import * as helper from "../../helpers/helper";
 import TooltipButton from "../../components/common/TooltipButton";
-import { Pie } from "react-chartjs-2";
+import {Pie} from "react-chartjs-2";
 
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 const legendOpts = {
     display: false,
@@ -19,6 +19,7 @@ class OverviewSales extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
+
     convertData(campaigns) {
         let labels = [];
         let data = [];
@@ -62,7 +63,7 @@ class OverviewSales extends React.Component {
                                             <h4 className="card-title">
                                                 <strong>{item.name}</strong>
                                             </h4>
-                                            <br />
+                                            <br/>
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <p className="description">
@@ -73,47 +74,47 @@ class OverviewSales extends React.Component {
                                                                 item["bonus"],
                                                             )}đ
                                                         </strong>
-                                                        <br />
+                                                        <br/>
                                                         Tỉ lệ chốt đơn:{" "}
                                                         <strong>
                                                             {`${
                                                                 item[
                                                                     "total_paid_registers"
-                                                                ]
-                                                            }/${
+                                                                    ]
+                                                                }/${
                                                                 item[
                                                                     "total_registers"
-                                                                ]
-                                                            }`}
+                                                                    ]
+                                                                }`}
                                                             ({helper.round2(
-                                                                item[
-                                                                    "total_paid_registers"
+                                                            item[
+                                                                "total_paid_registers"
                                                                 ],
-                                                                item[
-                                                                    "total_registers"
+                                                            item[
+                                                                "total_registers"
                                                                 ],
-                                                            ) * 100}%){" - "}
+                                                        ) * 100}%){" - "}
                                                             {
                                                                 item[
                                                                     "sum_paid_personal"
-                                                                ]
+                                                                    ]
                                                             }
                                                         </strong>
                                                     </p>
                                                     <div
-                                                        style={{ width: "50%" }}
+                                                        style={{width: "50%"}}
                                                     >
                                                         <TooltipButton
                                                             placement="top"
                                                             text={`${
                                                                 item[
                                                                     "total_paid_registers"
-                                                                ]
-                                                            }/${
+                                                                    ]
+                                                                }/${
                                                                 item[
                                                                     "total_registers"
-                                                                ]
-                                                            }`}
+                                                                    ]
+                                                                }`}
                                                         >
                                                             <div className="progress progress-line-rose">
                                                                 <div
@@ -122,10 +123,10 @@ class OverviewSales extends React.Component {
                                                                     style={{
                                                                         width: `${item[
                                                                             "total_paid_registers"
-                                                                        ] *
-                                                                            100 /
-                                                                            item[
-                                                                                "total_registers"
+                                                                            ] *
+                                                                        100 /
+                                                                        item[
+                                                                            "total_registers"
                                                                             ]}%`,
                                                                     }}
                                                                 />
@@ -138,55 +139,52 @@ class OverviewSales extends React.Component {
                                                             width="100%"
                                                         >
                                                             <thead>
-                                                                <tr className="text-rose">
-                                                                    <th>
-                                                                        Tên lớp
-                                                                    </th>
-                                                                    <th className="text-center">
-                                                                        Số đăng
-                                                                        kí
-                                                                    </th>
-                                                                    <th className="text-center">
-                                                                        Số tiền
-                                                                    </th>
-                                                                </tr>
+                                                            <tr className="text-rose">
+                                                                <th>
+                                                                    Tên lớp
+                                                                </th>
+                                                                <th className="text-center">
+                                                                    Số đăng
+                                                                    kí
+                                                                </th>
+                                                                <th className="text-center">
+                                                                    Số tiền
+                                                                </th>
+                                                            </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {item.courses &&
-                                                                    item.courses.map(
-                                                                        (
-                                                                            course,
-                                                                            index,
-                                                                        ) => {
-                                                                            return (
-                                                                                <tr
-                                                                                    key={
-                                                                                        index
-                                                                                    }
-                                                                                >
-                                                                                    <td
-                                                                                    >
-                                                                                        {
-                                                                                            course.name
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {
-                                                                                            course.count
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {helper.dotNumber(
-                                                                                            course.count *
-                                                                                                course[
-                                                                                                    "sale_bonus"
-                                                                                                ],
-                                                                                        )}đ
-                                                                                    </td>
-                                                                                </tr>
-                                                                            );
-                                                                        },
-                                                                    )}
+                                                            {item.courses &&
+                                                            item.courses.map(
+                                                                (
+                                                                    course,
+                                                                    index,
+                                                                ) => {
+                                                                    return (
+                                                                        <tr
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                        >
+                                                                            <td
+                                                                            >
+                                                                                {
+                                                                                    course.name
+                                                                                }
+                                                                            </td>
+                                                                            <td className="text-center">
+                                                                                {
+                                                                                    course.count
+                                                                                }
+                                                                            </td>
+                                                                            <td className="text-center">
+                                                                                {helper.dotNumber(
+                                                                                    course.total_money_registers
+                                                                                )}đ
+                                                                            </td>
+                                                                        </tr>
+                                                                    );
+                                                                },
+                                                            )}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -209,9 +207,11 @@ class OverviewSales extends React.Component {
         );
     }
 }
+
 OverviewSales.propTypes = {
     summary: PropTypes.array,
 };
+
 function mapStateToProps(state) {
     return {
         summary: state.summarySales.summary,
