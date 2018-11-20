@@ -18,6 +18,11 @@ class ClassContainer extends React.Component {
         super(props, context);
     }
 
+    genCerti = () => {
+        const classId = this.props.class.id;
+        this.props.dashboardActions.genCerti(classId);
+    };
+
     render() {
         // console.log(this.props.class,"class");
         if (this.props.isLoadingClass) {
@@ -111,6 +116,7 @@ class ClassContainer extends React.Component {
                                     <th>Tình trạng học</th>
                                     <th>Mã học viên</th>
                                     <th>Học phí</th>
+                                    <th>Bằng</th>
                                     <th>Thiết bị</th>
                                 </tr>
                                 </thead>
@@ -203,6 +209,11 @@ class ClassContainer extends React.Component {
                                                 }
                                             </td>
                                             <td>
+                                                {
+                                                    register.certificate || "Chưa xét"
+                                                }
+                                            </td>
+                                            <td>
                                                 <div  style={{display: "flex"}}>
                                                     {
                                                         register.student.devices && register.student.devices.map((dv, index) => {
@@ -249,7 +260,9 @@ class ClassContainer extends React.Component {
                                 <button className="btn btn-default card-detail-btn-action"><i
                                     className="material-icons">timer</i> Xem group lớp
                                 </button>
-                                <button className="btn btn-default card-detail-btn-action"><i
+                                <button
+                                    onClick={this.genCerti}
+                                    className="btn btn-default card-detail-btn-action"><i
                                     className="material-icons">timer</i> Xếp bằng
                                 </button>
                             </div>

@@ -103,6 +103,26 @@ export function loadClass(classId) {
     };
 }
 
+export function genCerti(classId) {
+    return async (dispatch) => {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_DATA_DASHBOARD
+        });
+        await dashboardApi.genCerti(classId);
+        dashboardApi.loadClass(classId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASS_DASHBOARD_SUCCESS,
+                    class: res.data.data.class
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_CLASS_DASHBOARD_ERROR
+            });
+        });
+    };
+}
+
 export function loadAttendanceShifts(genId, baseId, time) {
     return function (dispatch) {
         dispatch({

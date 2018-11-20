@@ -11,6 +11,15 @@ export function loadGens() {
     return axios.get(url);
 }
 
+export function genCerti(classId) {
+    let url = env.MANAGE_API_URL + `/class/${classId}/compute-certificate`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
 export function loadBases() {
     let url = env.MANAGE_API_URL + "/base/all";
     let token = localStorage.getItem('token');
