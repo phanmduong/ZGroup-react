@@ -20,6 +20,7 @@ const createSurveyFormData = (survey, file) => {
     formData.append("name", survey.name);
     formData.append("active", survey.active);
     formData.append("description", survey.description);
+    formData.append("gen_id", survey.gen_id);
     return formData;
 };
 
