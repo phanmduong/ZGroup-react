@@ -6,6 +6,7 @@ import store from "./statisticsStore";
 import {observer} from "mobx-react/index";
 import moment from "moment";
 import {Bar} from 'react-chartjs-2';
+import {dotNumber} from "../../helpers/helper";
 
 // function getMonday(d) {
 //     d = new Date(d);
@@ -14,6 +15,27 @@ import {Bar} from 'react-chartjs-2';
 //     return new Date(d.setDate(diff));
 // }
 
+const optionsBar = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                console.log(tooltipItem);
+                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                const dataObject = store['new_person_by_date_' + label][tooltipItem.index];
+
+                console.log(store['new_person_by_date_' + label]);
+
+                if (label) {
+                    label += ': ';
+                }
+                label += Math.round(tooltipItem.yLabel * 100) / 100;
+                label += `(${dotNumber(dataObject)} người)`;
+                return label;
+            }
+        }
+    }
+}
 
 function countData(day) {
     let cnt = Math.floor(store.date_array.length / day);
@@ -22,10 +44,18 @@ function countData(day) {
     let new_register_by_date_done = [];
     let new_register_by_date_cancel = [];
     let new_register_by_date_seed = [];
+    let new_person_by_date_view = [];
+    let new_person_by_date_done = [];
+    let new_person_by_date_cancel = [];
+    let new_person_by_date_seed = [];
     let tmp_view = 0;
     let tmp_done = 0;
     let tmp_seed = 0;
     let tmp_cancel = 0;
+    let tmp_person_view = 0;
+    let tmp_person_done = 0;
+    let tmp_person_seed = 0;
+    let tmp_person_cancel = 0;
     // console.log(cnt,"cnt");
     if (cnt === 0) {
         new_date_array = [...new_date_array, store.date_array[day * cnt] + " - " + store.date_array[store.date_array.length - 1]];
@@ -34,11 +64,19 @@ function countData(day) {
             tmp_done += store.register_by_date_done[i];
             tmp_seed += store.register_by_date_seed[i];
             tmp_cancel += store.register_by_date_cancel[i];
+            tmp_person_view += store.person_by_date_view[i];
+            tmp_person_done += store.person_by_date_done[i];
+            tmp_person_seed += store.person_by_date_seed[i];
+            tmp_person_cancel += store.person_by_date_cancel[i];
         }
         new_register_by_date_view = [...new_register_by_date_view, tmp_view];
         new_register_by_date_done = [...new_register_by_date_done, tmp_done];
         new_register_by_date_seed = [...new_register_by_date_seed, tmp_seed];
         new_register_by_date_cancel = [...new_register_by_date_cancel, tmp_cancel];
+        new_person_by_date_view = [...new_person_by_date_view, tmp_person_view];
+        new_person_by_date_done = [...new_person_by_date_done, tmp_person_done];
+        new_person_by_date_seed = [...new_person_by_date_seed, tmp_person_seed];
+        new_person_by_date_cancel = [...new_person_by_date_cancel, tmp_person_cancel];
     }
     else {
 
@@ -49,18 +87,30 @@ function countData(day) {
                 tmp_done += store.register_by_date_done[i];
                 tmp_seed += store.register_by_date_seed[i];
                 tmp_cancel += store.register_by_date_cancel[i];
+                tmp_person_view += store.person_by_date_view[i];
+                tmp_person_done += store.person_by_date_done[i];
+                tmp_person_seed += store.person_by_date_seed[i];
+                tmp_person_cancel += store.person_by_date_cancel[i];
             }
             new_register_by_date_view = [...new_register_by_date_view, tmp_view];
             new_register_by_date_done = [...new_register_by_date_done, tmp_done];
             new_register_by_date_seed = [...new_register_by_date_seed, tmp_seed];
             new_register_by_date_cancel = [...new_register_by_date_cancel, tmp_cancel];
+            new_person_by_date_view = [...new_person_by_date_view, tmp_person_view];
+            new_person_by_date_done = [...new_person_by_date_done, tmp_person_done];
+            new_person_by_date_seed = [...new_person_by_date_seed, tmp_person_seed];
+            new_person_by_date_cancel = [...new_person_by_date_cancel, tmp_person_cancel];
 
             tmp_view = 0;
             tmp_cancel = 0;
             tmp_done = 0;
             tmp_seed = 0;
+            tmp_person_view = 0;
+            tmp_person_cancel = 0;
+            tmp_person_done = 0;
+            tmp_person_seed = 0;
 
-            // console.log(j, " : ", new_date_array, " - ", new_register_by_date_done);
+            // console.log(j, " : ", new_date_array, " - ", new_person_by_date_done);
         }
         new_date_array = [...new_date_array, store.date_array[day * cnt - day] + " - " + store.date_array[store.date_array.length - 1]];
         for (let i = day * cnt - day; i < store.date_array.length; i++) {
@@ -68,11 +118,19 @@ function countData(day) {
             tmp_done += store.register_by_date_done[i];
             tmp_seed += store.register_by_date_seed[i];
             tmp_cancel += store.register_by_date_cancel[i];
+            tmp_person_view += store.person_by_date_view[i];
+            tmp_person_done += store.person_by_date_done[i];
+            tmp_person_seed += store.person_by_date_seed[i];
+            tmp_person_cancel += store.person_by_date_cancel[i];
         }
         new_register_by_date_view = [...new_register_by_date_view, tmp_view];
         new_register_by_date_done = [...new_register_by_date_done, tmp_done];
         new_register_by_date_seed = [...new_register_by_date_seed, tmp_seed];
         new_register_by_date_cancel = [...new_register_by_date_cancel, tmp_cancel];
+        new_person_by_date_view = [...new_person_by_date_view, tmp_person_view];
+        new_person_by_date_done = [...new_person_by_date_done, tmp_person_done];
+        new_person_by_date_seed = [...new_person_by_date_seed, tmp_person_seed];
+        new_person_by_date_cancel = [...new_person_by_date_cancel, tmp_person_cancel];
     }
 
     // console.log(new_date_array, "qqqqqq", new_register_by_date_view);
@@ -81,6 +139,10 @@ function countData(day) {
     store.new_register_by_date_cancel = new_register_by_date_cancel;
     store.new_register_by_date_done = new_register_by_date_done;
     store.new_register_by_date_view = new_register_by_date_view;
+    store.new_person_by_date_seed = new_person_by_date_seed;
+    store.new_person_by_date_cancel = new_person_by_date_cancel;
+    store.new_person_by_date_done = new_person_by_date_done;
+    store.new_person_by_date_view = new_person_by_date_view;
 }
 
 @observer
@@ -123,6 +185,10 @@ class RegistersChart extends React.Component {
         store.new_register_by_date_cancel = store.register_by_date_cancel;
         store.new_register_by_date_done = store.register_by_date_done;
         store.new_register_by_date_view = store.register_by_date_view;
+        store.new_person_by_date_seed = store.person_by_date_seed;
+        store.new_person_by_date_cancel = store.person_by_date_cancel;
+        store.new_person_by_date_done = store.person_by_date_done;
+        store.new_person_by_date_view = store.person_by_date_view;
     }
     countByMonth = () => {
         // store.start_time_form = moment(getMonday(new Date()));
@@ -211,6 +277,7 @@ class RegistersChart extends React.Component {
                                         :
                                         <Bar
                                             data={store.dataSet}
+                                            options={optionsBar}
                                         />
                                 }
 

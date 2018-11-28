@@ -29,8 +29,8 @@ class StatisticAttendanceStaffs extends React.Component {
     convertDataTeachers() {
         let teachers = [];
         let teaching_assistants = [];
-        this.props.teachers.map(function (item) {
-            if (item.teacher) {
+        this.props.teachers.map((item) => {
+            if (item.teacher && this.state.tab == 1) {
                 item.type = "Giảng viên";
                 item.user = item.teacher;
                 item.check_in = item.teacher_check_in;
@@ -38,7 +38,7 @@ class StatisticAttendanceStaffs extends React.Component {
                 teachers.push(item);
             }
 
-            if (item.teaching_assistant) {
+            if (item.teaching_assistant && this.state.tab == 2) {
                 item.user = item.teaching_assistant;
                 item.type = "Trợ giảng";
                 item.check_in = item.ta_check_in;
@@ -48,15 +48,15 @@ class StatisticAttendanceStaffs extends React.Component {
         });
         teachers = helper.groupBy(teachers, item => item.teacher.id, ['staff_id', "attendances"]);
         teaching_assistants = helper.groupBy(teaching_assistants, item => item.teaching_assistant.id, ['staff_id', "attendances"]);
-        teaching_assistants.map(function (item) {
-            let data = teachers.filter(teacher => teacher.staff_id === item.staff_id);
-            if (data.length > 0) {
-                data[0].attendances = [...data[0].attendances, ...item.attendances];
-            } else {
-                teachers.push(item);
-            }
-        });
-        teachers = _.sortBy(teachers, (item) => Number(item.staff_id));
+        // teaching_assistants.map(function (item) {
+        //     let data = teachers.filter(teacher => teacher.staff_id === item.staff_id);
+        //     if (data.length > 0) {
+        //         data[0].attendances = [...data[0].attendances, ...item.attendances];
+        //     } else {
+        //         teachers.push(item);
+        //     }
+        // });
+        teachers = this.state.tab == 1 ? _.sortBy(teachers, (item) => Number(item.staff_id)) : _.sortBy(teaching_assistants, (item) => Number(item.staff_id));
         this.teachers = this.convertData(teachers);
     }
 
@@ -146,13 +146,19 @@ class StatisticAttendanceStaffs extends React.Component {
                 <div>
                     <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
                         <li className={this.state.tab === 1 ? "active nav-item" : "nav-item"}>
-                            <a style={{width:150}} onClick={() => this.setState({tab: 1})}>
+                            <a style={{width: 150}} onClick={() => this.setState({tab: 1})}>
                                 Giảng viên
                                 <div className="ripple-container"/>
                             </a>
                         </li>
                         <li className={this.state.tab === 2 ? "active nav-item" : "nav-item"}>
-                            <a style={{width:150}} onClick={() => this.setState({tab: 2})}>
+                            <a style={{width: 150}} onClick={() => this.setState({tab: 2})}>
+                                Trợ giảng
+                                <div className="ripple-container"/>
+                            </a>
+                        </li>
+                        <li className={this.state.tab === 3 ? "active nav-item" : "nav-item"}>
+                            <a style={{width: 150}} onClick={() => this.setState({tab: 3})}>
                                 Sales & Marketing
                                 <div className="ripple-container"/>
                             </a>
@@ -166,7 +172,7 @@ class StatisticAttendanceStaffs extends React.Component {
                                         <h5 className="card-title">
                                             <strong>Thống kê điểm danh giảng viên</strong>
                                         </h5>
-                                        <br/><br/>    
+                                        <br/><br/>
                                         <br/>
                                         <div className="row">
                                             {
@@ -177,6 +183,12 @@ class StatisticAttendanceStaffs extends React.Component {
                                             }
                                             {
                                                 this.state.tab === 2 &&
+                                                <StatisticTeacher
+                                                    teachers={this.teachers}
+                                                />
+                                            }
+                                            {
+                                                this.state.tab === 3 &&
                                                 <StatisticSalesMarketing
                                                     salesMarketings={this.salesMarketings}
                                                 />

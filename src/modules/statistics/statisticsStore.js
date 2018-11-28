@@ -6,12 +6,21 @@ import {showErrorNotification} from "../../helpers/helper";
 export default new class statisticsStore {
     @observable isLoadingRegisterSummary = false;
     @observable date_array = [];
+    @observable person_by_date = [];
     @observable register_by_date_cancel = [];
     @observable register_by_date_done = [];
     @observable register_by_date_seed = [];
     @observable register_by_date_view = [];
+    @observable person_by_date_cancel = [];
+    @observable person_by_date_done = [];
+    @observable person_by_date_seed = [];
+    @observable person_by_date_view = [];
 
 
+    @observable new_person_by_date_seed = [];
+    @observable new_person_by_date_cancel = [];
+    @observable new_person_by_date_done = [];
+    @observable new_person_by_date_view = [];
     @observable new_register_by_date_seed = [];
     @observable new_register_by_date_cancel = [];
     @observable new_register_by_date_done = [];
@@ -44,8 +53,6 @@ export default new class statisticsStore {
     @observable isExporting = false;
 
 
-
-
     // @action
     // loadChart() {
     //     this.isLoadingRegisterSummary = true;
@@ -74,6 +81,7 @@ export default new class statisticsStore {
             .then(res => {
                 this.date_array = res.data.data.date_array;
                 this.new_date_array = res.data.data.date_array;
+                this.person_by_date = res.data.data.person_by_date;
                 this.register_by_date_cancel = res.data.data.register_by_date.cancel;
                 this.new_register_by_date_cancel = res.data.data.register_by_date.cancel;
                 this.register_by_date_done = res.data.data.register_by_date.done;
@@ -82,6 +90,14 @@ export default new class statisticsStore {
                 this.new_register_by_date_view = res.data.data.register_by_date.view;
                 this.register_by_date_seed = res.data.data.register_by_date.seed;
                 this.new_register_by_date_seed = res.data.data.register_by_date.seed;
+                this.person_by_date_cancel = res.data.data.person_by_date.cancel;
+                this.new_person_by_date_cancel = res.data.data.person_by_date.cancel;
+                this.person_by_date_done = res.data.data.person_by_date.done;
+                this.new_person_by_date_done = res.data.data.person_by_date.done;
+                this.person_by_date_view = res.data.data.person_by_date.view;
+                this.new_person_by_date_view = res.data.data.person_by_date.view;
+                this.person_by_date_seed = res.data.data.person_by_date.seed;
+                this.new_person_by_date_seed = res.data.data.person_by_date.seed;
                 this.isLoadingRegisterSummary = false;
 
             })
@@ -92,20 +108,20 @@ export default new class statisticsStore {
     }
 
     @action
-    loadRegisters(registerPage){
+    loadRegisters(registerPage) {
         this.registerPage = registerPage;
         this.isLoadingRegisters = true;
         statisticsApis
-            .loadRegistersApi(20,this.registerPage,this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId, this.start_time_form, this.end_time_form)
+            .loadRegistersApi(20, this.registerPage, this.selectedBaseId, this.selectedRoomTypeId, this.selectedRoomId, this.start_time_form, this.end_time_form)
             .then(res => {
                 this.registers = res.data.room_service_registers;
                 this.totalRegisterPages = res.data.paginator.total_pages;
                 this.isLoadingRegisters = false;
             });
-            // .catch(() => {
-            //     showErrorNotification("Có lỗi xảy ra.");
-            //     this.isLoadingRegisters = false;
-            // });
+        // .catch(() => {
+        //     showErrorNotification("Có lỗi xảy ra.");
+        //     this.isLoadingRegisters = false;
+        // });
     }
 
 
@@ -217,13 +233,13 @@ export default new class statisticsStore {
                     label: "cancel",
                     backgroundColor: '#ff4444',
                     borderColor: '#ff4444',
-                    data: this.new_register_by_date_cancel&&this.new_register_by_date_cancel.slice(),
+                    data: this.new_register_by_date_cancel && this.new_register_by_date_cancel.slice(),
                 },
                 {
                     label: "seed",
                     backgroundColor: '#9b9b9b',
                     borderColor: '#9b9b9b',
-                    data: this.new_register_by_date_seed&&this.new_register_by_date_seed.slice(),
+                    data: this.new_register_by_date_seed && this.new_register_by_date_seed.slice(),
                 },
             ]
         };
