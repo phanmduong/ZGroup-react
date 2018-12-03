@@ -534,160 +534,7 @@ class DashboardTrongDongContainer extends Component {
                         </div>
                     </Modal.Body>
                 </Modal>
-                {/*<Modal show={this.showModalBooking} onHide={this.closeModalBooking}>*/}
-                {/*<Modal.Header closeButton>*/}
-                {/*{this.booking.room ? (*/}
-                {/*<Modal.Title>*/}
-                {/*{this.booking.room && this.booking.id == undefined ? (*/}
-                {/*`Tạo đặt phòng ${this.booking.room.name} - ${this.booking.room.type.name}`*/}
-                {/*) : (*/}
-                {/*''*/}
-                {/*)}*/}
-                {/*{this.booking.id ? (*/}
-                {/*`${this.booking.name} đặt phòng ${this.booking.room.name} loại ${this.booking.type}`*/}
-                {/*) : (*/}
-                {/*''*/}
-                {/*)}*/}
-                {/*</Modal.Title>*/}
-                {/*) : (*/}
-                {/*<Modal.Title>*/}
-                {/*{this.booking.id == undefined ? 'Tạo đặt phòng' : 'Sửa đặt phòng'}*/}
-                {/*</Modal.Title>*/}
-                {/*)}*/}
-                {/*</Modal.Header>*/}
-                {/*<Modal.Body>*/}
-                {/*<form id="form-book-room">*/}
-                {/*{this.booking.id ? (*/}
-                {/*<div/>*/}
-                {/*) : (*/}
-                {/*<div className="form-group">*/}
-                {/*<label className="label-control">Tìm khách hàng</label>*/}
-                {/*<ReactSelect.Async*/}
-                {/*loadOptions={this.loadUsers}*/}
-                {/*loadingPlaceholder="Đang tải..."*/}
-                {/*placeholder="Chọn nhà cung cấp"*/}
-                {/*searchPromptText="Không có dữ liệu"*/}
-                {/*onChange={this.selectUser}*/}
-                {/*value={this.selectedUser}*/}
-                {/*/>*/}
-                {/*</div>*/}
-                {/*)}*/}
-                {/*<FormInputText*/}
-                {/*label="Tên khách hàng"*/}
-                {/*name="name"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.name}*/}
-                {/*required*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*<FormInputText*/}
-                {/*label="Số điện thoại"*/}
-                {/*name="phone"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.phone}*/}
-                {/*required*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*<FormInputText*/}
-                {/*label="Địa chỉ"*/}
-                {/*name="address"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.address}*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*<FormInputText*/}
-                {/*label="Email"*/}
-                {/*name="email"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.email}*/}
-                {/*type={'email'}*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
 
-                {/*<FormInputText*/}
-                {/*label="Ghi chú khách hàng"*/}
-                {/*name="note"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.note}*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*<FormInputDateTime*/}
-                {/*id={'booking-start-time'}*/}
-                {/*name="start_time"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.start_time}*/}
-                {/*label={'Thời gian bắt đầu'}*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*<FormInputDateTime*/}
-                {/*id={'booking-end-time'}*/}
-                {/*name="end_time"*/}
-                {/*updateFormData={this.updateFormData}*/}
-                {/*value={this.booking.end_time}*/}
-                {/*label={'Thời gian kết thúc'}*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*</form>*/}
-                {/*<div className="form-group">*/}
-                {/*<label className="label-control">Trạng thái</label>*/}
-                {/*<ReactSelect*/}
-                {/*name="form-field-name"*/}
-                {/*value={this.booking.status}*/}
-                {/*options={STATUS_REGISTER_ROOM}*/}
-                {/*onChange={(value) => {*/}
-                {/*this.booking.status = value.value;*/}
-                {/*}}*/}
-                {/*placeholder="Chọn trang thái"*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*</div>*/}
-                {/*<div className="form-group">*/}
-                {/*<label className="label-control">Chiến dich</label>*/}
-                {/*<ReactSelect*/}
-                {/*name="form-field-name"*/}
-                {/*value={this.booking.campaign_id}*/}
-                {/*options={store.campaignsData}*/}
-                {/*onChange={(value) => {*/}
-                {/*let booking = {...this.booking};*/}
-                {/*booking['campaign_id'] = value ? value.value : '';*/}
-                {/*this.booking = booking;*/}
-                {/*}}*/}
-                {/*placeholder="Chọn trang thái"*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*/>*/}
-                {/*</div>*/}
-                {/*<div className="form-group">*/}
-                {/*<label className="label-control">Ghép phòng</label>*/}
-                {/*<div className="row">*/}
-                {/*{store.allRoomsSimilar(this.booking.room).map((room, index) => {*/}
-                {/*const checked =*/}
-                {/*this.booking.similar_room &&*/}
-                {/*this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0;*/}
-                {/*return (*/}
-                {/*<div className="col-md-4" key={index}>*/}
-                {/*<Checkbox*/}
-                {/*label={room.name}*/}
-                {/*checked={checked}*/}
-                {/*checkBoxLeft*/}
-                {/*disabled={disableCreateRegister}*/}
-                {/*onChange={(event) => this.changeSimilarRoom(event, room)}*/}
-                {/*/>*/}
-                {/*</div>*/}
-                {/*);*/}
-                {/*})}*/}
-                {/*</div>*/}
-                {/*</div>*/}
-                {/*{!disableCreateRegister && (*/}
-                {/*<Button*/}
-                {/*onClick={this.createBookRoom}*/}
-                {/*label={'Lưu'}*/}
-                {/*labelLoading={'Đang lưu'}*/}
-                {/*className={'btn btn-rose'}*/}s
-                {/*isLoading={store.isCreatingRegister}*/}
-                {/*/>*/}
-                {/*)}*/}
-                {/*</Modal.Body>*/}
-                {/*</Modal>*/}
                 <Modal show={this.showModalBooking} onHide={this.closeModalBooking}>
                     <Modal.Header closeButton>
                         {this.booking.room ? (
@@ -761,6 +608,8 @@ class DashboardTrongDongContainer extends Component {
                             <FormInputText
                                 label="Số lượng khách"
                                 name="number_person"
+                                required
+                                type={"number"}
                                 updateFormData={this.updateFormData}
                                 value={this.booking.number_person}
                                 disabled={disableCreateRegister}

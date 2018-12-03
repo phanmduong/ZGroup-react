@@ -319,6 +319,10 @@ class ClassContainer extends React.Component {
         ;
     }
 
+    genCerti = () => {
+        this.props.classActions.genCerti(this.classId);
+    };
+
 
     render() {
         this.path = this.props.location.pathname;
@@ -405,6 +409,11 @@ class ClassContainer extends React.Component {
                                                     >
                                                         <i className="material-icons">file_download</i>
                                                         Xuất danh sách điểm danh
+                                                    </button>
+                                                    <button
+                                                        onClick={this.genCerti}
+                                                        className="btn btn-default width-100"><i
+                                                        className="material-icons">timer</i> Xếp bằng
                                                     </button>
                                                     <FormInputText
                                                         name="link-driver"

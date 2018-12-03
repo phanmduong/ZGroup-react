@@ -104,7 +104,7 @@ class ClassesContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    loadClasses(page = 1, query = '') {
+    loadClasses(page = 1, query = this.state.query) {
         this.setState({page});
         this.props.classActions.loadClasses(query, page, this.search.teacherId, this.state.selectGenId);
     }
@@ -215,7 +215,9 @@ class ClassesContainer extends React.Component {
                                                     <div className="dropdown">
                                                         <button
                                                             className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                                            type="button" onClick={() => {this.openModalClass();}}>
+                                                            type="button" onClick={() => {
+                                                            this.openModalClass();
+                                                        }}>
                                                             <strong>+</strong>
                                                         </button>
                                                     </div>
@@ -225,7 +227,7 @@ class ClassesContainer extends React.Component {
                                                     value={this.state.query}
                                                     placeholder="Tìm kiếm lớp học"
                                                 />
-                                                
+
                                                 {/* Code của anh Dương :
                                                 {
                                                     this.props.isCreateClass ?
@@ -314,13 +316,15 @@ class ClassesContainer extends React.Component {
                                                             changeClassStatus={this.changeClassStatus}
                                                             openModalClass={this.openModalClass}
                                                         />
-                                                        
+
                                                         <br/>
                                                         <div className="row">
-                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
-                                                                 <b style={{marginRight: '15px'}}>
-                                                        Hiển thị kêt quả từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
-                                                        - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
+                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                                                 style={{textAlign: 'right'}}>
+                                                                <b style={{marginRight: '15px'}}>
+                                                                    Hiển thị kêt quả
+                                                                    từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
+                                                                    - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
                                                                 <Pagination
                                                                     totalPages={this.props.totalPages}
                                                                     currentPage={this.props.currentPage}
@@ -330,11 +334,11 @@ class ClassesContainer extends React.Component {
                                                         </div>
                                                     </div>
                                                 }
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
-                                </div>  
-                            </div>  
+                                </div>
+                            </div>
                     }
                 </div>
                 <Modal

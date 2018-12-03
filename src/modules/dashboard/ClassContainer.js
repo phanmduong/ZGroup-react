@@ -114,6 +114,7 @@ class ClassContainer extends React.Component {
                                     <th>ID</th>
                                     <th>Họ tên</th>
                                     <th>Tình trạng học</th>
+                                    <th>Bài tập </th>
                                     <th>Mã học viên</th>
                                     <th>Học phí</th>
                                     <th>Bằng</th>
@@ -170,6 +171,20 @@ class ClassContainer extends React.Component {
                                                     >
                                                         <span
                                                             className="sr-only">{(100 * register.total_attendances / register.attendances.length)}%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><h6>{register.total_weigh_topic_register}/{register.total_weigh_topic}</h6>
+                                                <div
+                                                    className="progress progress-line-success progress-bar-table width-100">
+                                                    <div className="progress-bar progress-bar-success"
+                                                         role="progressbar"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style={{width: (100 * register.total_weigh_topic_register / register.total_weigh_topic) + '%'}}
+                                                    >
+                                                        <span
+                                                            className="sr-only">{(100 * register.total_weigh_topic_register / register.total_weigh_topic)}%</span>
                                                     </div>
                                                 </div>
                                             </td>

@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
+import * as dashboardApi from "../dashboard/dashboardApi";
 
 /*eslint no-console: 0 */
 
@@ -223,6 +224,26 @@ export function loadClass(classId) {
         dispatch({
             type: types.BEGIN_LOAD_CLASS_DATA
         });
+        classApi.loadClass(classId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASS_SUCCESS,
+                    class: res.data.data.class
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_CLASS_ERROR
+            });
+        });
+    };
+}
+
+export function genCerti(classId) {
+    return async (dispatch) => {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_DATA
+        });
+        await dashboardApi.genCerti(classId);
         classApi.loadClass(classId)
             .then((res) => {
                 dispatch({

@@ -1,11 +1,10 @@
 import React from 'react';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 const Attendances = ({attendances}) => {
     if (attendances === undefined || attendances === null) return <div/>;
 
-    const sumAttendance = _.filter(attendances, {status: 1}).length;
+    const sumAttendance = attendances.filter(item => item.status.status == 1).length;
 
     return (
         <div className="content-progress-student">

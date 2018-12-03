@@ -39,7 +39,7 @@ const rules = [
                         type: "image",
                         nodes: next(el.childNodes),
                         isVoid: true,
-                        data: { src: el.getAttribute("src") }
+                        data: {src: el.getAttribute("src")}
                     };
                 }
 
@@ -56,8 +56,8 @@ const rules = [
                 switch (obj.type) {
                     case "image": {
                         const src = obj.data.get("src");
-                        const style = { display: "block", width: "100%" };
-                        return <img src={src} style={style} />;
+                        const style = {display: "block", width: "100%"};
+                        return <img src={src} style={style}/>;
                     }
                     case "heading-one":
                         return <h1>{children}</h1>;
@@ -84,12 +84,12 @@ const rules = [
                         return <p>{children}</p>;
                     case "quote":
                         return <blockquote>{children}</blockquote>;
-                    case "code":
-                        return (
-                            <pre>
-                                <code>{children}</code>
-                            </pre>
-                        );
+                    // case "code":
+                    //     return (
+                    //         <pre>
+                    //             <code>{children}</code>
+                    //         </pre>
+                    //     );
                 }
             }
         }
@@ -109,6 +109,18 @@ const rules = [
                     type: "code",
                     nodes: next(childNodes)
                 };
+            }
+        },
+        serialize(obj, children) {
+            if (obj.object == "block") {
+                switch (obj.type) {
+                    case "code":
+                        return (
+                            <pre>
+                                <code>{children}</code>
+                            </pre>
+                        );
+                }
             }
         }
     },
@@ -163,4 +175,4 @@ const rules = [
     }
 ];
 
-export default new Html({ rules });
+export default new Html({rules});

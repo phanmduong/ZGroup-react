@@ -30,7 +30,7 @@ const optionsBar = {
                     label += ': ';
                 }
                 label += Math.round(tooltipItem.yLabel * 100) / 100;
-                label += `(${dotNumber(dataObject)} người)`;
+                label += `(${dotNumber(dataObject)} khách dự tiệc)`;
                 return label;
             }
         }
@@ -133,7 +133,6 @@ function countData(day) {
         new_person_by_date_cancel = [...new_person_by_date_cancel, tmp_person_cancel];
     }
 
-    // console.log(new_date_array, "qqqqqq", new_register_by_date_view);
     store.new_date_array = new_date_array;
     store.new_register_by_date_seed = new_register_by_date_seed;
     store.new_register_by_date_cancel = new_register_by_date_cancel;
@@ -157,7 +156,6 @@ class RegistersChart extends React.Component {
         let clone_start_time_form = store.start_time_form.clone();
         store.end_time_form = clone_start_time_form.add(6, 'days').format("YYYY-MM-DD");
         store.start_time_form = store.start_time_form.format("YYYY-MM-DD");
-        // console.log(store.start_time.format("YYYY-MM-DD"),"xxxxxxx");
         store.loadChart();
     }
 
@@ -224,24 +222,6 @@ class RegistersChart extends React.Component {
                                     >
                                         <div className="fc-toolbar fc-header-toolbar">
                                             <div className="fc-left">
-                                                {/*<div className="fc-button-group">*/}
-                                                {/*<button type="button"*/}
-                                                {/*className="fc-prev-button fc-button fc-state-default fc-corner-left"*/}
-                                                {/*aria-label="prev"*/}
-                                                {/*onClick={() => this.onChangeToLastWeek()}*/}
-                                                {/*>*/}
-                                                {/*<span*/}
-                                                {/*className="fc-icon fc-icon-left-single-arrow"/>*/}
-                                                {/*</button>*/}
-                                                {/*<button type="button"*/}
-                                                {/*className="fc-next-button fc-button fc-state-default fc-corner-right"*/}
-                                                {/*aria-label="next"*/}
-                                                {/*onClick={() => this.onChangeToNextWeek()}*/}
-                                                {/*>*/}
-                                                {/*<span*/}
-                                                {/*className="fc-icon fc-icon-right-single-arrow"/>*/}
-                                                {/*</button>*/}
-                                                {/*</div>*/}
                                                 <button type="button"
                                                         className="fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right "
                                                     // disabled   fc-state-disabled

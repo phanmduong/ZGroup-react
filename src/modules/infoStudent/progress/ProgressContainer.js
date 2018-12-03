@@ -10,6 +10,7 @@ import Attendances from './Attendances';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import Topics from "./Topics";
 
 class ProgressContainer extends React.Component {
     constructor(props, context) {
@@ -68,7 +69,7 @@ class ProgressContainer extends React.Component {
                     </div>
                 );
             default:
-                return (<div />);
+                return (<div/>);
         }
     }
 
@@ -135,6 +136,14 @@ class ProgressContainer extends React.Component {
                                                         <Attendances
                                                             attendances={progressClass.attendances}
                                                         />
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">assignment_turned_in</i>&nbsp; &nbsp;
+                                                            Bài tập
+                                                        </div>
+                                                        <Topics
+                                                            topics={progressClass.topics}
+                                                        />
+
                                                     </div>
                                                     <div className="col-md-4 col-sm-3">
                                                         <div className="content-qr-code">

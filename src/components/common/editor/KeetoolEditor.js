@@ -1,6 +1,6 @@
 import React from "react";
-import { Editor, getEventTransfer } from "slate-react";
-import { LAST_CHILD_TYPE_INVALID } from "slate-schema-violations";
+import {Editor, getEventTransfer} from "slate-react";
+import {LAST_CHILD_TYPE_INVALID} from "slate-schema-violations";
 import {
     DEFAULT_NODE,
     isBoldHotkey,
@@ -11,17 +11,17 @@ import {
     hasBlock,
     hasInline
 } from "./EditorService";
-import { Block } from "slate";
+import {Block} from "slate";
 
-import { unwrapLink } from "./utils/linkUtils";
-import { insertImage, uploadImage } from "./utils/imageUtils";
+import {unwrapLink} from "./utils/linkUtils";
+import {insertImage, uploadImage} from "./utils/imageUtils";
 import {
     showErrorNotification,
     showNotification
 } from "../../../helpers/helper";
 import PropTypes from "prop-types";
 import LinkModal from "./LinkModal";
-import { htmlToValue } from "./editorHelpers";
+import {htmlToValue} from "./editorHelpers";
 
 class KeetoolEditor extends React.Component {
     state = {
@@ -52,7 +52,7 @@ class KeetoolEditor extends React.Component {
 
     onClickInline = (event, type) => {
         event.preventDefault();
-        const { value } = this.props;
+        const {value} = this.props;
         const change = value.change();
 
         if (type == "link") {
@@ -122,7 +122,7 @@ class KeetoolEditor extends React.Component {
         const transfer = getEventTransfer(event);
         if (transfer.type != "html") return;
 
-        const { document } = htmlToValue(transfer.html);
+        const {document} = htmlToValue(transfer.html);
         change.insertFragment(document);
         return true;
     };
@@ -135,8 +135,8 @@ class KeetoolEditor extends React.Component {
 
     schema = {
         document: {
-            last: { types: ["paragraph"] },
-            normalize: (change, reason, { node }) => {
+            last: {types: ["paragraph"]},
+            normalize: (change, reason, {node}) => {
                 switch (reason) {
                     case LAST_CHILD_TYPE_INVALID: {
                         const paragraph = Block.create("paragraph");
@@ -151,7 +151,7 @@ class KeetoolEditor extends React.Component {
         }
     };
 
-    onChange = ({ value }) => {
+    onChange = ({value}) => {
         if (this.props.onChange) {
             this.props.onChange(value);
         }
@@ -173,7 +173,7 @@ class KeetoolEditor extends React.Component {
         } else if (isItalicHotkey(event)) {
             mark = "italic";
         } else if (isUnderlinedHotkey(event)) {
-            mark = "underlined";
+            mark = "underline";
         } else if (isCodeHotkey(event)) {
             mark = "code";
         } else {
@@ -194,7 +194,7 @@ class KeetoolEditor extends React.Component {
 
     onClickMark = (event, type) => {
         event.preventDefault();
-        const { value } = this.props;
+        const {value} = this.props;
         const change = value.change().toggleMark(type);
         this.onChange(change);
     };
@@ -208,9 +208,9 @@ class KeetoolEditor extends React.Component {
 
     onClickBlock = (event, type) => {
         event.preventDefault();
-        const { value } = this.props;
+        const {value} = this.props;
         const change = value.change();
-        const { document } = value;
+        const {document} = value;
 
         // Handle everything but list buttons.
         if (type != "bulleted-list" && type != "numbered-list") {
@@ -273,11 +273,11 @@ class KeetoolEditor extends React.Component {
                 />
                 {this.renderMarkButton("bold", "format_bold")}
                 {this.renderMarkButton("italic", "format_italic")}
-                {this.renderMarkButton("underlined", "format_underlined")}
-                {this.renderMarkButton("code", "code")}
+                {this.renderMarkButton("underline", "format_underlined")}
+                {/*{this.renderMarkButton("code", "code")}*/}
                 {this.renderBlockButton("heading-one", "looks_one")}
                 {this.renderBlockButton("heading-two", "looks_two")}
-                {this.renderBlockButton("block-quote", "format_quote")}
+                {this.renderBlockButton("quote", "format_quote")}
                 {this.renderBlockButton(
                     "numbered-list",
                     "format_list_numbered"
@@ -309,7 +309,7 @@ class KeetoolEditor extends React.Component {
                 {this.renderInlineButton("link", "link")}
                 {this.state.isLoading && (
                     <div className="editor-loading">
-                        <i className="fa fa-circle-o-notch fa-spin" />{" "}
+                        <i className="fa fa-circle-o-notch fa-spin"/>{" "}
                         {this.state.text}
                     </div>
                 )}
@@ -365,7 +365,7 @@ class KeetoolEditor extends React.Component {
      */
 
     renderBlockButton = (type, icon) => {
-        const { value } = this.props;
+        const {value} = this.props;
         let isActive = hasBlock(type, value);
 
         if (["numbered-list", "bulleted-list"].includes(type)) {
@@ -423,10 +423,10 @@ class KeetoolEditor extends React.Component {
      */
 
     renderNode = props => {
-        const { attributes, children, node } = props;
+        const {attributes, children, node} = props;
         switch (node.type) {
             case "link": {
-                const { data } = node;
+                const {data} = node;
                 const href = data.get("href");
                 return (
                     <a
@@ -447,7 +447,7 @@ class KeetoolEditor extends React.Component {
                 const className = props.isSelected
                     ? "keetool-editor-image active"
                     : null;
-                const style = { display: "block", width: "100%" };
+                const style = {display: "block", width: "100%"};
                 return (
                     <img
                         src={src}
@@ -457,7 +457,7 @@ class KeetoolEditor extends React.Component {
                     />
                 );
             }
-            case "block-quote":
+            case "quote":
                 return <blockquote {...attributes}>{children}</blockquote>;
             case "bulleted-list":
                 return <ul {...attributes}>{children}</ul>;
@@ -480,7 +480,7 @@ class KeetoolEditor extends React.Component {
      */
 
     renderMark = props => {
-        const { children, mark, attributes } = props;
+        const {children, mark, attributes} = props;
         switch (mark.type) {
             case "bold":
                 return <strong {...attributes}>{children}</strong>;
@@ -488,7 +488,7 @@ class KeetoolEditor extends React.Component {
                 return <code {...attributes}>{children}</code>;
             case "italic":
                 return <em {...attributes}>{children}</em>;
-            case "underlined":
+            case "underline":
                 return <u {...attributes}>{children}</u>;
         }
     };

@@ -15,17 +15,17 @@ import moment from "moment/moment";
 function getDay(d) {
     if (d) {
         d = moment(d);
-        return d.format('dd') + "," + d.format('L');
+        return d.format('dd') + ", " + d.format('L');
     }
     return "Chưa có";
 }
 
 function getTime(start, end) {
-    if (! (start && end)) {
+    if (!(start && end)) {
         return "Chưa có";
     }
-    start = moment(start)||"Chưa có";
-    end = moment(end)|| "Chưa có";
+    start = moment(start) || "Chưa có";
+    end = moment(end) || "Chưa có";
     return start.format("HH:mm") + "-" + end.format("HH:mm");
 }
 
@@ -54,16 +54,18 @@ class ListRegisters extends React.Component {
         field[1] = "Số điện thoại";
         field[2] = "Thời gian bắt đầu";
         field[3] = "Thời gian kết thúc";
-        field[4] = "Số lượng khách";
-        field[5] = "Phòng";
+        field[4] = "Ngày tạo";
+        field[5] = "Số lượng khách";
+        field[6] = "Phòng";
         const datas = wsData.map(data => {
             let tmp = [];
             tmp[0] = data.user.name;
             tmp[1] = data.user.phone || "Chưa có";
             tmp[2] = data.start_time || "Chưa có";
             tmp[3] = data.end_time || "Chưa có";
-            tmp[4] = (data.number_person) || "Chưa có";
-            tmp[5] = (data.room && data.room.name) || "Không có";
+            tmp[4] = data.created_at || "Chưa có";
+            tmp[5] = (data.number_person) || "Chưa có";
+            tmp[6] = (data.room && data.room.name) || "Không có";
             return tmp;
         });
         const tmpWsData = [field, ...datas];
@@ -126,7 +128,8 @@ class ListRegisters extends React.Component {
                                 <table className="table table-hover">
                                     <thead className="text-rose">
                                     <tr>
-                                        <th>Ngày</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Ngày diễn ra</th>
                                         <th>Giờ</th>
                                         <th>Khách hàng</th>
                                         <th>Số điện thoại</th>
@@ -159,13 +162,16 @@ class ListRegisters extends React.Component {
                                         return (
                                             <tr key={register.id} className={className}>
                                                 <td>{
+                                                    register.created_at
+                                                }</td>
+                                                <td>{
                                                     getDay(
                                                         register.start_time
                                                     )
                                                 }</td>
-                                                <td>{getTime(register.start_time,register.end_time)}</td>
+                                                <td>{getTime(register.start_time, register.end_time)}</td>
                                                 <td style={{width: "300px"}}>
-                                                    <a className="text-name-student-register" >
+                                                    <a className="text-name-student-register">
                                                         {register.user && register.user.name}
                                                     </a>
                                                 </td>
@@ -178,7 +184,7 @@ class ListRegisters extends React.Component {
                                                     </a>
                                                 </td>
 
-                                                <td>{register.number_person|| "Chưa có"}</td>
+                                                <td>{register.number_person || "Chưa có"}</td>
                                                 <td>{register.room && register.room.name}</td>
                                                 <td>{register.note || "Chưa có"}</td>
                                             </tr>
