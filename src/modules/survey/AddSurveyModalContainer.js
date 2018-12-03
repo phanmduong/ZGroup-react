@@ -7,6 +7,8 @@ import Switch from 'react-bootstrap-switch';
 import {saveSurvey, toggleEditSurveyModal, updateSurveyFormData} from "./surveyActions";
 import FormInputText from "../../components/common/FormInputText";
 import * as helper from '../../helpers/helper';
+import Select from "react-select";
+import * as    attendanceActions from '../attendance/attendanceActions';
 
 class AddSurveyModalContainer extends React.Component {
     constructor(props, context) {
@@ -14,12 +16,28 @@ class AddSurveyModalContainer extends React.Component {
         this.state = {
             surveyName: '',
             isLoading: false,
+            gen_id: '',
+            gens: [],
         };
 
         this.handleClose = this.handleClose.bind(this);
         this.inputOnchange = this.inputOnchange.bind(this);
+        this.getGens = this.getGens.bind(this);
         this.changeSwitch = this.changeSwitch.bind(this);
         this.submitButtonOnClick = this.submitButtonOnClick.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.attendanceActions.loadGensData();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.isLoadingGens && !nextProps.isLoadingGens) {
+            this.setState({
+                gens: this.getGens(nextProps.gens),
+            });
+            this.inputOnchange({target:{name:"gen_id", value: nextProps.currentGen.id}});
+        }
     }
 
     handleClose() {
@@ -33,13 +51,17 @@ class AddSurveyModalContainer extends React.Component {
         }
         const survey = {...this.props.survey};
         if (helper.isEmptyInput(survey.name) || helper.isEmptyInput(survey.description)) {
-            if (helper.isEmptyInput(survey.name)) {helper.showErrorNotification("Bạn cần nhập Tên khảo sát");}
-            if (helper.isEmptyInput(survey.description)) {helper.showErrorNotification("Bạn cần nhập Mô tả");}
+            if (helper.isEmptyInput(survey.name)) {
+                helper.showErrorNotification("Bạn cần nhập Tên khảo sát");
+            }
+            if (helper.isEmptyInput(survey.description)) {
+                helper.showErrorNotification("Bạn cần nhập Mô tả");
+            }
         } else {
-             if (survey.id) {
-                this.props.surveyActions.saveSurvey(survey,file);
-            } else this.props.surveyActions.saveSurvey(this.props.survey,file);
-        }    
+            if (survey.id) {
+                this.props.surveyActions.saveSurvey(survey, file);
+            } else this.props.surveyActions.saveSurvey(this.props.survey, file);
+        }
 
 
     }
@@ -62,6 +84,25 @@ class AddSurveyModalContainer extends React.Component {
         this.props.surveyActions.updateSurveyFormData(survey);
     }
 
+    getGens(gens) {
+        return gens.map(function (gen) {
+            return {
+                value: gen.id,
+                label: 'Khóa ' + gen.name
+            };
+        });
+    }
+
+    onChangeGen = (e) => {
+        const event = {
+          target:{
+              name: "gen_id",
+              value: e.value
+          }
+        };
+        this.inputOnchange(event);
+    }
+
     render() {
         const {survey} = this.props;
 
@@ -72,21 +113,21 @@ class AddSurveyModalContainer extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="fileinput fileinput-new text-center" data-provides="fileinput">
-                            <div className="btn-file" style={{overflow:"visible"}}>
-                                <div className="fileinput-new">
-                                    <div className="fileinput-new thumbnail">
-                                        <img
-                                            src={survey.image_url ||
-                                            "http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"}/>
-                                    </div>
+                        <div className="btn-file" style={{overflow: "visible"}}>
+                            <div className="fileinput-new">
+                                <div className="fileinput-new thumbnail">
+                                    <img
+                                        src={survey.image_url ||
+                                        "http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"}/>
                                 </div>
-                                <div className="fileinput-preview fileinput-exists thumbnail"/>
-                                <input type="file"
-                                       ref="file"
-                                       name="image"/>
                             </div>
+                            <div className="fileinput-preview fileinput-exists thumbnail"/>
+                            <input type="file"
+                                   ref="file"
+                                   name="image"/>
+                        </div>
                     </div>
-                    <form role="form"  id="form-add-room">
+                    <form role="form" id="form-add-room">
                         <FormInputText
                             label="Tên khảo sát"
                             name="name"
@@ -102,25 +143,37 @@ class AddSurveyModalContainer extends React.Component {
                             value={survey.target || ""}
                         />
                         <div className="form-group">
-                            <label className="label-control">Mô tả&#160;<star style={{ color: "red" }}>*</star></label>
+                            <label className="label-control">Mô tả&#160;
+                                <star style={{color: "red"}}>*</star>
+                            </label>
                             <textarea type="text" className="form-control"
                                       value={survey.description || ""}
                                       name="description"
                                       onChange={this.inputOnchange}/>
                             <span className="material-input"/>
                         </div>
-                    <FormGroup controlId="description">
-                        <ControlLabel>Hiện khảo sát cho học viên:</ControlLabel>
-                        <div>
-                            <Switch
-                                onChange={this.changeSwitch}
-                                bsSize="mini"
-                                onText="Hiện" offText="Ẩn"
-                                value={Number(survey.active) === 1}
+                        <div className="form-group">
+                            <label className="label-control">Khóa học</label>
+                            <Select
+                                name="form-field-name"
+                                value={survey.gen_id}
+                                options={this.state.gens}
+                                onChange={this.onChangeGen}
+                                placeholder="Chọn khóa học"
                             />
                         </div>
-                    </FormGroup>
-                </form>    
+                        <FormGroup controlId="description">
+                            <ControlLabel>Hiện khảo sát cho học viên:</ControlLabel>
+                            <div>
+                                <Switch
+                                    onChange={this.changeSwitch}
+                                    bsSize="mini"
+                                    onText="Hiện" offText="Ẩn"
+                                    value={Number(survey.active) === 1}
+                                />
+                            </div>
+                        </FormGroup>
+                    </form>
                 </Modal.Body>
                 <Modal.Footer>
                     {
@@ -147,7 +200,11 @@ class AddSurveyModalContainer extends React.Component {
 
 AddSurveyModalContainer.propTypes = {
     showEditSurveyModal: PropTypes.bool.isRequired,
+    isLoadingGens: PropTypes.bool.isRequired,
     surveyActions: PropTypes.object.isRequired,
+    currentGen: PropTypes.object.isRequired,
+    attendanceActions: PropTypes.object.isRequired,
+    gens: PropTypes.array.isRequired,
     survey: PropTypes.object.isRequired
 };
 
@@ -155,6 +212,9 @@ function mapStateToProps(state) {
     return {
         showEditSurveyModal: state.survey.showEditSurveyModal,
         survey: state.survey.survey,
+        gens: state.attendance.gens,
+        isLoadingGens: state.attendance.isLoadingGens,
+        currentGen: state.attendance.currentGen,
     };
 }
 
@@ -164,7 +224,8 @@ function mapDispatchToProps(dispatch) {
             saveSurvey,
             toggleEditSurveyModal,
             updateSurveyFormData
-        }, dispatch)
+        }, dispatch),
+        attendanceActions: bindActionCreators(attendanceActions, dispatch)
     };
 }
 
