@@ -654,3 +654,7 @@ export const CONTRACT_TYPES = [
     "Sử dụng dịch vụ",
     "Khác",
 ];
+
+export const RATIO_CHECKIN_CHECKOUT_TEACHING_PASS = 70;
+export const RATIO_TOTAL_STUDENT_TEACHING_PASS = 65;
+export const RATIO_RATING_TEACHING_PASS = 4;

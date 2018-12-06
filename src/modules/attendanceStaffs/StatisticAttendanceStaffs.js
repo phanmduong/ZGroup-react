@@ -95,7 +95,8 @@ class StatisticAttendanceStaffs extends React.Component {
                 }
 
                 if (attendance.check_out) {
-                    let rangeTimeCheckOut = helper.convertTimeToSecond(attendance.start_time) -
+                    let rangeTimeCheckOut =
+                        helper.convertTimeToSecond(attendance.end_time) -
                         helper.convertTimeToSecond(attendance.check_out.created_at.substr(0, 5));
                     if (rangeTimeCheckOut > 60) {
                         message = message ? message + ", " : "";

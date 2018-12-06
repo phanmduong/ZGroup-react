@@ -28,6 +28,7 @@ import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer
 import CareContainer from "../modules/infoStudent/care/CareContainer";
 import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
 import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesContainer";
+import EvaluateTeachingContainer from "../modules/evaluateTeaching/EvaluateTeachingContainer";
 
 /**
  * Tab Teaching
@@ -210,6 +211,10 @@ export default [
     {
         path: "/teaching/label",
         component: LabelManageContainer
+    },
+    {
+        path: "/teaching/evaluate",
+        component: EvaluateTeachingContainer
     }
 
 ];
