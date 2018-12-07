@@ -4,6 +4,8 @@ import store from "./EvaluateTeachingStore";
 import Select from '../../components/common/Select';
 import {observer} from "mobx-react";
 import EvaluateTeaching from "./EvaluateTeaching";
+import {Modal} from "react-bootstrap";
+import CheckinCheckoutContainer from "./CheckinCheckout/CheckinCheckoutContainer";
 
 @observer
 class EvaluateTeachingContainer extends React.Component {
@@ -68,6 +70,21 @@ class EvaluateTeachingContainer extends React.Component {
                                 </div>
                             </div>
                             <EvaluateTeaching/>
+                            <Modal show={store.showModalCheckinCheckout}
+                                   // bsSize="small"
+                                   onHide={() => {
+                                       store.showModalCheckinCheckout = false
+                                   }}>
+                                <Modal.Body>
+                                    {store.showModalCheckinCheckout && <CheckinCheckoutContainer
+                                        gens={store.gens}
+                                        selectedTeaching={store.selectedTeaching}
+                                        selectedBaseId={store.selectedBaseId}
+                                        selectedGenId={store.selectedGenId}
+                                        user={store.selectedUser}
+                                    />}
+                                </Modal.Body>
+                            </Modal>
                         </div>
                     </div>
                 }

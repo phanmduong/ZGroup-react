@@ -152,6 +152,10 @@ table tr td .avatar-list-staff {
   justify-content: center;
 }
 
+.flex-align-items-center {
+  align-items: center;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -1171,6 +1175,10 @@ table tr td .avatar-honor {
   border-bottom: none;
 }
 
-.zindex-1000{
+.zindex-1000 {
   z-index: 1000;
+}
+
+.nav-pills.nav-pills-rose > li.active > a, .nav-pills.nav-pills-rose > li.active > a:focus, .nav-pills.nav-pills-rose > li.active > a:hover {
+  background-color: #c50000;
 }

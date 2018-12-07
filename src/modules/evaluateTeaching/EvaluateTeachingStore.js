@@ -7,6 +7,8 @@ import {
 } from "./evaluateTeachingApi";
 
 export default new class evaluateTeachingStore {
+    @observable showModalCheckinCheckout = false;
+    @observable selectedUser = {};
     @observable isLoadingGen = false;
     @observable gens = [];
     @observable isLoadingBase = false;

@@ -53,7 +53,7 @@ class EvaluateTeaching extends React.Component {
                                 {level.text}
                             </button>
                         </p>
-                        <div>
+                        <div className="cursor-pointer" onClick={() => this.openModalCheckinCheckout(data.user)}>
                             <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ đúng giờ</div>
                                 <div className="bold">
@@ -156,6 +156,11 @@ class EvaluateTeaching extends React.Component {
                     ;
         }
 
+    }
+
+    openModalCheckinCheckout(user) {
+        store.selectedUser = user;
+        store.showModalCheckinCheckout = true;
     }
 }
 

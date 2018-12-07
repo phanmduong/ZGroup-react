@@ -40,3 +40,63 @@ export function loadBasesApi() {
 
     return axios.get(url);
 }
+
+export function loadEvaluateTeacherDetailCheckinCheckoutApi(genID = '', baseID = '', userID= '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teacher-detail-checkin-checkout?gen_id=" + genID + "&base_id=" + baseID+ '&user_id='+userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeachingAssistantDetailCheckinCheckoutApi(genID = '', baseID = '', userID= '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teaching-assistant-detail-checkin-checkout?gen_id=" + genID + "&base_id=" + baseID+ '&user_id='+userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeacherDetailStudentAttendanceApi(genID = '', baseID = '', userID= '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teacher-detail-student-attendance?gen_id=" + genID + "&base_id=" + baseID+ '&user_id='+userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeachingAssistantDetailStudentAttendanceApi(genID = '', baseID = '', userID= '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teaching-assistant-detail-student-attendance?gen_id=" + genID + "&base_id=" + baseID+ '&user_id='+userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeacherDetailStudentRatingApi(genID = '', baseID = '', userID= '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teacher-detail-student-rating?gen_id=" + genID + "&base_id=" + baseID+ '&user_id='+userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeachingAssistantDetailStudentRatingApi(genID = '', baseID = '', userID= '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teaching-assistant-detail-student-rating?gen_id=" + genID + "&base_id=" + baseID + '&user_id='+userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
