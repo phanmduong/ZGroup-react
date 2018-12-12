@@ -791,6 +791,15 @@ class RegisterListContainer extends React.Component {
 
     closeModalChangeInfoStudent() {
         this.setState({showChangeInfoStudent: false});
+
+
+    }
+
+    openCreateRegisterModal() {
+        this.props.createRegisterActions.showCreateRegisterModal(true);
+    }
+
+    addLeadSuccess = () => {
         this.props.registerActions.loadRegisterStudent(
             this.state.page,//page
             this.state.limit,
@@ -807,11 +816,10 @@ class RegisterListContainer extends React.Component {
             this.state.time.appointmentPayment,
             this.state.query_coupon,
         );
-
     }
 
-    openCreateRegisterModal() {
-        this.props.createRegisterActions.showCreateRegisterModal(true);
+    addMyLead = (userID) => {
+        this.props.registerActions.uploadDistributionLead(userID, this.addLeadSuccess);
     }
 
     render() {
@@ -1131,6 +1139,7 @@ class RegisterListContainer extends React.Component {
                                                     openModalChangeClass={this.openModalChangeClass}
                                                     openModalChangeInfoStudent={this.openModalChangeInfoStudent}
                                                     changeStatusPause={this.changeStatusPause}
+                                                    addMyLead={this.addMyLead}
                                                 />
                                         }
                                         <div className="row float-right">

@@ -453,3 +453,18 @@ export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
             });
     };
 }
+
+export function uploadDistributionLead(userID, addLeadSuccess) {
+
+    showTypeNotification("Đang thêm vào lead", 'info');
+    registerStudentsApi
+        .uploadDistributionLead([userID])
+        .then(() => {
+            showTypeNotification("Thêm vào lead thành công");
+            addLeadSuccess();
+        })
+        .catch(() => {
+            showErrorNotification("Thêm vào lead thất bại");
+        });
+
+}

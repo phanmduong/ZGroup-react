@@ -6,6 +6,8 @@ import {observer} from "mobx-react";
 import EvaluateTeaching from "./EvaluateTeaching";
 import {Modal} from "react-bootstrap";
 import CheckinCheckoutContainer from "./CheckinCheckout/CheckinCheckoutContainer";
+import StudentAttendanceContainer from "./StudentAttendance/StudentAttendanceContainer";
+import StudentRatingContainer from "./StudentRating/StudentRatingContainer";
 
 @observer
 class EvaluateTeachingContainer extends React.Component {
@@ -44,7 +46,7 @@ class EvaluateTeachingContainer extends React.Component {
 
                         <div>
                             <div className="row">
-                                <div className="col-sm-4 col-xs-5">
+                                <div className="col-sm-3 col-xs-3">
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={store.gensData}
@@ -52,7 +54,7 @@ class EvaluateTeachingContainer extends React.Component {
                                         onChange={this.onChangeGen}
                                     />
                                 </div>
-                                <div className="col-sm-4 col-xs-5">
+                                <div className="col-sm-3 col-xs-3">
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={store.basesData}
@@ -69,14 +71,42 @@ class EvaluateTeachingContainer extends React.Component {
                                     />
                                 </div>
                             </div>
-                            <EvaluateTeaching/>
+                            <EvaluateTeaching store={store}/>
                             <Modal show={store.showModalCheckinCheckout}
-                                   // bsSize="small"
+                                // bsSize="small"
                                    onHide={() => {
                                        store.showModalCheckinCheckout = false
                                    }}>
                                 <Modal.Body>
                                     {store.showModalCheckinCheckout && <CheckinCheckoutContainer
+                                        gens={store.gens}
+                                        selectedTeaching={store.selectedTeaching}
+                                        selectedBaseId={store.selectedBaseId}
+                                        selectedGenId={store.selectedGenId}
+                                        user={store.selectedUser}
+                                    />}
+                                </Modal.Body>
+                            </Modal>
+                            <Modal show={store.showModalStudentAttendance}
+                                   onHide={() => {
+                                       store.showModalStudentAttendance = false
+                                   }}>
+                                <Modal.Body>
+                                    {store.showModalStudentAttendance && <StudentAttendanceContainer
+                                        gens={store.gens}
+                                        selectedTeaching={store.selectedTeaching}
+                                        selectedBaseId={store.selectedBaseId}
+                                        selectedGenId={store.selectedGenId}
+                                        user={store.selectedUser}
+                                    />}
+                                </Modal.Body>
+                            </Modal>
+                            <Modal show={store.showModalStudentRating}
+                                   onHide={() => {
+                                       store.showModalStudentRating = false
+                                   }}>
+                                <Modal.Body>
+                                    {store.showModalStudentRating && <StudentRatingContainer
                                         gens={store.gens}
                                         selectedTeaching={store.selectedTeaching}
                                         selectedBaseId={store.selectedBaseId}

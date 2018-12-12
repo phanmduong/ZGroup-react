@@ -4,7 +4,6 @@ import store from "./EvaluateTeachingCheckInCheckoutStore";
 import Select from '../../../components/common/Select';
 import {observer} from "mobx-react";
 import {validateLinkImage} from "../../../helpers/helper";
-import AttendanceClass from "../../dashboard/AttendanceClass";
 import AttendanceTeacher from "./AttendanceTeacher";
 import * as helper from "../../../helpers/helper";
 import {RATIO_CHECKIN_CHECKOUT_TEACHING_PASS} from "../../../constants/constants";
@@ -33,16 +32,19 @@ class CheckinCheckoutContainer extends React.Component {
     render() {
         return (
             <div>
-                <div className="flex flex-justify-content-center">
-                    <div style={{width: 200}}>
-                        <Select
-                            defaultMessage={'Chọn khóa học'}
-                            options={this.store.gensData}
-                            value={this.store.selectedGenId}
-                            onChange={this.onChangeGen}
-                        />
+                {
+                    this.store.gens && this.store.gens.length > 0 &&
+                    <div className="flex flex-justify-content-center">
+                        <div style={{width: 200}}>
+                            <Select
+                                defaultMessage={'Chọn khóa học'}
+                                options={this.store.gensData}
+                                value={this.store.selectedGenId}
+                                onChange={this.onChangeGen}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
                 <div>
                     <div className="flex flex-justify-content-center flex-col flex-align-items-center"
                          style={{marginBottom: 20}}>
@@ -112,13 +114,13 @@ class CheckinCheckoutContainer extends React.Component {
 
     renderCheckinCheckout(data) {
         data = helper.groupBy(data, classData => classData.class_id, ["class", "lessons"]);
-        console.log(data);
+
         return (
             <div>
                 {data.map(function (classData, index) {
                     return (
                         <div key={index}>
-                            <div className="flex-row-center" style={{margin: '10px 0'}}>
+                            <div className="flex-row-center" style={{margin: '20px 0'}}>
                                 <img
                                     className="image-class-attendance-class-dashboard"
                                     src={classData.lessons[0] ? classData.lessons[0].course_avatar_url : ''}/>

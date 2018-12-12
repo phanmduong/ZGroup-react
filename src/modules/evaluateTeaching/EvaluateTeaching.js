@@ -1,6 +1,5 @@
 import React from "react";
 import Loading from "../../components/common/Loading";
-import store from "./EvaluateTeachingStore";
 import {observer} from "mobx-react";
 import {getShortName, isEmptyInput, validateLinkImage} from "../../helpers/helper";
 import {
@@ -16,24 +15,26 @@ class EvaluateTeaching extends React.Component {
     }
 
     componentWillMount() {
-        store.loadEvaluate();
+        this.props.store.loadEvaluate();
     }
 
     renderItem = (data) => {
         let ratioCheckinCheckout = data.checkin_checkout_passed * 100 / data.checkin_checkout_total;
-        const checkinCheckoutPass = ratioCheckinCheckout > RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
-        const studentPass = data.ratio_student_attendance > RATIO_TOTAL_STUDENT_TEACHING_PASS;
-        const ratingPass = isEmptyInput(data.total_rated_person) || data.ratio_rating > RATIO_RATING_TEACHING_PASS;
+        const checkinCheckoutPass = ratioCheckinCheckout >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        const studentPass = data.ratio_student_attendance >= RATIO_TOTAL_STUDENT_TEACHING_PASS;
+        const ratingPass = isEmptyInput(data.total_rated_person) || data.ratio_rating >= RATIO_RATING_TEACHING_PASS;
         const level = this.levelTeaching(checkinCheckoutPass, studentPass, ratingPass);
-        const startGen = store.gens.filter(gen => gen.id == data.user.start_gen_id);
-        console.log(startGen);
+        let startGen =
+            this.props.store.gens ?
+                this.props.store.gens.filter(gen => gen.id == data.user.start_gen_id)[0] : data.gen;
 
         return (
 
             <div className="col-md-3 col-sm-6" style={{marginTop: 40}}>
                 <div className="card card-profile">
                     <div className="card-avatar">
-                        <a className="content-avatar">
+                        <a className="content-avatar" href={"/teaching/evaluate-personal/" + data.user.id}
+                           target="_blank">
                             <div className="img"
                                  style={{
                                      background: 'url(' + validateLinkImage(data.user.avatar_url) + ') center center / cover',
@@ -45,7 +46,9 @@ class EvaluateTeaching extends React.Component {
                     </div>
                     <div className="card-content">
                         {/*<h6 className="category text-gray">{current_role.role_title}</h6>*/}
-                        <h4 className="card-title bold">{getShortName(data.user.name)}</h4>
+                        <a href={"/teaching/evaluate-personal/" + data.user.id} target="_blank">
+                            <h4 className="card-title bold">{getShortName(data.user.name)}</h4>
+                        </a>
                         <p className="description">
                             <button className="btn btn-xs btn-round"
                                     style={{backgroundColor: level.color}}
@@ -53,7 +56,8 @@ class EvaluateTeaching extends React.Component {
                                 {level.text}
                             </button>
                         </p>
-                        <div className="cursor-pointer" onClick={() => this.openModalCheckinCheckout(data.user)}>
+                        <div className="cursor-pointer"
+                             onClick={() => this.openModalCheckinCheckout(data.user, data.gen)}>
                             <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ đúng giờ</div>
                                 <div className="bold">
@@ -68,7 +72,8 @@ class EvaluateTeaching extends React.Component {
                                      }}/>
                             </div>
                         </div>
-                        <div>
+                        <div className="cursor-pointer"
+                             onClick={() => this.openModalStudentAttendance(data.user, data.gen)}>
                             <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ học viên</div>
                                 <div className="bold">
@@ -83,7 +88,8 @@ class EvaluateTeaching extends React.Component {
                                      }}/>
                             </div>
                         </div>
-                        <div>
+                        <div className="cursor-pointer"
+                             onClick={() => this.openModalStudentRating(data.user, data.gen)}>
                             <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ đánh giá</div>
                                 <div className="bold">
@@ -100,9 +106,17 @@ class EvaluateTeaching extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="card-footer">
-                        Bắt đầu làm việc từ khóa {startGen[0] ? startGen[0].name : '(không có thông tin)'}
-                    </div>
+                    {
+                        this.props.store.gens ?
+                            <div className="card-footer">
+                                Bắt đầu làm việc từ khóa {startGen ? startGen.name : '(không có thông tin)'}
+                            </div>
+                            :
+                            <div className="card-footer">
+                                Khóa {startGen ? startGen.name : ''}
+                            </div>
+                    }
+
                 </div>
             </div>
         )
@@ -113,10 +127,10 @@ class EvaluateTeaching extends React.Component {
         return (
             <div>
                 {
-                    store.isLoading ? <Loading/> :
+                    this.props.store.isLoading ? <Loading/> :
                         <div className="row">
                             {
-                                store.data.map((item) => {
+                                this.props.store.data.map((item) => {
                                         return this.renderItem(item);
                                     }
                                 )}
@@ -158,9 +172,28 @@ class EvaluateTeaching extends React.Component {
 
     }
 
-    openModalCheckinCheckout(user) {
-        store.selectedUser = user;
-        store.showModalCheckinCheckout = true;
+    openModalCheckinCheckout(user, gen) {
+        this.props.store.selectedUser = user;
+        this.props.store.showModalCheckinCheckout = true;
+        if (gen) {
+            this.props.store.selectedGenId = gen.id
+        }
+    }
+
+    openModalStudentAttendance(user, gen) {
+        this.props.store.selectedUser = user;
+        this.props.store.showModalStudentAttendance = true;
+        if (gen) {
+            this.props.store.selectedGenId = gen.id
+        }
+    }
+
+    openModalStudentRating(user, gen) {
+        this.props.store.selectedUser = user;
+        this.props.store.showModalStudentRating = true;
+        if (gen) {
+            this.props.store.selectedGenId = gen.id
+        }
     }
 }
 

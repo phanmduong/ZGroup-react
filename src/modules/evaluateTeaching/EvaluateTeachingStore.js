@@ -8,6 +8,8 @@ import {
 
 export default new class evaluateTeachingStore {
     @observable showModalCheckinCheckout = false;
+    @observable showModalStudentAttendance = false;
+    @observable showModalStudentRating = false;
     @observable selectedUser = {};
     @observable isLoadingGen = false;
     @observable gens = [];
