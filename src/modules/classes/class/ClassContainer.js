@@ -19,6 +19,7 @@ import * as helper from '../../../helpers/helper';
 import moment from "moment";
 import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
 import {NO_AVATAR} from "../../../constants/env";
+import TimePicker from "../../../components/common/TimePicker";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -54,7 +55,9 @@ class ClassContainer extends React.Component {
             linkDriver: "",
             typeTeachingLesson: 1,
             attendanceSelected: {},
-            oldTeachingId: ''
+            oldTeachingId: '',
+            attendance: {},
+            showModalAddCheckinCheckout: false
         };
         this.closeModalClassLesson = this.closeModalClassLesson.bind(this);
         this.openModalClassLesson = this.openModalClassLesson.bind(this);
@@ -323,6 +326,30 @@ class ClassContainer extends React.Component {
         this.props.classActions.genCerti(this.classId);
     };
 
+    addCheckinCheckout = (type, typeUser, attendanceData) => {
+        if (this.props.user.role != 2) {
+            return;
+        }
+        let attendance = {...this.state.attendance};
+        attendance.type = type;
+        attendance.typeUser = typeUser;
+        attendance.userId = attendanceData.staff.id;
+        attendance.classLessonId = attendanceData.class_lesson_id;
+        this.setState({
+            attendance: attendance,
+            showModalAddCheckinCheckout: true
+        });
+    }
+
+    updateTime = (event) => {
+        const field = event.target.name;
+        let attendance = {...this.state.attendance};
+        attendance[field] = event.target.value;
+        this.setState({
+            attendance: attendance
+        });
+    }
+
 
     render() {
         this.path = this.props.location.pathname;
@@ -453,11 +480,13 @@ class ClassContainer extends React.Component {
                                                                                 <TooltipButton placement="top"
                                                                                                text="Đổi buổi"
                                                                                 >
-                                                                                    <button className="btn btn-xs btn-round"
-                                                                                            onClick={() => this.openModalClassLesson(attendance)}
+                                                                                    <button
+                                                                                        className="btn btn-xs btn-round"
+                                                                                        onClick={() => this.openModalClassLesson(attendance)}
                                                                                     >
                                                                                         <i className="material-icons">compare_arrows</i>
-                                                                                        <div className="ripple-container"/>
+                                                                                        <div
+                                                                                            className="ripple-container"/>
                                                                                     </button>
                                                                                 </TooltipButton>
                                                                             }
@@ -530,7 +559,8 @@ class ClassContainer extends React.Component {
                                                                             </div>
                                                                             <AttendanceTeacher
                                                                                 attendance={attendance}
-
+                                                                                addCheckinCheckout={this.addCheckinCheckout}
+                                                                                type={"teacher"}
                                                                             />
                                                                         </div>
                                                                     )
@@ -589,7 +619,8 @@ class ClassContainer extends React.Component {
                                                                             </div>
                                                                             <AttendanceTeacher
                                                                                 attendance={attendance}
-
+                                                                                addCheckinCheckout={this.addCheckinCheckout}
+                                                                                type={"teaching_assistant"}
                                                                             />
                                                                         </div>
                                                                     );
@@ -601,7 +632,7 @@ class ClassContainer extends React.Component {
 
                                                     </div>
                                                 }
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -955,8 +986,47 @@ class ClassContainer extends React.Component {
                         </form>
                     </Modal.Body>
                 </Modal>
+                <Modal
+                    show={this.state.showModalAddCheckinCheckout}
+                    onHide={() => {
+                        this.setState({showModalAddCheckinCheckout: false})
+                    }}
+                >
+                    <Modal.Header>
+                        <h4 className="modal-title">Thêm checkin - checkout</h4>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                        }}>
+                            <TimePicker
+                                label="Chọn thời gian"
+                                value={this.state.attendance.start_time}
+                                onChange={this.updateTime}
+                                name="time"
+                                id="start_time1"
+                            />
+                        </form>
+                        <button type="button"
+                                className={"btn btn-primary " + (this.props.isAddingCheckinCheckout ? " disabled" : "")}
+                                onClick={this.saveCheckinCheckout}
+                        >
+                            {this.props.isAddingCheckinCheckout ? "Đang lưu" : "Lưu"}
+                        </button>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
+    }
+
+    saveCheckinCheckout = () => {
+        this.props.classActions.addCheckinCheckout(this.state.attendance.type, this.state.attendance.typeUser,
+            this.state.attendance.userId, this.state.attendance.classLessonId, this.state.attendance.time, this.addCheckinCheckoutSuccess);
+    }
+
+    addCheckinCheckoutSuccess = () => {
+        this.setState({showModalAddCheckinCheckout: false});
+        this.props.classActions.loadClass(this.classId);
     }
 }
 
@@ -977,6 +1047,7 @@ ClassContainer.propTypes = {
     pathname: PropTypes.string,
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -991,7 +1062,9 @@ function mapStateToProps(state) {
         isLoadingTeachingLesson: state.classes.isLoadingTeachingLesson,
         teachingLessons: state.classes.teachingLessons,
         staffs: state.classes.staffs,
+        user: state.login.user,
         isChangingTeachingLesson: state.classes.isChangingTeachingLesson,
+        isAddingCheckinCheckout: state.classes.isAddingCheckinCheckout,
     };
 }
 

@@ -415,5 +415,28 @@ export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId
     };
 }
 
+export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, addCheckinCheckoutSuccess) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_CHECKIN_CHECKOUT_CLASS_DATA
+        });
+        classApi.addCheckinCheckout(type, typeUser, userId, classLessonID, time)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    dispatch({
+                        type: types.ADDING_CHECKIN_CHECKOUT_CLASS_DATA,
+                    });
+                    addCheckinCheckoutSuccess();
+                } else {
+                    helper.showErrorMessage("Có lỗi xảy ra. Thử lại");
+                }
+            }).finally(() => {
+            dispatch({
+                type: types.ERROR_ADD_CHECKIN_CHECKOUT_CLASS_DATA,
+            });
+        })
+    };
+}
+
 
 

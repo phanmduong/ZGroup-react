@@ -89,6 +89,18 @@ class StudentRatingContainer extends React.Component {
                         disable
                     />
                 </div>
+                <div>
+                    {
+                        this.store.commentsDictionary.map((comment) => {
+                            return (
+                                <div
+                                    className={"btn btn-round " + (comment.point == 1 ? "btn-success" : "btn-primary")}>
+                                    {comment.word} ({comment.frequency})
+                                </div>
+                            )
+                        })
+                    }
+                </div>
                 <br/>
                 {
                     this.store.getData.map((classData, index) => {

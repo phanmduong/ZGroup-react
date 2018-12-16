@@ -15,6 +15,7 @@ import FormInputText from "../../components/common/FormInputText";
 import Checkbox from "../../components/common/Checkbox";
 import {Modal} from "react-bootstrap";
 import {isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
+import * as helper from "../../helpers/helper";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -358,6 +359,17 @@ class LeadContainer extends React.Component {
         this.setState({selectedLeads: [], isAll: false});
     }
 
+    removeLeadSuccess = () => {
+        this.props.leadActions.getLeads(this.state.page, this.state.query, this.state.filter.startTime,
+            this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top);
+    }
+
+    removeLead = (lead) => {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa lead này không?", () => {
+            this.props.leadActions.removeLead(lead.id, this.removeLeadSuccess);
+        });
+    };
+
 
     distributionLeads() {
 
@@ -607,6 +619,7 @@ class LeadContainer extends React.Component {
                                     isDistribution={this.state.isDistribution}
                                     selectedLeads={this.state.selectedLeads}
                                     changeStatusLead={this.changeStatusLead}
+                                    removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
                                 />
                             </div>
                         </div>

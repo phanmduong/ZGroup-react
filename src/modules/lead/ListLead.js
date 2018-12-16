@@ -16,6 +16,7 @@ import {
 } from "react-bootstrap";
 import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
+
 //import TooltipButton from "../../components/common/TooltipButton";
 
 class ListLead extends React.Component {
@@ -179,12 +180,22 @@ class ListLead extends React.Component {
                                                 !this.props.showSelectedLead && <td>{lead.created_at}</td>
                                             }
                                             <td>
-                                                <ButtonGroupAction
-                                                    disabledDelete={!this.props.showSelectedLead}
-                                                    delete={() => this.props.deleteLeadSelected(lead)}
-                                                    edit={() => this.openEditModal(lead)}
-                                                    disabledEdit={this.props.showSelectedLead}
-                                                />
+                                                {
+                                                    this.props.removeLead ?
+                                                        <ButtonGroupAction
+                                                            disabledDelete={false}
+                                                            delete={() => this.props.removeLead(lead)}
+                                                            edit={() => this.openEditModal(lead)}
+                                                            disabledEdit={this.props.showSelectedLead}
+                                                        />
+                                                        :
+                                                        <ButtonGroupAction
+                                                            disabledDelete={!this.props.showSelectedLead}
+                                                            delete={() => this.props.deleteLeadSelected(lead)}
+                                                            edit={() => this.openEditModal(lead)}
+                                                            disabledEdit={this.props.showSelectedLead}
+                                                        />
+                                                }
                                             </td>
                                         </tr>
                                     );

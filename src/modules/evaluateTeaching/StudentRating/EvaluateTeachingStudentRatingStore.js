@@ -1,9 +1,10 @@
 import {observable, action, computed} from "mobx";
 import {
-     loadEvaluateTeacherDetailStudentRatingApi,
-     loadEvaluateTeachingAssistantDetailStudentRatingApi,
+    loadEvaluateTeacherDetailStudentRatingApi,
+    loadEvaluateTeachingAssistantDetailStudentRatingApi,
 } from "../evaluateTeachingApi";
 import * as helper from "../../../helpers/helper";
+import _ from 'lodash';
 
 
 export default class EvaluateTeachingCheckinCheckout {
@@ -15,6 +16,7 @@ export default class EvaluateTeachingCheckinCheckout {
 
     @observable isLoading = true;
     @observable data = [];
+    @observable comments = [];
 
     constructor(gens, selectedTeaching, baseId, selectedGenId, user) {
         this.gens = gens;
@@ -31,7 +33,8 @@ export default class EvaluateTeachingCheckinCheckout {
             loadEvaluateTeacherDetailStudentRatingApi :
             loadEvaluateTeachingAssistantDetailStudentRatingApi
         api(this.selectedGenId, this.selectedBaseId, this.user.id).then((res) => {
-            this.data = res.data.data;
+            this.data = res.data.data.ratings;
+            this.comments = res.data.data.comments;
         }).finally(() => {
             this.isLoading = false;
         });
@@ -50,5 +53,10 @@ export default class EvaluateTeachingCheckinCheckout {
     @computed
     get getData() {
         return helper.groupBy(this.data, classData => classData.class_id, ["class", "registers"]);
+    }
+
+    @computed
+    get commentsDictionary() {
+        return _.sortBy(this.comments, (comment) => comment.frequency).reverse();
     }
 }

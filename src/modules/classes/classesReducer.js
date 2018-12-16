@@ -424,6 +424,27 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorTeachingLesson: true,
                 }
             };
+        case types.BEGIN_ADD_CHECKIN_CHECKOUT_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isAddingCheckinCheckout: true,
+                }
+            };
+        case types.ADDING_CHECKIN_CHECKOUT_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isAddingCheckinCheckout: false,
+                }
+            };
+        case types.ERROR_ADD_CHECKIN_CHECKOUT_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isAddingCheckinCheckout: false,
+                }
+            };
         default:
             return state;
     }

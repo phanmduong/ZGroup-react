@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as leadApi from './leadApi';
-import {showErrorNotification, showNotification} from "../../helpers/helper";
+import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
 import async from "async";
 
 /*eslint no-console: 0 */
@@ -67,6 +67,22 @@ export function editInfoLead(lead, closeModal) {
                 dispatch({type: types.EDIT_INFO_LEAD_ERROR});
             });
     };
+}
+
+export function removeLead(leadId, removeLeadSuccess) {
+    showTypeNotification("Đang xóa lead", "info")
+    leadApi.removeDistributionLead([leadId])
+        .then(res => {
+            if (res.data.status == 1) {
+                removeLeadSuccess();
+                showTypeNotification("Xóa lead thành công");
+            } else {
+                showErrorNotification("Xóa lead thất bại");
+            }
+        })
+        .catch(() => {
+            showErrorNotification("Xóa lead thất bại");
+        });
 }
 
 export function uploadDistributionLead(leadIds, carerId, isAll, search, startTime, endTime, staffId, rate, top, closeModal) {

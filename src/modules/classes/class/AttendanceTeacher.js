@@ -25,7 +25,9 @@ class AttendanceTeacher extends React.Component {
                         )
                         :
                         (
-                            <div className="btn btn-simple btn-xs btn-danger min-width-120-px">Not checkin</div>
+                            <div className="btn btn-simple btn-xs btn-danger min-width-120-px" onClick={() => {
+                                this.props.addCheckinCheckout("checkin", this.props.type, this.props.attendance);
+                            }}>Not checkin</div>
                         )
 
                 }{
@@ -36,7 +38,9 @@ class AttendanceTeacher extends React.Component {
                         )
                         :
                         (
-                            <div className="btn btn-simple btn-xs btn-danger min-width-120-px">Not checkout</div>
+                            <div className="btn btn-simple btn-xs btn-danger min-width-120-px" onClick={() => {
+                                this.props.addCheckinCheckout("checkout", this.props.type, this.props.attendance);
+                            }}>Not checkout</div>
                         )
                 }
                 </div>
@@ -46,22 +50,22 @@ class AttendanceTeacher extends React.Component {
                                  style={{
                                      width: dataAttendance.empty_arrive_span + '%',
                                      backgroundColor: 'transparent'
-                                 }} />
+                                 }}/>
                             <div className="progress-bar progress-bar-warning"
-                                 style={{width: dataAttendance.early_arrive_span + '%'}} />
+                                 style={{width: dataAttendance.early_arrive_span + '%'}}/>
                             <div className="progress-bar progress-bar-danger"
-                                 style={{width: dataAttendance.late_arrive_span + '%'}} />
+                                 style={{width: dataAttendance.late_arrive_span + '%'}}/>
                             <div className="progress-bar progress-bar-success"
-                                 style={{width: dataAttendance.teaching_span + '%'}} />
+                                 style={{width: dataAttendance.teaching_span + '%'}}/>
                             <div className="progress-bar progress-bar-danger"
-                                 style={{width: dataAttendance.early_leave_span + '%'}} />
+                                 style={{width: dataAttendance.early_leave_span + '%'}}/>
                             <div className="progress-bar progress-bar-warning"
-                                 style={{width: dataAttendance.late_leave_span + '%'}} />
+                                 style={{width: dataAttendance.late_leave_span + '%'}}/>
                         </div>
                     )
                     :
                     (
-                        <div className="progress" />
+                        <div className="progress"/>
                     )
 
                 }

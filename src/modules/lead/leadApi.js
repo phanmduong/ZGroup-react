@@ -86,3 +86,16 @@ export function uploadDistributionLead(leadIds, carerId) {
         carer_id: carerId,
     });
 }
+
+export function removeDistributionLead(leadIds, carerId = '') {
+
+    let url = env.MANAGE_API_URL + "/lead/remove-distribution-leads";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        lead_ids: leadIds,
+        carer_id: carerId,
+    });
+}

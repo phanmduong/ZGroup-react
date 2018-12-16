@@ -230,3 +230,20 @@ export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId
             note: note,
         });
 }
+
+export function addCheckinCheckout(type, typeUser, userId, classLessonID, time) {
+    let url = env.MANAGE_API_URL + `/checkincheckout/add-check-in-checkout`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url,
+        {
+            type: type,
+            type_user: typeUser,
+            user_id: userId,
+            class_lesson_id: classLessonID,
+            time: time,
+        });
+}
