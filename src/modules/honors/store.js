@@ -1,6 +1,6 @@
 import {observable, action} from "mobx";
 import {getHonors} from './queries.graphql';
-import {graphqlClient} from "../../graphql/graphqlClient";
+import {golangGraphqlClient} from "../../graphql/graphqlClient";
 import {graphqlSuccess} from "../../graphql/graphqlSuccess";
 
 class Store {
@@ -16,7 +16,7 @@ class Store {
         const variables = {};
 
         try {
-            const res = await graphqlClient
+            const res = await golangGraphqlClient
                 .query({
                     query: getHonors,
                     variables: variables

@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router";
+import {Link} from "react-router";
 import TooltipButton from "../../components/common/TooltipButton";
 import * as helper from "../../helpers/helper";
 import PropTypes from "prop-types";
-import { ORDER_STATUS, ORDER_STATUS_COLORS } from "../../constants/constants";
+import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "./status/StatusSelect";
 
 class ItemOrder extends React.Component {
@@ -151,6 +151,7 @@ class ItemOrder extends React.Component {
                         )}
                     </a>
                 </td>
+                <td>{helper.dotNumber(order.ship_money)}đ</td>
                 <td>{helper.dotNumber(order.total)}đ</td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
@@ -159,7 +160,7 @@ class ItemOrder extends React.Component {
                         className="btn btn-social btn-fill btn-twitter"
                         onClick={() => this.props.showShipGoodModal(order)}
                     >
-                        <i className="fa fa-twitter" /> Ship hàng
+                        <i className="fa fa-twitter"/> Ship hàng
                     </button>
                 </td>
             </tr>

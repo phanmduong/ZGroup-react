@@ -341,7 +341,7 @@ class ClassContainer extends React.Component {
         });
     }
 
-    updateTime = (event) => {
+    updateModalAddCheckinCheckout = (event) => {
         const field = event.target.name;
         let attendance = {...this.state.attendance};
         attendance[field] = event.target.value;
@@ -1002,9 +1002,16 @@ class ClassContainer extends React.Component {
                             <TimePicker
                                 label="Chọn thời gian"
                                 value={this.state.attendance.start_time}
-                                onChange={this.updateTime}
+                                onChange={this.updateModalAddCheckinCheckout}
                                 name="time"
                                 id="start_time1"
+                            />
+                            <FormInputText
+                                label="Lý do"
+                                name="comment"
+                                value={this.state.attendance.comment}
+                                updateFormData={this.updateModalAddCheckinCheckout}
+                                required
                             />
                         </form>
                         <button type="button"
@@ -1021,7 +1028,8 @@ class ClassContainer extends React.Component {
 
     saveCheckinCheckout = () => {
         this.props.classActions.addCheckinCheckout(this.state.attendance.type, this.state.attendance.typeUser,
-            this.state.attendance.userId, this.state.attendance.classLessonId, this.state.attendance.time, this.addCheckinCheckoutSuccess);
+            this.state.attendance.userId, this.state.attendance.classLessonId, this.state.attendance.time,
+            this.state.attendance.comment, this.addCheckinCheckoutSuccess);
     }
 
     addCheckinCheckoutSuccess = () => {

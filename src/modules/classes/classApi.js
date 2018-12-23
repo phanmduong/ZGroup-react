@@ -231,7 +231,7 @@ export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId
         });
 }
 
-export function addCheckinCheckout(type, typeUser, userId, classLessonID, time) {
+export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, comment) {
     let url = env.MANAGE_API_URL + `/checkincheckout/add-check-in-checkout`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -245,5 +245,6 @@ export function addCheckinCheckout(type, typeUser, userId, classLessonID, time) 
             user_id: userId,
             class_lesson_id: classLessonID,
             time: time,
+            comment: comment,
         });
 }

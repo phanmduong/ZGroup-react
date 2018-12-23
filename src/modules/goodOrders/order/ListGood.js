@@ -25,6 +25,9 @@ class ListGood extends React.Component {
 
     render() {
         let totalMoneyAll = 0;
+        if (this.props.order) {
+            totalMoneyAll += this.props.order.ship_money;
+        }
         return (
             <div style={{marginTop: 50}}>
                 <div className="table-responsive">
@@ -49,11 +52,11 @@ class ListGood extends React.Component {
                                     totalMoney -= goodOrder.discount_money;
                                 } else {
                                     if (goodOrder.discount_percent) {
-                                        totalMoney *= (100 - goodOrder.discount_percent) / 100;
+                                        totalMoney *= ((100 - goodOrder.discount_percent) / 100);
                                     }
                                 }
 
-                                totalMoneyAll += totalMoney;
+                                totalMoneyAll += parseInt(totalMoney);
 
                                 return (
                                     <tr key={index}>
@@ -80,7 +83,7 @@ class ListGood extends React.Component {
                                                     <div className="flex-row-center">
                                                         <i className="material-icons">card_giftcard</i>
                                                         {goodOrder.discount_money ? helper.dotNumber(goodOrder.discount_money) + 'đ'
-                                                            : goodOrder.discount_percent + '%'}
+                                                            : parseInt(goodOrder.discount_percent) + '%'}
                                                     </div>
                                                 </TooltipButton>
                                                 }
@@ -92,6 +95,22 @@ class ListGood extends React.Component {
                                 );
                             })
                         }
+                        {this.props.order &&
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                            </td>
+                            <td>Phí vận chuyển</td>
+                            <td/>
+                            <td/>
+                            <td>
+                            </td>
+                            <td className="text-align-right">{helper.dotNumber(this.props.order.ship_money)}đ</td>
+                        </tr>
+                        }
+
                         </tbody>
                         <tfoot>
                         <tr>
@@ -155,6 +174,7 @@ class ListGood extends React.Component {
 
 ListGood.propTypes = {
     goodOrders: PropTypes.array.isRequired,
+    order: PropTypes.object.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     paid: PropTypes.number,
     orderId: PropTypes.number.isRequired,

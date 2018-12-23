@@ -132,6 +132,7 @@ class ItemOrder extends React.Component {
                         }
                     </a>
                 </td>
+                <td>{helper.dotNumber(order.ship_money)}đ</td>
                 <td>
                     <TooltipButton text="Thanh toán" placement="top">
                         <button
