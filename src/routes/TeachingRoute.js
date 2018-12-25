@@ -30,6 +30,7 @@ import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
 import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesContainer";
 import EvaluateTeachingContainer from "../modules/evaluateTeaching/EvaluateTeachingContainer";
 import EvaluatePersonTeachingContainer from "../modules/evaluateTeaching/Personal/EvaluatePersonTeachingContainer";
+import EvaluateClassesContainer from "../modules/evaluateClasses/EvaluateClassesContainer";
 
 /**
  * Tab Teaching
@@ -220,6 +221,10 @@ export default [
     {
         path: "/teaching/evaluate-personal(/:userID)",
         component: EvaluatePersonTeachingContainer
-    }
+    },
+    {
+        path: "/teaching/evaluate-classes",
+        component: EvaluateClassesContainer
+    },
 
 ];
