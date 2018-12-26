@@ -14,8 +14,8 @@ import {NO_AVATAR} from "../../constants/env";
 import FormInputText from "../../components/common/FormInputText";
 import Checkbox from "../../components/common/Checkbox";
 import {Modal} from "react-bootstrap";
-import {isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
-import * as helper from "../../helpers/helper";
+import {confirm,isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
+
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -365,7 +365,7 @@ class LeadContainer extends React.Component {
     }
 
     removeLead = (lead) => {
-        helper.confirm('error', 'Xóa', "Bạn có muốn xóa lead này không?", () => {
+        confirm('error', 'Xóa', "Bạn có muốn xóa lead này không?", () => {
             this.props.leadActions.removeLead(lead.id, this.removeLeadSuccess);
         });
     };

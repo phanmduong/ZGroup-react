@@ -254,6 +254,7 @@ class ListRegister extends React.Component {
 ListRegister.propTypes = {
     registers: PropTypes.array.isRequired,
     viewCall: PropTypes.func.isRequired,
+    addMyLead: PropTypes.func.isRequired,
     openModalChangeClass: PropTypes.func.isRequired,
     deleteRegister: PropTypes.func.isRequired,
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,

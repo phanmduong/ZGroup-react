@@ -133,7 +133,7 @@ class TabContainer extends React.Component {
                             return (
                                 <li key={"keytabpar" + index}
                                     className={this.props.pathname === tab.url ? "active" : ""}>
-                                    <a href={tab.url} activeClassName="active"
+                                    <a href={tab.url}
                                        onClick={() => {
                                            helper.closeSidebar();
                                        }}

@@ -7,6 +7,7 @@ import {isEmptyInput, validateLinkImage} from "../../../helpers/helper";
 import _ from 'lodash';
 import Star from "../../../components/common/Star";
 import {NO_AVATAR} from "../../../constants/env";
+import PropTypes from "prop-types";
 
 @observer
 class StudentRatingContainer extends React.Component {
@@ -14,7 +15,7 @@ class StudentRatingContainer extends React.Component {
         super(props, context);
         this.state = {
             tab: 1
-        }
+        };
     }
 
     componentWillMount() {
@@ -27,51 +28,6 @@ class StudentRatingContainer extends React.Component {
     onChangeGen = (value) => {
         this.store.selectedGenId = value;
         this.store.loadData();
-    }
-
-    render() {
-        return (
-            <div>
-                {
-                    this.store.gens && this.store.gens.length > 0 &&
-                    <div className="flex flex-justify-content-center">
-                        <div style={{width: 200}}>
-                            <Select
-                                defaultMessage={'Chọn khóa học'}
-                                options={this.store.gensData}
-                                value={this.store.selectedGenId}
-                                onChange={this.onChangeGen}
-                            />
-                        </div>
-                    </div>
-                }
-
-                <div>
-                    <div className="flex flex-justify-content-center flex-col flex-align-items-center"
-                    >
-                        <div className="img"
-                             style={{
-                                 background: 'url(' + validateLinkImage(this.store.user.avatar_url) + ') center center / cover',
-                                 width: '130px',
-                                 height: '130px',
-                                 borderRadius: '50%',
-                                 margin: '20px 0'
-                             }}
-                        />
-                        <div className="bold uppercase" style={{fontSize: '20px'}}>
-                            {this.store.user.name}
-                        </div>
-                    </div>
-                    {this.store.isLoading ? <Loading/> :
-                        <div>
-                            {this.renderRating()}
-                        </div>
-                    }
-
-                </div>
-            </div>
-
-        );
     }
 
     renderRating() {
@@ -151,9 +107,59 @@ class StudentRatingContainer extends React.Component {
         )
             ;
     }
+
+    render() {
+        return (
+            <div>
+                {
+                    this.store.gens && this.store.gens.length > 0 &&
+                    <div className="flex flex-justify-content-center">
+                        <div style={{width: 200}}>
+                            <Select
+                                defaultMessage={'Chọn khóa học'}
+                                options={this.store.gensData}
+                                value={this.store.selectedGenId}
+                                onChange={this.onChangeGen}
+                            />
+                        </div>
+                    </div>
+                }
+
+                <div>
+                    <div className="flex flex-justify-content-center flex-col flex-align-items-center"
+                    >
+                        <div className="img"
+                             style={{
+                                 background: 'url(' + validateLinkImage(this.store.user.avatar_url) + ') center center / cover',
+                                 width: '130px',
+                                 height: '130px',
+                                 borderRadius: '50%',
+                                 margin: '20px 0'
+                             }}
+                        />
+                        <div className="bold uppercase" style={{fontSize: '20px'}}>
+                            {this.store.user.name}
+                        </div>
+                    </div>
+                    {this.store.isLoading ? <Loading/> :
+                        <div>
+                            {this.renderRating()}
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        );
+    }
+
+
 }
 
-StudentRatingContainer.propTypes = {};
+StudentRatingContainer.propTypes = {
+    gens: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+};
 
 export default StudentRatingContainer;
 
