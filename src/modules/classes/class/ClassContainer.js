@@ -18,7 +18,7 @@ import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
 import moment from "moment";
 import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
-import {NO_AVATAR} from "../../../constants/env";
+import {NO_AVATAR} from ".. /../../constants/env";
 import TimePicker from "../../../components/common/TimePicker";
 
 class ClassContainer extends React.Component {
@@ -1013,13 +1013,13 @@ class ClassContainer extends React.Component {
                                 updateFormData={this.updateModalAddCheckinCheckout}
                                 required
                             />
+                            <button type="button"
+                                    className={"btn btn-primary " + (this.props.isAddingCheckinCheckout ? " disabled" : "")}
+                                    onClick={this.saveCheckinCheckout}
+                            >
+                                {this.props.isAddingCheckinCheckout ? "Đang lưu" : "Lưu"}
+                            </button>
                         </form>
-                        <button type="button"
-                                className={"btn btn-primary " + (this.props.isAddingCheckinCheckout ? " disabled" : "")}
-                                onClick={this.saveCheckinCheckout}
-                        >
-                            {this.props.isAddingCheckinCheckout ? "Đang lưu" : "Lưu"}
-                        </button>
                     </Modal.Body>
                 </Modal>
             </div>

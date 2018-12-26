@@ -9,6 +9,7 @@ import HistoryTransactionsContainer from "../modules/historyTransactions/History
 import SpendMoneyContainer from "../modules/spendMoney/SpendMoneyContainer";
 import SummaryFinanceContainer from "../modules/summaryFinance/SummaryFinanceContainer";
 import PasswordContainer from "../modules/password/PasswordContainer";
+import SalaryTeachingContainer from "../modules/salaryTeaching/SalaryTeachingContainer";
 
 /**
  * Tab Quản lý tài chính
@@ -17,6 +18,10 @@ export default [
     {
         path: "/finance/moneycollect",
         component: CollectMoneyContainer,
+    },
+    {
+        path: "/finance/salary-teaching",
+        component: SalaryTeachingContainer,
     },
     {
         path: "/finance/sendmoney",
