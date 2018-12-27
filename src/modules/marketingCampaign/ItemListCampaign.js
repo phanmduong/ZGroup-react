@@ -1,7 +1,6 @@
 import React from 'react';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import ReactSelect from "react-select";
-import {BASE_URL} from "../../constants/env";
 import * as helper from "../../helpers/helper";
 import PropTypes from 'prop-types';
 
@@ -29,7 +28,9 @@ class ItemListCampaign extends React.Component {
     }
 
     render() {
-        let url = `${BASE_URL}/classes/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
+        let course = this.props.courses ? this.props.courses.filter(item => item.id == this.state.selectedCourse)[0] : null;
+        course = course ? course : {};
+        let url = `${course.linkwindow}?t=${this.props.user.id}&c=${this.props.campaign.id}`;
         return (
             <tr>
                 <td>

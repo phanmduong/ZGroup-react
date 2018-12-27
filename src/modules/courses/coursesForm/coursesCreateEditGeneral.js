@@ -1,10 +1,10 @@
-import React                            from 'react';
-import PropTypes                        from 'prop-types';
-import {bindActionCreators}             from 'redux';
-import {connect}                        from 'react-redux';
-import  * as coursesActions             from '../coursesActions';
-import FormInputText                    from '../../../components/common/FormInputText';
-import * as helper                      from '../../../helpers/helper';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as coursesActions from '../coursesActions';
+import FormInputText from '../../../components/common/FormInputText';
+import * as helper from '../../../helpers/helper';
 
 class coursesCreateEditGeneral extends React.Component {
     constructor(props, context) {
@@ -12,9 +12,9 @@ class coursesCreateEditGeneral extends React.Component {
 
         this.state = {};
 
-        this.updateFormData     = this.updateFormData.bind(this);
-        this.commitCourseData   = this.commitCourseData.bind(this);
-        this.checkValidate      = this.checkValidate.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
+        this.commitCourseData = this.commitCourseData.bind(this);
+        this.checkValidate = this.checkValidate.bind(this);
     }
 
     componentWillMount() {
@@ -23,16 +23,16 @@ class coursesCreateEditGeneral extends React.Component {
         //console.log('child general will mount',this.props);
     }
 
-    commitCourseData(){
-        if(this.checkValidate())
+    commitCourseData() {
+        if (this.checkValidate())
             this.props.coursesActions.commitCourseData(this.props.data);
 
     }
 
 
-    updateFormData(e){
-        const   feild   = e.target.name;
-        const   value   = e.target.value;
+    updateFormData(e) {
+        const feild = e.target.name;
+        const value = e.target.value;
         let data = {...this.props.data};
         data[feild] = value;
         this.props.coursesActions.updateData(data);
@@ -59,7 +59,7 @@ class coursesCreateEditGeneral extends React.Component {
         return false;
     }
 
-    render(){
+    render() {
         return (
             <div className="card-content">
                 {
@@ -76,14 +76,14 @@ class coursesCreateEditGeneral extends React.Component {
                                 /></div>
 
                             {/*<div className="col-md-6">*/}
-                                {/*<FormInputText*/}
-                                    {/*label="Thời lượng"*/}
-                                    {/*required*/}
-                                    {/*type="number"*/}
-                                    {/*name="duration"*/}
-                                    {/*updateFormData={this.updateFormData}*/}
-                                    {/*value={this.props.data.duration}*/}
-                                {/*/></div>*/}
+                            {/*<FormInputText*/}
+                            {/*label="Thời lượng"*/}
+                            {/*required*/}
+                            {/*type="number"*/}
+                            {/*name="duration"*/}
+                            {/*updateFormData={this.updateFormData}*/}
+                            {/*value={this.props.data.duration}*/}
+                            {/*/></div>*/}
                             <div className="col-md-12">
                                 <FormInputText
                                     label="Giá"
@@ -102,36 +102,36 @@ class coursesCreateEditGeneral extends React.Component {
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.description}
                                 /></div>
-                            <div className="col-md-6">
+                            <div className="col-md-12">
                                 <FormInputText
-                                    label="Link tải phần mềm trên Windows"
+                                    label="Link khóa học"
                                     name="linkwindow"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.linkwindow}
                                 /></div>
-                            <div className="col-md-6">
-                                <FormInputText
-                                    label="Link hướng dẫn trên Windows"
-                                    name="window_how_install"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.data.window_how_install}
-                                />
-                            </div>
-                            <div className="col-md-6">
-                                <FormInputText
-                                    label="Link tải phần mềm trên Mac"
-                                    name="linkmac"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.data.linkmac}
-                                /></div>
-                            <div className="col-md-6">
-                                <FormInputText
-                                    label="Link hướng dẫn trên Mac"
-                                    name="mac_how_install"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.data.mac_how_install}
-                                />
-                            </div>
+                            {/*<div className="col-md-6">*/}
+                            {/*<FormInputText*/}
+                            {/*label="Link hướng dẫn trên Windows"*/}
+                            {/*name="window_how_install"*/}
+                            {/*updateFormData={this.updateFormData}*/}
+                            {/*value={this.props.data.window_how_install}*/}
+                            {/*/>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-6">*/}
+                            {/*<FormInputText*/}
+                            {/*label="Link tải phần mềm trên Mac"*/}
+                            {/*name="linkmac"*/}
+                            {/*updateFormData={this.updateFormData}*/}
+                            {/*value={this.props.data.linkmac}*/}
+                            {/*/></div>*/}
+                            {/*<div className="col-md-6">*/}
+                            {/*<FormInputText*/}
+                            {/*label="Link hướng dẫn trên Mac"*/}
+                            {/*name="mac_how_install"*/}
+                            {/*updateFormData={this.updateFormData}*/}
+                            {/*value={this.props.data.mac_how_install}*/}
+                            {/*/>*/}
+                            {/*</div>*/}
 
                         </div>
 
@@ -140,11 +140,11 @@ class coursesCreateEditGeneral extends React.Component {
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                             </button>
                             :
-                                    <button
-                                        className="btn btn-fill btn-rose"
-                                        type="button"
-                                        onClick={this.commitCourseData}
-                                    > Lưu </button>
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                onClick={this.commitCourseData}
+                            > Lưu </button>
                         }
                     </div>
                 }
@@ -157,32 +157,32 @@ class coursesCreateEditGeneral extends React.Component {
 
 
 coursesCreateEditGeneral.propTypes = {
-    isLoading           : PropTypes.bool.isRequired,
-    data                : PropTypes.object,
-    isUpdatingAvatar    : PropTypes.bool,
-    updateAvatarError   : PropTypes.bool,
-    isUpdatingLogo      : PropTypes.bool,
-    updateLogoError     : PropTypes.bool,
-    isUpdatingCover     : PropTypes.bool,
-    updateCoverError    : PropTypes.bool,
-    isCommitting        : PropTypes.bool,
-    commitSuccess       : PropTypes.bool,
-    updateData       : PropTypes.func,
-    coursesActions      : PropTypes.object.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    data: PropTypes.object,
+    isUpdatingAvatar: PropTypes.bool,
+    updateAvatarError: PropTypes.bool,
+    isUpdatingLogo: PropTypes.bool,
+    updateLogoError: PropTypes.bool,
+    isUpdatingCover: PropTypes.bool,
+    updateCoverError: PropTypes.bool,
+    isCommitting: PropTypes.bool,
+    commitSuccess: PropTypes.bool,
+    updateData: PropTypes.func,
+    coursesActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading           : state.courses.isLoading,
-        data                : state.courses.data,
-        isUpdatingAvatar    : state.courses.isUpdatingAvatar,
-        updateAvatarError   : state.courses.updateAvatarError,
-        isUpdatingLogo      : state.courses.isUpdatingLogo,
-        updateLogoError     : state.courses.updateLogoError,
-        isUpdatingCover     : state.courses.isUpdatingCover,
-        updateCoverError    : state.courses.updateCoverError,
-        isCommitting        : state.courses.isCommitting,
-        commitSuccess       : state.courses.commitSuccess
+        isLoading: state.courses.isLoading,
+        data: state.courses.data,
+        isUpdatingAvatar: state.courses.isUpdatingAvatar,
+        updateAvatarError: state.courses.updateAvatarError,
+        isUpdatingLogo: state.courses.isUpdatingLogo,
+        updateLogoError: state.courses.updateLogoError,
+        isUpdatingCover: state.courses.isUpdatingCover,
+        updateCoverError: state.courses.updateCoverError,
+        isCommitting: state.courses.isCommitting,
+        commitSuccess: state.courses.commitSuccess
     };
 }
 
