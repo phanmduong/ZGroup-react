@@ -15,7 +15,7 @@ import * as helper from '../../helpers/helper';
 import {Link} from 'react-router';
 import {Modal} from "react-bootstrap";
 import ChangePassword from "./ChangePassword";
-import {validateLinkImage} from "../../helpers/helper";
+
 
 class ProfileContainer extends React.Component {
     constructor(props, context) {
@@ -198,7 +198,7 @@ class ProfileContainer extends React.Component {
                                                                 <a className="content-avatar">
                                                                     <div className="img"
                                                                          style={{
-                                                                             background: 'url(' + validateLinkImage(avatar) + ') center center / cover',
+                                                                             background: 'url(' + helper.validateLinkImage(avatar) + ') center center / cover',
                                                                              width: '130px',
                                                                              height: '130px'
                                                                          }}

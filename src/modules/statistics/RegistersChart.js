@@ -19,12 +19,12 @@ const optionsBar = {
     tooltips: {
         callbacks: {
             label: function (tooltipItem, data) {
-                console.log(tooltipItem);
-                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                // console.log(tooltipItem);
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
 
                 const dataObject = store['new_person_by_date_' + label][tooltipItem.index];
 
-                console.log(store['new_person_by_date_' + label]);
+                // console.log(store['new_person_by_date_' + label]);
 
                 if (label) {
                     label += ': ';
@@ -35,7 +35,7 @@ const optionsBar = {
             }
         }
     }
-}
+};
 
 function countData(day) {
     let cnt = Math.floor(store.date_array.length / day);

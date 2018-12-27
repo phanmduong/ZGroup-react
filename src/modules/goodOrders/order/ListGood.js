@@ -97,16 +97,12 @@ class ListGood extends React.Component {
                         }
                         {this.props.order &&
                         <tr>
-                            <td>
-
-                            </td>
-                            <td>
-                            </td>
+                            <td/>
+                            <td/>
                             <td>Phí vận chuyển</td>
                             <td/>
                             <td/>
-                            <td>
-                            </td>
+                            <td/>
                             <td className="text-align-right">{helper.dotNumber(this.props.order.ship_money)}đ</td>
                         </tr>
                         }

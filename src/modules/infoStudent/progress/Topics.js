@@ -6,9 +6,9 @@ const Topics = ({topics}) => {
 
     return (
         <div>
-            {topics.reverse().map((topic) => {
+            {topics.reverse().map((topic,key) => {
                 return (
-                    <div className="media" style={{margin: '5px 0'}}>
+                    <div className="media" style={{margin: '5px 0'}} key={key}>
                         <div className="media-left">
                             <div className="media-object"
                                  style={{
@@ -45,11 +45,11 @@ const Topics = ({topics}) => {
                             </div>
                         </div>
                     </div>
-                )
+                );
             })
             }
         </div>
-    )
+    );
 };
 
 

@@ -245,6 +245,7 @@ ListLead.propTypes = {
     selectedLeads: PropTypes.array,
     deleteLeadSelected: PropTypes.func,
     changeStatusLead: PropTypes.func,
+    removeLead: PropTypes.func,
     deleteAllSelected: PropTypes.func,
     showSelectedLead: PropTypes.bool,
     isLoading: PropTypes.bool,

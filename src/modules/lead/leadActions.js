@@ -70,7 +70,7 @@ export function editInfoLead(lead, closeModal) {
 }
 
 export function removeLead(leadId, removeLeadSuccess) {
-    showTypeNotification("Đang xóa lead", "info")
+    showTypeNotification("Đang xóa lead", "info");
     leadApi.removeDistributionLead([leadId])
         .then(res => {
             if (res.data.status == 1) {

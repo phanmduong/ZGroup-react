@@ -1,10 +1,13 @@
 import React from "react";
 import Loading from "../../components/common/Loading";
-import store from "./EvaluateTeachingStore";
+import store from "./EvaluateClassesStore";
 import Select from '../../components/common/Select';
 import {observer} from "mobx-react";
 import EvaluateClasses from "./EvaluateClasses";
-// import {Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
+import AttendanceDetailContainer from "./detailContainer/AttendanceDetailContainer";
+import HomeworkDetailContainer from "./detailContainer/HomeworkDetailContainer";
+import RatingDetailContainer from "./detailContainer/RatingDetailContainer";
 
 
 @observer
@@ -16,6 +19,7 @@ class EvaluateClassesContainer extends React.Component {
     componentWillMount() {
         store.loadGens();
         store.loadBases();
+        store.loadCourses();
     }
 
 
@@ -29,10 +33,12 @@ class EvaluateClassesContainer extends React.Component {
         store.loadEvaluate();
     }
 
-    onChangeTeaching(value) {
-        store.selectedTeaching = value;
+    onChangeCourse(value) {
+        store.selectedCourseId = value;
         store.loadEvaluate();
     }
+
+
 
     render() {
         return (
@@ -60,10 +66,41 @@ class EvaluateClassesContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
+                                <div className="col-sm-3 col-xs-3">
+                                    <Select
+                                        defaultMessage={'Chọn môn học'}
+                                        options={store.courseData}
+                                        value={store.selectedCourseId}
+                                        onChange={this.onChangeCourse}
+                                    />
+                                </div>
 
                             </div>
                             <EvaluateClasses store={store}/>
-
+                            <Modal show={store.showModalAttendance}
+                                   onHide={() => {store.showModalAttendance = false}}>
+                                <Modal.Body>
+                                    <AttendanceDetailContainer
+                                        data={store.attendanceDetail}
+                                    />
+                                </Modal.Body>
+                            </Modal>
+                            <Modal show={store.showModalHomework}
+                                   onHide={() => {store.showModalHomework = false}}>
+                                <Modal.Body>
+                                    <HomeworkDetailContainer
+                                        data={store.homeworkDetail}
+                                    />
+                                </Modal.Body>
+                            </Modal>
+                            <Modal show={store.showModalRating}
+                                   onHide={() => {store.showModalRating = false}}>
+                                <Modal.Body>
+                                    <RatingDetailContainer
+                                        data={store.ratingDetail}
+                                    />
+                                </Modal.Body>
+                            </Modal>
                         </div>
                     </div>
                 }
