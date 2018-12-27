@@ -51,6 +51,22 @@ export default new class salaryTeachingStore {
     }
 
     @computed
+    get totalSalary() {
+        let total = 0;
+        this.getData.map((data) => {
+            const level = data.user.salary_level ? data.user.salary_level : {};
+            const total_salary = level.teacher_salary * data.total_attendance_teacher
+                + level.ta_salary * data.total_attendance_ta;
+            if (total_salary > 0 && !isNaN(total_salary)) {
+                total += total_salary;
+            }
+
+        });
+
+        return total;
+    }
+
+    @computed
     get getData() {
         if (isEmptyInput(this.data)) {
             return null;
