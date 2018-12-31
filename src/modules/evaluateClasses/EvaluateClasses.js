@@ -49,7 +49,7 @@ class EvaluateClasses extends React.Component {
         const raitoMoney = data.money * 100 / (data.target * data.course.price * RATIO_MONEY_REGISTER / 100);
         const raitoAttendance = Math.round(data.attendance_success * 100 / data.attendance_count);
         const raitoHomework = Math.round(data.homework_success * 100 / data.attendance_count);
-        const raitoGraduate = Math.round(data.graduate_success * 100 / data.attendance_count);
+        const raitoGraduate = Math.round(data.graduate_success * 100 / data.real_register_count);
         const raitoRate = Math.round(data.rate_sum / (data.rate_total));
 
 
@@ -60,7 +60,7 @@ class EvaluateClasses extends React.Component {
 
         return (
 
-            <div key={key} className="col-lg-3 col-md-4 col-sm-6" style={{marginTop: 40}}>
+            <div key={key} className="col-md-3 col-sm-6" style={{marginTop: 40}}>
                 <div className="card card-profile">
                     <div className="card-avatar">
                         <a className="content-avatar" href={"/teaching/class/" + data.id}
@@ -145,13 +145,13 @@ class EvaluateClasses extends React.Component {
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ tham gia lớp học</div>
                                 <div className="bold">
-                                    {`${raitoAttendance}%`}
+                                    {`${raitoAttendance}/${RATIO_ATTENDANCE_CLASS}%`}
                                 </div>
                             </div>
                             <div className="progress">
                                 <div className="progress-bar"
                                      style={{
-                                         width: raitoAttendance + '%/' + RATIO_ATTENDANCE_CLASS + "%",
+                                         width: raitoAttendance + '%',
                                          backgroundColor: attendanceColor
                                      }}/>
                             </div>
@@ -201,7 +201,7 @@ class EvaluateClasses extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div>
                 {
                     this.props.store.isLoading ? <Loading/> :
                         <div className="row">

@@ -53,7 +53,7 @@ class RatingDetailContainer extends React.Component {
 
                                     return (
                                         <div key={index}>
-                                        <div className="flex flex-space-between" style={{margin: "20px 0px"}}>
+                                        <div  style={{margin: "20px 0px", display:"-webkit-box"}}>
                                             <div className="img"
                                                  style={{
                                                      background: 'url(' + validateLinkImage(obj.user.avatar_url) + ') center center / cover',
@@ -81,10 +81,10 @@ class RatingDetailContainer extends React.Component {
                                                      style={{marginTop: 10, marginLeft: 5}}>
 
                                                     <div className="flex flex-space-between">
-                                                        {obj.rating_teacher > 0 &&
+                                                        {(obj.rating_teacher > 0) &&
                                                         <Star maxStar={5} value={obj.rating_teacher} disable={true}/>}
-                                                        {obj.rating_teacher > 0 ?
-                                                            `${raitoRate}/5`
+                                                        {(obj.rating_teacher > 0) ?
+                                                            `${obj.rating_teacher}/5`
                                                             :
                                                             "Chưa đánh giá"
                                                         }
@@ -103,7 +103,7 @@ class RatingDetailContainer extends React.Component {
                                                         {obj.rating_ta > 0 &&
                                                         <Star maxStar={5} value={obj.rating_ta} disable={true}/>}
                                                         {obj.rating_ta > 0 ?
-                                                            `${raitoRate}/5`
+                                                            `${obj.rating_ta}/5`
                                                             :
                                                             "Chưa đánh giá"
                                                         }

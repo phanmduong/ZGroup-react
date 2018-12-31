@@ -18,7 +18,7 @@ import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
 import moment from "moment";
 import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
-import {NO_AVATAR} from ".. /../../constants/env";
+import {NO_AVATAR} from "../../../constants/env";
 import TimePicker from "../../../components/common/TimePicker";
 
 class ClassContainer extends React.Component {
