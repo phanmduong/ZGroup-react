@@ -237,6 +237,11 @@ table tr td .avatar-list-staff {
   margin-right: 10px !important;
 }
 
+
+.margin-bottom-20 {
+  margin-bottom: 20px !important;
+}
+
 .square-100 {
   width: 100px !important;
   height: 100px !important;
@@ -360,6 +365,10 @@ $starInactive: #c4c5c6;
 
 .flex-space-between {
   justify-content: space-between;
+}
+
+.flex-space-around {
+  justify-content: space-around;
 }
 
 .position-relative {

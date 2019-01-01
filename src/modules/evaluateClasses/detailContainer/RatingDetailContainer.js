@@ -155,11 +155,11 @@ class RatingDetailContainer extends React.Component {
                             >
                                 {getShortName(data.teacher.name)}
                             </button>}
-                            {data.teaching_assistant &&
+                            {data.teacher_assistant &&
                             <button className="btn btn-xs btn-round"
-                                    style={{backgroundColor: "#" + data.teaching_assistant.color}}
+                                    style={{backgroundColor: "#" + data.teacher_assistant.color}}
                             >
-                                {getShortName(data.teaching_assistant.name)}
+                                {getShortName(data.teacher_assistant.name)}
                             </button>}
                         </p>
                         <br/>

@@ -39,3 +39,39 @@ export function loadCoursesApi() {
 
     return axios.get(url);
 }
+
+export function loadClassDetail(classId) {
+    let url = env.MANAGE_API_URL + `/class/${classId}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeacherDetailStudentRatingApi(genID = '', baseID = '', userID = '',class_id = '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teacher-detail-student-rating?gen_id=" + genID
+        + "&base_id=" + baseID
+        + "&class_id=" + class_id
+        + '&user_id=' + userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeachingAssistantDetailStudentRatingApi(genID = '', baseID = '', userID = '',class_id = '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teaching-assistant-detail-student-rating?gen_id=" + genID
+        + "&base_id=" + baseID
+        + "&class_id=" + class_id
+        + '&user_id=' + userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}

@@ -21,9 +21,9 @@ class AttendanceDetailContainer extends React.Component {
         const successColor = '#2EBE21';
         const failColor = '#c50000';
         const {data} = this.props;
-        const ratio_attendance = Math.round(data.attendance_success * 100 / data.attendance_count);
-
-        const attendanceColor = ratio_attendance >= RATIO_ATTENDANCE_CLASS ? successColor : failColor;
+        const raitoAttendance = Math.round(data.attendance_success * 100 / data.attendance_count);
+        const widthRaitoAttendance = Math.round(raitoAttendance / RATIO_ATTENDANCE_CLASS * 100);
+        const attendanceColor = raitoAttendance >= RATIO_ATTENDANCE_CLASS ? successColor : failColor;
         return (
             <div>
 
@@ -35,13 +35,13 @@ class AttendanceDetailContainer extends React.Component {
                             <div className="flex flex flex-space-between" style={{marginTop: 10}}>
                                 <div className="bold" style={{color: 'black'}}>Tổng thể</div>
                                 <div className="bold" style={{color: 'black'}}>
-                                    {`${Math.round(ratio_attendance)}%/${RATIO_ATTENDANCE_CLASS}%`}
+                                    {`${Math.round(raitoAttendance)}%/${RATIO_ATTENDANCE_CLASS}%`}
                                 </div>
                             </div>
                             <div className="progress">
                                 <div className="progress-bar"
                                      style={{
-                                         width: ratio_attendance + '%',
+                                         width: widthRaitoAttendance + '%',
                                          backgroundColor: attendanceColor
                                      }}/>
                             </div>
@@ -52,22 +52,23 @@ class AttendanceDetailContainer extends React.Component {
                         <div className="panel-body" style={{paddingLeft: 30}}>
                             {
                                 data.attendance.map((lesson, index) => {
-                                    const ratio =lesson.total ?  lesson.present * 100 / lesson.total : 0;
+                                    const raito =Math.round(data.real_register_count ?  lesson.present * 100 / data.real_register_count : 0);
+                                    const width =Math.round(raito / RATIO_ATTENDANCE_CLASS * 100);
                                     return (
                                         <div key={index}>
                                             <div className="flex flex flex-space-between"
                                                  style={{marginTop: 10}}>
                                                 <div
-                                                    className="bold">Buổi {index+1} - {lesson.present}/{lesson.total}</div>
+                                                    className="bold">Buổi {index+1} - {lesson.present}/{data.real_register_count}</div>
                                                 <div className="bold">
-                                                    {`${Math.round(ratio)}%/${RATIO_ATTENDANCE_CLASS}%`}
+                                                    {`${Math.round(raito)}%/${RATIO_ATTENDANCE_CLASS}%`}
                                                 </div>
                                             </div>
                                             <div className="progress">
                                                 <div className="progress-bar"
                                                      style={{
-                                                         width: ratio + '%',
-                                                         backgroundColor: ratio >= RATIO_ATTENDANCE_CLASS ? successColor : failColor
+                                                         width: width + '%',
+                                                         backgroundColor: raito >= RATIO_ATTENDANCE_CLASS ? successColor : failColor
                                                      }}/>
                                             </div>
                                         </div>
@@ -113,11 +114,11 @@ class AttendanceDetailContainer extends React.Component {
                             >
                                 {getShortName(data.teacher.name)}
                             </button>}
-                            {data.teaching_assistant &&
+                            {data.teacher_assistant &&
                             <button className="btn btn-xs btn-round"
-                                    style={{backgroundColor: "#" + data.teaching_assistant.color}}
+                                    style={{backgroundColor: "#" + data.teacher_assistant.color}}
                             >
-                                {getShortName(data.teaching_assistant.name)}
+                                {getShortName(data.teacher_assistant.name)}
                             </button>}
                         </p>
                         <br/>

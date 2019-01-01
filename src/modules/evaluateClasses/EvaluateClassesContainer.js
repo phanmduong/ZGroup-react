@@ -6,9 +6,11 @@ import {observer} from "mobx-react";
 import EvaluateClasses from "./EvaluateClasses";
 import {Modal} from "react-bootstrap";
 import AttendanceDetailContainer from "./detailContainer/AttendanceDetailContainer";
-import HomeworkDetailContainer from "./detailContainer/HomeworkDetailContainer";
-import RatingDetailContainer from "./detailContainer/RatingDetailContainer";
-
+import TopicDetailContainer from "./detailContainer/TopicDetailContainer";
+// import RatingDetailContainer from "./detailContainer/RatingDetailContainer";
+import TooltipButton from "../../components/common/TooltipButton";
+import ClassContainer from './detailContainer/ClassContainer';
+import StudentRatingContainer from "./StudentRating/StudentRatingContainer";
 
 @observer
 class EvaluateClassesContainer extends React.Component {
@@ -20,6 +22,7 @@ class EvaluateClassesContainer extends React.Component {
         store.loadGens();
         store.loadBases();
         store.loadCourses();
+        // store.loadClassDetail(1866);
     }
 
 
@@ -88,17 +91,83 @@ class EvaluateClassesContainer extends React.Component {
                             <Modal show={store.showModalHomework}
                                    onHide={() => {store.showModalHomework = false}}>
                                 <Modal.Body>
-                                    <HomeworkDetailContainer
+                                    <TopicDetailContainer
                                         data={store.homeworkDetail}
                                     />
+                                </Modal.Body>
+                            </Modal>
+                            {/*<Modal show={store.showModalRating}*/}
+                                   {/*onHide={() => {store.showModalRating = false}}>*/}
+                                {/*<Modal.Body>*/}
+                                    {/*<RatingDetailContainer*/}
+                                        {/*data={store.ratingDetail}*/}
+                                    {/*/>*/}
+                                {/*</Modal.Body>*/}
+                            {/*</Modal>*/}
+                            <Modal
+                                show={store.showModalDetailClass}
+                                onHide={() => {store.showModalDetailClass = false}}
+                                bsSize="large"
+                            >
+                                <Modal.Header closeButton>
+                                    <h3>
+                                        <strong>Thông tin lớp học {store.classSelected.name}</strong>
+                                    </h3>
+                                    <p>Lớp được tạo lúc <strong>
+                                        <small>{store.classSelected.created_at}</small>
+                                    </strong></p>
+                                    <div className="flex flex-wrap">
+                                        {
+                                            store.classSelected.teacher &&
+                                            <TooltipButton text="Giảng viên"
+                                                           placement="top"
+                                            >
+                                                <button className="btn btn-sm"
+                                                        style={{background: '#' + store.classSelected.teacher.color}}>
+                                                    {store.classSelected.teacher.name}
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </TooltipButton>
+                                        }
+                                        {
+                                            store.classSelected.teacher_assistant &&
+                                            <TooltipButton text="Trơ giảng"
+                                                           placement="top"
+                                            >
+                                                <button className="btn btn-sm"
+                                                        style={{background: '#' + store.classSelected.teacher_assistant.color}}>
+                                                    {store.classSelected.teacher_assistant.name}
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </TooltipButton>
+                                        }
+                                    </div>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {store.showModalDetailClass &&
+                                    <ClassContainer isLoadingClass={store.isLoadingClassDetail} class={store.classSelected}/>}
                                 </Modal.Body>
                             </Modal>
                             <Modal show={store.showModalRating}
                                    onHide={() => {store.showModalRating = false}}>
                                 <Modal.Body>
-                                    <RatingDetailContainer
-                                        data={store.ratingDetail}
-                                    />
+
+                                    {store.showModalRating && <StudentRatingContainer
+                                        gens={store.gens}
+                                        selectedTeaching={"teacher"}
+                                        selectedBaseId={store.selectedBaseId}
+                                        selectedGenId={store.selectedGenId}
+                                        info={store.ratingDetail}
+                                        user={store.ratingDetail.teacher}
+                                    />}
+                                    {store.showModalRating && <StudentRatingContainer
+                                        gens={store.gens}
+                                        selectedTeaching={""}
+                                        selectedBaseId={store.selectedBaseId}
+                                        selectedGenId={store.selectedGenId}
+                                        info={store.ratingDetail}
+                                        user={store.ratingDetail.teacher_assistant}
+                                    />}
                                 </Modal.Body>
                             </Modal>
                         </div>

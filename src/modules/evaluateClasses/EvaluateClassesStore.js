@@ -2,11 +2,12 @@ import {observable, action, computed} from "mobx";
 import {
     loadBasesApi,
     loadEvaluateClassesApi,
-    loadGensApi, loadCoursesApi
+    loadGensApi, loadCoursesApi,loadClassDetail
 } from "./evaluateClassesApi";
 
 export default new class evaluateTeachingStore {
     @observable selectedUser = {};
+    @observable selectedTc = {};
     @observable isLoadingGen = false;
     @observable isLoadingCourse = false;
     @observable gens = [];
@@ -17,9 +18,12 @@ export default new class evaluateTeachingStore {
     @observable selectedBaseId = 0;
     @observable selectedCourseId = 0;
     @observable isLoading = true;
+    @observable isLoadingClassDetail = true;
     @observable showModalAttendance = false;
     @observable showModalHomework = false;
     @observable showModalRating = false;
+    @observable showModalDetailClass = false;
+    @observable classSelected = {name: "", created_at:""};
     @observable data = [];
     @observable attendanceDetail = {};
     @observable homeworkDetail = {};
@@ -56,6 +60,20 @@ export default new class evaluateTeachingStore {
             this.courses = res.data.data.courses;
         }).finally(() => {
             this.isLoadingCourse = false;
+        });
+    }
+
+    @action
+    loadClassDetail(data) {
+
+        this.showModalDetailClass = true;
+        if(data.id == this.classSelected.id) return;
+        this.classSelected = data;
+        this.isLoadingClassDetail = true;
+        loadClassDetail(data.id).then((res) => {
+            this.classSelected = res.data.data.class;
+        }).finally(() => {
+            this.isLoadingClassDetail = false;
         });
     }
 

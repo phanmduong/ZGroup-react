@@ -36,7 +36,7 @@ class EvaluateClasses extends React.Component {
                         :
                         "Chưa có lượt đánh giá"
                     }
-                    {rated  > 0 &&<Star maxStar={5} value={raitoRate} onChange={()=>{}}/>}
+                    {rated  > 0 &&<Star maxStar={5} value={raitoRate} disable={true}/>}
                 </div>
             </OverlayTrigger>
         );
@@ -48,16 +48,18 @@ class EvaluateClasses extends React.Component {
         const realRaitoRegister = data.real_register_count * 100 / data.target;
         const raitoMoney = data.money * 100 / (data.target * data.course.price * RATIO_MONEY_REGISTER / 100);
         const raitoAttendance = Math.round(data.attendance_success * 100 / data.attendance_count);
-        const raitoHomework = Math.round(data.homework_success * 100 / data.attendance_count);
+        const raitoHomework = Math.round(data.homework_count * 100 / (data.real_register_count * (data.topic_count || 1)));
         const raitoGraduate = Math.round(data.graduate_success * 100 / data.real_register_count);
-        const raitoRate = Math.round(data.rate_sum / (data.rate_total));
+        const raitoRate = Math.round(data.rate_sum / (data.rate_total) * 10)/10;
+
+        const widthRaitoAttendance = Math.round(raitoAttendance / RATIO_ATTENDANCE_CLASS * 100);
+        const widthRaitoHomeWork = Math.round(raitoHomework / RATIO_ATTENDANCE_CLASS * 100);
 
 
         const attendanceColor = raitoAttendance >= RATIO_ATTENDANCE_CLASS ? successColor : failColor;
         const homeworkColor = raitoHomework >= RATIO_ATTENDANCE_CLASS ? successColor : failColor;
         const moneyColor = raitoMoney >= 100 ? successColor : failColor;
-        // const registerColor = data.register_count == data.target? successColor : failColor;
-
+        const openModalDeatil = ()=> this.props.store.loadClassDetail(data);
         return (
 
             <div key={key} className="col-md-3 col-sm-6" style={{marginTop: 40}}>
@@ -86,14 +88,14 @@ class EvaluateClasses extends React.Component {
                             >
                                 {getShortName(data.teacher.name)}
                             </button>}
-                            {data.teaching_assistant &&
+                            {data.teacher_assistant &&
                             <button className="btn btn-xs btn-round"
-                                    style={{backgroundColor: "#" + data.teaching_assistant.color}}
+                                    style={{backgroundColor: "#" + data.teacher_assistant.color}}
                             >
-                                {getShortName(data.teaching_assistant.name)}
+                                {getShortName(data.teacher_assistant.name)}
                             </button>}
                         </p>
-                        <div>
+                        <div onClick={openModalDeatil} className="cursor-pointer">
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ đăng kí</div>
                                 <div className="bold">
@@ -108,7 +110,7 @@ class EvaluateClasses extends React.Component {
                                      }}/>
                             </div>
                         </div>
-                        <div>
+                        <div onClick={openModalDeatil} className="cursor-pointer">
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ thực học</div>
                                 <div className="bold">
@@ -123,7 +125,7 @@ class EvaluateClasses extends React.Component {
                                      }}/>
                             </div>
                         </div>
-                        <div>
+                        <div onClick={openModalDeatil} className="cursor-pointer">
                             <div className="flex flex-space-between">
                                 <div>Tổng doanh thu</div>
                                 <div className="bold">
@@ -151,7 +153,7 @@ class EvaluateClasses extends React.Component {
                             <div className="progress">
                                 <div className="progress-bar"
                                      style={{
-                                         width: raitoAttendance + '%',
+                                         width: widthRaitoAttendance + '%',
                                          backgroundColor: attendanceColor
                                      }}/>
                             </div>
@@ -163,21 +165,18 @@ class EvaluateClasses extends React.Component {
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ làm bài tập</div>
                                 <div className="bold">
-                                    {`${raitoHomework}%`}
+                                    {`${raitoHomework}/${RATIO_ATTENDANCE_CLASS}%`}
                                 </div>
                             </div>
                             <div className="progress">
-
-
-
                                 <div className="progress-bar"
                                      style={{
-                                         width: raitoHomework + '%',
+                                         width: widthRaitoHomeWork + '%',
                                          backgroundColor: homeworkColor
                                      }}/>
                             </div>
                         </div>
-                        <div>
+                        <div onClick={openModalDeatil} className="cursor-pointer">
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ tốt nghiệp</div>
                                 <div className="bold">
@@ -207,7 +206,7 @@ class EvaluateClasses extends React.Component {
                         <div className="row">
                             {
                                 this.props.store.data.filter((data)=>{
-                                    return data.attendance_success  > 0 && (data.teacher || data.teaching_assistant);
+                                    return  data.attendance_success  > 0 && (data.teacher || data.teacher_assistant);
                                 }).map((item, key) => {
                                         return this.renderItem(item, key);
                                     }
