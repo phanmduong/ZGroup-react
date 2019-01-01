@@ -2,7 +2,7 @@ import axios from "axios";
 import * as env from "../../constants/env";
 
 export function loadLoginApi(login, tokenBrowser) {
-    let url = env.DOMAIN + "/login";
+    let url = env.MANAGE_API_URL + "/login";
     return axios.post(url, {
         email: login.email,
         password: login.password,
