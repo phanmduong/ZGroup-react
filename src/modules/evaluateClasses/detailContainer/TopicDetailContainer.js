@@ -21,7 +21,7 @@ class TopicDetailContainer extends React.Component {
         const successColor = '#2EBE21';
         const failColor = '#c50000';
         const warningColor = '#F9D616';
-        const grayColor = '#000000';
+        const grayColor = '#DDDDDD';
         const unchecked = data.submitted - data.rejected - data.accepted;
         const raito_hw = (data.submitted * 100 / real_register_count);
         const raito_hw_success = (data.accepted * 100 / real_register_count);
@@ -41,12 +41,13 @@ class TopicDetailContainer extends React.Component {
                                      background: 'url(' + validateLinkImage(data.avatar_url) + ') center center / cover',
                                      width: '100px',
                                      height: '60px',
+                                     borderRadius:5
                                  }}
                             />
                             <div className="flex flex-col flex-space-around" style={{marginLeft: 15}}>
                                 <div className="bold" style={{color: 'black', fontSize: 18}}>{data.title}</div>
                                 <div>
-                                    Tạo bởi <strong>{data.creator.name}</strong> ꔷ {data.created_at}
+                                    Tạo bởi <strong>{data.creator.name}</strong> - {data.created_at}
                                 </div>
                             </div>
                             <div className="progress">

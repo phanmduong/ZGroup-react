@@ -22,7 +22,7 @@ class AttendanceDetailContainer extends React.Component {
         const failColor = '#c50000';
         const {data} = this.props;
         const raitoAttendance = Math.round(data.attendance_success * 100 / data.attendance_count);
-        const widthRaitoAttendance = Math.round(raitoAttendance / RATIO_ATTENDANCE_CLASS * 100);
+        const widthRaitoAttendance = Math.round(raitoAttendance);
         const attendanceColor = raitoAttendance >= RATIO_ATTENDANCE_CLASS ? successColor : failColor;
         return (
             <div>
@@ -35,7 +35,7 @@ class AttendanceDetailContainer extends React.Component {
                             <div className="flex flex flex-space-between" style={{marginTop: 10}}>
                                 <div className="bold" style={{color: 'black'}}>Tổng thể</div>
                                 <div className="bold" style={{color: 'black'}}>
-                                    {`${Math.round(raitoAttendance)}%/${RATIO_ATTENDANCE_CLASS}%`}
+                                    {`${Math.round(raitoAttendance)}%/${100}%`}
                                 </div>
                             </div>
                             <div className="progress">
@@ -52,8 +52,9 @@ class AttendanceDetailContainer extends React.Component {
                         <div className="panel-body" style={{paddingLeft: 30}}>
                             {
                                 data.attendance.map((lesson, index) => {
+                                    if(!lesson) return (<div key={index}></div>);
                                     const raito =Math.round(data.real_register_count ?  lesson.present * 100 / data.real_register_count : 0);
-                                    const width =Math.round(raito / RATIO_ATTENDANCE_CLASS * 100);
+                                    const width =Math.round(raito );
                                     return (
                                         <div key={index}>
                                             <div className="flex flex flex-space-between"
@@ -61,7 +62,7 @@ class AttendanceDetailContainer extends React.Component {
                                                 <div
                                                     className="bold">Buổi {index+1} - {lesson.present}/{data.real_register_count}</div>
                                                 <div className="bold">
-                                                    {`${Math.round(raito)}%/${RATIO_ATTENDANCE_CLASS}%`}
+                                                    {`${Math.round(raito)}%/${100}%`}
                                                 </div>
                                             </div>
                                             <div className="progress">

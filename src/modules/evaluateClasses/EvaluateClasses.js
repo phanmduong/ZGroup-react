@@ -47,13 +47,13 @@ class EvaluateClasses extends React.Component {
         const raitoRegister = data.register_count * 100 / data.target;
         const realRaitoRegister = data.real_register_count * 100 / data.target;
         const raitoMoney = data.money * 100 / (data.target * data.course.price * RATIO_MONEY_REGISTER / 100);
-        const raitoAttendance = Math.round(data.attendance_success * 100 / data.attendance_count);
+        const raitoAttendance = Math.round(data.attendance_success * 100 / (data.attendance_count || 0));
         const raitoHomework = Math.round(data.homework_count * 100 / (data.real_register_count * (data.topic_count || 1)));
         const raitoGraduate = Math.round(data.graduate_success * 100 / data.real_register_count);
         const raitoRate = Math.round(data.rate_sum / (data.rate_total) * 10)/10;
 
-        const widthRaitoAttendance = Math.round(raitoAttendance / RATIO_ATTENDANCE_CLASS * 100);
-        const widthRaitoHomeWork = Math.round(raitoHomework / RATIO_ATTENDANCE_CLASS * 100);
+        const widthRaitoAttendance = Math.round(raitoAttendance );
+        const widthRaitoHomeWork = Math.round(raitoHomework );
 
 
         const attendanceColor = raitoAttendance >= RATIO_ATTENDANCE_CLASS ? successColor : failColor;
@@ -147,7 +147,7 @@ class EvaluateClasses extends React.Component {
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ tham gia lớp học</div>
                                 <div className="bold">
-                                    {`${raitoAttendance}/${RATIO_ATTENDANCE_CLASS}%`}
+                                    {`${raitoAttendance}%`}
                                 </div>
                             </div>
                             <div className="progress">
@@ -165,7 +165,7 @@ class EvaluateClasses extends React.Component {
                             <div className="flex flex-space-between">
                                 <div>Tỉ lệ làm bài tập</div>
                                 <div className="bold">
-                                    {`${raitoHomework}/${RATIO_ATTENDANCE_CLASS}%`}
+                                    {`${raitoHomework}%`}
                                 </div>
                             </div>
                             <div className="progress">
@@ -206,7 +206,7 @@ class EvaluateClasses extends React.Component {
                         <div className="row">
                             {
                                 this.props.store.data.filter((data)=>{
-                                    return  data.attendance_success  > 0 && (data.teacher || data.teacher_assistant);
+                                    return   (data.teacher || data.teacher_assistant);
                                 }).map((item, key) => {
                                         return this.renderItem(item, key);
                                     }
