@@ -4,7 +4,7 @@ import * as env from '../constants/env';
 import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
-import * as FILE_SAVER from 'file-saver';
+import * as  FILE_SAVER from 'file-saver';
 import {PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/constants';
 
 /*eslint no-console: 0 */
@@ -502,20 +502,9 @@ export function calculatorAttendanceShift(
         empty_arrive_span = before_shift_span / working_time * 100;
 
         early_arrive_span = 0;
-
         late_arrive_span = (check_in_time - start_shift_time) / working_time * 100;
 
         if (check_out_time >= end_time) {
-            shift_span = (end_shift_time - check_in_time) / working_time * 100;
-
-            early_leave_span = 0;
-
-            late_leave_span = after_shift_span / working_time * 100;
-
-            empty_leave_span = 0;
-        } else if (check_out_time >= end_shift_time) {
-            shift_span = (end_shift_time - check_in_time) / working_time * 100;
-
             early_leave_span = 0;
 
             late_leave_span = (check_out_time - end_shift_time) / working_time * 100;
@@ -524,28 +513,42 @@ export function calculatorAttendanceShift(
         } else {
             shift_span = (check_out_time - check_in_time) / working_time * 100;
 
-            early_leave_span = (end_shift_time - check_out_time) / working_time * 100;
+            late_arrive_span = (check_in_time - start_shift_time) / working_time * 100;
 
-            late_leave_span = 0;
+            if (check_out_time >= end_time) {
+                shift_span = (end_shift_time - check_in_time) / working_time * 100;
 
-            empty_leave_span = after_shift_span / working_time * 100;
+                early_leave_span = 0;
+
+                late_leave_span = after_shift_span / working_time * 100;
+
+                empty_leave_span = 0;
+            } else if (check_out_time >= end_shift_time) {
+                shift_span = (end_shift_time - check_in_time) / working_time * 100;
+
+                early_leave_span = (end_shift_time - check_out_time) / working_time * 100;
+
+                late_leave_span = 0;
+
+                empty_leave_span = after_shift_span / working_time * 100;
+            }
         }
+
+        let data = {
+            early_span,
+            late_span,
+            empty_arrive_span,
+            early_arrive_span,
+            shift_span,
+            late_arrive_span,
+            early_leave_span,
+            late_leave_span,
+            empty_leave_span
+        };
+        return data;
     }
 
-    let data = {
-        early_span,
-        late_span,
-        empty_arrive_span,
-        early_arrive_span,
-        shift_span,
-        late_arrive_span,
-        early_leave_span,
-        late_leave_span,
-        empty_leave_span
-    };
-    return data;
 }
-
 export function groupBy(collection, iteratee, props) {
     return _.chain(collection)
         .groupBy(iteratee)
