@@ -37,7 +37,7 @@ class Star extends React.Component {
             } else {
                 stars.push({
                     value: i,
-                    className: ""
+                    className: "rating-unchecked"
                 });
             }
         }

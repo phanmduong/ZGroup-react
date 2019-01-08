@@ -15,6 +15,8 @@ import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCal
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import TargetListContainer from '../modules/sales/TargetListContainer';
 import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
+import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
+
 
 /**
  * Tab Quản lý sales
@@ -114,5 +116,9 @@ export default [
                 component: CareContainer
             },
         ]
+    },
+    {
+        path: "/sales/evaluate",
+        component: EvaluateSalerContainer,
     },
 ];

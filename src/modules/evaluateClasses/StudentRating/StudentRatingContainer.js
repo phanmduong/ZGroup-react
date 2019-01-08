@@ -65,7 +65,7 @@ class StudentRatingContainer extends React.Component {
                                         this.store.commentsDictionary.map((comment) => {
                                             return (
                                                 <div
-                                                    className={"btn btn-round " + (comment.point == 1 ? "btn-success" : "btn-primary")}>
+                                                    className={"btn btn-round " + (comment.point == 1 ? "btn-success" : "btn-danger")}>
                                                     {comment.word} ({comment.frequency})
                                                 </div>
                                             )
@@ -124,6 +124,8 @@ class StudentRatingContainer extends React.Component {
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         )

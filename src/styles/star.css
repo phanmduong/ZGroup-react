@@ -24,6 +24,10 @@
     color: #F9D616;
 }
 
+.rating a.rating-unchecked {
+    color: #DDDDDD;
+}
+
 .rating-enable a:hover,
 .rating-enable a:hover ~ a,
 .rating-enable a:focus,
