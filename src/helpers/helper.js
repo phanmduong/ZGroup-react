@@ -580,7 +580,7 @@ export function iOS() {
 
 /* eslint-enable */
 
-export function initMaterial() {
+export function initMaterial() {2
     // init sidebar material
     /* eslint-disable */
 
