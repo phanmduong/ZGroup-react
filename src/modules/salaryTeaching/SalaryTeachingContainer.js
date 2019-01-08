@@ -5,6 +5,8 @@ import Select from '../../components/common/Select';
 import {observer} from "mobx-react";
 import SalaryTeaching from "./SalaryTeaching";
 import {dotNumber} from "../../helpers/helper";
+import AddSalaryBonus from "./AddSalaryBonus";
+import DetailSalaryBonus from "./DetailSalaryBonus";
 
 @observer
 class SalaryTeachingContainer extends React.Component {
@@ -26,6 +28,21 @@ class SalaryTeachingContainer extends React.Component {
     onChangeBase(value) {
         store.selectedBaseId = value;
         store.loadSalaryTeaching();
+    }
+
+    openModalAddSalaryBonus = (teachingSalaryId) => {
+        store.salaryBonus = {
+            teachingSalaryId,
+            amount: 0,
+            note: ''
+        };
+        store.openModalAddSalaryBonus = true;
+    };
+
+    openModalDetailSalaryBonus = (teachingSalaryId) => {
+        console.log(teachingSalaryId);
+        store.openModalDetailSalaryBonus = true;
+        store.getDetailSalaryBonus(teachingSalaryId);
     }
 
     render() {
@@ -55,15 +72,26 @@ class SalaryTeachingContainer extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-4">
-                                    <div className="btn btn-success btn-round" style={{width: '100%'}}>
-                                        <div className="flex flex-row flex-space-between" style={{width: '100%'}}>
-                                            <div>DUYỆT CHI</div>
-                                            <div className="bold">{dotNumber(store.totalSalary)}đ</div>
+                                    {
+                                        !store.isLoading &&
+                                        <div
+                                            className={"btn btn-success btn-round " + (store.selectedBaseId == 0 ? "" : "disabled")}
+                                            style={{width: '100%'}}>
+                                            <div className="flex flex-row flex-space-between" style={{width: '100%'}}>
+                                                <div>DUYỆT CHI</div>
+                                                <div className="bold">{dotNumber(store.totalSalary)}đ</div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+
                                 </div>
                             </div>
-                            <SalaryTeaching store={store}/>
+                            <SalaryTeaching store={store}
+                                            openModalAddSalaryBonus={this.openModalAddSalaryBonus}
+                                            openModalDetailSalaryBonus={this.openModalDetailSalaryBonus}
+                            />
+                            <AddSalaryBonus store={store}/>
+                            <DetailSalaryBonus store={store}/>
                         </div>
                     </div>
                 }

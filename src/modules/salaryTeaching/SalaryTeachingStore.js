@@ -1,5 +1,6 @@
 import {observable, action, computed} from "mobx";
 import {
+    addBonusSalaryApi, getDetailSalaryBonusApi,
     loadBasesApi,
     loadGensApi, loadSalaryApi
 } from "./salaryTeachingApi";
@@ -14,7 +15,17 @@ export default new class salaryTeachingStore {
     @observable selectedGenId = 0;
     @observable selectedBaseId = 0;
     @observable isLoading = true;
+    @observable openModalAddSalaryBonus = false;
+    @observable openModalDetailSalaryBonus = false;
+    @observable isAddingSalaryBonus = false;
+    @observable isLoadingDetailSalaryBonus = false;
     @observable data = {};
+    @observable salaryBonus = {
+        teachingSalaryId: 0,
+        amount: 0,
+        note: ''
+    };
+    @observable detailSalaryBonus = [];
 
 
     @action
@@ -50,17 +61,59 @@ export default new class salaryTeachingStore {
         });
     }
 
+    @action
+    submitAddSalaryBonus() {
+        this.isAddingSalaryBonus = true;
+        addBonusSalaryApi(this.salaryBonus.teachingSalaryId, this.salaryBonus.amount, this.salaryBonus.note).then((res) => {
+            this.openModalAddSalaryBonus = false;
+            const teachers = this.data.teachers.map((item) => {
+                if (item.teaching_salary_id == res.data.data.bonus.teaching_salary_id) {
+                    return {
+                        ...item,
+                        bonus: res.data.data.total_bonus
+                    }
+                }
+                return item;
+            });
+            const teaching_assistant = this.data.teaching_assistant.map((item) => {
+                if (item.teaching_salary_id == res.data.data.bonus.teaching_salary_id) {
+                    return {
+                        ...item,
+                        bonus: res.data.data.total_bonus
+                    }
+                }
+                return item;
+            });
+            this.data = {
+                ...this.data,
+                teachers,
+                teaching_assistant
+            }
+
+        }).finally(() => {
+            this.isAddingSalaryBonus = false;
+        });
+    }
+
+    @action
+    getDetailSalaryBonus = (teachingSalaryId) => {
+        this.isLoadingDetailSalaryBonus = true;
+        getDetailSalaryBonusApi(teachingSalaryId).then((res) => {
+            this.detailSalaryBonus = res.data.data.salary_bonuses;
+        }).finally(() => {
+            this.isLoadingDetailSalaryBonus = false;
+        })
+    };
+
+
     @computed
     get totalSalary() {
         let total = 0;
         this.getData.map((data) => {
             const level = data.user.salary_level ? data.user.salary_level : {};
-            const total_salary = level.teacher_salary * data.total_attendance_teacher
-                + level.ta_salary * data.total_attendance_ta;
-            if (total_salary > 0 && !isNaN(total_salary)) {
-                total += total_salary;
-            }
-
+            const total_salary = (level.teacher_salary * data.total_attendance_teacher || 0)
+                + (level.ta_salary * data.total_attendance_ta || 0) + data.user.salary + (data.bonus || 0);
+            total += total_salary;
         });
 
         return total;
@@ -72,9 +125,20 @@ export default new class salaryTeachingStore {
             return null;
         }
         let data = this.data;
-        return _.map(data.teachers, function (item) {
+        let result = _.map(data.teachers, function (item) {
             return _.merge(item, data.teaching_assistant.filter(itemData => itemData.user.id == item.user.id)[0]);
         });
+        _.forEach(data.teaching_assistant, function (item) {
+            let findTeachingAssistant = result.filter(itemData => itemData.user.id == item.user.id)[0];
+            if (findTeachingAssistant == undefined) {
+                result = [...result, item];
+            }
+
+        });
+
+        console.log(result);
+        return result;
+
     }
 
     @computed
@@ -102,5 +166,9 @@ export default new class salaryTeachingStore {
             },
             ...baseData
         ];
+    }
+
+    @computed get totalBonus() {
+        return _.sumBy(this.detailSalaryBonus, "amount");
     }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import Loading from "../../components/common/Loading";
 import {observer} from "mobx-react";
 import {dotNumber, formatPhone, validateLinkImage} from "../../helpers/helper";
+import TooltipButton from "../../components/common/TooltipButton";
 
 @observer
 class SalaryTeaching extends React.Component {
@@ -15,8 +16,9 @@ class SalaryTeaching extends React.Component {
 
     renderItem = (data) => {
         const level = data.user.salary_level ? data.user.salary_level : {};
-        const total_salary = level.teacher_salary * data.total_attendance_teacher
-            + level.ta_salary * data.total_attendance_ta;
+        const total_salary = (level.teacher_salary * data.total_attendance_teacher || 0)
+            + (level.ta_salary * data.total_attendance_ta || 0) + data.user.salary + (data.bonus || 0);
+        console.log(total_salary);
         return (
             <div className="card">
                 <div className="card-content">
@@ -43,7 +45,7 @@ class SalaryTeaching extends React.Component {
                                     <div className="card-footer" style={{margin: 0, marginTop: 23}}>
                                         <div className="flex flex-row flex-space-between">
                                             <div className="bold">Lương cứng</div>
-                                            <div>0đ</div>
+                                            <div>{dotNumber(data.user.salary)}đ</div>
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +120,7 @@ class SalaryTeaching extends React.Component {
                             </div>
                             <div className="flex flex flex-space-between">
                                 <div className="bold">Lương cứng</div>
-                                <div>0đ</div>
+                                <div>{dotNumber(data.user.salary)}đ</div>
                             </div>
                             <div className="flex flex flex-space-between">
                                 <div className="bold">Lương giảng viên</div>
@@ -129,8 +131,22 @@ class SalaryTeaching extends React.Component {
                                 <div>{dotNumber(level.ta_salary * data.total_attendance_ta)}đ</div>
                             </div>
                             <div className="flex flex flex-space-between">
-                                <div className="bold">Lương thưởng</div>
-                                <div>0đ</div>
+                                <div className="bold">Lương thưởng
+                                    {
+                                        data.teaching_salary_id &&
+                                        <TooltipButton text="Thêm thưởng" placement="top">
+                                            <button className="btn btn-rose btn-round btn-xs button-add none-margin"
+                                                    type="button" data-toggle="dropdown"
+                                                    onClick={() => this.props.openModalAddSalaryBonus(data.teaching_salary_id)}
+                                            >
+                                                <strong>+</strong>
+                                            </button>
+                                        </TooltipButton>
+                                    }
+                                </div>
+                                <div className="bold cursor-pointer"
+                                     onClick={() => this.props.openModalDetailSalaryBonus(data.teaching_salary_id)}>{dotNumber(data.bonus)}đ
+                                </div>
                             </div>
 
                             <div className="card-footer" style={{margin: 0, marginTop: 3}}>

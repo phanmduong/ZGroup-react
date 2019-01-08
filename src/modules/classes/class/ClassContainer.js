@@ -350,6 +350,10 @@ class ClassContainer extends React.Component {
         });
     }
 
+    componentDidMount() {
+        helper.setFormValidation('#add-checkin-checkout');
+    }
+
 
     render() {
         this.path = this.props.location.pathname;
@@ -996,9 +1000,11 @@ class ClassContainer extends React.Component {
                         <h4 className="modal-title">Thêm checkin - checkout</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                        }}>
+                        <form
+                            id="add-checkin-checkout"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                            }}>
                             <TimePicker
                                 label="Chọn thời gian"
                                 value={this.state.attendance.start_time}
@@ -1027,9 +1033,11 @@ class ClassContainer extends React.Component {
     }
 
     saveCheckinCheckout = () => {
-        this.props.classActions.addCheckinCheckout(this.state.attendance.type, this.state.attendance.typeUser,
-            this.state.attendance.userId, this.state.attendance.classLessonId, this.state.attendance.time,
-            this.state.attendance.comment, this.addCheckinCheckoutSuccess);
+        if ($('#add-checkin-checkout').valid()) {
+            this.props.classActions.addCheckinCheckout(this.state.attendance.type, this.state.attendance.typeUser,
+                this.state.attendance.userId, this.state.attendance.classLessonId, this.state.attendance.time,
+                this.state.attendance.comment, this.addCheckinCheckoutSuccess);
+        }
     }
 
     addCheckinCheckoutSuccess = () => {
