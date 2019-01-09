@@ -75,7 +75,7 @@ class EvaluateSalers extends React.Component {
                         </div>
                         <div className="cursor-pointer">
                             <div className="flex flex flex-space-between">
-                                <div>Doanh thu chỉ tiêu</div>
+                                <div>DT chỉ tiêu</div>
                                 <div className="bold">
                                     {`${convertDotMoneyToK(dotStringNumber(data.sum_paid_personal))}/${convertDotMoneyToK(dotStringNumber(data.kpi))}`}
                                 </div>
