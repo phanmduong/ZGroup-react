@@ -534,21 +534,21 @@ export function calculatorAttendanceShift(
             }
         }
 
-        let data = {
-            early_span,
-            late_span,
-            empty_arrive_span,
-            early_arrive_span,
-            shift_span,
-            late_arrive_span,
-            early_leave_span,
-            late_leave_span,
-            empty_leave_span
-        };
-        return data;
     }
-
+    let data = {
+        early_span,
+        late_span,
+        empty_arrive_span,
+        early_arrive_span,
+        shift_span,
+        late_arrive_span,
+        early_leave_span,
+        late_leave_span,
+        empty_leave_span
+    };
+    return data;
 }
+
 export function groupBy(collection, iteratee, props) {
     return _.chain(collection)
         .groupBy(iteratee)
@@ -580,7 +580,8 @@ export function iOS() {
 
 /* eslint-enable */
 
-export function initMaterial() {2
+export function initMaterial() {
+    2
     // init sidebar material
     /* eslint-disable */
 
