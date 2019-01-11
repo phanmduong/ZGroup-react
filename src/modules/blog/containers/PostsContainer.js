@@ -49,7 +49,7 @@ class BlogsContainer extends React.Component {
 
     componentWillMount() {
         this.props.blogActions.loadCategories();
-        this.props.blogActions.loadLanguages();
+        // this.props.blogActions.loadLanguages();
         this.loadPosts(1);
     }
 

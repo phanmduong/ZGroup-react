@@ -1,9 +1,10 @@
-import { observable, computed, action } from "mobx";
+import {observable, computed, action} from "mobx";
 import * as blogApi from "../apis/blogApi";
 import {
     htmlToValue,
     plainToValue
 } from "../../../components/common/editor/editorHelpers";
+
 export default new class BlogEditorStore {
     @observable
     post = {
@@ -34,9 +35,10 @@ export default new class BlogEditorStore {
     loadPostDetail = async postId => {
         this.isLoading = true;
         const res = await blogApi.getPostApi(postId);
-        const { post } = res.data;
+        const {post} = res.data.data;
         this.isLoading = false;
         this.post = {
+            ...this.post,
             ...post,
             description: plainToValue(post.description),
             meta_title: plainToValue(post.meta_title),
@@ -61,6 +63,10 @@ export default new class BlogEditorStore {
         const res = await blogApi.loadCategoriesApi();
         if (res.data.status) {
             this.categories = res.data.data.categories;
+            this.post = {
+                ...this.post,
+                categories: this.categories
+            };
         }
     };
 
