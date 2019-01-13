@@ -206,6 +206,37 @@ table tr td .avatar-list-staff {
   height: 18px;
 }
 
+
+.double-avatar{
+  width: 40px;
+  height: 40px;
+  margin-left: -5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+svg:not(:root) {
+  overflow: visible;
+}
+
+.breaker{
+  word-break: break-word;
+  white-space: initial;
+}
+
+.width-5-percent{
+  width: 5%;
+}
+
+.max-width-100{
+  max-width: 100px;
+}
+
+.width-10-percent{
+  width: 10%;
+}
+
+
 .container-call-status {
   display: flex;
   align-items: center;
@@ -237,6 +268,9 @@ table tr td .avatar-list-staff {
   margin-right: 10px !important;
 }
 
+.margin-right-20 {
+  margin-right: 20px !important;
+}
 
 .margin-bottom-20 {
   margin-bottom: 20px !important;

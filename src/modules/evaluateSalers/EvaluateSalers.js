@@ -20,6 +20,11 @@ class EvaluateSalers extends React.Component {
 
     }
 
+    openModalDetail= (data) => {
+        this.props.store.selectedUser = data;
+        this.props.store.showModalDetail = true;
+    }
+
     renderItem = (data,index) => {
         let startGen = this.getStartGen(data);
         const raitoPaid = data.register_paid / data.register_total * 100;
@@ -34,9 +39,9 @@ class EvaluateSalers extends React.Component {
         return (
 
             <div className="col-md-3 col-sm-6" style={{marginTop: 40}} key={index}>
-                <div className="card card-profile">
+                <div className="card card-profile" onClick={()=>this.openModalDetail(data.user)}>
                     <div className="card-avatar">
-                        <a className="content-avatar" href={"/teaching/evaluate-personal/"}
+                        <div className="content-avatar"
                            target="_blank">
                             <div className="img"
                                  style={{
@@ -45,7 +50,7 @@ class EvaluateSalers extends React.Component {
                                      height: '130px'
                                  }}
                             />
-                        </a>
+                        </div>
                     </div>
                     <div className="card-content">
                         <a href={"#"}>

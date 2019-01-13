@@ -44,7 +44,7 @@ class Barchart extends React.Component {
 
     render() {
         return (
-            <div id={this.props.id} className="ct-chart"/>
+            <div id={this.props.id} className="ct-chart" style={this.props.style}/>
         );
     }
 }
@@ -52,6 +52,7 @@ class Barchart extends React.Component {
 Barchart.propTypes = {
     id: PropTypes.string,
     label: PropTypes.array,
+    style: PropTypes.object,
     data: PropTypes.array,
 };
 

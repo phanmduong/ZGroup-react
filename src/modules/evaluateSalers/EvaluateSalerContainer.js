@@ -5,6 +5,8 @@ import Select from '../../components/common/Select';
 import {observer} from "mobx-react";
 import EvaluateSalers from "./EvaluateSalers";
 import {Modal} from "react-bootstrap";
+import EvaluateSalerDetailContainer from "./detail/EvaluateSalerDetailContainer";
+
 @observer
 class EvaluateSalerContainer extends React.Component {
     constructor(props, context) {
@@ -26,6 +28,7 @@ class EvaluateSalerContainer extends React.Component {
         store.selectedBaseId = value;
         store.loadEvaluate();
     }
+
 
 
     render() {
@@ -55,11 +58,20 @@ class EvaluateSalerContainer extends React.Component {
                                     />
                                 </div>
                             </div>
-                            <EvaluateSalers store={store}/>
-                            <Modal show={false}
-                                // bsSize="small"
-                                   onHide={() => {}}>
+                            <EvaluateSalers
+                                store={store}
+                            />
+                            <Modal show={store.showModalDetail}
+                                bsSize="large"
+                                   onHide={() => {
+                                       store.showModalDetail = false;
+                                   }}>
                                 <Modal.Body>
+                                    {store.showModalDetail && <EvaluateSalerDetailContainer
+                                        gens={store.gens}
+                                        selectedGenId={store.selectedGenId}
+                                        user={store.selectedUser}
+                                    />}
                                 </Modal.Body>
                             </Modal>
                         </div>

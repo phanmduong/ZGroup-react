@@ -22,6 +22,16 @@ export function loadEvaluateSalersApi(genID = '', baseID = '') {
 }
 
 
+export function loadEvaluateSalerDetailApi(genID = '',  salerID = '') {
+    let url = env.MANAGE_API_URL + "/sales/evaluate-detail?gen_id=" + genID +  "&saler_id=" + salerID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function loadBasesApi() {
     let url = env.MANAGE_API_URL + "/base/all";
     let token = localStorage.getItem('token');

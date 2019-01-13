@@ -15,6 +15,7 @@ export default new class evaluateTeachingStore {
     @observable selectedGenId = 0;
     @observable selectedBaseId = 0;
     @observable isLoading = true;
+    @observable showModalDetail = false;
     @observable data = [];
 
 
