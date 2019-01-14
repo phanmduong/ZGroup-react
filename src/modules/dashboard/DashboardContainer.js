@@ -42,6 +42,8 @@ class DashboardContainer extends React.Component {
         this.loadAttendanceShift = this.loadAttendanceShift.bind(this);
         this.loadAttendanceClass = this.loadAttendanceClass.bind(this);
         this.updateFormFilter = this.updateFormFilter.bind(this);
+        let relevants = ['A013a1','A013a1'];
+        console.log(this.getRelevants(this.question, relevants));
     }
 
     componentWillMount() {
@@ -62,6 +64,135 @@ class DashboardContainer extends React.Component {
             });
         }
     }
+
+    getRelevants(questions, relevantIds) {
+        let relevants = [];
+        relevantIds.forEach(relevantId => {
+            const question = questions.filter(question => (question.id == relevantId))[0];
+            if (question) {
+                const relevant = relevants.filter(relevant => (relevant.id == question.id))[0];
+                if (relevant == undefined) {
+                    relevants = [...relevants, question];
+                }
+            }
+        })
+
+        return relevants;
+    }
+
+    question = [
+        {
+            id: 'A013',
+            type: 'checkbox',
+            question: 'Ông/bà thường nhận tin tức từ những nguồn nào?',
+            relevant_quest: [],
+            answers: [
+                {
+                    answer: 'Tivi',
+                    code: 0,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Báo chí',
+                    code: 1,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Loa/đài',
+                    code: 2,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Internet',
+                    code: 3,
+                    relevant_id: ['A013a2'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Người quen/bạn bè',
+                    code: 4,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Hội họp',
+                    code: 5,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Khác(xin nêu rõ)',
+                    code: 6,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: true,
+                },
+                {
+                    answer: 'Mạng xã hội',
+                    code: 7,
+                    relevant_id: ['A013a2'],
+                    isDifferentAnwer: false,
+                },
+            ],
+            show: true,
+        },
+        {
+            id: 'A013a1',
+            type: 'checkbox',
+            question: 'Ông/bà thường nhận tin tức từ những nguồn nào?',
+            relevant_quest: [],
+            answers: [
+                {
+                    answer: 'Tivi',
+                    code: 0,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Báo chí',
+                    code: 1,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Loa/đài',
+                    code: 2,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+            ],
+            show: false,
+        },
+        {
+            id: 'A013a2',
+            type: 'checkbox',
+            question: 'Ông/bà dsadsas?',
+            relevant_quest: [],
+            answers: [
+                {
+                    answer: 'Tivi',
+                    code: 0,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Báo chí',
+                    code: 1,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+                {
+                    answer: 'Loa/đài',
+                    code: 2,
+                    relevant_id: ['A013a1'],
+                    isDifferentAnwer: false,
+                },
+            ],
+            show: false,
+        },
+    ]
 
     getGens(gens) {
         return gens.map(function (gen) {
@@ -184,7 +315,7 @@ class DashboardContainer extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-2">
-                                    <button className="btn btn-info btn-rose btn-round" 
+                                    <button className="btn btn-info btn-rose btn-round"
                                             style={{width: "100%"}}
                                             onClick={() => this.setState({openFilter: !this.state.openFilter})}>
                                         <i className="material-icons">filter_list</i>
@@ -197,12 +328,12 @@ class DashboardContainer extends React.Component {
                                     <div className="col-md-12">
                                         <div className="card">
                                             <div className="card-content">
-                                                <div className="tab-content">    
+                                                <div className="tab-content">
                                                     <h4 className="card-title">
                                                         <strong>Bộ lọc</strong>
                                                     </h4>
                                                     <br/>
-                                                </div>        
+                                                </div>
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <FormInputDate

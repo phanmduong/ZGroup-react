@@ -5,20 +5,18 @@ import {dotNumber, formatPhone, validateLinkImage} from "../../helpers/helper";
 import TooltipButton from "../../components/common/TooltipButton";
 
 @observer
-class SalaryTeaching extends React.Component {
+class SalarySales extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
 
     componentWillMount() {
-        this.props.store.loadSalaryTeaching();
+        this.props.store.loadSalarySales();
     }
 
     renderItem = (data) => {
-        const level = data.user.salary_level ? data.user.salary_level : {};
-        const total_salary = (level.teacher_salary * data.total_attendance_teacher || 0)
-            + (level.ta_salary * data.total_attendance_ta || 0) + data.user.salary + (data.bonus || 0);
-        console.log(total_salary);
+        const total_salary = (parseInt(data.sale_salary.salary_normal_register) || 0)
+            + (parseInt(data.sale_salary.salary_gd_register) || 0) + data.user.salary + (data.bonus || 0);
         return (
             <div className="card">
                 <div className="card-content">
@@ -41,11 +39,7 @@ class SalaryTeaching extends React.Component {
                                         <div className="category">
                                             {formatPhone(data.user.phone)}
                                         </div>
-                                        <button className="btn btn-xs btn-round btn-success"
-                                        >
-                                            Bậc {level.level}
-                                        </button>
-                                        <div className="card-footer" style={{margin: 0, marginTop: 23}}>
+                                        <div className="card-footer" style={{margin: 0, marginTop: 66}}>
                                             <div className="flex flex-row flex-space-between">
                                                 <div className="bold">Lương cứng</div>
                                                 <div>{dotNumber(data.user.salary)}đ</div>
@@ -58,61 +52,82 @@ class SalaryTeaching extends React.Component {
                         </div>
                         <div className="col-sm-3">
                             <div className="bold">
-                                Số buổi giảng viên
+                                Số đơn thường
                             </div>
                             <div className="flex flex flex-space-between">
-                                <div>{data.total_attendance_teacher}/{data.total_lesson_teacher}</div>
+                                <div>{data.total_paid_normal_registers}/{data.total_normal_registers}</div>
                                 <div className="bold">Xem chi tiết</div>
                             </div>
                             <div className="progress">
                                 <div className="progress-bar"
                                      style={{
-                                         width: data.total_attendance_teacher * 100 / data.total_lesson_teacher + '%',
+                                         width: data.total_paid_normal_registers * 100 / data.total_normal_registers + '%',
                                          backgroundColor: '#2EBE21'
                                      }}/>
                             </div>
                             <br/>
                             <div>
                                 <div className="flex flex flex-space-between">
-                                    <div>{data.total_attendance_teacher}</div>
-                                    <div>x{dotNumber(level.teacher_salary)}đ</div>
+                                    <div>{data.total_paid_normal_registers}</div>
+                                    {data.sale_salary.salary_normal_register > 0 ?
+                                        <TooltipButton text={data.sale_salary.note_normal_register} placement="top">
+                                            <div
+                                                className="bold">{dotNumber(data.sale_salary.salary_normal_register)}đ
+                                            </div>
+                                        </TooltipButton>
+                                        :
+                                        <div className="bold cursor-pointer"
+                                             onClick={() => this.props.openModalAddSalary(data.sale_salary.id, 'normal')}
+                                        >Nhập lương</div>
+                                    }
+
                                 </div>
                             </div>
                             <div className="card-footer" style={{margin: 0}}>
                                 <div className="flex flex flex-space-between">
                                     <div>+</div>
                                     <div
-                                        className="bold">{dotNumber(level.teacher_salary * data.total_attendance_teacher)}đ
+                                        className="bold">{dotNumber(data.sale_salary.salary_normal_register)}đ
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-sm-3">
                             <div className="bold">
-                                Số buổi trợ giảng
+                                Số buổi GD
                             </div>
                             <div className="flex flex flex-space-between">
-                                <div>{data.total_attendance_ta}/{data.total_lesson_ta}</div>
+                                <div>{data.total_paid_gd_registers}/{data.total_gd_registers}</div>
                                 <div className="bold">Xem chi tiết</div>
                             </div>
                             <div className="progress">
                                 <div className="progress-bar"
                                      style={{
-                                         width: data.total_attendance_ta * 100 / data.total_lesson_ta + '%',
+                                         width: data.total_paid_gd_registers * 100 / data.total_gd_registers + '%',
                                          backgroundColor: '#2EBE21'
                                      }}/>
                             </div>
                             <br/>
                             <div>
                                 <div className="flex flex flex-space-between">
-                                    <div>{data.total_attendance_ta}</div>
-                                    <div>x{dotNumber(level.ta_salary)}đ</div>
+                                    <div>{data.total_paid_gd_registers}</div>
+                                    {data.sale_salary.salary_gd_register > 0 ?
+                                        <TooltipButton text={data.sale_salary.note_gd_register} placement="top">
+                                            <div
+                                                className="bold">{dotNumber(data.sale_salary.salary_gd_register)}đ
+                                            </div>
+                                        </TooltipButton>
+                                        :
+                                        <div className="bold cursor-pointer"
+                                             onClick={() => this.props.openModalAddSalary(data.sale_salary.id, 'gd')}
+                                        >Nhập lương</div>
+                                    }
                                 </div>
                                 <div className="card-footer" style={{margin: 0}}>
                                     <div className="flex flex flex-space-between">
                                         <div>+</div>
                                         <div
-                                            className="bold">{dotNumber(level.ta_salary * data.total_attendance_ta)}đ
+                                            className="bold">{dotNumber(data.sale_salary.salary_gd_register)}đ
                                         </div>
                                     </div>
                                 </div>
@@ -127,21 +142,21 @@ class SalaryTeaching extends React.Component {
                                 <div>{dotNumber(data.user.salary)}đ</div>
                             </div>
                             <div className="flex flex flex-space-between">
-                                <div className="bold">Lương giảng viên</div>
-                                <div>{dotNumber(level.teacher_salary * data.total_attendance_teacher)}đ</div>
+                                <div className="bold">Lương đơn thường</div>
+                                <div>{dotNumber(data.sale_salary.salary_normal_register)}đ</div>
                             </div>
                             <div className="flex flex flex-space-between">
-                                <div className="bold">Lương trợ giảng</div>
-                                <div>{dotNumber(level.ta_salary * data.total_attendance_ta)}đ</div>
+                                <div className="bold">Lương đơn GD</div>
+                                <div>{dotNumber(data.sale_salary.salary_gd_register)}đ</div>
                             </div>
                             <div className="flex flex flex-space-between">
                                 <div className="bold">Lương thưởng
                                     {
-                                        data.teaching_salary_id &&
+                                        data.sale_salary &&
                                         <TooltipButton text="Thêm thưởng" placement="top">
                                             <button className="btn btn-rose btn-round btn-xs button-add none-margin"
                                                     type="button" data-toggle="dropdown"
-                                                    onClick={() => this.props.openModalAddSalaryBonus(data.teaching_salary_id)}
+                                                    onClick={() => this.props.openModalAddSalaryBonus(data.sale_salary.id)}
                                             >
                                                 <strong>+</strong>
                                             </button>
@@ -149,7 +164,7 @@ class SalaryTeaching extends React.Component {
                                     }
                                 </div>
                                 <div className="bold cursor-pointer"
-                                     onClick={() => this.props.openModalDetailSalaryBonus(data.teaching_salary_id)}>{dotNumber(data.bonus)}đ
+                                     onClick={() => this.props.openModalDetailSalaryBonus(data.sale_salary.id)}>{dotNumber(data.bonus)}đ
                                 </div>
                             </div>
 
@@ -193,9 +208,9 @@ class SalaryTeaching extends React.Component {
     }
 }
 
-SalaryTeaching.propTypes = {};
+SalarySales.propTypes = {};
 
-export default SalaryTeaching;
+export default SalarySales;
 
 // Có 2 trường start_time và start_time_form để chỉ tgian bắt đầu nhưng do thư viện moment nên start_time ko có end_time (end_time
 // tự tính trong apis)

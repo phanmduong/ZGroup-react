@@ -67,7 +67,7 @@ export function addBonusSalaryApi(teachingSalaryId, amount, note) {
 }
 
 export function getDetailSalaryBonusApi(teachingSalaryId) {
-    let url = env.MANAGE_API_URL + "/finance/detail-salary-bonus/" + teachingSalaryId;
+    let url = env.MANAGE_API_URL + "/finance/detail-teaching-salary-bonus/" + teachingSalaryId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
