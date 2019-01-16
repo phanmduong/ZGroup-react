@@ -18,8 +18,15 @@ class EvaluateSalerContainer extends React.Component {
     componentWillMount() {
         store.loadGens();
         store.loadBases();
+
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.salerId != nextProps.params.salerId){
+            store.salerId = nextProps.params.salerId;
+            store.loadEvaluate();
+        }
+    }
 
     onChangeGen(value) {
         store.selectedGenId = value;
@@ -31,12 +38,6 @@ class EvaluateSalerContainer extends React.Component {
         store.loadEvaluate();
     }
 
-    openModalTest= () => {
-        let data = store.data[0];
-        store.selectedUser = data.user;
-        store.selectedData = data;
-        store.showModalShift = true;
-    }
 
     render() {
         return (
@@ -47,6 +48,7 @@ class EvaluateSalerContainer extends React.Component {
                     <div>
 
                         <div>
+                            {!this.props.params.salerId &&
                             <div className="row">
                                 <div className="col-sm-3 col-xs-3">
                                     <Select
@@ -64,13 +66,15 @@ class EvaluateSalerContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
-                                <div className="btn btn-round" onClick={this.openModalTest}> TEEST</div>
+
                             </div>
+                            }
                             <EvaluateSalers
                                 store={store}
+                                params={this.props.params}
                             />
                             <Modal show={store.showModalDetail}
-                                bsSize="large"
+                                   bsSize="large"
                                    onHide={() => {
                                        store.showModalDetail = false;
                                    }}>
@@ -108,6 +112,3 @@ class EvaluateSalerContainer extends React.Component {
 EvaluateSalerContainer.propTypes = {};
 
 export default EvaluateSalerContainer;
-
-// Có 2 trường start_time và start_time_form để chỉ tgian bắt đầu nhưng do thư viện moment nên start_time ko có end_time (end_time
-// tự tính trong apis)

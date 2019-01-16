@@ -2,6 +2,7 @@ import {observable, action, computed} from "mobx";
 import {
     loadBasesApi,
     loadEvaluateSalersApi,
+    loadEvaluateSalerByGensApi,
     loadGensApi
 } from "./evaluateSalerApi";
 import * as helper from "../../helpers/helper";
@@ -22,6 +23,7 @@ export default new class evaluateTeachingStore {
     @observable showModalShift = false;
     @observable shift_type = "shifts";
     @observable data = [];
+    @observable salerId = null;
 
 
     @action
@@ -50,16 +52,27 @@ export default new class evaluateTeachingStore {
     @action
     loadEvaluate() {
         this.isLoading = true;
-        loadEvaluateSalersApi(this.selectedGenId, this.selectedBaseId).then((res) => {
-            this.data = res.data.data.salers.map((obj)=>{
-                return this.attendanceData(obj);
+        console.log(this.salerId);
+        if (!this.salerId) {
+            loadEvaluateSalersApi(this.selectedGenId, this.selectedBaseId).then((res) => {
+                this.data = res.data.data.salers.map((obj) => {
+                    return this.attendanceData(obj);
+                });
+                console.log(res.data.data.salers.map((obj) => {
+                    return this.attendanceData(obj);
+                }));
+            }).finally(() => {
+                this.isLoading = false;
             });
-            console.log(res.data.data.salers.map((obj)=>{
-                return this.attendanceData(obj);
-            }));
-        }).finally(() => {
-            this.isLoading = false;
-        });
+        }else {
+            loadEvaluateSalerByGensApi(this.salerId).then((res) => {
+                this.data = res.data.data.detail.map((obj) => {
+                    return this.attendanceData(obj);
+                });
+            }).finally(() => {
+                this.isLoading = false;
+            });
+        }
     }
 
     @computed
@@ -73,14 +86,14 @@ export default new class evaluateTeachingStore {
     }
 
     attendanceData = (item) => {
-        let passed = this.checkincheckoutPassed(item,"work_shifts");
-        let notPassed = this.checkincheckoutRejected(item,"work_shifts");
+        let passed = this.checkincheckoutPassed(item, "work_shifts");
+        let notPassed = this.checkincheckoutRejected(item, "work_shifts");
         let res = {};
         res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
         item["work_shift_detail"] = res;
 
-        passed = this.checkincheckoutPassed(item,"shifts");
-        notPassed = this.checkincheckoutRejected(item,"shifts");
+        passed = this.checkincheckoutPassed(item, "shifts");
+        notPassed = this.checkincheckoutRejected(item, "shifts");
         res = {};
         res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
         item["shift_detail"] = res;
@@ -89,7 +102,7 @@ export default new class evaluateTeachingStore {
 
     }
 
-    checkincheckoutPassed(data,shift_type) {
+    checkincheckoutPassed(data, shift_type) {
         return data[shift_type].filter((item) => {
             if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
                 return false;
@@ -111,7 +124,7 @@ export default new class evaluateTeachingStore {
     }
 
 
-    checkincheckoutRejected(data,shift_type) {
+    checkincheckoutRejected(data, shift_type) {
         return data[shift_type].filter((item) => {
             if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
                 return true;

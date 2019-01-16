@@ -121,4 +121,8 @@ export default [
         path: "/sales/evaluate",
         component: EvaluateSalerContainer,
     },
+    {
+        path: "/sales/evaluate/:salerId",
+        component: EvaluateSalerContainer,
+    },
 ];
