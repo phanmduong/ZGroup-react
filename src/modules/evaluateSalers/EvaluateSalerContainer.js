@@ -6,6 +6,8 @@ import {observer} from "mobx-react";
 import EvaluateSalers from "./EvaluateSalers";
 import {Modal} from "react-bootstrap";
 import EvaluateSalerDetailContainer from "./detail/EvaluateSalerDetailContainer";
+// import ShiftDetailContainer from "./detail/ShiftDetailContainer";
+import CheckinCheckoutContainer from "./CheckinCheckout/CheckinCheckoutContainer";
 
 @observer
 class EvaluateSalerContainer extends React.Component {
@@ -29,7 +31,12 @@ class EvaluateSalerContainer extends React.Component {
         store.loadEvaluate();
     }
 
-
+    openModalTest= () => {
+        let data = store.data[0];
+        store.selectedUser = data.user;
+        store.selectedData = data;
+        store.showModalShift = true;
+    }
 
     render() {
         return (
@@ -57,6 +64,7 @@ class EvaluateSalerContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
+                                <div className="btn btn-round" onClick={this.openModalTest}> TEEST</div>
                             </div>
                             <EvaluateSalers
                                 store={store}
@@ -71,6 +79,20 @@ class EvaluateSalerContainer extends React.Component {
                                         gens={store.gens}
                                         selectedGenId={store.selectedGenId}
                                         user={store.selectedUser}
+                                    />}
+                                </Modal.Body>
+                            </Modal>
+                            <Modal show={store.showModalShift}
+                                   bsSize="large"
+                                   onHide={() => {
+                                       store.showModalShift = false;
+                                   }}>
+                                <Modal.Body>
+                                    {store.showModalShift && <CheckinCheckoutContainer
+                                        gens={store.gens}
+                                        selectedGenId={store.selectedGenId}
+                                        user={store.selectedUser}
+                                        shift_type={store.shift_type}
                                     />}
                                 </Modal.Body>
                             </Modal>

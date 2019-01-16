@@ -2,6 +2,7 @@ import {observable, action, computed} from "mobx";
 import {
     loadEvaluateSalerDetailApi
 } from "../evaluateSalerApi";
+// import * as helper from "../../../helpers/helper";
 
 export default class EvaluateTeachingCheckinCheckout {
 
@@ -24,6 +25,7 @@ export default class EvaluateTeachingCheckinCheckout {
             this.isLoading = true;
             loadEvaluateSalerDetailApi(this.selectedGenId, this.user.id).then((res) => {
                 this.data = res.data.data.detail;
+                // this.data = this.attendanceData(res.data.data.detail);
             }).finally(() => {
                 this.isLoading = false;
             });
@@ -39,5 +41,7 @@ export default class EvaluateTeachingCheckinCheckout {
             };
         });
     }
+
+
 
 }

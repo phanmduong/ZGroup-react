@@ -5,6 +5,8 @@ import {
     loadGensApi
 } from "./evaluateSalerApi";
 import * as helper from "../../helpers/helper";
+import {isEmptyInput} from "../../helpers/helper";
+import {convertTimeToSecond} from "../../helpers/helper";
 
 export default new class evaluateTeachingStore {
     @observable selectedUser = {};
@@ -14,8 +16,11 @@ export default new class evaluateTeachingStore {
     @observable bases = [];
     @observable selectedGenId = 0;
     @observable selectedBaseId = 0;
+    @observable selectedData = {};
     @observable isLoading = true;
     @observable showModalDetail = false;
+    @observable showModalShift = false;
+    @observable shift_type = "shifts";
     @observable data = [];
 
 
@@ -68,157 +73,65 @@ export default new class evaluateTeachingStore {
     }
 
     attendanceData = (item) => {
-
-        let total_attendance = 0;
-        let total_not_work = 0;
-        let total_not_checkin = 0;
-        let total_not_checkout = 0;
-        let total_checkin_late = 0;
-        let total_checkout_early = 0;
-        let total_lawful = 0;
-        item.work_shifts = item.work_shifts.map((attendance) => {
-            let message = null;
-            let isDelinquent = false;
-            if (helper.isNull(attendance.checkin_id) && helper.isNull(attendance.checkout_id)) {
-                attendance.isNotWork = true;
-                attendance.message = "Không checkin, không checkout";
-                total_not_work++;
-                return attendance;
-            }
-            if (attendance.checkin_id) {
-                let rangeTimeCheckIn = helper.convertTimeToSecond(attendance.checkin_time.substr(0, 5)) -
-                    helper.convertTimeToSecond(attendance.start_time);
-                if (rangeTimeCheckIn > 60) {
-                    message = 'Check in muộn ' + (rangeTimeCheckIn / 60) + ' phút';
-                    attendance.isCheckinLate = true;
-                    total_checkin_late++;
-                    isDelinquent = true;
-                }
-            } else {
-                attendance.isNotCheckin = true;
-                total_not_checkin++;
-                message = "Không check in";
-                isDelinquent = true;
-            }
-
-            if (attendance.checkout_id) {
-                let rangeTimeCheckOut =
-                    helper.convertTimeToSecond(attendance.end_time) -
-                    helper.convertTimeToSecond(attendance.checkout_time.substr(0, 5));
-                if (rangeTimeCheckOut > 60) {
-                    message = message ? message + ", " : "";
-                    message += 'check out sớm ' + (rangeTimeCheckOut / 60) + ' phút';
-                    attendance.isCheckoutEarly = true;
-                    total_checkout_early++;
-                    isDelinquent = true;
-                }
-            } else {
-                message = message ? message + ", " : "";
-                message += "không check out";
-                isDelinquent = true;
-                attendance.isNotCheckout = true;
-                total_not_checkout++;
-            }
-
-            if (!isDelinquent) {
-                attendance.isLawful = true;
-                total_lawful++;
-            }
-
-            if (attendance.checkin_id || attendance.checkout_id) {
-                attendance.attendance = true;
-                total_attendance++;
-            }
-            attendance.message = message;
-            return attendance;
-        });
+        let passed = this.checkincheckoutPassed(item,"work_shifts");
+        let notPassed = this.checkincheckoutRejected(item,"work_shifts");
         let res = {};
-        res.total_attendance = total_attendance;
-        res.total_not_work = total_not_work;
-        res.total_not_checkin = total_not_checkin;
-        res.total_not_checkout = total_not_checkout;
-        res.total_checkin_late = total_checkin_late;
-        res.total_checkout_early = total_checkout_early;
-        res.total_lawful = total_lawful;
+        res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
         item["work_shift_detail"] = res;
 
-
-
-        total_attendance = 0;
-        total_not_work = 0;
-        total_not_checkin = 0;
-        total_not_checkout = 0;
-        total_checkin_late = 0;
-        total_checkout_early = 0;
-        total_lawful = 0;
-        item.shifts = item.shifts.map((attendance) => {
-            let message = null;
-            let isDelinquent = false;
-            if (helper.isNull(attendance.checkin_id) && helper.isNull(attendance.checkout_id)) {
-                attendance.isNotWork = true;
-                attendance.message = "Không checkin, không checkout";
-                total_not_work++;
-                return attendance;
-            }
-            if (attendance.checkin_id) {
-                let rangeTimeCheckIn = helper.convertTimeToSecond(attendance.checkin_time.substr(0, 5)) -
-                    helper.convertTimeToSecond(attendance.start_time);
-                if (rangeTimeCheckIn > 60) {
-                    message = 'Check in muộn ' + (rangeTimeCheckIn / 60) + ' phút';
-                    attendance.isCheckinLate = true;
-                    total_checkin_late++;
-                    isDelinquent = true;
-                }
-            } else {
-                attendance.isNotCheckin = true;
-                total_not_checkin++;
-                message = "Không check in";
-                isDelinquent = true;
-            }
-
-            if (attendance.checkout_id) {
-                let rangeTimeCheckOut =
-                    helper.convertTimeToSecond(attendance.end_time) -
-                    helper.convertTimeToSecond(attendance.checkout_time.substr(0, 5));
-                if (rangeTimeCheckOut > 60) {
-                    message = message ? message + ", " : "";
-                    message += 'check out sớm ' + (rangeTimeCheckOut / 60) + ' phút';
-                    attendance.isCheckoutEarly = true;
-                    total_checkout_early++;
-                    isDelinquent = true;
-                }
-            } else {
-                message = message ? message + ", " : "";
-                message += "không check out";
-                isDelinquent = true;
-                attendance.isNotCheckout = true;
-                total_not_checkout++;
-            }
-
-            if (!isDelinquent) {
-                attendance.isLawful = true;
-                total_lawful++;
-            }
-
-            if (attendance.checkin_id || attendance.checkout_id) {
-                attendance.attendance = true;
-                total_attendance++;
-            }
-            attendance.message = message;
-            return attendance;
-        });
+        passed = this.checkincheckoutPassed(item,"shifts");
+        notPassed = this.checkincheckoutRejected(item,"shifts");
         res = {};
-        res.total_attendance = total_attendance;
-        res.total_not_work = total_not_work;
-        res.total_not_checkin = total_not_checkin;
-        res.total_not_checkout = total_not_checkout;
-        res.total_checkin_late = total_checkin_late;
-        res.total_checkout_early = total_checkout_early;
-        res.total_lawful = total_lawful;
+        res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
         item["shift_detail"] = res;
         return item;
 
 
+    }
+
+    checkincheckoutPassed(data,shift_type) {
+        return data[shift_type].filter((item) => {
+            if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
+                return false;
+            }
+            if (!item.checkin_id || !item.checkout_id) {
+                return false;
+            }
+
+            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+                return false;
+            }
+
+            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+                return false;
+            }
+
+            return true;
+        })
+    }
+
+
+    checkincheckoutRejected(data,shift_type) {
+        return data[shift_type].filter((item) => {
+            if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
+                return true;
+            }
+
+            if (!item.checkin_id || !item.checkout_id) {
+                return true;
+            }
+
+
+            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+                return true;
+            }
+
+            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+                return true;
+            }
+
+            return false;
+        })
     }
 
     @computed

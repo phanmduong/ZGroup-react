@@ -1277,10 +1277,11 @@ export function convertDotMoneyToK(data) {
 
 export function prefixAvatarUrl(url, prefix = 'http') {
     let tmpAva = url;
+    if(tmpAva){
     if (tmpAva.slice(0, 4) !== 'http') {
         tmpAva = (prefix + '://').concat(tmpAva);
         return tmpAva;
-    }
+    }}else return "";
     return tmpAva;
 }
 

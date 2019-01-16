@@ -8,7 +8,7 @@ import {Link, IndexLink} from 'react-router';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
-import {NO_AVATAR, PROTOCOL} from '../../constants/env';
+// import {NO_AVATAR, PROTOCOL} from '../../constants/env';
 import Loading from '../../components/common/Loading';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
@@ -127,9 +127,7 @@ class InfoStudentContainer extends React.Component {
                                     <div className="card-avatar">
                                         <a>
                                             <img className="img"
-                                                 src={helper.isEmptyInput(this.props.student.avatar_url) ?
-                                                     NO_AVATAR : PROTOCOL + this.props.student.avatar_url
-                                                 }/>
+                                                 src={helper.validateLinkImage(this.props.student.avatar_url)}/>
                                         </a>
                                     </div>
                                     {this.props.isLoadingStudent ? <Loading/>

@@ -2,6 +2,7 @@ import React from "react";
 import Loading from "../../components/common/Loading";
 import {observer} from "mobx-react";
 import {getShortName, validateLinkImage,convertDotMoneyToK, dotStringNumber} from "../../helpers/helper";
+import {RATIO_CHECKIN_CHECKOUT_TEACHING_PASS} from "../../constants/constants";
 
 
 @observer
@@ -25,21 +26,33 @@ class EvaluateSalers extends React.Component {
         this.props.store.showModalDetail = true;
     }
 
+    openModalShift= (data, shift_type = 'shifts') => {
+        this.props.store.selectedUser = data.user;
+        this.props.store.selectedData = data;
+        this.props.store.showModalShift = true;
+        this.props.store.shift_type = shift_type;
+    }
+
     renderItem = (data,index) => {
         let startGen = this.getStartGen(data);
         const raitoPaid = data.register_paid / data.register_total * 100;
         const raitoRevenue = data.sum_paid_personal / data.kpi * 100;
-        let raitoShift = Math.round(data.shift_detail.total_lawful / data.shift_detail.total_attendance * 100 *10)/10;
-        let raitoWorkShift = Math.round(data.work_shift_detail.total_lawful / data.work_shift_detail.total_attendance * 100 *10)/10;
+        let raitoShift = data.shift_detail.raito;
+        let raitoWorkShift = data.work_shift_detail.raito;
         const raitoProactive = data.proactive / (data.proactive + data.passive) * 100;
+        const shiftPass = raitoShift >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        const workShiftPass = raitoWorkShift >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
 
-        if(!data.shift_detail.total_attendance) raitoShift = 0;
-        if(!data.work_shift_detail.total_attendance) raitoWorkShift = 0;
+
+        if(!data.shift_detail.raito) raitoShift = 0;
+        if(!data.work_shift_detail.raito) raitoWorkShift = 0;
+
+        const openModalDetail = ()=>this.openModalDetail(data.user);
 
         return (
 
             <div className="col-md-3 col-sm-6" style={{marginTop: 40}} key={index}>
-                <div className="card card-profile" onClick={()=>this.openModalDetail(data.user)}>
+                <div className="card card-profile">
                     <div className="card-avatar">
                         <div className="content-avatar"
                            target="_blank">
@@ -63,7 +76,7 @@ class EvaluateSalers extends React.Component {
                                 Bậc {data.salary_level.level}
                             </button>
                         </p>
-                        <div className="cursor-pointer">
+                        <div className="cursor-pointer" onClick={openModalDetail}>
                             <div className="flex flex flex-space-between">
                                 <div>Số đơn đã đóng tiền</div>
                                 <div className="bold">
@@ -78,7 +91,7 @@ class EvaluateSalers extends React.Component {
                                      }}/>
                             </div>
                         </div>
-                        <div className="cursor-pointer">
+                        <div className="cursor-pointer" onClick={openModalDetail}>
                             <div className="flex flex flex-space-between">
                                 <div>DT chỉ tiêu</div>
                                 <div className="bold">
@@ -93,8 +106,8 @@ class EvaluateSalers extends React.Component {
                                      }}/>
                             </div>
                         </div>
-                        <div className="cursor-pointer">
-                            <div className="flex flex flex-space-between">
+                        <div className="cursor-pointer" onClick={()=>this.openModalShift(data, "shifts")}>
+                        <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ đúng giờ trực</div>
                                 <div className="bold">
                                     {`${raitoShift}%`}
@@ -104,12 +117,12 @@ class EvaluateSalers extends React.Component {
                                 <div className="progress-bar"
                                      style={{
                                          width: raitoShift + '%',
-                                         backgroundColor: raitoShift ? '#2EBE21' : '#C50000'
+                                         backgroundColor: shiftPass ? '#2EBE21' : '#C50000'
                                      }}/>
                             </div>
                         </div>
-                        <div className="cursor-pointer">
-                            <div className="flex flex flex-space-between">
+                        <div className="cursor-pointer" onClick={()=>this.openModalShift(data, "work_shifts")}>
+                        <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ đúng giờ làm việc</div>
                                 <div className="bold">
                                     {`${raitoWorkShift}%`}
@@ -119,13 +132,13 @@ class EvaluateSalers extends React.Component {
                                 <div className="progress-bar"
                                      style={{
                                          width: raitoWorkShift + '%',
-                                         backgroundColor: raitoWorkShift ? '#2EBE21' : '#C50000'
+                                         backgroundColor: workShiftPass ? '#2EBE21' : '#C50000'
                                      }}/>
                             </div>
                         </div>
-                        <div className="cursor-pointer">
-                            <div className="flex flex flex-space-between">
-                                <div>Kênh chủ động- Kênh bị động</div>
+                        <div className="cursor-pointer" onClick={openModalDetail}>
+                        <div className="flex flex flex-space-between">
+                                <div>Kênh</div>
                                 <div className="bold">
                                     {`${data.proactive}-${data.passive}`}
                                 </div>

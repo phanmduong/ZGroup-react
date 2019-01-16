@@ -3,7 +3,7 @@ import Loading from "../../../components/common/Loading";
 import store from "./EvaluateSalerDetailStore";
 import Select from '../../../components/common/Select';
 import {observer} from "mobx-react";
-import {convertDotMoneyToK, dotStringNumber, validateLinkImage} from "../../../helpers/helper";
+import {convertDotMoneyToK, dotStringNumber,  validateLinkImage} from "../../../helpers/helper";
 import Barchart from "../../dashboard/Barchart";
 import TooltipButton from '../../../components/common/TooltipButton';
 
@@ -118,19 +118,25 @@ class EvaluateSalerDetailContainer extends React.Component {
                                                              style={{
                                                                  background: 'url(' + validateLinkImage(obj.course_avatar_url) + ') center center / cover',
                                                                  display: 'inline-block', zIndex:5
-                                                             }}
-                                                        />
+                                                             }}/>
                                                         <div className="double-avatar"
                                                              style={{
                                                                  background: 'url(' + validateLinkImage(obj.avatar_url) + ') center center / cover',
                                                                  display: 'inline-block', zIndex:4
-                                                             }}
-                                                        />
+                                                             }}/>
                                                     </div>
 
                                                 </td>
-                                                <td className="bold">{obj.name}</td>
-                                                <td className="breaker max-width-100">{obj.class.name}</td>
+                                                <td>
+                                                    <a href={"/sales/info-student/" + obj.student_id} target="_blank">
+                                                        <div className="card-title bold">{obj.name}</div>
+                                                    </a>
+                                                </td>
+                                                <td className="breaker max-width-100">
+                                                    <a href={"/teaching/class/" + obj.class.id} target="_blank">
+                                                        <div className="card-title bold">{obj.class.name}</div>
+                                                    </a>
+                                                </td>
                                                 <td className="breaker max-width-100">{obj.note}</td>
                                                 <td>
                                                     <div className="btn btn-xs width-100"
