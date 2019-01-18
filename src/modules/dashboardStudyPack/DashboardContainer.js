@@ -8,10 +8,8 @@ import Select from '../../components/common/Select';
 import Loading from '../../components/common/Loading';
 import * as dashboardActions from './dashboardActions';
 import DashboardComponent from './DashboardComponent';
-import {Modal, Panel} from 'react-bootstrap';
-import ClassContainer from './ClassContainer';
+import {Panel} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TooltipButton from '../../components/common/TooltipButton';
 import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from '../../helpers/helper';
 
@@ -23,11 +21,6 @@ class DashboardContainer extends React.Component {
             selectBaseId: 0,
             gens: [],
             bases: [],
-            showModalClass: false,
-            classSelected: {
-                name: ''
-            },
-            openFilter: false,
             filter: {
                 startTime: '',
                 endTime: '',
@@ -36,11 +29,6 @@ class DashboardContainer extends React.Component {
         this.onChangeGen = this.onChangeGen.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadInitDashboard = this.loadInitDashboard.bind(this);
-        this.changeClassStatus = this.changeClassStatus.bind(this);
-        this.closeModalClass = this.closeModalClass.bind(this);
-        this.openModalClass = this.openModalClass.bind(this);
-        this.loadAttendanceShift = this.loadAttendanceShift.bind(this);
-        this.loadAttendanceClass = this.loadAttendanceClass.bind(this);
         this.updateFormFilter = this.updateFormFilter.bind(this);
     }
 
@@ -61,6 +49,10 @@ class DashboardContainer extends React.Component {
                 bases: this.getBases(nextProps.bases),
             });
         }
+    }
+
+    loadStudyPackRegisters = (search = '', filter = '', page = 1) => {
+        this.props.dashboardActions.loadStudyPackRegister(this.state.selectGenId, this.state.selectBaseId, search, filter, page);
     }
 
     getGens(gens) {
@@ -108,44 +100,6 @@ class DashboardContainer extends React.Component {
     onChangeBase(value) {
         this.setState({selectBaseId: value});
         this.loadDashboard(this.state.selectGenId, value);
-    }
-
-    changeClassStatus(classId) {
-        this.props.dashboardActions.changeClassStatus(classId);
-    }
-
-    closeModalClass() {
-        this.setState({showModalClass: false});
-    }
-
-    openModalClass(classData) {
-        this.setState(
-            {
-                showModalClass: true,
-                classSelected: classData
-            }
-        );
-        this.props.dashboardActions.loadClass(classData.id);
-    }
-
-    loadAttendanceShift(time) {
-        if (this.state.selectBaseId === 0) {
-            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, '', this.props.timeShifts + time);
-        }
-        else {
-            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, this.state.selectBaseId, this.props.timeShifts + time);
-        }
-
-    }
-
-    loadAttendanceClass(time) {
-        if (this.state.selectBaseId === 0) {
-            this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, '', this.props.timeClasses + time);
-        }
-        else {
-            this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, this.state.selectBaseId, this.props.timeClasses + time);
-        }
-
     }
 
     updateFormFilter(event) {
@@ -233,57 +187,9 @@ class DashboardContainer extends React.Component {
                             </Panel>
                             <DashboardComponent
                                 {...this.props}
-                                baseId={this.state.selectBaseId}
                                 loadDashboard={this.loadInitDashboard}
-                                changeClassStatus={this.changeClassStatus}
-                                openModalClass={this.openModalClass}
-                                loadAttendanceShift={this.loadAttendanceShift}
-                                loadAttendanceClass={this.loadAttendanceClass}
-                                bases={this.props.bases}
+                                loadStudyPackRegisters={this.loadStudyPackRegisters}
                             />
-                            <Modal
-                                show={this.state.showModalClass}
-                                onHide={this.closeModalClass}
-                                bsSize="large"
-                            >
-                                <Modal.Header closeButton>
-                                    <h3>
-                                        <strong>Thông tin lớp học {this.state.classSelected.name}</strong>
-                                    </h3>
-                                    <p>Lớp được tạo lúc <strong>
-                                        <small>{this.state.classSelected.created_at}</small>
-                                    </strong></p>
-                                    <div className="flex flex-wrap">
-                                        {
-                                            this.state.classSelected.teacher &&
-                                            <TooltipButton text="Giảng viên"
-                                                           placement="top"
-                                            >
-                                                <button className="btn btn-sm"
-                                                        style={{background: '#' + this.state.classSelected.teacher.color}}>
-                                                    {this.state.classSelected.teacher.name}
-                                                    <div className="ripple-container"/>
-                                                </button>
-                                            </TooltipButton>
-                                        }
-                                        {
-                                            this.state.classSelected.teacher_assistant &&
-                                            <TooltipButton text="Trơ giảng"
-                                                           placement="top"
-                                            >
-                                                <button className="btn btn-sm"
-                                                        style={{background: '#' + this.state.classSelected.teacher_assistant.color}}>
-                                                    {this.state.classSelected.teacher_assistant.name}
-                                                    <div className="ripple-container"/>
-                                                </button>
-                                            </TooltipButton>
-                                        }
-                                    </div>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <ClassContainer/>
-                                </Modal.Body>
-                            </Modal>
                         </div>
                     )
                 }
@@ -300,31 +206,21 @@ DashboardContainer.propTypes = {
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isLoadingAttendanceShifts: PropTypes.bool.isRequired,
-    isLoadingAttendanceClasses: PropTypes.bool.isRequired,
     currentGen: PropTypes.object.isRequired,
     dashboard: PropTypes.object.isRequired,
-    timeShifts: PropTypes.number.isRequired,
-    dateShifts: PropTypes.string.isRequired,
-    timeClasses: PropTypes.number.isRequired,
-    dateClasses: PropTypes.string.isRequired,
+    studyPack: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        gens: state.dashboard.gens,
-        isLoadingGens: state.dashboard.isLoadingGens,
-        currentGen: state.dashboard.currentGen,
-        bases: state.dashboard.bases,
-        isLoadingBases: state.dashboard.isLoadingBases,
-        isLoading: state.dashboard.isLoading,
-        isLoadingAttendanceShifts: state.dashboard.isLoadingAttendanceShifts,
-        isLoadingAttendanceClasses: state.dashboard.isLoadingAttendanceClasses,
-        dashboard: state.dashboard.dashboard,
-        timeShifts: state.dashboard.timeShifts,
-        dateShifts: state.dashboard.dateShifts,
-        timeClasses: state.dashboard.timeClasses,
-        dateClasses: state.dashboard.dateClasses,
+        gens: state.dashboardStudyPack.gens,
+        isLoadingGens: state.dashboardStudyPack.isLoadingGens,
+        currentGen: state.dashboardStudyPack.currentGen,
+        bases: state.dashboardStudyPack.bases,
+        isLoadingBases: state.dashboardStudyPack.isLoadingBases,
+        isLoading: state.dashboardStudyPack.isLoading,
+        dashboard: state.dashboardStudyPack.dashboard,
+        studyPack: state.dashboardStudyPack.studyPack,
     };
 }
 

@@ -660,3 +660,21 @@ export const RATIO_TOTAL_STUDENT_TEACHING_PASS = 65;
 export const RATIO_RATING_TEACHING_PASS = 4;
 export const RATIO_MONEY_REGISTER = 60;
 export const RATIO_ATTENDANCE_CLASS = 65;
+export const FILTER_STUDY_PACK_REGISTER = [
+    {
+        key: "",
+        value: "Tất cả",
+    },
+    {
+        key: "more2course",
+        value: 'Học hơn 1 khóa 1 tháng'
+    },
+    {
+        key: "more2gen",
+        value: 'Học 1 môn 2 lần'
+    },
+    {
+        key: "user_not_accuracy",
+        value: 'Chưa xác minh'
+    },
+];
