@@ -56,9 +56,9 @@ export default new class evaluateTeachingStore {
                 this.data = res.data.data.salers.map((obj) => {
                     return this.attendanceData(obj);
                 });
-                console.log(res.data.data.salers.map((obj) => {
-                    return this.attendanceData(obj);
-                }));
+                // console.log(res.data.data.salers.map((obj) => {
+                //     return this.attendanceData(obj);
+                // }));
             }).finally(() => {
                 this.isLoading = false;
             });

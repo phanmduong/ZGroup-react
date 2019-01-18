@@ -31,7 +31,7 @@ class CheckinCheckoutContainer extends React.Component {
         let raito = !this.store.isLoading ? (this.store.checkincheckoutPassed.length * 100 / (
             this.store.checkincheckoutRejected.length + this.store.checkincheckoutPassed.length)) : 0;
         let pass = raito > RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
-        if(isNaN(raito) || (!this.store.isLoading && this.store.checkincheckoutPassed.length == 0)){
+        if (isNaN(raito) || (!this.store.isLoading && this.store.checkincheckoutPassed.length == 0)) {
             raito = 100;
             pass = true;
         }
@@ -125,7 +125,15 @@ class CheckinCheckoutContainer extends React.Component {
                                 </div>
                             </div>
                             {
-                                obj.childs.map((shift, index2) => {
+                                obj.childs.sort((a, b) => {
+                                    if (a.name < b.name) {
+                                        return -1;
+                                    }
+                                    if (a.name > b.name) {
+                                        return 1;
+                                    }
+                                    return 0;
+                                }).map((shift, index2) => {
                                     return (
                                         <AttendanceTeacher
                                             data={shift}
