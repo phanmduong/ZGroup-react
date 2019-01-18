@@ -22,7 +22,7 @@ class EvaluateSalerContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.salerId != nextProps.params.salerId){
+        if (this.props.params.salerId != nextProps.params.salerId) {
             store.salerId = nextProps.params.salerId;
             store.loadEvaluate();
         }
@@ -81,7 +81,11 @@ class EvaluateSalerContainer extends React.Component {
                                 <Modal.Body>
                                     {store.showModalDetail && <EvaluateSalerDetailContainer
                                         gens={store.gens}
-                                        selectedGenId={store.selectedGenId}
+                                        selectedGenId={
+                                            this.props.params.salerId ?
+                                                store.selectedUser.start_gen_id :
+                                                store.selectedGenId
+                                        }
                                         user={store.selectedUser}
                                     />}
                                 </Modal.Body>
@@ -94,7 +98,11 @@ class EvaluateSalerContainer extends React.Component {
                                 <Modal.Body>
                                     {store.showModalShift && <CheckinCheckoutContainer
                                         gens={store.gens}
-                                        selectedGenId={store.selectedGenId}
+                                        selectedGenId={
+                                            this.props.params.salerId ?
+                                                store.selectedUser.start_gen_id :
+                                                store.selectedGenId
+                                        }
                                         user={store.selectedUser}
                                         shift_type={store.shift_type}
                                     />}

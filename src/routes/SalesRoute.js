@@ -27,8 +27,10 @@ export default [
         component: TargetPersonContainer
     },
     {
-        path: "sales/target/:userId",
-        component: TargetPersonContainer
+        path: "sales/target/:salerId",
+        // path: "sales/target/:userId",
+        // component: TargetPersonContainer
+        component: EvaluateSalerContainer
     },
     {
         path: "sales/targets",

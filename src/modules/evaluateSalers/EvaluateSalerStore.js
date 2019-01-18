@@ -5,9 +5,7 @@ import {
     loadEvaluateSalerByGensApi,
     loadGensApi
 } from "./evaluateSalerApi";
-import * as helper from "../../helpers/helper";
-import {isEmptyInput} from "../../helpers/helper";
-import {convertTimeToSecond} from "../../helpers/helper";
+import {isEmptyInput,convertTimeToSecond} from "../../helpers/helper";
 
 export default new class evaluateTeachingStore {
     @observable selectedUser = {};
@@ -90,12 +88,14 @@ export default new class evaluateTeachingStore {
         let notPassed = this.checkincheckoutRejected(item, "work_shifts");
         let res = {};
         res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
+        if(notPassed.length == 0) res.raito = 100;
         item["work_shift_detail"] = res;
 
         passed = this.checkincheckoutPassed(item, "shifts");
         notPassed = this.checkincheckoutRejected(item, "shifts");
         res = {};
         res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
+        if(notPassed.length == 0) res.raito = 100;
         item["shift_detail"] = res;
         return item;
 

@@ -24,7 +24,7 @@ export default class EvaluateTeachingCheckinCheckout {
         this.isLoading = true;
         loadEvaluateSalerDetailApi(this.selectedGenId, this.user.id).then((res) => {
             this.data = res.data.data.detail;
-            console.log(res.data.data.detail);
+            // console.log(res.data.data.detail);
         }).finally(() => {
             this.isLoading = false;
         });

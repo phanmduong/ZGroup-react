@@ -28,6 +28,13 @@ class CheckinCheckoutContainer extends React.Component {
     }
 
     render() {
+        let raito = !this.store.isLoading ? (this.store.checkincheckoutPassed.length * 100 / (
+            this.store.checkincheckoutRejected.length + this.store.checkincheckoutPassed.length)) : 0;
+        let pass = raito > RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        if(isNaN(raito) || (!this.store.isLoading && this.store.checkincheckoutPassed.length == 0)){
+            raito = 100;
+            pass = true;
+        }
         return (
             <div>
                 {
@@ -66,20 +73,14 @@ class CheckinCheckoutContainer extends React.Component {
                             <div className="flex flex flex-space-between">
                                 <div>Tỉ lệ đúng giờ</div>
                                 <div className="bold">
-                                    {`${Math.round(this.store.checkincheckoutPassed.length * 100 / (
-                                        this.store.checkincheckoutRejected.length + this.store.checkincheckoutPassed.length
-                                    ))}%/${RATIO_CHECKIN_CHECKOUT_TEACHING_PASS}%`}
+                                    {`${raito}%/${RATIO_CHECKIN_CHECKOUT_TEACHING_PASS}%`}
                                 </div>
                             </div>
                             <div className="progress">
                                 <div className="progress-bar"
                                      style={{
-                                         width: (this.store.checkincheckoutPassed.length * 100 / (
-                                             this.store.checkincheckoutRejected.length + this.store.checkincheckoutPassed.length))
-                                             + '%',
-                                         backgroundColor: (this.store.checkincheckoutPassed.length * 100 / (
-                                             this.store.checkincheckoutRejected.length + this.store.checkincheckoutPassed.length) >
-                                             RATIO_CHECKIN_CHECKOUT_TEACHING_PASS)
+                                         width: raito + '%',
+                                         backgroundColor: pass
                                              ? '#2EBE21' : '#C50000'
                                      }}/>
                             </div>

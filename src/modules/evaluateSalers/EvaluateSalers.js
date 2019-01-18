@@ -44,12 +44,11 @@ class EvaluateSalers extends React.Component {
         let raitoShift = data.shift_detail.raito;
         let raitoWorkShift = data.work_shift_detail.raito;
         const raitoProactive = data.proactive / (data.proactive + data.passive) * 100;
-        const shiftPass = raitoShift >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
-        const workShiftPass = raitoWorkShift >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        let shiftPass = raitoShift >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        let workShiftPass = raitoWorkShift >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        let kpiPass =  data.sum_paid_personal >= data.kpi ;
 
 
-        if (!data.shift_detail.raito) raitoShift = 0;
-        if (!data.work_shift_detail.raito) raitoWorkShift = 0;
 
         const openModalDetail = () => this.openModalDetail(data.user);
 
@@ -104,7 +103,7 @@ class EvaluateSalers extends React.Component {
                                 <div className="progress-bar"
                                      style={{
                                          width: raitoRevenue + '%',
-                                         backgroundColor: raitoRevenue ? '#2EBE21' : '#C50000'
+                                         backgroundColor: kpiPass ? '#2EBE21' : '#C50000'
                                      }}/>
                             </div>
                         </div>
