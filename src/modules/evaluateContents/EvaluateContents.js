@@ -65,7 +65,7 @@ class EvaluateContents extends React.Component {
                         </div>
                     </div>
                     <div className="card-content">
-                        <Link to={"/sales/evaluate/" + data.user.id}>
+                        <Link to={"/"}>
                             <h4 className="card-title bold">{getShortName(data.user.name)}</h4>
                         </Link>
                         <p className="description">
@@ -74,7 +74,7 @@ class EvaluateContents extends React.Component {
                             </button>
                         </p>
 
-                        <div className="cursor-pointer" onClick={() => this.openModalShift(data, "work_shifts")}>
+                        <div className="cursor-pointer" onClick={openModalDetail}>
                             <div className="flex flex flex-space-between">
                                 <div>Sô bài đã đăng</div>
                                 <div className="bold">
