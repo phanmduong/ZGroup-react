@@ -1,8 +1,8 @@
 export default {
     film: {
         //********Customer
-        customer:[],
-        exportCustomer:[],
+        customer: [],
+        exportCustomer: [],
         isLoadingCustomer: false,
         isExportCustomer: false,
         totalCountCustomer: 0,
@@ -33,7 +33,6 @@ export default {
         limitShown: 0,
         totalCountShown: 0,
         totalPagesShown: 0,
-
 
 
         //********Session
@@ -67,38 +66,38 @@ export default {
 
         //********Booking
         addBookingRegisterSessionModal: false,
-        handleBookingModal:{},
+        handleBookingModal: {},
         isLoadingSeatBySessionId: false,
         seatForBooking: [],
-        width:1200,
-        height:10,
+        width: 1200,
+        height: 10,
         isBookingSeat: false,
-        codeInfo:{},
+        codeInfo: {},
         user: [],
         isCheckingCode: false,
         isCheckingUser: false,
         seats: [],
 
     },
-    seatType:{
+    seatType: {
         isLoadingSeat: false,
-        seatTypes:[],
+        seatTypes: [],
         openModal: false,
         isEditSeatType: false,
-        handleSeatTypeModal:{},
+        handleSeatTypeModal: {},
     },
     code: {
         code: [],
-        showCodeModal:false,
+        showCodeModal: false,
         addEditCodeModal: false,
         handleCodeModal: {},
         isLoadingCode: false,
-        codes:[],
+        codes: [],
         isAddEditCode: false,
         isLoadingExcel: false,
         totalCount: 0,
         currentPage: 0,
-        totalPages:0,
+        totalPages: 0,
         limit: "",
         excel: [],
     },
@@ -107,7 +106,7 @@ export default {
         bookingHistories: [],
         totalCount: 0,
         currentPage: 0,
-        totalPages:0,
+        totalPages: 0,
         limit: "",
         excel: [],
         isLoadingExcel: false,
@@ -192,13 +191,13 @@ export default {
         classes: [],
         isChoosingReceivers: false,
         isLoadingHistoryModal: false,
-		historyModal: [],
-		currentPageHistoryModal: 1,
-		limitHistoryModal: 15,
-		totalCountHistoryModal: 1,
-		totalPagesHistoryModal: 1,
-		historyDetailModal: false,
-		userHistoryDetail: {}
+        historyModal: [],
+        currentPageHistoryModal: 1,
+        limitHistoryModal: 15,
+        totalCountHistoryModal: 1,
+        totalPagesHistoryModal: 1,
+        historyDetailModal: false,
+        userHistoryDetail: {}
         //isUpdatingReceivers: false
     },
 
@@ -1206,6 +1205,11 @@ export default {
             isLoading: false,
             showCardsModal: false,
             isLoadingCardsModal: false,
+        },
+        studyPack: {
+            isLoading: false,
+            registers: [],
+            totalPages: 1
         },
         gens: [],
         isLoadingGens: true,
