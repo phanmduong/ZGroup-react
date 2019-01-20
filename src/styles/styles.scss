@@ -59,6 +59,16 @@ a {
   color: #343434;
 }
 
+.avatar-array {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: -10px;
+  border: 3px white solid;
+}
+
+
 table tr td .avatar-list-staff {
   width: 30px;
   height: 30px;
@@ -383,6 +393,11 @@ $starInactive: #c4c5c6;
 
 .text-email {
   text-transform: lowercase !important;
+}
+
+.open-new-tab-icon{
+  margin:5px;
+  color:gray;
 }
 
 .flex {
@@ -1166,6 +1181,7 @@ a.btn-seat.active {
 .gray {
   background: #e4e4e4;
 }
+
 
 table tr td .avatar-honor {
   width: 60px;

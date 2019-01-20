@@ -3,7 +3,7 @@ import Loading from "../../../components/common/Loading";
 import store from "./EvaluateCheckInCheckoutStore";
 import Select from '../../../components/common/Select';
 import {observer} from "mobx-react";
-import AttendanceTeacher from "./AttendanceTeacher";
+import AttendanceDetail from "./AttendanceDetail";
 import * as helper from "../../../helpers/helper";
 import {RATIO_CHECKIN_CHECKOUT_TEACHING_PASS} from "../../../constants/constants";
 
@@ -135,7 +135,7 @@ class CheckinCheckoutContainer extends React.Component {
                                     return 0;
                                 }).map((shift, index2) => {
                                     return (
-                                        <AttendanceTeacher
+                                        <AttendanceDetail
                                             data={shift}
                                             key={index2}
                                         />)

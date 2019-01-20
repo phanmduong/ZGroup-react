@@ -1,6 +1,8 @@
 import PostsContainer from "../modules/blog/containers/PostsContainer";
 import BlogTypeContainer from "../modules/blogType/BlogTypeContainer";
 import BlogEditor from "../modules/blog/editor/BlogEditor";
+import EvaluateContentsContainer from "../modules/evaluateContents/EvaluateContentsContainer";
+
 
 /**
  * Tab Blog
@@ -21,5 +23,9 @@ export default [
     {
         path: "blog/:postId/editor",
         component: BlogEditor
+    },
+    {
+        path: "blog/evaluate",
+        component:  EvaluateContentsContainer
     }
 ];
