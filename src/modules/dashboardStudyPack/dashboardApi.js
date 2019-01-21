@@ -36,8 +36,9 @@ export function loadDashboard(genId, baseId, startTime = '', endTime = '') {
     return axios.get(url);
 }
 
-export function loadStudyPackRegister(genId, baseId, search = '', filter = '', page = '') {
-    let url = env.MANAGE_API_URL + `/study-pack/registers?gen_id=${genId}&base_id=${baseId}&search=${search}&page=${page}&filter=${filter}`;
+export function loadStudyPackRegister(genId, baseId, search = '', filter = '', filterStatus = 1, page = '') {
+    let url = env.MANAGE_API_URL + `/study-pack/registers?gen_id=${genId}&base_id=${baseId}&search=${search}&page=${page}
+    &filter=${filter}&filter_status=${filterStatus}`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

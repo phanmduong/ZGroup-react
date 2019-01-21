@@ -23,12 +23,12 @@ export function loadGensData() {
     };
 }
 
-export function loadStudyPackRegister(genId, baseId, search, filter, page) {
+export function loadStudyPackRegister(genId, baseId, search, filter, filterStatus, page) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_STUDY_PACK_REGISTER_DASHBOARD
         });
-        dashboardApi.loadStudyPackRegister(genId, baseId, search, filter, page)
+        dashboardApi.loadStudyPackRegister(genId, baseId, search, filter,filterStatus, page)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_STUDY_PACK_REGISTER_DASHBOARD_SUCCESS,
