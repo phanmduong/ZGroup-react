@@ -1216,8 +1216,8 @@ export function convertDataGeneral(data) {
         ];
 }
 
-export function validateLinkImage(link) {
-    if (isEmptyInput(link) || avatarEmpty(link) || link == '""') return env.NO_IMAGE;
+export function validateLinkImage(link, defaultUrl) {
+    if (isEmptyInput(link) || avatarEmpty(link) || link == '""') return defaultUrl ? defaultUrl : env.NO_IMAGE;
     if (link.substring(0, 4) === 'http') {
         return link;
     }

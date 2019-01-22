@@ -3,7 +3,7 @@ import Loading from "../../../components/common/Loading";
 import store from "./EvaluateCheckInCheckoutStore";
 import Select from '../../../components/common/Select';
 import {observer} from "mobx-react";
-import AttendanceTeacher from "./AttendanceTeacher";
+import AttendanceDetail from "./AttendanceDetail";
 import * as helper from "../../../helpers/helper";
 import {RATIO_CHECKIN_CHECKOUT_TEACHING_PASS} from "../../../constants/constants";
 
@@ -28,15 +28,10 @@ class CheckinCheckoutContainer extends React.Component {
     }
 
     render() {
-        let passed = [];
-        let rejected = [];
-        if(!this.store.isLoading ){
-            passed = this.store.checkincheckoutPassed;
-            rejected = this.store.checkincheckoutRejected;
-        }
-        let raito =  (passed.length * 100 / (passed.length + rejected.length));
+        let raito = !this.store.isLoading ? (this.store.checkincheckoutPassed.length * 100 / (
+            this.store.checkincheckoutRejected.length + this.store.checkincheckoutPassed.length)) : 0;
         let pass = raito > RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
-        if (isNaN(raito) || (!this.store.isLoading && passed.length == 0)) {
+        if (isNaN(raito) || (!this.store.isLoading && this.store.checkincheckoutPassed.length == 0)) {
             raito = 100;
             pass = true;
         }
@@ -140,7 +135,7 @@ class CheckinCheckoutContainer extends React.Component {
                                     return 0;
                                 }).map((shift, index2) => {
                                     return (
-                                        <AttendanceTeacher
+                                        <AttendanceDetail
                                             data={shift}
                                             key={index2}
                                         />)

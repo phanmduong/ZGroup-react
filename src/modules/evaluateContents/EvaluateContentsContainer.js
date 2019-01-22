@@ -1,16 +1,15 @@
 import React from "react";
 import Loading from "../../components/common/Loading";
-import store from "./EvaluateSalerStore";
+import store from "./EvaluateContentsStore";
 import Select from '../../components/common/Select';
 import {observer} from "mobx-react";
-import EvaluateSalers from "./EvaluateSalers";
+import EvaluateContents from "./EvaluateContents";
 import {Modal} from "react-bootstrap";
-import EvaluateSalerDetailContainer from "./detail/EvaluateSalerDetailContainer";
-// import ShiftDetailContainer from "./detail/ShiftDetailContainer";
+import EvaluateContentDetailContainer from "./detail/EvaluateContentDetailContainer";
 import CheckinCheckoutContainer from "./CheckinCheckout/CheckinCheckoutContainer";
 
 @observer
-class EvaluateSalerContainer extends React.Component {
+class EvaluateContentsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
@@ -21,32 +20,12 @@ class EvaluateSalerContainer extends React.Component {
 
     }
 
-
-    componentDidMount() {
-        if (this.props.location.pathname === "/sales/personal-kpi") {
-            const user = JSON.parse(localStorage.getItem("user"));
-            store.salerId = user.id;
-            store.loadEvaluate();
-        }
-
-    }
-
     componentWillReceiveProps(nextProps) {
         if (this.props.params.salerId != nextProps.params.salerId) {
             store.salerId = nextProps.params.salerId;
             store.loadEvaluate();
-        } else if (this.props.location.pathname !== nextProps.location.pathname) {
-            if (nextProps.location.pathname === "/sales/personal-kpi") {
-                const user = JSON.parse(localStorage.getItem("user"));
-                store.salerId = user.id;
-                store.loadEvaluate();
-            }else {
-                store.salerId = null;
-                store.loadEvaluate();
-            }
         }
     }
-
 
     onChangeGen(value) {
         store.selectedGenId = value;
@@ -89,7 +68,7 @@ class EvaluateSalerContainer extends React.Component {
 
                             </div>
                             }
-                            <EvaluateSalers
+                            <EvaluateContents
                                 store={store}
                                 params={this.props.params}
                             />
@@ -99,7 +78,7 @@ class EvaluateSalerContainer extends React.Component {
                                        store.showModalDetail = false;
                                    }}>
                                 <Modal.Body>
-                                    {store.showModalDetail && <EvaluateSalerDetailContainer
+                                    {store.showModalDetail && <EvaluateContentDetailContainer
                                         gens={store.gens}
                                         selectedGenId={
                                             this.props.params.salerId ?
@@ -119,7 +98,7 @@ class EvaluateSalerContainer extends React.Component {
                                     {store.showModalShift && <CheckinCheckoutContainer
                                         gens={store.gens}
                                         selectedGenId={
-                                            (this.props.params.salerId || this.props.location.pathname === "/sales/personal-kpi") ?
+                                            this.props.params.salerId ?
                                                 store.selectedUser.start_gen_id :
                                                 store.selectedGenId
                                         }
@@ -137,6 +116,6 @@ class EvaluateSalerContainer extends React.Component {
     }
 }
 
-EvaluateSalerContainer.propTypes = {};
+EvaluateContentsContainer.propTypes = {};
 
-export default EvaluateSalerContainer;
+export default EvaluateContentsContainer;

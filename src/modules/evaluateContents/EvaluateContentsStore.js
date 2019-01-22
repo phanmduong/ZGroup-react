@@ -1,10 +1,10 @@
 import {observable, action, computed} from "mobx";
 import {
     loadBasesApi,
-    loadEvaluateSalersApi,
+    loadEvaluateContentsApi,
     loadEvaluateSalerByGensApi,
     loadGensApi
-} from "./evaluateSalerApi";
+} from "./evaluateContentsApi";
 import {isEmptyInput,convertTimeToSecond} from "../../helpers/helper";
 
 export default new class evaluateTeachingStore {
@@ -51,8 +51,8 @@ export default new class evaluateTeachingStore {
     loadEvaluate() {
         this.isLoading = true;
         if (!this.salerId) {
-            loadEvaluateSalersApi(this.selectedGenId, this.selectedBaseId).then((res) => {
-                this.data = res.data.data.salers.map((obj) => {
+            loadEvaluateContentsApi(this.selectedGenId, this.selectedBaseId).then((res) => {
+                this.data = res.data.data.map((obj) => {
                     return this.attendanceData(obj);
                 });
                 // console.log(res.data.data.salers.map((obj) => {
@@ -90,12 +90,6 @@ export default new class evaluateTeachingStore {
         if(notPassed.length == 0) res.raito = 100;
         item["work_shift_detail"] = res;
 
-        passed = this.checkincheckoutPassed(item, "shifts");
-        notPassed = this.checkincheckoutRejected(item, "shifts");
-        res = {};
-        res.raito = Math.round(passed.length * 100 / (passed.length + notPassed.length));
-        if(notPassed.length == 0) res.raito = 100;
-        item["shift_detail"] = res;
         return item;
 
 
@@ -103,15 +97,12 @@ export default new class evaluateTeachingStore {
 
     checkincheckoutPassed(data, shift_type) {
         return data[shift_type].filter((item) => {
-
-
             if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
                 return false;
             }
             if (!item.checkin_id || !item.checkout_id) {
                 return false;
             }
-
 
             if ((convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time))
                 &&Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
@@ -152,6 +143,7 @@ export default new class evaluateTeachingStore {
 
                 return true;
             }
+
 
             return false;
         })

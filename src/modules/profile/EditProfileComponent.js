@@ -7,7 +7,7 @@ import {MARITAL, LITERACY} from '../../constants/constants';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
 import {CirclePicker} from 'react-color';
-import {NO_AVATAR} from '../../constants/env';
+
 
 
 class AddStaffComponent extends React.Component {
@@ -22,15 +22,16 @@ class AddStaffComponent extends React.Component {
     }
 
     render() {
+        const defaultUrl = "https://d1j8r0kxyu9tj8.cloudfront.net/images/1547828315z6g7GGcOkULNAc0.jpg";
         let {name, email, age, address, homeland, phone, marital, literacy, start_company, username, color, avatar_url, current_role} = this.props.profile;
-        let avatar = helper.avatarEmpty(avatar_url) ?
-            NO_AVATAR : avatar_url;
+        let avatar = helper.validateLinkImage(avatar_url, defaultUrl);
+
         return (
             <div>
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            {(this.props.isLoadingProfile ) ? <Loading/> :
+                            {(this.props.isLoadingProfile) ? <Loading/> :
                                 <form id="form-edit-profile" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
@@ -39,7 +40,7 @@ class AddStaffComponent extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <h4 className="card-title">
-                                             Chỉnh sửa thông tin cá nhân
+                                            Chỉnh sửa thông tin cá nhân
                                         </h4>
 
                                         <FormInputText
@@ -147,7 +148,7 @@ class AddStaffComponent extends React.Component {
                                         <a className="content-avatar">
                                             <div className="img"
                                                  style={{
-                                                     background: 'url(' + avatar + ') center center / cover',
+                                                     background: 'url(' + helper.validateLinkImage(avatar) + ') center center / cover',
                                                      width: '130px',
                                                      height: '130px'
                                                  }}

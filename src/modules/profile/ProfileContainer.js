@@ -10,7 +10,6 @@ import * as profileActions from './profileActions';
 import Loading from '../../components/common/Loading';
 import {CirclePicker} from 'react-color';
 import {MARITAL, LITERACY} from '../../constants/constants';
-import {NO_AVATAR} from '../../constants/env';
 import * as helper from '../../helpers/helper';
 import {Link} from 'react-router';
 import {Modal} from "react-bootstrap";
@@ -59,9 +58,9 @@ class ProfileContainer extends React.Component {
 
 
     render() {
+        const defaultUrl = "https://d1j8r0kxyu9tj8.cloudfront.net/images/1547828315z6g7GGcOkULNAc0.jpg";
         let {name, email, phone, username, address, age, current_role, avatar_url, color, homeland, marital, literacy, start_company_vi} = this.props.profile;
-        let avatar = helper.avatarEmpty(avatar_url) ?
-            NO_AVATAR : avatar_url;
+        let avatar = helper.validateLinkImage(avatar_url, defaultUrl);
         let literacyName = LITERACY.filter(item => item.id === literacy)[0];
         let maritalName = MARITAL.filter(item => item.id === marital)[0];
         return (
@@ -198,7 +197,7 @@ class ProfileContainer extends React.Component {
                                                                 <a className="content-avatar">
                                                                     <div className="img"
                                                                          style={{
-                                                                             background: 'url(' + helper.validateLinkImage(avatar) + ') center center / cover',
+                                                                             background: 'url(' + avatar + ') center center / cover',
                                                                              width: '130px',
                                                                              height: '130px'
                                                                          }}

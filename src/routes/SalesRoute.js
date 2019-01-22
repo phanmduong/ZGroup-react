@@ -14,7 +14,7 @@ import RegistersContainer from "../modules/infoStudent/registers/RegistersContai
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import TargetListContainer from '../modules/sales/TargetListContainer';
-import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
+// import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
 import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
 
 
@@ -24,7 +24,8 @@ import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerConta
 export default [
     {
         path: "sales/personal-kpi",
-        component: TargetPersonContainer
+        // component: TargetPersonContainer
+        component: EvaluateSalerContainer
     },
     {
         path: "sales/target/:salerId",
