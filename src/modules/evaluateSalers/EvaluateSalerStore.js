@@ -50,7 +50,6 @@ export default new class evaluateTeachingStore {
     @action
     loadEvaluate() {
         this.isLoading = true;
-        console.log(this.salerId);
         if (!this.salerId) {
             loadEvaluateSalersApi(this.selectedGenId, this.selectedBaseId).then((res) => {
                 this.data = res.data.data.salers.map((obj) => {
@@ -104,12 +103,15 @@ export default new class evaluateTeachingStore {
 
     checkincheckoutPassed(data, shift_type) {
         return data[shift_type].filter((item) => {
+
+
             if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
                 return false;
             }
             if (!item.checkin_id || !item.checkout_id) {
                 return false;
             }
+
 
             if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
                 return false;
@@ -142,6 +144,7 @@ export default new class evaluateTeachingStore {
             if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
                 return true;
             }
+
 
             return false;
         })

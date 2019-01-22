@@ -43,6 +43,7 @@ export default class EvaluateTeachingCheckinCheckout {
     @computed
     get checkincheckoutPassed() {
         return this.data[this.shift_type].filter((item) => {
+            // console.log(item);
             if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
                 return false;
             }
@@ -50,11 +51,11 @@ export default class EvaluateTeachingCheckinCheckout {
                 return false;
             }
 
-            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
                 return false;
             }
 
-            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time))>60) {
                 return false;
             }
 
@@ -65,20 +66,23 @@ export default class EvaluateTeachingCheckinCheckout {
     @computed
     get checkincheckoutRejected() {
         return this.data[this.shift_type].filter((item) => {
+
             if (isEmptyInput(item.checkin_id) || isEmptyInput(item.checkout_id)) {
                 return true;
             }
+
 
             if (!item.checkin_id || !item.checkout_id) {
                 return true;
             }
 
-
-            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
                 return true;
             }
 
-            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+
+            if (Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time))>60) {
+
                 return true;
             }
 

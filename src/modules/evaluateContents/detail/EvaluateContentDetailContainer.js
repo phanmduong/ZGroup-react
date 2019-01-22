@@ -2,7 +2,7 @@ import React from "react";
 import Loading from "../../../components/common/Loading";
 import store from "./EvaluateContentDetailStore";
 import Select from '../../../components/common/Select';
-import {observer} from "mobx-react";
+import {observer,} from "mobx-react";
 import * as helper from "../../../helpers/helper";
 
 
@@ -31,8 +31,8 @@ class EvaluateContentDetailContainer extends React.Component {
     render() {
         let user = this.store.user ? this.store.user : {};
 
-        // let {leads, posts} = this.store.data;
-        let groupData = helper.groupBy(this.store.data.leads, obj => obj.lead.id, ["leads", "childs"]);
+        let {leads, posts} = this.store.data;
+        // let groupData = helper.groupBy(this.store.data.leads, obj => obj.lead.id, ["leads", "childs"]);
         return (
             <div>
                 {
@@ -67,8 +67,9 @@ class EvaluateContentDetailContainer extends React.Component {
                     </div>
                     {this.store.isLoading ? <Loading/> :
                         <div>
-                            {groupData.map((post, index) => {
-                                let product = post.childs.length > 0 ? post.childs[0].lead : {};
+                            {posts.map((post, index) => {
+                                let product = post;
+                                let childs = leads.filter(lead => lead.lead.id == post.id);
                                 return (
                                     <div className="panel-group" id="accordion" role="tablist"
                                          aria-multiselectable="true" key={index}>
@@ -91,7 +92,7 @@ class EvaluateContentDetailContainer extends React.Component {
                                                              style={{
                                                                  color: 'black',
                                                                  fontSize: 18
-                                                             }}>{product.title} ({post.childs.length})
+                                                             }}>{product.title} ({childs.length})
                                                         </div>
                                                         <div style={{color: 'black'}}>
                                                             Tạo
@@ -116,7 +117,7 @@ class EvaluateContentDetailContainer extends React.Component {
                                                                className="table table-no-bordered table-hover"
                                                                cellSpacing="0" width="100%" style={{width: "100%"}}>
                                                             <tbody>
-                                                            {post.childs.map((obj, index2) => {
+                                                            {childs.map((obj, index2) => {
                                                                 return (
                                                                     <tr key={index2}>
                                                                         <td className="width-5-percent">
@@ -138,10 +139,10 @@ class EvaluateContentDetailContainer extends React.Component {
                                                                             </a>
                                                                         </td>
                                                                         <td className="flex">
-                                                                            {obj.registers.map((course) => {
+                                                                            {obj.registers.map((course, index3) => {
                                                                                 return (
 
-                                                                                    <div className="avatar-array"
+                                                                                    <div className="avatar-array" key={index3}
                                                                                          style={{
                                                                                              background: 'url(' + helper.validateLinkImage(course.avatar_url) + ') center center / cover',
                                                                                              display: 'inline-block'

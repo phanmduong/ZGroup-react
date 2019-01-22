@@ -21,12 +21,32 @@ class EvaluateSalerContainer extends React.Component {
 
     }
 
+
+    componentDidMount() {
+        if (this.props.location.pathname === "/sales/personal-kpi") {
+            const user = JSON.parse(localStorage.getItem("user"));
+            store.salerId = user.id;
+            store.loadEvaluate();
+        }
+
+    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.params.salerId != nextProps.params.salerId) {
             store.salerId = nextProps.params.salerId;
             store.loadEvaluate();
+        } else if (this.props.location.pathname !== nextProps.location.pathname) {
+            if (nextProps.location.pathname === "/sales/personal-kpi") {
+                const user = JSON.parse(localStorage.getItem("user"));
+                store.salerId = user.id;
+                store.loadEvaluate();
+            }else {
+                store.salerId = null;
+                store.loadEvaluate();
+            }
         }
     }
+
 
     onChangeGen(value) {
         store.selectedGenId = value;
@@ -99,7 +119,7 @@ class EvaluateSalerContainer extends React.Component {
                                     {store.showModalShift && <CheckinCheckoutContainer
                                         gens={store.gens}
                                         selectedGenId={
-                                            this.props.params.salerId ?
+                                            (this.props.params.salerId || this.props.location.pathname === "/sales/personal-kpi") ?
                                                 store.selectedUser.start_gen_id :
                                                 store.selectedGenId
                                         }

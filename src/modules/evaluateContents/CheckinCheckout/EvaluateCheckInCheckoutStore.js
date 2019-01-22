@@ -51,11 +51,13 @@ export default class EvaluateTeachingCheckinCheckout {
                 return false;
             }
 
-            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
+
                 return false;
             }
 
-            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time))>60) {
+
                 return false;
             }
 
@@ -75,11 +77,13 @@ export default class EvaluateTeachingCheckinCheckout {
             }
 
 
-            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
+
                 return true;
             }
 
-            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+            if (Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time))>60) {
+
                 return true;
             }
 
