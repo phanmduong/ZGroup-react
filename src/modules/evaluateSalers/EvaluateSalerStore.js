@@ -113,11 +113,15 @@ export default new class evaluateTeachingStore {
             }
 
 
-            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+            if ((convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time))
+                &&Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
+
                 return false;
             }
 
-            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+            if ((convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time))
+                &&Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time)) > 60) {
+
                 return false;
             }
 
@@ -137,14 +141,17 @@ export default new class evaluateTeachingStore {
             }
 
 
-            if (convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time)) {
+            if ((convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time))
+                &&Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
+
                 return true;
             }
 
-            if (convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time)) {
+            if ((convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time))
+                &&Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time)) > 60) {
+
                 return true;
             }
-
 
             return false;
         })

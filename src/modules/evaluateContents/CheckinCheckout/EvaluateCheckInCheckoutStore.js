@@ -51,12 +51,14 @@ export default class EvaluateTeachingCheckinCheckout {
                 return false;
             }
 
-            if (Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
+            if ((convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time))
+                &&Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
 
                 return false;
             }
 
-            if (Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time))>60) {
+            if ((convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time))
+                &&Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time)) > 60) {
 
                 return false;
             }
@@ -77,12 +79,14 @@ export default class EvaluateTeachingCheckinCheckout {
             }
 
 
-            if (Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
+            if ((convertTimeToSecond(item.checkin_time) > convertTimeToSecond(item.start_time))
+                &&Math.abs(convertTimeToSecond(item.checkin_time) - convertTimeToSecond(item.start_time)) > 60) {
 
                 return true;
             }
 
-            if (Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time))>60) {
+            if ((convertTimeToSecond(item.checkout_time) < convertTimeToSecond(item.end_time))
+                &&Math.abs(convertTimeToSecond(item.checkout_time) - convertTimeToSecond(item.end_time)) > 60) {
 
                 return true;
             }
