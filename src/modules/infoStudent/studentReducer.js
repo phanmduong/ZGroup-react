@@ -179,6 +179,24 @@ export default function studySessionReducer(state = initialState.infoStudent, ac
                     errorChangeStatusCall: true,
                 }
             };
+        case types.BEGIN_UPLOAD_IMAGE_INFO_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isUploadingImage: true,
+                }
+            };
+        case types.UPLOAD_IMAGE_INFO_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isUploadingImage: false,
+                    student: {
+                        ...state.student,
+                        [action.imageField]: action.image_url
+                    }
+                }
+            };
         default:
             return state;
     }

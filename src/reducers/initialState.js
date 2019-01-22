@@ -1183,6 +1183,7 @@ export default {
         errorRegisters: false,
         historyCalls: [],
         isLoadingHistoryCalls: false,
+        isUploadingImage: false,
         errorHistoryCalls: false,
         progress: [],
         isLoadingProgress: false,

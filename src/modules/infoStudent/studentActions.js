@@ -147,3 +147,19 @@ export function changePassword(studentId, newPassword, closeModal) {
             });
     };
 }
+
+export function uploadImage(file, studentId, imageField) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_UPLOAD_IMAGE_INFO_STUDENT});
+        helper.showTypeNotification("Đang tải ảnh lên...", "info");
+        studentApi.uploadImage(file, function (event) {
+            let data = JSON.parse(event.currentTarget.response);
+            dispatch({
+                type: types.UPLOAD_IMAGE_INFO_STUDENT_SUCCESS,
+                image_url: data.image_url,
+                imageField: imageField
+            });
+            helper.showNotification(data.message);
+        }, studentId, imageField);
+    };
+}

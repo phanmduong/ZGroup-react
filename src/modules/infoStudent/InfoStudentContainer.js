@@ -28,7 +28,9 @@ class InfoStudentContainer extends React.Component {
         this.state = {
             showModal: false,
             student: {},
-            showModalChangePassword: false
+            showModalChangePassword: false,
+            showModalViewImage: false,
+            imageUrl: ''
         };
     }
 
@@ -76,6 +78,18 @@ class InfoStudentContainer extends React.Component {
 
     openModalChangePassword() {
         this.setState({showModalChangePassword: true});
+    }
+
+    openModalImageView = (imageUrl) => {
+        this.setState({
+            showModalViewImage: true,
+            imageUrl: imageUrl
+        });
+    }
+
+    handleFileUpload(event, image) {
+        let file = event.target.files[0];
+        this.props.studentActions.uploadImage(file, this.studentId, image);
     }
 
     render() {
@@ -166,9 +180,77 @@ class InfoStudentContainer extends React.Component {
                                                 Thay đổi mật khẩu
                                             </button>
                                         </div>
-                                    </div>    
+                                    </div>
                                 </div>
                             </div>
+                            {!this.props.isLoadingStudent &&
+
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-content">
+                                        <div className="tab-content">
+                                            <h4 className="card-title"><strong>Ảnh xác thực</strong></h4>
+                                            <br/>
+                                            <div className="row">
+                                                <div className="col-sm-6">
+                                                    <div
+                                                        className="flex flex-col flex-align-items-center flex-justify-content-center">
+                                                        <img style={{height: 'auto', width: '100%'}}
+                                                             onClick={() => this.openModalImageView(this.props.student.image1)}
+                                                             src={helper.validateLinkImage(this.props.student.image1)}/>
+                                                        <button className="btn btn-rose btn-round">
+                                                            Ảnh 1
+                                                            <input type="file"
+                                                                   accept=".jpg,.png,.gif"
+                                                                   onChange={(event) => this.handleFileUpload(event, 'image1')}
+                                                                   style={{
+                                                                       cursor: 'pointer',
+                                                                       opacity: "0.0",
+                                                                       position: "absolute",
+                                                                       top: 0,
+                                                                       left: 0,
+                                                                       bottom: 0,
+                                                                       right: 0,
+                                                                       width: "100%",
+                                                                       height: "100%"
+                                                                   }}
+                                                            />
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <div
+                                                        className="flex flex-col flex-align-items-center flex-justify-content-center">
+                                                        <img style={{height: 'auto', width: '100%'}}
+                                                             onClick={() => this.openModalImageView(this.props.student.image2)}
+                                                             src={helper.validateLinkImage(this.props.student.image2)}/>
+                                                        <button className="btn btn-rose btn-round">
+                                                            Ảnh 2
+                                                            <input type="file"
+                                                                   accept=".jpg,.png,.gif"
+                                                                   onChange={(event) => this.handleFileUpload(event, 'image2')}
+                                                                   style={{
+                                                                       cursor: 'pointer',
+                                                                       opacity: "0.0",
+                                                                       position: "absolute",
+                                                                       top: 0,
+                                                                       left: 0,
+                                                                       bottom: 0,
+                                                                       right: 0,
+                                                                       width: "100%",
+                                                                       height: "100%"
+                                                                   }}
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -183,6 +265,27 @@ class InfoStudentContainer extends React.Component {
                             studentId={this.studentId}
                             closeModal={this.closeModalChangePassword}
                         />
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalViewImage}>
+                    <Modal.Header closeButton
+                                  onHide={() => {
+                                      this.setState({showModalViewImage: false});
+                                  }}
+                                  closeLabel="Đóng">
+                        <Modal.Title>Ảnh</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <img style={{height: 'auto', width: '100%'}}
+                             src={helper.validateLinkImage(this.state.imageUrl)}/>
+                        <div className="flex flex-col flex-align-items-center flex-justify-content-center">
+                            <button className="btn btn-rose"
+                                    onClick={() => {
+                                        this.setState({showModalViewImage: false});
+                                    }}
+                            > Thoát
+                            </button>
+                        </div>
                     </Modal.Body>
                 </Modal>
                 <Modal show={this.state.showModal} onHide={this.closeModal}>

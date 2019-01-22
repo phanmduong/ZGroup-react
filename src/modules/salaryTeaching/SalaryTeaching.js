@@ -41,11 +41,11 @@ class SalaryTeaching extends React.Component {
                                         <div className="category">
                                             {formatPhone(data.user.phone)}
                                         </div>
-                                        <button className="btn btn-xs btn-round btn-success"
-                                        >
-                                            Bậc {level.level}
-                                        </button>
-                                        <div className="card-footer" style={{margin: 0, marginTop: 23}}>
+                                        {/*<button className="btn btn-xs btn-round btn-success"*/}
+                                        {/*>*/}
+                                            {/*Bậc {level.level}*/}
+                                        {/*</button>*/}
+                                        <div className="card-footer" style={{margin: 0, marginTop: 66}}>
                                             <div className="flex flex-row flex-space-between">
                                                 <div className="bold">Lương cứng</div>
                                                 <div>{dotNumber(data.user.salary)}đ</div>

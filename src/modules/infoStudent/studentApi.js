@@ -65,3 +65,19 @@ export function changePassword(studentId, newPassword) {
         new_password: newPassword,
     });
 }
+
+export function uploadImage(file, completeHandler, id, imageField) {
+    let url = env.MANAGE_API_URL + "/upload-image-user";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formdata = new FormData();
+    formdata.append(imageField, file);
+    formdata.append("id", id);
+    formdata.append("image", imageField);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+}
