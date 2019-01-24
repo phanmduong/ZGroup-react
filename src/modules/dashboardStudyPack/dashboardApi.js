@@ -37,8 +37,8 @@ export function loadDashboard(genId, baseId, startTime = '', endTime = '') {
 }
 
 export function loadStudyPackRegister(genId, baseId, search = '', filter = '', filterStatus = 1, page = '') {
-    let url = env.MANAGE_API_URL + `/study-pack/registers?gen_id=${genId}&base_id=${baseId}&search=${search}&page=${page}
-    &filter=${filter}&filter_status=${filterStatus}`;
+    let url = env.MANAGE_API_URL + `/study-pack/registers?gen_id=${genId}&base_id=${baseId}&search=${search}&page=${page}` +
+        `&filter=${filter}&filter_status=${filterStatus}`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

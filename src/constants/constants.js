@@ -660,6 +660,7 @@ export const RATIO_TOTAL_STUDENT_TEACHING_PASS = 65;
 export const RATIO_RATING_TEACHING_PASS = 4;
 export const RATIO_MONEY_REGISTER = 60;
 export const RATIO_ATTENDANCE_CLASS = 65;
+export const MAX_STUDIED_COURSE_STUDY_PACK = 5;
 export const FILTER_STUDY_PACK_REGISTER = [
     {
         key: "",

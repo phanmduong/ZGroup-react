@@ -51,8 +51,8 @@ class DashboardContainer extends React.Component {
         }
     }
 
-    loadStudyPackRegisters = (search = '', filter = '', page = 1) => {
-        this.props.dashboardActions.loadStudyPackRegister(this.state.selectGenId, this.state.selectBaseId, search, filter, page);
+    loadStudyPackRegisters = (search = '', filter = '', filter_status = 1, page = 1) => {
+        this.props.dashboardActions.loadStudyPackRegister(this.state.selectGenId, this.state.selectBaseId, search, filter, filter_status, page);
     }
 
     getGens(gens) {
