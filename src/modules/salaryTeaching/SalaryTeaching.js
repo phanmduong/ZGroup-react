@@ -35,17 +35,20 @@ class SalaryTeaching extends React.Component {
                                 </div>
                                 <div className="col-md-9">
                                     <div style={{flex: 1}}>
-                                        <div className="bold">
+                                        <a className="bold" href={'/teaching/evaluate-personal/' + data.user.id}>
                                             {data.user.name}
-                                        </div>
+                                        </a>
                                         <div className="category">
                                             {formatPhone(data.user.phone)}
                                         </div>
-                                        {/*<button className="btn btn-xs btn-round btn-success"*/}
-                                        {/*>*/}
-                                            {/*Bậc {level.level}*/}
-                                        {/*</button>*/}
-                                        <div className="card-footer" style={{margin: 0, marginTop: 66}}>
+                                        <div className="category">
+                                            {formatPhone(data.user.email)}
+                                        </div>
+                                        <button className="btn btn-xs btn-round btn-success"
+                                        >
+                                            Bậc {level.level}
+                                        </button>
+                                        <div className="card-footer" style={{margin: 0, marginTop: 10}}>
                                             <div className="flex flex-row flex-space-between">
                                                 <div className="bold">Lương cứng</div>
                                                 <div>{dotNumber(data.user.salary)}đ</div>

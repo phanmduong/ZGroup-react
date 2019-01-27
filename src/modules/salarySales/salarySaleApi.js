@@ -71,4 +71,14 @@ export function getDetailSalaryBonusApi(saleSalaryId) {
     return axios.get(url);
 }
 
+export function sendEmailSaleSalaryApi(genId) {
+    let url = env.MANAGE_API_URL + "/finance/send-email-sale-salary/" + genId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 

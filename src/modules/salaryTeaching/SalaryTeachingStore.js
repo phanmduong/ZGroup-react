@@ -2,10 +2,10 @@ import {observable, action, computed} from "mobx";
 import {
     addBonusSalaryApi, getDetailSalaryBonusApi,
     loadBasesApi,
-    loadGensApi, loadSalaryApi
+    loadGensApi, loadSalaryApi, sendEmailTeachingSalaryApi
 } from "./salaryTeachingApi";
 import _ from 'lodash';
-import {isEmptyInput} from "../../helpers/helper";
+import {isEmptyInput, showErrorNotification, showNotification} from "../../helpers/helper";
 
 export default new class salaryTeachingStore {
     @observable isLoadingGen = false;
@@ -15,6 +15,7 @@ export default new class salaryTeachingStore {
     @observable selectedGenId = 0;
     @observable selectedBaseId = 0;
     @observable isLoading = true;
+    @observable isSendingEmail = false;
     @observable openModalAddSalaryBonus = false;
     @observable openModalDetailSalaryBonus = false;
     @observable isAddingSalaryBonus = false;
@@ -48,6 +49,18 @@ export default new class salaryTeachingStore {
             this.bases = res.data.data.bases;
         }).finally(() => {
             this.isLoadingBase = false;
+        });
+    }
+
+    @action
+    sendingEmail() {
+        this.isSendingEmail = true;
+        sendEmailTeachingSalaryApi(this.selectedGenId).then(() => {
+            showNotification("Gửi mail thành công");
+        }).catch(() => {
+            showErrorNotification("Gửi mail thất bại");
+        }).finally(() => {
+            this.isSendingEmail = false;
         });
     }
 

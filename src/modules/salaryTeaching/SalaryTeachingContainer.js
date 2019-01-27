@@ -71,7 +71,16 @@ class SalaryTeachingContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
-                                <div className="col-sm-4">
+                                <div className="col-sm-3 col-xs-3">
+                                    <div
+                                        className={"btn btn-success btn-round " + (store.isSendingEmail ? "disabled" : "")}
+                                        style={{width: '100%'}}
+                                        onClick={() => store.sendingEmail()}
+                                    >
+                                        Gửi mail
+                                    </div>
+                                </div>
+                                <div className="col-sm-3 col-xs-3">
                                     {
                                         !store.isLoading &&
                                         <div
