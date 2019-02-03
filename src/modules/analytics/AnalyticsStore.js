@@ -22,6 +22,7 @@ export default new class AnalyticsStore {
                 g.load('analytics')
             };
         }(window, document, 'script'));
+
     }
 
     @action
@@ -31,11 +32,108 @@ export default new class AnalyticsStore {
         gapi.analytics.ready(()=> {
 
 
-            // let CLIENT_ID = '975308952047-8ra82lm5kc8ie3j4mqui87tt3qr2o6d5.apps.googleusercontent.com';
+            gapi.analytics.createComponent('ActiveUsers', {
+
+                initialize: ()=>{
+                    this.activeUsers = 0;
+                    gapi.analytics.auth.once('signOut', this.handleSignOut_.bind(this));
+                },
+
+                execute: ()=>{
+                    // Stop any polling currently going on.
+                    if (this.polling_) {
+                        this.stop();
+                    }
+
+                    this.render_();
+
+                    // Wait until the user is authorized.
+                    if (gapi.analytics.auth.isAuthorized()) {
+                        this.pollActiveUsers_();
+                    } else {
+                        gapi.analytics.auth.once('signIn', this.pollActiveUsers_.bind(this));
+                    }
+                },
+
+                stop: ()=>{
+                    clearTimeout(this.timeout_);
+                    this.polling_ = false;
+                    this.emit('stop', {activeUsers: this.activeUsers});
+                },
+
+                render_: ()=>{
+                    let opts = this.get();
+
+                    // Render the component inside the container.
+                    this.container = typeof opts.container == 'string' ?
+                        document.getElementById(opts.container) : opts.container;
+
+                    this.container.innerHTML = opts.template || this.template;
+                    this.container.querySelector('b').innerHTML = this.activeUsers;
+                },
+
+                pollActiveUsers_: ()=>{
+                    let options = this.get();
+                    let pollingInterval = (options.pollingInterval || 5) * 1000;
+
+                    if (isNaN(pollingInterval) || pollingInterval < 5000) {
+                        throw new Error('Frequency must be 5 seconds or more.');
+                    }
+
+                    this.polling_ = true;
+                    gapi.client.analytics.data.realtime
+                        .get({ids: options.ids, metrics: 'rt:activeUsers'})
+                        .then(function(response) {
+                            let result = response.result;
+                            let newValue = result.totalResults ? +result.rows[0][0] : 0;
+                            let oldValue = this.activeUsers;
+
+                            this.emit('success', {activeUsers: this.activeUsers});
+
+                            if (newValue != oldValue) {
+                                this.activeUsers = newValue;
+                                this.onChange_(newValue - oldValue);
+                            }
+
+                            if (this.polling_ == true) {
+                                this.timeout_ = setTimeout(this.pollActiveUsers_.bind(this),
+                                    pollingInterval);
+                            }
+                        }.bind(this));
+                },
+
+                onChange_: function(delta) {
+                    let valueContainer = this.container.querySelector('b');
+                    if (valueContainer) valueContainer.innerHTML = this.activeUsers;
+
+                    this.emit('change', {activeUsers: this.activeUsers, delta: delta});
+                    if (delta > 0) {
+                        this.emit('increase', {activeUsers: this.activeUsers, delta: delta});
+                    } else {
+                        this.emit('decrease', {activeUsers: this.activeUsers, delta: delta});
+                    }
+                },
+
+                handleSignOut_: ()=>{
+                    this.stop();
+                    gapi.analytics.auth.once('signIn', this.handleSignIn_.bind(this));
+                },
+
+                handleSignIn_: ()=>{
+                    this.pollActiveUsers_();
+                    gapi.analytics.auth.once('signOut', this.handleSignOut_.bind(this));
+                },
+
+                template:
+                    '<div class="ActiveUsers">' +
+                    'Active Users: <b class="ActiveUsers-value"></b>' +
+                    '</div>',
+
+            });
             //manage
-            // let CLIENT_ID = '975308952047-i1mdqsc9ovn5iq4mnhjuv88g09g7lu93.apps.googleusercontent.com';
+            let CLIENT_ID = '975308952047-i1mdqsc9ovn5iq4mnhjuv88g09g7lu93.apps.googleusercontent.com';
             //local
-            let CLIENT_ID = '975308952047-8ra82lm5kc8ie3j4mqui87tt3qr2o6d5.apps.googleusercontent.com';
+            // let CLIENT_ID = '975308952047-8ra82lm5kc8ie3j4mqui87tt3qr2o6d5.apps.googleusercontent.com';
 
             gapi.analytics.auth.authorize({
                 container: 'embed-api-auth-container',
@@ -48,7 +146,7 @@ export default new class AnalyticsStore {
              * element with the id "active-users-container" and poll for changes every
              * five seconds.
              */
-            let ext = gapi.analytics.ext
+            let ext = gapi.analytics
             console.log(ext);
             let activeUsers = new gapi.analytics.ext.ActiveUsers({
                 container: 'active-users-container',

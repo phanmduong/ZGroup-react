@@ -4,6 +4,7 @@ import DashboardStaffContainer from "../modules/dashboardStaff/DashboardStaffCon
 import DashboardTrongDongContainer from "../modules/dashboardTrongDong/DashboardTrongDongContainer";
 import LogRegisterRoom from "../modules/logRegisterRoom/LogRegisterRoom";
 import DashboardStudyPackContainer from "../modules/dashboardStudyPack/DashboardContainer";
+import AnalyticsContainer from "../modules/analytics/AnalyticsContainer";
 
 /**
  * Tab trang chủ
@@ -32,6 +33,10 @@ export default [
     {
         path: "/dashboard/view-register",
         component: DashboardTrongDongContainer
+    },
+    {
+        path: "/dashboard/analytics",
+        component: AnalyticsContainer,
     },
     {
         path: "/dashboard/log-register-room",
