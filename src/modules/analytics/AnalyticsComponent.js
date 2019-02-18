@@ -21,8 +21,8 @@ class AnalyticsComponent extends React.Component {
     }
 
     componentDidMount() {
-        initGapi();
-        authGapi();
+        // initGapi();
+        // authGapi();
         let now = moment();
         loadGapi(this.data, {
             'start-date': moment(now).subtract(14, 'day').day(0).format(DATE_FORMAT_SQL),
@@ -71,12 +71,13 @@ class AnalyticsComponent extends React.Component {
                 <div className="">
                     <div className="row">
                         {this.data.map((obj, index) => {
+                            console.log(obj);
                             let clsName = "margin-bottom-20";
                             clsName += obj.col ? (" col-md-" + obj.col) : " col-md-6";
                             return (
                                 <div key={index} className={clsName}>
                                     <div>{obj.name ? obj.name : ""}</div>
-                                    <div id={"chart-" + index + "-container"}></div>
+                                    <div id={"chart-" + obj.id + "-container"}></div>
                                 </div>
                             );
                         })}

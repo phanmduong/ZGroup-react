@@ -45,12 +45,12 @@ export const loadGapi = (data,filter) => {
             let chart = new gapi.analytics.googleCharts.DataChart({
                 query: {
                     ...props.query,
-                    'start-date': filter['start-date'],
-                    'end-date': filter['end-date']
+                    // 'start-date': filter['start-date'],
+                    // 'end-date': filter['end-date']
                 },
                 chart: {
                     ...props.chart,
-                    container: 'chart-' + i + '-container',
+                    container: 'chart-' + props.id + '-container',
                 },
             });
             dataChart.push(chart);

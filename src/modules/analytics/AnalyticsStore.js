@@ -1,19 +1,17 @@
-import {observable, action} from "mobx";
-// import {initGapi, loadGapi} from "./GapiClass";
-
-/* eslint-disable */
+import {loadBlogs} from "./AnalyticsApi";
 
 export default new class AnalyticsStore {
     @observable isLoading = false;
 
-    constructor() {
-
-
-    }
 
     @action
-    loadData() {
+    loadGens() {
         this.isLoading = true;
+        loadBlogs().then((res) => {
+
+        }).finally(() => {
+            this.isLoading = false;
+        });
     }
 
 }
