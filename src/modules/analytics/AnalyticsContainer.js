@@ -1,50 +1,107 @@
 import React from "react";
 import {observer} from "mobx-react";
-import store from "./AnalyticsStore";
-
+import AnalyticsComponent from "./AnalyticsComponent";
 @observer
 class AnalyticsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.data =
+            [
+                {
+                    col:12,
+                    name:"Session by country",
+                    query: {
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:country',
+                        // 'max-results': 10,
+                        sort: '-ga:sessions'
+                    },
+                    chart: {
+                        type: 'GEO',
+                        options: {
+                            width: '100%'
+                        }
+                    }
+                },
+                {
+                    name:"AVG time on page",
+                    query: {
+                        metrics: 'ga:timeOnPage',
+                        dimensions: 'ga:pagePath',
+                        sort: '-ga:timeOnPage'
+                    },
+                    chart: {
+                        type: 'PIE',
+                        options: {
+                            width: '100%',
+                            pieHole: 4 / 9
+                        }
+                    }
+                },
+                {
+                    name:"Session by browser",
+                    query: {
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:browser',
+                        'max-results': 10,
+                        sort: '-ga:sessions'
+                    },
+                    chart: {
+                        type: 'PIE',
+                        options: {
+                            width: '100%',
+                            pieHole: 4 / 9
+                        }
+                    }
+                },
+                {
+                    name:"Session by system",
+                    query: {
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:operatingSystem',
+                        'max-results': 10,
+                        sort: '-ga:sessions'
+                    },
+                    chart: {
+                        type: 'PIE',
+                        options: {
+                            width: '100%',
+                            pieHole: 4 / 9
+                        }
+                    }
+                },
+                // {
+                //     query: {
+                //         metrics: 'ga:sessions',
+                //         dimensions: 'ga:date'
+                //     },
+                //     chart: {
+                //         type: 'LINE',
+                //         options: {
+                //             width: '100%'
+                //         }
+                //     }
+                // },
+
+            ];
+
+
     }
 
-    componentWillMount() {
-        store.loadData();
+    componentDidMount() {
+
     }
+
+
 
 
     render() {
         return (
             <div>
 
-                <div id="embed-api-auth-container"></div>
-                <div id="view-selector-container"></div>
-                <div id="view-name"></div>
-                <div id="active-users-container"></div>
-
-                <hr/>
-                <hr/>
-
-                <div className="Chartjs">
-                    <h3>This Week vs Last Week (by sessions)</h3>
-                    <figure className="Chartjs-figure" id="chart-1-container"></figure>
-                    <ol className="Chartjs-legend" id="legend-1-container"></ol>
-                </div>
-                <div className="Chartjs">
-                    <h3>This Year vs Last Year (by users)</h3>
-                    <figure className="Chartjs-figure" id="chart-2-container"></figure>
-                    <ol className="Chartjs-legend" id="legend-2-container"></ol>
-                </div>
-                <div className="Chartjs">
-                    <h3>Top Browsers (by pageview)</h3>
-                    <figure className="Chartjs-figure" id="chart-3-container"></figure>
-                    <ol className="Chartjs-legend" id="legend-3-container"></ol>
-                </div>
-                <div className="Chartjs">
-                    <h3>Top Countries (by sessions)</h3>
-                    <figure className="Chartjs-figure" id="chart-4-container"></figure>
-                    <ol className="Chartjs-legend" id="legend-4-container"></ol>
-                </div>
+                <AnalyticsComponent
+                    data={this.data}
+                />
             </div>
 
         );
