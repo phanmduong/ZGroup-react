@@ -5,7 +5,7 @@ import { NO_IMAGE, BLOG_PREVIEW_BASE_URL } from "../../../constants/env";
 import { observer } from "mobx-react";
 import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from "react-select";
-import { BLOG_KINDS } from "../const";
+// import { BLOG_KINDS } from "../const";
 import TooltipButton from "../../../components/common/TooltipButton";
 import AddLanguageModal from "../containers/AddLanguageModal";
 import AddCategoryModal from "../containers/AddCategoryModal";
@@ -18,7 +18,7 @@ import {
 import PlainTextEditor from "../../../components/common/PlainTextEditor";
 import TagsInput from "../../../components/common/TagsInput";
 import { savePostV2 } from "../apis/blogApi";
-import KeetoolSelect from "../../../components/KeetoolSelect";
+// import KeetoolSelect from "../../../components/KeetoolSelect";
 import EditorFormGroup from "../../../components/EditorFormGroup";
 import { PUBLISHED, DRAFT } from "../constants/blogConstant";
 import PropTypes from "prop-types";
@@ -48,7 +48,7 @@ const savePost = async (editor, status, publish_status) => {
         showErrorNotification("Có lỗi xảy ra");
     }
 
-    const { product } = res.data;
+    const { product } = res.data.data;
 
     store.post = postTextToValue(product);
 
@@ -68,7 +68,7 @@ class BlogEditor extends React.Component {
     };
 
     componentDidMount() {
-        store.loadLanguages();
+        // store.loadLanguages();
         store.loadCategories();
         store.resetPostForm();
         const { postId } = this.props.params;
@@ -86,13 +86,13 @@ class BlogEditor extends React.Component {
             errors.push("Bạn nhập thiếu tên bài viết");
         }
 
-        if (!store.post.slug) {
-            errors.push("Bạn chưa nhập slug");
-        }
+        // if (!store.post.slug) {
+        //     errors.push("Bạn chưa nhập slug");
+        // }
 
-        if (!store.post.language_id) {
-            errors.push("Bạn chưa chọn ngôn ngữ");
-        }
+        // if (!store.post.language_id) {
+        //     errors.push("Bạn chưa chọn ngôn ngữ");
+        // }
 
         if (!store.post.url) {
             errors.push("Bạn chưa tải lên ảnh đại diện bài viết");
@@ -232,75 +232,75 @@ class BlogEditor extends React.Component {
                                     value={store.post.title}
                                 />
 
-                                <FormInputText
-                                    height="100%"
-                                    label="Slug"
-                                    required
-                                    name="slug"
-                                    isNotValid={this.fieldNotValid("slug")}
-                                    updateFormData={e =>
-                                        this.updatePost("slug", e.target.value)
-                                    }
-                                    value={store.post.slug}
-                                >
-                                    <TooltipButton
-                                        placement="top"
-                                        text="Tạo từ tiêu đề bài viết"
-                                    >
-                                        <a
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            style={{
-                                                position: "absolute",
-                                                right: 0,
-                                                top: 0
-                                            }}
-                                            onClick={this.generateFromTitle}
-                                        >
-                                            <i className="material-icons">
-                                                autorenew
-                                            </i>
-                                        </a>
-                                    </TooltipButton>
-                                </FormInputText>
+                                {/*<FormInputText*/}
+                                    {/*height="100%"*/}
+                                    {/*label="Slug"*/}
+                                    {/*required*/}
+                                    {/*name="slug"*/}
+                                    {/*isNotValid={this.fieldNotValid("slug")}*/}
+                                    {/*updateFormData={e =>*/}
+                                        {/*this.updatePost("slug", e.target.value)*/}
+                                    {/*}*/}
+                                    {/*value={store.post.slug}*/}
+                                {/*>*/}
+                                    {/*<TooltipButton*/}
+                                        {/*placement="top"*/}
+                                        {/*text="Tạo từ tiêu đề bài viết"*/}
+                                    {/*>*/}
+                                        {/*<a*/}
+                                            {/*className="btn btn-primary btn-round btn-xs button-add none-margin"*/}
+                                            {/*style={{*/}
+                                                {/*position: "absolute",*/}
+                                                {/*right: 0,*/}
+                                                {/*top: 0*/}
+                                            {/*}}*/}
+                                            {/*onClick={this.generateFromTitle}*/}
+                                        {/*>*/}
+                                            {/*<i className="material-icons">*/}
+                                                {/*autorenew*/}
+                                            {/*</i>*/}
+                                        {/*</a>*/}
+                                    {/*</TooltipButton>*/}
+                                {/*</FormInputText>*/}
 
                                 {this.renderTextFlexField(
                                     "description",
                                     "Mô tả ngắn"
                                 )}
 
-                                <KeetoolSelect
-                                    label="Loại bài viết"
-                                    value={store.post.kind}
-                                    options={BLOG_KINDS}
-                                    onChange={e =>
-                                        this.updatePost("kind", e.value)
-                                    }
-                                    placeholder="Chọn loại bài viết"
-                                />
-                                <KeetoolSelect
-                                    onChange={e =>
-                                        this.updatePost("language_id", e.value)
-                                    }
-                                    label="Ngôn ngữ"
-                                    value={store.post.language_id}
-                                    options={store.getLanguages}
-                                    placeholder="Chọn ngôn ngữ"
-                                    required={true}
-                                >
-                                    <TooltipButton
-                                        placement="top"
-                                        text="Thêm ngôn ngữ"
-                                    >
-                                        <button
-                                            onClick={this.openAddLanguageModal}
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button"
-                                        >
-                                            <strong>+</strong>
-                                            <div className="ripple-container" />
-                                        </button>
-                                    </TooltipButton>
-                                </KeetoolSelect>
+                                {/*<KeetoolSelect*/}
+                                    {/*label="Loại bài viết"*/}
+                                    {/*value={store.post.kind}*/}
+                                    {/*options={BLOG_KINDS}*/}
+                                    {/*onChange={e =>*/}
+                                        {/*this.updatePost("kind", e.value)*/}
+                                    {/*}*/}
+                                    {/*placeholder="Chọn loại bài viết"*/}
+                                {/*/>*/}
+                                {/*<KeetoolSelect*/}
+                                    {/*onChange={e =>*/}
+                                        {/*this.updatePost("language_id", e.value)*/}
+                                    {/*}*/}
+                                    {/*label="Ngôn ngữ"*/}
+                                    {/*value={store.post.language_id}*/}
+                                    {/*options={store.getLanguages}*/}
+                                    {/*placeholder="Chọn ngôn ngữ"*/}
+                                    {/*required={true}*/}
+                                {/*>*/}
+                                    {/*<TooltipButton*/}
+                                        {/*placement="top"*/}
+                                        {/*text="Thêm ngôn ngữ"*/}
+                                    {/*>*/}
+                                        {/*<button*/}
+                                            {/*onClick={this.openAddLanguageModal}*/}
+                                            {/*className="btn btn-primary btn-round btn-xs button-add none-margin"*/}
+                                            {/*type="button"*/}
+                                        {/*>*/}
+                                            {/*<strong>+</strong>*/}
+                                            {/*<div className="ripple-container" />*/}
+                                        {/*</button>*/}
+                                    {/*</TooltipButton>*/}
+                                {/*</KeetoolSelect>*/}
 
                                 <div className="form-group">
                                     <label
@@ -337,18 +337,18 @@ class BlogEditor extends React.Component {
                                     />
                                 </div>
 
-                                {this.renderTextFlexField(
-                                    "meta_title",
-                                    "Meta title"
-                                )}
-                                {this.renderTextFlexField(
-                                    "meta_description",
-                                    "Meta description"
-                                )}
-                                {this.renderTextFlexField(
-                                    "keyword",
-                                    "Keywords"
-                                )}
+                                {/*{this.renderTextFlexField(*/}
+                                    {/*"meta_title",*/}
+                                    {/*"Meta title"*/}
+                                {/*)}*/}
+                                {/*{this.renderTextFlexField(*/}
+                                    {/*"meta_description",*/}
+                                    {/*"Meta description"*/}
+                                {/*)}*/}
+                                {/*{this.renderTextFlexField(*/}
+                                    {/*"keyword",*/}
+                                    {/*"Keywords"*/}
+                                {/*)}*/}
 
                                 <TagsInput
                                     id="blog-editor-tags"

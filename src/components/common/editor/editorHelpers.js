@@ -9,6 +9,9 @@ export const plainToValue = plainText => {
 };
 
 export const valueToPlain = value => {
+    if (!value) {
+        return "";
+    }
     return plain.serialize(value);
 };
 
@@ -19,5 +22,8 @@ export const htmlToValue = htmlText => {
     return html.deserialize(htmlText);
 };
 export const valueToHtml = value => {
+    if (!value) {
+        value = "";
+    }
     return html.serialize(value);
 };
