@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {observable, action, computed} from "mobx";
 import {
     addBonusSalaryApi, addSaleSalaryApi, getDetailSalaryBonusApi,

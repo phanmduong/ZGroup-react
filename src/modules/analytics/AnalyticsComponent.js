@@ -2,7 +2,7 @@ import React from "react";
 import {observer} from "mobx-react";
 import moment from "moment";
 import FormInputDate from "../../components/common/FormInputDate";
-import {initGapi, loadGapi, authGapi} from "./GapiClass";
+import {loadGapi} from "./GapiClass";
 import {DATE_FORMAT_SQL} from "../../constants/constants";
 
 @observer

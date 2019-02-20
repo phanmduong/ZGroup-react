@@ -25,6 +25,7 @@ class AnalyticsBlogsContainer extends React.Component {
             isEdit: false,
         };
         this.timeOut = null;
+        this.inited = false;
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByText = this.loadByText.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
@@ -37,6 +38,7 @@ class AnalyticsBlogsContainer extends React.Component {
     componentWillMount() {
         initGapi();
         authGapi();
+        this.inited =true;
         this.props.blogActions.loadCategories();
         this.props.blogActions.loadLanguages();
         this.loadPosts(1);
@@ -119,9 +121,9 @@ class AnalyticsBlogsContainer extends React.Component {
                 ) : (
                     <div>
                         <div className="row">
-                            <div className="row col-md-12 margin-bottom-20" id={"embed-api-auth-container"}></div>
 
-                            <div className="flex col-md-12" id={"view-selector-container"}></div>
+                            <div className="flex col-md-12" id={"view-selector-container"} style={{visibility: "hidden"}}></div>
+
                             <div className="col-md-2">
 
                                 <Select
@@ -156,6 +158,12 @@ class AnalyticsBlogsContainer extends React.Component {
                                     onChange={this.loadByKinds}
                                 />
                             </div>
+                            <div className="col-md-8">
+                            <div  id={"embed-api-auth-container"}>
+
+                            </div>
+                            </div>
+
                         </div>
                         <div className="card">
                             <div className="card-content">
@@ -169,7 +177,10 @@ class AnalyticsBlogsContainer extends React.Component {
                             </div>
                         </div>
                         {!(this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages) &&
-                        <ListPost isLoading={this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages}/>}
+                        <ListPost
+                            isLoading={this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages}
+                            inited={this.inited}
+                        />}
                         <Pagination
                             totalPages={this.props.totalPages}
                             currentPage={this.state.page}

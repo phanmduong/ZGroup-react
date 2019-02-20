@@ -21,7 +21,6 @@ class ListPost extends React.Component {
                         dimensions: 'ga:date',
                         filters: 'ga:pagePath==/blog/' + this.props.slug,
                     },
-
                     chart: {
                         type: 'LINE',
                         options: {
@@ -54,10 +53,21 @@ class ListPost extends React.Component {
             };
         });
         loadGapi(this.data);
-       
+
     }
 
-    componentWillReceiveProps(nextProps) {
+
+    // componentWillReceiveProps(nextProps) {
+    //
+    // }
+
+    onChangeDate = (e, name, index) => {
+        let obj = {...this.data[index]};
+        obj.query = {...obj.query, [name]: e.target.value};
+        this.data[index] = obj;
+        if (this.props.inited) {
+            loadGapi(this.data);
+        }
 
     }
 
@@ -65,10 +75,10 @@ class ListPost extends React.Component {
         console.log(this.data);
         return (
             <div>
-                <div className="row col-md-12 margin-bottom-20" id={"embed-api-auth-container"}></div>
-                <div className="flex col-md-12" id={"view-selector-container"}></div>
+
                 <div className="row">
-                    {this.props.posts && this.props.posts.map((post,index) => {
+                    {this.props.posts && this.props.posts.map((post, index) => {
+                        let dataObj = this.data[index] ? this.data[index] : {query: {}};
                         return (
                             <div
                                 className="col-md-12"
@@ -143,32 +153,35 @@ class ListPost extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-8">
 
-
-                                            {/*<div className="row">*/}
-                                                {/*<div className="col-md-4">*/}
-                                                    {/*<FormInputDate value={this.data[index].query['start-date']}*/}
-                                                                   {/*label={"From"}*/}
-                                                                   {/*format={DATE_FORMAT_SQL}*/}
-                                                                   {/*name={'start-date'}*/}
-                                                                   {/*id={'start-date'}*/}
-                                                                   {/*updateFormData={(e) => this.onChangeDate(e, 'start-date')}*/}
-                                                    {/*/></div>*/}
-                                                {/*<div className="col-md-4">*/}
-                                                    {/*<FormInputDate value={this.data[index].query['end-date']}*/}
-                                                                   {/*label={"To"}*/}
-                                                                   {/*format={DATE_FORMAT_SQL}*/}
-                                                                   {/*name={'end-date'}*/}
-                                                                   {/*id={'end-date'}*/}
-                                                                   {/*updateFormData={e => this.onChangeDate(e, 'end-date')}*/}
-                                                    {/*/></div>*/}
-
-
-                                            {/*</div>*/}
-                                            <div className="row">
-                                                <div id={"chart-" + post.id + "-container"}></div>
+                                        <div className="col-md-2">
+                                            <div className="analytic-wrapper">
+                                                <div className="analytic-route-item">1</div>
                                             </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="row">
+                                                <div className="col-md-10">
+                                                    <div id={"chart-" + post.id + "-container"}></div>
+                                                </div>
+                                            </div>
+                                                {!this.props.isLoadingPosts && <div className="row">
+                                                    <div className="col-md-4">
+                                                        <FormInputDate value={dataObj.query['start-date']}
+                                                                       format={DATE_FORMAT_SQL}
+                                                                       name={'start-date' + index}
+                                                                       id={'start-date' + index}
+                                                                       updateFormData={(e) => this.onChangeDate(e, 'start-date', index)}
+                                                        /></div>
+                                                    <div className="col-md-4">
+                                                        <FormInputDate value={dataObj.query['end-date']}
+
+                                                                       format={DATE_FORMAT_SQL}
+                                                                       name={'end-date' + index}
+                                                                       id={'end-date-' + index}
+                                                                       updateFormData={e => this.onChangeDate(e, 'end-date', index)}
+                                                        /></div>
+                                                </div>}
 
                                         </div>
                                     </div>
