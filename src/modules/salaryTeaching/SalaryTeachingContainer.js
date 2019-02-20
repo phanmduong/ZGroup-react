@@ -15,6 +15,9 @@ class SalaryTeachingContainer extends React.Component {
     }
 
     componentWillMount() {
+        if (this.props.params.genId) {
+            store.selectedGenId = this.props.params.genId
+        }
         store.loadGens();
         store.loadBases();
     }
@@ -75,9 +78,10 @@ class SalaryTeachingContainer extends React.Component {
                                     {
                                         !store.isLoading &&
                                         <div
-                                            className={"btn btn-success btn-round " + (store.selectedBaseId == 0 ? "" : "disabled")}
+                                            className={"btn btn-success btn-round " + (store.selectedBaseId == 0 || !store.isApproval ? "" : "disabled")}
                                             style={{width: '100%'}}>
-                                            <div className="flex flex-row flex-space-between" style={{width: '100%'}}>
+                                            <div className="flex flex-row flex-space-between" style={{width: '100%'}}
+                                                 onClick={this.approvalSalary}>
                                                 <div>DUYỆT CHI</div>
                                                 <div className="bold">{dotNumber(store.totalSalary)}đ</div>
                                             </div>
@@ -98,6 +102,12 @@ class SalaryTeachingContainer extends React.Component {
             </div>
 
         );
+    }
+
+    approvalSalary = () => {
+        if (store.selectedBaseId == 0 || !store.isApproval) return;
+        store.approvalSalary();
+
     }
 }
 

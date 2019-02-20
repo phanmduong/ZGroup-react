@@ -76,3 +76,13 @@ export function getDetailSalaryBonusApi(teachingSalaryId) {
     return axios.get(url);
 }
 
+export function approvalTeachingSalaryApi(genId) {
+    let url = env.MANAGE_API_URL + "/finance/approval-salary-teaching/" + genId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+

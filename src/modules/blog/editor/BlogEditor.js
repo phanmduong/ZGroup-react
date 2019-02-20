@@ -48,7 +48,7 @@ const savePost = async (editor, status, publish_status) => {
         showErrorNotification("Có lỗi xảy ra");
     }
 
-    const { product } = res.data;
+    const { product } = res.data.data;
 
     store.post = postTextToValue(product);
 

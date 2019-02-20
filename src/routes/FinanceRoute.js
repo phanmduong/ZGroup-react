@@ -20,7 +20,7 @@ export default [
         component: CollectMoneyContainer,
     },
     {
-        path: "/finance/salary-teaching",
+        path: "/finance/salary-teaching(/:genId)",
         component: SalaryTeachingContainer,
     },
     {
