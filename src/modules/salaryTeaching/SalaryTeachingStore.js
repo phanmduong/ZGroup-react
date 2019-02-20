@@ -126,6 +126,7 @@ export default new class salaryTeachingStore {
         approvalTeachingSalaryApi(this.selectedGenId).then((res) => {
             if (res.data.status == 1) {
                 showNotification(res.data.message);
+                this.isApproval = true;
             } else {
                 showErrorNotification(res.data.message);
             }

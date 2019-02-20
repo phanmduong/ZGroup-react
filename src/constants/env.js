@@ -1,5 +1,4 @@
 /*eslint-disable */
-
 export let URL = env.DOMAIN;
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
@@ -11,16 +10,15 @@ export const BLOG_PREVIEW_BASE_URL = PROTOCOL + env.BLOG_PREVIEW_BASE_URL;
 // export const API_URL = PROTOCOL + "api." + URL;
 // export const API_URL = BASE_URL + "/api/v3";
 
-export const API_URL = PROTOCOL + "api." + URL;
+// export const API_URL = PROTOCOL + "api." + URL;
 
 // export const BASE_URL = PROTOCOL + URL;
-// export const API_URL = BASE_URL + "/api/v3";
+export const API_URL = BASE_URL + "/api/v3";
 
 // export const API_URL = BASE_URL + "/api/v3";
 export const DOMAIN = "http://" + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
-// export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
-export const MANAGE_API_URL = PROTOCOL + "manageapi." + URL;
+export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
 
 if (process.env.NODE_ENV === "production") {
     MANAGE_URL = PROTOCOL + "manage." + URL;

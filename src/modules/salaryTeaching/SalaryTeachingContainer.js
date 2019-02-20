@@ -7,6 +7,7 @@ import SalaryTeaching from "./SalaryTeaching";
 import {dotNumber} from "../../helpers/helper";
 import AddSalaryBonus from "./AddSalaryBonus";
 import DetailSalaryBonus from "./DetailSalaryBonus";
+import * as helper from "../../helpers/helper";
 
 @observer
 class SalaryTeachingContainer extends React.Component {
@@ -87,7 +88,7 @@ class SalaryTeachingContainer extends React.Component {
                                     {
                                         !store.isLoading &&
                                         <div
-                                            className={"btn btn-success btn-round " + (store.selectedBaseId == 0 || !store.isApproval ? "" : "disabled")}
+                                            className={"btn btn-success btn-round " + (store.selectedBaseId == 0 && !store.isApproval ? "" : "disabled")}
                                             style={{width: '100%'}}>
                                             <div className="flex flex-row flex-space-between" style={{width: '100%'}}
                                                  onClick={this.approvalSalary}>
@@ -114,8 +115,11 @@ class SalaryTeachingContainer extends React.Component {
     }
 
     approvalSalary = () => {
-        if (store.selectedBaseId == 0 || !store.isApproval) return;
-        store.approvalSalary();
+        if (store.selectedBaseId != 0 || store.isApproval) return;
+        helper.confirm('success', 'Duyệt chi', `Bạn có chắc chắn duyệt chi lương giảng viên khóa này không?`, () => {
+            store.approvalSalary();
+        });
+
 
     }
 }
