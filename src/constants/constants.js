@@ -584,6 +584,7 @@ export const DATETIME_VN_FORMAT = "DD/MM/YYYY HH:mm:ss";
 export const DATE_VN_FORMAT = "DD/MM/YYYY";
 export const DATETIME_SEAT_FORMAT = "DD/MM/YYYY HH:mm";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
+export const DATE_FORMAT_SQL = 'YYYY-MM-DD';
 export const FULLTIME_FORMAT = "HH:mm:ss";
 export const TIME_FORMAT_H_M = "HH:mm";
 
@@ -679,3 +680,6 @@ export const FILTER_STUDY_PACK_REGISTER = [
         value: 'Chưa xác minh'
     },
 ];
+
+
+export const GAPI_CLIENT_ID = '975308952047-i1mdqsc9ovn5iq4mnhjuv88g09g7lu93.apps.googleusercontent.com';
