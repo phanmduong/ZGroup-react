@@ -38,12 +38,11 @@ class AnalyticsBlogsContainer extends React.Component {
     componentWillMount() {
         initGapi();
         authGapi();
-        this.inited =true;
+        this.inited = true;
         this.props.blogActions.loadCategories();
         this.props.blogActions.loadLanguages();
         this.loadPosts(1);
     }
-
 
 
     loadPosts(page) {
@@ -116,55 +115,57 @@ class AnalyticsBlogsContainer extends React.Component {
     render() {
         return (
             <div className="container-fluid">
+                <div className="row">
+
+                    <div className="flex col-md-12" id={"view-selector-container"}
+                         style={{visibility: "hidden"}}></div>
+
+                    <div className="col-md-2">
+
+                        <Select
+                            className="btn-round"
+                            name="board-id"
+                            value={this.state.category_id}
+                            options={
+                                [
+                                    {key: 0, value: "Tất cả"},
+                                    ...this.props.categories ? this.props.categories.map((category) => {
+                                        return {
+                                            ...category,
+                                            key: category.id,
+                                            value: category.name
+                                        };
+                                    }) : []]
+                            }
+                            onChange={this.loadByCategories}
+                        />
+                    </div>
+                    <div className="col-md-2">
+
+                        <Select
+                            className="btn-round"
+                            name="board-id"
+                            value={this.state.kind}
+                            options={
+                                this.props.allBlogKinds.map((obj) => {
+                                    return {key: obj.value, value: obj.label};
+                                })
+                            }
+                            onChange={this.loadByKinds}
+                        />
+                    </div>
+                    <div className="col-md-8">
+                        <div className="analytic-author-container">
+                            <div className="analytic-author-item" id={"embed-api-auth-container"}/>
+                        </div>
+                    </div>
+
+                </div>
                 {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages ? (
                     <Loading/>
                 ) : (
                     <div>
-                        <div className="row">
 
-                            <div className="flex col-md-12" id={"view-selector-container"} style={{visibility: "hidden"}}></div>
-
-                            <div className="col-md-2">
-
-                                <Select
-                                    className="btn-round"
-                                    name="board-id"
-                                    value={this.state.category_id}
-                                    options={
-                                        [
-                                            {key: 0, value: "Tất cả"},
-                                            ...this.props.categories ? this.props.categories.map((category) => {
-                                                return {
-                                                    ...category,
-                                                    key: category.id,
-                                                    value: category.name
-                                                };
-                                            }) : []]
-                                    }
-                                    onChange={this.loadByCategories}
-                                />
-                            </div>
-                            <div className="col-md-2">
-
-                                <Select
-                                    className="btn-round"
-                                    name="board-id"
-                                    value={this.state.kind}
-                                    options={
-                                        this.props.allBlogKinds.map((obj) => {
-                                            return {key: obj.value, value: obj.label};
-                                        })
-                                    }
-                                    onChange={this.loadByKinds}
-                                />
-                            </div>
-                            <div className="col-md-8">
-                            <div  id={"embed-api-auth-container"}>
-
-                            </div>
-                            </div>
-
-                        </div>
                         <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">

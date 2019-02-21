@@ -29,7 +29,7 @@ export const authGapi = () => {
     });
 }
 
-export const loadGapi = (data,filter) => {
+export const loadGapi = (data, dataMenu) => {
 
     gapi.analytics.ready(() => {
 
@@ -45,8 +45,6 @@ export const loadGapi = (data,filter) => {
             let chart = new gapi.analytics.googleCharts.DataChart({
                 query: {
                     ...props.query,
-                    // 'start-date': filter['start-date'],
-                    // 'end-date': filter['end-date']
                 },
                 chart: {
                     ...props.chart,
@@ -55,6 +53,21 @@ export const loadGapi = (data,filter) => {
             });
             dataChart.push(chart);
         }
+
+        // for (let i = 0; i < dataMenu.length; i++) {
+        //     let props = dataMenu[i];
+        //     let chart = new gapi.analytics.googleCharts.DataChart({
+        //         query: {
+        //             ...props.query,
+        //         },
+        //         chart: {
+        //             ...props.chart,
+        //             container: 'chart-' + props.id + '-container',
+        //         },
+        //     });
+        //     dataChart.push(chart);
+        // }
+
         viewSelector.on('change', function (ids) {
             for (let i = 0; i < data.length; i++) {
                 dataChart[i].set({query: {ids: ids}}).execute();

@@ -683,3 +683,13 @@ export const FILTER_STUDY_PACK_REGISTER = [
 
 
 export const GAPI_CLIENT_ID = '975308952047-i1mdqsc9ovn5iq4mnhjuv88g09g7lu93.apps.googleusercontent.com';
+
+
+export const googleAnalyticMetrics = {
+    sessions: "ga:sessions",
+    averageTimeOnPage: "ga:avgTimeOnPage",
+    bounceRate: "ga:bounceRate",
+};
+export const googleAnalyticDimensions = {
+    date:"ga:date",
+};

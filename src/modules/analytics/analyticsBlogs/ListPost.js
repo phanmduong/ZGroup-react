@@ -8,6 +8,7 @@ import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 import {loadGapi} from "../GapiClass";
 import FormInputDate from "../../../components/common/FormInputDate";
+import {googleAnalyticMetrics, googleAnalyticDimensions} from "../../../constants/constants";
 
 class ListPost extends React.Component {
     constructor(props, context) {
@@ -17,8 +18,8 @@ class ListPost extends React.Component {
                 {
                     id: this.props.id,
                     query: {
-                        metrics: 'ga:sessions',
-                        dimensions: 'ga:date',
+                        metrics: googleAnalyticMetrics.bounceRate,
+                        dimensions: googleAnalyticDimensions.date,
                         filters: 'ga:pagePath==/blog/' + this.props.slug,
                     },
                     chart: {
@@ -30,6 +31,28 @@ class ListPost extends React.Component {
                 },
 
             ];
+        this.menuData = [
+            {
+                label: "121K",
+                name: "Views",
+                code: googleAnalyticMetrics.sessions,
+            },
+            {
+                label: "4.3m",
+                name: "AOP",
+                code: googleAnalyticMetrics.averageTimeOnPage,
+
+            },
+            {
+                label: "2.8",
+                name: "Bounce Rate",
+                code: googleAnalyticMetrics.bounceRate,
+
+            },
+        ];
+        this.state = {
+            selectedMenu: []
+        };
     }
 
     componentDidMount() {
@@ -38,10 +61,10 @@ class ListPost extends React.Component {
             return {
                 id: obj.id,
                 query: {
-                    metrics: 'ga:sessions',
-                    dimensions: 'ga:date',
-                    filters: 'ga:pagePath==/blog/' + obj.slug,
-                    'start-date': moment(now).subtract(14, 'day').day(0).format(DATE_FORMAT_SQL),
+                    metrics: googleAnalyticMetrics.sessions,
+                    dimensions: googleAnalyticDimensions.date,
+                    filters: 'ga:pagePath==/'+obj.kind+"/" + obj.slug,
+                    'start-date': moment(now).subtract(7, 'day').day(0).format(DATE_FORMAT_SQL),
                     'end-date': moment(now).format(DATE_FORMAT_SQL)
                 },
                 chart: {
@@ -52,6 +75,7 @@ class ListPost extends React.Component {
                 }
             };
         });
+        this.setState({selectedMenu: this.props.posts.map(() => 0)});
         loadGapi(this.data);
 
     }
@@ -71,8 +95,23 @@ class ListPost extends React.Component {
 
     }
 
+    onChangeItemTab = (id,tab)=>{
+        let currentTab = this.state.selectedMenu[id];
+        if(tab == currentTab) return;
+
+        if(tab < 3){
+            this.data[id].query.metrics = this.menuData[tab].code;
+            loadGapi(this.data);
+        }
+
+        let newMenu = [...this.state.selectedMenu];
+        newMenu[id] = tab;
+        this.setState({selectedMenu: newMenu});
+    }
+
     render() {
         console.log(this.data);
+        console.log(this.state);
         return (
             <div>
 
@@ -87,7 +126,13 @@ class ListPost extends React.Component {
                                 <div className="card card-chart">
                                     <div className="row">
                                         <div className="col-md-4">
-                                            <div className="card-content">
+                                            <div className="card-content" style={{
+                                                "display": "flex",
+                                                "padding": "25px",
+                                                "flexDirection": "column",
+                                                "justifyContent": "space-between",
+                                                "height": "365px"
+                                            }}>
                                                 <div
                                                     id="simpleBarChart"
                                                     className="ct-chart"
@@ -123,8 +168,7 @@ class ListPost extends React.Component {
                                                 </div>
                                                 <div style={{
                                                     display: "flex",
-                                                    justifyContent:
-                                                        "space-between",
+                                                    justifyContent: "space-between",
                                                     height: 40
                                                 }}>
                                                     <div style={{
@@ -154,34 +198,56 @@ class ListPost extends React.Component {
                                             </div>
                                         </div>
 
-                                        <div className="col-md-2">
+                                        <div className="col-md-1">
                                             <div className="analytic-wrapper">
-                                                <div className="analytic-route-item">1</div>
+                                                {this.menuData.map((obj, id) => {
+                                                    return (
+                                                        <div key={id} className={
+                                                            "analytic-route-item"
+                                                            + (this.state.selectedMenu[index] == id ? " analytic-route-item-active" : "")
+                                                        }
+                                                             onClick={()=>this.onChangeItemTab(index, id)}
+                                                        >
+                                                            {/*<div className="analytic-route-item-title">{obj.label}</div>*/}
+                                                            {/*<div className="analytic-route-item-des" id={"analytic-route-item-des-" +index + "-" + id}></div>*/}
+                                                            <div className="analytic-route-item-title">{obj.name}</div>
+                                                        </div>
+                                                    );
+                                                })}
+                                                <div className={
+                                                    "analytic-route-item"
+                                                    + (this.state.selectedMenu[index] == 3 ? " analytic-route-item-active" : "")
+                                                }>
+                                                    {/*<div className="analytic-route-item-title">999</div>*/}
+                                                    {/*<div className="analytic-route-item-des">Leads</div>*/}
+                                                    <div className="analytic-route-item-title">Leads</div>
+
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-7">
                                             <div className="row">
                                                 <div className="col-md-10">
                                                     <div id={"chart-" + post.id + "-container"}></div>
                                                 </div>
                                             </div>
-                                                {!this.props.isLoadingPosts && <div className="row">
-                                                    <div className="col-md-4">
-                                                        <FormInputDate value={dataObj.query['start-date']}
-                                                                       format={DATE_FORMAT_SQL}
-                                                                       name={'start-date' + index}
-                                                                       id={'start-date' + index}
-                                                                       updateFormData={(e) => this.onChangeDate(e, 'start-date', index)}
-                                                        /></div>
-                                                    <div className="col-md-4">
-                                                        <FormInputDate value={dataObj.query['end-date']}
+                                            {!this.props.isLoadingPosts && <div className="row">
+                                                <div className="col-md-4">
+                                                    <FormInputDate value={dataObj.query['start-date']}
+                                                                   format={DATE_FORMAT_SQL}
+                                                                   name={'start-date' + index}
+                                                                   id={'start-date' + index}
+                                                                   updateFormData={(e) => this.onChangeDate(e, 'start-date', index)}
+                                                    /></div>
+                                                <div className="col-md-4">
+                                                    <FormInputDate value={dataObj.query['end-date']}
 
-                                                                       format={DATE_FORMAT_SQL}
-                                                                       name={'end-date' + index}
-                                                                       id={'end-date-' + index}
-                                                                       updateFormData={e => this.onChangeDate(e, 'end-date', index)}
-                                                        /></div>
-                                                </div>}
+                                                                   format={DATE_FORMAT_SQL}
+                                                                   name={'end-date' + index}
+                                                                   id={'end-date-' + index}
+                                                                   updateFormData={e => this.onChangeDate(e, 'end-date', index)}
+                                                    /></div>
+                                            </div>}
 
                                         </div>
                                     </div>
