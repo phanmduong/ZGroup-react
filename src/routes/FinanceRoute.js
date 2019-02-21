@@ -21,11 +21,11 @@ export default [
         component: CollectMoneyContainer,
     },
     {
-        path: "/finance/salary-teaching",
+        path: "/finance/salary-teaching(/:genId)",
         component: SalaryTeachingContainer,
     },
     {
-        path: "/finance/salary-sale",
+        path: "/finance/salary-sale(/:genId)(/:baseId)",
         component: SalarySalesContainer,
     },
     {

@@ -1,5 +1,4 @@
 /*eslint-disable */
-
 export let URL = env.DOMAIN;
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;

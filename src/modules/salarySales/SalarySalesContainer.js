@@ -8,6 +8,7 @@ import {dotNumber} from "../../helpers/helper";
 import AddSalaryBonus from "./AddSalaryBonus";
 import DetailSalaryBonus from "./DetailSalaryBonus";
 import AddSalary from "./AddSalary";
+import * as helper from "../../helpers/helper";
 
 @observer
 class SalarySalesContainer extends React.Component {
@@ -16,6 +17,10 @@ class SalarySalesContainer extends React.Component {
     }
 
     componentWillMount() {
+        if (this.props.params.genId) {
+            store.selectedGenId = this.props.params.genId;
+            store.selectedBaseId = this.props.params.baseId;
+        }
         store.loadGens();
         store.loadBases();
     }
@@ -94,9 +99,11 @@ class SalarySalesContainer extends React.Component {
                                     {
                                         !store.isLoading &&
                                         <div
-                                            className={"btn btn-success btn-round " + (store.selectedBaseId == 0 ? "" : "disabled")}
+                                            className={"btn btn-success btn-round " + (!store.isApproval ? "" : "disabled")}
                                             style={{width: '100%'}}>
-                                            <div className="flex flex-row flex-space-between" style={{width: '100%'}}>
+                                            <div className="flex flex-row flex-space-between" style={{width: '100%'}}
+                                                 onClick={this.approvalSalary}
+                                            >
                                                 <div>DUYỆT CHI</div>
                                                 <div className="bold">{dotNumber(store.totalSalary)}đ</div>
                                             </div>
@@ -119,6 +126,15 @@ class SalarySalesContainer extends React.Component {
             </div>
 
         );
+    }
+
+    approvalSalary = () => {
+        if (store.isApproval) return;
+        helper.confirm('success', 'Duyệt chi', `Bạn có chắc chắn duyệt chi lương sale khóa này không?`, () => {
+            store.approvalSalary();
+        });
+
+
     }
 }
 

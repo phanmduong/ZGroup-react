@@ -141,7 +141,7 @@ class SalaryTeaching extends React.Component {
                             <div className="flex flex flex-space-between">
                                 <div className="bold">Lương thưởng
                                     {
-                                        data.teaching_salary_id &&
+                                        data.teaching_salary_id && !data.is_approval &&
                                         <TooltipButton text="Thêm thưởng" placement="top">
                                             <button className="btn btn-rose btn-round btn-xs button-add none-margin"
                                                     type="button" data-toggle="dropdown"

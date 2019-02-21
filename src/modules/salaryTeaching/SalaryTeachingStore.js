@@ -1,16 +1,17 @@
 import {observable, action, computed} from "mobx";
 import {
-    addBonusSalaryApi, getDetailSalaryBonusApi,
+    addBonusSalaryApi, approvalTeachingSalaryApi, getDetailSalaryBonusApi,
     loadBasesApi,
     loadGensApi, loadSalaryApi, sendEmailTeachingSalaryApi
 } from "./salaryTeachingApi";
 import _ from 'lodash';
-import {isEmptyInput, showErrorNotification, showNotification} from "../../helpers/helper";
+import {isEmptyInput, showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
 
 export default new class salaryTeachingStore {
     @observable isLoadingGen = false;
     @observable gens = [];
     @observable isLoadingBase = false;
+    @observable isApproval = false;
     @observable bases = [];
     @observable selectedGenId = 0;
     @observable selectedBaseId = 0;
@@ -68,7 +69,8 @@ export default new class salaryTeachingStore {
     loadSalaryTeaching() {
         this.isLoading = true;
         loadSalaryApi(this.selectedGenId, this.selectedBaseId).then((res) => {
-            this.data = res.data;
+            this.data = res.data.data.salary;
+            this.isApproval = res.data.data.is_approval;
         }).finally(() => {
             this.isLoading = false;
         });
@@ -115,6 +117,22 @@ export default new class salaryTeachingStore {
             this.detailSalaryBonus = res.data.data.salary_bonuses;
         }).finally(() => {
             this.isLoadingDetailSalaryBonus = false;
+        })
+    };
+
+    @action
+    approvalSalary = () => {
+        showTypeNotification("Đang duyệt chi", "info");
+        approvalTeachingSalaryApi(this.selectedGenId).then((res) => {
+            if (res.data.status == 1) {
+                showNotification(res.data.message);
+                this.isApproval = true;
+            } else {
+                showErrorNotification(res.data.message);
+            }
+        }).catch(() => {
+            showErrorNotification("Có lỗi xảy ra");
+        }).finally(() => {
         })
     };
 

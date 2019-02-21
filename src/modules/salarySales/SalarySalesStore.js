@@ -1,12 +1,13 @@
 /* eslint-disable */
 import {observable, action, computed} from "mobx";
 import {
-    addBonusSalaryApi, addSaleSalaryApi, getDetailSalaryBonusApi,
+    addBonusSalaryApi, addSaleSalaryApi, approvalSaleSalaryApi, getDetailSalaryBonusApi,
     loadBasesApi,
     loadGensApi, loadSalarySalesApi, sendEmailSaleSalaryApi
 } from "./salarySaleApi";
 import _ from 'lodash';
-import {showErrorNotification, showNotification} from "../../helpers/helper";
+import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
+import {approvalTeachingSalaryApi} from "../salaryTeaching/salaryTeachingApi";
 
 export default new class salarySalesStore {
     @observable isLoadingGen = false;
@@ -23,6 +24,7 @@ export default new class salarySalesStore {
     @observable openModalAddSalary = false;
     @observable isAddingSalary = false;
     @observable isLoadingDetailSalaryBonus = false;
+    @observable isApproval = false;
     @observable data = {};
     @observable salaryBonus = {
         saleSalaryId: 0,
@@ -65,7 +67,8 @@ export default new class salarySalesStore {
     loadSalarySales() {
         this.isLoading = true;
         loadSalarySalesApi(this.selectedGenId, this.selectedBaseId).then((res) => {
-            this.data = res.data.data;
+            this.data = res.data.data.sale_salary;
+            this.isApproval = res.data.data.is_approval;
         }).finally(() => {
             this.isLoading = false;
         });
@@ -134,6 +137,22 @@ export default new class salarySalesStore {
             this.isSendingEmail = false;
         });
     }
+
+    @action
+    approvalSalary = () => {
+        showTypeNotification("Đang duyệt chi", "info");
+        approvalSaleSalaryApi(this.selectedGenId, this.selectedBaseId).then((res) => {
+            if (res.data.status == 1) {
+                showNotification(res.data.message);
+                this.isApproval = true;
+            } else {
+                showErrorNotification(res.data.message);
+            }
+        }).catch(()=>{
+            showErrorNotification("Có lỗi xảy ra");
+        }).finally(() => {
+        })
+    };
 
 
     @computed
