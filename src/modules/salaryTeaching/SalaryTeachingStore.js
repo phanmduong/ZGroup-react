@@ -130,6 +130,8 @@ export default new class salaryTeachingStore {
             } else {
                 showErrorNotification(res.data.message);
             }
+        }).catch(() => {
+            showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
         })
     };

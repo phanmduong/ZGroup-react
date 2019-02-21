@@ -25,7 +25,7 @@ export default [
         component: SalaryTeachingContainer,
     },
     {
-        path: "/finance/salary-sale",
+        path: "/finance/salary-sale(/:genId)(/:baseId)",
         component: SalarySalesContainer,
     },
     {

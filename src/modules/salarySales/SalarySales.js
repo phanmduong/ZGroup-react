@@ -70,7 +70,7 @@ class SalarySales extends React.Component {
                             <div>
                                 <div className="flex flex flex-space-between">
                                     <div>{data.total_paid_normal_registers}</div>
-                                    {data.sale_salary.salary_normal_register > 0 ?
+                                    {data.sale_salary.salary_normal_register > 0 || data.sale_salary.approval_salary ?
                                         <TooltipButton text={data.sale_salary.note_normal_register} placement="top">
                                             <div
                                                 className="bold">{dotNumber(data.sale_salary.salary_normal_register)}đ
@@ -112,7 +112,7 @@ class SalarySales extends React.Component {
                             <div>
                                 <div className="flex flex flex-space-between">
                                     <div>{data.total_paid_gd_registers}</div>
-                                    {data.sale_salary.salary_gd_register > 0 ?
+                                    {data.sale_salary.salary_gd_register > 0 || data.sale_salary.approval_salary?
                                         <TooltipButton text={data.sale_salary.note_gd_register} placement="top">
                                             <div
                                                 className="bold">{dotNumber(data.sale_salary.salary_gd_register)}đ
@@ -153,7 +153,7 @@ class SalarySales extends React.Component {
                             <div className="flex flex flex-space-between">
                                 <div className="bold">Lương thưởng
                                     {
-                                        data.sale_salary &&
+                                        data.sale_salary && !data.sale_salary.approval_salary &&
                                         <TooltipButton text="Thêm thưởng" placement="top">
                                             <button className="btn btn-rose btn-round btn-xs button-add none-margin"
                                                     type="button" data-toggle="dropdown"
