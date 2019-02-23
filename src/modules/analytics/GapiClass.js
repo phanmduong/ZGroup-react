@@ -29,7 +29,7 @@ export const authGapi = () => {
     });
 }
 
-export const loadGapi = (data, dataMenu) => {
+export const loadGapi = (data) => {
 
     gapi.analytics.ready(() => {
 
@@ -54,19 +54,6 @@ export const loadGapi = (data, dataMenu) => {
             dataChart.push(chart);
         }
 
-        // for (let i = 0; i < dataMenu.length; i++) {
-        //     let props = dataMenu[i];
-        //     let chart = new gapi.analytics.googleCharts.DataChart({
-        //         query: {
-        //             ...props.query,
-        //         },
-        //         chart: {
-        //             ...props.chart,
-        //             container: 'chart-' + props.id + '-container',
-        //         },
-        //     });
-        //     dataChart.push(chart);
-        // }
 
         viewSelector.on('change', function (ids) {
             for (let i = 0; i < data.length; i++) {

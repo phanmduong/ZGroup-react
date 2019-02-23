@@ -117,9 +117,9 @@ class AnalyticsBlogsContainer extends React.Component {
             <div className="container-fluid">
                 <div className="row">
 
-                    <div className="flex col-md-12" id={"view-selector-container"}
-                         style={{visibility: "hidden"}}></div>
-
+                    <div className="col-md-12">
+                        <div id={"view-selector-container"} style={{visibility: "hidden", height:0}}/>
+                    </div>
                     <div className="col-md-2">
 
                         <Select
@@ -164,9 +164,9 @@ class AnalyticsBlogsContainer extends React.Component {
                 {this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages ? (
                     <Loading/>
                 ) : (
-                    <div>
+                    <div className="row">
 
-                        <div className="card">
+                        <div className="col-md-12">
                             <div className="card-content">
                                 <div className="tab-content">
                                     <Search
@@ -175,7 +175,8 @@ class AnalyticsBlogsContainer extends React.Component {
                                         placeholder="Tìm kiếm tiêu đề"
                                     />
                                 </div>
-                            </div>
+
+                             </div>
                         </div>
                         {!(this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages) &&
                         <ListPost
@@ -187,6 +188,7 @@ class AnalyticsBlogsContainer extends React.Component {
                             currentPage={this.state.page}
                             loadDataPage={this.loadPosts}
                         />
+
                     </div>
                 )}
             </div>

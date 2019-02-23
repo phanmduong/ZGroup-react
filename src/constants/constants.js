@@ -689,6 +689,7 @@ export const googleAnalyticMetrics = {
     sessions: "ga:sessions",
     averageTimeOnPage: "ga:avgTimeOnPage",
     bounceRate: "ga:bounceRate",
+    pageViews: "ga:pageviews",
 };
 export const googleAnalyticDimensions = {
     date:"ga:date",

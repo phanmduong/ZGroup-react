@@ -25,31 +25,17 @@ class ListPost extends React.Component {
                     chart: {
                         type: 'LINE',
                         options: {
+                            // legend: 'none',
+                            lineWidth: "10px",
+                            "line-width": "10px",
+
                             width: '100%'
                         }
                     }
                 },
 
             ];
-        this.menuData = [
-            {
-                label: "121K",
-                name: "Views",
-                code: googleAnalyticMetrics.sessions,
-            },
-            {
-                label: "4.3m",
-                name: "AOP",
-                code: googleAnalyticMetrics.averageTimeOnPage,
 
-            },
-            {
-                label: "2.8",
-                name: "Bounce Rate",
-                code: googleAnalyticMetrics.bounceRate,
-
-            },
-        ];
         this.state = {
             selectedMenu: []
         };
@@ -61,17 +47,44 @@ class ListPost extends React.Component {
             return {
                 id: obj.id,
                 query: {
-                    metrics: googleAnalyticMetrics.sessions,
+                    metrics:
+                        googleAnalyticMetrics.pageViews
+                        + "," + googleAnalyticMetrics.bounceRate
+                        + "," + googleAnalyticMetrics.sessions
+                        + "," + googleAnalyticMetrics.averageTimeOnPage
+                    ,
+
                     dimensions: googleAnalyticDimensions.date,
-                    filters: 'ga:pagePath==/'+obj.kind+"/" + obj.slug,
+                    filters: 'ga:pagePath==/' + obj.kind + "/" + obj.slug,
+                    // filters: 'ga:pagePath==/blog/don-dau-xu-huong-2019-bold-typography-54722',
                     'start-date': moment(now).subtract(7, 'day').day(0).format(DATE_FORMAT_SQL),
-                    'end-date': moment(now).format(DATE_FORMAT_SQL)
+                    'end-date': moment(now).format(DATE_FORMAT_SQL),
                 },
                 chart: {
                     type: 'LINE',
                     options: {
-                        width: '50%'
-                    }
+                        width: '100%',
+                        animation: {
+                            startup: true,
+                            duration: 500,
+                            easing: 'out',
+                        },
+                        lineWidth: 1,
+                        pointSize: 0,
+                        colors: ['#4285f4', '#e94335', '#f5bc04', '#52a853'],
+                        // legend: { position: 'right' },
+                        chartArea: {
+                            right: 20,
+                            left: 0,
+                            // bottom:20,
+                            // top:15
+                        },
+
+                    },
+
+                    // legend: "left",
+
+
                 }
             };
         });
@@ -90,49 +103,29 @@ class ListPost extends React.Component {
         obj.query = {...obj.query, [name]: e.target.value};
         this.data[index] = obj;
         if (this.props.inited) {
-            loadGapi(this.data);
+            loadGapi([this.data[index]]);
         }
 
-    }
-
-    onChangeItemTab = (id,tab)=>{
-        let currentTab = this.state.selectedMenu[id];
-        if(tab == currentTab) return;
-
-        if(tab < 3){
-            this.data[id].query.metrics = this.menuData[tab].code;
-            loadGapi(this.data);
-        }
-
-        let newMenu = [...this.state.selectedMenu];
-        newMenu[id] = tab;
-        this.setState({selectedMenu: newMenu});
     }
 
     render() {
-        console.log(this.data);
-        console.log(this.state);
         return (
             <div>
 
-                <div className="row">
-                    {this.props.posts && this.props.posts.map((post, index) => {
-                        let dataObj = this.data[index] ? this.data[index] : {query: {}};
-                        return (
+                {this.props.posts && this.props.posts.map((post, index) => {
+                    let dataObj = this.data[index] ? this.data[index] : {query: {}};
+                    return (
+
+                        <div className="" key={post.id}>
                             <div
-                                className="col-md-12"
-                                key={post.id}
+                                // className="col-md-12"
+                                className="col-md-9"
                             >
-                                <div className="card card-chart">
+
+                                <div className="card">
                                     <div className="row">
                                         <div className="col-md-4">
-                                            <div className="card-content" style={{
-                                                "display": "flex",
-                                                "padding": "25px",
-                                                "flexDirection": "column",
-                                                "justifyContent": "space-between",
-                                                "height": "365px"
-                                            }}>
+                                            <div className="card-content">
                                                 <div
                                                     id="simpleBarChart"
                                                     className="ct-chart"
@@ -153,16 +146,9 @@ class ListPost extends React.Component {
 
                                                 </div>
                                                 <div className="card-action">
-                                                    <h4 className="card-title"
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent:
-                                                                "space-between"
-                                                        }}>
+                                                    <h4 className="card-title" style={{margin: "20px 0px"}}>
                                                         <a href={`/blog/${post.id}/editor`} target="_blank">
-                                                            {post.title
-                                                                ? post.title
-                                                                : "Chưa có tên"}
+                                                            {post.title ? post.title : "Chưa có tên"}
                                                         </a>
                                                     </h4>
                                                 </div>
@@ -175,21 +161,16 @@ class ListPost extends React.Component {
                                                         display: "flex",
                                                         alignItems: "center"
                                                     }}>
-                                                        {post.author.avatar_url ? (
-                                                            <Avatar
-                                                                size={40}
-                                                                url={post.author.avatar_url}
-                                                                style={{borderRadius: 6}}
-                                                            />
-                                                        ) : null}
+                                                        {post.author.avatar_url ? (<Avatar
+                                                            size={40}
+                                                            url={post.author.avatar_url}
+                                                            style={{borderRadius: 6}}
+                                                        />) : null}
                                                         <div>
-                                                            <strong>
-                                                                {post.author.name}
-                                                            </strong>
+                                                            <strong>{post.author.name}</strong>
                                                             <br/>
-                                                            <p className="category" style={{fontSize: 12}}>
-                                                                {post.created_at}
-                                                            </p>
+                                                            <p className="category"
+                                                               style={{fontSize: 12}}>{post.created_at}</p>
                                                         </div>
                                                     </div>
 
@@ -198,48 +179,19 @@ class ListPost extends React.Component {
                                             </div>
                                         </div>
 
-                                        <div className="col-md-1">
-                                            <div className="analytic-wrapper">
-                                                {this.menuData.map((obj, id) => {
-                                                    return (
-                                                        <div key={id} className={
-                                                            "analytic-route-item"
-                                                            + (this.state.selectedMenu[index] == id ? " analytic-route-item-active" : "")
-                                                        }
-                                                             onClick={()=>this.onChangeItemTab(index, id)}
-                                                        >
-                                                            {/*<div className="analytic-route-item-title">{obj.label}</div>*/}
-                                                            {/*<div className="analytic-route-item-des" id={"analytic-route-item-des-" +index + "-" + id}></div>*/}
-                                                            <div className="analytic-route-item-title">{obj.name}</div>
-                                                        </div>
-                                                    );
-                                                })}
-                                                <div className={
-                                                    "analytic-route-item"
-                                                    + (this.state.selectedMenu[index] == 3 ? " analytic-route-item-active" : "")
-                                                }>
-                                                    {/*<div className="analytic-route-item-title">999</div>*/}
-                                                    {/*<div className="analytic-route-item-des">Leads</div>*/}
-                                                    <div className="analytic-route-item-title">Leads</div>
+                                        <div className="col-md-8 padding-horizontal-30px">
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-7">
-                                            <div className="row">
-                                                <div className="col-md-10">
-                                                    <div id={"chart-" + post.id + "-container"}></div>
-                                                </div>
-                                            </div>
+                                            <div id={"chart-" + post.id + "-container"}></div>
+
                                             {!this.props.isLoadingPosts && <div className="row">
-                                                <div className="col-md-4">
+                                                <div className="col-md-2">
                                                     <FormInputDate value={dataObj.query['start-date']}
                                                                    format={DATE_FORMAT_SQL}
                                                                    name={'start-date' + index}
                                                                    id={'start-date' + index}
                                                                    updateFormData={(e) => this.onChangeDate(e, 'start-date', index)}
                                                     /></div>
-                                                <div className="col-md-4">
+                                                <div className="col-md-2">
                                                     <FormInputDate value={dataObj.query['end-date']}
 
                                                                    format={DATE_FORMAT_SQL}
@@ -250,12 +202,25 @@ class ListPost extends React.Component {
                                             </div>}
 
                                         </div>
+
                                     </div>
+
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
+                            <div className="col-md-3">
+
+                                <div className="card" style={{
+                                    backgroundColor: "#4285f4",
+                                    paddingBottom: "100%",
+                                    // borderRadius: 10
+                                }}></div>
+
+                            </div>
+
+                        </div>
+                    );
+                })}
+
             </div>
         );
     }
