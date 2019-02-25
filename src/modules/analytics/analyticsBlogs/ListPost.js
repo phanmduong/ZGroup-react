@@ -6,9 +6,10 @@ import {bindActionCreators} from "redux";
 import Avatar from "../../../components/common/Avatar";
 import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
-import {loadGapi} from "../GapiClass";
+import {loadGapi, googleCodes} from "../GapiClass";
 import FormInputDate from "../../../components/common/FormInputDate";
 import {googleAnalyticMetrics, googleAnalyticDimensions} from "../../../constants/constants";
+import Loading from "../../../components/common/Loading";
 
 class ListPost extends React.Component {
     constructor(props, context) {
@@ -35,10 +36,13 @@ class ListPost extends React.Component {
                 },
 
             ];
-
         this.state = {
             selectedMenu: []
         };
+        this.facebookCode=[
+            {label:"Like", icon_url:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzAiIGhlaWdodD0iMzAiCnZpZXdCb3g9IjAgMCAyMjQgMjI0IgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDIyNHYtMjI0aDIyNHYyMjR6IiBmaWxsPSIjNDI4NWY0Ij48L3BhdGg+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTE3OS4yLDI5Ljg2NjY3aC0xMzQuNGMtOC4yNTA2NywwIC0xNC45MzMzMyw2LjY4MjY3IC0xNC45MzMzMywxNC45MzMzM3YxMzQuNGMwLDguMjUwNjcgNi42ODI2NywxNC45MzMzMyAxNC45MzMzMywxNC45MzMzM2g3NC42NjY2N3YtNjcuMmgtMjIuNHYtMjIuNGgyMi40di0xMi4wMjg4YzAsLTIyLjc3MzMzIDExLjA5NTQ3LC0zMi43NzEyIDMwLjAyMzQ3LC0zMi43NzEyYzkuMDY0NTMsMCAxMy44NTgxMywwLjY3MiAxNi4xMjgsMC45NzgxM3YyMS40MjE4N2gtMTIuOTA5ODdjLTguMDM0MTMsMCAtMTAuODQxNiw0LjI0MTA3IC0xMC44NDE2LDEyLjgyNzczdjkuNTcyMjdoMjMuNTQ5ODdsLTMuMTk1NzMsMjIuNGgtMjAuMzU0MTN2NjcuMmgzNy4zMzMzM2M4LjI1MDY3LDAgMTQuOTMzMzMsLTYuNjgyNjcgMTQuOTMzMzMsLTE0LjkzMzMzdi0xMzQuNGMwLC04LjI1MDY3IC02LjY5MDEzLC0xNC45MzMzMyAtMTQuOTMzMzMsLTE0LjkzMzMzeiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+"},
+            {label:"Share", icon_url:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADESURBVEhL5ZTdCcIwGEXji08dwxU6jvNYBEdwnk5SqSOIiN4DLYSQiqY3IHjhQEjh+71N+HttxVEME910Z9NBPBO4s+ki0gR0YtFO3IU9QSMYw02kwaF4RBuxF/NYHuIsTuIqqJzgRUtuRS/mKjlz97Vi21EV1VEl1RKY6umCboqUsx0wb74x/1XK2Q6n4BiLqieoPiKWTCCWPAr7kpdks+k7ffKjWV7Tak9FqmqPXaycra0Jcra2jQjFtgbOq5f8SwrhBVurcqwHat4EAAAAAElFTkSuQmCC"},
+        ];
     }
 
     componentDidMount() {
@@ -211,9 +215,43 @@ class ListPost extends React.Component {
 
                                 <div className="card" style={{
                                     backgroundColor: "#4285f4",
-                                    paddingBottom: "100%",
-                                    // borderRadius: 10
-                                }}></div>
+                                    // padding: "10px 30px"
+                                }}>
+                                    <div className="row" style={{padding:"10px 30px"}}>
+                                        {googleCodes.map((element, key) => {
+                                            return (
+                                                <div className="col-md-6" key={key}
+                                                     style={{padding: 10, color: "white"}}>
+                                                    <div style={{fontWeight: 600,}}>{element.label}</div>
+                                                    <div
+                                                        style={{fontSize: 20, lineHeight: "20px"}}
+                                                         id={"side-info-" + key + "-" + post.id}><Loading text={" "}/></div>
+                                                </div>
+                                            );
+                                        })}
+
+
+                                    </div>
+                                    <div
+                                        // className="col-md-12"
+                                        style={{height: 1, backgroundColor: "white"}}/>
+                                    <div className="row" style={{padding:"10px 30px"}}>
+
+                                        {this.facebookCode.map((element, key) => {
+                                            return (
+                                                <div className="col-md-6" key={key}
+                                                     style={{padding: 10, color: "white"}}>
+                                                    <div style={{fontWeight: 600,}}>{element.label}</div>
+                                                    <img src={element.icon_url}/>
+                                                    {/*<div style={{fontSize: 50, lineHeight: "55px"}}*/}
+                                                         {/*id={"side-info-" + key + "-" + post.id}></div>*/}
+                                                </div>
+                                            );
+                                        })}
+
+
+                                    </div>
+                                </div>
 
                             </div>
 

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {GAPI_CLIENT_ID} from "../../constants/constants";
+import {GAPI_CLIENT_ID, googleAnalyticMetrics} from "../../constants/constants";
 
 export const initGapi = () => {
     (function (w, d, s, g, js, fjs) {
@@ -29,6 +29,13 @@ export const authGapi = () => {
     });
 }
 
+export const googleCodes = [
+    {code: googleAnalyticMetrics.pageViews, label: "Total Pageviews", des:""},
+    {code: googleAnalyticMetrics.averageTimeOnPage, label: "Avg. Time on Page", des:"s"},
+    {code: googleAnalyticMetrics.sessions, label: "Total Sessions", des:""},
+    {code: googleAnalyticMetrics.bounceRate, label: "Bounce Rate", des:"%"},
+];
+
 export const loadGapi = (data) => {
 
     gapi.analytics.ready(() => {
@@ -51,6 +58,22 @@ export const loadGapi = (data) => {
                     container: 'chart-' + props.id + '-container',
                 },
             });
+            dataChart.push(chart);
+            // "side-info-" +post.id
+
+
+            chart.on('success', function (result) {
+                // Print the total pageview count to the console.
+                // console.log(result.response.totalsForAllResults['ga:pageviews']);
+                // console.log("#side-info-ga:pageviews-" + props.id, result.response.totalsForAllResults['ga:pageviews']);
+                // $("#test-123").html(result.response.totalsForAllResults['ga:pageviews']);
+                for (let j = 0; j < 4; j++) {
+                    let tmp = result.response.totalsForAllResults[googleCodes[j].code];
+                    $("#side-info-" + j + "-" + props.id).html(tmp.substr(0, 5)+googleCodes[j].des);
+                    $("#side-info-" + j + "-" + props.id).css({fontSize: 50, lineHeight: "55px"});
+                }
+            });
+
             dataChart.push(chart);
         }
 
