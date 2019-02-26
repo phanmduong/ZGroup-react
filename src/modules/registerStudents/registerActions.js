@@ -164,7 +164,7 @@ export function loadRegisterStudent(page,
                                     endTime,
                                     baseId,
                                     appointment_payment,
-                                    query_coupon,) {
+                                    query_coupon, tele_call_status) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
@@ -185,6 +185,7 @@ export function loadRegisterStudent(page,
                 baseId,
                 appointment_payment,
                 query_coupon,
+                tele_call_status
             )
             .then(function (res) {
                 dispatch(loadDataSuccessful(res));

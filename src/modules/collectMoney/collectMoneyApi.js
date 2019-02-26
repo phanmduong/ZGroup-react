@@ -18,10 +18,10 @@ export function payMoney(register) {
     }
     return axios.post(url, {
         register_id: register.id,
-        money: ""+register.money,
+        money: "" + register.money,
         code: register.code,
-        received_id_card: ""+Number(register.received_id_card),
-        note: register.note
+        note: register.note,
+        payment_method: register.payment_method
     });
 }
 

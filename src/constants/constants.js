@@ -681,6 +681,16 @@ export const FILTER_STUDY_PACK_REGISTER = [
     },
 ];
 
+export const PAYMENT_METHODS = [
+    {
+        value: "internet_banking",
+        label: "Chuyển khoản"
+    },
+    {
+        value: "cash",
+        label: "Tiền mặt"
+    }
+];
 
 export const GAPI_CLIENT_ID = '975308952047-i1mdqsc9ovn5iq4mnhjuv88g09g7lu93.apps.googleusercontent.com';
 
@@ -692,5 +702,5 @@ export const googleAnalyticMetrics = {
     pageViews: "ga:pageviews",
 };
 export const googleAnalyticDimensions = {
-    date:"ga:date",
+    date: "ga:date",
 };

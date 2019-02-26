@@ -7,20 +7,7 @@ class ListUser extends React.Component {
         super(props, context);
     }
 
-    checkCollectingMoney() {
-        let isCollectingMoney = false;
 
-        this.props.users.map(user => {
-            if (isCollectingMoney) return;
-            user.registers.map(register => {
-                if (register.isUpdating) {
-                    isCollectingMoney = true;
-                    return;
-                }
-            });
-        });
-        return isCollectingMoney;
-    }
 
     render() {
         return (
@@ -58,11 +45,8 @@ class ListUser extends React.Component {
                                 <div className="panel-body">
                                     <ListRegister
                                         user={user}
-                                        nextCode={this.props.nextCode}
-                                        nextWaitingCode={this.props.nextWaitingCode}
                                         registers={user.registers}
-                                        updateMoney={this.props.updateMoney}
-                                        isCollectingMoney={this.checkCollectingMoney()}
+                                        openModalCollectMoney={this.props.openModalCollectMoney}
                                     />
                                 </div>
                             </div>
@@ -75,8 +59,6 @@ class ListUser extends React.Component {
 }
 
 ListUser.propTypes = {
-    nextCode: PropTypes.string.isRequired,
-    nextWaitingCode: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     updateMoney: PropTypes.func.isRequired
 };

@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import * as collectMoneyActions from './collectMoneyActions';
 import ListUser from './ListUser';
 import * as helper from '../../helpers/helper';
+import {Modal} from 'react-bootstrap';
+import CollectMoneyForm from "./CollectMoneyForm";
 
 class CollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -18,6 +20,11 @@ class CollectMoneyContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+            showModalCollectMoney: false,
+            collectMoney: {
+                user: {},
+                register: {}
+            }
         };
         this.timeOut = null;
         this.registersSearchChange = this.registersSearchChange.bind(this);
@@ -50,8 +57,41 @@ class CollectMoneyContainer extends React.Component {
     updateMoney(user, register) {
         helper.confirm("question", "Thu tiền học",
             `Bạn sắp thu ${helper.dotNumber(register.money)}đ từ học viên ${user.name}. <br/>Bạn có muốn tiếp tục?`, () => {
-            this.props.collectMoneyActions.payMoneyRegister(register);
+                this.props.collectMoneyActions.payMoneyRegister(register, this.closeModalCollectMoney);
+            });
+    }
+
+    openModalCollectMoney = (register, user) => {
+        this.setState({
+            showModalCollectMoney: true,
+            collectMoney: {
+                register,
+                user
+            }
         });
+    }
+
+    checkCollectingMoney() {
+        let isCollectingMoney = false;
+
+        this.props.users.map(user => {
+            if (isCollectingMoney) return;
+            user.registers.map(register => {
+                if (register.isUpdating) {
+                    isCollectingMoney = true;
+                    return;
+                }
+            });
+        });
+        return isCollectingMoney;
+    }
+
+    collectMoney = (register) => {
+        this.updateMoney(this.state.collectMoney.user, register);
+    };
+
+    closeModalCollectMoney = () => {
+        this.setState({showModalCollectMoney: false});
     }
 
     render() {
@@ -73,9 +113,8 @@ class CollectMoneyContainer extends React.Component {
                                 <div>
                                     <ListUser
                                         users={this.props.users}
-                                        nextCode={this.props.nextCode}
-                                        nextWaitingCode={this.props.nextWaitingCode}
                                         updateMoney={this.updateMoney}
+                                        openModalCollectMoney={this.openModalCollectMoney}
                                     />
                                     <ul className="pagination pagination-primary">
                                         {_.range(1, this.props.totalPages + 1).map(page => {
@@ -100,6 +139,30 @@ class CollectMoneyContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showModalCollectMoney}
+                       onHide={() => {
+                           if (!this.checkCollectingMoney()) {
+                               this.closeModalCollectMoney();
+                           }
+                       }}>
+                    <Modal.Header
+                        closeButton
+                        closeLabel="Đóng">
+                        <Modal.Title>Nộp tiền học viên</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.state.showModalCollectMoney &&
+                        <CollectMoneyForm
+                            user={this.state.collectMoney.user}
+                            register={this.state.collectMoney.register}
+                            isCollectingMoney={this.checkCollectingMoney()}
+                            collectMoney={this.collectMoney}
+                            nextCode={this.props.nextCode}
+                            nextWaitingCode={this.props.nextWaitingCode}
+                            staff={this.props.staff}
+                        />}
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -113,6 +176,7 @@ CollectMoneyContainer.propTypes = {
     users: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     collectMoneyActions: PropTypes.object.isRequired,
+    staff: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -122,7 +186,8 @@ function mapStateToProps(state) {
         nextCode: state.collectMoney.nextCode,
         nextWaitingCode: state.collectMoney.nextWaitingCode,
         users: state.collectMoney.users,
-        isLoading: state.collectMoney.isLoading
+        isLoading: state.collectMoney.isLoading,
+        staff: state.login.user
     };
 }
 

@@ -118,9 +118,9 @@ class InfoStudentContainer extends React.Component {
                                     <div className="ripple-container"/>
                                 </Link>
                             </li>
-                            <li className={this.path === `/sales/info-student/${this.studentId}/care` ? 'active' : ''}>
-                                <Link to={`/sales/info-student/${this.studentId}/care`}>
-                                    <i className="material-icons">flag</i> Quan tâm  &#160;
+                            <li className={this.path === `/sales/info-student/${this.studentId}/history-collect-money` ? 'active' : ''}>
+                                <Link to={`/sales/info-student/${this.studentId}/history-collect-money`}>
+                                    <i className="material-icons">flag</i> Nộp tiền  &#160;
                                     <div className="ripple-container"/>
                                 </Link>
                             </li>

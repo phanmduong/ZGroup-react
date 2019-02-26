@@ -25,7 +25,7 @@ import InfoStudentContainer from "../modules/infoStudent/InfoStudentContainer";
 import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
-import CareContainer from "../modules/infoStudent/care/CareContainer";
+import CareContainer from "../modules/infoStudent/historyCollectMoney/HistoryCollectMoneyContainer";
 import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
 import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesContainer";
 import EvaluateTeachingContainer from "../modules/evaluateTeaching/EvaluateTeachingContainer";
@@ -181,7 +181,7 @@ export default [
                 component: ProgressClassContainer
             },
             {
-                path: "care",
+                path: "historyCollectMoney",
                 component: CareClassContainer
             }
         ]
@@ -205,7 +205,7 @@ export default [
                 component: ProgressContainer
             },
             {
-                path: "care",
+                path: "historyCollectMoney",
                 component: CareContainer
             },
         ]

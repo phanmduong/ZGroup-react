@@ -45,6 +45,7 @@ class RegisterListContainer extends React.Component {
             selectedBaseId: '',
             selectedMoneyFilter: '',
             selectedClassStatus: '',
+            selectedTeleCallStatus: '',
             classFilter: [],
             salerFilter: [],
             campaignFilter: [],
@@ -59,6 +60,12 @@ class RegisterListContainer extends React.Component {
                 {value: '', label: 'Tất cả',},
                 {value: 'active', label: 'Hoạt động',},
                 {value: 'waiting', label: 'Chờ',},
+            ],
+            teleCallStatus: [
+                {value: '', label: 'Tất cả̉',},
+                {value: '0', label: 'Chưa gọi',},
+                {value: '1', label: 'Thành công',},
+                {value: '2', label: 'Thất bại',},
             ],
             time: {
                 startTime: '',
@@ -93,6 +100,7 @@ class RegisterListContainer extends React.Component {
         this.changeClassStatusFilter = this.changeClassStatusFilter.bind(this);
         this.showLoadingModal = this.showLoadingModal.bind(this);
         this.closeLoadingModal = this.closeLoadingModal.bind(this);
+        this.onTeleCallStatusFilterChange = this.onTeleCallStatusFilterChange.bind(this);
         this.openModalChangeInfoStudent = this.openModalChangeInfoStudent.bind(this);
         this.updateModalChangeInfoStudent = this.updateModalChangeInfoStudent.bind(this);
         this.commitModalChangeInfoStudent = this.commitModalChangeInfoStudent.bind(this);
@@ -205,6 +213,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
             this.setState({
                 page: 1,
@@ -296,6 +305,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         this.setState({selectedClassId: res, page: 1});
     }
@@ -327,6 +337,7 @@ class RegisterListContainer extends React.Component {
                 obj ? obj.value : '',
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         this.setState({
             selectedBaseId: res,
@@ -357,6 +368,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         this.setState({selectedSalerId: res, page: 1});
     }
@@ -385,6 +397,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         this.setState({campaignId: res, page: 1});
     }
@@ -407,6 +420,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         this.setState({selectedMoneyFilter: res, page: 1});
     }
@@ -434,12 +448,39 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
+            this.state.selectedTeleCallStatus
         );
 
         this.setState({
             classFilter: this.getFilter(newfilter),
             selectedClassId: '',
             selectedClassStatus: res,
+            page: 1
+        });
+    }
+
+    onTeleCallStatusFilterChange(obj) {
+        let res = obj ? obj.value : '';
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.limit,
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
+            this.state.query_coupon,
+            res
+        );
+
+        this.setState({
+            selectedTeleCallStatus: res,
             page: 1
         });
     }
@@ -479,6 +520,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         } else {
             this.setState({time: time});
@@ -600,6 +642,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
+            this.state.selectedTeleCallStatus
         );
     }
 
@@ -626,6 +669,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
+                this.state.selectedTeleCallStatus
             );
         }.bind(this), 500);
     }
@@ -653,6 +697,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 value,
+                this.state.selectedTeleCallStatus
             );
         }.bind(this), 500);
     }
@@ -676,6 +721,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
+            this.state.selectedTeleCallStatus
         );
         this.props.registerActions.loadClassFilter(value);
     }
@@ -815,6 +861,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
+            this.state.selectedTeleCallStatus
         );
     }
 
@@ -1030,6 +1077,19 @@ class RegisterListContainer extends React.Component {
                                                         options={this.state.classStatusFilter}
                                                         onChange={this.onClassStatusFilterChange}
                                                         value={this.state.selectedClassStatus}
+                                                        defaultMessage="Tuỳ chọn"
+                                                        name="filter_class_status"
+                                                    />
+                                                </div>
+                                                <div className="col-md-3 form-group">
+                                                    <label className="">
+                                                        Theo trạng thái cuộc gọi
+                                                    </label>
+                                                    <ReactSelect
+                                                        disabled={this.props.isLoading || this.isWaitListPage}
+                                                        options={this.state.teleCallStatus}
+                                                        onChange={this.onTeleCallStatusFilterChange}
+                                                        value={this.state.selectedTeleCallStatus}
                                                         defaultMessage="Tuỳ chọn"
                                                         name="filter_class_status"
                                                     />

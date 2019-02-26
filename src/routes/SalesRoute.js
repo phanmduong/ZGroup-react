@@ -9,7 +9,7 @@ import OverviewSalesRoom from "../modules/summarySalesRoom/OverviewSalesRoom";
 import StatisticSalesRoom from "../modules/summarySalesRoom/StatisticSalesRoom";
 import RegisterListContainer from "../modules/registerStudents/RegisterListContainer";
 import InfoStudentContainer from "../modules/infoStudent/InfoStudentContainer";
-import CareContainer from "../modules/infoStudent/care/CareContainer";
+import HistoryCollectMoneyContainer from "../modules/infoStudent/historyCollectMoney/HistoryCollectMoneyContainer";
 import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
@@ -115,8 +115,8 @@ export default [
                 component: ProgressContainer
             },
             {
-                path: "care",
-                component: CareContainer
+                path: "history-collect-money",
+                component: HistoryCollectMoneyContainer
             },
         ]
     },

@@ -75,7 +75,7 @@ import AppContainer from "../containers/AppContainer";
 // import TaskListTemplateContainer from "../modules/good/TaskListTemplateContainer";
 // import ImportGoodsContainer from "../modules/importGoods/ImportGoodsContainer";
 // import BoardListContainer from "../modules/tasks/board/BoardListContainer";
-// import CareContainer from "../modules/infoStudent/care/CareContainer";
+// import CareContainer from "../modules/infoStudent/historyCollectMoney/CareContainer";
 // import ImportContainer from "../modules/importGoods/importGood/ImportContainer";
 // import ProductWebsiteContainer from "../modules/createProduct/ProductWebsiteContainer";
 // import CreateEmailTemplateContainer from "../modules/emailTemplates/CreateEmailTemplateContainer";
@@ -86,7 +86,7 @@ import AppContainer from "../containers/AppContainer";
 // import PropertiesListContainer from "../modules/good/PropertiesListContainer";
 // import ShiftSessionsContainer from "../modules/shiftSessions/ShiftSessionsContainer";
 // import GensContainer from "../modules/gens/GensContainer";
-// import CareClassContainer from "../modules/classes/class/care/CareContainer";
+// import CareClassContainer from "../modules/classes/class/historyCollectMoney/CareContainer";
 // import DashboardContainer from "../modules/dashboard/DashboardContainer";
 // import GoodListContainer from "../modules/good/GoodListContainer";
 // import ClassContainer from "../modules/classes/class/ClassContainer";
@@ -170,7 +170,7 @@ export default (
         {/*<IndexRoute component={RegistersContainer}/>*/}
         {/*<Route path="history-calls" component={HistoryCallContainer}/>*/}
         {/*<Route path="progress" component={ProgressContainer}/>*/}
-        {/*<Route path="care" component={CareContainer}/>*/}
+        {/*<Route path="historyCollectMoney" component={CareContainer}/>*/}
         {/*</Route>*/}
         {/*End info student routes*/}
 
@@ -215,7 +215,7 @@ export default (
         {/*<Route path="history-teaching" component={HistoryTeachingContainer}/>*/}
         {/*<Route path="registers" component={RegistersClassContainer}/>*/}
         {/*<Route path="progress" component={ProgressClassContainer}/>*/}
-        {/*<Route path="care" component={CareClassContainer}/>*/}
+        {/*<Route path="historyCollectMoney" component={CareClassContainer}/>*/}
         {/*</Route>*/}
         {/*End class routes*/}
 

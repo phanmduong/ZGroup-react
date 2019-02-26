@@ -146,12 +146,15 @@ class ProgressContainer extends React.Component {
 
                                                     </div>
                                                     <div className="col-md-4 col-sm-3">
+                                                        {progressClass.code &&
                                                         <div className="content-qr-code">
                                                             <img
                                                                 className="square-100"
-                                                                src={"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + progressClass.code + "&bgcolor=000000&color=FFFFFF&qzone=2&format=svg"}/>
+                                                                src={"http://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + progressClass.code + "&bgcolor=FFFFFF&color=000000&qzone=2&format=svg"}/>
                                                             <div>{progressClass.code}</div>
                                                         </div>
+                                                        }
+
                                                     </div>
                                                 </div>
                                             </div>

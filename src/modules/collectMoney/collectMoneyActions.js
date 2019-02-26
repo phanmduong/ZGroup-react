@@ -27,7 +27,7 @@ export function searchStudentRegister(search, page) {
     };
 }
 
-export function payMoneyRegister(register) {
+export function payMoneyRegister(register, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_PAY_REGISTER_COLLECT_MONEY,
@@ -35,6 +35,7 @@ export function payMoneyRegister(register) {
         });
         collectMoneyApi.payMoney(register)
             .then((res) => {
+                closeModal();
                 helper.sweetAlertSuccess("Nộp tiền thành công");
                 dispatch({
                     type: types.PAY_REGISTER_COLLECT_MONEY_SUCCESS,

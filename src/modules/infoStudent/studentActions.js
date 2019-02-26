@@ -87,6 +87,22 @@ export function loadHistoryCalls(studentId) {
     };
 }
 
+export function loadHistoryCollectMoney(studentId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT});
+        studentApi.historyCollectMoney(studentId)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT_SUCCESS,
+                    historyCollectMoney: res.data.data
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT_ERROR});
+            });
+    };
+}
+
 export function loadProgress(studentId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_PROGRESS_INFO_STUDENT});

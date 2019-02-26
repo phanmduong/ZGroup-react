@@ -75,7 +75,7 @@ class TargetListContainer extends React.Component {
                                                                 {name}
                                                             </Link>
                                                         </td>
-                                                        <td>Khóa thứ {gen_order}</td>
+                                                        <td>Khóa thứ {gen_order + 1}</td>
                                                         <td>
                                                             <div>
                                                                 {numberWithCommas(achieve / 1000)}k
@@ -91,7 +91,7 @@ class TargetListContainer extends React.Component {
                                                                      role="progressbar"
                                                                      aria-valuenow="60" aria-valuemin="0"
                                                                      aria-valuemax="100"
-                                                                     style={{width: achieve * 100 / target + "%"}}>
+                                                                     style={{width: achieve * 100 / (target > 0 ? target : achieve) + "%"}}>
                                                                     <span className="sr-only">60% Complete</span>
                                                                 </div>
                                                             </div>

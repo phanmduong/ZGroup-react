@@ -1,7 +1,7 @@
 import React from "react";
 import * as helper from "../../helpers/helper";
 import PropTypes from "prop-types";
-import Checkbox from "../../components/common/Checkbox";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class ItemRegister extends React.Component {
     constructor(props, context) {
@@ -43,7 +43,7 @@ class ItemRegister extends React.Component {
 
     updateFormData(event) {
         const field = event.target.name;
-        let register = { ...this.state.register };
+        let register = {...this.state.register};
         if (event.target.type === "checkbox") {
             register[field] = event.target.checked;
         } else {
@@ -86,7 +86,7 @@ class ItemRegister extends React.Component {
                         rel="tooltip"
                         data-placement="right"
                         data-original-title={register.class_name}>
-                        <img src={register.icon_url} alt="" />
+                        <img src={register.icon_url} alt=""/>
                     </button>
                 </td>
                 <td>{register.class_name}</td>
@@ -94,100 +94,75 @@ class ItemRegister extends React.Component {
                 {register.is_paid ? (
                     <td>{register.code}</td>
                 ) : (
-                    <td>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={this.state.register.code}
-                                name="code"
-                                onChange={this.updateFormData}
-                            />
-                        </div>
-                    </td>
+                    <td/>
                 )}
-                {register.is_paid ? (
-                    <td>
-                        {helper.isEmptyInput(register.money) || register.money === 0
-                            ? 0
-                            : helper.dotNumber(register.money)}đ
-                    </td>
-                ) : (
-                    <td>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={helper.dotNumber(this.state.register.money)}
-                                name="money"
-                                onChange={this.updateFormData}
-                            />
-                        </div>
-                    </td>
-                )}
+                <td>
+                    {
+                        register.saler ?
+                            (
+                                <div className="btn btn-xs btn-main"
+                                     style={{backgroundColor: '#' + register.saler.color}}
+                                >
+                                    {helper.getShortName(register.saler.name)}
+                                    <div className="ripple-container"/>
+                                </div>
+                            )
+                            :
+                            (
+                                <div className="btn btn-xs btn-main no-data"
+                                >
+                                    Không có
+                                    <div className="ripple-container"/>
+                                </div>
+                            )
+
+                    }
+                </td>
+                {
+                    register.is_paid ?
+                        <td>
+                            {helper.dotNumber(register.money)}đ
+                        </td>
+                        : <td/>
+                }
+
                 <td>{register.coupon}</td>
                 {register.is_paid ? (
-                    <td>
-                        <div className="checkbox text-center">
-                            <Checkbox
-                                name="optionsCheckboxes"
-                                checked={register.received_id_card === 1}
-                                disabled
-                            />
-                        </div>
-                    </td>
-                ) : (
-                    <td>
-                        <div className="checkbox text-center">
-                            <Checkbox
-                                name="received_id_card"
-                                checked={Boolean(this.state.register.received_id_card)}
-                                onChange={this.updateFormData}
-                            />
-                        </div>
-                    </td>
-                )}
-                {register.is_paid ? (
-                    <td>{register.note}</td>
-                ) : (
-                    <td>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={this.state.note}
-                                name="note"
-                                onChange={this.updateFormData}
-                            />
-                        </div>
-                    </td>
-                )}
-                {register.is_paid ? (
-                    <td className="text-center">{register.paid_time}</td>
-                ) : (
-                    <td className="text-center">Chưa nộp</td>
-                )}
-                {register.is_paid ? (
-                    <td>
+                    <td className="text-center">
                         <div className="text-success">
                             <b>Đã nộp tiền</b>
                         </div>
                     </td>
                 ) : (
-                    <td>
-                        {register.isUpdating ? (
-                            <button className="btn btn-fill btn-rose disabled">
-                                <i className="fa fa-spinner fa-spin" /> Đang nộp
-                            </button>
-                        ) : this.props.isCollectingMoney ? (
-                            <button className="btn btn-fill btn-rose disabled">Nộp</button>
-                        ) : (
-                            <button className="btn btn-fill btn-rose" onClick={() => this.checkValidate()}>
-                                Nộp
-                            </button>
-                        )}
-                    </td>
+                    <td className="text-center">Chưa nộp</td>
                 )}
+                <td>
+                    {register.is_paid ?
+                        <button className="btn btn-main btn-success"
+                                onClick={() => this.props.openModalCollectMoney(this.props.register, this.props.user)}
+                        >
+
+                            Nộp thêm
+                        </button>
+                        :
+                        <button className="btn btn-main btn-rose"
+                                onClick={() => this.props.openModalCollectMoney(this.props.register, this.props.user)}
+                        >
+                            Nộp
+                        </button>
+
+                    }
+                </td>
+                <td>
+                    <TooltipButton text={"Chi tiết"} placement={"top"}>
+                        <a href={`/sales/info-student/${this.props.user.id}/history-collect-money`}>
+                            <i className="material-icons">
+                                visibility
+                            </i>
+                        </a>
+                    </TooltipButton>
+                </td>
+
             </tr>
         );
     }

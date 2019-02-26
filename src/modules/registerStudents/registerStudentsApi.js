@@ -37,7 +37,7 @@ export function getAllRegisterStudent(page = 1,
 }
 
 export function getRegisterStudent(page = 1, limit, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
-                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon) {
+                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon,tele_call_status) {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -61,7 +61,8 @@ export function getRegisterStudent(page = 1, limit, genId, search = '', salerId 
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
         "&type=" + class_status +
-        "&search_coupon=" + query_coupon
+        "&search_coupon=" + query_coupon +
+        "&tele_call_status=" + tele_call_status
     ;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;

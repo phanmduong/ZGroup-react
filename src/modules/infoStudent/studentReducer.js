@@ -80,6 +80,31 @@ export default function studySessionReducer(state = initialState.infoStudent, ac
                     errorHistoryCalls: true,
                 }
             };
+            case types.BEGIN_LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingHistoryCollectMoney: true,
+                    errorHistoryCollectMoney: false,
+                }
+            };
+        case types.LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingHistoryCollectMoney: false,
+                    errorHistoryCollectMoney: false,
+                    historyCollectMoney: action.historyCollectMoney
+                }
+            };
+        case types.LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingHistoryCollectMoney: false,
+                    errorHistoryCollectMoney: true,
+                }
+            };
         case types.BEGIN_LOAD_PROGRESS_INFO_STUDENT:
             return {
                 ...state,
