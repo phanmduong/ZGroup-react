@@ -137,3 +137,13 @@ export function changeStatusApi(id) {
     }
     return axios.post(url);
 }
+
+export function loadFacebookStatistic(data) {
+    //https://graph.facebook.com/?fields=og_object%7Blikes.summary(total_count).limit(0)%7D,share&id=https://colorme.vn/blog/ui-va-ux-khac-nhau-the-nao-49508
+    let url = "https://graph.facebook.com/?fields=og_object%7Blikes.summary(total_count).limit(0)%7D,share&ids=";
+    for(let i = 0; i < data.length ; i++){
+        url += data[i]+ (i == data.length - 1 ? "": ",");
+    }
+    // console.log(url);
+    return axios.get(url);
+}

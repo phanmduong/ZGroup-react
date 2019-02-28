@@ -1,6 +1,7 @@
 import types from "./actionTypes";
 
 let blogInitState = {
+    isLoadingFacebookStatistic: false,
     isLoadingPosts: false,
     isLoadingPost: false,
     isLoadingCategories: false,
@@ -8,6 +9,7 @@ let blogInitState = {
     isOpenCategoryModal: false,
     isOpenPostModal: false,
     posts: [],
+    facebookStatistic: [],
     totalPages: 0,
     categories: [],
     postId: 0,
@@ -153,6 +155,23 @@ export default function blogReducer(state = blogInitState, action) {
             return {
                 ...state,
                 isLoadingLanguages: true,
+            };
+        case types.LOADED_FACEBOOK_STATISTIC_SUCCESS:
+            return {
+                ...state,
+                isLoadingFacebookStatistic: false,
+                facebookStatistic: action.facebookStatistic,
+            };
+
+        case types.LOADED_FACEBOOK_STATISTIC_ERROR:
+            return {
+                ...state,
+                isLoadingFacebookStatistic: false,
+            };
+        case types.BEGIN_LOAD_FACEBOOK_STATISTIC:
+            return {
+                ...state,
+                isLoadingFacebookStatistic: true,
             };
 
         case types.BEGIN_UPLOAD_IMAGE:

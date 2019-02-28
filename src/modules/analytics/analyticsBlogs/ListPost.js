@@ -32,24 +32,34 @@ class ListPost extends React.Component {
 
                             width: '100%'
                         }
-                    }
+                    },
+
                 },
 
             ];
         this.state = {
             selectedMenu: []
         };
-        this.facebookCode=[
-            {label:"Like", icon_url:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzAiIGhlaWdodD0iMzAiCnZpZXdCb3g9IjAgMCAyMjQgMjI0IgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDIyNHYtMjI0aDIyNHYyMjR6IiBmaWxsPSIjNDI4NWY0Ij48L3BhdGg+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTE3OS4yLDI5Ljg2NjY3aC0xMzQuNGMtOC4yNTA2NywwIC0xNC45MzMzMyw2LjY4MjY3IC0xNC45MzMzMywxNC45MzMzM3YxMzQuNGMwLDguMjUwNjcgNi42ODI2NywxNC45MzMzMyAxNC45MzMzMywxNC45MzMzM2g3NC42NjY2N3YtNjcuMmgtMjIuNHYtMjIuNGgyMi40di0xMi4wMjg4YzAsLTIyLjc3MzMzIDExLjA5NTQ3LC0zMi43NzEyIDMwLjAyMzQ3LC0zMi43NzEyYzkuMDY0NTMsMCAxMy44NTgxMywwLjY3MiAxNi4xMjgsMC45NzgxM3YyMS40MjE4N2gtMTIuOTA5ODdjLTguMDM0MTMsMCAtMTAuODQxNiw0LjI0MTA3IC0xMC44NDE2LDEyLjgyNzczdjkuNTcyMjdoMjMuNTQ5ODdsLTMuMTk1NzMsMjIuNGgtMjAuMzU0MTN2NjcuMmgzNy4zMzMzM2M4LjI1MDY3LDAgMTQuOTMzMzMsLTYuNjgyNjcgMTQuOTMzMzMsLTE0LjkzMzMzdi0xMzQuNGMwLC04LjI1MDY3IC02LjY5MDEzLC0xNC45MzMzMyAtMTQuOTMzMzMsLTE0LjkzMzMzeiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+"},
-            {label:"Share", icon_url:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADESURBVEhL5ZTdCcIwGEXji08dwxU6jvNYBEdwnk5SqSOIiN4DLYSQiqY3IHjhQEjh+71N+HttxVEME910Z9NBPBO4s+ki0gR0YtFO3IU9QSMYw02kwaF4RBuxF/NYHuIsTuIqqJzgRUtuRS/mKjlz97Vi21EV1VEl1RKY6umCboqUsx0wb74x/1XK2Q6n4BiLqieoPiKWTCCWPAr7kpdks+k7ffKjWV7Tak9FqmqPXaycra0Jcra2jQjFtgbOq5f8SwrhBVurcqwHat4EAAAAAElFTkSuQmCC"},
+        this.facebookCode = [
+            {
+                label: "Likes",
+                code: "like",
+                icon_url: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iOTAiIGhlaWdodD0iOTAiCnZpZXdCb3g9IjAgMCAxOTIgMTkyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE5MnYtMTkyaDE5MnYxOTJ6IiBmaWxsPSIjNDI4NWY0Ij48L3BhdGg+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTE1My42LDI1LjZoLTExNS4yYy03LjA3MiwwIC0xMi44LDUuNzI4IC0xMi44LDEyLjh2MTE1LjJjMCw3LjA3MiA1LjcyOCwxMi44IDEyLjgsMTIuOGg2NHYtNTcuNmgtMTkuMnYtMTkuMmgxOS4ydi0xMC4zMTA0YzAsLTE5LjUyIDkuNTEwNCwtMjguMDg5NiAyNS43MzQ0LC0yOC4wODk2YzcuNzY5NiwwIDExLjg3ODQsMC41NzYgMTMuODI0LDAuODM4NHYxOC4zNjE2aC0xMS4wNjU2Yy02Ljg4NjQsMCAtOS4yOTI4LDMuNjM1MiAtOS4yOTI4LDEwLjk5NTJ2OC4yMDQ4aDIwLjE4NTZsLTIuNzM5MiwxOS4yaC0xNy40NDY0djU3LjZoMzJjNy4wNzIsMCAxMi44LC01LjcyOCAxMi44LC0xMi44di0xMTUuMmMwLC03LjA3MiAtNS43MzQ0LC0xMi44IC0xMi44LC0xMi44eiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+"
+            },
+            {
+                label: "Shares", code: "share",
+                icon_url: "https://d1j8r0kxyu9tj8.cloudfront.net/images/1551255153IaI1vtKPyfPZSpI.jpg"
+            },
         ];
     }
 
     componentDidMount() {
+        if (this.props.posts.length == 0) return;
         let now = moment();
         this.data = this.props.posts.map(obj => {
             return {
                 id: obj.id,
+                post_url: "https://colorme.vn/" + obj.kind + "/" + obj.slug,
                 query: {
                     metrics:
                         googleAnalyticMetrics.pageViews
@@ -60,7 +70,6 @@ class ListPost extends React.Component {
 
                     dimensions: googleAnalyticDimensions.date,
                     filters: 'ga:pagePath==/' + obj.kind + "/" + obj.slug,
-                    // filters: 'ga:pagePath==/blog/don-dau-xu-huong-2019-bold-typography-54722',
                     'start-date': moment(now).subtract(7, 'day').day(0).format(DATE_FORMAT_SQL),
                     'end-date': moment(now).format(DATE_FORMAT_SQL),
                 },
@@ -80,13 +89,9 @@ class ListPost extends React.Component {
                         chartArea: {
                             right: 20,
                             left: 0,
-                            // bottom:20,
-                            // top:15
                         },
 
                     },
-
-                    // legend: "left",
 
 
                 }
@@ -94,7 +99,9 @@ class ListPost extends React.Component {
         });
         this.setState({selectedMenu: this.props.posts.map(() => 0)});
         loadGapi(this.data);
-
+        this.props.blogActions.loadFacebookStatistic(this.props.posts.map(obj => {
+            return "https://colorme.vn/" + obj.kind + "/" + obj.slug;
+        }));
     }
 
 
@@ -113,11 +120,13 @@ class ListPost extends React.Component {
     }
 
     render() {
+
         return (
             <div>
 
                 {this.props.posts && this.props.posts.map((post, index) => {
                     let dataObj = this.data[index] ? this.data[index] : {query: {}};
+                    let fbInfo = this.props.facebookStatistic[index];
                     return (
 
                         <div className="" key={post.id}>
@@ -213,43 +222,44 @@ class ListPost extends React.Component {
                             </div>
                             <div className="col-md-3">
 
-                                <div className="card" style={{
-                                    backgroundColor: "#4285f4",
-                                    // padding: "10px 30px"
-                                }}>
-                                    <div className="row" style={{padding:"10px 30px"}}>
-                                        {googleCodes.map((element, key) => {
-                                            return (
-                                                <div className="col-md-6" key={key}
-                                                     style={{padding: 10, color: "white"}}>
-                                                    <div style={{fontWeight: 600,}}>{element.label}</div>
-                                                    <div
-                                                        style={{fontSize: 20, lineHeight: "20px"}}
-                                                         id={"side-info-" + key + "-" + post.id}><Loading text={" "}/></div>
-                                                </div>
-                                            );
-                                        })}
+                                <div className="card" style={{backgroundColor: "#4285f4",}}>
+                                    <div style={{padding: "20px 30px"}}>
+                                        <div className="row">
+                                            {googleCodes.map((element, key) => {
+                                                return (
+                                                    <div className="col-md-6" key={key}
+                                                         style={{color: "white"}}>
+                                                        <div style={{fontWeight: 600,}}>{element.label}</div>
+                                                        <div
+                                                            style={{fontSize: 20, lineHeight: "20px"}}
+                                                            id={"side-info-" + key + "-" + post.id}><Loading
+                                                            text={" "}/>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
 
 
+                                        </div>
                                     </div>
-                                    <div
-                                        // className="col-md-12"
-                                        style={{height: 1, backgroundColor: "white"}}/>
-                                    <div className="row" style={{padding:"10px 30px"}}>
+                                    <div style={{height: 1, backgroundColor: "white"}}/>
+                                    <div style={{padding: "20px 30px", color: "white"}}>
+                                        <div className="row">
 
-                                        {this.facebookCode.map((element, key) => {
-                                            return (
-                                                <div className="col-md-6" key={key}
-                                                     style={{padding: 10, color: "white"}}>
-                                                    <div style={{fontWeight: 600,}}>{element.label}</div>
-                                                    <img src={element.icon_url}/>
-                                                    {/*<div style={{fontSize: 50, lineHeight: "55px"}}*/}
-                                                         {/*id={"side-info-" + key + "-" + post.id}></div>*/}
-                                                </div>
-                                            );
-                                        })}
+                                            {this.props.isLoadingFacebookStatistic ? <Loading/> :
+                                                this.facebookCode.map((element, key) => {
 
+                                                    return (
+                                                        <div className="col-md-6" key={key} style={{display: "flex",}}>
+                                                            <img src={element.icon_url} style={{width: 50, height: 50}}/>
+                                                            <div style={{fontWeight: 600,lineHeight: "50px", marginLeft:10}}>
+                                                                {fbInfo ? fbInfo[element.code] : 0} {element.label}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
 
+                                        </div>
                                     </div>
                                 </div>
 
@@ -266,7 +276,10 @@ class ListPost extends React.Component {
 
 ListPost.propTypes = {
     posts: PropTypes.array.isRequired,
-    blogActions: PropTypes.object.isRequired
+    blogActions: PropTypes.object.isRequired,
+    facebookStatistic: PropTypes.array,
+    isLoadingFacebookStatistic: PropTypes.bool,
+
     // loadByCategories: PropTypes.func.isRequired,
 };
 
@@ -274,7 +287,10 @@ function mapStateToProps(state) {
     return {
         posts: state.blog.posts,
         categories: state.blog.categories,
-        isLoadingPosts: state.blog.isLoadingPosts
+        isLoadingPosts: state.blog.isLoadingPosts,
+        isLoadingFacebookStatistic: state.blog.isLoadingFacebookStatistic,
+        facebookStatistic: state.blog.facebookStatistic,
+
     };
 }
 

@@ -41,6 +41,7 @@ class AnalyticsBlogsContainer extends React.Component {
         this.inited = true;
         this.props.blogActions.loadCategories();
         this.props.blogActions.loadLanguages();
+
         this.loadPosts(1);
     }
 
@@ -118,7 +119,7 @@ class AnalyticsBlogsContainer extends React.Component {
                 <div className="row">
 
                     <div className="col-md-12">
-                        <div id={"view-selector-container"} style={{visibility: "hidden", height:0}}/>
+                        <div id={"view-selector-container"} style={{visibility: "hidden", height: 0}}/>
                     </div>
                     <div className="col-md-2">
 
@@ -176,7 +177,7 @@ class AnalyticsBlogsContainer extends React.Component {
                                     />
                                 </div>
 
-                             </div>
+                            </div>
                         </div>
                         {!(this.props.isLoadingCategories || this.props.isLoadingPosts || this.props.isLoadingLanguages) &&
                         <ListPost
@@ -215,6 +216,7 @@ function mapStateToProps(state) {
         isLoadingCategories: state.blog.isLoadingCategories,
         isLoadingLanguages: state.blog.isLoadingLanguages,
         categories: state.blog.categories,
+        facebookStatistic: state.blog.facebookStatistic,
         isLoadingPosts: state.blog.isLoadingPosts,
         allBlogKinds: state.blog.allBlogKinds,
         post: state.blog.post,
