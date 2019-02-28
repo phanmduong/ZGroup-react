@@ -154,13 +154,15 @@ class ItemRegister extends React.Component {
                     }
                 </td>
                 <td>
-                    <TooltipButton text={"Chi tiết"} placement={"top"}>
-                        <a href={`/sales/info-student/${this.props.user.id}/history-collect-money`}>
-                            <i className="material-icons">
-                                visibility
-                            </i>
-                        </a>
-                    </TooltipButton>
+                    <div className="btn-group-action">
+                        <TooltipButton text={"Chi tiết"} placement={"top"}>
+                            <a target="_blank" href={`/sales/info-student/${this.props.user.id}/history-collect-money`}>
+                                <i className="material-icons">
+                                    visibility
+                                </i>
+                            </a>
+                        </TooltipButton>
+                    </div>
                 </td>
 
             </tr>
