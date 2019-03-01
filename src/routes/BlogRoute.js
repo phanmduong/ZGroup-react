@@ -2,6 +2,7 @@ import PostsContainer from "../modules/blog/containers/PostsContainer";
 import BlogTypeContainer from "../modules/blogType/BlogTypeContainer";
 import BlogEditor from "../modules/blog/editor/BlogEditor";
 import EvaluateContentsContainer from "../modules/evaluateContents/EvaluateContentsContainer";
+import AnalyticsBlogsContainer from "../modules/analytics/analyticsBlogs/AnalyticsBlogsContainer";
 
 
 /**
@@ -26,6 +27,10 @@ export default [
     },
     {
         path: "blog/evaluate",
-        component:  EvaluateContentsContainer
-    }
+        component: EvaluateContentsContainer
+    },
+    {
+        path: "blog/analytic",
+        component: AnalyticsBlogsContainer,
+    },
 ];
