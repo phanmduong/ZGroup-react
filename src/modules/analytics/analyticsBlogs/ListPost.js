@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as blogActions from "./blogActions";
+import * as blogActions from "../../blog/actions/blogActions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import Avatar from "../../../components/common/Avatar";
@@ -42,13 +42,21 @@ class ListPost extends React.Component {
         };
         this.facebookCode = [
             {
-                label: "Likes",
+                label: "Like",
                 code: "like",
                 icon_url: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iOTAiIGhlaWdodD0iOTAiCnZpZXdCb3g9IjAgMCAxOTIgMTkyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE5MnYtMTkyaDE5MnYxOTJ6IiBmaWxsPSIjNDI4NWY0Ij48L3BhdGg+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTE1My42LDI1LjZoLTExNS4yYy03LjA3MiwwIC0xMi44LDUuNzI4IC0xMi44LDEyLjh2MTE1LjJjMCw3LjA3MiA1LjcyOCwxMi44IDEyLjgsMTIuOGg2NHYtNTcuNmgtMTkuMnYtMTkuMmgxOS4ydi0xMC4zMTA0YzAsLTE5LjUyIDkuNTEwNCwtMjguMDg5NiAyNS43MzQ0LC0yOC4wODk2YzcuNzY5NiwwIDExLjg3ODQsMC41NzYgMTMuODI0LDAuODM4NHYxOC4zNjE2aC0xMS4wNjU2Yy02Ljg4NjQsMCAtOS4yOTI4LDMuNjM1MiAtOS4yOTI4LDEwLjk5NTJ2OC4yMDQ4aDIwLjE4NTZsLTIuNzM5MiwxOS4yaC0xNy40NDY0djU3LjZoMzJjNy4wNzIsMCAxMi44LC01LjcyOCAxMi44LC0xMi44di0xMTUuMmMwLC03LjA3MiAtNS43MzQ0LC0xMi44IC0xMi44LC0xMi44eiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+"
             },
             {
-                label: "Shares", code: "share",
+                label: "Share", code: "share",
                 icon_url: "https://d1j8r0kxyu9tj8.cloudfront.net/images/1551255153IaI1vtKPyfPZSpI.jpg"
+            },
+            {
+                label: "Lead", code: "lead",
+                icon_url: "https://d1j8r0kxyu9tj8.cloudfront.net/images/1551517037Ss3wPNM2BDGw5r5.jpg"
+            },
+            {
+                label: "Comment", code: "comment",
+                icon_url: "https://d1j8r0kxyu9tj8.cloudfront.net/images/1551522963BHMrgQm0MjecV4F.jpg"
             },
         ];
     }
@@ -100,7 +108,10 @@ class ListPost extends React.Component {
         this.setState({selectedMenu: this.props.posts.map(() => 0)});
         loadGapi(this.data);
         this.props.blogActions.loadFacebookStatistic(this.props.posts.map(obj => {
-            return "https://colorme.vn/" + obj.kind + "/" + obj.slug;
+            return {
+                url: "https://colorme.vn/" + obj.kind + "/" + obj.slug,
+                lead: obj.lead,
+            };
         }));
     }
 
@@ -137,7 +148,7 @@ class ListPost extends React.Component {
 
                                 <div className="card">
                                     <div className="row">
-                                        <div className="col-md-4">
+                                        <div className="col-lg-4">
                                             <div className="card-content">
                                                 <div
                                                     id="simpleBarChart"
@@ -192,7 +203,7 @@ class ListPost extends React.Component {
                                             </div>
                                         </div>
 
-                                        <div className="col-md-8 padding-horizontal-30px">
+                                        <div className="col-lg-8 padding-horizontal-30px">
 
                                             <div id={"chart-" + post.id + "-container"}></div>
 
@@ -223,13 +234,12 @@ class ListPost extends React.Component {
                             <div className="col-md-3">
 
                                 <div className="card" style={{backgroundColor: "#4285f4",}}>
-                                    <div style={{padding: "20px 30px"}}>
+                                    <div style={{padding: "28px 25px"}}>
                                         <div className="row">
                                             {googleCodes.map((element, key) => {
                                                 return (
-                                                    <div className="col-md-6" key={key}
-                                                         style={{color: "white"}}>
-                                                        <div style={{fontWeight: 600,}}>{element.label}</div>
+                                                    <div className="col-lg-6" key={key} style={{color: "white", marginBottom:10}}>
+                                                        <div>{element.label}</div>
                                                         <div
                                                             style={{fontSize: 20, lineHeight: "20px"}}
                                                             id={"side-info-" + key + "-" + post.id}><Loading
@@ -243,17 +253,17 @@ class ListPost extends React.Component {
                                         </div>
                                     </div>
                                     <div style={{height: 1, backgroundColor: "white"}}/>
-                                    <div style={{padding: "20px 30px", color: "white"}}>
+                                    <div style={{padding: "28px 25px", color: "white"}}>
                                         <div className="row">
 
                                             {this.props.isLoadingFacebookStatistic ? <Loading/> :
                                                 this.facebookCode.map((element, key) => {
 
                                                     return (
-                                                        <div className="col-md-6" key={key} style={{display: "flex",}}>
-                                                            <img src={element.icon_url} style={{width: 50, height: 50}}/>
-                                                            <div style={{fontWeight: 600,lineHeight: "50px", marginLeft:10}}>
-                                                                {fbInfo ? fbInfo[element.code] : 0} {element.label}
+                                                        <div className="col-lg-6" key={key} style={{display: "flex", marginBottom:10}}>
+                                                            <img src={element.icon_url} style={{width: 40, height: 40}}/>
+                                                            <div style={{lineHeight: "50px", marginLeft:5}}>
+                                                                {(fbInfo && element.code) ? fbInfo[element.code] : 0} {element.label}
                                                             </div>
                                                         </div>
                                                     );

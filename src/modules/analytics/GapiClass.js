@@ -65,7 +65,7 @@ export const loadGapi = (data) => {
                 for (let j = 0; j < 4; j++) {
                     let tmp = result.response.totalsForAllResults[googleCodes[j].code];
                     $("#side-info-" + j + "-" + props.id).html(tmp.substr(0, 5)+googleCodes[j].des);
-                    $("#side-info-" + j + "-" + props.id).css({fontSize: 50, lineHeight: "55px"});
+                    $("#side-info-" + j + "-" + props.id).css({fontSize: 30, lineHeight: "35px"});
                 }
             });
 

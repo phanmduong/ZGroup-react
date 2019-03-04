@@ -136,6 +136,7 @@
     "react-dom": "^15.5.4",
     "react-draft-wysiwyg": "^1.12.7",
     "react-dragula": "^1.1.17",
+    "react-facebook-sdk": "^1.1.1",
     "react-iframe": "^1.0.7",
     "react-images": "^0.5.14",
     "react-month-picker": "^1.3.5",

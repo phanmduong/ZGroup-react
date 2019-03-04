@@ -1,6 +1,3 @@
-/**
- * Created by Kiyoshitaro on 15/04/2018.
- */
 import types from "../constants/actionTypes";
 import * as blogApi from "../apis/blogApi";
 import * as helper from "../../../helpers/helper";
@@ -12,6 +9,44 @@ import { BASE_URL } from "../../../constants/env";
 //     };
 // }
 //
+
+
+export function loadFacebookStatistic(data) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_FACEBOOK_STATISTIC,
+        });
+        blogApi.loadFacebookStatistic(data)
+            .then(res => {
+                let fb = [];
+                for (let i = 0; i < data.length; i++) {
+                    let fbInfo = res.data[data[i].url];
+
+                    fb.push({
+                        // like: fbInfo['og_object'].likes.summary.total_count,
+                        // share: fbInfo.share.share_count,
+                        like: fbInfo.engagement.reaction_count,
+                        comment: fbInfo.engagement.comment_count,
+                        share: fbInfo.engagement.share_count,
+
+                        lead: data[i].lead,
+                    });
+                }
+                dispatch({
+                    type: types.LOADED_FACEBOOK_STATISTIC_SUCCESS,
+                    facebookStatistic: fb,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOADED_FACEBOOK_STATISTIC_ERROR,
+                });
+                helper.showErrorNotification("Lỗi facebook!");
+            });
+    };
+}
+
+
 
 export function loadPosts(page, query, category_id, kind) {
     return function(dispatch) {

@@ -2,9 +2,6 @@ import types from "./actionTypes";
 import * as blogApi from "./blogApi";
 import * as helper from "../../../helpers/helper";
 
-// import { BASE_URL } from "../../../constants/env";
-
-
 export function loadPosts(page, query, category_id, kind) {
     return function (dispatch) {
         dispatch({
@@ -110,12 +107,17 @@ export function loadFacebookStatistic(data) {
         blogApi.loadFacebookStatistic(data)
             .then(res => {
                 let fb = [];
-                for(let i = 0; i < data.length; i++){
-                    let fbInfo = res.data[data[i]];
+                for (let i = 0; i < data.length; i++) {
+                    let fbInfo = res.data[data[i].url];
 
                     fb.push({
-                       like:fbInfo['og_object'].likes.summary.total_count,
-                        share:fbInfo.share.share_count,
+                        // like: fbInfo['og_object'].likes.summary.total_count,
+                        // share: fbInfo.share.share_count,
+                        like: fbInfo.engagement.reaction_count,
+                        comment: fbInfo.engagement.comment_count,
+                        share: fbInfo.engagement.share_count,
+
+                        lead: data[i].lead,
                     });
                 }
                 dispatch({

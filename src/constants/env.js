@@ -20,6 +20,8 @@ export const DOMAIN = "http://" + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
 export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
 
+export const FACEBOOK_TOKEN = env.FACEBOOK_TOKEN;
+
 if (process.env.NODE_ENV === "production") {
     MANAGE_URL = PROTOCOL + "manage." + URL;
 } else {

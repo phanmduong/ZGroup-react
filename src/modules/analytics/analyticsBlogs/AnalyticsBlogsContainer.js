@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import * as blogActions from "./blogActions";
+import * as blogActions from "../../blog/actions/blogActions";
 import ListPost from "./ListPost";
 import Search from "../../../components/common/Search";
 import Loading from "../../../components/common/Loading";
