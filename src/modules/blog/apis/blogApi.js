@@ -19,7 +19,7 @@ export function loadFacebookStatistic(data) {
 
 
 export function loadPostsApis(page = 1, search = "", category_id, kind = '') {
-    let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page + "&kind=" + kind;
+    let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page + "&kind=" + kind+ "&limit=" + 10;
     let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;

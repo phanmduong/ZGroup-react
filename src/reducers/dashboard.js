@@ -8,7 +8,6 @@ import dashboardReducer from "../modules/dashboard/dashboardReducer";
 import dashboardStudyPackReducer from "../modules/dashboardStudyPack/dashboardReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import taskReducer from "../modules/tasks/taskReducer";
-import blogReducer from "../modules/analytics/analyticsBlogs/blogReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
@@ -18,7 +17,6 @@ const appReducer = combineReducers({
     dashboardStudyPack: dashboardStudyPackReducer,
     seat: seatReducer,
     dashboardUp: DashBoardUpReducer,
-    blog: blogReducer,
     task: taskReducer
 });
 
