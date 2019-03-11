@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import Avatar from "../../../components/common/Avatar";
 import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
-import {loadGapi, googleCodes} from "../GapiClass";
+import {loadGapi, googleCodes} from "./GapiClass";
 import FormInputDate from "../../../components/common/FormInputDate";
 import {googleAnalyticMetrics, googleAnalyticDimensions} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
@@ -66,9 +66,11 @@ class ListPost extends React.Component {
         if (this.props.posts.length == 0) return;
         let now = moment();
         this.data = this.props.posts.map(obj => {
+            let kind = this.getKind(obj.kind);
             return {
                 id: obj.id,
-                post_url: "https://colorme.vn/" + obj.kind + "/" + obj.slug,
+                // post_url: "https://colorme.vn/" + obj.kind + "/" + obj.slug,
+                post_url: "https://colorme.vn/" + kind + "/" + obj.slug,
                 query: {
                     metrics:
                         googleAnalyticMetrics.pageViews
@@ -78,7 +80,7 @@ class ListPost extends React.Component {
                     ,
 
                     dimensions: googleAnalyticDimensions.date,
-                    filters: 'ga:pagePath==/' + obj.kind + "/" + obj.slug,
+                    filters: 'ga:pagePath==/' + kind + "/" + obj.slug,
                     'start-date': moment(now).subtract(7, 'day').day(0).format(DATE_FORMAT_SQL),
                     'end-date': moment(now).format(DATE_FORMAT_SQL),
                 },
@@ -109,8 +111,10 @@ class ListPost extends React.Component {
         this.setState({selectedMenu: this.props.posts.map(() => 0)});
         loadGapi(this.data);
         this.props.blogActions.loadFacebookStatistic(this.props.posts.map(obj => {
+            let kind = this.getKind(obj.kind);
             return {
-                url: "https://colorme.vn/" + obj.kind + "/" + obj.slug,
+                url: "https://colorme.vn/" + kind + "/" + obj.slug,
+                // url: "https://colorme.vn/" + obj.kind + "/" + obj.slug,
                 lead: obj.lead,
             };
         }));
@@ -129,6 +133,10 @@ class ListPost extends React.Component {
             loadGapi([this.data[index]]);
         }
 
+    }
+
+    getKind = (inp) => {
+        return inp === "resource" ? "blog" : inp;
     }
 
     render() {
@@ -235,16 +243,18 @@ class ListPost extends React.Component {
                             <div className="col-md-3">
 
                                 <div className="card" style={{backgroundColor: "#4285f4",}}>
-                                    <div style={{padding: "28px 25px"}}>
+                                    <div>
                                         <div className="row">
                                             {googleCodes.map((element, key) => {
                                                 return (
-                                                    <div className="col-lg-6" key={key} style={{color: "white", marginBottom:10}}>
-                                                        <div>{element.label}</div>
-                                                        <div
-                                                            style={{fontSize: 20, lineHeight: "20px"}}
-                                                            id={"side-info-" + key + "-" + post.id}><Loading
-                                                            text={" "}/>
+                                                    <div className="col-lg-6" key={key}>
+                                                        <div style={{color: "white", margin: "23px 27px"}}>
+                                                            <div>{element.label}</div>
+                                                            <div
+                                                                style={{fontSize: 24, lineHeight: "24px"}}
+                                                                id={"side-info-" + key + "-" + post.id}><Loading
+                                                                text={" "}/>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 );
@@ -253,18 +263,21 @@ class ListPost extends React.Component {
 
                                         </div>
                                     </div>
-                                    <div style={{height: 1, backgroundColor: "white"}}/>
-                                    <div style={{padding: "28px 25px", color: "white"}}>
+                                    <div style={{height: 1, backgroundColor: "white",margin: "0px 0px"}}/>
+                                    <div style={{color: "white"}}>
                                         <div className="row">
 
                                             {this.props.isLoadingFacebookStatistic ? <Loading/> :
                                                 this.facebookCode.map((element, key) => {
 
                                                     return (
-                                                        <div className="col-lg-6" key={key} style={{display: "flex", marginBottom:10}}>
-                                                            <img src={element.icon_url} style={{width: 40, height: 40}}/>
-                                                            <div style={{lineHeight: "50px", marginLeft:5}}>
-                                                                {(fbInfo && element.code) ? fbInfo[element.code] : 0} {element.label}
+                                                        <div className="col-lg-6" key={key}>
+                                                            <div style={{ margin: " 23px 27px"}}>
+                                                                <img src={element.icon_url}
+                                                                     style={{width: 25, height: 25}}/>
+                                                                <div style={{lineHeight: "25px", marginLeft: 5}}>
+                                                                    {(fbInfo && element.code) ? fbInfo[element.code] : 0} {element.label}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     );
