@@ -9,7 +9,7 @@ import Search from "../../../components/common/Search";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import Select from '../../../components/common/Select';
-import {authGapi, initGapi} from "../GapiClass";
+import {authGapi, initGapi} from "./GapiClass";
 
 
 class AnalyticsBlogsContainer extends React.Component {
