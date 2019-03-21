@@ -41,6 +41,16 @@ export function historyCollectMoney(studentId) {
     return axios.get(url);
 }
 
+export function loadLogs(studentId, page = 1) {
+    let url = env.MANAGE_API_URL + `/student/${studentId}/logs?page=${page}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function loadProgress(studentId) {
     let url = env.MANAGE_API_URL + `/student/${studentId}/progress`;
     let token = localStorage.getItem('token');

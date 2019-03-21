@@ -103,6 +103,23 @@ export function loadHistoryCollectMoney(studentId) {
     };
 }
 
+export function loadLogs(studentId, page) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_LOGS_INFO_STUDENT});
+        studentApi.loadLogs(studentId, page)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_LOGS_INFO_STUDENT_SUCCESS,
+                    logs: res.data.logs,
+                    totalPage: res.data.paginator.total_pages,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_LOGS_INFO_STUDENT_ERROR});
+            });
+    };
+}
+
 export function loadProgress(studentId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_PROGRESS_INFO_STUDENT});

@@ -124,6 +124,12 @@ class InfoStudentContainer extends React.Component {
                                     <div className="ripple-container"/>
                                 </Link>
                             </li>
+                            <li className={this.path === `/sales/info-student/${this.studentId}/logs` ? 'active' : ''}>
+                                <Link to={`/sales/info-student/${this.studentId}/logs`}>
+                                    <i className="material-icons">history</i> Lịch sử web  &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
                         </ul>
                         <div className="card">
                             <div className="card-content">

@@ -1196,7 +1196,13 @@ export default {
         isChangingPassword: false,
         errorChangePassword: false,
         isChangingStatusCall: false,
-        errorChangeStatusCall: false
+        errorChangeStatusCall: false,
+        log: {
+            isLoading: false,
+            error: false,
+            logs: [],
+            totalPage: 1
+        }
     },
 
     dashboard: {

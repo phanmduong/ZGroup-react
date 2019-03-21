@@ -16,6 +16,7 @@ import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer
 import TargetListContainer from '../modules/sales/TargetListContainer';
 // import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
 import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
+import LogsContainer from "../modules/infoStudent/logs/LogsContainer";
 
 
 /**
@@ -117,6 +118,10 @@ export default [
             {
                 path: "history-collect-money",
                 component: HistoryCollectMoneyContainer
+            },
+            {
+                path: "logs",
+                component: LogsContainer
             },
         ]
     },
