@@ -16,8 +16,7 @@ class SalarySales extends React.Component {
     }
 
     renderItem = (data) => {
-        const total_salary = (parseInt(data.sale_salary.salary_normal_register) || 0)
-            + (parseInt(data.sale_salary.salary_gd_register) || 0) + data.user.salary + (data.bonus || 0);
+
         return (
             <div className="card">
                 <div className="card-content">
@@ -173,7 +172,7 @@ class SalarySales extends React.Component {
                                 <div className="flex flex flex-space-between">
                                     <div>=</div>
                                     <div
-                                        className="bold">{dotNumber(total_salary)}đ
+                                        className="bold">{dotNumber(data.total_salary)}đ
                                     </div>
                                 </div>
                             </div>

@@ -20,12 +20,13 @@ export default new class salarySalesStore {
     @observable isSendingEmail = false;
     @observable openModalAddSalaryBonus = false;
     @observable openModalDetailSalaryBonus = false;
+    @observable openModalSendMail = false;
     @observable isAddingSalaryBonus = false;
     @observable openModalAddSalary = false;
     @observable isAddingSalary = false;
     @observable isLoadingDetailSalaryBonus = false;
     @observable isApproval = false;
-    @observable data = {};
+    @observable data = [];
     @observable salaryBonus = {
         saleSalaryId: 0,
         amount: 0,
@@ -68,6 +69,9 @@ export default new class salarySalesStore {
         this.isLoading = true;
         loadSalarySalesApi(this.selectedGenId, this.selectedBaseId).then((res) => {
             this.data = res.data.data.sale_salary;
+            this.data = this.data.map((data) => {
+                return {...data, isSendMail: true}
+            });
             this.isApproval = res.data.data.is_approval;
         }).finally(() => {
             this.isLoading = false;
@@ -129,8 +133,11 @@ export default new class salarySalesStore {
     @action
     sendingEmail() {
         this.isSendingEmail = true;
-        sendEmailSaleSalaryApi(this.selectedGenId).then(() => {
+        let salaryIds = this.data.filter((data) => data.isSendMail).map((data) => data.sale_salary.id);
+        console.log(salaryIds);
+        sendEmailSaleSalaryApi(salaryIds).then(() => {
             showNotification("Gửi mail thành công");
+            this.openModalSendMail = false;
         }).catch(() => {
             showErrorNotification("Gửi mail thất bại");
         }).finally(() => {
@@ -148,7 +155,7 @@ export default new class salarySalesStore {
             } else {
                 showErrorNotification(res.data.message);
             }
-        }).catch(()=>{
+        }).catch(() => {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
         })
@@ -169,8 +176,11 @@ export default new class salarySalesStore {
 
     @computed
     get getData() {
-        return this.data;
-
+        return this.data.map((data) => {
+            const total_salary = (parseInt(data.sale_salary.salary_normal_register) || 0)
+                + (parseInt(data.sale_salary.salary_gd_register) || 0) + data.user.salary + (data.bonus || 0);
+            return {...data, total_salary}
+        })
     }
 
     @computed

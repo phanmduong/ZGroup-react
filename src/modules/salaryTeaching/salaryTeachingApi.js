@@ -76,14 +76,14 @@ export function getDetailSalaryBonusApi(teachingSalaryId) {
     return axios.get(url);
 }
 
-export function sendEmailTeachingSalaryApi(genId) {
-    let url = env.MANAGE_API_URL + "/finance/send-email-teaching-salary/" + genId;
+export function sendEmailTeachingSalaryApi(salaryIds) {
+    let url = env.MANAGE_API_URL + "/finance/send-email-teaching-salary";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
 
-    return axios.get(url);
+    return axios.post(url, {teaching_salary_ids: salaryIds});
 }
 
 export function approvalTeachingSalaryApi(genId) {

@@ -19,6 +19,7 @@ export default new class salaryTeachingStore {
     @observable isSendingEmail = false;
     @observable openModalAddSalaryBonus = false;
     @observable openModalDetailSalaryBonus = false;
+    @observable openModalSendMail = false;
     @observable isAddingSalaryBonus = false;
     @observable isLoadingDetailSalaryBonus = false;
     @observable data = {};
@@ -54,10 +55,11 @@ export default new class salaryTeachingStore {
     }
 
     @action
-    sendingEmail() {
+    sendingEmail(salaryIds = []) {
         this.isSendingEmail = true;
-        sendEmailTeachingSalaryApi(this.selectedGenId).then(() => {
+        sendEmailTeachingSalaryApi(salaryIds).then(() => {
             showNotification("Gửi mail thành công");
+            this.openModalSendMail = false;
         }).catch(() => {
             showErrorNotification("Gửi mail thất bại");
         }).finally(() => {
@@ -167,7 +169,16 @@ export default new class salaryTeachingStore {
 
         });
 
-        console.log(result);
+        result = result.map((data) => {
+            const level = data.user.salary_level ? data.user.salary_level : {};
+            const total_salary = (level.teacher_salary * data.total_attendance_teacher || 0)
+                + (level.ta_salary * data.total_attendance_ta || 0) + data.user.salary + (data.bonus || 0);
+            return {
+                ...data,
+                total_salary,
+            }
+        });
+
         return result;
 
     }

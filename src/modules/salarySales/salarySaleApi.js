@@ -71,14 +71,16 @@ export function getDetailSalaryBonusApi(saleSalaryId) {
     return axios.get(url);
 }
 
-export function sendEmailSaleSalaryApi(genId) {
-    let url = env.MANAGE_API_URL + "/finance/send-email-sale-salary/" + genId;
+export function sendEmailSaleSalaryApi(salaryIds = []) {
+    let url = env.MANAGE_API_URL + "/finance/send-email-sale-salary";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
 
-    return axios.get(url);
+    return axios.post(url, {
+        sale_salary_ids: salaryIds
+    });
 }
 
 export function approvalSaleSalaryApi(genId, baseId = 0) {

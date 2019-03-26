@@ -17,9 +17,6 @@ class SalaryTeaching extends React.Component {
 
     renderItem = (data) => {
         const level = data.user.salary_level ? data.user.salary_level : {};
-        const total_salary = (level.teacher_salary * data.total_attendance_teacher || 0)
-            + (level.ta_salary * data.total_attendance_ta || 0) + data.user.salary + (data.bonus || 0);
-        console.log(total_salary);
         return (
             <div className="card">
                 <div className="card-content">
@@ -161,7 +158,7 @@ class SalaryTeaching extends React.Component {
                                 <div className="flex flex flex-space-between">
                                     <div>=</div>
                                     <div
-                                        className="bold">{dotNumber(total_salary)}đ
+                                        className="bold">{dotNumber(data.total_salary)}đ
                                     </div>
                                 </div>
                             </div>

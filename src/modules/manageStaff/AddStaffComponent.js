@@ -21,7 +21,7 @@ class AddStaffComponent extends React.Component {
     showKPIValues(value) {
         if (value) {
             const regexNumber = new RegExp(/\B(?=([0-9]{3})+(?![0-9]))/, 'g');
-            return value.replace(regexNumber, ".").replace(/,/g,", ");
+            return value.replace(regexNumber, ".").replace(/,/g, ", ");
         } else {
             return "";
         }
@@ -30,11 +30,14 @@ class AddStaffComponent extends React.Component {
 
     render() {
 
-        let {name, email, role_id, username,
+        let {
+            name, email, role_id, username,
             color, base_id, department_id,
-             salary_allowance,
+            salary_allowance,
             kpis,
-            salary}
+            bank_number,
+            salary
+        }
             = this.props.staffForm;
 
         let roleSelect = this.props.roles.filter(function (roleData) {
@@ -159,12 +162,12 @@ class AddStaffComponent extends React.Component {
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                     {/*< FormInputText*/}
-                                                        {/*label="Lương doanh thu"*/}
-                                                        {/*name="salary_revenue"*/}
-                                                        {/*value={salary_revenue}*/}
-                                                        {/*//required={true}*/}
-                                                        {/*type="number"*/}
-                                                        {/*updateFormData={this.props.updateFormData}*/}
+                                                    {/*label="Lương doanh thu"*/}
+                                                    {/*name="salary_revenue"*/}
+                                                    {/*value={salary_revenue}*/}
+                                                    {/*//required={true}*/}
+                                                    {/*type="number"*/}
+                                                    {/*updateFormData={this.props.updateFormData}*/}
                                                     {/*/>*/}
                                                     <FormInputText
                                                         label="Phụ cấp"
@@ -172,6 +175,13 @@ class AddStaffComponent extends React.Component {
                                                         value={salary_allowance}
                                                         //required={true}
                                                         type="number"
+                                                        updateFormData={this.props.updateFormData}
+                                                    />
+                                                    <FormInputText
+                                                        label="Số tài khoản ngân hàng"
+                                                        name="bank_number"
+                                                        value={bank_number}
+                                                        type="text"
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                 </div>

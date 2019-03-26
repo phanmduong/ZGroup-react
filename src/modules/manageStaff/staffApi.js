@@ -41,7 +41,7 @@ export function getStaffs(page = 1, search = null) {
     return axios.get(url);
 }
 
-export function getAllStaffs( search = null) {
+export function getAllStaffs(search = null) {
     let url = env.MANAGE_API_URL + "/get-staffs?limit=-1";
     let token = localStorage.getItem('token');
     if (search) {
@@ -126,7 +126,8 @@ export function editStaff(staff) {
         color: staff.color,
         kpis: staff.kpis,
         revenue: staff.salary,
-        allowance: staff.salary_allowance
+        allowance: staff.salary_allowance,
+        bank_number: staff.bank_number
     });
 }
 
@@ -204,7 +205,7 @@ export function resetPassword(staffId) {
 }
 
 
-export function loadDepartments(){
+export function loadDepartments() {
 
     //http://manageapi.keetool.xyz/department/get-all-departments?token=
     let url = env.MANAGE_API_URL + "/department/get-all-departments";
@@ -215,7 +216,7 @@ export function loadDepartments(){
     return axios.get(url);
 }
 
-export function changeDepartmentStaff(staffId, departId){
+export function changeDepartmentStaff(staffId, departId) {
 
     //http://manageapi.keetool.xyz/department/add-employees/8?token=
     let url = env.MANAGE_API_URL + "/department/add-employees/" + departId;
@@ -223,7 +224,7 @@ export function changeDepartmentStaff(staffId, departId){
     if (token) {
         url += "?token=" + token;
     }
-    let data = JSON.stringify([{"id":staffId}]);
-    return axios.post(url, {employees: data} );
+    let data = JSON.stringify([{"id": staffId}]);
+    return axios.post(url, {employees: data});
 
 }
