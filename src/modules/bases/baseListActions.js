@@ -221,9 +221,9 @@ export function handleBaseEditModal(base) {
 }
 
 export function handleDistricts(districts) {
-    return{
-      type:types.HANDLE_DISTRICTS_BASE_LIST,
-      districts
+    return {
+        type: types.HANDLE_DISTRICTS_BASE_LIST,
+        districts
     };
 }
 
@@ -255,10 +255,11 @@ export function changeAvatar(file) {
     };
 }
 
-export function changeImage(file, length, first_length) {
+export function changeImage(file, length, first_length, type) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_UPLOAD_IMAGE_ROOM
+            type: types.BEGIN_UPLOAD_IMAGE_ROOM,
+            type_image: type
         });
         const error = () => {
             helper.showErrorNotification("Có lỗi xảy ra");
@@ -270,14 +271,16 @@ export function changeImage(file, length, first_length) {
                 type: types.UPLOAD_IMAGE_COMPLETE_BASE_MODAL,
                 image: data.url,
                 length,
-                first_length
+                first_length,
+                type_image: type
             });
         };
         const progressHandler = (event) => {
             const percentComplete = Math.round((100 * event.loaded) / event.total);
             dispatch({
                 type: types.UPDATE_BASE_AVATAR_PROGRESS_MODAL,
-                percent: percentComplete
+                percent: percentComplete,
+                type_image: type
             });
         };
         baseListApi.changeAvatarApi(file,
@@ -285,10 +288,11 @@ export function changeImage(file, length, first_length) {
     };
 }
 
-export function deleteImage(image) {
+export function deleteImage(image, type) {
     return {
         type: types.DELETE_IMAGE_BASE_MODAL,
-        image
+        image,
+        type_image: type
     };
 }
 

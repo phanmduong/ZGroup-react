@@ -41,11 +41,11 @@ class EditBaseModalContainer extends React.Component {
         this.props.baseListActions.changeAvatar(file);
     }
 
-    handleImages(e) {
+    handleImages(e, type = 'images_url') {
         const fileList = e.target.files;
         const files = Array.from(fileList);
-        const first_length = this.props.base.images_url ? JSON.parse(this.props.base.images_url).length : 0;
-        files.map((file) => this.props.baseListActions.changeImage(file, files.length, first_length));
+        const first_length = this.props.base[type] ? JSON.parse(this.props.base[type]).length : 0;
+        files.map((file) => this.props.baseListActions.changeImage(file, files.length, first_length, type));
     }
 
     onChangeProvinceForm(value) {
@@ -183,7 +183,8 @@ class EditBaseModalContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div><br/>
+                        <div>
+                            <br/>
                             <label className="label-control">Ảnh mô tả</label>
                             <div className="box">
                                 {
@@ -207,7 +208,7 @@ class EditBaseModalContainer extends React.Component {
                                                     <TooltipButton text="Xóa" placement="top">
                                                         <div className="button-for-images">
                                                             <a rel="tooltip"
-                                                               onClick={() => this.props.baseListActions.deleteImage(image)}
+                                                               onClick={() => this.props.baseListActions.deleteImage(image, "images_url")}
                                                                data-original-title="" title="">
                                                                 <i className="material-icons">close</i>
                                                             </a>
@@ -233,32 +234,36 @@ class EditBaseModalContainer extends React.Component {
                                                  marginTop: '10px',
                                                  marginBottom: '10px'
                                              }}>
-                                            <TooltipButton text="Tải ảnh" placement="top">
-                                                <label>
-                                                    <i className="material-icons"
-                                                       style={{
-                                                           fontSize: '40px',
-                                                           color: '#919191',
-                                                           cursor: "pointer"
-                                                       }}>add_a_photo
-                                                    </i>
-                                                    <input multiple
-                                                           onChange={this.handleImages}
-                                                           style={{
-                                                               cursor: this.props.isUploadingImage ? 'not-allowed' : 'pointer',
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%",
-                                                           }}
-                                                           type={this.props.isUploadingImage ? 'text' : 'file'}/>
-                                                </label>
-                                            </TooltipButton>
                                             {
-                                                this.props.isUploadingImage &&
+                                                !this.props.isUploadingImage_images_url &&
+                                                <TooltipButton text="Tải ảnh" placement="top">
+                                                    <label>
+                                                        <i className="material-icons"
+                                                           style={{
+                                                               fontSize: '40px',
+                                                               color: '#919191',
+                                                               cursor: "pointer"
+                                                           }}>add_a_photo
+                                                        </i>
+                                                        <input multiple
+                                                               accept=".jpg,.png,.gif"
+                                                               onChange={this.handleImages}
+                                                               style={{
+                                                                   cursor: this.props.isUploadingImage_images_url ? 'not-allowed' : 'pointer',
+                                                                   position: "absolute",
+                                                                   top: 0,
+                                                                   left: 0,
+                                                                   bottom: 0,
+                                                                   right: 0,
+                                                                   width: "100%",
+                                                                   height: "100%",
+                                                               }}
+                                                               type={this.props.isUploadingImage_images_url ? 'text' : 'file'}/>
+                                                    </label>
+                                                </TooltipButton>
+                                            }
+                                            {
+                                                this.props.isUploadingImage_images_url &&
                                                 <div className="progress"
                                                      style={{
                                                          position: "absolute",
@@ -271,8 +276,320 @@ class EditBaseModalContainer extends React.Component {
                                                     <div className="progress-bar" role="progressbar"
                                                          aria-valuenow="70"
                                                          aria-valuemin="0" aria-valuemax="100"
-                                                         style={{width: `${this.props.percent}%`}}>
-                                                        <span className="sr-only">{this.props.percent}% Complete</span>
+                                                         style={{width: `${this.props.percent_images_url}%`}}>
+                                                        <span className="sr-only">{this.props.percent_images_url}% Complete</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <br/>
+                            <label className="label-control">Ảnh sự kiện</label>
+                            <div className="box">
+                                {
+                                    base.images_url_event && JSON.parse(base.images_url_event).map((image, index) => {
+                                        return (
+                                            <div key={index}
+                                                 style={{
+                                                     padding: "3px"
+                                                 }}>
+                                                <div className="container-for-images">
+                                                    <img style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        background: "url(" + image + ") center center / cover",
+                                                        position: "absolute",
+                                                        left: "0",
+                                                        borderRadius: "5px"
+                                                    }}
+                                                         data-original-title=""/>
+                                                    <div className="overlay-for-images"/>
+                                                    <TooltipButton text="Xóa" placement="top">
+                                                        <div className="button-for-images">
+                                                            <a rel="tooltip"
+                                                               onClick={() => this.props.baseListActions.deleteImage(image, "images_url_event")}
+                                                               data-original-title="" title="">
+                                                                <i className="material-icons">close</i>
+                                                            </a>
+                                                        </div>
+                                                    </TooltipButton>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                                {
+                                    <div style={{
+                                        padding: "3px"
+                                    }}>
+                                        <div className="flex-row-center flex-justify-content-center"
+                                             style={{
+                                                 width: '100%',
+                                                 height: '100px',
+                                                 backgroundColor: '#e8e8e8',
+                                                 position: "relative",
+                                                 borderRadius: '5px',
+                                                 cursor: "pointer",
+                                                 marginTop: '10px',
+                                                 marginBottom: '10px'
+                                             }}>
+                                            {
+                                                !this.props.isUploadingImage_images_url_event &&
+                                                <TooltipButton text="Tải ảnh" placement="top">
+                                                    <label>
+                                                        <i className="material-icons"
+                                                           style={{
+                                                               fontSize: '40px',
+                                                               color: '#919191',
+                                                               cursor: "pointer"
+                                                           }}>add_a_photo
+                                                        </i>
+                                                        <input multiple
+                                                               onChange={(e) => this.handleImages(e, "images_url_event")}
+                                                               style={{
+                                                                   cursor: this.props.isUploadingImage_images_url_event ? 'not-allowed' : 'pointer',
+                                                                   position: "absolute",
+                                                                   top: 0,
+                                                                   left: 0,
+                                                                   bottom: 0,
+                                                                   right: 0,
+                                                                   width: "100%",
+                                                                   height: "100%",
+                                                               }}
+                                                               type={this.props.isUploadingImage_images_url_event ? 'text' : 'file'}/>
+                                                    </label>
+                                                </TooltipButton>
+                                            }
+                                            {
+                                                this.props.isUploadingImage_images_url_event &&
+                                                <div className="progress"
+                                                     style={{
+                                                         position: "absolute",
+                                                         left: 0,
+                                                         bottom: 0,
+                                                         width: '100%',
+                                                         zIndex: '100',
+                                                         marginBottom: '0'
+                                                     }}>
+                                                    <div className="progress-bar" role="progressbar"
+                                                         aria-valuenow="70"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style={{width: `${this.props.percent_images_url_event}%`}}>
+                                                        <span className="sr-only">{this.props.percent_images_url_event}% Complete</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <br/>
+                            <label className="label-control">Ảnh sinh nhật</label>
+                            <div className="box">
+                                {
+                                    base.images_url_birthday && JSON.parse(base.images_url_birthday).map((image, index) => {
+                                        return (
+                                            <div key={index}
+                                                 style={{
+                                                     padding: "3px"
+                                                 }}>
+                                                <div className="container-for-images">
+                                                    <img style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        background: "url(" + image + ") center center / cover",
+                                                        position: "absolute",
+                                                        left: "0",
+                                                        borderRadius: "5px"
+                                                    }}
+                                                         data-original-title=""/>
+                                                    <div className="overlay-for-images"/>
+                                                    <TooltipButton text="Xóa" placement="top">
+                                                        <div className="button-for-images">
+                                                            <a rel="tooltip"
+                                                               onClick={() => this.props.baseListActions.deleteImage(image, "images_url_birthday")}
+                                                               data-original-title="" title="">
+                                                                <i className="material-icons">close</i>
+                                                            </a>
+                                                        </div>
+                                                    </TooltipButton>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                                {
+                                    <div style={{
+                                        padding: "3px"
+                                    }}>
+                                        <div className="flex-row-center flex-justify-content-center"
+                                             style={{
+                                                 width: '100%',
+                                                 height: '100px',
+                                                 backgroundColor: '#e8e8e8',
+                                                 position: "relative",
+                                                 borderRadius: '5px',
+                                                 cursor: "pointer",
+                                                 marginTop: '10px',
+                                                 marginBottom: '10px'
+                                             }}>
+                                            {
+                                                !this.props.isUploadingImage_images_url_birthday &&
+                                                <TooltipButton text="Tải ảnh" placement="top">
+                                                    <label>
+                                                        <i className="material-icons"
+                                                           style={{
+                                                               fontSize: '40px',
+                                                               color: '#919191',
+                                                               cursor: "pointer"
+                                                           }}>add_a_photo
+                                                        </i>
+                                                        <input multiple
+
+                                                               onChange={(e) => this.handleImages(e, "images_url_birthday")}
+                                                               style={{
+                                                                   cursor: this.props.isUploadingImage_images_url_birthday ? 'not-allowed' : 'pointer',
+                                                                   position: "absolute",
+                                                                   top: 0,
+                                                                   left: 0,
+                                                                   bottom: 0,
+                                                                   right: 0,
+                                                                   width: "100%",
+                                                                   height: "100%",
+                                                               }}
+                                                               accept=".jpg,.png,.gif"
+                                                               type={this.props.isUploadingImage_images_url_birthday ? 'text' : 'file'}/>
+                                                    </label>
+                                                </TooltipButton>
+                                            }
+                                            {
+                                                this.props.isUploadingImage_images_url_birthday &&
+                                                <div className="progress"
+                                                     style={{
+                                                         position: "absolute",
+                                                         left: 0,
+                                                         bottom: 0,
+                                                         width: '100%',
+                                                         zIndex: '100',
+                                                         marginBottom: '0'
+                                                     }}>
+                                                    <div className="progress-bar" role="progressbar"
+                                                         aria-valuenow="70"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style={{width: `${this.props.percent_images_url_birthday}%`}}>
+                                                        <span className="sr-only">{this.props.percent_images_url_birthday}% Complete</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div> <div>
+                            <br/>
+                            <label className="label-control">Ảnh tiệc cưới</label>
+                            <div className="box">
+                                {
+                                    base.images_url_wedding && JSON.parse(base.images_url_wedding).map((image, index) => {
+                                        return (
+                                            <div key={index}
+                                                 style={{
+                                                     padding: "3px"
+                                                 }}>
+                                                <div className="container-for-images">
+                                                    <img style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        background: "url(" + image + ") center center / cover",
+                                                        position: "absolute",
+                                                        left: "0",
+                                                        borderRadius: "5px"
+                                                    }}
+                                                         data-original-title=""/>
+                                                    <div className="overlay-for-images"/>
+                                                    <TooltipButton text="Xóa" placement="top">
+                                                        <div className="button-for-images">
+                                                            <a rel="tooltip"
+                                                               onClick={() => this.props.baseListActions.deleteImage(image, "images_url_wedding")}
+                                                               data-original-title="" title="">
+                                                                <i className="material-icons">close</i>
+                                                            </a>
+                                                        </div>
+                                                    </TooltipButton>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                                {
+                                    <div style={{
+                                        padding: "3px"
+                                    }}>
+                                        <div className="flex-row-center flex-justify-content-center"
+                                             style={{
+                                                 width: '100%',
+                                                 height: '100px',
+                                                 backgroundColor: '#e8e8e8',
+                                                 position: "relative",
+                                                 borderRadius: '5px',
+                                                 cursor: "pointer",
+                                                 marginTop: '10px',
+                                                 marginBottom: '10px'
+                                             }}>
+                                            {
+                                                !this.props.isUploadingImage_images_url_wedding &&
+                                                <TooltipButton text="Tải ảnh" placement="top">
+                                                    <label>
+                                                        <i className="material-icons"
+                                                           style={{
+                                                               fontSize: '40px',
+                                                               color: '#919191',
+                                                               cursor: "pointer"
+                                                           }}>add_a_photo
+                                                        </i>
+                                                        <input multiple
+
+                                                               onChange={(e) => this.handleImages(e, "images_url_wedding")}
+                                                               style={{
+                                                                   cursor: this.props.isUploadingImage_images_url_wedding ? 'not-allowed' : 'pointer',
+                                                                   position: "absolute",
+                                                                   top: 0,
+                                                                   left: 0,
+                                                                   bottom: 0,
+                                                                   right: 0,
+                                                                   width: "100%",
+                                                                   height: "100%",
+                                                               }}
+                                                               accept=".jpg,.png,.gif"
+                                                               type={this.props.isUploadingImage_images_url_wedding ? 'text' : 'file'}/>
+                                                    </label>
+                                                </TooltipButton>
+                                            }
+                                            {
+                                                this.props.isUploadingImage_images_url_wedding &&
+                                                <div className="progress"
+                                                     style={{
+                                                         position: "absolute",
+                                                         left: 0,
+                                                         bottom: 0,
+                                                         width: '100%',
+                                                         zIndex: '100',
+                                                         marginBottom: '0'
+                                                     }}>
+                                                    <div className="progress-bar" role="progressbar"
+                                                         aria-valuenow="70"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style={{width: `${this.props.percent_images_url_wedding}%`}}>
+                                                        <span className="sr-only">{this.props.percent_images_url_wedding}% Complete</span>
                                                     </div>
                                                 </div>
                                             }
@@ -438,8 +755,14 @@ function mapStateToProps(state) {
         base: state.baseList.base,
         bases: state.rooms.bases,
         isUploadingAvatar: state.baseList.isUploadingAvatar,
-        percent: state.baseList.percent,
-        isUploadingImage: state.baseList.isUploadingImage,
+        percent_images_url_event: state.baseList.percent_images_url_event,
+        percent_images_url_birthday: state.baseList.percent_images_url_birthday,
+        percent_images_url_wedding: state.baseList.percent_images_url_wedding,
+        percent_images_url: state.baseList.percent_images_url,
+        isUploadingImage_images_url_birthday: state.baseList.isUploadingImage_images_url_birthday,
+        isUploadingImage_images_url_event: state.baseList.isUploadingImage_images_url_event,
+        isUploadingImage_images_url_wedding: state.baseList.isUploadingImage_images_url_wedding,
+        isUploadingImage_images_url: state.baseList.isUploadingImage_images_url,
         types: state.rooms.types,
         provinces: state.baseList.provinces,
         isSavingBase: state.baseList.isSavingBase,

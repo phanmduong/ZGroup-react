@@ -766,7 +766,12 @@ export default {
                 }
         },
         base: {},
-        percent: 0,
+        percent_images_url_event: 0,
+        percent_images_url_birthday: 0,
+        percent_images_url_wedding: 0,
+        isUploadingImage_images_url_birthday: false,
+        isUploadingImage_images_url_event: false,
+        isUploadingImage_images_url_wedding: false,
         isSavingBase: false,
         districts: []
     },

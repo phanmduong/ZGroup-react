@@ -187,23 +187,30 @@ export default function baseListReducer(state = initialState.baseList, action) {
         case types.UPDATE_BASE_AVATAR_PROGRESS_MODAL:
             return {
                 ...state,
-                percent: action.percent
+                ['percent_' + action.type_image]: action.percent
             };
         case types.BEGIN_UPLOAD_BASE_AVATAR_MODAL:
             return {
                 ...state,
                 isUploadingAvatar: true
             };
+        case types.BEGIN_UPLOAD_IMAGE_ROOM:
+            return {
+                ...state,
+                ['percent_' + action.type_image]: 0,
+                ['isUploadingImage_' + action.type_image]: true
+            };
         case types.UPLOAD_IMAGE_COMPLETE_BASE_MODAL: {
             let images_url = [];
-            if (state.base.images_url) images_url = JSON.parse(state.base.images_url);
+            let type = action.type_image;
+            if (state.base[type]) images_url = JSON.parse(state.base[type]);
             if (action.length + action.first_length === images_url.length + 1) {
                 return {
                     ...state,
-                    isUploadingImage: false,
+                    ['isUploadingImage_' + type]: false,
                     base: {
                         ...state.base,
-                        images_url: JSON.stringify([...images_url, action.image])
+                        [type]: JSON.stringify([...images_url, action.image])
                     },
                 };
             } else {
@@ -211,19 +218,20 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     ...state,
                     base: {
                         ...state.base,
-                        images_url: JSON.stringify([...images_url, action.image])
+                        [type]: JSON.stringify([...images_url, action.image])
                     },
-                    isUploadingImage: true
+                    ['isUploadingImage_' + type]: true
                 };
             }
         }
         case types.DELETE_IMAGE_BASE_MODAL: {
-            let images_url = JSON.parse(state.base.images_url);
+            let type = action.type_image;
+            let images_url = JSON.parse(state.base[type]);
             return {
                 ...state,
                 base: {
                     ...state.base,
-                    images_url: JSON.stringify(images_url.filter(image => image !== action.image))
+                    [type]: JSON.stringify(images_url.filter(image => image !== action.image))
                 }
             };
         }
