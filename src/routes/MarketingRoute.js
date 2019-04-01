@@ -15,6 +15,7 @@ import SummarySalesRoomContainer from "../modules/summarySalesRoom/SummarySalesR
 import OverviewSalesRoom from "../modules/summarySalesRoom/OverviewSalesRoom";
 import StatisticSalesRoom from "../modules/summarySalesRoom/StatisticSalesRoom";
 import LeadContainer from "../modules/lead/LeadContainer";
+import AnalyticMarketingContainer from "../modules/analytics/analyticMarketing/AnalyticMarketingContainer";
 
 /**
  * Tab Quản lý marketing
@@ -102,5 +103,10 @@ export default [
         path: "/marketing/distribution-leads",
         component: LeadContainer,
         type: "distribution"
+    },
+    {
+        path: "/marketing/analytic",
+        component: AnalyticMarketingContainer,
+
     },
 ];

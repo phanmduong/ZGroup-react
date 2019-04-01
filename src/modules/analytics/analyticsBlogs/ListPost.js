@@ -149,13 +149,9 @@ class ListPost extends React.Component {
                     let fbInfo = this.props.facebookStatistic[index];
                     return (
 
-                        <div className="" key={post.id}>
-                            <div
-                                // className="col-md-12"
-                                className="col-md-9"
-                            >
-
-                                <div className="card">
+                        <div className="flex-container" key={post.id}>
+                            <div className="flex-col-9">
+                                <div style={{backgroundColor:"white", borderRadius: 6, height:"100%", padding:20}}>
                                     <div className="row">
                                         <div className="col-lg-4">
                                             <div className="card-content">
@@ -179,7 +175,7 @@ class ListPost extends React.Component {
 
                                                 </div>
                                                 <div className="card-action">
-                                                    <h4 className="card-title" style={{margin: "20px 0px"}}>
+                                                    <h4 className="card-title" style={{margin: "30px 0px"}}>
                                                         <a href={`/blog/${post.id}/editor`} target="_blank">
                                                             {post.title ? post.title : "Chưa có tên"}
                                                         </a>
@@ -211,20 +207,19 @@ class ListPost extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div className="col-lg-8 padding-horizontal-30px">
 
                                             <div id={"chart-" + post.id + "-container"}></div>
 
                                             {!this.props.isLoadingPosts && <div className="row">
-                                                <div className="col-md-2">
+                                                <div className="col-md-4">
                                                     <FormInputDate value={dataObj.query['start-date']}
                                                                    format={DATE_FORMAT_SQL}
                                                                    name={'start-date' + index}
                                                                    id={'start-date' + index}
                                                                    updateFormData={(e) => this.onChangeDate(e, 'start-date', index)}
                                                     /></div>
-                                                <div className="col-md-2">
+                                                <div className="col-md-4">
                                                     <FormInputDate value={dataObj.query['end-date']}
 
                                                                    format={DATE_FORMAT_SQL}
@@ -240,15 +235,15 @@ class ListPost extends React.Component {
 
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="flex-col-3">
 
-                                <div className="card" style={{backgroundColor: "#4285f4",}}>
+                                <div style={{backgroundColor: "#4285f4",borderRadius: 6, height:"100%"}}>
                                     <div>
                                         <div className="row">
                                             {googleCodes.map((element, key) => {
                                                 return (
                                                     <div className="col-lg-6" key={key}>
-                                                        <div style={{color: "white", margin: "23px 27px"}}>
+                                                        <div style={{color: "white", margin: "15%"}}>
                                                             <div>{element.label}</div>
                                                             <div
                                                                 style={{fontSize: 24, lineHeight: "24px"}}
@@ -272,7 +267,7 @@ class ListPost extends React.Component {
 
                                                     return (
                                                         <div className="col-lg-6" key={key}>
-                                                            <div style={{ margin: " 23px 27px"}}>
+                                                            <div style={{ margin: "15%"}}>
                                                                 <img src={element.icon_url}
                                                                      style={{width: 25, height: 25}}/>
                                                                 <div style={{lineHeight: "25px", marginLeft: 5}}>

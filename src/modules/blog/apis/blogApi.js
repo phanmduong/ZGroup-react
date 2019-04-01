@@ -3,13 +3,9 @@ import * as env from "../../../constants/env";
 
 
 export function loadFacebookStatistic(data) {
-    //https://graph.facebook.com/?fields=og_object%7Blikes.summary(total_count).limit(0)%7D,share&id=https://colorme.vn/blog/ui-va-ux-khac-nhau-the-nao-49508
-    //https://graph.facebook.com/v3.2/?access_token=EAADr6ZCeqhv8BANJgxvrej0MkuhE51nvpdZBy4IsF8fi7vvMBl3oaqjBw2vstFyjLO2xbxQ0qs9HZCGxmlQFY11oZCUxZCUzqL2Wyoz4p6AYy0dbezZBivcxaSuRvbJo7Xz0sghJGMIgUVT9XevZAuyc9T22dxFqTNIqywxp9E21jBIh1nNfsNRTMl282uSN70ZD&debug=all&fields=engagement&format=json&method=get&pretty=0&suppress_http_code=1&ids=
-    // let url = "https://graph.facebook.com/?fields=og_object%7Blikes.summary(total_count).limit(0)%7D,share&ids=";
-    // let access_token = "EAADr6ZCeqhv8BALmhiC3ck3bJO8ZAjlOXNAs4DQSI7206QwHFtZBFZC0KFI4mZBTbxM2v8n7AJldDaZAZA9nJ601iHjsG4rP9HQv92uPtIcMCHP3ehZBKdZA8g0vCyvnAI8MmBylMwgKoERWoZBWgeYV70glvt2dT2k5IZD";
-    // let access_token = env.FACEBOOK_TOKEN;
-    let access_token = "259398704989951|OqAhnC6jKJZTYHN-6NzmPa_b2RM";
-    let url = "https://graph.facebook.com/v3.2/?access_token="+ access_token +"&debug=all&fields=engagement&format=json&method=get&pretty=0&suppress_http_code=1&ids=";
+
+    // EAAd5FUER9hEBACLz7kKRcU1j1ad54KC2uQVwjnf4erZA1Vv6q5JCKTc18CJdDi4nfzhsdA9QL92YuY8ngztVRuV9fOZA2mQ2Ipv7OKc1NcYKjBQEEOUDEmHZBLAFybpwKDZAfsFhLR2iDKbKZB824QhJyetesLmFZBNkIZCpTgxkh88TZCV8vGpC
+    let url = "https://graph.facebook.com/v3.2/?access_token="+ env.FB_TOKEN +"&debug=all&fields=engagement&format=json&method=get&pretty=0&suppress_http_code=1&ids=";
     for(let i = 0; i < data.length ; i++){
         url += data[i].url + (i == data.length - 1 ? "": ",");
     }
