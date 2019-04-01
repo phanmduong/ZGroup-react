@@ -21,7 +21,9 @@ export const DOMAIN = "http://" + "manage." + URL;
 export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
 
 export const FACEBOOK_TOKEN = env.FACEBOOK_TOKEN;
-
+export const FB_TOKEN = "259398704989951|OqAhnC6jKJZTYHN-6NzmPa_b2RM";
+export const FB_PAGE_TOKEN = "EAAd5FUER9hEBANsZA1uoszVmuQxZCl4nCeFuOZAY3U287ZABcQ1jeEIrDnrz9jRZAcYPDYC7zYEiIZAJvmVmWpLuaiS8GpwAwcMkbEk5uBgSIaZCx6IWZBN7QfNbXm8CTqEQnuZBuZB6nZBIfwfMr81ks3S4x3DUJw63W8JNfFb5xv4vBeun2XqYHJ5";
+// export const FB_ADS_TOKEN = "EAABsbCS1iHgBAAjJJxEZCfFAZAz0A4WoM2p9v2xp3bFN7RzVy70OshIJ91WQ0T6fKC5AjOKH0z6ft9a3qFh1Ii4uDLOMeukOyLmw6wCE2o4TGtZAsZC10MZBhoiX2YroCE62qpDDNQYIeC1V40f0ZB2SBrKl9waTuTzqFWxlaLZAwjOZAwSQeZCOXpmvQ2x33TI591yxyBJaOfAZDZD";
 if (process.env.NODE_ENV === "production") {
     MANAGE_URL = PROTOCOL + "manage." + URL;
 } else {

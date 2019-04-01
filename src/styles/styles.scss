@@ -169,6 +169,18 @@ table tr td .avatar-list-staff {
 .flex-col {
   flex-direction: column;
 }
+.flex-container {
+  display: flex;
+  width: 100%;
+}
+.flex-col-3 {
+  flex: 3;
+  padding:10px;
+}
+.flex-col-9 {
+  flex: 9;
+  padding:10px;
+}
 
 .quiet {
   color: #8c8c8c;
