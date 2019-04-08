@@ -154,6 +154,20 @@ class coursesCreateEditGeneral extends React.Component {
                                                 updateFormData={this.updateFormData}
                                                 value={this.props.data.description}
                                             /></div>
+                                        <div className="col-md-12">
+                                            <FormInputText
+                                                label="Front Image"
+                                                name="front_image"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.data.front_image}
+                                            /></div>
+                                        <div className="col-md-12">
+                                            <FormInputText
+                                                label="Back Image"
+                                                name="back_image"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.data.back_image}
+                                            /></div>
                                         <div className="col-md-6">
                                             <FormInputText
                                                 label="Link tải phần mềm trên Windows"
