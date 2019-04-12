@@ -5,6 +5,7 @@ import DashboardTrongDongContainer from "../modules/dashboardTrongDong/Dashboard
 import LogRegisterRoom from "../modules/logRegisterRoom/LogRegisterRoom";
 import DashboardStudyPackContainer from "../modules/dashboardStudyPack/DashboardContainer";
 
+
 /**
  * Tab trang chủ
  */
@@ -36,5 +37,5 @@ export default [
     {
         path: "/dashboard/log-register-room",
         component: LogRegisterRoom
-    }
+    },
 ];
