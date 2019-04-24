@@ -281,7 +281,8 @@ export function convertTimeToSecond(time) {
     return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
 }
 
-export function xoa_dau(str) {
+export function xoa_dau(str = '') {
+    if (isEmptyInput(str)) return str;
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
     str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
     str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
