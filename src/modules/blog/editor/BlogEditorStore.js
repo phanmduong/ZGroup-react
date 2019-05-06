@@ -35,7 +35,7 @@ export default new class BlogEditorStore {
     loadPostDetail = async postId => {
         this.isLoading = true;
         const res = await blogApi.getPostApi(postId);
-        const {post} = res.data.data;
+        const {post} = res.data;
         this.isLoading = false;
         this.post = {
             ...this.post,

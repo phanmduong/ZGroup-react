@@ -4,7 +4,7 @@ import Loading from "../../components/common/Loading";
 import {observer} from "mobx-react";
 import {getShortName, isEmptyInput, validateLinkImage} from "../../helpers/helper";
 import {
-    RATIO_CHECKIN_CHECKOUT_TEACHING_PASS,
+    RATIO_CHECKIN_CHECKOUT_TEACHING_PASS, RATIO_COMMENT_PRODUCT_PASS,
     RATIO_RATING_TEACHING_PASS,
     RATIO_TOTAL_STUDENT_TEACHING_PASS
 } from "../../constants/constants";
@@ -19,9 +19,15 @@ class EvaluateTeaching extends React.Component {
         this.props.store.loadEvaluate();
     }
 
+    // openUncomment = (user_id) => {
+    //     window.open("https://colorme.vn/product/uncomment?user_id=" + user_id + "&gen_id=" + this.props.store.selectedGenId, '_blank');
+    // }
+
     renderItem = (data) => {
         let ratioCheckinCheckout = data.checkin_checkout_passed * 100 / data.checkin_checkout_total;
+        let ratioCommentProduct = data.total_commented_products * 100 / data.total_products;
         const checkinCheckoutPass = ratioCheckinCheckout >= RATIO_CHECKIN_CHECKOUT_TEACHING_PASS;
+        const commentProductPass = ratioCommentProduct >= RATIO_COMMENT_PRODUCT_PASS;
         const studentPass = data.ratio_student_attendance >= RATIO_TOTAL_STUDENT_TEACHING_PASS;
         const ratingPass = isEmptyInput(data.total_rated_person) || data.ratio_rating >= RATIO_RATING_TEACHING_PASS;
         const level = this.levelTeaching(checkinCheckoutPass, studentPass, ratingPass);
@@ -103,6 +109,23 @@ class EvaluateTeaching extends React.Component {
                                      style={{
                                          width: (isEmptyInput(data.ratio_rating) ? 100 : data.ratio_rating * 100 / 5) + '%',
                                          backgroundColor: ratingPass ? '#2EBE21' : '#C50000'
+                                     }}/>
+                            </div>
+                        </div>
+                        <div className="cursor-pointer"
+                             onClick={() => this.openModalCommentProduct(data.user, data.gen)}>
+                            <div className="flex flex flex-space-between">
+                                <div>Tỉ lệ nhận xét bài</div>
+                                <div className="bold">
+                                    {`${Math.round(ratioCommentProduct)}%/${RATIO_COMMENT_PRODUCT_PASS}%
+                                    (${data.total_commented_products}/${data.total_products})`}
+                                </div>
+                            </div>
+                            <div className="progress">
+                                <div className="progress-bar"
+                                     style={{
+                                         width: ratioCommentProduct + '%',
+                                         backgroundColor: commentProductPass ? '#2EBE21' : '#C50000'
                                      }}/>
                             </div>
                         </div>
@@ -192,6 +215,14 @@ class EvaluateTeaching extends React.Component {
     openModalStudentRating(user, gen) {
         this.props.store.selectedUser = user;
         this.props.store.showModalStudentRating = true;
+        if (gen) {
+            this.props.store.selectedGenId = gen.id
+        }
+    }
+
+    openModalCommentProduct(user, gen) {
+        this.props.store.selectedUser = user;
+        this.props.store.showModalCommentProduct = true;
         if (gen) {
             this.props.store.selectedGenId = gen.id
         }

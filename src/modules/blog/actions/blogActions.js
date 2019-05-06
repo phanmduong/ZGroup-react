@@ -149,10 +149,10 @@ export function loadPost(postId) {
                 dispatch({
                     type: types.LOAD_POST_SUCCESS,
                     post: {
-                        ...res.data.data.post,
+                        ...res.data.post,
                         // category: res.data.data.post.category_id,
 
-                        imageUrl: res.data.data.post.url,
+                        imageUrl: res.data.post.url,
                     },
                 });
             } else {

@@ -120,3 +120,23 @@ export function loadEvaluateTeachingAssistantDetailStudentRatingApi(genID = '', 
 
     return axios.get(url);
 }
+
+export function loadEvaluateTeacherDetailCommentProductApi(genID = '', userID = '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teacher-detail-comment-product?gen_id=" + genID  + '&user_id=' + userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadEvaluateTeachingAssistantDetailCommentProductApi(genID = '', userID = '') {
+    let url = env.MANAGE_API_URL + "/teaching/evaluate-teaching-assistant-detail-comment-product?gen_id=" + genID + '&user_id=' + userID;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
