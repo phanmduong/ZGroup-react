@@ -7,6 +7,7 @@ import {Modal} from "react-bootstrap";
 import CheckinCheckoutContainer from "../CheckinCheckout/CheckinCheckoutContainer";
 import StudentAttendanceContainer from "../StudentAttendance/StudentAttendanceContainer";
 import StudentRatingContainer from "../StudentRating/StudentRatingContainer";
+import CommentProductContainer from "../CommentProduct/CommentProductContainer";
 
 @observer
 class EvaluatePersonTeachingContainer extends React.Component {
@@ -75,6 +76,19 @@ class EvaluatePersonTeachingContainer extends React.Component {
                             gens={store.gens}
                             selectedTeaching={store.selectedTeaching}
                             selectedBaseId={store.selectedBaseId}
+                            selectedGenId={store.selectedGenId}
+                            user={store.selectedUser}
+                        />}
+                    </Modal.Body>
+                </Modal>
+                <Modal show={store.showModalCommentProduct}
+                       onHide={() => {
+                           store.showModalCommentProduct = false
+                       }}>
+                    <Modal.Body>
+                        {store.showModalCommentProduct && <CommentProductContainer
+                            gens={store.gens}
+                            selectedTeaching={store.selectedTeaching}
                             selectedGenId={store.selectedGenId}
                             user={store.selectedUser}
                         />}
