@@ -25,11 +25,19 @@ class AttendanceTeacher extends React.Component {
                             !isEmptyInput(attendance.attendance.comment_check_in) ?
                                 <TooltipButton text={attendance.attendance.comment_check_in} placement={"top"}>
                                     <div
-                                        className="btn btn-success btn-xs btn-success min-width-120-px">{attendance.attendance.check_in_time}</div>
+                                        className="btn btn-success btn-xs btn-success min-width-120-px"
+                                        onClick={() => {
+                                            this.props.addCheckinCheckout("checkin", this.props.type, this.props.attendance);
+                                        }}
+                                    >{attendance.attendance.check_in_time}</div>
                                 </TooltipButton>
                                 :
                                 <div
-                                    className="btn btn-simple btn-xs btn-success min-width-120-px">{attendance.attendance.check_in_time}</div>
+                                    className="btn btn-simple btn-xs btn-success min-width-120-px"
+                                    onClick={() => {
+                                        this.props.addCheckinCheckout("checkin", this.props.type, this.props.attendance);
+                                    }}
+                                >{attendance.attendance.check_in_time}</div>
                         )
                         :
                         (
@@ -45,13 +53,21 @@ class AttendanceTeacher extends React.Component {
                             !isEmptyInput(attendance.attendance.comment_check_out) ?
                                 <TooltipButton text={attendance.attendance.comment_check_out} placement={"top"}>
                                     <div
-                                        className="btn btn-success btn-xs btn-success min-width-120-px">{attendance.attendance.check_out_time}</div>
+                                        className="btn btn-success btn-xs btn-success min-width-120-px"
+                                        onClick={() => {
+                                            this.props.addCheckinCheckout("checkout", this.props.type, this.props.attendance);
+                                        }}
+                                    >{attendance.attendance.check_out_time}</div>
                                 </TooltipButton>
 
                                 :
 
                                 <div
-                                    className="btn btn-simple btn-xs btn-success min-width-120-px">{attendance.attendance.check_out_time}</div>
+                                    className="btn btn-simple btn-xs btn-success min-width-120-px"
+                                    onClick={() => {
+                                        this.props.addCheckinCheckout("checkout", this.props.type, this.props.attendance);
+                                    }}
+                                >{attendance.attendance.check_out_time}</div>
                         )
                         :
                         (
