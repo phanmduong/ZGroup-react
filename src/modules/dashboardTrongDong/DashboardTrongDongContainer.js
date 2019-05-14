@@ -3,34 +3,28 @@ import {observer} from 'mobx-react';
 import {connect} from 'react-redux';
 import store from './dashboardStore';
 import Loading from '../../components/common/Loading';
-// import Select from '../../components/common/Select';
-import Calendar from './Calendar';
 import moment from 'moment';
 import {
     DATETIME_FORMAT_SQL, DATETIME_FORMAT, STATUS_REGISTER_ROOM,
-    KIND_REGISTER_ROOM
 } from '../../constants/constants';
 import {
-    convertTimeToSecond,
     setFormValidation,
     showTypeNotification,
     appendJsonToWorkBook,
     saveWorkBookToExcel,
     newWorkBook,
-    renderExcelColumnArray, showErrorNotification
+    renderExcelColumnArray,
 } from '../../helpers/helper';
 import {observable} from 'mobx';
 import {Modal} from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
-import FormInputText from '../../components/common/FormInputText';
 import Button from '../../components/common/Button';
 import FormInputDateTime from '../../components/common/FormInputDateTime';
-import Checkbox from '../../components/common/Checkbox';
-import {loadUsers} from './dashboardApi';
-import TooltipButton from '../../components/common/TooltipButton';
 
-let self;
+import ModalBooking from "./ModalBooking";
+import {removeObservable} from "../../helpers/entity/mobx";
+import CalenderRegister from "./CalenderRegister";
 
 @observer
 class DashboardTrongDongContainer extends Component {
@@ -41,8 +35,6 @@ class DashboardTrongDongContainer extends Component {
         this.onChangeRoomType = this.onChangeRoomType.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
-        this.openModalBooking = this.openModalBooking.bind(this);
-        self = this;
     }
 
     componentWillMount() {
@@ -56,14 +48,13 @@ class DashboardTrongDongContainer extends Component {
 
     @observable showModalChangeStatus = false;
     @observable showModalBooking = false;
-    @observable booking = {};
     @observable registerRoomSelected = {};
     @observable disableCreateRegister = false;
-    @observable selectedUser = {};
     @observable excelModal = false;
     @observable isExporting = false;
     @observable excelStartTime = null;
     @observable excelEndTime = null;
+    @observable booking = {};
 
     onChangeRoom(value) {
         store.selectedRoomId = value ? value.value : 0;
@@ -95,11 +86,14 @@ class DashboardTrongDongContainer extends Component {
         );
     }
 
-    openModalBooking(day, room, register) {
-        self.showModalBooking = true;
-        self.selectedUser = {};
+    setRegisterRoomSelected = (registerRoomSelected) => {
+        this.registerRoomSelected = registerRoomSelected
+    }
+
+    openModalBooking = (day, room, register) => {
+
         if (register) {
-            self.booking = {
+            this.booking = {
                 email: register.register_data.user.email,
                 name: register.register_data.user.name,
                 phone: register.register_data.user.phone,
@@ -120,7 +114,7 @@ class DashboardTrongDongContainer extends Component {
                 similar_room: register.register_data.similar_room
             };
         } else {
-            self.booking = {
+            this.booking = {
                 room: room,
                 base_id: room && room.base ? room.base.id : '',
                 room_id: room ? room.id : '',
@@ -132,79 +126,27 @@ class DashboardTrongDongContainer extends Component {
                 note: '',
             };
         }
+        this.showModalBooking = true;
     }
 
-    updateFormData = (event) => {
-        const value = event.target.value;
-        let booking = {...this.booking};
-        const field = event.target.name;
-        booking[field] = value;
-        this.booking = booking;
-    };
 
-    createBookRoom = () => {
+    createBookRoom = (booking) => {
         setFormValidation('#form-book-room');
         if ($('#form-book-room').valid()) {
-            const start_time = moment(this.booking.start_time, DATETIME_FORMAT).format('X');
-            const end_time = moment(this.booking.end_time, DATETIME_FORMAT).format('X');
+            const start_time = moment(booking.start_time, DATETIME_FORMAT).format('X');
+            const end_time = moment(booking.end_time, DATETIME_FORMAT).format('X');
             if (start_time >= end_time) {
                 showTypeNotification('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc', 'warning');
                 return;
             }
-            store.createRegister(this.booking, this.closeModalBooking);
+            store.createRegister(booking, this.closeModalBooking);
         }
     };
 
     closeModalBooking = () => {
         this.showModalBooking = false;
-        self.booking = {};
     };
 
-    colorBook(status) {
-        switch (status) {
-            case 'seed':
-                return '#9b9b9b';
-            case 'view':
-                return '#ffaa00';
-            case 'cancel':
-                return '#ff4444';
-            case 'done':
-                return '#4caa00';
-            default:
-                return '#9b9b9b';
-        }
-    }
-
-    changeSimilarRoom = (event, room) => {
-        if (event.target.checked) {
-            this.booking.similar_room = [...this.booking.similar_room, room.id];
-        } else {
-            this.booking.similar_room = this.booking.similar_room.filter((roomItem) => roomItem != room.id);
-        }
-    };
-
-    loadUsers = (input, callback) => {
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(
-            function () {
-                loadUsers(input).then((res) => {
-                    let users = res.data.data.users.map((user) => {
-                        return {
-                            ...user,
-                            ...{
-                                value: user.id,
-                                label: user.name + ` (${user.phone})`
-                            }
-                        };
-                    });
-                    callback(null, {options: users, complete: true});
-                });
-            }.bind(this),
-            500
-        );
-    };
 
     openExportModal = () => {
         this.excelModal = true;
@@ -214,6 +156,12 @@ class DashboardTrongDongContainer extends Component {
 
     closeExcelModal = () => {
         this.excelModal = false;
+    };
+
+
+    updateFormDate = (event) => {
+        const field = event.target.name;
+        this[field] = event.target.value;
     };
 
     getTextRoom(similar_room) {
@@ -229,161 +177,9 @@ class DashboardTrongDongContainer extends Component {
         return text;
     }
 
-    renderCalendar(registers, disableCreateRegister, room) {
-        let registersData = registers.map((register) => {
-            let startTime = moment(register.start_time, DATETIME_FORMAT_SQL);
-            let endTime = moment(register.end_time, DATETIME_FORMAT_SQL);
-            let startSecond = convertTimeToSecond(startTime.format('HH:mm'));
-            let endSecond = convertTimeToSecond(endTime.format('HH:mm'));
-            let time = convertTimeToSecond('14:00');
-            let title = '';
-            if (startTime.format('MM-DD') == endTime.format('MM-DD')) {
-                if (startSecond <= time && time < endSecond) {
-                    title = 'Cả ngày: ';
-                } else if (startSecond <= time && endSecond <= time) {
-                    title = 'Ca sáng: ';
-                } else {
-                    title = 'Ca tối: ';
-                }
-            }
-            title += register.user ? register.user.name : '';
-
-            if (register.similar_room) {
-                title += ' (Phòng: ';
-
-                title += this.getTextRoom(register.similar_room);
-
-                title += ')';
-            }
-
-            if (register.kind) {
-                title += `(Hình thức: ${register.kind})`;
-            }
-            if (register.number_person) {
-                title += `(SLK: ${register.number_person})`;
-            }
-
-            let color = this.colorBook(register.status);
-            return {
-                title: title,
-                register_room_id: register.id,
-                register_name: register.user ? register.user.name : '',
-                register_data: register,
-                room: room ? room.name : null,
-                type: room && room.type ? room.type.name : null,
-                register_id: register.register_id,
-                start: register.start_time, // "2018-05-24 09:00:00"
-                end: register.end_time,
-                status: register.status,
-                color: color,
-                overlay: 1,
-                number_person: register.number_person,
-                phone: register.user && register.user.phone,
-                note: register.note,
-            };
-        });
-
-        // console.log(registersData,"ssssssssssss");
-
-
-        return (
-            <div className="card" key={room ? room.id : ''}>
-                <div className="card-content">
-                    {room ? (
-                        <div>
-                            <h4 className="card-title">
-                                <strong>{`Phòng ${room.name} - ${room.type
-                                    .name} - ${room.seats_count} chỗ ngồi`}</strong>
-                            </h4>
-                            <div>{`Cơ sở ${room.base.name} - ${room.base.address}`}</div>
-                        </div>
-                    ) : (
-                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <div className="flex-row flex">
-                                <h4 className="card-title">
-                                    <strong>Lịch đặt phòng</strong>
-                                </h4>
-                            </div>
-                            <div className="flex-end">
-                                <div>
-                                    <TooltipButton text="Xuất thành file excel" placement="top">
-                                        <button
-                                            className="btn btn-rose"
-                                            onClick={this.openExportModal}
-                                            style={{
-                                                borderRadius: 30,
-                                                padding: '0px 11px',
-                                                margin: '-1px 10px',
-                                                minWidth: 25,
-                                                height: 25,
-                                                width: '55%'
-                                            }}
-                                        >
-                                            <i
-                                                className="material-icons"
-                                                style={{height: 5, width: 5, marginLeft: -11, marginTop: -10}}
-                                            >
-                                                file_download
-                                            </i>
-                                        </button>
-                                    </TooltipButton>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    <Calendar
-                        id={'room-calender-' + (room ? room.id : '')}
-                        calendarEvents={registersData}
-                        onDropTime={(value) => this.updateTime(value)}
-                        onClick={(value) => {
-                            if (disableCreateRegister) {
-                                showErrorNotification("Không được phân quyền.");
-                                return;
-                            }
-                            this.registerRoomSelected = {
-                                id: value.register_id,
-                                status: value.status,
-                                register_name: value.register_name,
-                                room: value.room,
-                                type: value.type,
-                                start_time: value.start && value.start.format(DATETIME_FORMAT),
-                                end_time: value.end && value.end.format(DATETIME_FORMAT),
-                                note: value.note,
-                                kind: value.kind,
-                            };
-                            self.openModalBooking(null, room, value);
-                        }}
-                        onClickDay={(day) => {
-                            if (disableCreateRegister) {
-                                showErrorNotification("Không được phân quyền.");
-                                return;
-                            }
-                            self.openModalBooking(day, room);
-                        }}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    selectUser = (value) => {
-        let booking = {...this.booking};
-        booking.name = value.name;
-        booking.email = value.email;
-        booking.address = value.address;
-        booking.phone = value.phone;
-        this.booking = booking;
-        this.selectedUser = value;
-    };
-
-    updateFormDate = (event) => {
-        const field = event.target.name;
-        this[field] = event.target.value;
-    };
-
     export = () => {
         this.isExporting = true;
-        let data = store.registerMergeRooms();
+        let data = store.registerMergeRooms;
 
         if (this.excelStartTime) {
             data = data.filter((register) => new Date(register.start_time) >= new Date(this.excelStartTime));
@@ -428,6 +224,7 @@ class DashboardTrongDongContainer extends Component {
     };
 
     render() {
+
         // const disableCreateRegister = !(this.props.user.base_id == store.selectedBaseId && this.props.user.base_id <= 0);
         const disableCreateRegister =
             (this.props.route && this.props.route.path === '/dashboard/view-register') ||
@@ -496,10 +293,23 @@ class DashboardTrongDongContainer extends Component {
                         {store.isLoading ? (
                             <Loading/>
                         ) : store.registerRooms && store.selectedRoomId == 0 ? (
-                            this.renderCalendar(store.registerMergeRooms(), disableCreateRegister)
+                            <CalenderRegister registers={store.registerMergeRooms}
+                                              disableCreateRegister={disableCreateRegister}
+                                              openModalBooking={this.openModalBooking}
+                                              setRegisterRoomSelected={this.setRegisterRoomSelected}
+                                              openExportModal={this.openExportModal}
+                            />
                         ) : (
                             store.registerRooms.map((room) => {
-                                return this.renderCalendar(store.registerMergeRooms(), disableCreateRegister, room);
+                                return (
+                                    <CalenderRegister registers={store.registerMergeRooms}
+                                                      disableCreateRegister={disableCreateRegister}
+                                                      room={room}
+                                                      openModalBooking={this.openModalBooking}
+                                                      setRegisterRoomSelected={this.setRegisterRoomSelected}
+                                                      openExportModal={this.openExportModal}
+                                    />
+                                )
                             })
                         )}
                     </div>
@@ -534,186 +344,16 @@ class DashboardTrongDongContainer extends Component {
                         </div>
                     </Modal.Body>
                 </Modal>
+                {this.showModalBooking && <ModalBooking
+                    showModalBooking={this.showModalBooking}
+                    similar_room_names={similar_room_names}
+                    disableCreateRegister={disableCreateRegister}
+                    isCreatingRegister={store.isCreatingRegister}
+                    closeModalBooking={this.closeModalBooking}
+                    createBookRoom={this.createBookRoom}
+                    booking={removeObservable(this.booking)}
+                ></ModalBooking>}
 
-                <Modal show={this.showModalBooking} onHide={this.closeModalBooking}>
-                    <Modal.Header closeButton>
-                        {this.booking.room ? (
-                            <Modal.Title>
-                                {this.booking.room && this.booking.id == undefined ? (
-                                    `Tạo đặt phòng ${this.booking.room.name} - ${this.booking.room.type.name}`
-                                ) : (
-                                    ''
-                                )}
-                                {this.booking.id ? (
-                                    `${this.booking.name} đặt phòng ${similar_room_names} loại ${this.booking.type}`
-                                ) : (
-                                    ''
-                                )}
-                            </Modal.Title>
-                        ) : (
-                            <Modal.Title>
-                                {this.booking.id == undefined ? 'Tạo đặt phòng' : 'Sửa đặt phòng'}
-                            </Modal.Title>
-                        )}
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form id="form-book-room">
-                            {this.booking.id ? (
-                                <div/>
-                            ) : (
-                                <div className="form-group">
-                                    <label className="label-control">Tìm khách hàng</label>
-                                    <ReactSelect.Async
-                                        loadOptions={this.loadUsers}
-                                        loadingPlaceholder="Đang tải..."
-                                        placeholder="Chọn nhà cung cấp"
-                                        searchPromptText="Không có dữ liệu"
-                                        onChange={this.selectUser}
-                                        value={this.selectedUser}
-                                    />
-                                </div>
-                            )}
-                            <FormInputText
-                                label="Tên khách hàng"
-                                name="name"
-                                updateFormData={this.updateFormData}
-                                value={this.booking.name}
-                                required
-                                disabled={disableCreateRegister}
-                            />
-                            <FormInputText
-                                label="Số điện thoại"
-                                name="phone"
-                                updateFormData={this.updateFormData}
-                                value={this.booking.phone}
-                                required
-                                disabled={disableCreateRegister}
-                            />
-                            <FormInputText
-                                label="Địa chỉ"
-                                name="address"
-                                updateFormData={this.updateFormData}
-                                value={this.booking.address}
-                                disabled={disableCreateRegister}
-                            />
-                            <FormInputText
-                                label="Email"
-                                name="email"
-                                updateFormData={this.updateFormData}
-                                value={this.booking.email}
-                                type={'email'}
-                                disabled={disableCreateRegister}
-                            />
-
-                            <FormInputText
-                                label="Số lượng khách"
-                                name="number_person"
-                                required
-                                type={"number"}
-                                updateFormData={this.updateFormData}
-                                value={this.booking.number_person}
-                                disabled={disableCreateRegister}
-                            />
-
-                            <div className="form-group">
-                                <label className="label-control">Hình thức tiệc</label>
-                                <ReactSelect
-                                    name="form-field-name"
-                                    value={this.booking.kind}
-                                    options={KIND_REGISTER_ROOM}
-                                    onChange={(value) => {
-                                        this.booking.kind = value.value;
-                                    }}
-                                    placeholder="Chọn hình thức tiệc"
-                                    disabled={disableCreateRegister}
-                                />
-                            </div>
-                            <FormInputDateTime
-                                id={'booking-start-time'}
-                                name="start_time"
-                                updateFormData={this.updateFormData}
-                                value={this.booking.start_time}
-                                label={'Thời gian bắt đầu'}
-                                disabled={disableCreateRegister}
-                            />
-                            <FormInputDateTime
-                                id={'booking-end-time'}
-                                name="end_time"
-                                updateFormData={this.updateFormData}
-                                value={this.booking.end_time}
-                                label={'Thời gian kết thúc'}
-                                disabled={disableCreateRegister}
-                            />
-                        </form>
-                        <div className="form-group">
-                            <label className="label-control">Trạng thái</label>
-                            <ReactSelect
-                                name="form-field-name"
-                                value={this.booking.status}
-                                options={STATUS_REGISTER_ROOM}
-                                onChange={(value) => {
-                                    this.booking.status = value.value;
-                                }}
-                                placeholder="Chọn trang thái"
-                                disabled={disableCreateRegister}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className="label-control">Chiến dich</label>
-                            <ReactSelect
-                                name="form-field-name"
-                                value={this.booking.campaign_id}
-                                options={store.campaignsData}
-                                onChange={(value) => {
-                                    let booking = {...this.booking};
-                                    booking['campaign_id'] = value ? value.value : '';
-                                    this.booking = booking;
-                                }}
-                                placeholder="Chọn trang thái"
-                                disabled={disableCreateRegister}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className="label-control">Ghi chú </label>
-                            <textarea type="text" className="form-control"
-                                      rows={5}
-                                      value={this.booking && this.booking.note}
-                                      name="note"
-                                      onChange={this.updateFormData}/>
-                            <span className="material-input"/>
-                        </div>
-                        <div className="form-group">
-                            <label className="label-control">Ghép phòng</label>
-                            <div className="row">
-                                {store.allRoomsSimilar(this.booking.room).map((room, index) => {
-                                    const checked =
-                                        this.booking.similar_room &&
-                                        this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0;
-                                    return (
-                                        <div className="col-md-4" key={index}>
-                                            <Checkbox
-                                                label={room.name}
-                                                checked={checked}
-                                                checkBoxLeft
-                                                disabled={disableCreateRegister}
-                                                onChange={(event) => this.changeSimilarRoom(event, room)}
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                        {!disableCreateRegister && (
-                            <Button
-                                onClick={this.createBookRoom}
-                                label={'Lưu'}
-                                labelLoading={'Đang lưu'}
-                                className={'btn btn-rose'}
-                                isLoading={store.isCreatingRegister}
-                            />
-                        )}
-                    </Modal.Body>
-                </Modal>
 
                 <Modal show={this.excelModal} onHide={this.closeExcelModal}>
                     <Modal.Header closeButton>

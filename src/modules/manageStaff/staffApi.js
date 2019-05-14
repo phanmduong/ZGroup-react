@@ -127,7 +127,7 @@ export function editStaff(staff) {
         kpis: staff.kpis,
         revenue: staff.salary,
         allowance: staff.salary_allowance,
-        bank_number: staff.bank_number
+        getfly_username: staff.getfly_username
     });
 }
 

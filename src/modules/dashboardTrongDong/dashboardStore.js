@@ -109,8 +109,8 @@ export default new class DashboardTrongDongStore {
             });
     }
 
-    @action
-    registerMergeRooms() {
+    @computed
+    get registerMergeRooms() {
         let registers = [];
         if (this.registerRooms) {
             let registersTemp = [];

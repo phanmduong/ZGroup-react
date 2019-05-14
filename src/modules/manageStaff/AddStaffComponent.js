@@ -35,8 +35,9 @@ class AddStaffComponent extends React.Component {
             color, base_id, department_id,
             salary_allowance,
             kpis,
-            bank_number,
-            salary
+            // bank_number,
+            salary,
+            getfly_username
         }
             = this.props.staffForm;
 
@@ -178,9 +179,9 @@ class AddStaffComponent extends React.Component {
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                     <FormInputText
-                                                        label="Số tài khoản ngân hàng"
-                                                        name="bank_number"
-                                                        value={bank_number}
+                                                        label="Getfly username"
+                                                        name="getfly_username"
+                                                        value={getfly_username}
                                                         type="text"
                                                         updateFormData={this.props.updateFormData}
                                                     />
