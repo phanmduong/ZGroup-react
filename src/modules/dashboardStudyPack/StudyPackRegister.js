@@ -70,7 +70,7 @@ class RegisterStudyPack extends React.Component {
     convertData = (registers) => {
         registers = groupBy(registers, 'user_id', ['user_id', 'registers']);
         registers = registers.map((item) => {
-            let register = item.registers[0];
+            let register = {...item.registers[0]};
             register.course_ids = [register.course_id];
             item.registers.slice(0, 1);
             item.registers.map((registerItem) => {
@@ -78,16 +78,15 @@ class RegisterStudyPack extends React.Component {
                 register.course_ids = [...register.course_ids, registerItem.course_id];
                 register.course_studied_ids = _.filter(register.course_studied_ids,
                     (v) => _.indexOf(register.course_ids, v) === -1);
-                return register;
+                return {...register};
             });
-            return register;
+            return {...register};
         })
         return registers;
     }
 
     render() {
         let {isLoading, registers} = this.props.studyPack;
-
         return (
             <div>
                 <div className="row">

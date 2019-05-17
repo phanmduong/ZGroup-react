@@ -255,6 +255,37 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                     isLoading: false,
                 }
             };
+        case types.BEGIN_LOAD_USER_SP_DASHBOARD_DATA:
+            return {
+                ...state,
+                studyPack: {
+                    ...state.studyPack,
+                    isLoadingUserSP: true,
+                    errorUserSP: false
+
+                }
+            };
+        case types.LOAD_USER_SP_DASHBOARD_DATA_SUCCESS:
+            console.log(action.users);
+            return {
+                ...state,
+                studyPack: {
+                    ...state.studyPack,
+                    isLoadingUserSP: false,
+                    errorUserSP: false,
+                    users: action.users
+                }
+            };
+        case types.LOAD_USER_SP_DASHBOARD_DATA_ERROR:
+            return {
+                ...state,
+                studyPack: {
+                    ...state.studyPack,
+                    isLoadingUserSP: false,
+                    errorUserSP: true
+
+                }
+            };
         default:
             return state;
     }

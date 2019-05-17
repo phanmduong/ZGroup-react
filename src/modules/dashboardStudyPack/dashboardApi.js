@@ -36,6 +36,36 @@ export function loadDashboard(genId, baseId, startTime = '', endTime = '') {
     return axios.get(url);
 }
 
+export function loadUserStudyPackByGen(genId, baseId, total) {
+    let url = env.MANAGE_API_URL + `/gens/${genId}/users-study-pack-by-gen`;
+    if (baseId) {
+        url += '/' + baseId;
+    }
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    url += `&total=${total}`;
+
+    return axios.get(url);
+}
+
+export function loadUserStudyPackByCourse(genId, baseId, courseId) {
+    let url = env.MANAGE_API_URL + `/gens/${genId}/users-study-pack-by-course`;
+    if (baseId) {
+        url += '/' + baseId;
+    }
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    url += `&course_id=${courseId}`;
+
+    return axios.get(url);
+}
+
 export function loadStudyPackRegister(genId, baseId, search = '', filter = '', filterStatus = 1, page = '') {
     let url = env.MANAGE_API_URL + `/study-pack/registers?gen_id=${genId}&base_id=${baseId}&search=${search}&page=${page}` +
         `&filter=${filter}&filter_status=${filterStatus}`;

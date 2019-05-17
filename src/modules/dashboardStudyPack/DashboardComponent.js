@@ -8,10 +8,16 @@ import ListClass from "./ListClass";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import RegisterStudyPack from "./StudyPackRegister";
+import {Modal} from "react-bootstrap";
+import {validateLinkImage} from "../../helpers/helper";
+import {NO_AVATAR} from "../../constants/env";
 
 class DashboardComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            modalDetailTotalRegister: false
+        };
     }
 
     componentWillMount() {
@@ -35,6 +41,20 @@ class DashboardComponent extends React.Component {
 
     getCourse(courses, course_id) {
         return courses.filter((course) => course.id == course_id)[0];
+    }
+
+    openModalDetailTotalRegisterByGen = (total) => {
+        this.setState({modalDetailTotalRegister: true});
+        this.props.detailTotalRegisterByGen(total);
+    }
+
+    openModalDetailTotalRegisterByCourse = (courseId) => {
+        this.setState({modalDetailTotalRegister: true});
+        this.props.detailTotalRegisterByCourse(courseId);
+    }
+
+    closeModalDetailTotalRegister = () => {
+        this.setState({modalDetailTotalRegister: false});
     }
 
 
@@ -306,7 +326,8 @@ class DashboardComponent extends React.Component {
                                                 total_registers_by_gen && total_registers_by_gen.map((item) => {
                                                     const ratio = item.total_registers * 100 / max_total_registers_by_gen.total_registers;
                                                     return (
-                                                        <div>
+                                                        <div
+                                                            onClick={() => this.openModalDetailTotalRegisterByGen(item.total)}>
                                                             <div className="flex flex flex-space-between">
                                                                 <div className="bold">{item.total} khóa</div>
                                                                 <div>
@@ -342,7 +363,9 @@ class DashboardComponent extends React.Component {
                                                     const ratio = item.total * 100 / max_total_registers_by_course.total;
                                                     const course = this.getCourse(courses, item.course_id);
                                                     return (
-                                                        <div>
+                                                        <div
+                                                            className="cursor-pointer"
+                                                            onClick={() => this.openModalDetailTotalRegisterByCourse(item.course_id)}>
                                                             <div className="flex flex flex-space-between">
                                                                 <div className="bold">{course.name}</div>
                                                                 <div>
@@ -365,6 +388,60 @@ class DashboardComponent extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <Modal show={this.state.modalDetailTotalRegister}
+                               onHide={() => {
+                                   this.closeModalDetailTotalRegister();
+                               }}>
+                            <Modal.Header
+                                closeButton
+                                closeLabel="Đóng">
+                                <Modal.Title>Danh sách học viên</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {this.props.isLoadingUserSP ? <Loading/> :
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <thead className="text-rose">
+                                            <tr>
+                                                <th/>
+                                                <th>Tên</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {
+                                                this.props.users.map((user) => {
+                                                    const avatar = helper.avatarEmpty(user.avatar_url) ?
+                                                        NO_AVATAR : user.avatar_url;
+                                                    return (
+                                                        <tr key={user.id}>
+                                                            <td>
+                                                                <button
+                                                                    className="btn btn-round btn-fab btn-fab-mini text-white"
+                                                                    data-toggle="tooltip" title="" type="button"
+                                                                    rel="tooltip"
+                                                                    data-placement="right"
+                                                                    data-original-title={user.name}>
+                                                                    <img src={validateLinkImage(avatar)} alt=""/>
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <a href={`/sales/info-student/${user.id}`}
+                                                                   target="_blank"
+                                                                   className="text-name-student-register">
+                                                                    {user.name}
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            </Modal.Body>
+                        </Modal>
                     </div>
                 );
             } else {
@@ -380,6 +457,9 @@ DashboardComponent.propTypes = {
     studyPack: PropTypes.object.isRequired,
     loadDashboard: PropTypes.func.isRequired,
     loadStudyPackRegisters: PropTypes.func.isRequired,
-};
+    isLoadingUserSP: PropTypes.bool.isRequired,
+    users: PropTypes.array.isRequired,
+}
+;
 
 export default DashboardComponent;
