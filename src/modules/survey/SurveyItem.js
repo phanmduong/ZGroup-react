@@ -12,6 +12,7 @@ class SurveyItem extends React.Component {
         this.editSurvey = this.editSurvey.bind(this);
         this.exportSurvey = this.exportSurvey.bind(this);
         this.summarySurvey = this.summarySurvey.bind(this);
+        this.overviewSurvey = this.overviewSurvey.bind(this);
     }
 
     editSurvey(event) {
@@ -23,6 +24,9 @@ class SurveyItem extends React.Component {
     summarySurvey() {
         this.props.summarySurvey();
     }
+    overviewSurvey() {
+        this.props.overviewSurvey();
+    }
 
     exportSurvey() {
         this.props.exportSurvey();
@@ -30,6 +34,9 @@ class SurveyItem extends React.Component {
 
     render() {
         const { survey } = this.props;
+        const OverviewTooltip = (
+            <Tooltip id="tooltip">Overview</Tooltip>
+        );
         const UserSummaryTooltip = (
             <Tooltip id="tooltip">Thống kê lượt thực hiện khảo sát</Tooltip>
         );
@@ -98,6 +105,23 @@ class SurveyItem extends React.Component {
                             </h4>
 
                             <div>
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={OverviewTooltip}
+                                >
+                                    <a
+                                        onClick={this.overviewSurvey}
+                                        type="button"
+                                        style={{ color: "#757575" }}
+                                    >
+                                        <i
+                                            className="material-icons"
+                                            style={{ fontSize: 20 }}
+                                        >
+                                            pie_chart
+                                        </i>
+                                    </a>
+                                </OverlayTrigger>
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={UserSummaryTooltip}

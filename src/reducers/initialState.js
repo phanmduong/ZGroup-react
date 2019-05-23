@@ -2124,6 +2124,7 @@ export default {
         isLoading: false,
         survey: {},
         showSummaryModal: false,
+        showOverviewModal: false,
         showEditQuestionModal: false,
         showEditSurveyModal: false,
         question: {},

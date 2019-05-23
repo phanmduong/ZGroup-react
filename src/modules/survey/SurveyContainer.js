@@ -12,6 +12,7 @@ import XLSX from 'xlsx';
 import {saveWorkBookToExcel} from "../../helpers/helper";
 import {loadSurveyResult} from "./surveyApi";
 import UserSurveySummaryContainer from "./UserSurveySummaryContainer";
+import SurveyOverviewContainer from "./SurveyOverviewContainer";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -27,6 +28,7 @@ class SurveyContainer extends React.Component {
         this.showDisplayModal = this.showDisplayModal.bind(this);
         this.exportSurveyResultExcel = this.exportSurveyResultExcel.bind(this);
         this.openSummarySurveyModal = this.openSummarySurveyModal.bind(this);
+        this.openOverviewSurveyModal = this.openOverviewSurveyModal.bind(this);
     }
 
     componentWillMount() {
@@ -36,6 +38,11 @@ class SurveyContainer extends React.Component {
     openSummarySurveyModal(survey) {
         this.props.surveyActions.updateSurveyFormData(survey);
         this.props.surveyActions.toggleSummaryModal(true);
+    }
+
+    openOverviewSurveyModal(survey) {
+        this.props.surveyActions.updateSurveyFormData(survey);
+        this.props.surveyActions.toggleOverviewModal(true);
     }
 
     loadSurveys(page) {
@@ -101,6 +108,7 @@ class SurveyContainer extends React.Component {
                 <AddSurveyModalContainer/>
                 <SurveyDisplayModalContainer/>
                 <UserSurveySummaryContainer/>
+                <SurveyOverviewContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -130,6 +138,7 @@ class SurveyContainer extends React.Component {
                                                                 return (
                                                                     <SurveyItem
                                                                         summarySurvey={() => this.openSummarySurveyModal(survey)}
+                                                                        overviewSurvey={() => this.openOverviewSurveyModal(survey)}
                                                                         exportSurvey={() => this.exportSurveyResultExcel(survey)}
                                                                         showSurveyDisplayModal={this.showDisplayModal}
                                                                         handleSwitch={this.handleActiveSwitch}
