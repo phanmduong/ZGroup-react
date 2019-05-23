@@ -460,19 +460,23 @@ export const TYPE_MONEY = [
 export const STATUS_REGISTER_ROOM = [
     {
         label: "Đăng kí",
-        value: "seed"
+        value: "seed",
+        getfly_id: 1
     },
     {
         label: "Đang xem",
-        value: "view"
+        value: "view",
+        getfly_id: 75
     },
     {
         label: "Hủy",
-        value: "cancel"
+        value: "cancel",
+        getfly_id: 76
     },
     {
         label: "Hoàn thành",
-        value: "done"
+        value: "done",
+        getfly_id: 78
     }
 ];
 
@@ -480,24 +484,30 @@ export const KIND_REGISTER_ROOM = [
     {
         label: "Tiệc cưới",
         value: "Tiệc cưới",
+        getfly_id: 391
     },
     {
         label: "Hội nghị - Hội thảo",
         value: "Hội nghị - Hội thảo",
+        getfly_id: 393
     },
     {
         label: "Tiệc tri ân khách hàng",
         value: "Tiệc tri ân khách hàng",
+        getfly_id: 394
     },
     {
         label: "Tiệc sinh nhật",
         value: "Tiệc sinh nhật",
+        getfly_id: 395
     }, {
         label: "Sự kiện ca nhạc, thời trang",
         value: "Sự kiện ca nhạc, thời trang",
+        getfly_id: 396
     }, {
         label: "Tiệc ngoài trời",
         value: "Tiệc ngoài trời",
+        getfly_id: 397
     }
 ];
 
