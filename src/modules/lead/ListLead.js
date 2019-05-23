@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    avatarEmpty,
+    avatarEmpty, getShortName,
     //getShortName
 } from "../../helpers/helper";
 import {
@@ -16,6 +16,7 @@ import {
 } from "react-bootstrap";
 import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
+import TooltipButton from "../../components/common/TooltipButton";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 
@@ -69,13 +70,13 @@ class ListLead extends React.Component {
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
-                                {/* <th>Nguồn</th>
-                                <th>Đã đóng tiền</th> */}
+                                <th>Nguồn</th>
+                                <th>Đã đóng tiền</th>
                                 <th>Đánh giá</th>
                                 <th>Ghi chú</th>
-                                {/* {
+                                {
                                     !this.props.showSelectedLead && <th>Nhân viên</th>
-                                } */}
+                                }
                                 {
                                     !this.props.showSelectedLead && <th>Thời gian</th>
                                 }
@@ -129,7 +130,7 @@ class ListLead extends React.Component {
                                                 {lead.email}
                                             </td>
                                             <td>{lead.phone}</td>
-                                            {/* <td>{lead.how_know}</td>
+                                            <td>{lead.how_know}</td>
                                             <td>
                                                 <div className="flex flex-row">
                                                     {
@@ -155,7 +156,7 @@ class ListLead extends React.Component {
                                                         })
                                                     }
                                                 </div>
-                                            </td> */}
+                                            </td>
                                             <td>
                                                 <Star
                                                     maxStar={5}
@@ -164,7 +165,8 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>{lead.note}</td>
-                                            {/* {
+                                            {
+
                                                 !this.props.showSelectedLead && <td>
                                                     {lead.carer &&
                                                     <div className="btn btn-xs btn-main"
@@ -175,7 +177,7 @@ class ListLead extends React.Component {
                                                     </div>
                                                     }
                                                 </td>
-                                            } */}
+                                            }
                                             {
                                                 !this.props.showSelectedLead && <td>{lead.created_at}</td>
                                             }
