@@ -116,6 +116,9 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadSalerFilter();
         this.props.registerActions.loadCampaignFilter();
         this.props.registerActions.loadBaseFilter();
+        if (this.props.location.query && this.props.location.query.call_status) {
+            this.setState({selectedTeleCallStatus: this.props.location.query.call_status});
+        }
         if (this.props.route.path === '/sales/waitlist') {
             this.isWaitListPage = true;
             this.setState({selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: ''});

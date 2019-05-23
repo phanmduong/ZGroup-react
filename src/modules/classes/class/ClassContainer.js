@@ -480,7 +480,7 @@ class ClassContainer extends React.Component {
                                                                                 <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
                                                                             </h6>
                                                                             {
-                                                                                attendance.is_change &&
+                                                                                (attendance.is_change || this.props.user.role ==2) &&
                                                                                 <TooltipButton placement="top"
                                                                                                text="Đổi buổi"
                                                                                 >
@@ -531,7 +531,7 @@ class ClassContainer extends React.Component {
                                                                                     }
                                                                                 </div>
                                                                                 {
-                                                                                    attendance.is_change &&
+                                                                                    (attendance.is_change || this.props.user.role ==2) &&
                                                                                     <div>
                                                                                         <TooltipButton placement="top"
                                                                                                        text="Đổi giảng viên"
@@ -590,7 +590,7 @@ class ClassContainer extends React.Component {
                                                                                     }
                                                                                 </div>
                                                                                 {
-                                                                                    attendance.is_change &&
+                                                                                    (attendance.is_change || this.props.user.role ==2) &&
                                                                                     <div>
                                                                                         <TooltipButton placement="top"
                                                                                                        text="Đổi trợ giảng"

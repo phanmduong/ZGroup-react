@@ -51,6 +51,14 @@ class DashboardContainer extends React.Component {
         }
     }
 
+    detailTotalRegisterByGen = (total) => {
+        this.props.dashboardActions.loadDetailTotalRegister(total, this.state.selectBaseId, this.state.selectGenId, "gen");
+    }
+
+    detailTotalRegisterByCourse = (courseId) => {
+        this.props.dashboardActions.loadDetailTotalRegister(courseId, this.state.selectBaseId, this.state.selectGenId, "course");
+    }
+
     loadStudyPackRegisters = (search = '', filter = '', filter_status = 1, page = 1) => {
         this.props.dashboardActions.loadStudyPackRegister(this.state.selectGenId, this.state.selectBaseId, search, filter, filter_status, page);
     }
@@ -189,6 +197,8 @@ class DashboardContainer extends React.Component {
                                 {...this.props}
                                 loadDashboard={this.loadInitDashboard}
                                 loadStudyPackRegisters={this.loadStudyPackRegisters}
+                                detailTotalRegisterByGen={this.detailTotalRegisterByGen}
+                                detailTotalRegisterByCourse={this.detailTotalRegisterByCourse}
                             />
                         </div>
                     )
@@ -209,6 +219,8 @@ DashboardContainer.propTypes = {
     currentGen: PropTypes.object.isRequired,
     dashboard: PropTypes.object.isRequired,
     studyPack: PropTypes.object.isRequired,
+    isLoadingUserSP: PropTypes.bool.isRequired,
+    users: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -221,6 +233,8 @@ function mapStateToProps(state) {
         isLoading: state.dashboardStudyPack.isLoading,
         dashboard: state.dashboardStudyPack.dashboard,
         studyPack: state.dashboardStudyPack.studyPack,
+        isLoadingUserSP: state.dashboardStudyPack.studyPack.isLoadingUserSP,
+        users: state.dashboardStudyPack.studyPack.users,
     };
 }
 

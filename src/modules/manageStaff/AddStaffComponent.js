@@ -36,6 +36,7 @@ class AddStaffComponent extends React.Component {
             salary_allowance,
             kpis,
             bank_number,
+            bank_name_account,
             salary
         }
             = this.props.staffForm;
@@ -175,6 +176,13 @@ class AddStaffComponent extends React.Component {
                                                         value={salary_allowance}
                                                         //required={true}
                                                         type="number"
+                                                        updateFormData={this.props.updateFormData}
+                                                    />
+                                                    <FormInputText
+                                                        label="Tên tài khoản ngân hàng"
+                                                        name="bank_name_account"
+                                                        value={bank_name_account}
+                                                        type="text"
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                     <FormInputText

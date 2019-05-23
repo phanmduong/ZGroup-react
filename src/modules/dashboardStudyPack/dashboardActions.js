@@ -28,7 +28,7 @@ export function loadStudyPackRegister(genId, baseId, search, filter, filterStatu
         dispatch({
             type: types.BEGIN_LOAD_STUDY_PACK_REGISTER_DASHBOARD
         });
-        dashboardApi.loadStudyPackRegister(genId, baseId, search, filter,filterStatus, page)
+        dashboardApi.loadStudyPackRegister(genId, baseId, search, filter, filterStatus, page)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_STUDY_PACK_REGISTER_DASHBOARD_SUCCESS,
@@ -76,6 +76,26 @@ export function loadDashboardData(genId, baseId, startTime, endTime) {
             }).catch(() => {
             dispatch({
                 type: types.LOAD_DASHBOARD_DATA_ERROR
+            });
+        });
+    };
+}
+
+export function loadDetailTotalRegister(param, baseId, genId, type) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_USER_SP_DASHBOARD_DATA
+        });
+        let api = type == "gen" ? dashboardApi.loadUserStudyPackByGen : dashboardApi.loadUserStudyPackByCourse;
+        api(genId, baseId, param)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_USER_SP_DASHBOARD_DATA_SUCCESS,
+                    users: res.data.data,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_USER_SP_DASHBOARD_DATA_ERROR
             });
         });
     };

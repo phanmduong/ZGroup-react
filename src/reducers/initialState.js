@@ -1219,7 +1219,10 @@ export default {
         studyPack: {
             isLoading: false,
             registers: [],
-            totalPages: 1
+            totalPages: 1,
+            isLoadingUserSP: false,
+            errorUserSP: false,
+            users: []
         },
         gens: [],
         isLoadingGens: true,

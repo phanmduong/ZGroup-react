@@ -69,7 +69,7 @@ class SalaryTeachingContainer extends React.Component {
 
             let res = {
                 'STT': index + 1,
-                'HOTEN': xoa_dau(user.name),
+                'HOTEN': xoa_dau(user.bank_name_account),
                 'SOTAIKHOAN': user.bank_number,
                 'SOTIEN': item.total_salary,
                 'MOTA': xoa_dau(user.name + " luong khoa " + gen),

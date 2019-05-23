@@ -8,6 +8,7 @@ export default new class evaluatePersonTeachingStore {
     @observable showModalCheckinCheckout = false;
     @observable showModalStudentAttendance = false;
     @observable showModalStudentRating = false;
+    @observable showModalCommentProduct = false;
     @observable selectedUser = {};
     @observable selectedGenId = 0;
     @observable teachings = [
