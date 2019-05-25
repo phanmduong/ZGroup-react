@@ -157,7 +157,6 @@ class SurveyOverviewContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state);
 
         return (
             <Modal show={this.props.showOverviewModal} onHide={this.handleClose} bsSize="large">

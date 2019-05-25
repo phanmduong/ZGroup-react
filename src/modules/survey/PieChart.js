@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Pie} from "react-chartjs-2";
+import randomColor from "randomcolor";
 
 const legendOpts = {
     display: true,
@@ -15,19 +16,10 @@ class PieChart extends React.Component {
             dataChart: {}
         };
     }
-    getRandomColor = ()=> {
-        let letters = '0123456789ABCDEF'.split('');
-        let color = '#';
-        for (let i = 0; i < 6; i++ ) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
 
     componentDidMount() {
-        let colors = this.props.label.map(()=>{
-            return this.getRandomColor();
-        });
+        let colors =randomColor({hue: 'red',format: 'hex', count: this.props.label.length, luminosity: "bright"});
+
         let dataChart = {
             labels: this.props.label,
             datasets: [
