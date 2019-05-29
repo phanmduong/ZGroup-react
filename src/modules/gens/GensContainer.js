@@ -14,6 +14,7 @@ import {Modal} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Pagination from "../../components/common/Pagination";
+import GenOverviewContainer from "./GenOverviewContainer";
 
 class GensContainer extends React.Component {
     constructor(props, context) {
@@ -21,7 +22,9 @@ class GensContainer extends React.Component {
         this.state = {
             page: 1,
             gen: {},
-            showModal: false
+            selectedGen: {},
+            showModal: false,
+            showModalOverview: false
         };
         this.loadGens = this.loadGens.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
@@ -38,10 +41,16 @@ class GensContainer extends React.Component {
 
     componentWillMount() {
         this.loadGens();
+        this.props.genActions.loadBasesData();
     }
 
     componentDidMount() {
         helper.setFormValidation('#form-add-gen');
+    }
+
+    loadOverview = (gen, base_id)=>{
+        this.props.genActions.loadOverview(gen.id, base_id);
+        this.setState({selectedGen: gen, showModalOverview: true});
     }
 
     loadGens(page = 1) {
@@ -85,6 +94,9 @@ class GensContainer extends React.Component {
 
     closeModal() {
         this.setState({showModal: false});
+    }
+    toggleOverviewModal = (showModalOverview) => {
+        this.setState({showModalOverview});
     }
 
     openModal() {
@@ -137,6 +149,7 @@ class GensContainer extends React.Component {
     }
 
     render() {
+
         return (
             <div>
                 <Modal
@@ -146,6 +159,13 @@ class GensContainer extends React.Component {
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
+                <GenOverviewContainer
+                    showModalOverview={this.state.showModalOverview}
+                    toggleOverviewModal={this.toggleOverviewModal}
+                    gen={this.state.selectedGen}
+                    overview={this.props.overview}
+                    isLoadingOverview={this.props.isLoadingOverview}
+                />
                 <div className="col-lg-12">
                     <div className="row">
                         <div className="col-md-8">
@@ -161,7 +181,9 @@ class GensContainer extends React.Component {
                                             <ListGen
                                                 user={this.props.user}
                                                 gens={this.props.gens}
+                                                bases={this.props.bases}
                                                 onClickEdit={this.onClickEdit}
+                                                loadOverview={this.loadOverview}
                                                 deleteGen={this.deleteGen}
                                                 changeStatus={this.changeStatus}
                                                 changeTeachStatus={this.changeTeachStatus}
@@ -315,27 +337,35 @@ class GensContainer extends React.Component {
 GensContainer.propTypes = {
     genActions: PropTypes.object.isRequired,
     gens: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
     gen: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
     isLoadingExcel: PropTypes.bool.isRequired,
+    isLoadingOverview: PropTypes.bool.isRequired,
+    showModalOverview: PropTypes.bool.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
     user: PropTypes.object.isRequired,
+    overview: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         gens: state.gens.gens,
+        bases: state.gens.bases,
         isLoading: state.gens.isLoading,
         isSaving: state.gens.isSaving,
         isEditing: state.gens.isEditing,
+        showModalOverview: state.gens.showModalOverview,
         totalPages: state.gens.totalPages,
         isLoadingExcel: state.gens.isLoadingExcel,
+        isLoadingOverview: state.gens.isLoadingOverview,
         currentPage: state.gens.currentPage,
         totalCount: state.gens.totalCount,
+        overview: state.gens.overview,
         user: state.login.user,
         gen: state.gens.gen
     };

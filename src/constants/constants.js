@@ -120,7 +120,13 @@ export const GENDER = [
     {
         name: "Nữ",
         id: "2"
-    }
+    },
+
+    {
+        name: "Khác",
+        id: "0"
+    },
+
 ];
 
 // Cặp (label ; value) dùng cho ReactSelect

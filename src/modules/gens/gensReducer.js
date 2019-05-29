@@ -5,6 +5,54 @@ import initialState from '../../reducers/initialState';
 let gens;
 export default function genssReducer(state = initialState.gens, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_OVERVIEW_DATA_GENS:
+            return {
+                ...state,
+                ...{
+                    showModalOverview: true,
+                    isLoadingOverview: true,
+                }
+            };
+        case types.LOAD_OVERVIEW_GENS_SUCCESS:
+            return {
+                ...state,
+                isLoadingOverview: false,
+                overview: action.overview
+
+            };
+        case types.LOAD_OVERVIEW_GENS_ERROR:
+            return {
+                ...state,
+                ...{
+                    showModalOverview: false,
+                    isLoadingOverview: false,
+                }
+            };
+        case types.BEGIN_LOAD_BASES_DATA_GENS:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    isLoadingBases: true,
+                }
+            };
+        case types.LOAD_BASES_GENS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isLoadingBases: false,
+                bases: action.bases
+
+            };
+        case types.LOAD_BASES_GENS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isLoadingBases: false,
+                }
+            };
+
         case types.BEGIN_LOAD_GENS_DATA:
             return {
                 ...state,

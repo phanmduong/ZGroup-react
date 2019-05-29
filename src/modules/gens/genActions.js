@@ -1,8 +1,53 @@
 import * as types from '../../constants/actionTypes';
 import * as gensApi from './gensApi';
 import * as helper from '../../helpers/helper';
-
+import toastr from "toastr";
 /*eslint no-console: 0 */
+
+
+export function loadBasesData() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BASES_DATA_GENS
+        });
+        gensApi.loadBases()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_BASES_GENS_SUCCESS,
+                    bases: res.data.data.bases,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_BASES_GENS_ERROR
+            });
+        });
+    };
+}
+
+
+
+export function loadOverview(gen_id,base_id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_OVERVIEW_DATA_GENS
+        });
+        gensApi.loadOverview(gen_id,base_id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_OVERVIEW_GENS_SUCCESS,
+                    overview: res.data.data,
+                });
+            }).catch(() => {
+            toastr.error('Lỗi đường truyền!');
+
+            dispatch({
+                type: types.LOAD_OVERVIEW_GENS_ERROR
+            });
+        });
+    };
+}
+
+
 
 export function loadGensData(page) {
     return function (dispatch) {
