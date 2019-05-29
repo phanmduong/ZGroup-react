@@ -38,7 +38,7 @@ class DashboardTrongDongContainer extends Component {
     }
 
     componentWillMount() {
-        store.selectedBaseId = this.props.user.base_id;
+        store.selectedBaseId = this.props.user.base_id > 0 ? this.props.user.base_id : 8;
         store.loadBases();
         store.loadRooms();
         store.loadRoomTypes();

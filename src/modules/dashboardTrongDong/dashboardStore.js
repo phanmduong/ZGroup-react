@@ -2,6 +2,11 @@ import {observable, action, computed} from "mobx";
 import {showErrorNotification} from "../../helpers/helper";
 import * as dashboardApi from "./dashboardApi";
 
+import axios from 'axios';
+
+let CancelToken = axios.CancelToken;
+let sourceCancel = CancelToken.source();
+
 export default new class DashboardTrongDongStore {
     @observable isCreatingRegister = false;
     @observable isLoadingBases = false;
@@ -16,10 +21,19 @@ export default new class DashboardTrongDongStore {
     @observable roomTypes = [];
     @observable selectedRoomTypeId = 0;
     @observable isLoading = false;
+    @observable isLoadingTotalData = false;
     @observable registerRooms = [];
+    @observable dataTotal = [];
+
 
     @action
     loadDashboard(closeModal = null) {
+
+        if (!this.selectedBaseId && !this.selectedRoomTypeId && !this.selectedRoomId && !this.isLoadingTotalData && this.dataTotal.length > 0) {
+            this.registerRooms = this.dataTotal;
+            return;
+        }
+
         if (closeModal == null)
             this.isLoading = true;
         dashboardApi
@@ -32,10 +46,49 @@ export default new class DashboardTrongDongStore {
                     closeModal();
                     this.isCreatingRegister = false;
                 }
+                if (!this.selectedRoomTypeId && !this.selectedRoomId) {
+                    this.loadTotalDashboard();
+                }
             })
-            .catch(() => {
-                showErrorNotification("Có lỗi xảy ra.");
+            .catch((thrown) => {
                 this.isLoading = false;
+                if (axios.isCancel(thrown)) {
+                    console.log('Request canceled', thrown.message);
+                } else {
+                    showErrorNotification("Có lỗi xảy ra.");
+                    this.isLoading = false;
+                }
+            });
+    }
+
+
+    @action
+    loadTotalDashboard() {
+        if (this.isLoadingTotalData) {
+            this.isLoading = false;
+            this.isLoadingTotalData = false;
+            sourceCancel.cancel('Operation canceled by the user.');
+            sourceCancel = CancelToken.source();
+        }
+
+        this.isLoadingTotalData = true;
+        dashboardApi
+            .loadDashboard(0, 0, 0, sourceCancel)
+            .then(res => {
+                this.dataTotal = res.data.data.rooms;
+                this.isLoadingTotalData = false;
+                this.isLoading = false;
+
+            })
+            .catch((thrown) => {
+                this.isLoading = false;
+                this.isLoadingTotalData = false;
+                if (axios.isCancel(thrown)) {
+                    console.log('Request canceled', thrown.message);
+                } else {
+                    showErrorNotification("Có lỗi xảy ra.");
+                }
+
             });
     }
 

@@ -459,24 +459,34 @@ export const TYPE_MONEY = [
 
 export const STATUS_REGISTER_ROOM = [
     {
-        label: "Đăng kí",
+        label: "Mới",
         value: "seed",
         getfly_id: 1
     },
     {
-        label: "Đang xem",
+        label: "Tiếp cận",
         value: "view",
-        getfly_id: 75
+        getfly_id: 2
     },
     {
-        label: "Hủy",
+        label: "Nóng",
+        value: "hot",
+        getfly_id: 3
+    },
+    {
+        label: "Tiềm năng",
+        value: "potential",
+        getfly_id: 4
+    },
+    {
+        label: "Mất",
         value: "cancel",
-        getfly_id: 76
+        getfly_id: 5
     },
     {
-        label: "Hoàn thành",
+        label: "Chốt",
         value: "done",
-        getfly_id: 78
+        getfly_id: 6
     }
 ];
 
@@ -484,30 +494,46 @@ export const KIND_REGISTER_ROOM = [
     {
         label: "Tiệc cưới",
         value: "Tiệc cưới",
-        getfly_id: 391
+        getfly_id: 1
+    },
+
+    {
+        label: "Tiệc công ty",
+        value: "Tiệc công ty",
+        getfly_id: 2
+    },
+    {
+        label: "Khách lẻ",
+        value: "Khách lẻ",
+        getfly_id: 3
+    },
+    {
+        label: "Công ty",
+        value: "Công ty",
+        getfly_id: 4
+    },
+    {
+        label: "Công ty sự kiện",
+        value: "Công ty sự kiện",
+        getfly_id: 5
     },
     {
         label: "Hội nghị - Hội thảo",
         value: "Hội nghị - Hội thảo",
-        getfly_id: 393
     },
     {
         label: "Tiệc tri ân khách hàng",
         value: "Tiệc tri ân khách hàng",
-        getfly_id: 394
     },
     {
         label: "Tiệc sinh nhật",
         value: "Tiệc sinh nhật",
-        getfly_id: 395
     }, {
         label: "Sự kiện ca nhạc, thời trang",
         value: "Sự kiện ca nhạc, thời trang",
-        getfly_id: 396
     }, {
         label: "Tiệc ngoài trời",
         value: "Tiệc ngoài trời",
-        getfly_id: 397
     }
 ];
 

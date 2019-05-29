@@ -46,13 +46,16 @@ export function loadCampaigns() {
     return axios.get(url);
 }
 
-export function loadDashboard(baseId = "", roomTypeId = "", roomId = "") {
+export function loadDashboard(baseId = "", roomTypeId = "", roomId = "", sourceCancel = null) {
     let url = env.MANAGE_API_URL + "/trongdong/dashboard";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     url += `&base_id=${baseId}&room_type_id=${roomTypeId}&room_id=${roomId}`;
+    if (sourceCancel) {
+        return axios.get(url, {cancelToken: sourceCancel.token});
+    }
     return axios.get(url);
 }
 

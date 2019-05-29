@@ -188,65 +188,66 @@ class ModalBooking extends React.Component {
                             label={'Thời gian kết thúc'}
                             disabled={this.props.disableCreateRegister}
                         />
-                    </form>
-                    <div className="form-group">
-                        <label className="label-control">Trạng thái</label>
-                        <ReactSelect
-                            name="form-field-name"
-                            value={this.booking.status}
-                            options={STATUS_REGISTER_ROOM}
-                            onChange={(value) => {
-                                this.booking.status = value.value;
-                            }}
-                            placeholder="Chọn trang thái"
-                            disabled={this.props.disableCreateRegister}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="label-control">Chiến dich</label>
-                        <ReactSelect
-                            name="form-field-name"
-                            value={this.booking.campaign_id}
-                            options={store.campaignsData}
-                            onChange={(value) => {
-                                let booking = {...this.booking};
-                                booking['campaign_id'] = value ? value.value : '';
-                                this.booking = booking;
-                            }}
-                            placeholder="Chọn trang thái"
-                            disabled={this.props.disableCreateRegister}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="label-control">Ghi chú </label>
-                        <textarea type="text" className="form-control"
-                                  rows={5}
-                                  value={this.booking && this.booking.note}
-                                  name="note"
-                                  onChange={this.updateFormData}/>
-                        <span className="material-input"/>
-                    </div>
-                    <div className="form-group">
-                        <label className="label-control">Ghép phòng</label>
-                        <div className="row">
-                            {store.allRoomsSimilar(this.booking.room).map((room, index) => {
-                                const checked =
-                                    this.booking.similar_room &&
-                                    this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0;
-                                return (
-                                    <div className="col-md-4" key={index}>
-                                        <Checkbox
-                                            label={room.name}
-                                            checked={checked}
-                                            checkBoxLeft
-                                            disabled={this.props.disableCreateRegister}
-                                            onChange={(event) => this.changeSimilarRoom(event, room)}
-                                        />
-                                    </div>
-                                );
-                            })}
+
+                        <div className="form-group">
+                            <label className="label-control">Trạng thái</label>
+                            <ReactSelect
+                                name="form-field-name"
+                                value={this.booking.status}
+                                options={STATUS_REGISTER_ROOM}
+                                onChange={(value) => {
+                                    this.booking.status = value.value;
+                                }}
+                                placeholder="Chọn trang thái"
+                                disabled={this.props.disableCreateRegister}
+                            />
                         </div>
-                    </div>
+                        <div className="form-group">
+                            <label className="label-control">Chiến dich</label>
+                            <ReactSelect
+                                name="form-field-name"
+                                value={this.booking.campaign_id}
+                                options={store.campaignsData}
+                                onChange={(value) => {
+                                    let booking = {...this.booking};
+                                    booking['campaign_id'] = value ? value.value : '';
+                                    this.booking = booking;
+                                }}
+                                placeholder="Chọn trang thái"
+                                disabled={this.props.disableCreateRegister}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="label-control">Ghi chú </label>
+                            <textarea type="text" className="form-control"
+                                      rows={5}
+                                      value={this.booking && this.booking.note}
+                                      name="note"
+                                      onChange={this.updateFormData}/>
+                            <span className="material-input"/>
+                        </div>
+                        <div className="form-group">
+                            <label className="label-control">Ghép phòng</label>
+                            <div className="row">
+                                {store.allRoomsSimilar(this.booking.room).map((room, index) => {
+                                    const checked =
+                                        this.booking.similar_room &&
+                                        this.booking.similar_room.filter((roomItem) => roomItem == room.id).length > 0;
+                                    return (
+                                        <div className="col-md-4" key={index}>
+                                            <Checkbox
+                                                label={room.name}
+                                                checked={checked}
+                                                checkBoxLeft
+                                                disabled={this.props.disableCreateRegister}
+                                                onChange={(event) => this.changeSimilarRoom(event, room)}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </form>
                     {!this.props.disableCreateRegister && (
                         <Button
                             onClick={() => this.props.createBookRoom(this.booking)}
