@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {NO_AVATAR} from "../../constants/env";
-import {formatTime} from "../../helpers/time";
+
 import {avatarEmpty, isEmptyInput} from "../../helpers/helper";
 import TooltipButton from "../../components/common/TooltipButton";
-import _ from 'lodash';
+
+import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 
 class ListHonor extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            sortDown: true
+            // sortDown: true
         };
     }
 
@@ -20,11 +21,11 @@ class ListHonor extends React.Component {
 
     render() {
         const {honors} = this.props;
-        const {sortDown} = this.state;
-        let data = _.sortBy(honors, "start_time");
-        if (!sortDown) {
-            data.reverse();
-        }
+        // const {sortDown} = this.state;
+        // let data = _.sortBy(honors, "start_time");
+        // if (!sortDown) {
+        //     data.reverse();
+        // }
         return (
             <div className="col-md-12">
                 <div className="table-responsive">
@@ -33,17 +34,17 @@ class ListHonor extends React.Component {
                         <tr>
                             <th/>
                             <th>Họ và tên</th>
-                            <th className={"header " + (sortDown ? "headerSortDown" : "headerSortUp")}
-                                onClick={this.changeSort}>
-                                <span>Thời gian</span>
+                            <th>
+                                Thời gian
                             </th>
                             <th>Đóng góp</th>
                             <th>Mô tả</th>
                             <th/>
+                            {this.props.user.role == 2 && <th/>}
                         </tr>
                         </thead>
                         <tbody>
-                        {data.map((honor, index) => {
+                        {honors.map((honor, index) => {
                             let avatar = avatarEmpty(honor.avatar_url)
                                 ? NO_AVATAR
                                 : honor.avatar_url;
@@ -57,7 +58,7 @@ class ListHonor extends React.Component {
                                                 width: '70px',
                                                 height: 'auto',
                                                 padding: '2px',
-                                                borderColor: honor.user.role_id > 0 ? "#04bf2c" : "#b3bbb3"
+                                                borderColor: honor.user.role && honor.user.role.id > 0 ? "#04bf2c" : "#b3bbb3"
                                             }}>
                                             <div
                                                 className="avatar-honor"
@@ -72,7 +73,7 @@ class ListHonor extends React.Component {
                                     <td>
                                         <a href={`/hr/staff/${honor.user.id}/info`}>{honor.user.name}</a>
                                     </td>
-                                    <td>{formatTime(honor.start_time, 'MM/YYYY')} - {formatTime(honor.end_time, 'MM/YYYY')}</td>
+                                    <td>{honor.start_time}{honor.end_time ? (" - " + honor.end_time) : "" }</td>
                                     <td><strong>{honor.title}</strong></td>
                                     <td style={{width: "400px"}}>{honor.short_description}</td>
                                     <td>
@@ -80,14 +81,21 @@ class ListHonor extends React.Component {
                                             !isEmptyInput(honor.long_story) &&
                                             <TooltipButton placement={"top"} text={"Xem thêm"}>
                                                 <a href={honor.long_story} style={{float: 'right'}}>
-                                                    < i className="material-icons"
-                                                        style={{fontSize: '43px', color: '#d20000'}}>
+                                                    <i className="material-icons"
+                                                       style={{fontSize: '43px', color: '#d20000'}}>
                                                         play_circle_filled
                                                     </i>
                                                 </a>
                                             </TooltipButton>
                                         }
+
                                     </td>
+                                    {this.props.user.role == 2 && <td>
+                                        <ButtonGroupAction
+                                            edit={()=>this.props.edit(honor)}
+                                            delete={()=>this.props.delete(honor)}
+                                        />
+                                    </td>}
                                 </tr>
                             );
                         })}
