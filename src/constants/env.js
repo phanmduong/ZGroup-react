@@ -13,12 +13,14 @@ export const BLOG_PREVIEW_BASE_URL = PROTOCOL + env.BLOG_PREVIEW_BASE_URL;
 // export const API_URL = PROTOCOL + "api." + URL;
 
 // export const BASE_URL = PROTOCOL + URL;
-export const API_URL = BASE_URL + "/api/v3";
+// export const API_URL = BASE_URL + "/api/v3";
+export const API_URL = "http://" + "api." + URL;
 
 // export const API_URL = BASE_URL + "/api/v3";
 export const DOMAIN = "http://" + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
-export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
+// export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
+export const MANAGE_API_URL = "http://" + "manageapi." + URL;
 
 export const FACEBOOK_TOKEN = env.FACEBOOK_TOKEN;
 export const FB_TOKEN = "259398704989951|OqAhnC6jKJZTYHN-6NzmPa_b2RM";

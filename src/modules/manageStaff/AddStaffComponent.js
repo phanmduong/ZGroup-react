@@ -32,6 +32,7 @@ class AddStaffComponent extends React.Component {
 
         let {
             name, email, role_id, username,
+            phone,
             color, base_id, department_id,
             salary_allowance,
             kpis,
@@ -77,6 +78,22 @@ class AddStaffComponent extends React.Component {
                                             label="Tên đăng nhập"
                                             name="username"
                                             value={username}
+                                            required={true}
+                                            type="text"
+                                            updateFormData={this.props.updateFormData}
+                                        />
+                                        <FormInputText
+                                            label="Họ và tên"
+                                            name="name"
+                                            value={name}
+                                            required={true}
+                                            type="text"
+                                            updateFormData={this.props.updateFormData}
+                                        />
+                                        <FormInputText
+                                            label="Số điện thoại"
+                                            name="phone"
+                                            value={phone}
                                             required={true}
                                             type="text"
                                             updateFormData={this.props.updateFormData}
