@@ -37,7 +37,8 @@ class AddStaffComponent extends React.Component {
             kpis,
             // bank_number,
             salary,
-            getfly_username
+            getfly_username,
+            getfly_id
         }
             = this.props.staffForm;
 
@@ -182,6 +183,13 @@ class AddStaffComponent extends React.Component {
                                                         label="Getfly username"
                                                         name="getfly_username"
                                                         value={getfly_username}
+                                                        type="text"
+                                                        updateFormData={this.props.updateFormData}
+                                                    />
+                                                    <FormInputText
+                                                        label="Getfly id"
+                                                        name="getfly_id"
+                                                        value={getfly_id}
                                                         type="text"
                                                         updateFormData={this.props.updateFormData}
                                                     />
