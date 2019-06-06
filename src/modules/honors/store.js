@@ -107,9 +107,11 @@ class Store {
 
         data.start_time =start_time;
 
-        if(data.end_time){
+        if(data.is_save_end_time && data.end_time){
             let end_time = moment(data.end_time, DATETIME_FORMAT).format(DATE_FORMAT_SQL);
             data.end_time =end_time;
+        }else {
+            data.end_time = null;
         }
 
 

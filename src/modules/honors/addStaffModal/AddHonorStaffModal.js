@@ -8,6 +8,7 @@ import * as moneyTransferApi from "../../moneyTransfer/moneyTransferApi";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import FormInputDate from "../../../components/common/FormInputDate";
 import {DATETIME_FORMAT} from "../../../constants/constants";
+import Checkbox from "../../../components/common/Checkbox";
 
 
 @observer
@@ -21,7 +22,7 @@ class AddHonorStaffModal extends React.Component {
                 title: "",
                 short_description: "",
                 long_story: "",
-
+                is_save_end_time: false
             }
         };
     }
@@ -31,12 +32,14 @@ class AddHonorStaffModal extends React.Component {
             let data = nextProps.honor;
             data = {
                 ...data,
+                is_save_end_time: false,
                 user_id: data.user.id,
                 user: {
                     ...data.user,
 
                     value: data.user.id,
                     label: data.user.name,
+
                 }
             };
             this.setState({data});
@@ -81,9 +84,13 @@ class AddHonorStaffModal extends React.Component {
     updateFormData = (e) => {
         let {name, value} = e.target;
         let {data} = this.state;
+        if(name =="is_save_end_time"){
+            value = !data.is_save_end_time;
+        }
         data = {...data, [name]: value};
         this.setState({data});
     };
+
 
     checkField = (inp, message) => {
         if (!inp || isEmptyInput(inp)) {
@@ -100,6 +107,7 @@ class AddHonorStaffModal extends React.Component {
             title: "",
             short_description: "",
             long_story: "",
+            is_save_end_time: false
 
         }
     });
@@ -111,9 +119,15 @@ class AddHonorStaffModal extends React.Component {
             this.checkField(data.title, "Chưa nhập đóng góp") &&
             this.checkField(data.start_time, "Chưa nhập thời gian bắt đầu") &&
             this.checkField(data.short_description, "Chưa nhập mô tả")
-        )
-            this.props.submit(data, () => this.reset());
+        ) {
+            if (data.is_save_end_time) {
+                if (!this.checkField(data.end_time, "Chưa nhập thời gian kết thúc")) {
+                    return;
+                }
+            }
 
+            this.props.submit(data, () => this.reset());
+        }
     };
 
 
@@ -193,22 +207,33 @@ class AddHonorStaffModal extends React.Component {
                         <FormInputDate
                             label="Thời gian bắt đầu"
                             name="start_time"
-                            updateFormData={this.updateFormData}
+                            updateFormData={(e) => this.updateFormData(e)}
                             value={this.getTime(this.state.data.start_time)}
                             id="form-start-time"
                             format={DATETIME_FORMAT}
                             disabled={this.props.isSaving}
 
                         />}
-                        {this.props.showModal &&<FormInputDate
-                            label="Thời gian kết thúc"
-                            name="end_time"
-                            updateFormData={this.updateFormData}
-                            value={this.getTime(this.state.data.end_time)}
-                            id="form-end-time"
-                            format={DATETIME_FORMAT}
-                            disabled={this.props.isSaving}
-                        />}
+
+                        {this.props.showModal &&
+                        <div>
+                            <label htmlFor="is_save_end_time" className="label-control">
+                                <Checkbox
+                                    name="is_save_end_time"
+                                    label={"Thời gian kết thúc"}
+                                    onChange={(e) => this.updateFormData(e)}
+                                    checked={this.state.data.is_save_end_time}
+                                />
+                            </label>
+                            <FormInputDate
+                                name="end_time"
+                                updateFormData={(e) => this.updateFormData(e)}
+                                value={this.getTime(this.state.data.end_time)}
+                                id="form-end-time"
+                                format={DATETIME_FORMAT}
+                                disabled={this.props.isSaving}
+                            />
+                        </div>}
                         <div className="flex flex-end">
 
                             {
