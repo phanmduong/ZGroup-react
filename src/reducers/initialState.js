@@ -1697,6 +1697,7 @@ export default {
         isUploadingPixel: false,
         isUploadingTermIcon: false,
         isUploadingTerm: false,
+        isSavingCategory: false,
         error: false,
         coursesList: [],
         isDeleting: false,

@@ -135,7 +135,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     label: obj.name,
                     avatar_url: helper.validateLinkImage(obj.icon_url),
                 };
-            });
+            })[0];
             return {
                 ...state,
                 ...{
@@ -605,6 +605,24 @@ export default function courseReducer(state = initialState.courses, action) {
                 // isLoading: false,
             };
         }
+        case types.BEGIN_SAVE_CATEGORY:{
+            return {
+                ...state,
+                isSavingCategory: true,
+            };
+        }
+        case types.SAVE_CATEGORY_ERROR:{
+            return {
+                ...state,
+                isSavingCategory: false,
+            };
+        }
+        case types.SAVE_CATEGORY_SUCCESS:{
+            return {
+                ...state,
+                isSavingCategory: false,
+            };
+        }
         case types.BEGIN_DUPLICATE_COURSES:
             return {
                 isDuplicating: true,
@@ -712,7 +730,7 @@ const defaultData = {
     links: [],
     pixels: [],
     terms: [],
-    categories: [],
+    categories: {},
     type_id: "",
     type: "",
 };

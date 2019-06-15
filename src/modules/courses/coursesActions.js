@@ -458,6 +458,7 @@ export function loadAllTypes() {
             });
     };
 }
+
 export function loadAllCategories() {
     return function (dispatch) {
         dispatch({ type: types.BEGIN_LOAD_ALL_CATEGORIES });
@@ -469,7 +470,7 @@ export function loadAllCategories() {
                         categories: res.data.data.categories,
                     });
                 } else {
-                    helper.showNotification('Có lỗi xảy ra!');
+                    helper.showErrorNotification('Có lỗi xảy ra!');
                     dispatch({
                         type: types.LOAD_ALL_CATEGORIES_ERROR,
                         res: res,
@@ -477,8 +478,58 @@ export function loadAllCategories() {
                 }
             })
             .catch(() => {
-                helper.showNotification('Có lỗi xảy ra!');
+                helper.showErrorNotification('Có lỗi xảy ra!');
                 dispatch({ type: types.LOAD_ALL_CATEGORIES_ERROR });
+            });
+    };
+}
+
+
+export function createCategory(data, callback) {
+    return function (dispatch) {
+        dispatch({ type: types.BEGIN_SAVE_CATEGORY });
+        courseApi.createCategory(data)
+            .then(res => {
+                if (res.data.status === 1) {
+                    callback();
+                    dispatch({ type: types.SAVE_CATEGORY_SUCCESS });
+
+                } else {
+                    helper.showErrorNotification('Có lỗi xảy ra!');
+                    dispatch({
+                        type: types.SAVE_CATEGORY_ERROR,
+
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification('Có lỗi xảy ra!');
+                dispatch({ type: types.SAVE_CATEGORY_ERROR });
+            });
+    };
+}
+
+
+export function editCategory(data,callback) {
+    return function (dispatch) {
+        dispatch({ type: types.BEGIN_SAVE_CATEGORY });
+        courseApi.editCategory(data)
+            .then(res => {
+                if (res.data.status === 1) {
+                    callback();
+                    dispatch({ type: types.SAVE_CATEGORY_SUCCESS });
+
+                } else {
+                    helper.showErrorNotification('Có lỗi xảy ra!');
+                    dispatch({
+                        type: types.SAVE_CATEGORY_ERROR,
+                        res: res,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification('Có lỗi xảy ra!');
+                dispatch({ type: types.SAVE_CATEGORY_ERROR });
             });
     };
 }

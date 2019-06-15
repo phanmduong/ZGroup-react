@@ -1,25 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
-import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
-import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
+// import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
+// import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 import ReactSelect from 'react-select';
-import { CirclePicker } from 'react-color';
+import {CirclePicker} from 'react-color';
 import ReactEditor from '../../../components/common/ReactEditor';
-import { linkUploadImageEditor } from '../../../constants/constants';
+import {linkUploadImageEditor} from '../../../constants/constants';
 import Loading from "../../../components/common/Loading";
 import ImageUploader from "../../../components/common/ImageUploader";
+import TooltipButton from "../../../components/common/TooltipButton";
+import CategoriesModal from "./CategoriesModal";
 
 
 class coursesCreateEditGeneral extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {};
+        this.state = {
+            showCategoryModal: false
+        };
 
         this.updateFormData = this.updateFormData.bind(this);
         this.commitCourseData = this.commitCourseData.bind(this);
@@ -45,7 +49,7 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     updateEditor(content) {
-        let data = { ...this.props.data };
+        let data = {...this.props.data};
         data.detail = content;
         this.props.coursesActions.updateData(data);
     }
@@ -63,7 +67,7 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     changeColor(color) {
-        let data = { ...this.props.data };
+        let data = {...this.props.data};
         data.color = color.hex;
         this.props.coursesActions.updateData(data);
     }
@@ -77,7 +81,7 @@ class coursesCreateEditGeneral extends React.Component {
             feild = "type_id";
             value = e.id;
         }
-        let data = { ...this.props.data };
+        let data = {...this.props.data};
         data[feild] = value;
         this.props.coursesActions.updateData(data);
     }
@@ -103,12 +107,23 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     onCategoryChange(obj) {
-        this.props.coursesActions.onCategoryChange(obj);
+
+        let feild = "categories";
+        let value = obj ? obj : "";
+
+        let data = {...this.props.data};
+        data[feild] = value;
+        this.props.coursesActions.updateData(data);
+        // this.props.coursesActions.onCategoryChange(obj);
     }
 
     render() {
         return (
             <div>
+                <CategoriesModal
+                    showModal={this.state.showCategoryModal}
+                    close={()=>this.setState({showCategoryModal: false})}
+                />
                 <div className="col-md-8">
                     <div className="card">
                         <div className="card-content">
@@ -200,19 +215,27 @@ class coursesCreateEditGeneral extends React.Component {
                                         </div>
                                         <div className="col-md-6">
                                             <label>
-                                                Nhãn
+                                                Category
                                             </label>
-                                            <ReactSelect
-                                                placeholder="Nhập nhãn"
-                                                style={{ width: "100%" }}
-                                                value={this.props.data.categories}
-                                                name="categories"
-                                                multi={true}
-                                                valueComponent={MemberReactSelectValue}
-                                                optionComponent={MemberReactSelectOption}
-                                                options={this.props.categories}
-                                                onChange={this.onCategoryChange}
-                                            />
+                                            <div style={{display: "flex", alignItems: "center"}}>
+                                                <div style={{width: "100%"}}
+                                                >
+                                                    <ReactSelect
+                                                        placeholder="Nhập nhãn"
+                                                        value={this.props.data.categories}
+                                                        name="categories"
+                                                        // valueComponent={MemberReactSelectValue}
+                                                        // optionComponent={MemberReactSelectOption}
+                                                        options={this.props.categories}
+                                                        onChange={this.onCategoryChange}
+                                                    /></div>
+                                                <TooltipButton text="Thêm category" placement="top">
+                                                    <button onClick={()=>this.setState({showCategoryModal: true})}
+                                                        className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                        <strong>+</strong>
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
                                         </div>
                                         <div className="col-md-6">
                                             <label>
@@ -232,12 +255,13 @@ class coursesCreateEditGeneral extends React.Component {
 
                                     {this.props.isCommitting ?
                                         <button className="btn btn-rose btn-fill disabled" type="button">
-                                            <i className="fa fa-spinner fa-spin" /> Đang tải lên
+                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                         </button>
                                         :
                                         <button
                                             className="btn btn-fill btn-rose"
                                             type="button"
+                                            style={{zIndex: 0}}
                                             onClick={this.commitCourseData}
                                         > Lưu </button>
                                     }
@@ -252,8 +276,8 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="card-content">
                                 <div className="tab-content">
                                     <h4 className="card-title"><strong>Chi tiết khoá học</strong>
-                                    </h4><br />
-                                    {this.props.isLoading ? <Loading /> :
+                                    </h4><br/>
+                                    {this.props.isLoading ? <Loading/> :
                                         <ReactEditor
                                             urlPost={linkUploadImageEditor()}
                                             fileField="image"
@@ -295,16 +319,16 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="card-content">
                                 <div className="tab-content"><h4 className="card-title"><strong>Chọn màu</strong>
                                 </h4></div>
-                                <br />
+                                <br/>
                                 <CirclePicker width="100%"
-                                    color={this.props.data.color}
-                                    onChangeComplete={this.changeColor}
+                                              color={this.props.data.color}
+                                              onChangeComplete={this.changeColor}
                                 />
                             </div>
 
                             {this.props.isCommitting ?
                                 <button className="btn btn-rose  disabled" type="button">
-                                    <i className="fa fa-spinner fa-spin" /> Đang tải lên
+                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 :
 

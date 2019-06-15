@@ -70,7 +70,8 @@ export function createEditCourse(data) {
     if (token) {
         url += "?token=" + token;
     }
-    let categories = JSON.stringify(data.categories.map(obj => { return ({id: obj.id});}));
+    // let categories = JSON.stringify(data.categories.map(obj => { return ({id: obj.id});}));
+    let categories = JSON.stringify(data.categories? [{id:data.categories.id}] : []);
     data = {
         ...data,
         categories,
@@ -172,6 +173,7 @@ export function loadAllTypes() {
     }
     return axios.get(url);
 }
+
 export function loadAllCategories() {
     //manageapi.keetool.xyz/course/category?&limit=&page=&token=
     let url = env.MANAGE_API_URL + "/course/category";
@@ -181,6 +183,28 @@ export function loadAllCategories() {
     }
     return axios.get(url);
 }
+
+
+export function createCategory(data) {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.MANAGE_API_URL + "/course/category";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token ;
+    }
+    return axios.post(url,data);
+}
+
+export function editCategory(data) {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.MANAGE_API_URL + "/course/category/" + data.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token ;
+    }
+    return axios.put(url,data);
+}
+
 
 
 export function duplicateCourse(id) {

@@ -130,7 +130,7 @@ class EditCoursesContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <form role="form" id="form-course-create-edit">
+                    <form role="form" id="form-course-create-edit" onSubmit={e=>e.preventDefault()}>
                         <div className="col-md-12">
                             <div className="row">
                                 {this.props.isLoading ? <Loading/> :
