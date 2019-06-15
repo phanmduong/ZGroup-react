@@ -4,6 +4,10 @@ import Loading from "../../components/common/Loading";
 import Store from "./store";
 import {observer} from 'mobx-react';
 import ListHonor from "./ListHonor";
+import TooltipButton from "../../components/common/TooltipButton";
+import AddHonorStaffModal from "./addStaffModal/AddHonorStaffModal";
+import {connect} from "react-redux";
+
 
 @observer
 class HonorsContainer extends React.Component {
@@ -13,7 +17,7 @@ class HonorsContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.store.getData();
+        this.store.loadHonorStaffs();
     }
 
 
@@ -21,13 +25,31 @@ class HonorsContainer extends React.Component {
         const {isLoading, data} = this.store;
         return (
             <div id="page-wrapper">
+                <AddHonorStaffModal
+                    submit={(data, callback) =>this.store.submitData(data,callback)}
+                    showModal={this.store.showAddModal}
+                    close={() => this.store.closeAddModal()}
+                    isSaving={this.store.isSaving}
+                    isEdit={this.store.isEdit}
+                    honor={this.store.honor}
+                />
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
-                                <h4 className="card-title">
-                                    <strong>Bảng vinh danh</strong>
-                                </h4>
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Bảng vinh danh</strong>
+                                    </h4>
+                                    {this.props.user.role == 2 && <div className="dropdown">
+                                        <TooltipButton text="Thêm nhân viên" placement="top">
+                                            <button onClick={() => this.store.addHonorStaffs()}
+                                                    className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                <strong>+</strong>
+                                            </button>
+                                        </TooltipButton>
+                                    </div>}
+                                </div>
                                 <br/>
                                 <div className="card-title">
                                     Tất cả chúng ta, ai cũng đóng góp phần nào để xây dựng nên COLORME.
@@ -43,6 +65,10 @@ class HonorsContainer extends React.Component {
                                 {isLoading ? <Loading/> :
                                     <ListHonor
                                         honors={data.honors}
+                                        user={this.props.user}
+                                        edit={(data)=>this.store.editHonor(data)}
+                                        delete={(data)=>this.store.deleteHonor(data)}
+
                                     />
                                 }
                             </div>
@@ -55,4 +81,14 @@ class HonorsContainer extends React.Component {
 }
 
 
-export default HonorsContainer;
+function mapStateToProps(state) {
+    return {
+        user: state.login.user,
+    };
+}
+
+function mapDispatchToProps() {
+    return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HonorsContainer);

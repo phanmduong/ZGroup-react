@@ -18,7 +18,7 @@ class PieChart extends React.Component {
     }
 
     componentDidMount() {
-        let colors =randomColor({hue: 'red',format: 'hex', count: this.props.label.length, luminosity: "bright"});
+        let colors = randomColor({hue: 'red',format: 'hex', count: this.props.label.length, luminosity: "bright"});
 
         let dataChart = {
             labels: this.props.label,

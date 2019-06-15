@@ -111,15 +111,16 @@ class SurveyOverviewContainer extends React.Component {
 
         });
 
-        return <div key={key} className="margin-vertical-30">
-            <h5 className="bold">{question.content}</h5>
-            <PieChart
+        return (
+            <div key={key} className="margin-vertical-30">
+                <h5 className="bold">{question.content}</h5>
+                <PieChart
 
-                label={ans_arr}
-                data={count_arr}
-                id={"piechart_ans_" + question.id}
-            />
-        </div>;
+                    label={ans_arr}
+                    data={count_arr}
+                    id={"piechart_ans_" + question.id}
+                />
+            </div>);
 
     };
 
@@ -157,7 +158,6 @@ class SurveyOverviewContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state);
 
         return (
             <Modal show={this.props.showOverviewModal} onHide={this.handleClose} bsSize="large">

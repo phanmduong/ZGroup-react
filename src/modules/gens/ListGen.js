@@ -55,7 +55,33 @@ class ListGen extends React.Component {
                                         edit={this.props.onClickEdit}
                                         children={
                                             <div className="flex-row flex">
-                                                {this.props.user.role == 2 && <div className="dropdown">
+                                                {this.props.user.role == 2 &&
+                                                <div className="dropdown">
+                                                    <TooltipButton text="Overview" placement="top">
+                                                        <button className="btn btn-rose btn-round btn-xs button-add none-margin" type="button" data-toggle="dropdown">
+                                                            <i className="material-icons" style={{
+                                                                width: 14,
+                                                                marginLeft: -4,
+                                                                paddingTop: 2,
+                                                            }}>pie_chart</i>
+                                                        </button>
+                                                    </TooltipButton>
+                                                    <ul className="dropdown-menu dropdown-primary">
+                                                        <li>
+                                                            <a onClick={() => this.props.loadOverview(gen,'')}>Tất cả</a>
+                                                        </li>
+                                                        {this.props.bases.map((obj, key)=>{
+                                                            return (
+                                                                <li key={key}>
+                                                                    <a onClick={() => this.props.loadOverview(gen,obj.id)}>{obj.name}</a>
+                                                                </li>
+                                                            );
+                                                        })}
+
+                                                    </ul>
+                                                </div>}
+                                                {this.props.user.role == 2 &&
+                                                <div className="dropdown">
                                                     <TooltipButton text="Lương" placement="top">
                                                         <button className="btn btn-rose btn-round btn-xs button-add none-margin" type="button" data-toggle="dropdown">
                                                             <i className="material-icons" style={{

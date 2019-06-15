@@ -1,6 +1,29 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+
+
+export function loadOverview(gen_id,base_id) {
+    let url = env.MANAGE_API_URL + "/gen/overview?gen_id=" + gen_id + "&base_id=" + base_id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+
+export function loadBases() {
+    let url = env.MANAGE_API_URL + "/base/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function loadGens(page = 1) {
     let url = env.MANAGE_API_URL + "/gens?page=" + page;
     let token = localStorage.getItem('token');
