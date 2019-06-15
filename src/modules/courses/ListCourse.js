@@ -11,6 +11,7 @@ import {browserHistory} from "react-router";
 import Avatar from '../../components/common/Avatar';
 
 import Switch from 'react-bootstrap-switch';
+import {LINK_REGISTER_COURSE} from "../../constants/env";
 
 // function prefixDataPost(data) {
 //     if (data.length > 40) {
@@ -174,6 +175,12 @@ class ListCourse extends React.Component {
                                                             return this.openChangeOrderModal(course);
                                                         }}>
                                                             <i className="material-icons">autorenew</i> Đổi thứ tự
+                                                        </a>
+                                                    </li>
+                                                    <li className="more-dropdown-item">
+                                                        <a href={LINK_REGISTER_COURSE + "/" + course.id}
+                                                           target='_blank'>
+                                                            <i className="material-icons">link</i> Lấy link
                                                         </a>
                                                     </li>
 
