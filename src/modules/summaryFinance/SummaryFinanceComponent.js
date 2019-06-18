@@ -5,6 +5,7 @@ import {avatarEmpty, dotNumber, round2} from "../../helpers/helper";
 import Barchart from "./Barchart";
 import Pagination from "../../components/common/Pagination";
 import {NO_AVATAR} from "../../constants/env";
+import PieChart from "./PieChart";
 
 class SummaryFinanceComponent extends React.Component {
     constructor(props, context) {
@@ -18,14 +19,21 @@ class SummaryFinanceComponent extends React.Component {
     }
 
     render() {
-
-
         if (this.props.isLoading) {
             return (
                 <Loading/>
             );
         } else {
-            const {total_collect_money, total_spend_money, date_array, spend_money_date, collect_money_date} = this.props.summary;
+            const {total_collect_money, total_spend_money, date_array, spend_money_date, collect_money_date, spend_money_category} = this.props.summary;
+
+            let categories = [];
+            let moneyCategory = [];
+            let moneyCategoryColors = [];
+            if (spend_money_category) {
+                 categories = spend_money_category.map(obj => obj.name ? obj.name : "Không có nhóm");
+                 moneyCategory = spend_money_category.map(obj => obj.money ? obj.money : 0);
+                 moneyCategoryColors = spend_money_category.map(obj => obj.color ? obj.color : null);
+            }
             return (
                 <div>
                     <div className="row">
@@ -106,7 +114,29 @@ class SummaryFinanceComponent extends React.Component {
                                             id="barchar_spend_money"
                                         />
                                     </div>
-                                </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row" id="chart_spend_money">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-content">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Doanh thu và chi phí</strong>
+                                        </h4>
+                                        <br/><br/>
+
+                                        <PieChart
+                                            label={categories}
+                                            data={moneyCategory}
+                                            colors={moneyCategoryColors}
+                                            id={"cost_by_group"}
+                                        />
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -232,7 +262,7 @@ class SummaryFinanceComponent extends React.Component {
                                             currentPage={this.props.page}
                                             loadDataPage={(page) => this.props.loadHistoryTransaction(page)}
                                         />
-                                    </div>    
+                                    </div>
                                 </div>
                             </div>
                         </div>

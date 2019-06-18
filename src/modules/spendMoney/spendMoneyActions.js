@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as spendMoneyApi from './spendMoneyApi';
-import {showErrorMessage, sweetAlertSuccess} from "../../helpers/helper";
+import {showNotification, showErrorMessage, sweetAlertSuccess} from "../../helpers/helper";
 
 export function loadHistoryTransactions(page, type) {
     return function (dispatch) {
@@ -33,6 +33,23 @@ export function loadCategoryTransactions() {
             .catch(() => {
                 dispatch({type: types.LOAD_CATEGORY_TRANSACTIONS_SPEND_MONEY_ERROR});
             });
+    };
+}
+
+export function createCategoryTransactions(data,callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_CATEGORY_TRANSACTION});
+        spendMoneyApi.createCategoryTransactions(data)
+            .then(() => {
+                dispatch({
+                    type: types.CREATE_CATEGORY_TRANSACTION_SUCCESS,
+                });
+                showNotification('Lưu thành công!');
+            })
+            .catch(() => {
+                dispatch({type: types.CREATE_CATEGORY_TRANSACTION_ERROR});
+                showErrorMessage('Có lỗi xảy ra!');
+            }).finally(callback);
     };
 }
 

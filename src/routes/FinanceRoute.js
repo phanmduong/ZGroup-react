@@ -6,7 +6,7 @@ import BankTransfersContainer from "../modules/finance/BankTransfersContainer";
 import MoneyTransfersContainer from "../modules/moneyTransfer/MoneyTransferContainer";
 import StaffsKeepMoneyContainer from "../modules/staffsKeepMoney/StaffsKeepMoneyContainer";
 import HistoryTransactionsContainer from "../modules/historyTransactions/HistoryTransactionsContainer";
-import SpendMoneyContainer from "../modules/spendMoney/SpendMoneyContainer";
+import SpendMoneyContainer from "../modules/summaryFinance/SpendMoneyContainer";
 import SummaryFinanceContainer from "../modules/summaryFinance/SummaryFinanceContainer";
 import PasswordContainer from "../modules/password/PasswordContainer";
 import SalaryTeachingContainer from "../modules/salaryTeaching/SalaryTeachingContainer";

@@ -2534,6 +2534,7 @@ export default {
         },
         categories: [],
         isLoadingCategories: false,
+        isSavingCategory: false,
         errorCategories: false,
         isLoadingUser: false,
         errorLoadUser: false,

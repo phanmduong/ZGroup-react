@@ -23,6 +23,17 @@ export function getCategoryTransactions() {
     return axios.get(url);
 }
 
+
+export function createCategoryTransactions(data) {
+
+    let url = env.MANAGE_API_URL + "/finance/category-transactions";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,data);
+}
+
 export function loadUser() {
 
     let url = env.MANAGE_API_URL + "/my-staff";

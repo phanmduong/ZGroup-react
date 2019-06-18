@@ -52,6 +52,21 @@ export default function spendMoneyReducer(state = initialState.spendMoney, actio
                 isLoadingCategories: false,
                 errorCategories: true,
             };
+        case types.BEGIN_CREATE_CATEGORY_TRANSACTION:
+            return {
+                ...state,
+                isSavingCategory: true,
+            };
+        case types.CREATE_CATEGORY_TRANSACTION_SUCCESS:
+            return {
+                ...state,
+                isSavingCategory: false,
+            };
+        case types.CREATE_CATEGORY_TRANSACTION_ERROR:
+            return {
+                ...state,
+                isSavingCategory: false,
+            };
         case types.BEGIN_LOAD_USER_SPEND_MONEY:
             return {
                 ...state,

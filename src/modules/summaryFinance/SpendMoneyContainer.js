@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 import FormInputText from "../../components/common/FormInputText";
 import Select from "../../components/common/Select";
 import {TYPE_MONEY} from "../../constants/constants";
-import HistoryTransaction from "./HistoryTransaction";
-import * as spendMoneyActions from './spendMoneyActions';
+import HistoryTransaction from "../spendMoney/HistoryTransaction";
+import * as spendMoneyActions from '../spendMoney/spendMoneyActions';
 import Loading from "../../components/common/Loading";
 import {avatarEmpty, dotNumber, setFormValidation, showTypeNotification, isEmptyInput} from "../../helpers/helper";
 import {NO_AVATAR} from "../../constants/env";
+import TooltipButton from "../../components/common/TooltipButton";
+import CategoriesModal from "./CategoriesModal";
 
 class SpendMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -19,6 +21,7 @@ class SpendMoneyContainer extends React.Component {
             note: "",
             type: null,
             category_id: null,
+            showCategoryModal: false,
         };
     }
 
@@ -56,6 +59,10 @@ class SpendMoneyContainer extends React.Component {
                 showTypeNotification("Vui lòng chi số tiền ít hơn bạn có", 'warning');
                 return;
             }
+            if (isEmptyInput(this.state.category_id)) {
+                showTypeNotification("Vui lòng chọn nhóm giao dịch", 'warning');
+                return;
+            }
 
             this.props.spendMoneyActions.createSpendMoney({
                 money: this.state.money,
@@ -74,6 +81,10 @@ class SpendMoneyContainer extends React.Component {
             <div>
                 <div className="card">
                     <div className="card-content">
+                        <CategoriesModal
+                            showModal={this.state.showCategoryModal}
+                            close={()=>this.setState({showCategoryModal: false})}
+                        />
                         <div className="tab-content">
                             <h4 className="card-title">
                                 <strong>Thu/Chi</strong>
@@ -104,12 +115,12 @@ class SpendMoneyContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <form id="form-spend-money" onSubmit={(e) => {
-                                            e.preventDefault();
-                                        }}>
+
                                             <div className="row">
                                                 <div className="col-md-8">
-
+                                                    <form id="form-spend-money" onSubmit={(e) => {
+                                                        e.preventDefault();
+                                                    }}>
                                                     <FormInputText
                                                         label={"Nhập số tiền"}
                                                         value={dotNumber(this.state.money)}
@@ -132,21 +143,36 @@ class SpendMoneyContainer extends React.Component {
                                                             });
                                                         }}
                                                         name="note"/>
-
+                                                    </form>
                                                 </div>
+
                                                 <div className="col-md-4">
-                                                    <Select
-                                                        value={this.state.type}
-                                                        options={TYPE_MONEY}
-                                                        defaultMessage="Chọn loại giao dịch"
-                                                        onChange={(value) => this.setState({type: value})}
-                                                    />
-                                                    <Select
-                                                        value={this.state.category_id}
-                                                        options={this.convertDataCategories(this.props.categories)}
-                                                        defaultMessage="Chọn nhóm"
-                                                        onChange={(value) => this.setState({category_id: value})}
-                                                    />
+                                                    <div className="width-50-percent">
+
+                                                        <Select
+                                                            value={this.state.type}
+                                                            options={TYPE_MONEY}
+                                                            defaultMessage="Chọn loại giao dịch"
+                                                            onChange={(value) => this.setState({type: value})}
+                                                        />
+                                                    </div>
+                                                    <div style={{display: "flex", alignItems: "center"}}>
+                                                        <div className="width-50-percent">
+                                                            <Select
+                                                                value={this.state.category_id}
+                                                                options={this.convertDataCategories(this.props.categories)}
+                                                                defaultMessage="Chọn nhóm"
+                                                                onChange={(value) => this.setState({category_id: value})}
+                                                            />
+                                                        </div>
+                                                        <TooltipButton text="Thêm nhóm" placement="top">
+                                                            <button
+                                                                onClick={() => this.setState({showCategoryModal: true})}
+                                                                className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                                <strong>+</strong>
+                                                            </button>
+                                                        </TooltipButton>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -166,10 +192,10 @@ class SpendMoneyContainer extends React.Component {
                                                     }
                                                 </div>
                                             </div>
-                                        </form>
+
                                     </div>
                             }
-                        </div>    
+                        </div>
                     </div>
                 </div>
                 <HistoryTransaction/>
@@ -180,7 +206,7 @@ class SpendMoneyContainer extends React.Component {
 
 SpendMoneyContainer.propTypes = {
     categories: PropTypes.array.isRequired,
-    spendMoneyActions: PropTypes.array.isRequired,
+    spendMoneyActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     isLoadingUser: PropTypes.bool.isRequired,
     isLoadingCategories: PropTypes.bool.isRequired,
