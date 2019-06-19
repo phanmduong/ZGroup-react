@@ -83,7 +83,7 @@ class SpendMoneyContainer extends React.Component {
                     <div className="card-content">
                         <CategoriesModal
                             showModal={this.state.showCategoryModal}
-                            close={()=>this.setState({showCategoryModal: false})}
+                            close={() => this.setState({showCategoryModal: false})}
                         />
                         <div className="tab-content">
                             <h4 className="card-title">
@@ -116,11 +116,11 @@ class SpendMoneyContainer extends React.Component {
                                             </div>
                                         </div>
 
-                                            <div className="row">
-                                                <div className="col-md-8">
-                                                    <form id="form-spend-money" onSubmit={(e) => {
-                                                        e.preventDefault();
-                                                    }}>
+                                        <div className="row">
+                                            <div className="col-md-8">
+                                                <form id="form-spend-money" onSubmit={(e) => {
+                                                    e.preventDefault();
+                                                }}>
                                                     <FormInputText
                                                         label={"Nhập số tiền"}
                                                         value={dotNumber(this.state.money)}
@@ -143,28 +143,29 @@ class SpendMoneyContainer extends React.Component {
                                                             });
                                                         }}
                                                         name="note"/>
-                                                    </form>
+                                                </form>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div className="width-50-percent">
+
+                                                    <Select
+                                                        value={this.state.type}
+                                                        options={TYPE_MONEY}
+                                                        defaultMessage="Chọn loại giao dịch"
+                                                        onChange={(value) => this.setState({type: value})}
+                                                    />
                                                 </div>
-
-                                                <div className="col-md-4">
+                                                <div style={{display: "flex", alignItems: "center"}}>
                                                     <div className="width-50-percent">
-
                                                         <Select
-                                                            value={this.state.type}
-                                                            options={TYPE_MONEY}
-                                                            defaultMessage="Chọn loại giao dịch"
-                                                            onChange={(value) => this.setState({type: value})}
+                                                            value={this.state.category_id}
+                                                            options={this.convertDataCategories(this.props.categories)}
+                                                            defaultMessage="Chọn nhóm"
+                                                            onChange={(value) => this.setState({category_id: value})}
                                                         />
                                                     </div>
-                                                    <div style={{display: "flex", alignItems: "center"}}>
-                                                        <div className="width-50-percent">
-                                                            <Select
-                                                                value={this.state.category_id}
-                                                                options={this.convertDataCategories(this.props.categories)}
-                                                                defaultMessage="Chọn nhóm"
-                                                                onChange={(value) => this.setState({category_id: value})}
-                                                            />
-                                                        </div>
+                                                    {this.props.user.role == 2 &&
                                                         <TooltipButton text="Thêm nhóm" placement="top">
                                                             <button
                                                                 onClick={() => this.setState({showCategoryModal: true})}
@@ -172,26 +173,27 @@ class SpendMoneyContainer extends React.Component {
                                                                 <strong>+</strong>
                                                             </button>
                                                         </TooltipButton>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-md-12">
-                                                    {
-                                                        this.props.isCreatingTransaction ?
-                                                            <button className="btn btn-rose disabled"
-                                                            >
-                                                                <i className="fa fa-spinner fa-spin"/>
-                                                                Đang tạo
-                                                            </button>
-                                                            :
-                                                            <button className="btn btn-rose"
-                                                                    onClick={() => this.createSpendMoney()}>
-                                                                Tạo
-                                                            </button>
                                                     }
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                {
+                                                    this.props.isCreatingTransaction ?
+                                                        <button className="btn btn-rose disabled"
+                                                        >
+                                                            <i className="fa fa-spinner fa-spin"/>
+                                                            Đang tạo
+                                                        </button>
+                                                        :
+                                                        <button className="btn btn-rose"
+                                                                onClick={() => this.createSpendMoney()}>
+                                                            Tạo
+                                                        </button>
+                                                }
+                                            </div>
+                                        </div>
 
                                     </div>
                             }

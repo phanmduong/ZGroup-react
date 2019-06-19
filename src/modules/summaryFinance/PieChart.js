@@ -22,8 +22,17 @@ class PieChart extends React.Component {
             if(color) return color;
             return randomColor({hue: 'red',format: 'hex', count: 1, luminosity: "bright"})[0];
         });
+        let sum = 0;
+        for(let i = 0; i < colors.length; i++){
+            sum += this.props.data[i]*1;
+        }
+        let label = [];
+
+        this.props.data.forEach((obj, i)=>{
+            label.push(this.props.label[i] + ` (${Math.round(obj/sum*100*100)/100}%)`);
+        });
         let dataChart = {
-            labels: this.props.label,
+            labels: label,
             datasets: [
                 {
                     data: this.props.data,
