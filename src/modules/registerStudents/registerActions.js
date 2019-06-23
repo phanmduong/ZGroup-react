@@ -199,40 +199,14 @@ export function loadRegisterStudent(page,
     };
 }
 
-export function loadAllRegisterStudent(page,
-                                       genId,
-                                       search,
-                                       salerId,
-                                       campaignId,
-                                       classId,
-                                       paid_status,
-                                       class_status,
-                                       startTime,
-                                       endTime,
-                                       baseId,
-                                       appointment_payment,
-                                       query_coupon,
-                                       exportExcel,) {
+export function loadAllRegisterStudent(data) {
+    let {exportExcel} = data;
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
         });
         registerStudentsApi
-            .getAllRegisterStudent(
-                page,
-                genId,
-                search,
-                salerId,
-                campaignId,
-                classId,
-                paid_status,
-                class_status,
-                startTime,
-                endTime,
-                baseId,
-                query_coupon,
-                appointment_payment,
-            )
+            .getAllRegisterStudent(data)
             .then(function (res) {
                 dispatch({
                     type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,
@@ -342,6 +316,27 @@ export function changeCallStatusStudent(callStatus,
                 showErrorNotification("Có lỗi xảy ra");
                 dispatch({
                     type: types.CHANGE_CALL_STATUS_STUDENT_ERROR,
+                });
+            });
+    };
+}
+
+export function changeMarkRegister(register_id, bookmark) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_BOOKMARK_REGISTER,
+        });
+        registerStudentsApi.changeMarkRegister(register_id, bookmark)
+            .then(() => {
+                showNotification("Đã lưu!");
+                dispatch({
+                    type: types.CHANGE_BOOKMARK_REGISTER_SUCCESS,register_id, bookmark
+                });
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+                dispatch({
+                    type: types.CHANGE_BOOKMARK_REGISTER_ERROR,
                 });
             });
     };

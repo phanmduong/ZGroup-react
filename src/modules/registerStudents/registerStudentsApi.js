@@ -2,19 +2,22 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
-export function getAllRegisterStudent(page = 1,
-                                      genId,
-                                      search = '',
-                                      salerId = '',
-                                      campaignId = '',
-                                      classId = '',
-                                      paid_status = '',
-                                      class_status = '',
-                                      startTime = '',
-                                      endTime = '',
-                                      base_id = '',
-                                      query_coupon = '',
-                                      appointment_payment = '') {
+export function getAllRegisterStudent(data) {
+    let {page,
+        genId,
+        search,
+        salerId,
+        campaignId,
+        classId,
+        paid_status,
+        class_status,
+        startTime,
+        endTime,
+        baseId,
+        appointment_payment,
+        query_coupon,
+        } = data;
+    let base_id = baseId;
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
         "page=" + page +
@@ -103,6 +106,12 @@ export function historyCallStudent(studentId, registerId) {
     let token = localStorage.getItem('token');
     let url = `${env.MANAGE_API_URL}/history-call-student?id=${studentId}&register_id=${registerId}&token=${token}`;
     return axios.get(url);
+}
+
+export function changeMarkRegister(register_id, bookmark) {
+    let token = localStorage.getItem('token');
+    let url = `${env.API_URL}/mark-register?register_id=${register_id}&bookmark=${bookmark == true ? 1 : 0}&token=${token}`;
+    return axios.post(url, );
 }
 
 export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '') {

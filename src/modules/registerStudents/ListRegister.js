@@ -5,6 +5,7 @@ import * as helper from '../../helpers/helper';
 
 import {Link} from "react-router";
 import TooltipButton from "../../components/common/TooltipButton";
+import ToggleStar from "../../components/common/ToggleStar";
 
 class ListRegister extends React.Component {
     constructor(props, context) {
@@ -21,6 +22,7 @@ class ListRegister extends React.Component {
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead className="text-rose">
                     <tr>
+                        <th>Đánh dấu</th>
                         <th>Lớp</th>
                         <th>Gọi</th>
                         <th>Họ tên</th>
@@ -73,6 +75,13 @@ class ListRegister extends React.Component {
                         }
                         return (
                             <tr key={register.id} className={color}>
+                                <td>
+                                    <ToggleStar
+                                        value={register.bookmark == 1}
+                                        isLoading={this.props.isChangingBookmark}
+                                        onChange={value=>this.props.changeMarkRegister(register.id, value)}
+                                    />
+                                </td>
                                 <td>
                                     <div className="container-dot-bottom-right">
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
@@ -262,6 +271,7 @@ ListRegister.propTypes = {
     openModalChangeInfoStudent: PropTypes.func,
     changeStatusPause: PropTypes.func,
     genId: PropTypes.number,
+    isChangingBookmark: PropTypes.bool,
 };
 
 export default ListRegister;

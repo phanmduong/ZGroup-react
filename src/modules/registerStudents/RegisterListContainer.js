@@ -79,36 +79,6 @@ class RegisterListContainer extends React.Component {
 
         this.isWaitListPage = false;
         this.timeOut = null;
-        this.registersSearchChange = this.registersSearchChange.bind(this);
-        this.changeGens = this.changeGens.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.openModalChangeClass = this.openModalChangeClass.bind(this);
-        this.closeModalChangeClass = this.closeModalChangeClass.bind(this);
-        this.viewCall = this.viewCall.bind(this);
-        this.changeCallStatusStudent = this.changeCallStatusStudent.bind(this);
-        this.deleteRegister = this.deleteRegister.bind(this);
-        this.loadRegisterStudentByCampaign = this.loadRegisterStudentByCampaign.bind(this);
-        this.confirmChangeClass = this.confirmChangeClass.bind(this);
-        this.openFilterPanel = this.openFilterPanel.bind(this);
-        this.onClassFilterChange = this.onClassFilterChange.bind(this);
-        this.onSalerFilterChange = this.onSalerFilterChange.bind(this);
-        this.onCampaignFilterChange = this.onCampaignFilterChange.bind(this);
-        this.onMoneyFilterChange = this.onMoneyFilterChange.bind(this);
-        this.onClassStatusFilterChange = this.onClassStatusFilterChange.bind(this);
-        this.updateFormDate = this.updateFormDate.bind(this);
-        this.changeClassStatusFilter = this.changeClassStatusFilter.bind(this);
-        this.showLoadingModal = this.showLoadingModal.bind(this);
-        this.closeLoadingModal = this.closeLoadingModal.bind(this);
-        this.onTeleCallStatusFilterChange = this.onTeleCallStatusFilterChange.bind(this);
-        this.openModalChangeInfoStudent = this.openModalChangeInfoStudent.bind(this);
-        this.updateModalChangeInfoStudent = this.updateModalChangeInfoStudent.bind(this);
-        this.commitModalChangeInfoStudent = this.commitModalChangeInfoStudent.bind(this);
-        this.closeModalChangeInfoStudent = this.closeModalChangeInfoStudent.bind(this);
-        this.onBaseFilterChange = this.onBaseFilterChange.bind(this);
-        this.openCreateRegisterModal = this.openCreateRegisterModal.bind(this);
-        this.searchByCoupon = this.searchByCoupon.bind(this);
-        this.loadRegisterStudent = this.loadRegisterStudent.bind(this);
     }
 
     componentWillMount() {
@@ -250,8 +220,7 @@ class RegisterListContainer extends React.Component {
                     selectedClassStatus: 'waiting',
                     cardTitle: 'Danh sách chờ',
                 });
-            }
-            else {
+            } else {
                 this.changeClassStatusFilter({value: ''});
                 this.isWaitListPage = false;
                 this.setState({
@@ -287,7 +256,7 @@ class RegisterListContainer extends React.Component {
         }
     }
 
-    onClassFilterChange(obj) {
+    onClassFilterChange = (obj) => {
         let res = '';
         if (obj) {
             res = obj.value;
@@ -311,15 +280,21 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedTeleCallStatus
             );
         this.setState({selectedClassId: res, page: 1});
-    }
+    };
 
     changeStatusPause = (register) => {
         helper.confirm('warning', 'Bảo lưu', `Bạn có muốn cho học viên ${register.name} của lớp ${register.class.name}  thực hiện bảo lưu không?`, () => {
             this.props.registerActions.changeStatusPause(register.id);
         });
-    }
+    };
 
-    onBaseFilterChange(obj) {
+    changeMarkRegister = (register_id , bookmark) => {
+
+            this.props.registerActions.changeMarkRegister(register_id ,bookmark);
+
+    };
+
+    onBaseFilterChange = (obj) => {
         let res = '';
         if (obj) {
             res = obj.value;
@@ -348,9 +323,9 @@ class RegisterListContainer extends React.Component {
             selectedClassId: '',
             classFilter: this.getFilter(this.props.classFilter, res)
         });
-    }
+    };
 
-    onSalerFilterChange(obj) {
+    onSalerFilterChange = (obj) => {
         let res = '';
         if (obj) {
             res = obj.value;
@@ -374,14 +349,13 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedTeleCallStatus
             );
         this.setState({selectedSalerId: res, page: 1});
-    }
+    };
 
-    onCampaignFilterChange(obj) {
+    onCampaignFilterChange = (obj) => {
         let res = '';
         if (obj) {
             res = obj.value;
-        }
-        else {
+        } else {
             res = '';
         }
         if (res != this.state.campaignId)
@@ -403,9 +377,9 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedTeleCallStatus
             );
         this.setState({campaignId: res, page: 1});
-    }
+    };
 
-    onMoneyFilterChange(obj) {
+    onMoneyFilterChange = (obj) => {
         let res = obj ? obj.value : '';
         if (this.state.selectedMoneyFilter != res)
             this.props.registerActions.loadRegisterStudent(
@@ -426,9 +400,9 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedTeleCallStatus
             );
         this.setState({selectedMoneyFilter: res, page: 1});
-    }
+    };
 
-    onClassStatusFilterChange(obj, filter) {
+    onClassStatusFilterChange = (obj, filter) => {
         let res = obj ? obj.value : '';
         let newfilter = filter ? filter : this.state.allClassFilter;
         if (res === 'waiting') {
@@ -460,9 +434,9 @@ class RegisterListContainer extends React.Component {
             selectedClassStatus: res,
             page: 1
         });
-    }
+    };
 
-    onTeleCallStatusFilterChange(obj) {
+    onTeleCallStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
         this.props.registerActions.loadRegisterStudent(
             1,//page
@@ -486,9 +460,9 @@ class RegisterListContainer extends React.Component {
             selectedTeleCallStatus: res,
             page: 1
         });
-    }
+    };
 
-    changeClassStatusFilter(obj, filter) {
+    changeClassStatusFilter = (obj, filter) => {
         let res = obj ? obj.value : '';
         this.setState({selectedClassStatus: res, page: 1});
 
@@ -499,9 +473,9 @@ class RegisterListContainer extends React.Component {
             newfilter = newfilter.filter(item => (item.type === 'active'));
         }
         this.setState({classFilter: this.getFilter(newfilter), selectedClassId: ''});
-    }
+    };
 
-    updateFormDate(event) {
+    updateFormDate = (event) => {
         const field = event.target.name;
         let time = {...this.state.time};
         time[field] = event.target.value;
@@ -528,9 +502,9 @@ class RegisterListContainer extends React.Component {
         } else {
             this.setState({time: time});
         }
-    }
+    };
 
-    getFilter(arr, base_id) {
+    getFilter = (arr, base_id) => {
         if (!helper.isEmptyInput(base_id)) {
             arr = arr.filter((classItem) => classItem.base_id == base_id);
         }
@@ -546,9 +520,9 @@ class RegisterListContainer extends React.Component {
             value: '',
             label: 'Tất cả'
         }, ...data];
-    }
+    };
 
-    getSalerFilter(arr) {
+    getSalerFilter = (arr) => {
         let data = arr.map(function (obj) {
             return {
                 value: obj.id,
@@ -564,9 +538,9 @@ class RegisterListContainer extends React.Component {
             value: '-1',
             label: 'Không có'
         }, ...data];
-    }
+    };
 
-    getBaseFilter(arr) {
+    getBaseFilter = (arr) => {
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -579,18 +553,18 @@ class RegisterListContainer extends React.Component {
             value: '',
             label: 'Tất cả'
         }, ...data];
-    }
+    };
 
-    openFilterPanel() {
+    openFilterPanel = () => {
         let newstatus = !this.state.openFilterPanel;
         this.setState({openFilterPanel: newstatus});
-    }
+    };
 
-    closeModal() {
+    closeModal = () => {
         this.setState({showModal: false});
-    }
+    };
 
-    openModal() {
+    openModal = () => {
         this.setState(
             {
                 showModal: true,
@@ -598,36 +572,36 @@ class RegisterListContainer extends React.Component {
                 appointmentPayment: ''
             }
         );
-    }
+    };
 
-    closeModalChangeClass() {
+    closeModalChangeClass = () => {
         this.setState({showModalChangeClass: false});
-    }
+    };
 
-    openModalChangeClass(registerId, isGenNow) {
+    openModalChangeClass = (registerId, isGenNow) => {
         this.setState({
             showModalChangeClass: true,
             selectRegisterId: registerId
         });
         this.props.registerActions.loadClasses(registerId, isGenNow);
-    }
+    };
 
-    viewCall(register) {
+    viewCall = (register) => {
         this.props.registerActions.loadHistoryCallStudent(register.student_id, register.id);
         this.props.registerActions.loadRegisterByStudent(register.student_id);
         this.setState({register});
         this.openModal();
-    }
+    };
 
-    loadRegisterStudentByCampaign(campaignId) {
+    loadRegisterStudentByCampaign = (campaignId) => {
         this.setState({
             page: 1,
             campaignId,
         });
         this.onCampaignFilterChange({value: campaignId});
-    }
+    };
 
-    loadRegisterStudent(page) {
+    loadRegisterStudent = (page) => {
         this.setState({
             page,
         });
@@ -647,9 +621,9 @@ class RegisterListContainer extends React.Component {
             this.state.query_coupon,
             this.state.selectedTeleCallStatus
         );
-    }
+    };
 
-    registersSearchChange(value) {
+    registersSearchChange = (value) => {
         this.setState({
             page: 1,
             query: value,
@@ -675,9 +649,9 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedTeleCallStatus
             );
         }.bind(this), 500);
-    }
+    };
 
-    searchByCoupon(value) {
+    searchByCoupon = (value) => {
         this.setState({
             page: 1,
             query_coupon: value,
@@ -703,9 +677,9 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedTeleCallStatus
             );
         }.bind(this), 500);
-    }
+    };
 
-    changeGens(value) {
+    changeGens = (value) => {
         this.setState({
             page: 1,
             selectGenId: value
@@ -727,42 +701,42 @@ class RegisterListContainer extends React.Component {
             this.state.selectedTeleCallStatus
         );
         this.props.registerActions.loadClassFilter(value);
-    }
+    };
 
-    changeCallStatusStudent(callStatus, studentId) {
+    changeCallStatusStudent = (callStatus, studentId) => {
         this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment);
-    }
+    };
 
-    deleteRegister(register) {
+    deleteRegister = (register) => {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
             this.props.registerActions.deleteRegisterStudent(register.id);
         });
-    }
+    };
 
-    confirmChangeClass(classData) {
+    confirmChangeClass = (classData) => {
         this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.closeModalChangeClass);
-    }
+    };
 
-    showLoadingModal() {
-        this.props.registerActions.loadAllRegisterStudent(
-            '',//page
-            this.state.selectGenId,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            this.state.selectedClassId,
-            this.state.selectedMoneyFilter,
-            this.state.selectedClassStatus,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            this.closeLoadingModal
-        );
-    }
+    showLoadingModal = () => {
+        this.props.registerActions.loadAllRegisterStudent({
+            page: '',//page
+            selectGenId: this.state.selectGenId,
+            query: this.state.query,
+            selectedSalerId: this.state.selectedSalerId,
+            campaignId: this.state.campaignId,
+            selectedClassId: this.state.selectedClassId,
+            selectedMoneyFilter: this.state.selectedMoneyFilter,
+            selectedClassStatus: this.state.selectedClassStatus,
+            startTime: this.state.time.startTime,
+            endTime: this.state.time.endTime,
+            selectedBaseId: this.state.selectedBaseId,
+            appointmentPayment: this.state.time.appointmentPayment,
+            query_coupon: this.state.query_coupon,
+            exportExcel: this.closeLoadingModal
+        });
+    };
 
-    closeLoadingModal() {
+    closeLoadingModal = () => {
 
         let json = this.props.excel;
         if (!json || !json.registers || json.registers.length == 0) {
@@ -777,11 +751,9 @@ class RegisterListContainer extends React.Component {
                 let titleCall = 'Chưa gọi';
                 if (item.call_status === 'success') {
                     titleCall = 'Gọi thành công';
-                }
-                else if (item.call_status === 'failed') {
+                } else if (item.call_status === 'failed') {
                     titleCall = 'Gọi thất bại';
-                }
-                else if (item.call_status === 'calling') {
+                } else if (item.call_status === 'calling') {
                     titleCall = 'Đang gọi';
                 }
                 let res = {
@@ -819,34 +791,34 @@ class RegisterListContainer extends React.Component {
                         `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)}`)
             )
         );
-    }
+    };
 
-    openModalChangeInfoStudent(obj) {
+    openModalChangeInfoStudent = (obj) => {
         this.setState({showChangeInfoStudent: true, selectedStudent: obj});
-    }
+    };
 
-    updateModalChangeInfoStudent(e) {
+    updateModalChangeInfoStudent = (e) => {
         let feild = e.target.name;
         let value = e.target.value;
         if (feild == "paid_status") {
             value = !this.state.selectedStudent.paid_status;
         }
         this.setState({selectedStudent: {...this.state.selectedStudent, [feild]: value}});
-    }
+    };
 
     commitModalChangeInfoStudent(obj) {
         this.props.registerActions.changeInfoStudent(obj, this.closeModalChangeInfoStudent);
     }
 
-    closeModalChangeInfoStudent() {
+    closeModalChangeInfoStudent = () => {
         this.setState({showChangeInfoStudent: false});
 
 
-    }
+    };
 
-    openCreateRegisterModal() {
+    openCreateRegisterModal = () => {
         this.props.createRegisterActions.showCreateRegisterModal(true);
-    }
+    };
 
     addLeadSuccess = () => {
         this.props.registerActions.loadRegisterStudent(
@@ -866,11 +838,11 @@ class RegisterListContainer extends React.Component {
             this.state.query_coupon,
             this.state.selectedTeleCallStatus
         );
-    }
+    };
 
     addMyLead = (userID) => {
         this.props.registerActions.uploadDistributionLead(userID, this.addLeadSuccess);
-    }
+    };
 
     render() {
         const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
@@ -1195,6 +1167,7 @@ class RegisterListContainer extends React.Component {
                                                 <ListRegister
                                                     genId={this.state.selectGenId}
                                                     registers={this.props.registers}
+                                                    isChangingBookmark={this.props.isChangingBookmark}
                                                     viewCall={this.viewCall}
                                                     deleteRegister={this.deleteRegister}
                                                     loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
@@ -1202,6 +1175,7 @@ class RegisterListContainer extends React.Component {
                                                     openModalChangeClass={this.openModalChangeClass}
                                                     openModalChangeInfoStudent={this.openModalChangeInfoStudent}
                                                     changeStatusPause={this.changeStatusPause}
+                                                    changeMarkRegister={this.changeMarkRegister}
                                                     addMyLead={this.addMyLead}
                                                 />
                                         }
@@ -1437,8 +1411,7 @@ class RegisterListContainer extends React.Component {
                                                     let btn = '';
                                                     if (history.call_status === 'success') {
                                                         btn = ' success';
-                                                    }
-                                                    else if (history.call_status === 'failed') {
+                                                    } else if (history.call_status === 'failed') {
                                                         btn = ' danger';
                                                     } else if (history.call_status === 'calling') {
                                                         btn = ' info';
@@ -1671,6 +1644,7 @@ RegisterListContainer.propTypes = {
     isLoadingExcel: PropTypes.bool,
     isCommittingInfoStudent: PropTypes.bool,
     isLoadingBaseFilter: PropTypes.bool,
+    isChangingBookmark: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -1700,6 +1674,7 @@ function mapStateToProps(state) {
         isLoadingClassFilter: state.registerStudents.isLoadingClassFilter,
         isLoadingSalerFilter: state.registerStudents.isLoadingClassFilter,
         isLoadingCampaignFilter: state.registerStudents.isLoadingCampaignFilter,
+        isChangingBookmark: state.registerStudents.isChangingBookmark,
         genId: state.registerStudents.genId,
         currentGen: state.registerStudents.currentGen,
         excel: state.registerStudents.excel,

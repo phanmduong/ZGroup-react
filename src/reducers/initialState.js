@@ -1100,6 +1100,7 @@ export default {
         isLoadingBaseFilter: false,
         baseFilter: [],
         isSavingRegister: false,
+        isChangingBookmark: false,
 
     },
 

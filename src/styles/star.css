@@ -39,3 +39,7 @@
 .rating-disable a {
     cursor: not-allowed;
 }
+
+.toggle-rating{
+    font-size: 30px;
+}

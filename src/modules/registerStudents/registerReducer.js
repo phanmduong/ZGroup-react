@@ -256,6 +256,30 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorChangeStatus: true
                 }
             };
+        case types.BEGIN_CHANGE_BOOKMARK_REGISTER:
+            return {
+                ...state,
+                ...{
+                    isChangingBookmark: true
+                }
+            };
+        case types.CHANGE_BOOKMARK_REGISTER_SUCCESS:
+            registers = changeBookmark(action.register_id, state.registers, action.bookmark);
+            return {
+                ...state,
+                ...{
+                    isChangingBookmark: false,
+                    registers: registers,
+                }
+            };
+        case types.CHANGE_BOOKMARK_REGISTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingBookmark: false,
+                    errorChangeStatus: true
+                }
+            };
         case types.DELETE_REGISTER_STUDENT_SUCCESS:
             registers = deleteRegister(action.registerId, state.registers);
             return {
@@ -375,6 +399,21 @@ function changeCallStatus(registerId, registers, callStatus) {
                     return {
                         ...register,
                         call_status: callStatus
+                    };
+                }
+                return register;
+            }
+        );
+    }
+    return registers;
+}
+function changeBookmark(registerId, registers, bookmark) {
+    if (registers) {
+        registers = registers.map(register => {
+                if (register.id === registerId) {
+                    return {
+                        ...register,
+                        bookmark
                     };
                 }
                 return register;
