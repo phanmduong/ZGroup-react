@@ -8,7 +8,7 @@ import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
 export function changeCallStatusStudent(callStatus,
                                         studentId,
                                         note,
-                                        appointmentPayment) {
+                                        appointmentPayment, dateTest) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT,
@@ -22,6 +22,7 @@ export function changeCallStatusStudent(callStatus,
                 note,
                 '',
                 appointmentPayment,
+                dateTest
             )
             .then(res => {
                 dispatch({

@@ -36,6 +36,7 @@ class ListRegister extends React.Component {
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
                         <th>Hẹn nộp</th>
+                        <th>Hẹn test</th>
                         <th/>
                     </tr>
                     </thead>
@@ -201,6 +202,13 @@ class ListRegister extends React.Component {
                                     <TooltipButton text={register.appointment_payment_date} placement="top">
                                         <div>
                                             {register.appointment_payment}
+                                        </div>
+                                    </TooltipButton>
+                                </td>
+                                <td>
+                                    <TooltipButton text={register.date_test_date} placement="top">
+                                        <div>
+                                            {register.date_test}
                                         </div>
                                     </TooltipButton>
                                 </td>

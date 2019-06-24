@@ -288,7 +288,7 @@ export function changeCallStatusStudent(callStatus,
                                         note,
                                         closeModal,
                                         callerId,
-                                        appointmentPayment,) {
+                                        appointmentPayment, dateTest) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT,
@@ -302,6 +302,7 @@ export function changeCallStatusStudent(callStatus,
                 note,
                 callerId,
                 appointmentPayment,
+                dateTest
             )
             .then(res => {
                 closeModal();

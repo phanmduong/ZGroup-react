@@ -17,6 +17,7 @@ import {
     LOADED_CAMPAIGNS_ERROR,
 
 } from "./createRegisterActionType";
+import * as types from "../../constants/actionTypes";
 
 
 const createRegister = {
@@ -28,7 +29,8 @@ const createRegister = {
     courses: [],
     isLoadingCampaigns: false,
     campaigns: [],
-
+    provinces: [],
+    isLoadingProvinces: false,
 
 };
 
@@ -93,7 +95,17 @@ export default function registerReducer(state = createRegister, action) {
                 ...state,
                 isLoadingCampaigns: false,
             };
-
+        case types.BEGIN_LOAD_ALL_PROVINCES_BASE:
+            return {
+                ...state,
+                isLoadingProvinces: true,
+            };
+        case types.LOAD_ALL_PROVINCES_SUCCESS:
+            return {
+                ...state,
+                isLoadingProvinces: false,
+                provinces: action.provinces
+            };
 
         default:
             return state;

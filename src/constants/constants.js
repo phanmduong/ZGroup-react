@@ -111,20 +111,28 @@ export const DAY_OF_WEEK = [
 export const GENDER = [
     {
         name: "",
-        id: ""
+        id: "",
+        label: "",
+        value: "",
     },
     {
         name: "Nam",
-        id: "1"
+        id: "1",
+        label: "Nam",
+        value: "1"
     },
     {
         name: "Nữ",
-        id: "2"
+        id: "2",
+        label: "Nữ",
+        value: "2"
     },
 
     {
         name: "Khác",
-        id: "0"
+        id: "0",
+        label: "Khác",
+        value: "0"
     },
 
 ];

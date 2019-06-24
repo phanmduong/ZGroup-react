@@ -15,6 +15,7 @@ class HistoryCallContainer extends React.Component {
         this.state = {
             note: '',
             appointmentPayment: '',
+            dateTest: ''
         };
     }
 
@@ -23,7 +24,7 @@ class HistoryCallContainer extends React.Component {
     }
 
     changeCallStatusStudent = (callStatus, studentId) => {
-        this.props.studentActions.changeCallStatusStudent(callStatus, studentId, this.state.note, this.state.appointmentPayment);
+        this.props.studentActions.changeCallStatusStudent(callStatus, studentId, this.state.note, this.state.appointmentPayment, this.state.dateTest);
     }
 
     render() {
@@ -65,6 +66,13 @@ class HistoryCallContainer extends React.Component {
                                                         Hẹn nộp tiền: {history.appointment_payment}
                                                     </div>
                                                 }
+                                                {
+                                                    history.date_test &&
+                                                    <div
+                                                        className="timeline-body">
+                                                        Hẹn kiểm tra: {history.date_test}
+                                                    </div>
+                                                }
                                             </div>
                                         </li>
                                     );
@@ -87,6 +95,15 @@ class HistoryCallContainer extends React.Component {
                     }}
                     id="form-appointment_payment"
                     value={this.state.appointmentPayment}
+                />
+                <FormInputDate
+                    label="Hẹn kiểm tra"
+                    name="dateTest"
+                    updateFormData={(event) => {
+                        this.setState({dateTest: event.target.value});
+                    }}
+                    id="form-date_test"
+                    value={this.state.dateTest}
                 />
                 {this.props.isChangingStatusCall ?
                     (

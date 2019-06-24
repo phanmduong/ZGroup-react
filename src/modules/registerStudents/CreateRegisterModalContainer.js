@@ -10,7 +10,8 @@ import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import MemberReactSelectOption from "./MemberReactSelectOption";
 import MemberReactSelectValue from "./MemberReactSelectValue";
-
+import {GENDER} from "../../constants/constants";
+import FormInputDate from "../../components/common/FormInputDate";
 
 
 function addSelectCourse(items) {
@@ -18,10 +19,11 @@ function addSelectCourse(items) {
         return {
             value: item.id,
             label: item.name,
-            icon_url : item.icon_url,
+            icon_url: item.icon_url,
         };
     });
 }
+
 function addSelectCampaign(items) {
     return items && items.map(item => {
         return {
@@ -53,6 +55,7 @@ class CreateRegisterModalContainer extends React.Component {
     componentWillMount() {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
+        this.props.createRegisterActions.loadAllProvinces();
     }
 
     updateFormData(event) {
@@ -75,6 +78,17 @@ class CreateRegisterModalContainer extends React.Component {
         this.props.createRegisterActions.updateFormData(register);
     }
 
+    updateGender = (e) => {
+        let register = {...this.props.register};
+        register["gender"] = e.value;
+        this.props.createRegisterActions.updateFormData(register);
+    }
+    updateAddress = (e) => {
+        let register = {...this.props.register};
+        register["address"] = e.value;
+        this.props.createRegisterActions.updateFormData(register);
+    }
+
     updateClass(e) {
         let register = {...this.props.register};
         register["class_id"] = e.value;
@@ -82,6 +96,7 @@ class CreateRegisterModalContainer extends React.Component {
     }
 
     createRegister(e) {
+
         if (this.props.register.name === null || this.props.register.name === undefined || this.props.register.name === "") {
             helper.showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
@@ -98,9 +113,9 @@ class CreateRegisterModalContainer extends React.Component {
         //     helper.showTypeNotification("Vui lòng chọn lớp", 'warning');
         //     return;
         // }
-        else {
-            this.props.createRegisterActions.createRegister(this.props.register, this.onHide);
-        }
+
+        this.props.createRegisterActions.createRegister(this.props.register, this.onHide);
+
         e.preventDefault();
     }
 
@@ -119,8 +134,25 @@ class CreateRegisterModalContainer extends React.Component {
         );
     }
 
+    getDataAddress = () => {
+        if (!this.props.provinces || this.props.provinces.length <= 0) return;
+        let address = [];
+
+        this.props.provinces.forEach((province) => {
+            province.districts.forEach((district) => {
+                address = [...address, {
+                    value: `${district.type} ${district.name}, ${province.type} ${province.name}`,
+                    label: `${district.type} ${district.name}, ${province.type} ${province.name}`,
+                }]
+            })
+
+        });
+        return address;
+    }
+
     render() {
         const {register} = this.props;
+
         return (
             <form role="form" id="form-info-student">
                 {this.props.isLoadingCourses || this.props.isLoadingCampaigns ? <Loading/>
@@ -189,7 +221,73 @@ class CreateRegisterModalContainer extends React.Component {
                                 onChange={this.updateCampaign}
                                 placeholder="Chọn chiến dịch"
                             />
-
+                            <div className="panel panel-default">
+                                <div className="panel-heading" role="tab"
+                                     id="headingTwo">
+                                    <a className="collapsed" role="button"
+                                       data-toggle="collapse"
+                                       data-parent="#accordion"
+                                       href="#collapseTwo" aria-expanded="false"
+                                       aria-controls="collapseTwo">
+                                        <h4 className="panel-title">
+                                            Mở rộng
+                                            <i className="material-icons">keyboard_arrow_down</i>
+                                        </h4>
+                                    </a>
+                                </div>
+                                <div id="collapseTwo"
+                                     className="panel-collapse collapse"
+                                     role="tabpanel"
+                                     aria-labelledby="headingTwo"
+                                     aria-expanded="false"
+                                     style={{height: '0px'}}>
+                                    <div className="panel-body">
+                                        <ReactSelect
+                                            value={register.gender}
+                                            options={GENDER}
+                                            onChange={this.updateGender}
+                                            placeholder="Chọn giới tính"
+                                        />
+                                        <FormInputDate
+                                            label="Chọn ngày sinh"
+                                            value={register.dob}
+                                            updateFormData={this.updateFormData}
+                                            id="form-change-dob"
+                                            name="dob"
+                                        />
+                                        <ReactSelect
+                                            value={register.address}
+                                            options={this.getDataAddress()}
+                                            onChange={this.updateAddress}
+                                            placeholder="Địa chỉ"
+                                        />
+                                        <FormInputText
+                                            name="university"
+                                            label="Trường học"
+                                            value={register.university}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <FormInputText
+                                            name="work"
+                                            label="Nơi làm việc"
+                                            value={register.work}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <FormInputText
+                                            name="how_know"
+                                            label="Lý do biết đến"
+                                            value={register.how_know}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <FormInputText
+                                            name="facebook"
+                                            label="Link Facebook"
+                                            value={register.facebook}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </Modal.Body>
                         <Modal.Footer>
                             {this.props.isSavingRegister ? (
@@ -208,7 +306,7 @@ class CreateRegisterModalContainer extends React.Component {
                         </Modal.Footer>
                     </Modal>
                 }
-                </form>
+            </form>
         );
     }
 }
@@ -220,6 +318,7 @@ CreateRegisterModalContainer.propTypes = {
     campaigns: PropTypes.array.isRequired,
     courses: PropTypes.array.isRequired,
     classes: PropTypes.array.isRequired,
+    provinces: PropTypes.array.isRequired,
     isLoadingCourses: PropTypes.bool.isRequired,
     isSavingRegister: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -227,7 +326,7 @@ CreateRegisterModalContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {showCreateRegisterModal, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns} = state.createRegister;
+    const {showCreateRegisterModal, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         showCreateRegisterModal,
         isLoading,
@@ -237,6 +336,7 @@ function mapStateToProps(state) {
         isLoadingCourses,
         isLoadingCampaigns,
         campaigns,
+        provinces,
         isSavingRegister: state.registerStudents.isSavingRegister,
 
     };

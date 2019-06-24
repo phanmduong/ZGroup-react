@@ -17,6 +17,7 @@ import {
 } from "./createRegisterActionType";
 import * as registerStudentsApi from "./registerStudentsApi";
 import * as helper from "../../helpers/helper";
+import * as types from "../../constants/actionTypes";
 
 export const showCreateRegisterModal = showCreateRegisterModal => {
     return dispatch => {
@@ -124,6 +125,21 @@ export function loadCampaigns() {
                 });
             });
 
+    };
+}
+
+export function loadAllProvinces() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_PROVINCES_BASE
+        });
+        registerStudentsApi.getAllProvinces()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_ALL_PROVINCES_SUCCESS,
+                    provinces: res.data.data.provinces
+                });
+            });
     };
 }
 

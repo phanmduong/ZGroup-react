@@ -75,6 +75,7 @@ class RegisterListContainer extends React.Component {
             allClassFilter: [],
             selectedStudent: {},
             query_coupon: "",
+            dateTest: ""
         };
 
         this.isWaitListPage = false;
@@ -86,6 +87,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadSalerFilter();
         this.props.registerActions.loadCampaignFilter();
         this.props.registerActions.loadBaseFilter();
+
         if (this.props.location.query && this.props.location.query.call_status) {
             this.setState({selectedTeleCallStatus: this.props.location.query.call_status});
         }
@@ -205,6 +207,7 @@ class RegisterListContainer extends React.Component {
                 time: {
                     startTime: '',
                     endTime: '',
+                    appointmentPayment: ''
                 },
             });
             if (nextProps.route.path == '/sales/waitlist') {
@@ -288,9 +291,9 @@ class RegisterListContainer extends React.Component {
         });
     };
 
-    changeMarkRegister = (register_id , bookmark) => {
+    changeMarkRegister = (register_id, bookmark) => {
 
-            this.props.registerActions.changeMarkRegister(register_id ,bookmark);
+        this.props.registerActions.changeMarkRegister(register_id, bookmark);
 
     };
 
@@ -704,8 +707,8 @@ class RegisterListContainer extends React.Component {
     };
 
     changeCallStatusStudent = (callStatus, studentId) => {
-        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment);
-    };
+        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest);
+    }
 
     deleteRegister = (register) => {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
@@ -734,7 +737,7 @@ class RegisterListContainer extends React.Component {
             query_coupon: this.state.query_coupon,
             exportExcel: this.closeLoadingModal
         });
-    };
+    }
 
     closeLoadingModal = () => {
 
@@ -1449,7 +1452,7 @@ class RegisterListContainer extends React.Component {
                                                                     </div>
                                                                 }
                                                                 {
-                                                                    history.appointment_payment &&
+                                                                    history.date_test &&
                                                                     <div
                                                                         className="timeline-body">
                                                                         Hẹn nộp
@@ -1484,6 +1487,15 @@ class RegisterListContainer extends React.Component {
                             }}
                             id="form-appointment_payment"
                             value={this.state.appointmentPayment}
+                        />
+                        <FormInputDate
+                            label="Hẹn kiểm tra"
+                            name="dateTest"
+                            updateFormData={(event) => {
+                                this.setState({dateTest: event.target.value});
+                            }}
+                            id="form-date_test"
+                            value={this.state.dateTest}
                         />
                         {this.props.isChangingStatus ?
                             (
@@ -1598,7 +1610,6 @@ class RegisterListContainer extends React.Component {
                     info={this.state.selectedStudent}
                     isCommitting={this.props.isCommittingInfoStudent}
                 />
-                <CreateRegisterModalContainer/>
 
             </div>
         );

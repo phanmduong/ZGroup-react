@@ -3,35 +3,36 @@ import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
 export function getAllRegisterStudent(data) {
-    let {page,
-        genId,
-        search,
-        salerId,
+    let {
+        page,
+        selectGenId,
+        query,
+        selectedSalerId,
         campaignId,
-        classId,
-        paid_status,
-        class_status,
+        selectedClassId,
+        selectedMoneyFilter,
+        selectedClassStatus,
         startTime,
         endTime,
-        baseId,
-        appointment_payment,
+        selectedBaseId,
+        appointmentPayment,
         query_coupon,
-        } = data;
-    let base_id = baseId;
+    } = data;
+    let base_id = selectedBaseId;
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
         "page=" + page +
-        "&gen_id=" + genId +
-        "&search=" + search +
-        "&saler_id=" + salerId +
+        "&gen_id=" + selectGenId +
+        "&search=" + query +
+        "&saler_id=" + selectedSalerId +
         '&campaign_id=' + campaignId +
-        "&class_id=" + classId +
-        "&status=" + paid_status +
+        "&class_id=" + selectedClassId +
+        "&status=" + selectedMoneyFilter +
         "&limit=-1" +
         "&base_id=" + base_id +
-        "&appointment_payment=" + appointment_payment +
+        "&appointment_payment=" + appointmentPayment +
         "&query_coupon=" + query_coupon +
-        "&type=" + class_status;
+        "&type=" + selectedClassStatus;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
     }
@@ -40,7 +41,7 @@ export function getAllRegisterStudent(data) {
 }
 
 export function getRegisterStudent(page = 1, limit, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
-                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon,tele_call_status) {
+                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon, tele_call_status) {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -111,10 +112,10 @@ export function historyCallStudent(studentId, registerId) {
 export function changeMarkRegister(register_id, bookmark) {
     let token = localStorage.getItem('token');
     let url = `${env.API_URL}/mark-register?register_id=${register_id}&bookmark=${bookmark == true ? 1 : 0}&token=${token}`;
-    return axios.post(url, );
+    return axios.post(url,);
 }
 
-export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '') {
+export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '', dateTest) {
 
     let url = env.MANAGE_API_URL;
 
@@ -139,6 +140,7 @@ export function changeCallStatusStudent(callStatus, studentId, telecallId, genId
             note: note,
             status: callStatus,
             appointment_payment: appointmentPayment,
+            date_test: dateTest,
         }
     );
 }
@@ -281,4 +283,13 @@ export function uploadDistributionLead(leadIds) {
     return axios.post(url, {
         lead_ids: leadIds
     });
+}
+
+export function getAllProvinces() {
+    let url = env.MANAGE_API_URL + "/province/all";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
 }
