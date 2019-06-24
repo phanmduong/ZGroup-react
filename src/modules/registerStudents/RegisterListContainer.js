@@ -45,6 +45,7 @@ class RegisterListContainer extends React.Component {
             selectedBaseId: '',
             selectedMoneyFilter: '',
             selectedClassStatus: '',
+            selectedBookmarkStatus: '',
             selectedTeleCallStatus: '',
             classFilter: [],
             salerFilter: [],
@@ -60,6 +61,11 @@ class RegisterListContainer extends React.Component {
                 {value: '', label: 'Tất cả',},
                 {value: 'active', label: 'Hoạt động',},
                 {value: 'waiting', label: 'Chờ',},
+            ],
+            bookmarkFilter: [
+                {value: '', label: 'Tất cả',},
+                {value: '1', label: 'Đã đánh dấu',},
+                {value: '0', label: 'Chưa đánh dấu',},
             ],
             teleCallStatus: [
                 {value: '', label: 'Tất cả̉',},
@@ -188,7 +194,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
             this.setState({
                 page: 1,
@@ -280,7 +287,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         this.setState({selectedClassId: res, page: 1});
     };
@@ -318,7 +326,8 @@ class RegisterListContainer extends React.Component {
                 obj ? obj.value : '',
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         this.setState({
             selectedBaseId: res,
@@ -349,7 +358,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         this.setState({selectedSalerId: res, page: 1});
     };
@@ -377,7 +387,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         this.setState({campaignId: res, page: 1});
     };
@@ -400,7 +411,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         this.setState({selectedMoneyFilter: res, page: 1});
     };
@@ -428,7 +440,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
-            this.state.selectedTeleCallStatus
+            this.state.selectedTeleCallStatus,
+            this.state.selectedBookmarkStatus
         );
 
         this.setState({
@@ -456,7 +469,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
-            res
+            res,
+            this.state.selectedBookmarkStatus
         );
 
         this.setState({
@@ -500,7 +514,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         } else {
             this.setState({time: time});
@@ -622,7 +637,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
-            this.state.selectedTeleCallStatus
+            this.state.selectedTeleCallStatus,
+            this.state.selectedBookmarkStatus
         );
     };
 
@@ -649,9 +665,37 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         }.bind(this), 500);
+    };
+
+    onBookmarkStatusFilterChange = (obj) => {
+        let res = obj ? obj.value : '';
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.limit,
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
+            this.state.query_coupon,
+            this.state.selectedTeleCallStatus,
+            res
+        );
+
+        this.setState({
+            selectedBookmarkStatus: res,
+            page: 1
+        });
     };
 
     searchByCoupon = (value) => {
@@ -677,7 +721,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedBaseId,
                 this.state.time.appointmentPayment,
                 value,
-                this.state.selectedTeleCallStatus
+                this.state.selectedTeleCallStatus,
+                this.state.selectedBookmarkStatus
             );
         }.bind(this), 500);
     };
@@ -701,7 +746,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
-            this.state.selectedTeleCallStatus
+            this.state.selectedTeleCallStatus,
+            this.state.selectedBookmarkStatus
         );
         this.props.registerActions.loadClassFilter(value);
     };
@@ -735,6 +781,7 @@ class RegisterListContainer extends React.Component {
             selectedBaseId: this.state.selectedBaseId,
             appointmentPayment: this.state.time.appointmentPayment,
             query_coupon: this.state.query_coupon,
+            bookmark: this.state.selectedBookmarkStatus,
             exportExcel: this.closeLoadingModal
         });
     }
@@ -839,7 +886,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedBaseId,
             this.state.time.appointmentPayment,
             this.state.query_coupon,
-            this.state.selectedTeleCallStatus
+            this.state.selectedTeleCallStatus,
+            this.state.selectedBookmarkStatus
         );
     };
 
@@ -1083,10 +1131,23 @@ class RegisterListContainer extends React.Component {
                                                 </div>
                                                 <div className="col-md-3">
                                                     <Search
-                                                        className="col-sm-12"
                                                         onChange={this.searchByCoupon}
                                                         value={this.state.query_coupon}
-                                                        placeholder="Tìm kiếm theo coupon"
+                                                        label="Tìm kiếm theo coupon"
+                                                        placeholder="Nhập coupon"
+                                                    />
+                                                </div>
+                                                <div className="col-md-3 form-group">
+                                                    <label>
+                                                        Theo đánh dấu
+                                                    </label>
+                                                    <ReactSelect
+                                                        disabled={this.props.isLoading}
+                                                        options={this.state.bookmarkFilter}
+                                                        onChange={this.onBookmarkStatusFilterChange}
+                                                        value={this.state.selectedBookmarkStatus}
+                                                        defaultMessage="Tuỳ chọn"
+                                                        name="filter_bookmark_status"
                                                     />
                                                 </div>
                                             </div>

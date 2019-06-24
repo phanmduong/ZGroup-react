@@ -10,6 +10,7 @@ class Search extends React.Component {
 		return (
 			<div className={this.props.className}>
 				<div className="form-group">
+					{this.props.label && <label>Tìm kiếm theo coupon</label>}
 					<input
 						className="form-control"
 						placeholder={this.props.placeholder}
@@ -29,6 +30,7 @@ Search.propTypes = {
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
+	label: PropTypes.string,
 	disabled: PropTypes.bool
 };
 

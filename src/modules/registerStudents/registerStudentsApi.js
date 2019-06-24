@@ -17,7 +17,9 @@ export function getAllRegisterStudent(data) {
         selectedBaseId,
         appointmentPayment,
         query_coupon,
+        bookmark
     } = data;
+
     let base_id = selectedBaseId;
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
@@ -32,6 +34,7 @@ export function getAllRegisterStudent(data) {
         "&base_id=" + base_id +
         "&appointment_payment=" + appointmentPayment +
         "&query_coupon=" + query_coupon +
+        "&bookmark=" + bookmark +
         "&type=" + selectedClassStatus;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
@@ -41,7 +44,7 @@ export function getAllRegisterStudent(data) {
 }
 
 export function getRegisterStudent(page = 1, limit, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
-                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon, tele_call_status) {
+                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon, tele_call_status, bookmark = '') {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -66,6 +69,7 @@ export function getRegisterStudent(page = 1, limit, genId, search = '', salerId 
         "&appointment_payment=" + appointment_payment +
         "&type=" + class_status +
         "&search_coupon=" + query_coupon +
+        "&bookmark=" + bookmark +
         "&tele_call_status=" + tele_call_status
     ;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
