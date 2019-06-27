@@ -54,7 +54,7 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     if (base.id === action.baseId) {
                         return Object.assign({}, base, {center: 1});
                     } else {
-                        return Object.assign({}, base, {center: 0});
+                        return {...base}
                     }
                 })
             });
