@@ -14,8 +14,9 @@ import {NO_AVATAR} from "../../constants/env";
 import FormInputText from "../../components/common/FormInputText";
 import Checkbox from "../../components/common/Checkbox";
 import {Modal} from "react-bootstrap";
-import {confirm,isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
-
+import {confirm, isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
+import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
+import * as createRegisterActions from '../registerStudents/createRegisterActions';
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -407,9 +408,15 @@ class LeadContainer extends React.Component {
         );
     }
 
+    openCreateRegisterModal = (user) => {
+        this.props.createRegisterActions.showCreateRegisterModal(true);
+        this.props.createRegisterActions.updateFormData(user);
+    };
+
     render() {
         return (
             <div>
+                <CreateRegisterModalContainer/>
                 <div className="card">
                     <div className="card-content">
                         {this.state.isDistribution ?
@@ -619,6 +626,7 @@ class LeadContainer extends React.Component {
                                     isDistribution={this.state.isDistribution}
                                     selectedLeads={this.state.selectedLeads}
                                     changeStatusLead={this.changeStatusLead}
+                                    openCreateRegisterModal={this.openCreateRegisterModal}
                                     removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
                                 />
                             </div>
@@ -687,7 +695,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        leadActions: bindActionCreators(leadActions, dispatch)
+        leadActions: bindActionCreators(leadActions, dispatch),
+        createRegisterActions: bindActionCreators(createRegisterActions, dispatch)
     };
 }
 

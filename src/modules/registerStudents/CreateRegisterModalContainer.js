@@ -326,7 +326,7 @@ CreateRegisterModalContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {showCreateRegisterModal, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {showCreateRegisterModal, isSavingRegister, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         showCreateRegisterModal,
         isLoading,
@@ -337,7 +337,7 @@ function mapStateToProps(state) {
         isLoadingCampaigns,
         campaigns,
         provinces,
-        isSavingRegister: state.registerStudents.isSavingRegister,
+        isSavingRegister,
 
     };
 
