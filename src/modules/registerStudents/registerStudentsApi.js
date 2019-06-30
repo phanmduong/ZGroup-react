@@ -261,6 +261,14 @@ export function saveRegisterApi(register) {
         email: register.email,
         class_id: register.class_id,
         coupon: register.coupon,
+        dob: register.dob,
+        address: register.address,
+        facebook: register.facebook,
+        gender: register.gender,
+        how_know: register.how_know,
+        university: register.university,
+        work: register.work,
+        campaign_id: register.campaign_id,
     });
 }
 
