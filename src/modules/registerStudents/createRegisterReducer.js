@@ -14,7 +14,7 @@ import {
     // SAVED_REGISTER_ERROR,
     BEGIN_LOAD_CAMPAIGNS,
     LOADED_CAMPAIGNS_SUCCESS,
-    LOADED_CAMPAIGNS_ERROR,
+    LOADED_CAMPAIGNS_ERROR, BEGIN_SAVE_REGISTER2, SAVED_REGISTER_SUCCESS2, SAVED_REGISTER_ERROR2,
 
 } from "./createRegisterActionType";
 import * as types from "../../constants/actionTypes";
@@ -31,6 +31,7 @@ const createRegister = {
     campaigns: [],
     provinces: [],
     isLoadingProvinces: false,
+    isSavingRegister: false
 
 };
 
@@ -90,6 +91,7 @@ export default function registerReducer(state = createRegister, action) {
                 isLoadingCampaigns: false,
                 campaigns: action.campaigns,
             };
+
         case LOADED_CAMPAIGNS_ERROR:
             return {
                 ...state,
@@ -106,7 +108,23 @@ export default function registerReducer(state = createRegister, action) {
                 isLoadingProvinces: false,
                 provinces: action.provinces
             };
+        case BEGIN_SAVE_REGISTER2:
+            return {
+                ...state,
+                isSavingRegister: true,
 
+            };
+        case  SAVED_REGISTER_SUCCESS2:
+            return {
+                ...state,
+                isSavingRegister: false,
+                // ...initialState.registerStudents
+            };
+        case SAVED_REGISTER_ERROR2:
+            return {
+                ...state,
+                isSavingRegister: false,
+            };
         default:
             return state;
     }

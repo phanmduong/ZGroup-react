@@ -189,14 +189,34 @@ class ListLead extends React.Component {
                                                             delete={() => this.props.removeLead(lead)}
                                                             edit={() => this.openEditModal(lead)}
                                                             disabledEdit={this.props.showSelectedLead}
-                                                        />
+                                                        >
+                                                            <a
+                                                                data-toggle="tooltip"
+                                                                title="Tạo đăng kí"
+                                                                onClick={() => this.props.openCreateRegisterModal(lead)}
+                                                                type="button"
+                                                                rel="tooltip"
+                                                            >
+                                                                <i className="material-icons">add</i>
+                                                            </a>
+                                                        </ButtonGroupAction>
                                                         :
                                                         <ButtonGroupAction
                                                             disabledDelete={!this.props.showSelectedLead}
                                                             delete={() => this.props.deleteLeadSelected(lead)}
                                                             edit={() => this.openEditModal(lead)}
                                                             disabledEdit={this.props.showSelectedLead}
-                                                        />
+                                                        >
+                                                            <a
+                                                                data-toggle="tooltip"
+                                                                title="Tạo đăng kí"
+                                                                onClick={() => this.props.openCreateRegisterModal(lead)}
+                                                                type="button"
+                                                                rel="tooltip"
+                                                            >
+                                                                <i className="material-icons">add</i>
+                                                            </a>
+                                                        </ButtonGroupAction>
                                                 }
                                             </td>
                                         </tr>

@@ -12,7 +12,7 @@ import {
     BEGIN_SAVE_REGISTER,
     LOADED_CAMPAIGNS_ERROR,
     BEGIN_LOAD_CAMPAIGNS,
-    LOADED_CAMPAIGNS_SUCCESS,
+    LOADED_CAMPAIGNS_SUCCESS, BEGIN_SAVE_REGISTER2, SAVED_REGISTER_SUCCESS2, SAVED_REGISTER_ERROR2,
 
 } from "./createRegisterActionType";
 import * as registerStudentsApi from "./registerStudentsApi";
@@ -82,12 +82,17 @@ export function loadClassesByCourse(course_id) {
 export function createRegister(register, hide) {
     return function (dispatch) {
         dispatch({type: BEGIN_SAVE_REGISTER});
+        dispatch({type: BEGIN_SAVE_REGISTER2});
         registerStudentsApi.saveRegisterApi(register)
             .then(
                 (res) => {
                     if (res.data.status) {
                         dispatch({
                             type: SAVED_REGISTER_SUCCESS,
+                            register: res.data.data.register,
+                        });
+                        dispatch({
+                            type: SAVED_REGISTER_SUCCESS2,
                             register: res.data.data.register,
                         });
                         hide();
@@ -101,6 +106,9 @@ export function createRegister(register, hide) {
             .catch(() => {
                 dispatch({
                     type: SAVED_REGISTER_ERROR,
+                });
+                dispatch({
+                    type: SAVED_REGISTER_ERROR2,
                 });
             });
 

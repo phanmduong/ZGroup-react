@@ -13,6 +13,7 @@ import Loading from '../../components/common/Loading';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
+import {GENDER} from "../../constants/constants";
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
@@ -94,6 +95,7 @@ class InfoStudentContainer extends React.Component {
 
     render() {
         this.path = this.props.location.pathname;
+        let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
         return (
             <div>
                 <div className="row">
@@ -172,6 +174,24 @@ class InfoStudentContainer extends React.Component {
                                             }
                                         </div>
                                     }
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-content">
+                                        <div className="tab-content">
+                                            <h4 className="card-title"><strong>Thông tin</strong></h4>
+                                            <p>Giới tính: <strong>{gender ? gender.name : ""}</strong></p>
+                                            <p>Ngày sinh: <strong>{this.props.student.dob}</strong></p>
+                                            <p>Địa chỉ: <strong>{this.props.student.address}</strong></p>
+                                            <p>Trường học: <strong>{this.props.student.university}</strong></p>
+                                            <p>Nơi làm việc: <strong>{this.props.student.work}</strong></p>
+                                            <p>Lý do biết đến: <strong>{this.props.student.how_know}</strong></p>
+                                            <p>Link fb: {this.props.student.facebook ? <a
+                                                target="_blank"
+                                                href={this.props.student.facebook}>Ấn vào link</a> : ""}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-md-12">

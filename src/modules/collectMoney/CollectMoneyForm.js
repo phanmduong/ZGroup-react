@@ -23,7 +23,7 @@ class CollectMoneyForm extends React.Component {
                 id: props.register.id,
                 payment_method: props.staff.id == 228 ? 'internet_banking' : '',
                 money: 0,
-                note: 0,
+                note: "",
                 code: props.register.is_paid ? props.register.code : (
                     isClassWait(props.register.class_type)
                         ? props.nextWaitingCode
