@@ -4,6 +4,7 @@ import {Modal} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
+import BubbleChart from "./BubbleChart";
 
 // import {GENDER} from "../../constants/constants";
 // import BubbleChart from "./Bubble";
@@ -108,7 +109,7 @@ class GenOverviewContainer extends React.Component {
         );
         inp.sort((a,b)=>{
             return (b.tc - a.tc) || (b.ta - a.ta);
-        })
+        });
         let labels = [];
         let ta = [];
         let tc = [];
@@ -135,6 +136,35 @@ class GenOverviewContainer extends React.Component {
     };
 
 
+    getBubbleChart = (inp, id, text) => {
+
+            inp = this.sortObj(inp);
+            let data = [];
+            inp.forEach((obj) => {
+                let key = obj[0];
+                let val = obj[1];
+
+                if (key.length > 3) {
+                    data.push({
+                        Name: key,
+                        Count: val
+                    });
+                }
+            });
+            return (
+                <div className="margin-vertical-30">
+                    <h5 className="bold">{text}</h5>
+                    <BubbleChart
+                        data={data}
+                        id={"bubble_chart_" + id}
+                        width={852}
+                        height={500}
+                    />
+                </div>
+            );
+
+    }
+
     render() {
 
         let {years, universities, addresses, genders, courses, rating} = this.props.overview;
@@ -145,15 +175,17 @@ class GenOverviewContainer extends React.Component {
                     <Modal.Title><h4 className="bold">{this.props.gen.description || "Overview"}</h4></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+
                     {
                         this.props.isLoadingOverview ? <Loading/> : (
                             <div>
                                 {this.getGenderOverview(genders)}
                                 {this.getBarchatOverview(years, 1, "Năm sinh")}
-                                {this.getBarchatOverview(universities, 2, "Trường đại học")}
-                                {this.getBarchatOverview(addresses, 3, "Quận")}
+                                {this.getBubbleChart(universities, 2, "Trường đại học")}
+                                {this.getBubbleChart(addresses, 3, "Quận")}
                                 {this.getBarchatOverview(courses, 4, "Môn học")}
                                 {this.getRatingOverview(rating, 5, "Đánh giá")}
+
                             </div>
                         )
                     }
