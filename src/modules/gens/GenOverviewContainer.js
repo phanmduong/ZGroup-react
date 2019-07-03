@@ -5,6 +5,8 @@ import Loading from "../../components/common/Loading";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
 import BubbleChart from "./BubbleChart";
+import {saveContentToFile} from "../../helpers/helper";
+import TooltipButton from "../../components/common/TooltipButton";
 
 // import {GENDER} from "../../constants/constants";
 // import BubbleChart from "./Bubble";
@@ -107,7 +109,7 @@ class GenOverviewContainer extends React.Component {
                 <div>Không có dữ liệu</div>
             </div>
         );
-        inp.sort((a,b)=>{
+        inp.sort((a, b) => {
             return (b.tc - a.tc) || (b.ta - a.ta);
         });
         let labels = [];
@@ -135,35 +137,53 @@ class GenOverviewContainer extends React.Component {
         );
     };
 
+    saveChart = (id) => {
+        let svg = document.getElementById(id).children[0].outerHTML;
+        saveContentToFile(svg, 'chart.svg');
+    };
 
     getBubbleChart = (inp, id, text) => {
 
-            inp = this.sortObj(inp);
-            let data = [];
-            inp.forEach((obj) => {
-                let key = obj[0];
-                let val = obj[1];
+        inp = this.sortObj(inp);
+        let data = [];
+        inp.forEach((obj) => {
+            let key = obj[0];
+            let val = obj[1];
 
-                if (key.length > 3) {
-                    data.push({
-                        Name: key,
-                        Count: val
-                    });
-                }
-            });
-            return (
-                <div className="margin-vertical-30">
+            if (key.length > 3) {
+                data.push({
+                    Name: key,
+                    Count: val
+                });
+            }
+        });
+
+        let chart_id = "bubble_chart_" + id;
+
+        return (
+            <div className="margin-vertical-30">
+                <div className="flex flex-align-items-center">
                     <h5 className="bold">{text}</h5>
-                    <BubbleChart
-                        data={data}
-                        id={"bubble_chart_" + id}
-                        width={852}
-                        height={500}
-                    />
+                    <TooltipButton text="Lưu " placement="top">
+                        <button onClick={() => this.saveChart(chart_id)}
+                                className="btn btn-rose btn-round btn-xs button-add none-margin" type="button"
+                                data-toggle="dropdown">
+                            <i className="material-icons"
+                               style={{width: 14, marginLeft: -4, paddingTop: 2,}}
+                            >file_download</i>
+                        </button>
+                    </TooltipButton>
                 </div>
-            );
+                <BubbleChart
+                    data={data}
+                    id={chart_id}
+                    width={852}
+                    height={500}
+                />
+            </div>
+        );
 
-    }
+    };
 
     render() {
 

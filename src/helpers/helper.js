@@ -962,6 +962,14 @@ export function saveWorkBookToExcel(wb, filename, bookType = "xlsx") {
     }
 }
 
+export function saveContentToFile(content, filename) {
+    try {
+        FILE_SAVER.saveAs(new Blob([content], {type:"image/svg+xml;charset=utf-8"}), filename);
+    } catch (e) {
+        if (typeof console != 'undefined') console.log(e, content);
+    }
+}
+
 export function renderExcelColumnArray(arr) {
     return arr.map((obj) => {
         return {wch: obj};
