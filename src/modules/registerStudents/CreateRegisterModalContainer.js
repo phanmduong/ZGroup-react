@@ -285,6 +285,20 @@ class CreateRegisterModalContainer extends React.Component {
                                             value={register.facebook}
                                             updateFormData={this.updateFormData}
                                         />
+                                        <div className="form-group">
+                                            <label className="label-control">Mô tả</label>
+                                            <textarea
+                                                type="text"
+                                                rows={5}
+                                                className="form-control"
+                                                value={
+                                                    register.description ? register.description : ""
+                                                }
+                                                name="description"
+                                                onChange={this.updateFormData}
+                                            />
+                                            <span className="material-input"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

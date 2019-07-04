@@ -273,6 +273,7 @@ export function saveRegisterApi(register) {
         university: register.university,
         work: register.work,
         campaign_id: register.campaign_id,
+        description: register.description
     });
 }
 

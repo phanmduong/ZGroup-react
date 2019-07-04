@@ -71,6 +71,14 @@ export function editStudent(student) {
         name: student.name,
         email: student.email,
         phone: student.phone,
+        gender: student.gender,
+        dob: student.dob,
+        university: student.university,
+        work: student.work,
+        how_know: student.how_know,
+        facebook: student.facebook,
+        description: student.description,
+        address: student.address,
     });
 }
 

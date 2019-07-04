@@ -14,6 +14,10 @@ import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
 import {GENDER} from "../../constants/constants";
+import FormInputDate from "../../components/common/FormInputDate";
+import ReactSelect from "react-select";
+import * as createRegisterActions from "../registerStudents/createRegisterActions";
+import {isEmptyInput} from "../../helpers/helper";
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
@@ -37,6 +41,7 @@ class InfoStudentContainer extends React.Component {
 
     componentWillMount() {
         this.props.studentActions.loadInfoStudent(this.studentId);
+        this.props.createRegisterActions.loadAllProvinces();
     }
 
     componentDidUpdate() {
@@ -91,6 +96,50 @@ class InfoStudentContainer extends React.Component {
     handleFileUpload(event, image) {
         let file = event.target.files[0];
         this.props.studentActions.uploadImage(file, this.studentId, image);
+    }
+
+    updateGender = (e) => {
+        let student = {...this.state.student};
+        student["gender"] = e.value;
+        this.setState(
+            {
+                student: student
+            }
+        );
+    }
+
+    updateAddress = (e) => {
+        let student = {...this.state.student};
+        student["address"] = e.value;
+        this.setState(
+            {
+                student: student
+            }
+        );
+    }
+
+    getDataAddress = () => {
+        if (!this.props.provinces || this.props.provinces.length <= 0) return;
+        let address = [];
+
+        this.props.provinces.forEach((province) => {
+            province.districts.forEach((district) => {
+                address = [...address, {
+                    value: `${district.type} ${district.name}, ${province.type} ${province.name}`,
+                    label: `${district.type} ${district.name}, ${province.type} ${province.name}`,
+                }]
+            })
+
+        });
+
+        if (!isEmptyInput(this.state.student.address)) {
+            address = [...address, {
+                value: this.state.student.address,
+                label: this.state.student.address,
+            }];
+        }
+
+        return address;
     }
 
     render() {
@@ -190,7 +239,28 @@ class InfoStudentContainer extends React.Component {
                                             <p>Link fb: {this.props.student.facebook ? <a
                                                 target="_blank"
                                                 href={this.props.student.facebook}>Ấn vào link</a> : ""}</p>
+                                            <div>Mô tả: <strong
+                                                style={{whiteSpace: "pre-wrap"}}>{this.props.student.description}</strong>
+                                            </div>
                                         </div>
+                                        <div style={{width: "100%"}}
+                                             className="flex flex-align-items-center flex-justify-content-center">
+                                            {this.props.isEditingStudent ?
+                                                (
+                                                    <button
+                                                        className="btn btn-fill btn-rose disabled"
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/> Đang sửa
+                                                    </button>
+                                                )
+                                                :
+                                                <button className="btn btn-rose"
+                                                        onClick={this.openModal}
+                                                >Sửa
+                                                </button>
+                                            }
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -344,6 +414,63 @@ class InfoStudentContainer extends React.Component {
                                 type="text"
                                 updateFormData={this.updateFormData}
                             />
+                            <ReactSelect
+                                value={this.state.student.gender}
+                                options={GENDER}
+                                onChange={this.updateGender}
+                                placeholder="Chọn giới tính"
+                            />
+                            <FormInputDate
+                                label="Chọn ngày sinh"
+                                value={this.state.student.dob}
+                                updateFormData={this.updateFormData}
+                                id="form-change-dob"
+                                name="dob"
+                            />
+                            <ReactSelect
+                                value={this.state.student.address}
+                                options={this.getDataAddress()}
+                                onChange={this.updateAddress}
+                                placeholder="Địa chỉ"
+                            />
+                            <FormInputText
+                                name="university"
+                                label="Trường học"
+                                value={this.state.student.university}
+                                updateFormData={this.updateFormData}
+                            />
+                            <FormInputText
+                                name="work"
+                                label="Nơi làm việc"
+                                value={this.state.student.work}
+                                updateFormData={this.updateFormData}
+                            />
+                            <FormInputText
+                                name="how_know"
+                                label="Lý do biết đến"
+                                value={this.state.student.how_know}
+                                updateFormData={this.updateFormData}
+                            />
+                            <FormInputText
+                                name="facebook"
+                                label="Link Facebook"
+                                value={this.state.student.facebook}
+                                updateFormData={this.updateFormData}
+                            />
+                            <div className="form-group">
+                                <label className="label-control">Mô tả</label>
+                                <textarea
+                                    type="text"
+                                    rows={5}
+                                    className="form-control"
+                                    value={
+                                        this.state.student.description ? this.state.student.description : ""
+                                    }
+                                    name="description"
+                                    onChange={this.updateFormData}
+                                />
+                                <span className="material-input"/>
+                            </div>
                             {this.props.isEditingStudent ?
                                 (
                                     <button
@@ -382,6 +509,7 @@ InfoStudentContainer.propTypes = {
     pathname: PropTypes.string,
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    provinces: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -390,12 +518,14 @@ function mapStateToProps(state) {
         isLoadingStudent: state.infoStudent.isLoadingStudent,
         isEditingStudent: state.infoStudent.isEditingStudent,
         isChangingPassword: state.infoStudent.isChangingPassword,
+        provinces: state.createRegister.provinces
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        studentActions: bindActionCreators(studentActions, dispatch)
+        studentActions: bindActionCreators(studentActions, dispatch),
+        createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
     };
 }
 
