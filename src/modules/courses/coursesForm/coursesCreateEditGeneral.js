@@ -9,8 +9,8 @@ import * as helper from '../../../helpers/helper';
 // import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 import ReactSelect from 'react-select';
 import {CirclePicker} from 'react-color';
-import ReactEditor from '../../../components/common/ReactEditor';
-import {linkUploadImageEditor} from '../../../constants/constants';
+// import ReactEditor from '../../../components/common/ReactEditor';
+// import {linkUploadImageEditor} from '../../../constants/constants';
 import Loading from "../../../components/common/Loading";
 import ImageUploader from "../../../components/common/ImageUploader";
 import TooltipButton from "../../../components/common/TooltipButton";
@@ -22,7 +22,8 @@ class coursesCreateEditGeneral extends React.Component {
         super(props, context);
 
         this.state = {
-            showCategoryModal: false
+            showCategoryModal: false,
+            tabEditorDetail: 1
         };
 
         this.updateFormData = this.updateFormData.bind(this);
@@ -51,6 +52,12 @@ class coursesCreateEditGeneral extends React.Component {
     updateEditor(content) {
         let data = {...this.props.data};
         data.detail = content;
+        this.props.coursesActions.updateData(data);
+    }
+
+    updateEditorShortDetail = (content) => {
+        let data = {...this.props.data};
+        data.short_detail = content;
         this.props.coursesActions.updateData(data);
     }
 
@@ -122,7 +129,7 @@ class coursesCreateEditGeneral extends React.Component {
             <div>
                 <CategoriesModal
                     showModal={this.state.showCategoryModal}
-                    close={()=>this.setState({showCategoryModal: false})}
+                    close={() => this.setState({showCategoryModal: false})}
                 />
                 <div className="col-md-8">
                     <div className="card">
@@ -168,6 +175,13 @@ class coursesCreateEditGeneral extends React.Component {
                                                 name="description"
                                                 updateFormData={this.updateFormData}
                                                 value={this.props.data.description}
+                                            /></div>
+                                        <div className="col-md-12">
+                                            <FormInputText
+                                                label="Landing Page URL"
+                                                name="landingpage_url"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.data.landingpage_url}
                                             /></div>
                                         <div className="col-md-12">
                                             <FormInputText
@@ -230,8 +244,8 @@ class coursesCreateEditGeneral extends React.Component {
                                                         onChange={this.onCategoryChange}
                                                     /></div>
                                                 <TooltipButton text="Thêm category" placement="top">
-                                                    <button onClick={()=>this.setState({showCategoryModal: true})}
-                                                        className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                    <button onClick={() => this.setState({showCategoryModal: true})}
+                                                            className="btn btn-rose btn-round btn-xs button-add none-margin">
                                                         <strong>+</strong>
                                                     </button>
                                                 </TooltipButton>
@@ -276,15 +290,108 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="card-content">
                                 <div className="tab-content">
                                     <h4 className="card-title"><strong>Chi tiết khoá học</strong>
-                                    </h4><br/>
+                                    </h4>
+                                    {/*<ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">*/}
+                                    {/*<li className={this.state.tabEditorDetail == 1 ? 'active' : ''}*/}
+                                    {/*onClick={() => {*/}
+                                    {/*this.setState({tabEditorDetail: 1});*/}
+                                    {/*}}*/}
+                                    {/*><a>Editor</a>*/}
+                                    {/*<div className="ripple-container"/>*/}
+                                    {/*</li>*/}
+                                    {/*<li className={this.state.tabEditorDetail == 2 ? 'active' : ''}*/}
+                                    {/*onClick={() => {*/}
+                                    {/*this.setState({tabEditorDetail: 2});*/}
+                                    {/*}}*/}
+                                    {/*><a>HTML</a>*/}
+                                    {/*<div className="ripple-container"/>*/}
+                                    {/*</li>*/}
+                                    {/*</ul>*/}
+                                    <br/>
                                     {this.props.isLoading ? <Loading/> :
-                                        <ReactEditor
-                                            urlPost={linkUploadImageEditor()}
-                                            fileField="image"
-                                            name="detail"
-                                            updateEditor={this.updateEditor}
-                                            value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
-                                        />
+                                        <div>
+                                            {/*{this.state.tabEditorDetail == 2 ?*/}
+                                            <div>
+                                                    <textarea
+                                                        type="text"
+                                                        rows={20}
+                                                        className="form-control"
+                                                        value={
+                                                            this.props.data.detail ? this.props.data.detail : ""
+                                                        }
+                                                        name="detail"
+                                                        onChange={(e) => {
+                                                            this.updateEditor(e.target.value);
+                                                        }}
+                                                    />
+                                            </div>
+                                            {/*:*/}
+                                            {/*< ReactEditor*/}
+                                            {/*urlPost={linkUploadImageEditor()}*/}
+                                            {/*fileField="image"*/}
+                                            {/*name="detail"*/}
+                                            {/*updateEditor={this.updateEditor}*/}
+                                            {/*value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}*/}
+                                            {/*/>*/}
+                                            {/*}*/}
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="">
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <h4 className="card-title"><strong>Chi tiết khác</strong>
+                                    </h4>
+                                    {/*<ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">*/}
+                                    {/*<li className={this.state.tabEditorShortDetail == 1 ? 'active' : ''}*/}
+                                    {/*onClick={() => {*/}
+                                    {/*this.setState({tabEditorShortDetail: 1});*/}
+                                    {/*}}*/}
+                                    {/*><a>Editor</a>*/}
+                                    {/*<div className="ripple-container"/>*/}
+                                    {/*</li>*/}
+                                    {/*<li className={this.state.tabEditorShortDetail == 2 ? 'active' : ''}*/}
+                                    {/*onClick={() => {*/}
+                                    {/*this.setState({tabEditorShortDetail: 2});*/}
+                                    {/*}}*/}
+                                    {/*><a>HTML</a>*/}
+                                    {/*<div className="ripple-container"/>*/}
+                                    {/*</li>*/}
+                                    {/*</ul>*/}
+                                    <br/>
+                                    {this.props.isLoading ? <Loading/> :
+                                        <div>
+                                            {/*{this.state.tabEditorShortDetail == 2 ?*/}
+                                            <div>
+                                                    <textarea
+                                                        type="text"
+                                                        rows={20}
+                                                        className="form-control"
+                                                        value={
+                                                            this.props.data.short_detail ? this.props.data.short_detail : ""
+                                                        }
+                                                        name="short_detail"
+                                                        onChange={(e) => {
+                                                            this.updateEditorShortDetail(e.target.value);
+                                                        }}
+                                                    />
+                                            </div>
+                                            {/*:*/}
+                                            {/*< ReactEditor*/}
+                                            {/*urlPost={linkUploadImageEditor()}*/}
+                                            {/*fileField="image"*/}
+                                            {/*name="short_detail"*/}
+                                            {/*updateEditor={this.updateEditorShortDetail}*/}
+                                            {/*value={this.props.data.short_detail ? `<div>${this.props.data.short_detail}</div>` : ""}*/}
+                                            {/*/>*/}
+                                            {/*}*/}
+                                        </div>
+
                                     }
                                 </div>
                             </div>
@@ -412,5 +519,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(coursesCreateEditGeneral);
+export default connect(mapStateToProps,
+    mapDispatchToProps)(coursesCreateEditGeneral);
 

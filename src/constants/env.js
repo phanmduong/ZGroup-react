@@ -3,6 +3,7 @@ export let URL = env.DOMAIN;
 
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
+export const IS_CAMPAIN_COURSE_LINK = env.IS_CAMPAIN_COURSE_LINK;
 export const TYPE_API = env.TYPE_API;
 export const TYPE_DASHBOARD = env.TYPE_DASHBOARD;
 export const BASE_URL = PROTOCOL + URL;

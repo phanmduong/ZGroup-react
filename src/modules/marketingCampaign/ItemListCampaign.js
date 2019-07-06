@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import ReactSelect from "react-select";
-import {BASE_URL} from "../../constants/env";
+import {BASE_URL, IS_CAMPAIN_COURSE_LINK} from "../../constants/env";
 import * as helper from "../../helpers/helper";
 import PropTypes from 'prop-types';
 
@@ -9,7 +9,8 @@ class ItemListCampaign extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedCourse: ''
+            selectedCourse: '',
+            currentCourse: {}
         };
         this.changeCourse = this.changeCourse.bind(this);
         this.openLink = this.openLink.bind(this);
@@ -18,7 +19,8 @@ class ItemListCampaign extends React.Component {
     changeCourse(value) {
         let course = value && value.value ? value.value : "";
         this.setState({
-            selectedCourse: course
+            selectedCourse: course,
+            currentCourse: value
         });
     }
 
@@ -30,11 +32,16 @@ class ItemListCampaign extends React.Component {
 
     render() {
         let url;
-        if (this.state.selectedCourse === -1) {
-            url = `${BASE_URL}/courses/${this.props.user.id}/${this.props.campaign.id}`;
+        if (IS_CAMPAIN_COURSE_LINK) {
+            url = `${this.state.currentCourse.landingpage_url}?campaign_id=${this.props.campaign.id}&saler_id=${this.props.user.id}`;
         } else {
-            url = `${BASE_URL}/classes/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
+            if (this.state.selectedCourse === -1) {
+                url = `${BASE_URL}/courses/${this.props.user.id}/${this.props.campaign.id}`;
+            } else {
+                url = `${BASE_URL}/classes/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
+            }
         }
+
         return (
             <tr>
                 <td>
@@ -78,7 +85,8 @@ class ItemListCampaign extends React.Component {
     }
 }
 
-ItemListCampaign.propTypes = {
+ItemListCampaign
+    .propTypes = {
     campaign: PropTypes.object.isRequired,
     openModalStoreCampaign: PropTypes.func.isRequired,
     courses: PropTypes.array.isRequired,
