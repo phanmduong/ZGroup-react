@@ -286,6 +286,11 @@ class KeetoolEditor extends React.Component {
                     "bulleted-list",
                     "format_list_bulleted"
                 )}
+                {this.renderBlockButton("left", "format_align_left")}
+                {this.renderBlockButton("right", "format_align_right")}
+                {this.renderBlockButton("justify", "format_align_justify")}
+                {this.renderBlockButton("center", "format_align_center")}
+
                 <span
                     className="editor-button"
                     // onMouseDown={this.onClickImage}
@@ -469,6 +474,14 @@ class KeetoolEditor extends React.Component {
                 return <li {...attributes}>{children}</li>;
             case "numbered-list":
                 return <ol {...attributes}>{children}</ol>;
+            case "left":
+                return <p style={{textAlign:"left"}} {...attributes}>{children}</p>;
+            case "right":
+                return <p style={{textAlign:"right"}} {...attributes}>{children}</p>;
+            case "justify":
+                return <p style={{textAlign:"justify"}} {...attributes}>{children}</p>;
+            case "center":
+                return <p style={{textAlign:"center"}} {...attributes}>{children}</p>;
         }
     };
 

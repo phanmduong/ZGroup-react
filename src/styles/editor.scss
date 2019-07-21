@@ -1,7 +1,7 @@
 .editor-toolbar-menu {
     position: relative;
     padding: 5px 12px;
-    margin: 0 -12px;
+    margin-left: -10px;
     border-bottom: 2px solid #eee;
     margin-bottom: 12px;
 }
@@ -36,7 +36,27 @@
 .editor-wrapper {
     background: #fff;
     margin: 0 auto 20px;
-    padding: 8px 10px;
+    padding: 8px 0px 8px 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+.editor{
+    max-height: 650px;
+    overflow: hidden scroll;
+    padding-right: 5px;
+}
+
+.editor *{
+    font-family: Arial;
+}
+
+.editor p{
+    font: 400 14px/22px arial;
+}
+.editor h1{
+    font: 700 32px/36px arial;
+}
+
+.editor h2{
+    font: 700 28px/32px arial;
 }

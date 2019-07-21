@@ -16,7 +16,13 @@ const BLOCK_TAGS = {
     h3: "heading-three",
     h4: "heading-four",
     h5: "heading-five",
-    h6: "heading-six"
+    h6: "heading-six",
+};
+const ALIGN_TAGS ={
+    left:"left",
+    right:"right",
+    justify:"justify",
+    center:"center",
 };
 
 const MARK_TAGS = {
@@ -28,6 +34,34 @@ const MARK_TAGS = {
 };
 
 const rules = [
+    {
+        // Switch deserialize to handle more blocks...
+        deserialize(el, next) {
+            let type = null;
+
+            if(el.getAttributeNode && el.getAttribute("type")) type = ALIGN_TAGS[el.getAttribute("type").toLowerCase()];
+
+            if (type) {
+                return {
+                    object: "block",
+                    type: type,
+                    style:{textAlign:type},
+                    nodes: next(el.childNodes)
+                };
+            }
+        },
+        // Switch serialize to handle more blocks...
+        serialize(obj, children) {
+            if (obj.object == "block") {
+                switch (obj.type) {
+                    case "left":return <p type={obj.type} style={{textAlign:"left"}}>{children}</p>;
+                    case "right":return <p type={obj.type} style={{textAlign:"right"}}>{children}</p>;
+                    case "justify":return <p type={obj.type}  style={{textAlign:"justify"}}>{children}</p>;
+                    case "center":return <p type={obj.type}  style={{textAlign:"center"}}>{children}</p>;
+                }
+            }
+        }
+    },
     {
         // Switch deserialize to handle more blocks...
         deserialize(el, next) {
@@ -80,8 +114,7 @@ const rules = [
                     case "numbered-list":
                         return <ol>{children}</ol>;
 
-                    case "paragraph":
-                        return <p>{children}</p>;
+                    case "paragraph":return <p>{children}</p>;
                     case "quote":
                         return <blockquote>{children}</blockquote>;
                     // case "code":
