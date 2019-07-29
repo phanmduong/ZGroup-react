@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import * as helper from '../../helpers/helper';
-
 import {Link} from "react-router";
 import TooltipButton from "../../components/common/TooltipButton";
 import ToggleStar from "../../components/common/ToggleStar";
+import StudyProgressTooltip from "./StudyProgressTooltip";
 
 class ListRegister extends React.Component {
     constructor(props, context) {
@@ -47,8 +47,7 @@ class ListRegister extends React.Component {
                         if (register.call_status === 'success') {
                             btn = ' btn-success';
                             titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
-                        }
-                        else if (register.call_status === 'failed') {
+                        } else if (register.call_status === 'failed') {
                             btn = ' btn-danger';
                             titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
                         } else if (register.call_status === 'calling') {
@@ -74,13 +73,14 @@ class ListRegister extends React.Component {
                                 color = "gray";
                                 break;
                         }
+
                         return (
                             <tr key={register.id} className={color}>
                                 <td>
                                     <ToggleStar
                                         value={register.bookmark == 1}
                                         isLoading={this.props.isChangingBookmark}
-                                        onChange={value=>this.props.changeMarkRegister(register.id, value)}
+                                        onChange={value => this.props.changeMarkRegister(register.id, value)}
                                     />
                                 </td>
                                 <td>
@@ -113,10 +113,9 @@ class ListRegister extends React.Component {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link to={`/sales/info-student/${register.student_id}`}
-                                          className="text-name-student-register">
-                                        {register.name}
-                                    </Link>
+                                    <StudyProgressTooltip
+                                        register={register}
+                                    />
                                 </td>
                                 <td>
                                     <div id="register-email" data-toggle="tooltip" title=""
