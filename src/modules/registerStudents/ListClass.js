@@ -7,6 +7,8 @@ class ListClass extends React.Component {
     }
 
     render() {
+        console.log(this.props.classes);
+
         return (
             <div className="table-responsive">
                 <table className="table">

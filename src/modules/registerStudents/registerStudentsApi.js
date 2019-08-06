@@ -137,9 +137,9 @@ export function deleteRegisterStudent(registerId) {
     );
 }
 
-export function loadClasses(registerId) {
+export function loadClasses(registerId,query='') {
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes?token=` + token;
+    let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes?token=` + token + "&search=" + query;
     return axios.get(url);
 }
 
