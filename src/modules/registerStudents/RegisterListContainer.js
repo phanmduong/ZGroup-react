@@ -662,6 +662,7 @@ class RegisterListContainer extends React.Component {
     }
 
     render() {
+        let gens = [{name:"Tất cả", id:0},...this.state.gens];
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
@@ -689,9 +690,9 @@ class RegisterListContainer extends React.Component {
                             {this.props.isLoadingGens ? <Loading/> :
                                 <div>
                                     {
-                                        (this.state.selectGenId && this.state.selectGenId > 0) &&
-                                        <Select
-                                            options={this.state.gens}
+                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
+                                            <Select
+                                            options={gens}
                                             onChange={this.changeGens}
                                             value={this.state.selectGenId}
                                             defaultMessage="Chọn khóa học"

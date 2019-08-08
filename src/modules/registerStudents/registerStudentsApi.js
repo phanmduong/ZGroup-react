@@ -21,7 +21,7 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
     return axios.get(url);
 }
 
-export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
+export function getRegisterStudent(page = 1, genId='', search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -35,7 +35,7 @@ export function getRegisterStudent(page = 1, genId, search = '', salerId = '', c
         urlType +
         "/register-list?" +
         "page=" + page +
-        "&gen_id=" + genId +
+        "&gen_id=" + (genId == 0 ? '' : genId) +
         "&search=" + search +
         "&saler_id=" + salerId +
         '&campaign_id=' + campaignId +
@@ -59,7 +59,7 @@ export function loadClassFilter(genid) {
     //http://manageapi.keetool.xyz/class/all?token=
     //http://api.keetool.xyz/apiv2/gens/22/classes?token=
     let token = localStorage.getItem('token');
-    let url = env.API_URL + "/apiv2/gens/" + genid + "/classes?token=" + token;
+    let url = env.API_URL + "/apiv2/gens/" + (genid == 0 ? '0': genid) + "/classes?token=" + token;
     return axios.get(url);
 }
 
