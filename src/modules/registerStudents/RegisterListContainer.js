@@ -156,7 +156,8 @@ class RegisterListContainer extends React.Component {
             const genId = nextProps.params.genId ? nextProps.params.genId : nextProps.currentGen.id;
             this.setState({
                 gens: gens,
-                selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
+                selectGenId: ''
+                // selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
             });
             this.props.registerActions.loadClassFilter(genId);
         }
