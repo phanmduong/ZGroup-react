@@ -153,13 +153,13 @@ class RegisterListContainer extends React.Component {
                 return parseInt(o.name);
             }]);
             gens = _.reverse(gens);
-            const genId = nextProps.params.genId ? nextProps.params.genId : nextProps.currentGen.id;
+            // const genId = nextProps.params.genId ? nextProps.params.genId : nextProps.currentGen.id;
             this.setState({
                 gens: gens,
                 selectGenId: ''
                 // selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
             });
-            this.props.registerActions.loadClassFilter(genId);
+            this.props.registerActions.loadClassFilter('');
         }
 
         if (!nextProps.isLoadingRegisters && this.props.isLoadingRegisters) {
