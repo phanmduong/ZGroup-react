@@ -115,7 +115,7 @@ class EvaluateTeaching extends React.Component {
                         <div className="cursor-pointer"
                              onClick={() => this.openModalCommentProduct(data.user, data.gen)}>
                             <div className="flex flex flex-space-between">
-                                <div>Tỉ lệ nhận xét bài</div>
+                                <div>Nhận xét bài</div>
                                 <div className="bold">
                                     {`${Math.round(ratioCommentProduct)}%/${RATIO_COMMENT_PRODUCT_PASS}%
                                     (${data.total_commented_products}/${data.total_products})`}
