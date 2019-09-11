@@ -567,7 +567,7 @@ class RegisterListContainer extends React.Component {
 
     closeLoadingModal() {
         let json = this.props.excel;
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 25}, {"wch": 12}, {"wch": 8}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},];//độ rộng cột
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 25}, {"wch": 12}, {"wch": 8}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},{"wch": 22},];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.registers.map((item, index) => {
             if (item) {
@@ -592,6 +592,7 @@ class RegisterListContainer extends React.Component {
                     'Chiến dịch': item.campaign ? item.campaign.name : "Không có",
                     'Cách tiếp cận': item.how_know ? item.how_know : "",
                     'Ngày đăng kí': item.created_at,
+                    'Học phí': item.money,
                 };
                 /* eslint-enable */
                 return res;
