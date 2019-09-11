@@ -23,6 +23,7 @@ class ListRegister extends React.Component {
                     <thead className="text-rose">
                     <tr>
                         <th>Đánh dấu</th>
+                        <th></th>
                         <th>Lớp</th>
                         <th>Gọi</th>
                         <th>Họ tên</th>
@@ -84,6 +85,15 @@ class ListRegister extends React.Component {
                                     />
                                 </td>
                                 <td>
+                                    {register.has_studypack &&
+                                    <img
+                                        style={{width: 20, height: 20, borderRadius: "50%"}}
+                                        src={"https://d1j8r0kxyu9tj8.cloudfront.net/files/1546442459nXCcEnym7US4hhn.png"}
+                                        alt=""/>
+                                    }
+                                </td>
+                                <td>
+
                                     <div className="container-dot-bottom-right">
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                                 data-toggle="tooltip" title="" type="button" rel="tooltip"
