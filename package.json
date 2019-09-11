@@ -20,12 +20,10 @@
     "start": "npm-run-all --parallel open:src lint:watch",
     "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:email": "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
-
     "start:teaching": "MODULE=teaching npm-run-all --parallel open:src lint:watch",
     "build:teaching": "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
     "start:order": "MODULE=order npm-run-all --parallel open:src lint:watch",
     "build:order": "npm run lint && rimraf ./dist/order && mkdir dist/order && MODULE=order babel-node tools/build/module.js",
-
     "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
     "build:manufacture": "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
     "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
@@ -38,7 +36,6 @@
     "build:marketing": "npm run lint && rimraf ./dist/marketing && mkdir dist/marketing && MODULE=marketing babel-node tools/build/module.js",
     "start:finance": "MODULE=finance npm-run-all --parallel open:src lint:watch",
     "build:finance": "npm run lint && rimraf ./dist/finance && mkdir dist/finance && MODULE=finance babel-node tools/build/module.js",
-
     "start:hr": "MODULE=hr npm-run-all --parallel open:src lint:watch",
     "build:hr": "npm run lint && rimraf ./dist/hr && mkdir dist/hr && MODULE=hr babel-node tools/build/module.js",
     "start:good": "MODULE=good npm-run-all --parallel open:src lint:watch",
@@ -49,16 +46,12 @@
     "build:profile": "npm run lint && rimraf ./dist/profile && mkdir dist/profile && MODULE=profile babel-node tools/build/module.js",
     "start:dashboard": "MODULE=dashboard npm-run-all --parallel open:src lint:watch",
     "build:dashboard": "npm run lint && rimraf ./dist/dashboard && mkdir dist/dashboard && MODULE=dashboard babel-node tools/build/module.js",
-
     "start:book": "MODULE=book npm-run-all --parallel open:src lint:watch",
     "build:book": "npm run lint && rimraf ./dist/book && mkdir dist/book && MODULE=book babel-node tools/build/module.js",
-
     "start:workShift": "MODULE=workShift npm-run-all --parallel open:src lint:watch",
     "build:workShift": "npm run lint && rimraf ./dist/workShift && mkdir dist/workShift && MODULE=workShift babel-node tools/build/module.js",
-
     "start:landingPage": "MODULE=landingPage npm-run-all --parallel open:src lint:watch",
     "build:landingPage": "npm run lint && rimraf ./dist/landingPage && mkdir dist/landingPage && MODULE=landingPage babel-node tools/build/module.js",
-
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",

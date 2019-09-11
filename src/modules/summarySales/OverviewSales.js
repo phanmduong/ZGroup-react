@@ -66,8 +66,8 @@ class OverviewSales extends React.Component {
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <p className="description">
-                                                    Thưởng cá nhân:
-                                                    <strong> {helper.dotNumber(item['bonus'])}đ</strong><br/>
+                                                    Tổng tiền:
+                                                    <strong> {helper.dotNumber(item['total_money'])}đ</strong><br/>
                                                     Tỉ lệ chốt
                                                     đơn: <strong>
                                                     {`${item['total_paid_registers']}/${item['total_registers']}`}
@@ -99,8 +99,8 @@ class OverviewSales extends React.Component {
                                                                 return (
                                                                     <tr key={index}>
                                                                         <td>{course.name}</td>
-                                                                        <td className="text-center">{course.count}</td>
-                                                                        <td className="text-center">{helper.dotNumber(course.count * course['sale_bonus'])}đ</td>
+                                                                        <td className="text-center">{course.count}/{course.count_total}</td>
+                                                                        <td className="text-center">{helper.dotNumber(course.total_money)}đ</td>
                                                                     </tr>
                                                                 );
                                                             })

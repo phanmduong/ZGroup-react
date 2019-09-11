@@ -204,7 +204,7 @@ export function getShortName(name) {
 export function dotNumber(number) {
     if (number)
         return number.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return number;
+    return number ? number : 0;
 }
 
 export function calculatorRating(ratingNumbers, avgRatings) {
