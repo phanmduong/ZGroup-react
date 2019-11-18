@@ -213,6 +213,14 @@ class LessonsContainer extends React.Component {
                                         /></div>
                                     <div className="col-md-12">
                                         <FormInputText
+                                            label="Link Google Slide"
+                                            name="detail_teacher"
+                                            updateFormData={this.updateFormData}
+                                            value={this.props.data.detail_teacher}
+                                            disabled={this.props.isLoading}
+                                        /></div>
+                                    <div className="col-md-12">
+                                        <FormInputText
                                             label="Link audio"
                                             name="audio_url"
                                             updateFormData={this.updateFormData}
