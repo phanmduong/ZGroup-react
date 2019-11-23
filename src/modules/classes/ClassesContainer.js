@@ -199,7 +199,7 @@ class ClassesContainer extends React.Component {
 
                                     <div className="card" mask="purple">
                                         <img
-                                            src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15745186783LKvz4MNlMUblRE.png"/>
+                                            src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1574526664pF4XCYDJmbTCogA.png"/>
                                         <div className="card-content">
                                             <div className="row">
                                                 <div className="col-sm-12">

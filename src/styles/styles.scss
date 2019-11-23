@@ -1463,13 +1463,14 @@ table tr td .avatar-honor {
   }
   .btn-icon{
     margin-top: 6px;
+    box-shadow: none!important;
   }
   .btn-group.open > .dropdown-toggle.btn.btn-rose,
   .select-wrap button{
       cursor: pointer!important;
       background-color: #FFFFFF!important;
       color: #999999!important;
-
+      box-shadow: none!important;
   }
   .btn-icon, .select-wrap,.btn-group.bootstrap-select, .round-white-seacrh{
     margin-right: 10px;
