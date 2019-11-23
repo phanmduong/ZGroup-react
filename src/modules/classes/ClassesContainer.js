@@ -307,37 +307,42 @@ class ClassesContainer extends React.Component {
                                                 }
                                                 */}
 
-                                                {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
-                                                    <div>
-                                                        <ListClass
-                                                            classes={this.props.classes}
-                                                            deleteClass={this.deleteClass}
-                                                            duplicateClass={this.duplicateClass}
-                                                            changeClassStatus={this.changeClassStatus}
-                                                            openModalClass={this.openModalClass}
-                                                        />
-
-                                                        <br/>
-                                                        <div className="row">
-                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                                                 style={{textAlign: 'right'}}>
-                                                                <b style={{marginRight: '15px'}}>
-                                                                    Hiển thị kêt quả
-                                                                    từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
-                                                                    - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
-                                                                <Pagination
-                                                                    totalPages={this.props.totalPages}
-                                                                    currentPage={this.props.currentPage}
-                                                                    loadDataPage={this.loadClasses || 0}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
+                                    <div>
+
+                                        <ListClass
+                                            classes={this.props.classes}
+                                            deleteClass={this.deleteClass}
+                                            duplicateClass={this.duplicateClass}
+                                            changeClassStatus={this.changeClassStatus}
+                                            openModalClass={this.openModalClass}
+                                        />
+
+                                        <br/>
+                                        <div className="row">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                                 style={{textAlign: 'right'}}>
+                                                <div className="card">
+                                                    <div className="card-content">
+                                                <b style={{marginRight: '15px'}}>
+                                                    Hiển thị kêt quả
+                                                    từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
+                                                    - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
+                                                <Pagination
+                                                    totalPages={this.props.totalPages}
+                                                    currentPage={this.props.currentPage}
+                                                    loadDataPage={this.loadClasses || 0}
+                                                />
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                     }
                 </div>
