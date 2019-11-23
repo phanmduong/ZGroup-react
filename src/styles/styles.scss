@@ -169,17 +169,20 @@ table tr td .avatar-list-staff {
 .flex-col {
   flex-direction: column;
 }
+
 .flex-container {
   display: flex;
   width: 100%;
 }
+
 .flex-col-3 {
   flex: 3;
-  padding:10px;
+  padding: 10px;
 }
+
 .flex-col-9 {
   flex: 9;
-  padding:10px;
+  padding: 10px;
 }
 
 .quiet {
@@ -229,7 +232,7 @@ table tr td .avatar-list-staff {
 }
 
 
-.double-avatar{
+.double-avatar {
   width: 40px;
   height: 40px;
   margin-left: -5px;
@@ -241,20 +244,20 @@ svg:not(:root) {
   overflow: visible;
 }
 
-.breaker{
+.breaker {
   word-break: break-word;
   white-space: initial;
 }
 
-.width-5-percent{
+.width-5-percent {
   width: 5%;
 }
 
-.max-width-100{
+.max-width-100 {
   max-width: 100px;
 }
 
-.width-10-percent{
+.width-10-percent {
   width: 10%;
 }
 
@@ -361,6 +364,7 @@ $starInactive: #c4c5c6;
   height: ($ratingSize/5);
   position: relative;
   width: $ratingSize;
+
   &:before {
     background-image: url(#{"data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22929%22%20height%3D%22886%22%20viewBox%3D%220%200%20929%20886%22%3E%3Cstyle%3Epath%20%7B%20fill%3A%20"+$starInactive+"%20!important%20%7D%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M929%20343c0%208-5%2017-15%2027L711%20567l48%20279c1%203%201%207%201%2012%200%2015-8%2027-22%2027-7%201-15-1-23-6L464%20747%20214%20879c-9%205-16%207-23%207-14%200-23-15-23-28%200-3%200-7%201-12l48-279L14%20370c-9-10-14-19-14-27%200-14%2010-23%2031-26l280-40L437%2023c7-15%2016-23%2027-23s20%208%2028%2023l125%20254%20280%2040c21%203%2032%2012%2032%2026z%22%2F%3E%3C%2Fsvg%3E"}) !important;
     background-repeat: repeat-x;
@@ -375,6 +379,7 @@ $starInactive: #c4c5c6;
     top: 0;
     width: $ratingSize;
   }
+
   > span {
     display: block;
     text-indent: -10000px;
@@ -382,6 +387,7 @@ $starInactive: #c4c5c6;
     height: ($ratingSize/5);
     position: absolute;
     overflow: hidden;
+
     &:before {
       background-image: url(#{"data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22929%22%20height%3D%22886%22%20viewBox%3D%220%200%20929%20886%22%3E%3Cstyle%3Epath%20%7B%20fill%3A%20"+$starActive+"%20!important%20%7D%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M929%20343c0%208-5%2017-15%2027L711%20567l48%20279c1%203%201%207%201%2012%200%2015-8%2027-22%2027-7%201-15-1-23-6L464%20747%20214%20879c-9%205-16%207-23%207-14%200-23-15-23-28%200-3%200-7%201-12l48-279L14%20370c-9-10-14-19-14-27%200-14%2010-23%2031-26l280-40L437%2023c7-15%2016-23%2027-23s20%208%2028%2023l125%20254%20280%2040c21%203%2032%2012%2032%2026z%22%2F%3E%3C%2Fsvg%3E"}) !important;
       background-repeat: repeat-x;
@@ -407,9 +413,9 @@ $starInactive: #c4c5c6;
   text-transform: lowercase !important;
 }
 
-.open-new-tab-icon{
-  margin:5px;
-  color:gray;
+.open-new-tab-icon {
+  margin: 5px;
+  color: gray;
 }
 
 .flex {
@@ -601,9 +607,11 @@ div#datatables-goodorders_filter.dataTables_filter {
   input {
     width: 100%;
   }
+
   label {
     width: 100%;
   }
+
   .form-group {
     width: 100%;
   }
@@ -613,6 +621,7 @@ div#datatables-goodorders_length label {
   display: flex;
   flex-direction: row;
   align-items: center;
+
   .form-group-sm {
     margin-top: 0 !important;
     padding-bottom: 0 !important;
@@ -1259,13 +1268,13 @@ table tr td .avatar-honor {
   background-color: #c50000;
 }
 
-.analytic-wrapper{
+.analytic-wrapper {
   display: flex;
   flex-direction: column;
 }
 
 
-.analytic-route-item{
+.analytic-route-item {
   width: 100px;
   height: 70px;
   margin: 10px;
@@ -1277,11 +1286,11 @@ table tr td .avatar-honor {
   display: grid;
 }
 
-.analytic-wrapper :hover{
+.analytic-wrapper :hover {
   background-color: gainsboro;
 }
 
-.analytic-route-item-active{
+.analytic-route-item-active {
   background-color: #b7b7b7;
 }
 
@@ -1298,12 +1307,12 @@ table tr td .avatar-honor {
 
 }
 
-.analytic-author-container{
+.analytic-author-container {
   display: flex;
   flex-direction: row-reverse;
 }
 
-.analytic-author-item{
+.analytic-author-item {
   width: 185px;
   background-color: #c50000;
   word-break: break-word;
@@ -1313,77 +1322,163 @@ table tr td .avatar-honor {
   margin-top: 8px;
 }
 
-.tooltip-inner{
- max-width: unset;
+.tooltip-inner {
+  max-width: unset;
 }
 
-.table-split{
-  table{
-    border-collapse:separate;
-    border-spacing:0 10px;
+.table-split {
+  table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
   }
-  tr > th, td > a{
+
+  tr > th, td > a {
     color: black;
-    font-size: 14px!important;
-    font-weight: 500!important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
   }
-  tr > td:first-child,tr > th:first-child{
+
+  tr > td:first-child, tr > th:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    padding-left: 20px!important;
+    padding-left: 20px !important;
   }
-  tr > td:last-child,tr > th:last-child{
+
+  tr > td:last-child, tr > th:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    padding-right: 20px!important;
+    padding-right: 20px !important;
 
   }
-  tr > td,tr > th{
-    background-color: white!important;
-    padding: 15px 10px!important;
+
+  tr > td, tr > th {
+    background-color: white !important;
+    padding: 15px 10px !important;
   }
-  th,td{
-    border: none!important;
-    border-collapse:separate;
-    border-spacing:0;
+
+  th, td {
+    border: none !important;
+    border-collapse: separate;
+    border-spacing: 0;
   }
+
   img {
     width: 100%;
     height: auto;
   }
 }
 
-.card{
-    box-shadow: none!important;
+.card {
+  box-shadow: none !important;
 }
 
-.sidebar{
-  box-shadow: none!important;
-
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-  cursor: pointer;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 100px;
+.sidebar {
+  box-shadow: none !important;
 
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  cursor: pointer;
-  background: #adadad;
-  border-radius: 100px;
+///* width */
+//::-webkit-scrollbar {
+//  width: 8px;
+//  cursor: pointer;
+//  height: 8px;
+//
+//}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  background: transparent;
+//  border-radius: 100px;
+//
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  cursor: pointer;
+//  background: #adadad;
+//  border-radius: 100px;
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: #9e9e9e;
+//}
+
+
+.pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
+  background-color: transparent;
+
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #9e9e9e;
+.pagination > li > a, .pagination > li > span{
+  color: black;
 }
 
+.round-white-seacrh{
+  margin-top: -10px;
+  .form-group{
+    position: relative;
+    &:after{
+      font-family: 'Material Icons';
+      content: "search";
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      font-size: 25px;
+      color: #bcbcbc;
+    }
+  }
+
+  input{
+    background-color: white!important;
+    border-radius: 50px!important;
+    padding: 21px 25px 21px 30px !important;
+    background-image:none!important;
+  }
+}
+
+.btn{
+  text-transform: none;
+}
+
+.btn-icon{
+  padding: 10px 20px;
+  text-transform: none;
+}
+
+
+
+.card[mask=purple]{
+  position: relative;
+  background-color: rgb(58, 50, 105);
+  .card-title, div{
+    color: white!important;
+    margin-top: 3px;
+  }
+  img{
+    width: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  .btn-icon{
+    margin-top: 6px;
+  }
+  .btn-group.open > .dropdown-toggle.btn.btn-rose,
+  .select-wrap button{
+      cursor: pointer!important;
+      background-color: #FFFFFF!important;
+      color: #999999!important;
+
+  }
+  .btn-icon, .select-wrap,.btn-group.bootstrap-select, .round-white-seacrh{
+    margin-right: 10px;
+
+  }
+
+}
+
+.sidebar {
+  font-weight: 400;
+  color: black!important;
+}

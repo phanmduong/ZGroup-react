@@ -195,40 +195,44 @@ class ClassesContainer extends React.Component {
                             <Loading/>
                             :
                             <div>
-                                <div className="col-sm-3 col-xs-5">
-                                    <Select
-                                        options={this.state.gens}
-                                        onChange={this.changeGens}
-                                        value={this.state.selectGenId}
-                                        defaultMessage="Chọn khóa học"
-                                        name="gens"
-                                    />
-                                </div>
-                                <div className="col-xs-12">
-                                    <div className="card">
+
+
+                                    <div className="card" mask="purple">
+                                        <img
+                                            src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15745186783LKvz4MNlMUblRE.png"/>
                                         <div className="card-content">
-                                            <div className="tab-content">
-                                                <div className="flex-row flex">
-                                                    <h4 className="card-title">
-                                                        <strong>Danh sách lớp học</strong>
-                                                    </h4>
-                                                    <div className="dropdown">
+                                            <div className="row">
+                                                <div className="col-sm-12">
+                                                    <div className="flex-row flex">
+                                                        <h2 className="card-title">
+                                                            <strong>Danh sách lớp học</strong>
+                                                        </h2>
+                                                    </div>
+                                                    <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+                                                        <Search
+                                                            onChange={this.classesSearchChange}
+                                                            value={this.state.query}
+                                                            placeholder="Tìm kiếm lớp học"
+                                                            className="round-white-seacrh"
+                                                        />
+                                                        <Select
+                                                            options={this.state.gens}
+                                                            onChange={this.changeGens}
+                                                            value={this.state.selectGenId}
+                                                            defaultMessage="Chọn khóa học"
+                                                            name="gens"
+                                                        />
                                                         <button
-                                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                            className="btn btn-white btn-round btn-icon"
                                                             type="button" onClick={() => {
                                                             this.openModalClass();
                                                         }}>
-                                                            <strong>+</strong>
+                                                            Thêm lớp học&nbsp;&nbsp;<i className="material-icons">
+                                                            add
+                                                        </i>
                                                         </button>
                                                     </div>
-                                                </div>
-                                                <Search
-                                                    onChange={this.classesSearchChange}
-                                                    value={this.state.query}
-                                                    placeholder="Tìm kiếm lớp học"
-                                                />
-
-                                                {/* Code của anh Dương :
+                                                    {/* Code của anh Dương :
                                                 {
                                                     this.props.isCreateClass ?
                                                         (
@@ -257,7 +261,7 @@ class ClassesContainer extends React.Component {
                                                                         <div className="col-md-3">
                                                                             <button
                                                                                 type="button"
-                                                                                className="btn btn-rose"
+                                                                                className="btn btn-white"
                                                                                 onClick={() => {
                                                                                     this.openModalClass();
                                                                                 }}
@@ -307,14 +311,18 @@ class ClassesContainer extends React.Component {
                                                 }
                                                 */}
 
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
-                                    <div>
 
-                                        <ListClass
+
+                                {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
+                                    <div className="row">
+
+
+                                    <ListClass
                                             classes={this.props.classes}
                                             deleteClass={this.deleteClass}
                                             duplicateClass={this.duplicateClass}
@@ -323,11 +331,10 @@ class ClassesContainer extends React.Component {
                                         />
 
                                         <br/>
-                                        <div className="row">
+
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                                 style={{textAlign: 'right'}}>
-                                                <div className="card">
-                                                    <div className="card-content">
+                                                 style={{textAlign: 'right', paddingTop: 20}}>
+
                                                 <b style={{marginRight: '15px'}}>
                                                     Hiển thị kêt quả
                                                     từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
@@ -337,10 +344,9 @@ class ClassesContainer extends React.Component {
                                                     currentPage={this.props.currentPage}
                                                     loadDataPage={this.loadClasses || 0}
                                                 />
+
                                             </div>
-                                            </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 }
                             </div>

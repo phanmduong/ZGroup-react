@@ -131,7 +131,7 @@ class ListClass extends React.Component {
                                                 <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
                                                      aria-valuemin="0"
                                                      aria-valuemax="100"
-                                                     style={{width: classItem.total_paid * 100 / classItem.total_register}}>
+                                                     style={{width: (classItem.total_paid * 100 / classItem.total_register) + '%', maxWidth:'100%'}}>
                                                 <span
                                                     className="sr-only">{classItem.total_paid * 100 / classItem.total_register}%</span>
                                                 </div>
@@ -143,7 +143,7 @@ class ListClass extends React.Component {
                                                 <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
                                                      aria-valuemin="0"
                                                      aria-valuemax="100"
-                                                     style={{width: classItem.total_register * 100 / classItem.regis_target}}>
+                                                     style={{width: (classItem.total_register * 100 / classItem.regis_target) + '%', maxWidth:'100%'}}>
                                                 <span
                                                     className="sr-only">{classItem.total_register * 100 / classItem.regis_target}%</span>
                                                 </div>
