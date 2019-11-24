@@ -10,7 +10,7 @@ import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import Select from './SelectGen';
 import ReactSelect from 'react-select';
-import {Modal, OverlayTrigger, Panel, Tooltip} from 'react-bootstrap';
+import {Modal,  Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
@@ -754,7 +754,7 @@ class RegisterListContainer extends React.Component {
 
     changeCallStatusStudent = (callStatus, studentId) => {
         this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest);
-    }
+    };
 
     deleteRegister = (register) => {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
@@ -784,7 +784,7 @@ class RegisterListContainer extends React.Component {
             bookmark: this.state.selectedBookmarkStatus,
             exportExcel: this.closeLoadingModal
         });
-    }
+    };
 
     closeLoadingModal = () => {
 
@@ -896,57 +896,55 @@ class RegisterListContainer extends React.Component {
     };
 
     render() {
-        const Filter = <Tooltip id="tooltip">Lọc</Tooltip>;
-        const Export = <Tooltip id="tooltip">Xuất file excel</Tooltip>;
-        const Add = <Tooltip id="tooltip">Thêm</Tooltip>;
         return (
-            <div id="page-wrapper">
+            <div className="container-fluid">
                 <div className="row">
                     <CreateRegisterModalContainer/>
-                    <div className="col-sm-3 col-xs-5">
-                        {
-                            (this.state.selectGenId && this.state.selectGenId >= 0) &&
-                            <Select
-                                options={this.state.gens}
-                                onChange={this.changeGens}
-                                value={this.state.selectGenId}
-                                defaultMessage="Chọn khóa học"
-                                name="gens"
-                            />
-                        }
-                    </div>
                 </div>
                 <div>
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div style={{display: "flex", justifyContent: "space-between"}}>
-                                    <div style={{display: "flex"}}>
-                                        <h4 className="card-title">
-                                            <strong>{this.state.cardTitle}</strong>
-                                        </h4>
-                                        <div>
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={Add}
-                                            >
-                                                <button
-                                                    onClick={this.openCreateRegisterModal}
-                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                                    type="button">
-                                                    <strong>+</strong>
-                                                    <div className="ripple-container"/>
-                                                </button>
-                                            </OverlayTrigger>
-                                        </div>
-                                        <div>
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={Filter}
-                                            >
+                    {/*<div className="card">*/}
+                    {/*    <div className="card-content">*/}
+                    {/*        <div className="tab-content">*/}
+
+                    {this.props.isLoadingGens ? <Loading/> :
+                        <div>
+
+                            <div className="card" mask="purple">
+                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1574526664pF4XCYDJmbTCogA.png"/>
+                                <div className="card-content">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="flex-row flex">
+                                                <h2 className="card-title">
+                                                    <strong>Danh sách đăng kí</strong>
+                                                </h2>
+                                            </div>
+                                            <div>
+                                                <a
+                                                    onClick={this.showLoadingModal}
+                                                    className="text-white"
+                                                    disabled={
+                                                        this.props.isLoadingGens ||
+                                                        this.props.isLoadingClassFilter ||
+                                                        this.props.isLoading ||
+                                                        this.props.isLoadingRegisters ||
+                                                        this.props.isLoadingBaseFilter ||
+                                                        this.props.isLoadingExcel
+                                                    }
+                                                >
+                                                    Tải xuống
+                                                </a>
+                                            </div>
+                                            <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+                                                <Search
+                                                    onChange={this.registersSearchChange}
+                                                    value={this.state.query}
+                                                    placeholder="Tìm kiếm học viên"
+                                                    className="round-white-seacrh"
+                                                />
                                                 <button
                                                     onClick={this.openFilterPanel}
-                                                    className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                    className="btn btn-white btn-round btn-icon"
                                                     disabled={
                                                         this.props.isLoadingGens ||
                                                         this.props.isLoadingClassFilter ||
@@ -955,333 +953,404 @@ class RegisterListContainer extends React.Component {
                                                         this.props.isLoadingRegisters
                                                     }
                                                 >
-                                                    <i className="material-icons"
-                                                       style={{margin: "0px -4px", top: 0}}
-                                                    >filter_list</i>
+                                                    Lọc
                                                 </button>
-                                            </OverlayTrigger>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={Export}
-                                        >
-                                            <button
-                                                onClick={this.showLoadingModal}
-                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                                disabled={
-                                                    this.props.isLoadingGens ||
-                                                    this.props.isLoadingClassFilter ||
-                                                    this.props.isLoading ||
-                                                    this.props.isLoadingRegisters ||
-                                                    this.props.isLoadingBaseFilter ||
-                                                    this.props.isLoadingExcel
+                                                {
+                                                    (this.state.selectGenId && this.state.selectGenId >= 0) &&
+                                                    <Select
+                                                        options={this.state.gens}
+                                                        onChange={this.changeGens}
+                                                        value={this.state.selectGenId}
+                                                        defaultMessage="Chọn khóa học"
+                                                        name="gens"
+                                                    />
                                                 }
-                                            >
-                                                <i className="material-icons"
-                                                   style={{margin: "0px -4px", top: 0}}
-                                                >file_download</i>
-                                            </button>
-                                        </OverlayTrigger>
+                                                <button
+                                                    className="btn btn-white btn-round btn-icon"
+                                                    type="button"
+                                                    onClick={this.openCreateRegisterModal}
+                                                >
+                                                    Thêm đăng kí&nbsp;&nbsp;<i className="material-icons">
+                                                    add
+                                                </i>
+
+                                                </button>
+
+                                            </div>
+                                            {/* Code của anh Dương :
+                                                {
+                                                    this.props.isCreateClass ?
+                                                        (
+                                                            <div>
+                                                                <div className="row">
+                                                                    {
+                                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
+
+                                                                            <div className="col-md-12">
+                                                                                <Select
+                                                                                    options={this.state.gens}
+                                                                                    onChange={this.changeGens}
+                                                                                    value={this.state.selectGenId}
+                                                                                    defaultMessage="Chọn khóa học"
+                                                                                    name="gens"
+                                                                                />
+                                                                            </div>
+                                                                            :
+                                                                            <div/>
+
+                                                                    }
+
+                                                                </div>
+                                                                <div className="row">
+                                                                    <div className="col-md-12">
+                                                                        <div className="col-md-3">
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-white"
+                                                                                onClick={() => {
+                                                                                    this.openModalClass();
+                                                                                }}
+                                                                            >
+                                                                                Thêm lớp
+                                                                            </button>
+                                                                        </div>
+                                                                        <div className="col-md-9">
+                                                                            <Search
+                                                                                onChange={this.classesSearchChange}
+                                                                                value={this.state.query}
+                                                                                placeholder="Tìm kiếm lớp"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                        :
+                                                        (
+                                                            <div>
+                                                                <div className="row">
+                                                                    {
+                                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
+
+                                                                        <div className="col-md-12">
+                                                                            <Select
+                                                                                options={this.state.gens}
+                                                                                onChange={this.changeGens}
+                                                                                value={this.state.selectGenId}
+                                                                                defaultMessage="Chọn khóa học"
+                                                                                name="gens"
+                                                                            />
+                                                                        </div>
+
+                                                                    }
+
+                                                                </div>
+
+                                                                <Search
+                                                                    onChange={this.classesSearchChange}
+                                                                    value={this.state.query}
+                                                                    placeholder="Tìm kiếm lớp"
+                                                                />
+                                                            </div>
+                                                        )
+                                                }
+                                                */}
+
+                                        </div>
+
                                     </div>
                                 </div>
-                                {this.props.isLoadingGens ? <Loading/> :
-                                    <div>
-                                        <div className="row">
-                                            <Search
-                                                className="col-sm-12"
-                                                onChange={this.registersSearchChange}
-                                                value={this.state.query}
-                                                placeholder="Tìm kiếm học viên"
-                                            />
-                                        </div>
-                                        <Panel collapsible expanded={
-                                            this.state.openFilterPanel
-                                            &&
-                                            !(this.props.isLoadingGens ||
-                                                this.props.isLoadingClassFilter ||
-                                                this.props.isLoadingBaseFilter ||
-                                                this.props.isLoadingRegisters)
-                                        }>
-                                            <div className="row">
-                                                <div className="col-md-3">
-                                                    <label className="">
-                                                        Theo cơ sở
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
-                                                        className=""
-                                                        options={this.state.baseFilter}
-                                                        onChange={this.onBaseFilterChange}
-                                                        value={this.state.selectedBaseId}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_base"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <label className="">
-                                                        Theo lớp học
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoadingClassFilter || this.props.isLoading}
-                                                        className=""
-                                                        options={this.state.classFilter}
-                                                        onChange={this.onClassFilterChange}
-                                                        value={this.state.selectedClassId}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_class"
-                                                    />
-                                                </div>
-
-                                                <div className="col-md-3">
-                                                    <label className="">
-                                                        Theo Saler
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
-                                                        options={this.state.salerFilter}
-                                                        onChange={this.onSalerFilterChange}
-                                                        value={this.state.selectedSalerId}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_saler"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <label className="">
-                                                        Theo Chiến dịch
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
-                                                        options={this.state.campaignFilter}
-                                                        onChange={this.onCampaignFilterChange}
-                                                        value={this.state.campaignId}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_campaign"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3 form-group">
-                                                    <label className="">
-                                                        Theo học phí
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoading}
-                                                        options={this.state.moneyFilter}
-                                                        onChange={this.onMoneyFilterChange}
-                                                        value={this.state.selectedMoneyFilter}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_money"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <FormInputDate
-                                                        label="Từ ngày"
-                                                        name="startTime"
-                                                        updateFormData={this.updateFormDate}
-
-                                                        id="form-start-time"
-                                                        value={this.state.time.startTime}
-                                                        maxDate={this.state.time.endTime}
-                                                    />
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <FormInputDate
-                                                        label="Đến ngày"
-                                                        name="endTime"
-                                                        updateFormData={this.updateFormDate}
-                                                        id="form-end-time"
-                                                        value={this.state.time.endTime}
-                                                        minDate={this.state.time.startTime}
-                                                    />
-                                                </div>
-                                                <div className="col-md-3 form-group">
-                                                    <label className="">
-                                                        Theo trạng thái lớp
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoading || this.isWaitListPage}
-                                                        options={this.state.classStatusFilter}
-                                                        onChange={this.onClassStatusFilterChange}
-                                                        value={this.state.selectedClassStatus}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_class_status"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3 form-group">
-                                                    <label className="">
-                                                        Theo trạng thái cuộc gọi
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoading || this.isWaitListPage}
-                                                        options={this.state.teleCallStatus}
-                                                        onChange={this.onTeleCallStatusFilterChange}
-                                                        value={this.state.selectedTeleCallStatus}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_class_status"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <FormInputDate
-                                                        label="Hẹn ngày nộp tiền"
-                                                        name="appointmentPayment"
-                                                        updateFormData={this.updateFormDate}
-                                                        id="form-appointment-payment"
-                                                        value={this.state.time.appointmentPayment}
-                                                    />
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <Search
-                                                        onChange={this.searchByCoupon}
-                                                        value={this.state.query_coupon}
-                                                        label="Tìm kiếm theo coupon"
-                                                        placeholder="Nhập coupon"
-                                                    />
-                                                </div>
-                                                <div className="col-md-3 form-group">
-                                                    <label>
-                                                        Theo đánh dấu
-                                                    </label>
-                                                    <ReactSelect
-                                                        disabled={this.props.isLoading}
-                                                        options={this.state.bookmarkFilter}
-                                                        onChange={this.onBookmarkStatusFilterChange}
-                                                        value={this.state.selectedBookmarkStatus}
-                                                        defaultMessage="Tuỳ chọn"
-                                                        name="filter_bookmark_status"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                        </Panel>
-                                        <div className="row">
-                                            <div className="col-sm-2">
-                                                <div className={"flex"}>
-                                                    <div
-                                                        style={{
-                                                            background: '#ffffff',
-                                                            border: 'solid 1px',
-                                                            height: '15px',
-                                                            width: '30px',
-                                                            margin: '3px 10px'
-                                                        }}/>
-                                                    < p> Chưa đóng tiền</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                                <div className={"flex"}>
-                                                    <div style={{
-                                                        background: '#dff0d8',
-                                                        height: '15px',
-                                                        width: '30px',
-                                                        margin: '3px 10px'
-                                                    }}/>
-                                                    <p>Đã nộp tiền</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                                <div className={"flex"}>
-                                                    <div
-                                                        style={{
-                                                            background: '#fcf8e3',
-                                                            height: '15px',
-                                                            width: '30px',
-                                                            margin: '3px 10px'
-                                                        }}/>
-                                                    <p>Danh sách chờ</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                                <div className={"flex"}>
-                                                    <div style={{
-                                                        background: '#f2dede',
-                                                        height: '15px',
-                                                        width: '30px',
-                                                        margin: '3px 10px'
-                                                    }}/>
-                                                    <p> Đang bảo lưu</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                                <div className={"flex"}>
-                                                    <div style={{
-                                                        background: '#daedf7',
-                                                        height: '15px',
-                                                        width: '30px',
-                                                        margin: '3px 10px'
-                                                    }}/>
-                                                    <p>Đang học lại</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                                <div className={"flex"}>
-                                                    <div style={{
-                                                        background: '#8c8c8c',
-                                                        height: '15px',
-                                                        width: '30px',
-                                                        margin: '3px 10px'
-                                                    }}/>
-                                                    <p>Đã học xong</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {
-                                            this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
-                                            this.props.isLoading ?
-                                                <Loading/> :
-                                                <ListRegister
-                                                    genId={this.state.selectGenId}
-                                                    registers={this.props.registers}
-                                                    isChangingBookmark={this.props.isChangingBookmark}
-                                                    viewCall={this.viewCall}
-                                                    deleteRegister={this.deleteRegister}
-                                                    loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
-                                                    loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
-                                                    openModalChangeClass={this.openModalChangeClass}
-                                                    openModalChangeInfoStudent={this.openModalChangeInfoStudent}
-                                                    changeStatusPause={this.changeStatusPause}
-                                                    changeMarkRegister={this.changeMarkRegister}
-                                                    addMyLead={this.addMyLead}
-                                                />
-                                        }
-                                        <div className="row float-right">
-                                            <div
-                                                className="col-md-12"
-                                                style={{textAlign: "right"}}
-                                            >
-                                                <Pagination
-                                                    totalPages={
-                                                        this.props.totalPages
-                                                    }
-                                                    currentPage={
-                                                        this.state.page
-                                                    }
-                                                    loadDataPage={this.loadRegisterStudent}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/*<ul className="pagination pagination-primary">*/}
-                                        {/*{_.range(1, this.props.totalPages + 1).map(page => {*/}
-                                        {/*if (Number(this.state.page) === page) {*/}
-                                        {/*return (*/}
-                                        {/*<li key={page} className="active">*/}
-                                        {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
-                                        {/*</li>*/}
-                                        {/*);*/}
-                                        {/*} else {*/}
-                                        {/*return (*/}
-                                        {/*<li key={page}>*/}
-                                        {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
-                                        {/*</li>*/}
-                                        {/*);*/}
-                                        {/*}*/}
-
-                                        {/*})}*/}
-                                        {/*</ul>*/}
-                                    </div>
-                                }
                             </div>
+                            <Panel collapsible expanded={
+                                this.state.openFilterPanel
+                                &&
+                                !(this.props.isLoadingGens ||
+                                    this.props.isLoadingClassFilter ||
+                                    this.props.isLoadingBaseFilter ||
+                                    this.props.isLoadingRegisters)
+                            }>
+                                <div className="white-light-round">
+
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo cơ sở
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
+                                                    className=""
+                                                    options={this.state.baseFilter}
+                                                    onChange={this.onBaseFilterChange}
+                                                    value={this.state.selectedBaseId}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_base"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo lớp học
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingClassFilter || this.props.isLoading}
+                                                    className=""
+                                                    options={this.state.classFilter}
+                                                    onChange={this.onClassFilterChange}
+                                                    value={this.state.selectedClassId}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_class"
+                                                />
+                                            </div>
+
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo Saler
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
+                                                    options={this.state.salerFilter}
+                                                    onChange={this.onSalerFilterChange}
+                                                    value={this.state.selectedSalerId}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_saler"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo Chiến dịch
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
+                                                    options={this.state.campaignFilter}
+                                                    onChange={this.onCampaignFilterChange}
+                                                    value={this.state.campaignId}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_campaign"
+                                                />
+                                            </div>
+                                            <div className="col-md-3 form-group">
+                                                <label className="">
+                                                    Theo học phí
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoading}
+                                                    options={this.state.moneyFilter}
+                                                    onChange={this.onMoneyFilterChange}
+                                                    value={this.state.selectedMoneyFilter}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_money"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <FormInputDate
+                                                    label="Từ ngày"
+                                                    name="startTime"
+                                                    updateFormData={this.updateFormDate}
+
+                                                    id="form-start-time"
+                                                    value={this.state.time.startTime}
+                                                    maxDate={this.state.time.endTime}
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <FormInputDate
+                                                    label="Đến ngày"
+                                                    name="endTime"
+                                                    updateFormData={this.updateFormDate}
+                                                    id="form-end-time"
+                                                    value={this.state.time.endTime}
+                                                    minDate={this.state.time.startTime}
+                                                />
+                                            </div>
+                                            <div className="col-md-3 form-group">
+                                                <label className="">
+                                                    Theo trạng thái lớp
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoading || this.isWaitListPage}
+                                                    options={this.state.classStatusFilter}
+                                                    onChange={this.onClassStatusFilterChange}
+                                                    value={this.state.selectedClassStatus}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_class_status"
+                                                />
+                                            </div>
+                                            <div className="col-md-3 form-group">
+                                                <label className="">
+                                                    Theo trạng thái cuộc gọi
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoading || this.isWaitListPage}
+                                                    options={this.state.teleCallStatus}
+                                                    onChange={this.onTeleCallStatusFilterChange}
+                                                    value={this.state.selectedTeleCallStatus}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_class_status"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <FormInputDate
+                                                    label="Hẹn ngày nộp tiền"
+                                                    name="appointmentPayment"
+                                                    updateFormData={this.updateFormDate}
+                                                    id="form-appointment-payment"
+                                                    value={this.state.time.appointmentPayment}
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <Search
+                                                    onChange={this.searchByCoupon}
+                                                    value={this.state.query_coupon}
+                                                    label="Tìm kiếm theo coupon"
+                                                    placeholder="Nhập coupon"
+                                                />
+                                            </div>
+                                            <div className="col-md-3 form-group">
+                                                <label>
+                                                    Theo đánh dấu
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoading}
+                                                    options={this.state.bookmarkFilter}
+                                                    onChange={this.onBookmarkStatusFilterChange}
+                                                    value={this.state.selectedBookmarkStatus}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_bookmark_status"
+                                                />
+                                            </div>
+                                        </div>
+
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <div className={"flex"}>
+                                                <div
+                                                    style={{
+                                                        background: '#ffffff',
+                                                        border: 'solid 1px',
+                                                        height: '15px',
+                                                        width: '30px',
+                                                        margin: '3px 10px'
+                                                    }}/>
+                                                < p> Chưa đóng tiền</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <div className={"flex"}>
+                                                <div style={{
+                                                    background: '#dff0d8',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                                <p>Đã nộp tiền</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <div className={"flex"}>
+                                                <div
+                                                    style={{
+                                                        background: '#fcf8e3',
+                                                        height: '15px',
+                                                        width: '30px',
+                                                        margin: '3px 10px'
+                                                    }}/>
+                                                <p>Danh sách chờ</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <div className={"flex"}>
+                                                <div style={{
+                                                    background: '#f2dede',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                                <p> Đang bảo lưu</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <div className={"flex"}>
+                                                <div style={{
+                                                    background: '#daedf7',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                                <p>Đang học lại</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <div className={"flex"}>
+                                                <div style={{
+                                                    background: '#8c8c8c',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                                <p>Đã học xong</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Panel>
+
+                            {
+                                this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
+                                this.props.isLoading ?
+                                    <Loading/> :
+                                    <ListRegister
+                                        genId={this.state.selectGenId}
+                                        registers={this.props.registers}
+                                        isChangingBookmark={this.props.isChangingBookmark}
+                                        viewCall={this.viewCall}
+                                        deleteRegister={this.deleteRegister}
+                                        loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
+                                        loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
+                                        openModalChangeClass={this.openModalChangeClass}
+                                        openModalChangeInfoStudent={this.openModalChangeInfoStudent}
+                                        changeStatusPause={this.changeStatusPause}
+                                        changeMarkRegister={this.changeMarkRegister}
+                                        addMyLead={this.addMyLead}
+                                    />
+                            }
+                            <div className="row float-right">
+                                <div
+                                    className="col-md-12"
+                                    style={{textAlign: "right"}}
+                                >
+                                    <Pagination
+                                        totalPages={
+                                            this.props.totalPages
+                                        }
+                                        currentPage={
+                                            this.state.page
+                                        }
+                                        loadDataPage={this.loadRegisterStudent}
+                                    />
+                                </div>
+                            </div>
+                            {/*<ul className="pagination pagination-primary">*/}
+                            {/*{_.range(1, this.props.totalPages + 1).map(page => {*/}
+                            {/*if (Number(this.state.page) === page) {*/}
+                            {/*return (*/}
+                            {/*<li key={page} className="active">*/}
+                            {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
+                            {/*</li>*/}
+                            {/*);*/}
+                            {/*} else {*/}
+                            {/*return (*/}
+                            {/*<li key={page}>*/}
+                            {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
+                            {/*</li>*/}
+                            {/*);*/}
+                            {/*}*/}
+
+                            {/*})}*/}
+                            {/*</ul>*/}
                         </div>
-                    </div>
+                    }
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
                 </div>
 
 

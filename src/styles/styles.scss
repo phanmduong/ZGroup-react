@@ -109,6 +109,10 @@ table tr td .avatar-list-staff {
 
 .text-white {
   color: white;
+  &:hover{
+    color: white;
+
+  }
 }
 
 .modal-small-text {
@@ -1332,10 +1336,19 @@ table tr td .avatar-honor {
     border-spacing: 0 10px;
   }
 
+  a.btn.btn-xs.btn-main{
+    color: white!important;
+    font-size: 10px!important;
+  }
+
   tr > th, td > a {
     color: black;
     font-size: 14px !important;
     font-weight: 500 !important;
+  }
+
+  .btn-main {
+    color: white !important;
   }
 
   tr > td:first-child, tr > th:first-child {
@@ -1366,6 +1379,8 @@ table tr td .avatar-honor {
     width: 100%;
     height: auto;
   }
+
+
 }
 
 .card {
@@ -1410,15 +1425,17 @@ table tr td .avatar-honor {
 
 }
 
-.pagination > li > a, .pagination > li > span{
+.pagination > li > a, .pagination > li > span {
   color: black;
 }
 
-.round-white-seacrh{
+.round-white-seacrh {
   margin-top: -10px;
-  .form-group{
+
+  .form-group {
     position: relative;
-    &:after{
+
+    &:after {
       font-family: 'Material Icons';
       content: "search";
       position: absolute;
@@ -1429,57 +1446,69 @@ table tr td .avatar-honor {
     }
   }
 
-  input{
-    background-color: white!important;
-    border-radius: 50px!important;
+  input {
+    background-color: white !important;
+    border-radius: 50px !important;
     padding: 21px 25px 21px 30px !important;
-    background-image:none!important;
+    background-image: none !important;
   }
 }
 
-.btn{
+.btn {
   text-transform: none;
 }
 
-.btn-icon{
+.btn-icon {
   padding: 10px 20px;
   text-transform: none;
 }
 
 
-
-.card[mask=purple]{
+.card[mask=purple] {
   position: relative;
   background-color: rgb(58, 50, 105);
-  .card-title, div{
-    color: white!important;
+
+  .card-title, div {
+    color: white !important;
     margin-top: 3px;
   }
-  img{
+
+  img {
     width: 50%;
     position: absolute;
     bottom: 0;
     right: 0;
   }
-  .btn-icon{
-    margin-top: 6px;
-    box-shadow: none!important;
-  }
-  .btn-group.open > .dropdown-toggle.btn.btn-rose,
-  .select-wrap button{
-      cursor: pointer!important;
-      background-color: #FFFFFF!important;
-      color: #999999!important;
-      box-shadow: none!important;
-  }
-  .btn-icon, .select-wrap,.btn-group.bootstrap-select, .round-white-seacrh{
-    margin-right: 10px;
 
+  .btn-icon {
+    margin-top: 6px;
+    box-shadow: none !important;
+  }
+
+  .btn-group.open > .dropdown-toggle.btn.btn-rose,
+  .select-wrap button {
+    cursor: pointer !important;
+    background-color: #FFFFFF !important;
+    color: black !important;
+    box-shadow: none !important;
+    font-weight: 400 !important;
+  }
+
+  .btn-icon, .select-wrap, .btn-group.bootstrap-select, .round-white-seacrh {
+    margin-right: 10px;
+    color: black !important;
+    font-weight: 400 !important;
   }
 
 }
 
 .sidebar {
-  font-weight: 400;
-  color: black!important;
+  font-weight: 400 !important;
+  color: black !important;
+}
+
+.white-light-round{
+  background: white;
+  border-radius: 10px;
+  padding: 15px 20px;
 }
