@@ -1505,29 +1505,12 @@ table tr td .avatar-honor {
 
   &[mask=purple] {
     background-color: rgb(58, 50, 105);
-
-    .star-wrapper {
-      color: black !important;
-      background-color: white;
-      padding: 11px 10px;
-      border-radius: 50px;
+    .lead-count{
+        @extend .color-white;
     }
-
-    label.flex-row-center {
-      background: white;
-      border-radius: 50px;
-      padding: 11px 15px;
+    .btn-white{
       color: black;
     }
-
-    input.datetimepicker{
-      color:white;
-    }
-
-    label {
-      @extend .color-white;
-    }
-
     .checkbox, .radio {
       margin: 0;
     }
