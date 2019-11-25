@@ -198,8 +198,8 @@ class ClassesContainer extends React.Component {
 
 
                                     <div className="card" mask="purple">
-                                        <img
-                                            src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1574526664pF4XCYDJmbTCogA.png"/>
+                                        <img className="img-absolute"/>
+
                                         <div className="card-content">
                                             <div className="row">
                                                 <div className="col-sm-12">
@@ -232,84 +232,7 @@ class ClassesContainer extends React.Component {
                                                         </i>
                                                         </button>
                                                     </div>
-                                                    {/* Code của anh Dương :
-                                                {
-                                                    this.props.isCreateClass ?
-                                                        (
-                                                            <div>
-                                                                <div className="row">
-                                                                    {
-                                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
 
-                                                                            <div className="col-md-12">
-                                                                                <Select
-                                                                                    options={this.state.gens}
-                                                                                    onChange={this.changeGens}
-                                                                                    value={this.state.selectGenId}
-                                                                                    defaultMessage="Chọn khóa học"
-                                                                                    name="gens"
-                                                                                />
-                                                                            </div>
-                                                                            :
-                                                                            <div/>
-
-                                                                    }
-
-                                                                </div>
-                                                                <div className="row">
-                                                                    <div className="col-md-12">
-                                                                        <div className="col-md-3">
-                                                                            <button
-                                                                                type="button"
-                                                                                className="btn btn-white"
-                                                                                onClick={() => {
-                                                                                    this.openModalClass();
-                                                                                }}
-                                                                            >
-                                                                                Thêm lớp
-                                                                            </button>
-                                                                        </div>
-                                                                        <div className="col-md-9">
-                                                                            <Search
-                                                                                onChange={this.classesSearchChange}
-                                                                                value={this.state.query}
-                                                                                placeholder="Tìm kiếm lớp"
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                        :
-                                                        (
-                                                            <div>
-                                                                <div className="row">
-                                                                    {
-                                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
-
-                                                                        <div className="col-md-12">
-                                                                            <Select
-                                                                                options={this.state.gens}
-                                                                                onChange={this.changeGens}
-                                                                                value={this.state.selectGenId}
-                                                                                defaultMessage="Chọn khóa học"
-                                                                                name="gens"
-                                                                            />
-                                                                        </div>
-
-                                                                    }
-
-                                                                </div>
-
-                                                                <Search
-                                                                    onChange={this.classesSearchChange}
-                                                                    value={this.state.query}
-                                                                    placeholder="Tìm kiếm lớp"
-                                                                />
-                                                            </div>
-                                                        )
-                                                }
-                                                */}
 
                                                 </div>
 
