@@ -920,7 +920,7 @@ class RegisterListContainer extends React.Component {
                         <div>
 
                             <div className="card" mask="purple">
-                                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1574526664pF4XCYDJmbTCogA.png"/>
+                                <img className="img-absolute"/>
                                 <div className="card-content">
                                     <div className="row">
                                         <div className="col-sm-12">

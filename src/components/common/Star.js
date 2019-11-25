@@ -53,7 +53,7 @@ class Star extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="star-wrapper">
                 <div className={this.props.disable ? "rating rating-disable" : "rating rating-enable"}>
 
                     {

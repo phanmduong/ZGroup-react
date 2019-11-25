@@ -61,7 +61,7 @@ class ListLead extends React.Component {
                 {this.props.isLoading ?
                     <Loading/>
                     :
-                    <div className="table-responsive">
+                    <div className="table-responsive table-split">
                         <table className="table">
                             <thead className="text-rose">
                             <tr>

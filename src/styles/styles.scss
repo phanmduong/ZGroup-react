@@ -1469,14 +1469,18 @@ table tr td .avatar-honor {
 .card[mask]:not([mask=""]) {
   position: relative;
 
+  .btn {
+    box-shadow: none;
+  }
+
   &[mask=transparent] {
     background-color: transparent;
 
-    .timeline > li > .timeline-badge{
+    .timeline > li > .timeline-badge {
       top: 0;
     }
 
-    .timeline.timeline-simple{
+    .timeline.timeline-simple {
       margin: 0px;
     }
 
@@ -1488,7 +1492,8 @@ table tr td .avatar-honor {
       background-color: #f7f7f7;
       box-shadow: none;
     }
-    img.img-user{
+
+    img.img-user {
 
       border-radius: 5px;
       cursor: pointer;
@@ -1501,11 +1506,53 @@ table tr td .avatar-honor {
   &[mask=purple] {
     background-color: rgb(58, 50, 105);
 
-    img {
+    .star-wrapper {
+      color: black !important;
+      background-color: white;
+      padding: 11px 10px;
+      border-radius: 50px;
+    }
+
+    label.flex-row-center {
+      background: white;
+      border-radius: 50px;
+      padding: 11px 15px;
+      color: black;
+    }
+
+    input.datetimepicker{
+      color:white;
+    }
+
+    label {
+      @extend .color-white;
+    }
+
+    .checkbox, .radio {
+      margin: 0;
+    }
+
+    .react-select-white {
+      .Select-control {
+        border: none;
+        background: white;
+        border-radius: 50px;
+        padding: 7px 10px;
+
+        .Select-value, .Select-placeholder {
+          display: flex;
+          align-items: center;
+          margin-left: 5px;
+        }
+      }
+    }
+
+    img.img-absolute {
       width: 50%;
       position: absolute;
       bottom: 0;
       right: 0;
+      content: url("http://d1j8r0kxyu9tj8.cloudfront.net/files/1574526664pF4XCYDJmbTCogA.png");
     }
 
     .card-title {
@@ -1517,6 +1564,7 @@ table tr td .avatar-honor {
   &[mask=gradient] {
     background: linear-gradient(117deg, rgb(117, 77, 213) 0%, rgb(243, 74, 114) 100%) 0% 0% no-repeat padding-box padding-box transparent;
     margin: 5px 0;
+
     .img {
       width: 100px;
       height: 100px;
@@ -1524,7 +1572,8 @@ table tr td .avatar-honor {
       background-position: center;
       background-size: cover;
       cursor: pointer;
-      i{
+
+      i {
         background-color: #00000060;
         color: white;
         width: 100%;
@@ -1546,6 +1595,7 @@ table tr td .avatar-honor {
     .text-email {
       color: white !important;
       margin-top: 0px;
+
       span {
         font-weight: 500;
       }
@@ -1557,6 +1607,7 @@ table tr td .avatar-honor {
       color: black;
       cursor: pointer;
       margin-right: 10px;
+
       i {
         margin-left: 5px;
         margin-right: -10px;
@@ -1650,13 +1701,14 @@ ul.nav.nav-pills.nav-pills-gradient {
 }
 
 
-.father{
-  &:hover{
-    .son{
+.father {
+  &:hover {
+    .son {
       display: unset;
     }
   }
-  .son{
+
+  .son {
     display: none;
   }
 }

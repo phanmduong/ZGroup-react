@@ -20,7 +20,7 @@ class ListRegister extends React.Component {
                 <table id="datatables"
                        className="table table-no-bordered table-hover"
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
-                    <thead className="text-rose">
+                    <thead>
                     <tr>
                         <th>Đánh dấu</th>
                         <th></th>

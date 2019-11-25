@@ -2,7 +2,6 @@ import React from 'react';
 import * as env from "../../constants/env";
 import axios from "axios";
 import {renderToString} from "react-dom/lib/ReactDOMServer";
-import {Link} from "react-router";
 import Loading from "../../components/common/Loading";
 import Attendances from "../infoStudent/progress/Attendances";
 

@@ -17,7 +17,7 @@ class HistoryCallContainer extends React.Component {
             appointmentPayment: '',
             dateTest: ''
         };
-        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+        this.studentId = this.props.params ? this.studentId : this.props.studentId;
 
     }
 
@@ -156,7 +156,7 @@ class HistoryCallContainer extends React.Component {
 
                                             data-dismiss="modal"
                                             onClick={() => {
-                                                this.changeCallStatusStudent(1, this.props.params.studentId);
+                                                this.changeCallStatusStudent(1, this.studentId);
                                             }}>
                                         <i className="material-icons">phone</i>
                                         Gọi thành công
@@ -165,7 +165,7 @@ class HistoryCallContainer extends React.Component {
                                             className="btn btn-danger btn-round"
                                             data-dismiss="modal"
                                             onClick={() => {
-                                                this.changeCallStatusStudent(0, this.props.params.studentId);
+                                                this.changeCallStatusStudent(0, this.studentId);
                                             }}>
                                         <i className="material-icons">phone</i>
                                         Không gọi được

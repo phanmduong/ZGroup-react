@@ -219,8 +219,8 @@ class InfoStudentContainer extends React.Component {
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
         return (
-            <div className="card">
-                <div className="card-content">
+            <div className={this.props.location ? "card" :''}>
+                <div className={this.props.location ? "card-content" :''}>
                     {this.props.isLoadingStudent && <Loading/>}
                     {!this.props.isLoadingStudent &&
 
@@ -330,7 +330,7 @@ class InfoStudentContainer extends React.Component {
                         <div className="col-md-8">
                             <div className="card" mask="transparent">
 
-                                {this.routes.map((route,index)=>{
+                                {this.routes.map((route)=>{
                                     return route.path == this.state.currentRoute.path ?
                                         route.component : <div/>
 
