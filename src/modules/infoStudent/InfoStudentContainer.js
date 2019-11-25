@@ -9,7 +9,6 @@ import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
 // import {NO_AVATAR, PROTOCOL} from '../../constants/env';
-import Loading from '../../components/common/Loading';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
@@ -18,6 +17,7 @@ import FormInputDate from "../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
 import {isEmptyInput} from "../../helpers/helper";
+import Loading from "../../components/common/Loading";
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
@@ -91,7 +91,7 @@ class InfoStudentContainer extends React.Component {
             showModalViewImage: true,
             imageUrl: imageUrl
         });
-    }
+    };
 
     handleFileUpload(event, image) {
         let file = event.target.files[0];
@@ -106,7 +106,7 @@ class InfoStudentContainer extends React.Component {
                 student: student
             }
         );
-    }
+    };
 
     updateAddress = (e) => {
         let student = {...this.state.student};
@@ -116,7 +116,7 @@ class InfoStudentContainer extends React.Component {
                 student: student
             }
         );
-    }
+    };
 
     getDataAddress = () => {
         if (!this.props.provinces || this.props.provinces.length <= 0) return;
@@ -127,8 +127,8 @@ class InfoStudentContainer extends React.Component {
                 address = [...address, {
                     value: `${district.type} ${district.name}, ${province.type} ${province.name}`,
                     label: `${district.type} ${district.name}, ${province.type} ${province.name}`,
-                }]
-            })
+                }];
+            });
 
         });
 
@@ -140,48 +140,119 @@ class InfoStudentContainer extends React.Component {
         }
 
         return address;
-    }
+    };
 
     render() {
         this.path = this.props.location.pathname;
-        let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
+        // let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
         return (
             <div>
+                {this.props.isLoadingStudent && <Loading/>}
+                {!this.props.isLoadingStudent && <div className="row">
+                    <div className="col-md-12">
+
+                        <div className="card" mask="gradient">
+                            <div className="card-content">
+                                <div className="row">
+
+                                    <div className="col-md-6">
+                                        <div className="flex flex-wrap">
+                                            <div style={{marginRight: 20}}>
+                                                <div className="img"
+                                                     style={{
+                                                         backgroundImage: `url(${helper.validateLinkImage(this.props.student.avatar_url)})`
+                                                     }}
+                                                />
+
+                                            </div>
+                                            <div>
+                                                <h4 className="card-title">{this.props.student.name}</h4>
+                                                <h6 className="category text-gray text-email">
+                                                    {this.props.student.email}&nbsp;&nbsp;&nbsp;
+                                                    <span>{this.props.student.phone}</span>
+                                                </h6>
+                                                {this.props.isEditingStudent ?
+                                                    (
+                                                        <button
+                                                            className="btn btn-white btn-register-action disabled"
+                                                        >
+                                                            <i className="fa fa-spinner fa-spin"/> Đang sửa
+                                                        </button>
+                                                    )
+                                                    :
+                                                    <button className="btn btn-white btn-register-action"
+                                                            onClick={this.openModal}
+                                                    >Sửa
+                                                    </button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <div className="source-wrap">
+                                            <div className="source-name">Nguồn</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Kênh</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Người nhập</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">P.I.C</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <div className="detail-wrap">
+                                            <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
+                                            <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
+                                            <p>Tên phụ huynh<strong>N/A</strong></p>
+                                            <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
                 <div className="row">
-                    <div className="col-md-8">
-                        <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+                    {!this.props.isLoadingStudent &&
+                    <div className="col-md-12">
+                        <ul className="nav nav-pills nav-pills-gradient" data-tabs="tabs">
                             <li className={this.path === `/sales/info-student/${this.studentId}` ? 'active' : ''}>
                                 <IndexLink to={`/sales/info-student/${this.studentId}`}>
-                                    <i className="material-icons">add_box</i> Đăng kí  &#160;
-
-                                    <div className="ripple-container"/>
+                                    Đăng kí
                                 </IndexLink>
                             </li>
                             <li className={this.path === `/sales/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
                                 <Link to={`/sales/info-student/${this.studentId}/history-calls`}>
-                                    <i className="material-icons">smartphone</i> Cuộc gọi  &#160;
-                                    <div className="ripple-container"/>
+                                    Cuộc gọi
                                 </Link>
                             </li>
                             <li className={this.path === `/sales/info-student/${this.studentId}/progress` ? 'active' : ''}>
                                 <Link to={`/sales/info-student/${this.studentId}/progress`}>
-                                    <i className="material-icons">create</i> Học tập  &#160;
-                                    <div className="ripple-container"/>
+                                    Học tập
                                 </Link>
                             </li>
                             <li className={this.path === `/sales/info-student/${this.studentId}/history-collect-money` ? 'active' : ''}>
                                 <Link to={`/sales/info-student/${this.studentId}/history-collect-money`}>
-                                    <i className="material-icons">flag</i> Nộp tiền  &#160;
-                                    <div className="ripple-container"/>
+                                    Nộp tiền
                                 </Link>
                             </li>
                             <li className={this.path === `/sales/info-student/${this.studentId}/logs` ? 'active' : ''}>
                                 <Link to={`/sales/info-student/${this.studentId}/logs`}>
-                                    <i className="material-icons">history</i> Lịch sử web  &#160;
-                                    <div className="ripple-container"/>
+                                    Lịch sử web
                                 </Link>
                             </li>
                         </ul>
+
+                    </div>}
+                    <div className="col-md-8">
+
                         <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
@@ -191,94 +262,7 @@ class InfoStudentContainer extends React.Component {
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <br/><br/>
                         <div className="row">
-                            <div className="col-md-12">
-                                <div className="card card-profile">
-                                    <div className="card-avatar">
-                                        <a>
-                                            <img className="img"
-                                                 src={helper.validateLinkImage(this.props.student.avatar_url)}/>
-                                        </a>
-                                    </div>
-                                    {this.props.isLoadingStudent ? <Loading/>
-                                        :
-                                        <div className="card-content">
-                                            <h4 className="card-title">{this.props.student.name}</h4>
-                                            <h6 className="category text-gray text-email">{this.props.student.email}</h6>
-                                            <p className="description">{this.props.student.phone}</p>
-                                            {this.props.isEditingStudent ?
-                                                (
-                                                    <button
-                                                        className="btn btn-fill btn-rose disabled"
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin"/> Đang sửa
-                                                    </button>
-                                                )
-                                                :
-                                                <button className="btn btn-rose"
-                                                        onClick={this.openModal}
-                                                >Sửa
-                                                </button>
-                                            }
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-content">
-                                        <div className="tab-content">
-                                            <h4 className="card-title"><strong>Thông tin</strong></h4>
-                                            <p>Giới tính: <strong>{gender ? gender.name : ""}</strong></p>
-                                            <p>Ngày sinh: <strong>{this.props.student.dob}</strong></p>
-                                            <p>Địa chỉ: <strong>{this.props.student.address}</strong></p>
-                                            <p>Trường học: <strong>{this.props.student.university}</strong></p>
-                                            <p>Nơi làm việc: <strong>{this.props.student.work}</strong></p>
-                                            <p>Lý do biết đến: <strong>{this.props.student.how_know}</strong></p>
-                                            <p>Link fb: {this.props.student.facebook ? <a
-                                                target="_blank"
-                                                href={this.props.student.facebook}>Ấn vào link</a> : ""}</p>
-                                            <div>Mô tả: <strong
-                                                style={{whiteSpace: "pre-wrap"}}>{this.props.student.description}</strong>
-                                            </div>
-                                        </div>
-                                        <div style={{width: "100%"}}
-                                             className="flex flex-align-items-center flex-justify-content-center">
-                                            {this.props.isEditingStudent ?
-                                                (
-                                                    <button
-                                                        className="btn btn-fill btn-rose disabled"
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin"/> Đang sửa
-                                                    </button>
-                                                )
-                                                :
-                                                <button className="btn btn-rose"
-                                                        onClick={this.openModal}
-                                                >Sửa
-                                                </button>
-                                            }
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-content">
-                                        <div className="tab-content">
-                                            <h4 className="card-title"><strong>Thay đổi mật khẩu</strong></h4>
-                                            <br/>
-                                            <button className="btn btn-rose btn-main"
-                                                    onClick={this.openModalChangePassword}
-                                            >
-                                                Thay đổi mật khẩu
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             {!this.props.isLoadingStudent &&
 
                             <div className="col-md-12">
@@ -345,11 +329,25 @@ class InfoStudentContainer extends React.Component {
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             }
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-content">
+                                        <button className="btn btn-rose btn-main"
+                                                onClick={this.openModalChangePassword}
+                                        >
+                                            Thay đổi mật khẩu
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
+
                 <Modal show={this.state.showModalChangePassword}>
                     <Modal.Header closeButton={!this.props.isChangingPassword}
                                   onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}

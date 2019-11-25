@@ -109,7 +109,8 @@ table tr td .avatar-list-staff {
 
 .text-white {
   color: white;
-  &:hover{
+
+  &:hover {
     color: white;
 
   }
@@ -1336,9 +1337,9 @@ table tr td .avatar-honor {
     border-spacing: 0 10px;
   }
 
-  a.btn.btn-xs.btn-main{
-    color: white!important;
-    font-size: 10px!important;
+  a.btn.btn-xs.btn-main {
+    color: white !important;
+    font-size: 10px !important;
   }
 
   tr > th, td > a {
@@ -1365,8 +1366,9 @@ table tr td .avatar-honor {
   }
 
   tr > td, tr > th {
-    background-color: white !important;
+    background-color: white;
     padding: 15px 10px !important;
+    font-weight: 400 !important;
   }
 
   th, td {
@@ -1464,21 +1466,93 @@ table tr td .avatar-honor {
 }
 
 
-.card[mask=purple] {
+.card[mask]:not([mask=""]) {
   position: relative;
-  background-color: rgb(58, 50, 105);
 
-  .card-title, div {
-    color: white !important;
-    margin-top: 3px;
+  &[mask=purple] {
+    background-color: rgb(58, 50, 105);
+
+    img {
+      width: 50%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+    .card-title {
+      color: white !important;
+      margin-top: 3px;
+    }
   }
 
-  img {
-    width: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+  &[mask=gradient] {
+    background: linear-gradient(117deg, rgb(117, 77, 213) 0%, rgb(243, 74, 114) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+
+    .img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .card-title {
+      color: white !important;
+      font-size: 24px !important;
+      font-weight: bold !important;
+    }
+
+    .text-email {
+      color: white !important;
+
+      span {
+        font-weight: 500;
+      }
+    }
+
+    .btn-register-action {
+      padding: 8px 20px !important;
+      font-size: 14px;
+      color: black;
+    }
+
+    .source-wrap {
+      @extend .color-white;
+      font-weight: 400;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      .source-value {
+        text-align: center;
+        width: 50%;
+        background-color: #ffffff70;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: 600;
+      }
+
+    }
+
+    .detail-wrap {
+      p {
+        @extend .color-white;
+        display: flex;
+        justify-content: space-between;
+
+        strong {
+          white-space: nowrap;
+          width: 50%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
   }
+
+
+
+
 
   .btn-icon {
     margin-top: 6px;
@@ -1502,12 +1576,23 @@ table tr td .avatar-honor {
 
 }
 
+
+ul.nav.nav-pills.nav-pills-gradient {
+  margin-bottom: 20px;
+  li.active {
+    a {
+      background: transparent linear-gradient(109deg, #FF8E5C 0%, #E55035 100%) 0% 0% no-repeat padding-box !important;
+
+    }
+  }
+
+}
 .sidebar {
   font-weight: 400 !important;
   color: black !important;
 }
 
-.white-light-round{
+.white-light-round {
   background: white;
   border-radius: 10px;
   padding: 15px 20px;
