@@ -15,6 +15,8 @@ class LogsContainer extends React.Component {
         this.state = {
             currentPage: 1
         }
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+
     }
 
     componentWillMount() {
@@ -22,7 +24,7 @@ class LogsContainer extends React.Component {
     }
 
     loadLogs = (page = 1) => {
-        this.props.studentActions.loadLogs(this.props.params.studentId, page);
+        this.props.studentActions.loadLogs(this.studentId, page);
         this.setState({currentPage: page});
     };
 

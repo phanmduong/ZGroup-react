@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link, IndexLink} from 'react-router';
+// import {Link, IndexLink} from 'react-router';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
@@ -18,25 +18,62 @@ import ReactSelect from "react-select";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
 import {isEmptyInput} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
+import TooltipButton from "../../components/common/TooltipButton";
+import RegistersContainer from "./registers/RegistersContainer";
+import HistoryCallContainer from "./historyCalls/HistoryCallContainer";
+import ProgressContainer from "./progress/ProgressContainer";
+import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMoneyContainer";
+import LogsContainer from "./logsStudent/LogsContainer";
+
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.studentId = this.props.params.studentId;
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+
+        this.openModalChangePassword = this.openModalChangePassword.bind(this);
         this.path = '';
+        this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
-        this.editInfoStudent = this.editInfoStudent.bind(this);
-        this.openModalChangePassword = this.openModalChangePassword.bind(this);
         this.closeModalChangePassword = this.closeModalChangePassword.bind(this);
         this.state = {
             showModal: false,
             student: {},
             showModalChangePassword: false,
             showModalViewImage: false,
-            imageUrl: ''
+            imageUrl: '',
+            currentRoute:  {
+                path: `/sales/info-student/${this.studentId}`, text: 'Đăng kí',
+                component: <RegistersContainer studentId={this.studentId}/>
+            },
         };
+        this.routes = [
+            {
+                path: `/sales/info-student/${this.studentId}`, text: 'Đăng kí',
+                component: <RegistersContainer studentId={this.studentId}/>
+            },
+            {
+                path: `/sales/info-student/${this.studentId}/history-calls`, text: 'Cuộc gọi',
+                component: <HistoryCallContainer studentId={this.studentId}/>
+            },
+            {
+                path: `/sales/info-student/${this.studentId}/progress`,
+                text: 'Học tập',
+                component: <ProgressContainer studentId={this.studentId}/>
+            },
+            {
+                path: `/sales/info-student/${this.studentId}/history-collect-money`,
+                text: 'Nộp tiền',
+                component: <HistoryCollectMoneyContainer studentId={this.studentId}/>
+            },
+            {
+                path: `/sales/info-student/${this.studentId}/logs`,
+                text: 'Lịch sử web',
+                component: <LogsContainer studentId={this.studentId}/>
+            },
+        ];
     }
 
     componentWillMount() {
@@ -46,6 +83,27 @@ class InfoStudentContainer extends React.Component {
 
     componentDidUpdate() {
         helper.setFormValidation('#form-edit-student');
+    }
+
+    getRouteItem(route, index) {
+        const changeRoute = () => {
+            history.pushState({}, "modal", route.path);
+            this.setState({currentRoute: route});
+        }
+
+        return index == 0 ? (
+            <li key={index} className={this.path === route.path ? 'active' : ''}>
+                <a onClick={changeRoute}>
+                    {route.text}
+                </a>
+            </li>
+        ) : (
+            <li key={index} className={this.path === route.path ? 'active' : ''}>
+                <a onClick={changeRoute}>
+                    {route.text}
+                </a>
+            </li>
+        );
     }
 
     updateFormData(event) {
@@ -93,9 +151,18 @@ class InfoStudentContainer extends React.Component {
         });
     };
 
-    handleFileUpload(event, image) {
-        let file = event.target.files[0];
-        this.props.studentActions.uploadImage(file, this.studentId, image);
+    handleFileUpload(image) {
+        const that = this;
+        let input = document.createElement("input");
+        input.type = "file";
+        input.value = "";
+        input.accept = ".jpg,.png,.gif";
+        input.onchange = (e) => {
+            let file = e.target.files[0];
+            that.props.studentActions.uploadImage(file, that.studentId, image);
+        };
+        input.click();
+
     }
 
     updateGender = (e) => {
@@ -142,35 +209,50 @@ class InfoStudentContainer extends React.Component {
         return address;
     };
 
+    // getChildren = () => {
+    //     let route = this.routes.filter(r => r.path == window.location.pathname)[0];
+    //     return route ? route.component : <RegistersContainer studentId={this.studentId}/>;
+    // };
+
     render() {
-        this.path = this.props.location.pathname;
+        this.path = window.location.pathname;
+        const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
         return (
-            <div>
-                {this.props.isLoadingStudent && <Loading/>}
-                {!this.props.isLoadingStudent && <div className="row">
-                    <div className="col-md-12">
+            <div className="card">
+                <div className="card-content">
+                    {this.props.isLoadingStudent && <Loading/>}
+                    {!this.props.isLoadingStudent &&
 
-                        <div className="card" mask="gradient">
-                            <div className="card-content">
-                                <div className="row">
+                    <div className="card" mask="gradient">
+                        <div className="card-content">
+                            <div className="row">
 
-                                    <div className="col-md-6">
-                                        <div className="flex flex-wrap">
-                                            <div style={{marginRight: 20}}>
-                                                <div className="img"
+                                <div className="col-md-6">
+                                    <div className="flex flex-wrap">
+                                        <div style={{marginRight: 20}}>
+                                            <TooltipButton text="Thay ảnh đại diện" placement="top">
+                                                <div className="img father"
+                                                     onClick={() => this.handleFileUpload('avatar_url')}
                                                      style={{
                                                          backgroundImage: `url(${helper.validateLinkImage(this.props.student.avatar_url)})`
-                                                     }}
-                                                />
+                                                     }}>
 
-                                            </div>
-                                            <div>
-                                                <h4 className="card-title">{this.props.student.name}</h4>
-                                                <h6 className="category text-gray text-email">
-                                                    {this.props.student.email}&nbsp;&nbsp;&nbsp;
-                                                    <span>{this.props.student.phone}</span>
-                                                </h6>
+
+                                                    <div className="son"><i className="material-icons">
+                                                        photo_camera
+                                                    </i></div>
+                                                </div>
+                                            </TooltipButton>
+                                        </div>
+                                        <div>
+                                            <h4 className="card-title">{this.props.student.name}</h4>
+                                            <h6 className="category text-gray text-email">
+                                                {this.props.student.email}&nbsp;&nbsp;&nbsp;
+                                                <span>{this.props.student.phone}</span>
+                                            </h6>
+                                            <div className="flex flex-wrap">
+
                                                 {this.props.isEditingStudent ?
                                                     (
                                                         <button
@@ -185,308 +267,242 @@ class InfoStudentContainer extends React.Component {
                                                     >Sửa
                                                     </button>
                                                 }
+
+                                                <div className="dropdown">
+                                                    <button className="btn btn-white btn-register-action"
+                                                            type="button" data-toggle="dropdown">
+                                                        Thêm <i className="material-icons">arrow_drop_down</i>
+                                                    </button>
+                                                    <ul className="dropdown-menu dropdown-primary">
+                                                        <li>
+                                                            <a onClick={this.openModalChangePassword}
+                                                            >Thay đổi mật khẩu</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
-                                        <div className="source-wrap">
-                                            <div className="source-name">Nguồn</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">Kênh</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">Người nhập</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">P.I.C</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="source-wrap">
+                                        <div className="source-name">Nguồn</div>
+                                        <div className="source-value">N/A</div>
                                     </div>
-                                    <div className="col-md-3">
-                                        <div className="detail-wrap">
-                                            <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
-                                            <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
-                                            <p>Tên phụ huynh<strong>N/A</strong></p>
-                                            <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
-                                        </div>
+                                    <div className="source-wrap">
+                                        <div className="source-name">Kênh</div>
+                                        <div className="source-value">N/A</div>
+                                    </div>
+                                    <div className="source-wrap">
+                                        <div className="source-name">Người nhập</div>
+                                        <div className="source-value">N/A</div>
+                                    </div>
+                                    <div className="source-wrap">
+                                        <div className="source-name">P.I.C</div>
+                                        <div className="source-value">N/A</div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="detail-wrap">
+                                        <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
+                                        <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
+                                        <p>Phụ huynh<strong>N/A</strong></p>
+                                        <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>}
-                <div className="row">
-                    {!this.props.isLoadingStudent &&
-                    <div className="col-md-12">
-                        <ul className="nav nav-pills nav-pills-gradient" data-tabs="tabs">
-                            <li className={this.path === `/sales/info-student/${this.studentId}` ? 'active' : ''}>
-                                <IndexLink to={`/sales/info-student/${this.studentId}`}>
-                                    Đăng kí
-                                </IndexLink>
-                            </li>
-                            <li className={this.path === `/sales/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
-                                <Link to={`/sales/info-student/${this.studentId}/history-calls`}>
-                                    Cuộc gọi
-                                </Link>
-                            </li>
-                            <li className={this.path === `/sales/info-student/${this.studentId}/progress` ? 'active' : ''}>
-                                <Link to={`/sales/info-student/${this.studentId}/progress`}>
-                                    Học tập
-                                </Link>
-                            </li>
-                            <li className={this.path === `/sales/info-student/${this.studentId}/history-collect-money` ? 'active' : ''}>
-                                <Link to={`/sales/info-student/${this.studentId}/history-collect-money`}>
-                                    Nộp tiền
-                                </Link>
-                            </li>
-                            <li className={this.path === `/sales/info-student/${this.studentId}/logs` ? 'active' : ''}>
-                                <Link to={`/sales/info-student/${this.studentId}/logs`}>
-                                    Lịch sử web
-                                </Link>
-                            </li>
-                        </ul>
+                    }
+                    <div className="row">
 
-                    </div>}
-                    <div className="col-md-8">
+                        {!this.props.isLoadingStudent &&
+                        <div className="col-md-12">
+                            <ul className="nav nav-pills nav-pills-gradient" data-tabs="tabs">
+                                {this.routes.map((route, index) => {
+                                    return this.getRouteItem(route, index);
+                                })}
 
-                        <div className="card">
-                            <div className="card-content">
-                                <div className="tab-content">
-                                    {this.props.children}
-                                </div>
+                            </ul>
+
+                        </div>}
+                        {!this.props.isLoadingStudent &&
+                        <div className="col-md-8">
+                            <div className="card" mask="transparent">
+
+                                {this.routes.map((route,index)=>{
+                                    return route.path == this.state.currentRoute.path ?
+                                        route.component : <div/>
+
+                                })}
                             </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="row">
+                        </div>}
+                        <div className="col-md-4">
+
                             {!this.props.isLoadingStudent &&
 
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-content">
-                                        <div className="tab-content">
-                                            <h4 className="card-title"><strong>Ảnh xác thực</strong></h4>
-                                            <br/>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    <div
-                                                        className="flex flex-col flex-align-items-center flex-justify-content-center">
-                                                        <img style={{height: 'auto', width: '100%'}}
-                                                             onClick={() => this.openModalImageView(this.props.student.image1)}
-                                                             src={helper.validateLinkImage(this.props.student.image1)}/>
-                                                        <button className="btn btn-rose btn-round">
-                                                            Ảnh 1
-                                                            <input type="file"
-                                                                   accept=".jpg,.png,.gif"
-                                                                   onChange={(event) => this.handleFileUpload(event, 'image1')}
-                                                                   style={{
-                                                                       cursor: 'pointer',
-                                                                       opacity: "0.0",
-                                                                       position: "absolute",
-                                                                       top: 0,
-                                                                       left: 0,
-                                                                       bottom: 0,
-                                                                       right: 0,
-                                                                       width: "100%",
-                                                                       height: "100%"
-                                                                   }}
-                                                            />
-                                                        </button>
-                                                    </div>
+                            <div>
+                                <div className="card" mask="transparent">
+                                    <img className="img-user"
+                                        // onClick={() => this.openModalImageView(this.props.student.image1)}
+                                         onClick={() => this.handleFileUpload('image1')}
+                                         src={helper.validateLinkImage(this.props.student.image1, dfImg)}/>
+                                    {/*</div>*/}
 
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <div
-                                                        className="flex flex-col flex-align-items-center flex-justify-content-center">
-                                                        <img style={{height: 'auto', width: '100%'}}
-                                                             onClick={() => this.openModalImageView(this.props.student.image2)}
-                                                             src={helper.validateLinkImage(this.props.student.image2)}/>
-                                                        <button className="btn btn-rose btn-round">
-                                                            Ảnh 2
-                                                            <input type="file"
-                                                                   accept=".jpg,.png,.gif"
-                                                                   onChange={(event) => this.handleFileUpload(event, 'image2')}
-                                                                   style={{
-                                                                       cursor: 'pointer',
-                                                                       opacity: "0.0",
-                                                                       position: "absolute",
-                                                                       top: 0,
-                                                                       left: 0,
-                                                                       bottom: 0,
-                                                                       right: 0,
-                                                                       width: "100%",
-                                                                       height: "100%"
-                                                                   }}
-                                                            />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {/*<div className="card" mask="transparent">*/}
+                                    <img className="img-user"
+                                        // onClick={() => this.openModalImageView(this.props.student.image2)}
+                                         onClick={() => this.handleFileUpload('image2')}
+                                         src={helper.validateLinkImage(this.props.student.image2, dfImg)}/>
                                 </div>
-
                             </div>
                             }
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-content">
-                                        <button className="btn btn-rose btn-main"
-                                                onClick={this.openModalChangePassword}
-                                        >
-                                            Thay đổi mật khẩu
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+
+
                         </div>
+
                     </div>
 
-                </div>
-
-                <Modal show={this.state.showModalChangePassword}>
-                    <Modal.Header closeButton={!this.props.isChangingPassword}
-                                  onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}
-                                  closeLabel="Đóng">
-                        <Modal.Title>Thay đổi mật khẩu</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <ChangePassword
-                            studentId={this.studentId}
-                            closeModal={this.closeModalChangePassword}
-                        />
-                    </Modal.Body>
-                </Modal>
-                <Modal show={this.state.showModalViewImage}>
-                    <Modal.Header closeButton
-                                  onHide={() => {
-                                      this.setState({showModalViewImage: false});
-                                  }}
-                                  closeLabel="Đóng">
-                        <Modal.Title>Ảnh</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <img style={{height: 'auto', width: '100%'}}
-                             src={helper.validateLinkImage(this.state.imageUrl)}/>
-                        <div className="flex flex-col flex-align-items-center flex-justify-content-center">
-                            <button className="btn btn-rose"
-                                    onClick={() => {
-                                        this.setState({showModalViewImage: false});
-                                    }}
-                            > Thoát
-                            </button>
-                        </div>
-                    </Modal.Body>
-                </Modal>
-                <Modal show={this.state.showModal} onHide={this.closeModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Chỉnh sửa thông tin học viên</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form id="form-edit-student" onSubmit={(e) => {
-                            e.preventDefault();
-                        }}>
-                            <FormInputText
-                                label="Họ và tên"
-                                name="name"
-                                updateFormData={this.updateFormData}
-                                value={this.state.student.name}
-                                type="text"
+                    <Modal show={this.state.showModalChangePassword}>
+                        <Modal.Header closeButton={!this.props.isChangingPassword}
+                                      onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}
+                                      closeLabel="Đóng">
+                            <Modal.Title>Thay đổi mật khẩu</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <ChangePassword
+                                studentId={this.studentId}
+                                closeModal={this.closeModalChangePassword}
                             />
-                            <FormInputText
-                                label="Email"
-                                name="email"
-                                updateFormData={this.updateFormData}
-                                value={this.state.student.email}
-                                required={true}
-                                type="email"
-                            />
-                            <FormInputText
-                                label="Số điện thoại"
-                                name="phone"
-                                value={this.state.student.phone}
-                                type="text"
-                                updateFormData={this.updateFormData}
-                            />
-                            <ReactSelect
-                                value={this.state.student.gender}
-                                options={GENDER}
-                                onChange={this.updateGender}
-                                placeholder="Chọn giới tính"
-                            />
-                            <FormInputDate
-                                label="Chọn ngày sinh"
-                                value={this.state.student.dob}
-                                updateFormData={this.updateFormData}
-                                id="form-change-dob"
-                                name="dob"
-                            />
-                            <ReactSelect
-                                value={this.state.student.address}
-                                options={this.getDataAddress()}
-                                onChange={this.updateAddress}
-                                placeholder="Địa chỉ"
-                            />
-                            <FormInputText
-                                name="university"
-                                label="Trường học"
-                                value={this.state.student.university}
-                                updateFormData={this.updateFormData}
-                            />
-                            <FormInputText
-                                name="work"
-                                label="Nơi làm việc"
-                                value={this.state.student.work}
-                                updateFormData={this.updateFormData}
-                            />
-                            <FormInputText
-                                name="how_know"
-                                label="Lý do biết đến"
-                                value={this.state.student.how_know}
-                                updateFormData={this.updateFormData}
-                            />
-                            <FormInputText
-                                name="facebook"
-                                label="Link Facebook"
-                                value={this.state.student.facebook}
-                                updateFormData={this.updateFormData}
-                            />
-                            <div className="form-group">
-                                <label className="label-control">Mô tả</label>
-                                <textarea
-                                    type="text"
-                                    rows={5}
-                                    className="form-control"
-                                    value={
-                                        this.state.student.description ? this.state.student.description : ""
-                                    }
-                                    name="description"
-                                    onChange={this.updateFormData}
-                                />
-                                <span className="material-input"/>
-                            </div>
-                            {this.props.isEditingStudent ?
-                                (
-                                    <button
-                                        className="btn btn-fill btn-rose disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
-                                    </button>
-                                )
-                                :
+                        </Modal.Body>
+                    </Modal>
+                    <Modal show={this.state.showModalViewImage}>
+                        <Modal.Header closeButton
+                                      onHide={() => {
+                                          this.setState({showModalViewImage: false});
+                                      }}
+                                      closeLabel="Đóng">
+                            <Modal.Title>Ảnh</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <img style={{height: 'auto', width: '100%'}}
+                                 src={helper.validateLinkImage(this.state.imageUrl)}/>
+                            <div className="flex flex-col flex-align-items-center flex-justify-content-center">
                                 <button className="btn btn-rose"
-                                        onClick={this.editInfoStudent}
-                                > Cập nhật
+                                        onClick={() => {
+                                            this.setState({showModalViewImage: false});
+                                        }}
+                                > Thoát
                                 </button>
-                            }
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                    <Modal show={this.state.showModal} onHide={this.closeModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Chỉnh sửa thông tin học viên</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form id="form-edit-student" onSubmit={(e) => {
+                                e.preventDefault();
+                            }}>
+                                <FormInputText
+                                    label="Họ và tên"
+                                    name="name"
+                                    updateFormData={this.updateFormData}
+                                    value={this.state.student.name}
+                                    type="text"
+                                />
+                                <FormInputText
+                                    label="Email"
+                                    name="email"
+                                    updateFormData={this.updateFormData}
+                                    value={this.state.student.email}
+                                    required={true}
+                                    type="email"
+                                />
+                                <FormInputText
+                                    label="Số điện thoại"
+                                    name="phone"
+                                    value={this.state.student.phone}
+                                    type="text"
+                                    updateFormData={this.updateFormData}
+                                />
+                                <ReactSelect
+                                    value={this.state.student.gender}
+                                    options={GENDER}
+                                    onChange={this.updateGender}
+                                    placeholder="Chọn giới tính"
+                                />
+                                <FormInputDate
+                                    label="Chọn ngày sinh"
+                                    value={this.state.student.dob}
+                                    updateFormData={this.updateFormData}
+                                    id="form-change-dob"
+                                    name="dob"
+                                />
+                                <ReactSelect
+                                    value={this.state.student.address}
+                                    options={this.getDataAddress()}
+                                    onChange={this.updateAddress}
+                                    placeholder="Địa chỉ"
+                                />
+                                <FormInputText
+                                    name="university"
+                                    label="Trường học"
+                                    value={this.state.student.university}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <FormInputText
+                                    name="work"
+                                    label="Nơi làm việc"
+                                    value={this.state.student.work}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <FormInputText
+                                    name="how_know"
+                                    label="Lý do biết đến"
+                                    value={this.state.student.how_know}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <FormInputText
+                                    name="facebook"
+                                    label="Link Facebook"
+                                    value={this.state.student.facebook}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <div className="form-group">
+                                    <label className="label-control">Mô tả</label>
+                                    <textarea
+                                        type="text"
+                                        rows={5}
+                                        className="form-control"
+                                        value={
+                                            this.state.student.description ? this.state.student.description : ""
+                                        }
+                                        name="description"
+                                        onChange={this.updateFormData}
+                                    />
+                                    <span className="material-input"/>
+                                </div>
+                                {this.props.isEditingStudent ?
+                                    (
+                                        <button
+                                            className="btn btn-fill btn-rose disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                        </button>
+                                    )
+                                    :
+                                    <button className="btn btn-rose"
+                                            onClick={this.editInfoStudent}
+                                    > Cập nhật
+                                    </button>
+                                }
 
-                        </form>
-                    </Modal.Body>
-                </Modal>
+                            </form>
+                        </Modal.Body>
+                    </Modal>
+                </div>
             </div>
         );
     }

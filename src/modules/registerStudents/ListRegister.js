@@ -124,6 +124,7 @@ class ListRegister extends React.Component {
                                 </td>
                                 <td>
                                     <StudyProgressTooltip
+                                        openModalRegisterDetail={this.props.openModalRegisterDetail}
                                         register={register}
                                     />
                                 </td>

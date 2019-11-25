@@ -15,10 +15,13 @@ import Topics from "./Topics";
 class ProgressContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+
     }
 
+
     componentWillMount() {
-        this.props.studentActions.loadProgress(this.props.params.studentId);
+        this.props.studentActions.loadProgress(this.studentId);
     }
 
     computeCertificate(items) {

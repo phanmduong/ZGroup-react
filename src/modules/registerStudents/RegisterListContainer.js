@@ -22,6 +22,7 @@ import CreateRegisterModalContainer from './CreateRegisterModalContainer';
 // import TooltipButton from '../../components/common/TooltipButton';
 
 import Pagination from "../../components/common/Pagination";
+import InfoStudentContainer from "../infoStudent/InfoStudentContainer";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -35,6 +36,7 @@ class RegisterListContainer extends React.Component {
             showModal: false,
             showModalChangeClass: false,
             showChangeInfoStudent: false,
+            showModalRegisterDetail: false,
             register: {},
             note: '',
             campaignId: '',
@@ -47,6 +49,7 @@ class RegisterListContainer extends React.Component {
             selectedClassStatus: '',
             selectedBookmarkStatus: '',
             selectedTeleCallStatus: '',
+            selectedStudentId: '',
             classFilter: [],
             salerFilter: [],
             campaignFilter: [],
@@ -895,6 +898,15 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.uploadDistributionLead(userID, this.addLeadSuccess);
     };
 
+    openModalRegisterDetail = (selectedStudentId)=>{
+        history.pushState({}, "modal", `/sales/info-student/${selectedStudentId}`);
+        this.setState({selectedStudentId, showModalRegisterDetail: true})
+    }
+    closeModalRegisterDetail = ()=>{
+        history.pushState({}, "modal", `/sales/registerlist`);
+        this.setState({showModalRegisterDetail: false})
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -902,9 +914,7 @@ class RegisterListContainer extends React.Component {
                     <CreateRegisterModalContainer/>
                 </div>
                 <div>
-                    {/*<div className="card">*/}
-                    {/*    <div className="card-content">*/}
-                    {/*        <div className="tab-content">*/}
+
 
                     {this.props.isLoadingGens ? <Loading/> :
                         <div>
@@ -977,84 +987,6 @@ class RegisterListContainer extends React.Component {
                                                 </button>
 
                                             </div>
-                                            {/* Code của anh Dương :
-                                                {
-                                                    this.props.isCreateClass ?
-                                                        (
-                                                            <div>
-                                                                <div className="row">
-                                                                    {
-                                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
-
-                                                                            <div className="col-md-12">
-                                                                                <Select
-                                                                                    options={this.state.gens}
-                                                                                    onChange={this.changeGens}
-                                                                                    value={this.state.selectGenId}
-                                                                                    defaultMessage="Chọn khóa học"
-                                                                                    name="gens"
-                                                                                />
-                                                                            </div>
-                                                                            :
-                                                                            <div/>
-
-                                                                    }
-
-                                                                </div>
-                                                                <div className="row">
-                                                                    <div className="col-md-12">
-                                                                        <div className="col-md-3">
-                                                                            <button
-                                                                                type="button"
-                                                                                className="btn btn-white"
-                                                                                onClick={() => {
-                                                                                    this.openModalClass();
-                                                                                }}
-                                                                            >
-                                                                                Thêm lớp
-                                                                            </button>
-                                                                        </div>
-                                                                        <div className="col-md-9">
-                                                                            <Search
-                                                                                onChange={this.classesSearchChange}
-                                                                                value={this.state.query}
-                                                                                placeholder="Tìm kiếm lớp"
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                        :
-                                                        (
-                                                            <div>
-                                                                <div className="row">
-                                                                    {
-                                                                        (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
-
-                                                                        <div className="col-md-12">
-                                                                            <Select
-                                                                                options={this.state.gens}
-                                                                                onChange={this.changeGens}
-                                                                                value={this.state.selectGenId}
-                                                                                defaultMessage="Chọn khóa học"
-                                                                                name="gens"
-                                                                            />
-                                                                        </div>
-
-                                                                    }
-
-                                                                </div>
-
-                                                                <Search
-                                                                    onChange={this.classesSearchChange}
-                                                                    value={this.state.query}
-                                                                    placeholder="Tìm kiếm lớp"
-                                                                />
-                                                            </div>
-                                                        )
-                                                }
-                                                */}
 
                                         </div>
 
@@ -1307,6 +1239,7 @@ class RegisterListContainer extends React.Component {
                                         loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
                                         openModalChangeClass={this.openModalChangeClass}
                                         openModalChangeInfoStudent={this.openModalChangeInfoStudent}
+                                        openModalRegisterDetail={this.openModalRegisterDetail}
                                         changeStatusPause={this.changeStatusPause}
                                         changeMarkRegister={this.changeMarkRegister}
                                         addMyLead={this.addMyLead}
@@ -1328,29 +1261,10 @@ class RegisterListContainer extends React.Component {
                                     />
                                 </div>
                             </div>
-                            {/*<ul className="pagination pagination-primary">*/}
-                            {/*{_.range(1, this.props.totalPages + 1).map(page => {*/}
-                            {/*if (Number(this.state.page) === page) {*/}
-                            {/*return (*/}
-                            {/*<li key={page} className="active">*/}
-                            {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
-                            {/*</li>*/}
-                            {/*);*/}
-                            {/*} else {*/}
-                            {/*return (*/}
-                            {/*<li key={page}>*/}
-                            {/*<a onClick={() => this.loadRegisterStudent(page)}>{page}</a>*/}
-                            {/*</li>*/}
-                            {/*);*/}
-                            {/*}*/}
 
-                            {/*})}*/}
-                            {/*</ul>*/}
                         </div>
                     }
-                    {/*</div>*/}
-                    {/*</div>*/}
-                    {/*</div>*/}
+
                 </div>
 
 
@@ -1720,6 +1634,18 @@ class RegisterListContainer extends React.Component {
                             />
 
                         }
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalRegisterDetail}
+                       onHide={()=>this.closeModalRegisterDetail()}
+                       bsSize="large"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Thông tin học viên</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <InfoStudentContainer
+                            studentId={this.state.selectedStudentId}/>
                     </Modal.Body>
                 </Modal>
                 <Modal

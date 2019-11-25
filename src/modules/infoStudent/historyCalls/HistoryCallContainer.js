@@ -17,12 +17,14 @@ class HistoryCallContainer extends React.Component {
             appointmentPayment: '',
             dateTest: ''
         };
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+
     }
+
 
     componentWillMount() {
-        this.props.studentActions.loadHistoryCalls(this.props.params.studentId);
+        this.props.studentActions.loadHistoryCalls(this.studentId);
     }
-
     changeCallStatusStudent = (callStatus, studentId) => {
         this.props.studentActions.changeCallStatusStudent(callStatus, studentId, this.state.note, this.state.appointmentPayment, this.state.dateTest);
     }

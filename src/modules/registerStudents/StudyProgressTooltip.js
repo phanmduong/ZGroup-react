@@ -76,10 +76,14 @@ class StudyProgressTooltip extends React.Component {
                  data-original-title={renderToString(<Loading/>)}
                  data-placement="right"
             >
-                <Link to={`/sales/info-student/${this.props.register.student_id}`}
+                {/*<Link to={`/sales/info-student/${this.props.register.student_id}`}*/}
+                {/*      className="text-name-student-register">*/}
+                {/*    {this.props.register.name}*/}
+                {/*</Link>*/}
+                <a onClick={()=>this.props.openModalRegisterDetail(this.props.register.student_id)}
                       className="text-name-student-register">
                     {this.props.register.name}
-                </Link>
+                </a>
             </div>
         );
     }

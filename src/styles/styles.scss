@@ -1469,6 +1469,35 @@ table tr td .avatar-honor {
 .card[mask]:not([mask=""]) {
   position: relative;
 
+  &[mask=transparent] {
+    background-color: transparent;
+
+    .timeline > li > .timeline-badge{
+      top: 0;
+    }
+
+    .timeline.timeline-simple{
+      margin: 0px;
+    }
+
+    .timeline > li.timeline-inverted > .timeline-panel:after, .timeline > li.timeline-inverted > .timeline-panel:before {
+      display: none;
+    }
+
+    .timeline > li.timeline-inverted > .timeline-panel {
+      background-color: #f7f7f7;
+      box-shadow: none;
+    }
+    img.img-user{
+
+      border-radius: 5px;
+      cursor: pointer;
+      height: auto;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+  }
+
   &[mask=purple] {
     background-color: rgb(58, 50, 105);
 
@@ -1487,13 +1516,25 @@ table tr td .avatar-honor {
 
   &[mask=gradient] {
     background: linear-gradient(117deg, rgb(117, 77, 213) 0%, rgb(243, 74, 114) 100%) 0% 0% no-repeat padding-box padding-box transparent;
-
+    margin: 5px 0;
     .img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
       background-position: center;
       background-size: cover;
+      cursor: pointer;
+      i{
+        background-color: #00000060;
+        color: white;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 45px;
+      }
     }
 
     .card-title {
@@ -1504,7 +1545,7 @@ table tr td .avatar-honor {
 
     .text-email {
       color: white !important;
-
+      margin-top: 0px;
       span {
         font-weight: 500;
       }
@@ -1514,6 +1555,16 @@ table tr td .avatar-honor {
       padding: 8px 20px !important;
       font-size: 14px;
       color: black;
+      cursor: pointer;
+      margin-right: 10px;
+      i {
+        margin-left: 5px;
+        margin-right: -10px;
+      }
+
+      &:hover {
+        background-color: #eee
+      }
     }
 
     .source-wrap {
@@ -1545,13 +1596,11 @@ table tr td .avatar-honor {
           width: 50%;
           overflow: hidden;
           text-overflow: ellipsis;
+          text-align: right;
         }
       }
     }
   }
-
-
-
 
 
   .btn-icon {
@@ -1579,14 +1628,16 @@ table tr td .avatar-honor {
 
 ul.nav.nav-pills.nav-pills-gradient {
   margin-bottom: 20px;
+
   li.active {
     a {
       background: transparent linear-gradient(109deg, #FF8E5C 0%, #E55035 100%) 0% 0% no-repeat padding-box !important;
-
+      box-shadow: none;
     }
   }
 
 }
+
 .sidebar {
   font-weight: 400 !important;
   color: black !important;
@@ -1596,4 +1647,16 @@ ul.nav.nav-pills.nav-pills-gradient {
   background: white;
   border-radius: 10px;
   padding: 15px 20px;
+}
+
+
+.father{
+  &:hover{
+    .son{
+      display: unset;
+    }
+  }
+  .son{
+    display: none;
+  }
 }

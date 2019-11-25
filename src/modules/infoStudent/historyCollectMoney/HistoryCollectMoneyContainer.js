@@ -12,10 +12,13 @@ import {dotNumber} from "../../../helpers/helper";
 class HistoryCollectMoneyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+
     }
 
+
     componentWillMount() {
-        this.props.studentActions.loadHistoryCollectMoney(this.props.params.studentId);
+        this.props.studentActions.loadHistoryCollectMoney(this.studentId);
     }
 
     render() {
