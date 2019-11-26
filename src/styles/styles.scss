@@ -519,7 +519,7 @@ $starInactive: #c4c5c6;
 .keetool-content {
   margin-top: 60px;
   min-height: calc(100vh - 70px);
-  padding: 10px;
+  //padding: 10px;
 }
 
 .btn-more-dropdown {
@@ -1505,12 +1505,15 @@ table tr td .avatar-honor {
 
   &[mask=purple] {
     background-color: rgb(58, 50, 105);
-    .lead-count{
-        @extend .color-white;
+
+    .lead-count {
+      @extend .color-white;
     }
-    .btn-white{
+
+    .btn-white {
       color: black;
     }
+
     .checkbox, .radio {
       margin: 0;
     }
@@ -1557,7 +1560,7 @@ table tr td .avatar-honor {
       cursor: pointer;
 
       i {
-        background-color: #00000060;
+        background-color: rgba(0, 0, 0, 0.61);
         color: white;
         width: 100%;
         height: 100%;
@@ -1693,5 +1696,463 @@ ul.nav.nav-pills.nav-pills-gradient {
 
   .son {
     display: none;
+  }
+}
+
+.import-data-container {
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 80px;
+
+
+  .import-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .import-footer {
+    background-color: #e5e5e5;
+    width: 100%;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding-left: 280px;
+    @media (max-width: 991px) {
+      padding-left: 20px;
+    }
+  }
+
+  //@media (min-width: 992px){
+  //  .sidebar-mini .sidebar, .sidebar-mini .main-panel {
+  //    .import-footer {
+  //      padding-left: 100px;
+  //    }
+  //  }
+  //}
+
+
+  .import-content {
+    padding: 20px;
+  }
+
+  .import-steps {
+    margin-top: 20px;
+  }
+}
+
+
+$complete: #00BC07;
+$active: #00BC07;
+$mute: #6f6f6f;
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  color: darken($mute, 33%);
+  height: 4rem;
+
+  > .step {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+
+    &:before {
+      content: attr(data-step);
+      display: block;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 2px solid $mute;
+      color: $mute;
+      width: 2rem;
+      height: 2rem;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      line-height: 1.9rem;
+      border-radius: 100%;
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      background: $mute;
+      width: 100%;
+      height: 0.125rem;
+      top: 1rem;
+      left: 50%;
+    }
+
+    &:last-child:after {
+      display: none;
+    }
+
+    &.is-complete {
+      color: black;
+
+      &:before {
+        content: '\2713';
+        color: $complete;
+        background: #e2fee3;
+        border: 2px solid $complete;
+      }
+
+      &:after {
+        background: $complete;
+      }
+    }
+
+    &.is-active {
+      //font-size: 20px;
+
+      &:before {
+        color: #FFF;
+        border: 2px solid $complete;
+        background: $active;
+        margin-bottom: 0.8rem;
+      }
+    }
+  }
+}
+
+.button-default {
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  font-size: 14px;
+  display: flex;
+  background-color: transparent;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #eeeeee;
+  }
+
+  .material-icons {
+    font-size: 12px;
+  }
+}
+
+.button-green {
+  @extend .button-default;
+  background-color: #00BC07;
+  color: white;
+
+  &:hover {
+    background-color: #009a07;
+  }
+
+}
+
+$min-height-step-content: 500px;
+
+.type-data-container {
+  width: 100%;
+  flex: 1;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  min-height: $min-height-step-content;
+
+  .type-item {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    color: black;
+
+    .type-content {
+      position: relative;
+      padding: 20px;
+      border-radius: 5px;
+      border: solid 1.5px #c4c4c4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      cursor: pointer;
+
+      &:hover, &.type-active {
+        border-color: #00BC07;
+        background-color: rgba(0, 188, 7, 0.22);
+      }
+
+      .type-title {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .type-description {
+        margin-top: 10px;
+      }
+
+      .type-icon {
+        width: 100%;
+      }
+
+      .type-checkbox {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+    }
+  }
+}
+
+.main-panel {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    z-index: 10000;
+  }
+}
+
+/* The container */
+.checkbox-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+//when add tag label
+
+.checkbox-container .label {
+  margin-top: 12px;
+  padding-left: 23px;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  left: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-radius: 3px;
+  border: solid 1.5px #c4c4c4;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #eeeeee;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #00BC07;
+  border: none;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.upload-data-container {
+  width: 100%;
+  flex: 1;
+  align-items: start;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  min-height: $min-height-step-content;
+
+  .choose-type-upload {
+    padding-left: 40px;
+    padding-right: 20px;
+    width: 100%;
+    padding-bottom: 20px;
+
+    input[type='radio'] {
+      margin-right: 20px;
+    }
+  }
+}
+
+.radio-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radio-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: solid 1.5px #c4c4c4;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-container input:checked ~ .checkmark {
+  background-color: #00BC07;
+  border: none;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .checkmark:after {
+  top: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.input-link {
+  padding-left: 40px;
+
+  input {
+    width: 100%;
+    border: none;
+    background-color: #eeeeee;
+    padding: 10px;
+    border-radius: 5px;
+    color: black;
+
+  }
+}
+
+.form-upload-file {
+  padding-left: 40px;
+
+  .button-upload {
+    border-radius: 5px;
+    border: dashed 1.5px #d5d5d5;
+    width: 100%;
+    height: 100px;
+    cursor: pointer;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover, &.drag-over {
+      background-color: #eeeeee;
+    }
+
+    input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+
+}
+
+.format-file-container {
+  padding-top: 20px;
+  min-width: $min-height-step-content;
+  table > thead > tr > th {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  table > tbody > tr > td {
+    font-weight: normal;
+    &.text-grey{
+      color: #a8a8a8;
+    }
   }
 }

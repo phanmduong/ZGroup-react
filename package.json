@@ -88,6 +88,8 @@
     "build:crm": "npm run lint && rimraf ./dist/crm && mkdir dist/crm && MODULE=crm babel-node tools/build/module.js",
     "start:measurement": "MODULE=measurement npm-run-all --parallel open:src lint:watch",
     "build:measurement": "npm run lint && rimraf ./dist/measurement && mkdir dist/measurement && MODULE=measurement babel-node tools/build/module.js",
+    "start:import": "MODULE=import npm-run-all --parallel open:src lint:watch",
+    "build:import": "npm run lint && rimraf ./dist/import && mkdir dist/import && MODULE=import babel-node tools/build/module.js",
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",

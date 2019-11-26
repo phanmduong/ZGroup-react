@@ -14,9 +14,17 @@ import {NO_AVATAR} from "../../constants/env";
 import FormInputText from "../../components/common/FormInputText";
 import Checkbox from "../../components/common/Checkbox";
 import {Modal} from "react-bootstrap";
-import {confirm, isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
+import {
+    confirm,
+    isEmptyInput,
+    readExcel,
+    showErrorMessage,
+    showTypeNotification
+} from "../../helpers/helper";
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
+import moment from "moment";
+import {DATE_FORMAT_SQL} from "../../constants/constants";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -266,31 +274,56 @@ class LeadContainer extends React.Component {
     handleFile(event) {
         let leads = [];
         let fileCorrect = true;
+        let fileCorrectDob = true;
         readExcel(event.target.files[0], true).then((data) => {
             data.map((row) => {
                 if (isEmptyInput(row[0]) || isEmptyInput(row[1]) || isEmptyInput(row[2])
-                    || isEmptyInput(row[4])) {
+                    || isEmptyInput(row[6])) {
                     fileCorrect = false;
                 }
             });
             if (fileCorrect) {
                 data.map((row) => {
-                    leads.push({
+                    let dataUser = {
                         name: row[0].trim(),
                         email: row[1].trim(),
                         phone: row[2].trim(),
-                        how_know: row[3] ? row[3].trim() : "",
-                        rate: row[4].trim(),
+                        dob: row[3] ? moment(row[3].trim(), "DD/MM/YYYY").format(DATE_FORMAT_SQL) : "",
+                        source: row[4] ? row[4].trim() : "",
+                        campaign: row[5] ? row[5].trim() : "",
+                        rate: row[6].trim(),
+                        note: row[7] ? row[7].trim() : "",
 
-                    });
+                    };
+                    if (dataUser.dob == "Invalid date") {
+                        showTypeNotification("Lỗi ngày sinh của " + dataUser.name, "warning");
+                        dataUser.dob = '';
+                        fileCorrectDob = false;
+                    }
+                    leads.push(dataUser);
+
                 });
-                this.props.leadActions.uploadLeads(leads);
+                console.log(leads);
+                if (fileCorrectDob) {
+                    this.props.leadActions.uploadLeads(leads);
+                } else {
+                    confirm('warning', "File có lỗi ngày sinh", "Có lỗi ngày sinh. Bạn có muốn tiếp tục đăng file ?",
+                        () => {
+                            this.props.leadActions.uploadLeads(leads);
+                        }
+                    );
+                }
+
+
             } else {
                 showErrorMessage("Kiểm tra lại file");
             }
-        }).catch(() => {
+        }).catch((e) => {
+            console.log(e);
             showErrorMessage("Kiểm tra lại file");
         });
+
+        event.target.value = '';
     }
 
     changeTop(event) {

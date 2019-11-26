@@ -861,7 +861,7 @@ export function changeToSlugSpace(title) {
     return slug;
 }
 
-export function readExcel(file, isSkipReadFile) {
+export function readExcel(file, isSkipReadFile, ignoreHeader = true) {
     let promise = new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -878,7 +878,7 @@ export function readExcel(file, isSkipReadFile) {
                 ws['!ref'] = XLSX.utils.encode_range(range);
             }
             /* Convert array of arrays */
-            const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+            const data = XLSX.utils.sheet_to_json(ws, {header: ignoreHeader});
             /* Update state */
             resolve(data);
         };
@@ -964,7 +964,7 @@ export function saveWorkBookToExcel(wb, filename, bookType = "xlsx") {
 
 export function saveContentToFile(content, filename) {
     try {
-        FILE_SAVER.saveAs(new Blob([content], {type:"image/svg+xml;charset=utf-8"}), filename);
+        FILE_SAVER.saveAs(new Blob([content], {type: "image/svg+xml;charset=utf-8"}), filename);
     } catch (e) {
         if (typeof console != 'undefined') console.log(e, content);
     }
