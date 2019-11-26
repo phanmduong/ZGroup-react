@@ -8,7 +8,7 @@ import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
 export function changeCallStatusStudent(callStatus,
                                         studentId,
                                         note,
-                                        appointmentPayment, dateTest) {
+                                        appointmentPayment, dateTest, callback) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT,
@@ -29,13 +29,14 @@ export function changeCallStatusStudent(callStatus,
                     type: types.CHANGE_CALL_STATUS_INFO_STUDENT_SUCCESS,
                     historyCall: res.data.data,
                 });
+                helper.showNotification("Lưu thành công!");
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra");
                 dispatch({
                     type: types.CHANGE_CALL_STATUS_INFO_STUDENT_ERROR,
                 });
-            });
+            }).finally(callback);
     };
 }
 

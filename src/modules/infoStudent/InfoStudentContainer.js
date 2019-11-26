@@ -1,14 +1,9 @@
-/**
- * Created by phanmduong on 9/1/17.
- */
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-// import {Link, IndexLink} from 'react-router';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
-// import {NO_AVATAR, PROTOCOL} from '../../constants/env';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
@@ -24,6 +19,7 @@ import HistoryCallContainer from "./historyCalls/HistoryCallContainer";
 import ProgressContainer from "./progress/ProgressContainer";
 import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMoneyContainer";
 import LogsContainer from "./logsStudent/LogsContainer";
+import CallRegisterOverlay from "./overlays/CallRegisterOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -237,8 +233,6 @@ class InfoStudentContainer extends React.Component {
                                                      style={{
                                                          backgroundImage: `url(${helper.validateLinkImage(this.props.student.avatar_url)})`
                                                      }}>
-
-
                                                     <div className="son"><i className="material-icons">
                                                         photo_camera
                                                     </i></div>
@@ -252,7 +246,9 @@ class InfoStudentContainer extends React.Component {
                                                 <span>{this.props.student.phone}</span>
                                             </h6>
                                             <div className="flex flex-wrap">
-
+                                                <CallRegisterOverlay
+                                                    studentId={this.props.student.id}
+                                                />
                                                 {this.props.isEditingStudent ?
                                                     (
                                                         <button

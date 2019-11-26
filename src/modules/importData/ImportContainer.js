@@ -50,7 +50,7 @@ const STEPS = [
         data: {
             formatters: []
         },
-        isNext: (data) => {
+        isNext: () => {
             return true;
         }
     },
@@ -59,7 +59,7 @@ const STEPS = [
         name: "Chi tiết",
         component: Detail,
         data: {},
-        isNext: (data) => {
+        isNext: () => {
             return true;
         }
     },

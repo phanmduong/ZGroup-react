@@ -186,8 +186,6 @@ HistoryCallContainer.propTypes = {
     studentActions: PropTypes.object.isRequired,
     isLoadingHistoryCalls: PropTypes.bool.isRequired,
     isChangingStatusCall: PropTypes.bool.isRequired,
-    location: PropTypes.object,
-    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
