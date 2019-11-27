@@ -11,6 +11,7 @@ class StudyProgressTooltip extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.loaded = false;
+        this.mouseOver = false;
         this.state = {
             isLoading: false,
             progress: [],
@@ -22,6 +23,7 @@ class StudyProgressTooltip extends React.Component {
 
     loadProgress = () => {
         if (this.loaded) return;
+        this.mouseOver = true;
         this.setState({isLoading: true});
         let studentId = this.props.register.student_id;
         let url = env.MANAGE_API_URL + `/student/${studentId}/progress`;
@@ -33,13 +35,18 @@ class StudyProgressTooltip extends React.Component {
             .then(res => {
                 this.loaded = true;
                 this.setState({isLoading: false, progress: res.data.data.progress});
-
-                $("#progress-" + this.props.register.id).attr('data-original-title', this.component()).tooltip('show');
+                $("#progress-" + this.props.register.id).attr('data-original-title', this.component());
+                if(this.mouseOver)
+                    $("#progress-" + this.props.register.id).tooltip('show');
 
             }).catch(() => {
             this.setState({isLoading: false});
         });
     };
+
+    onMouseLeave = ()=>{
+        this.mouseOver = false;
+    }
 
     component = () => {
         return renderToString(
@@ -72,6 +79,7 @@ class StudyProgressTooltip extends React.Component {
             <div id={"progress-" + this.props.register.id} data-html="true"
                  data-toggle="tooltip" type="button" rel="tooltip" title=""
                  onMouseEnter={this.loadProgress}
+                 onMouseLeave={this.onMouseLeave}
                  data-original-title={renderToString(<Loading/>)}
                  data-placement="right"
             >
