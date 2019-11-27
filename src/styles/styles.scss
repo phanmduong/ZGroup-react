@@ -1543,13 +1543,13 @@ table tr td .avatar-honor {
     }
   }
 
-  &[mask=gradient] {
-    background: linear-gradient(117deg, rgb(117, 77, 213) 0%, rgb(243, 74, 114) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+  &[mask=blue] {
+    background: #4855d1;
     margin: 5px 0;
 
     .img {
-      width: 70px;
-      height: 70px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background-position: center;
       background-size: cover;
@@ -1572,67 +1572,22 @@ table tr td .avatar-honor {
       color: white !important;
       font-size: 24px !important;
       font-weight: bold !important;
+      text-align: center;
     }
 
     .text-email {
       color: white !important;
       margin-top: 0px;
-
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       span {
         font-weight: 500;
       }
     }
 
-    .btn-register-action {
-      padding: 8px 20px !important;
-      font-size: 14px;
-      color: black;
-      cursor: pointer;
-      margin-right: 10px;
 
-      i {
-        margin-left: 5px;
-        margin-right: -10px;
-      }
-
-      &:hover {
-        background-color: #eee
-      }
-    }
-
-    .source-wrap {
-      @extend .color-white;
-      font-weight: 400;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-
-      .source-value {
-        text-align: center;
-        width: 50%;
-        background-color: #ffffff70;
-        border-radius: 3px;
-        font-size: 10px;
-        font-weight: 600;
-      }
-
-    }
-
-    .detail-wrap {
-      p {
-        @extend .color-white;
-        display: flex;
-        justify-content: space-between;
-
-        strong {
-          white-space: nowrap;
-          width: 50%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: right;
-        }
-      }
-    }
   }
 
 
@@ -1658,6 +1613,138 @@ table tr td .avatar-honor {
 
 }
 
+.source-card {
+  background-color: #f7f7f7 !important;
+
+  .source-wrap {
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .source-value {
+      text-align: center;
+      width: 50%;
+      background-color: #ffffff70;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      color: white;
+    }
+
+    &:nth-of-type(1) .source-value {
+      background-color: #629eec;
+    }
+
+    &:nth-of-type(2) .source-value {
+      background-color: #ef408b;
+    }
+
+    &:nth-of-type(3) .source-value {
+      background-color: #ffbf60;
+    }
+
+    &:nth-of-type(4) .source-value {
+      background-color: #49bc31;
+    }
+  }
+}
+
+.detail-wrap {
+  background-color: #f7f7f7 !important;
+  font-weight: 400;
+
+  .btn {
+    background-color: #e8e8e8 !important;
+    box-shadow: none !important;
+    color: black;
+  }
+
+  p {
+    display: flex;
+    justify-content: space-between;
+
+    strong {
+      white-space: nowrap;
+      width: 50%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: right;
+    }
+
+  }
+}
+
+.time-line-register {
+
+  .timeline-panel, & li,& {
+    padding-bottom: 0 !important;
+    margin-bottom: 0!important;
+
+  }
+  .timeline-panel {
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    &:before, .timeline-inverted:after, &:after {
+      display: none !important;
+    }
+  }
+
+  .col-md-3{
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    &:first-child{
+      padding-left: 16px !important;
+      padding-right: 8px !important;
+    }
+    &:last-child{
+      padding-left: 8px !important;
+      padding-right: 16px !important;
+    }
+  }
+
+  &:before {
+    height: 90%;
+  }
+
+  .btn {
+    box-shadow: none !important;
+  }
+
+  .btn-register-action {
+    & {
+      padding: 20px 0px !important;
+      font-size: 14px;
+      color: white !important;
+      cursor: pointer;
+      margin-right: 10px;
+      border-radius: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 0;
+      flex-wrap: wrap;
+    }
+    &[mask=call]{
+      background-color: #18cc41 !important;
+    }
+    &[mask=create]{
+      background-color:#f06a46 !important;
+    }
+    &[mask=money]{
+      background-color: #e65238 !important;
+    }
+    &[mask=extra]{
+      background-color: #629eec !important;
+    }
+
+    i {
+      font-size: 25px;
+    }
+  }
+}
 
 ul.nav.nav-pills.nav-pills-gradient {
   margin-bottom: 20px;
@@ -1698,32 +1785,51 @@ ul.nav.nav-pills.nav-pills-gradient {
 .overlay-call-register {
   padding-left: 15px;
   padding-right: 15px;
-  .form-group{
+
+  &[mask=extra]{
+    left: unset!important;
+    right: 0;
+  }
+  &[mask=money]{
+    left: unset!important;
+    right: 0;
+  }
+
+  .form-group {
     margin-top: 10px;
   }
+
   &.kt-overlay {
-    z-index: 101!important;
+    z-index: 101 !important;
   }
-  button.btn{
+
+  button.btn {
     border-radius: 5px;
-    padding: 15px 15px!important;
+    padding: 15px 15px !important;
+
+    //&.btn-white {
+    //  padding: 0px !important;
+    //}
     &.btn-white{
-      padding: 0px!important;
+      margin: 0!important;
     }
-    &.filter-white{
+    &.btn-white:hover{
+      background-color: #f7f7f7!important;
+    }
+    &.filter-white {
       filter: opacity(0.5);
     }
   }
 
-  label{
+  label {
     color: black;
   }
 
-  input{
-    padding: 20px 10px!important;
-    background-color: #f3f4f3!important;
-    border-radius: 5px!important;
-    background-image: none!important;
+  input {
+    padding: 20px 10px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
   }
 
   .input-note-register {
@@ -1731,11 +1837,13 @@ ul.nav.nav-pills.nav-pills-gradient {
     background-color: #f3f4f3;
     padding: 10px 5px 10px 15px;
     margin-top: 10px;
-    textarea{
+
+    textarea {
       min-height: 100px;
-      background-image:none;
+      background-image: none;
       resize: none;
-      &:focus{
+
+      &:focus {
         box-shadow: none;
       }
     }
@@ -2203,5 +2311,11 @@ $min-height-step-content: 500px;
 }
 
 .btn-white {
-  color: black!important;
+  color: black !important;
 }
+@media (min-width: 992px) {
+  .modal-lg.modal-xlg{
+    width: 1268px;
+  }
+}
+

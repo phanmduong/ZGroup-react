@@ -20,6 +20,9 @@ import ProgressContainer from "./progress/ProgressContainer";
 import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMoneyContainer";
 import LogsContainer from "./logsStudent/LogsContainer";
 import CallRegisterOverlay from "./overlays/CallRegisterOverlay";
+import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
+import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
+import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -40,7 +43,7 @@ class InfoStudentContainer extends React.Component {
             showModalChangePassword: false,
             showModalViewImage: false,
             imageUrl: '',
-            currentRoute:  {
+            currentRoute: {
                 path: `/sales/info-student/${this.studentId}`, text: 'Đăng kí',
                 component: <RegistersContainer studentId={this.studentId}/>
             },
@@ -85,7 +88,7 @@ class InfoStudentContainer extends React.Component {
         const changeRoute = () => {
             history.pushState({}, "modal", route.path);
             this.setState({currentRoute: route});
-        }
+        };
 
         return index == 0 ? (
             <li key={index} className={this.path === route.path ? 'active' : ''}>
@@ -215,18 +218,19 @@ class InfoStudentContainer extends React.Component {
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
         return (
-            <div className={this.props.location ? "card" :''}>
-                <div className={this.props.location ? "card-content" :''}>
-                    {this.props.isLoadingStudent && <Loading/>}
-                    {!this.props.isLoadingStudent &&
+            <div className={this.props.location ? "card" : ''}>
+                <div className={this.props.location ? "card-content" : ''}>
+                    <div className="row">
 
-                    <div className="card" mask="gradient">
-                        <div className="card-content">
-                            <div className="row">
+                        <div className="col-md-4">
+                            {this.props.isLoadingStudent && <Loading/>}
+                            {!this.props.isLoadingStudent &&
+                            <div>
+                                <div className="card" mask="blue">
+                                    <div className="card-content flex flex-col">
 
-                                <div className="col-md-6">
-                                    <div className="flex flex-wrap">
-                                        <div style={{marginRight: 20}}>
+
+                                        <div className="flex flex-justify-content-center">
                                             <TooltipButton text="Thay ảnh đại diện" placement="top">
                                                 <div className="img father"
                                                      onClick={() => this.handleFileUpload('avatar_url')}
@@ -239,102 +243,64 @@ class InfoStudentContainer extends React.Component {
                                                 </div>
                                             </TooltipButton>
                                         </div>
-                                        <div>
-                                            <h4 className="card-title">{this.props.student.name}</h4>
-                                            <h6 className="category text-gray text-email">
-                                                {this.props.student.email}&nbsp;&nbsp;&nbsp;
-                                                <span>{this.props.student.phone}</span>
-                                            </h6>
-                                            <div className="flex flex-wrap">
-                                                <CallRegisterOverlay
-                                                    studentId={this.props.student.id}
-                                                />
-                                                {this.props.isEditingStudent ?
-                                                    (
-                                                        <button
-                                                            className="btn btn-white btn-register-action disabled"
-                                                        >
-                                                            <i className="fa fa-spinner fa-spin"/> Đang sửa
-                                                        </button>
-                                                    )
-                                                    :
-                                                    <button className="btn btn-white btn-register-action"
-                                                            onClick={this.openModal}
-                                                    >Sửa
-                                                    </button>
-                                                }
 
-                                                <div className="dropdown">
-                                                    <button className="btn btn-white btn-register-action"
-                                                            type="button" data-toggle="dropdown">
-                                                        Thêm <i className="material-icons">arrow_drop_down</i>
-                                                    </button>
-                                                    <ul className="dropdown-menu dropdown-primary">
-                                                        <li>
-                                                            <a onClick={this.openModalChangePassword}
-                                                            >Thay đổi mật khẩu</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+
+                                        <h4 className="card-title">{this.props.student.name}</h4>
+                                        <h6 className="category text-gray text-email">
+                                            {this.props.student.email}&nbsp;&nbsp;&nbsp;
+                                            <span>{this.props.student.phone}</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div className="card detail-wrap">
+                                    <div className="card-content">
+                                        <div className="detail-wrap">
+                                            <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
+                                            <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
+                                            <p>Phụ huynh<strong>N/A</strong></p>
+                                            <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
                                         </div>
+                                        {this.props.isEditingStudent ?
+                                            (
+                                                <button
+                                                    className="btn width-100 disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang sửa
+                                                </button>
+                                            )
+                                            :
+                                            <button className="btn width-100"
+                                                    onClick={this.openModal}
+                                            >Sửa thông tin
+                                            </button>
+                                        }
                                     </div>
                                 </div>
-                                <div className="col-md-3">
-                                    <div className="source-wrap">
-                                        <div className="source-name">Nguồn</div>
-                                        <div className="source-value">N/A</div>
-                                    </div>
-                                    <div className="source-wrap">
-                                        <div className="source-name">Kênh</div>
-                                        <div className="source-value">N/A</div>
-                                    </div>
-                                    <div className="source-wrap">
-                                        <div className="source-name">Người nhập</div>
-                                        <div className="source-value">N/A</div>
-                                    </div>
-                                    <div className="source-wrap">
-                                        <div className="source-name">P.I.C</div>
-                                        <div className="source-value">N/A</div>
-                                    </div>
-                                </div>
-                                <div className="col-md-3">
-                                    <div className="detail-wrap">
-                                        <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
-                                        <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
-                                        <p>Phụ huynh<strong>N/A</strong></p>
-                                        <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
+                                <div className="card source-card">
+                                    <div className="card-content">
+                                        <div className="source-wrap">
+                                            <div className="source-name">Nguồn</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Kênh</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Người nhập</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">P.I.C</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+
                                     </div>
                                 </div>
+
+
                             </div>
-                        </div>
-                    </div>
-                    }
-                    <div className="row">
-
-                        {!this.props.isLoadingStudent &&
-                        <div className="col-md-12">
-                            <ul className="nav nav-pills nav-pills-gradient" data-tabs="tabs">
-                                {this.routes.map((route, index) => {
-                                    return this.getRouteItem(route, index);
-                                })}
-
-                            </ul>
-
-                        </div>}
-                        {!this.props.isLoadingStudent &&
-                        <div className="col-md-8">
-                            <div className="card" mask="transparent">
-
-                                {this.routes.map((route)=>{
-                                    return route.path == this.state.currentRoute.path ?
-                                        route.component : <div/>
-
-                                })}
-                            </div>
-                        </div>}
-                        <div className="col-md-4">
-
+                            }
                             {!this.props.isLoadingStudent &&
 
                             <div>
@@ -353,11 +319,76 @@ class InfoStudentContainer extends React.Component {
                                 </div>
                             </div>
                             }
-
-
                         </div>
+                        <div className="col-md-8">
+                            <div className="row">
 
+                                {!this.props.isLoadingStudent &&
+                                <div className="col-md-12">
+                                    <ul className="timeline timeline-simple time-line-register">
+                                        <li className="timeline-inverted">
+                                            <div className={"timeline-badge success"}>
+                                                {/*<i className="material-icons">phone</i>*/}
+                                            </div>
+                                            <div className="timeline-panel">
+                                                <div className="timeline-heading">
+                                                    <div className="row">
+                                                        <div className="col-md-3">
+                                                            <CallRegisterOverlay
+                                                                studentId={this.props.student.id}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <CreateRegisterOverlay
+                                                                studentId={this.props.student.id}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <PurchaseRegisterOverlay
+                                                                studentId={this.props.student.id}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <ExtraRegisterOverlay
+                                                                openModalChangePassword={this.openModalChangePassword}
+                                                                studentId={this.props.student.id}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="timeline-body">
+                                                    <ul className="nav nav-pills nav-pills-gradient" data-tabs="tabs">
+                                                        {this.routes.map((route, index) => {
+                                                            return this.getRouteItem(route, index);
+                                                        })}
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+
+                                        </li>
+
+
+                                    </ul>
+
+
+                                </div>}
+                                {!this.props.isLoadingStudent &&
+                                <div className="col-md-12">
+                                    <div className="card" mask="transparent">
+
+                                        {this.routes.map((route) => {
+                                            return route.path == this.state.currentRoute.path ?
+                                                route.component : <div/>;
+
+                                        })}
+                                    </div>
+                                </div>}
+
+                            </div>
+                        </div>
                     </div>
+
 
                     <Modal show={this.state.showModalChangePassword}>
                         <Modal.Header closeButton={!this.props.isChangingPassword}

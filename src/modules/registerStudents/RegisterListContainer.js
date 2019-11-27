@@ -1637,8 +1637,9 @@ class RegisterListContainer extends React.Component {
                     </Modal.Body>
                 </Modal>
                 <Modal show={this.state.showModalRegisterDetail}
+                       dialogClassName="modal-xlg"
                        onHide={()=>this.closeModalRegisterDetail()}
-                       bsSize="large"
+                       bsSize="lg"
                 >
                     <Modal.Header closeButton>
                         <Modal.Title>Thông tin học viên</Modal.Title>

@@ -10,7 +10,7 @@ import {bindActionCreators} from "redux";
 
 // import {showNotification} from "../../../../helpers/helper";
 
-class CallRegisterOverlay extends React.Component {
+class CreateRegisterOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.initState = {
@@ -55,11 +55,11 @@ class CallRegisterOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action"  mask="call"
+                <button className="btn btn-register-action" mask="create"
                         ref="target" onClick={this.toggle}
-                        disabled={isChangingStatusCall}>
-                    Cuộc gọi
-                    <i className="material-icons">phone</i>
+                        disabled={isChangingStatusCall || true}>
+                    Đăng kí
+                    <i className="material-icons">add_shopping_cart</i>
 
                 </button>
                 <Overlay
@@ -90,7 +90,6 @@ class CallRegisterOverlay extends React.Component {
                                             "btn btn-success width-100 flex flex-space-between "
                                             + (this.state.callStatus == 0 ? "filter-white" : "")
                                         }
-                                        style={{backgroundColor:'#2acc4c'}}
                                         onClick={() => this.changeCallStatus(1)}>
                                     Thành công
                                     <i className="material-icons">phone</i>
@@ -135,7 +134,6 @@ class CallRegisterOverlay extends React.Component {
                             <button type="button"
                                     className="btn btn-success width-100 text-center"
                                     disabled={isChangingStatusCall}
-                                    style={{backgroundColor:'#2acc4c'}}
                                     onClick={this.changeCallStatusStudent}>
                                 Hoàn tất
                             </button>
@@ -157,7 +155,7 @@ class CallRegisterOverlay extends React.Component {
 }
 
 
-CallRegisterOverlay.propTypes = {
+CreateRegisterOverlay.propTypes = {
     historyCalls: PropTypes.array.isRequired,
     studentActions: PropTypes.object.isRequired,
     isChangingStatusCall: PropTypes.bool.isRequired,
@@ -177,4 +175,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallRegisterOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRegisterOverlay);
