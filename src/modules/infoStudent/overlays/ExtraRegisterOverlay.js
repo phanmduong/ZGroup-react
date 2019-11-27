@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {connect} from "react-redux";
-import FormInputDate from "../../../components/common/FormInputDate";
 import * as studentActions from "../studentActions";
-import Loading from "../../../components/common/Loading";
 import {bindActionCreators} from "redux";
 
 // import {showNotification} from "../../../../helpers/helper";
