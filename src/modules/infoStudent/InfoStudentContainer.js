@@ -340,6 +340,7 @@ class InfoStudentContainer extends React.Component {
                                                         </div>
                                                         <div className="col-md-3">
                                                             <CreateRegisterOverlay
+                                                                student={this.props.student}
                                                                 studentId={this.props.student.id}
                                                             />
                                                         </div>

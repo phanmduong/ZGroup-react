@@ -96,10 +96,10 @@ export function createRegister(register, hide) {
                             register: res.data.data.register,
                         });
                         hide();
-                        helper.showTypeNotification("Đã thêm học viên", "success");
+                        helper.showTypeNotification("Đã lưu đăng kí!", "success");
                     }
                     else {
-                        helper.showErrorNotification("Lỗi");
+                        helper.showErrorNotification("Có lỗi xảy ra");
                     }
                 }
             )

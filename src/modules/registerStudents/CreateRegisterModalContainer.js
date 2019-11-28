@@ -60,7 +60,7 @@ class CreateRegisterModalContainer extends React.Component {
 
     updateFormData(event) {
         const {name, value} = event.target;
-        const register = {...this.props.register};
+        let register = {...this.props.register};
         register[name] = value;
         this.props.createRegisterActions.updateFormData(register);
     }

@@ -317,7 +317,7 @@ svg:not(:root) {
 }
 
 .width-50-percent {
-  width: 200px;
+  width: 50%;
 }
 
 .margin-left {
@@ -1801,6 +1801,43 @@ ul.nav.nav-pills.nav-pills-gradient {
 
   &.kt-overlay {
     z-index: 101 !important;
+    .Select-control{
+      border: none;
+      background-color: #f3f4f3;
+      cursor: pointer;
+      box-shadow: none!important;
+    }
+    .Select-input input{
+      padding: 10px 0px !important;
+    }
+    .Select-placeholder{
+      display: flex;
+      align-items: center;
+    }
+    .panel-heading{
+      border: none;
+      h4{
+        display: flex;
+        justify-content: center;
+        color: black;
+      }
+    }
+    .input-note-register {
+      border-radius: 5px;
+      background-color: #f3f4f3;
+      padding: 10px 5px 10px 15px;
+      margin-top: 10px;
+
+      textarea {
+        min-height: 100px;
+        background-image: none;
+        resize: none;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
   }
 
   button.btn {
@@ -1814,7 +1851,7 @@ ul.nav.nav-pills.nav-pills-gradient {
       margin: 0!important;
     }
     &.btn-white:hover{
-      background-color: #f7f7f7!important;
+      background-color: transparent!important;
     }
     &.filter-white {
       filter: opacity(0.5);
@@ -1832,22 +1869,22 @@ ul.nav.nav-pills.nav-pills-gradient {
     background-image: none !important;
   }
 
-  .input-note-register {
-    border-radius: 5px;
-    background-color: #f3f4f3;
-    padding: 10px 5px 10px 15px;
-    margin-top: 10px;
-
-    textarea {
-      min-height: 100px;
-      background-image: none;
-      resize: none;
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-  }
+  //.input-note-register {
+  //  border-radius: 5px;
+  //  background-color: #f3f4f3;
+  //  padding: 10px 5px 10px 15px;
+  //  margin-top: 10px;
+  //
+  //  textarea {
+  //    min-height: 100px;
+  //    background-image: none;
+  //    resize: none;
+  //
+  //    &:focus {
+  //      box-shadow: none;
+  //    }
+  //  }
+  //}
 }
 
 .import-data-container {
