@@ -236,7 +236,7 @@ class CreateRegisterOverlay extends React.Component {
                                        aria-controls="collapseTwo">
                                         <h4 className="panel-title">
                                             Mở rộng
-                                            <i className="material-icons">keyboard_arrow_down</i>
+                                            <i className="material-icons">arrow_drop_down</i>
                                         </h4>
                                     </a>
                                 </div>
