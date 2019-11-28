@@ -98,3 +98,5 @@ dist/
 src/config.js
 src/config.css
 
+/share/man/
+/bin/
