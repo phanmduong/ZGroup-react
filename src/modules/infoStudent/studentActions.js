@@ -161,6 +161,15 @@ export function editInfoStudent(student, closeModal) {
     };
 }
 
+export function updateInfoStudent(student) {
+    return function (dispatch) {
+        dispatch({
+            type: types.LOAD_EDIT_INFO_STUDENT_SUCCESS,
+            student: student
+        });
+    };
+}
+
 export function changePassword(studentId, newPassword, closeModal) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CHANGE_PASSWORD_STUDENT});

@@ -195,7 +195,7 @@ table tr td .avatar-list-staff {
 }
 
 .kt-overlay {
-  z-index: 9;
+  z-index: 101;
   position: absolute;
   background-color: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -1623,13 +1623,25 @@ table tr td .avatar-honor {
     margin-bottom: 10px;
 
     .source-value {
+      cursor: pointer;
       text-align: center;
       width: 50%;
       background-color: #ffffff70;
       border-radius: 3px;
       font-size: 10px;
       font-weight: 600;
-      color: white;
+        color: white;
+      .kt-overlay{
+        box-shadow: none;
+        color: black;
+
+      }
+      input{
+        padding: 20px 10px !important;
+        background-color: #f3f4f3 !important;
+        border-radius: 5px !important;
+        background-image: none !important;
+      }
     }
 
     &:nth-of-type(1) .source-value {
@@ -1708,9 +1720,6 @@ table tr td .avatar-honor {
     height: 90%;
   }
 
-  .btn {
-    box-shadow: none !important;
-  }
 
   .btn-register-action {
     & {
@@ -2350,9 +2359,16 @@ $min-height-step-content: 500px;
 .btn-white {
   color: black !important;
 }
+
+
+.btn {
+  box-shadow: none !important;
+}
+
 @media (min-width: 992px) {
   .modal-lg.modal-xlg{
     width: 1268px;
   }
 }
+
 

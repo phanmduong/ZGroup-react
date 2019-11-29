@@ -1,6 +1,44 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+
+export function createSource(source) {
+    let url = env.MANAGE_API_URL + `/source/create`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url,source);
+}
+export function loadSources() {
+    let url = env.MANAGE_API_URL + `/source/all`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+export function deleteSource(source) {
+    let url = env.MANAGE_API_URL + `/source/delete`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {id: source.id});
+}
+export function assignSource(source, student) {
+    let url = env.MANAGE_API_URL + `/source/assign`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {source_id: source.id, user_id:student.id});
+}
+
 export function loadRegisters(studentId) {
     let url = env.MANAGE_API_URL + `/student/${studentId}/registers`;
     let token = localStorage.getItem('token');

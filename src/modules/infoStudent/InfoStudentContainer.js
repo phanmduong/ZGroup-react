@@ -23,6 +23,7 @@ import CallRegisterOverlay from "./overlays/CallRegisterOverlay";
 import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
 import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
 import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
+import SourceOverlay from "./overlays/SourceOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -280,26 +281,31 @@ class InfoStudentContainer extends React.Component {
                                     <div className="card-content">
                                         <div className="source-wrap">
                                             <div className="source-name">Nguồn</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">Kênh</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">Người nhập</div>
-                                            <div className="source-value">N/A</div>
-                                        </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">P.I.C</div>
-                                            <div className="source-value">N/A</div>
+
+                                            <SourceOverlay
+                                                student={this.props.student}
+                                                updateInfoStudent={this.props.studentActions.updateInfoStudent}
+                                                />
+
                                         </div>
 
+                                    <div className="source-wrap">
+                                        <div className="source-name">Kênh</div>
+                                        <div className="source-value">N/A</div>
                                     </div>
+                                    <div className="source-wrap">
+                                        <div className="source-name">Người nhập</div>
+                                        <div className="source-value">N/A</div>
+                                    </div>
+                                    <div className="source-wrap">
+                                        <div className="source-name">P.I.C</div>
+                                        <div className="source-value">N/A</div>
+                                    </div>
+
                                 </div>
-
-
+                                </div>
                             </div>
+
                             }
                             {!this.props.isLoadingStudent &&
 
