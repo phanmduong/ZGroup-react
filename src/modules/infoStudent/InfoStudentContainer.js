@@ -24,6 +24,7 @@ import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
 import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
 import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
 import SourceOverlay from "./overlays/SourceOverlay";
+import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -290,8 +291,12 @@ class InfoStudentContainer extends React.Component {
                                         </div>
 
                                     <div className="source-wrap">
-                                        <div className="source-name">Kênh</div>
-                                        <div className="source-value">N/A</div>
+                                        <div className="source-name">Chiến dịch</div>
+                                        {/*<div className="source-value">N/A</div>*/}
+                                        <MarketingCampaignOverlay
+                                            student={this.props.student}
+                                            updateInfoStudent={this.props.studentActions.updateInfoStudent}
+                                        />
                                     </div>
                                     <div className="source-wrap">
                                         <div className="source-name">Người nhập</div>

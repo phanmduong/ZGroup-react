@@ -1,52 +1,55 @@
 import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {loadSources, deleteSource, createSource,assignSource} from "../studentApi";
+import {loadMarketingEmail, storeMarketingCampaign, assignMarketingCampaign} from "../../marketingCampaign/marketingCampaignApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
+import Search from "../../../components/common/Search";
 
 
-class SourceOverlay extends React.Component {
+class MarketingCampaignOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.initState = {
             show: false,
             create: false,
-            source: {},
+            campaign: {},
             isLoading: false,
             isProcessing: false,
-            isDeleting: false
+            isDeleting: false,
+            search: ''
         };
         this.state = this.initState;
     }
 
     componentDidMount() {
-        this.loadSources();
+        this.loadMarketingEmail();
     }
 
-    loadSources = () => {
-        this.setState({source: {}, create: false, isLoading: true, isDeleting: false});
-        loadSources().then((res) => {
+    loadMarketingEmail = () => {
+        this.setState({campaign: {}, create: false, isLoading: true, isDeleting: false});
+        loadMarketingEmail(1, -1).then((res) => {
+
             this.setState({
-                sources: res.data.sources,
+                campaigns: res.data.data.marketing_campaigns,
                 isLoading: false
             });
 
         });
     };
 
-    deleteSource = (source) => {
+    deleteSource = (campaign) => {
         this.setState({
             isProcessing: true
         });
-        deleteSource(source)
+        deleteSource(campaign)
             .then(() => {
-                this.loadSources();
-            }).catch(()=>{
-                showErrorNotification("Nguồn đang sử dụng không thể xóa!");
-        }).finally(()=>{
+                this.loadMarketingEmail();
+            }).catch(() => {
+            showErrorNotification("Chiến dịch đang sử dụng không thể xóa!");
+        }).finally(() => {
             this.setState({
                 isProcessing: false
             });
@@ -59,17 +62,17 @@ class SourceOverlay extends React.Component {
         });
     };
 
-    editSource = (source) => {
+    editSource = (campaign) => {
         this.setState({
-            source,
+            campaign,
             create: true
         });
     };
 
     updateFormData = (event) => {
         this.setState({
-            source: {
-                ...this.state.source,
+            campaign: {
+                ...this.state.campaign,
                 name: event.target.value
             }
         });
@@ -82,40 +85,38 @@ class SourceOverlay extends React.Component {
         });
     };
 
-    saveSource = () => {
-        if (isEmptyInput(this.state.source.name)) {
-            showErrorNotification("Bạn cần nhập tên nguồn");
-        } else if (this.state.source.name.length > 20) {
-            showErrorNotification("Độ dài tên nguồn không quá 20 kí tự");
-        }  else if (isEmptyInput(this.state.source.color)) {
+    saveMarketingCampaign = () => {
+        if (isEmptyInput(this.state.campaign.name)) {
+            showErrorNotification("Bạn cần nhập tên chiến dịch");
+        } else if (isEmptyInput(this.state.campaign.color)) {
             showErrorNotification("Bạn cần chọn màu");
-        }else {
+        } else {
             this.setState({
                 isLoading: true,
                 create: false
             });
-            createSource(this.state.source)
+            storeMarketingCampaign(this.state.campaign)
                 .then(() => {
                     this.setState({
-                        source: {},
+                        campaign: {},
                         create: false
                     });
-                    this.loadSources();
+                    this.loadMarketingEmail();
                 });
 
 
         }
     };
 
-    assignSource = (source) => {
+    assignMarketingCampaign = (campaign) => {
         this.setState({
             isProcessing: true
         });
-        assignSource(source,this.props.student)
+        assignMarketingCampaign(campaign.id, this.props.student.id)
             .then(() => {
-                this.loadSources();
+                this.loadMarketingEmail();
                 let {updateInfoStudent, student} = this.props;
-                updateInfoStudent({...student, source_id:source.id });
+                updateInfoStudent({...student, campaign_id: campaign.id});
                 this.setState({
                     isProcessing: false
                 });
@@ -123,33 +124,33 @@ class SourceOverlay extends React.Component {
     };
 
     close = () => {
-        this.setState({show:false});
+        this.setState({show: false});
     };
 
     changeColor = (color) => {
         color = color ? color.hex : '';
         this.setState({
-            source: {
-                ...this.state.source,
+            campaign: {
+                ...this.state.campaign,
                 color
             }
         });
-    }
+    };
 
-    sourceName = ()=>{
-        let s = this.state.sources && this.state.sources.filter(i => i.id == this.props.student.source_id)[0];
-        return s ? s.name : "N/A"
-    }
+    campaignName = () => {
+        let s = this.state.campaigns && this.state.campaigns.filter(i => i.id == this.props.student.campaign_id)[0];
+        return s ? s.name : "N/A";
+    };
 
     render() {
-        let {isDeleting,isLoading, isProcessing} = this.state;
-        let showLoading =  isLoading ||isProcessing;
+        let {isDeleting, isLoading, isProcessing} = this.state;
+        let showLoading = isLoading || isProcessing;
 
         return (
             <div style={{position: "relative"}} className="source-value">
                 <div className=""
                      onClick={() => this.setState({show: true})}>
-                    {this.sourceName()}
+                    {this.campaignName()}
                 </div>
                 <Overlay
                     rootClose={true}
@@ -170,9 +171,9 @@ class SourceOverlay extends React.Component {
                                     </a>
                                 ) : (
                                     <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
-                                       onClick={()=>this.setState({
+                                       onClick={() => this.setState({
                                            create: !this.state.create,
-                                           source:{}
+                                           campaign: {}
                                        })}>
                                         <i className="material-icons">add</i>
                                     </a>
@@ -185,26 +186,33 @@ class SourceOverlay extends React.Component {
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>Nguồn
+                            <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>Chiến dịch
                             </div>
                         </div>}
                         <div>{showLoading && <Loading/>}</div>
+                        {!this.state.create && !showLoading && <div>
+                            <Search
+                                placeholder="Tìm theo tên"
+                                value={this.state.search}
+                                onChange={search => this.setState({search})}
+                            />
+                        </div>}
                         {
                             this.state.create && !isProcessing ? (
                                 <div>
                                     <FormInputText
-                                        placeholder="Tên nguồn"
+                                        placeholder="Tên chiến dịch"
                                         name="name"
                                         updateFormData={this.updateFormData}
-                                        value={this.state.source.name || ""}/>
+                                        value={this.state.campaign.name || ""}/>
                                     <div style={{paddingLeft: "15px", marginTop: "20px"}}>
                                         <CirclePicker
                                             width="100%"
-                                            color={this.state.source.color}
+                                            color={this.state.campaign.color}
                                             onChangeComplete={this.changeColor}/>
                                     </div>
                                     {
-                                       isDeleting ? (
+                                        isDeleting ? (
                                             <div>
                                                 {!isProcessing && (
                                                     <div style={{display: "flex", flexWrap: 'no-wrap'}}>
@@ -215,7 +223,7 @@ class SourceOverlay extends React.Component {
                                                         </button>
                                                         <button style={{margin: "15px 5px 10px 0"}}
                                                                 className="btn btn-danger width-50-percent"
-                                                                onClick={() => this.deleteSource(this.state.source)}>
+                                                                onClick={() => this.deleteSource(this.state.campaign)}>
                                                             Xác nhận
                                                         </button>
                                                     </div>
@@ -225,7 +233,7 @@ class SourceOverlay extends React.Component {
                                         ) : (
                                             <div style={{display: "flex"}}>
 
-                                                {/*{this.state.source.id &&*/}
+                                                {/*{this.state.campaign.id &&*/}
                                                 {/*    <button style={{margin: "15px 0 10px 5px"}}*/}
                                                 {/*            className="btn btn-white width-50-percent"*/}
                                                 {/*            onClick={this.toggleDelete}>*/}
@@ -234,7 +242,7 @@ class SourceOverlay extends React.Component {
                                                 {/*}*/}
                                                 <button style={{margin: "15px 5px 10px 0"}}
                                                         className="btn btn-success width-50-percent"
-                                                        onClick={this.saveSource}>
+                                                        onClick={this.saveMarketingCampaign}>
                                                     Lưu
                                                 </button>
 
@@ -249,36 +257,44 @@ class SourceOverlay extends React.Component {
                                     {
                                         !showLoading && (
                                             <div>
-                                                {this.state.sources && this.state.sources.map((source) => {
-                                                    const sourceAdded = this.props.student && this.props.student.source_id == source.id;
-                                                    return (
-                                                        <div key={source.id} style={{display: "flex"}}>
-                                                            <button
-                                                                onClick={() => {
-                                                                    this.assignSource(source);
-                                                                }}
-                                                                className="btn"
-                                                                style={{
-                                                                    textAlign: "left",
-                                                                    backgroundColor: source.color,
-                                                                    width: "calc(100% - 30px)",
-                                                                    margin: "2px 0",
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between"
-                                                                }}>
-                                                                {source.name}
-                                                                <div>
-                                                                    {sourceAdded ? <i className="material-icons">done</i> : ""}
+                                                {this.state.campaigns && this.state.campaigns
+                                                    .filter(campaign => {
+                                                        const s1 = campaign.name.trim().toLowerCase();
+                                                        const s2 = this.state.search.trim().toLowerCase();
+                                                        return s1.includes(s2) || s2.includes(s1);
+                                                    })
+                                                    .map((campaign) => {
+                                                        const campaignAdded = this.props.student && this.props.student.campaign_id == campaign.id;
+                                                        return (
+                                                            <div key={campaign.id} style={{display: "flex"}}>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        this.assignMarketingCampaign(campaign);
+                                                                    }}
+                                                                    className="btn"
+                                                                    style={{
+                                                                        textAlign: "left",
+                                                                        backgroundColor: `#${campaign.color}`,
+                                                                        width: "calc(100% - 30px)",
+                                                                        margin: "2px 0",
+                                                                        display: "flex",
+                                                                        justifyContent: "space-between"
+                                                                    }}>
+                                                                    {campaign.name}
+                                                                    <div>
+                                                                        {campaignAdded ?
+                                                                            <i className="material-icons">done</i> : ""}
 
+                                                                    </div>
+                                                                </button>
+                                                                <div className="board-action"
+                                                                     style={{lineHeight: "45px"}}>
+                                                                    <a onClick={() => this.editSource(campaign)}><i
+                                                                        className="material-icons">edit</i></a>
                                                                 </div>
-                                                            </button>
-                                                            <div className="board-action" style={{lineHeight: "45px"}}>
-                                                                <a onClick={() => this.editSource(source)}><i
-                                                                    className="material-icons">edit</i></a>
                                                             </div>
-                                                        </div>
-                                                    );
-                                                })}
+                                                        );
+                                                    })}
                                             </div>
                                         )
                                     }
@@ -294,4 +310,4 @@ class SourceOverlay extends React.Component {
     }
 }
 
-export default SourceOverlay;
+export default MarketingCampaignOverlay;
