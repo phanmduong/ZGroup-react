@@ -6,6 +6,7 @@ import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
+import Search from "../../../components/common/Search";
 
 
 class SourceOverlay extends React.Component {
@@ -17,7 +18,8 @@ class SourceOverlay extends React.Component {
             source: {},
             isLoading: false,
             isProcessing: false,
-            isDeleting: false
+            isDeleting: false,
+            search: ''
         };
         this.state = this.initState;
     }
@@ -189,6 +191,13 @@ class SourceOverlay extends React.Component {
                             </div>
                         </div>}
                         <div>{showLoading && <Loading/>}</div>
+                        {!this.state.create && !showLoading && <div>
+                            <Search
+                                placeholder="Tìm theo tên"
+                                value={this.state.search}
+                                onChange={search => this.setState({search})}
+                            />
+                        </div>}
                         {
                             this.state.create && !isProcessing ? (
                                 <div>
@@ -249,7 +258,34 @@ class SourceOverlay extends React.Component {
                                     {
                                         !showLoading && (
                                             <div>
-                                                {this.state.sources && this.state.sources.map((source) => {
+                                                <div>
+                                                    <button
+                                                        onClick={() => {
+                                                            this.assignSource({id:null});
+                                                        }}
+                                                        className="btn"
+                                                        style={{
+                                                            textAlign: "left",
+                                                            width: "calc(100% - 30px)",
+                                                            margin: "2px 0",
+                                                            display: "flex",
+                                                            justifyContent: "space-between"
+                                                        }}>
+                                                        Không có nguồn
+                                                        <div>
+                                                            {!this.props.student.source_id ?
+                                                                <i className="material-icons">done</i> : ""}
+                                                        </div>
+                                                    </button>
+
+                                                </div>
+                                                {this.state.sources && this.state.sources
+                                                    .filter(source => {
+                                                        const s1 = source.name.trim().toLowerCase();
+                                                        const s2 = this.state.search.trim().toLowerCase();
+                                                        return s1.includes(s2) || s2.includes(s1);
+                                                    })
+                                                    .map((source) => {
                                                     const sourceAdded = this.props.student && this.props.student.source_id == source.id;
                                                     return (
                                                         <div key={source.id} style={{display: "flex"}}>

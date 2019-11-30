@@ -257,6 +257,27 @@ class MarketingCampaignOverlay extends React.Component {
                                     {
                                         !showLoading && (
                                             <div>
+                                                <div>
+                                                    <button
+                                                        onClick={() => {
+                                                            this.assignMarketingCampaign({id:null});
+                                                        }}
+                                                        className="btn"
+                                                        style={{
+                                                            textAlign: "left",
+                                                            width: "calc(100% - 30px)",
+                                                            margin: "2px 0",
+                                                            display: "flex",
+                                                            justifyContent: "space-between"
+                                                        }}>
+                                                        Không có chiến dịch
+                                                        <div>
+                                                            {!this.props.student.campaign_id ?
+                                                                <i className="material-icons">done</i> : ""}
+                                                        </div>
+                                                    </button>
+
+                                                </div>
                                                 {this.state.campaigns && this.state.campaigns
                                                     .filter(campaign => {
                                                         const s1 = campaign.name.trim().toLowerCase();
