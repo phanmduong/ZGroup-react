@@ -5,6 +5,7 @@ import {loadSources, deleteSource, createSource,assignSource} from "../studentAp
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
+import {CirclePicker} from "react-color";
 
 
 class SourceOverlay extends React.Component {
@@ -86,7 +87,9 @@ class SourceOverlay extends React.Component {
             showErrorNotification("Bạn cần nhập tên nguồn");
         } else if (this.state.source.name.length > 20) {
             showErrorNotification("Độ dài tên nguồn không quá 20 kí tự");
-        } else {
+        }  else if (isEmptyInput(this.state.source.color)) {
+            showErrorNotification("Bạn cần chọn màu");
+        }else {
             this.setState({
                 isLoading: true,
                 create: false
@@ -122,6 +125,16 @@ class SourceOverlay extends React.Component {
     close = () => {
         this.setState(this.initState);
     };
+
+    changeColor = (color) => {
+        color = color ? color.hex : '';
+        this.setState({
+            source: {
+                ...this.state.source,
+                color
+            }
+        });
+    }
 
     render() {
         let {isDeleting,isLoading, isProcessing} = this.state;
@@ -178,6 +191,12 @@ class SourceOverlay extends React.Component {
                                         name="name"
                                         updateFormData={this.updateFormData}
                                         value={this.state.source.name || ""}/>
+                                    <div style={{paddingLeft: "15px", marginTop: "20px"}}>
+                                        <CirclePicker
+                                            width="100%"
+                                            color={this.state.source.color}
+                                            onChangeComplete={this.changeColor}/>
+                                    </div>
                                     {
                                        isDeleting ? (
                                             <div>
@@ -200,13 +219,13 @@ class SourceOverlay extends React.Component {
                                         ) : (
                                             <div style={{display: "flex"}}>
 
-                                                {this.state.source.id &&
-                                                    <button style={{margin: "15px 0 10px 5px"}}
-                                                            className="btn btn-white width-50-percent"
-                                                            onClick={this.toggleDelete}>
-                                                        Xoá
-                                                    </button>
-                                                }
+                                                {/*{this.state.source.id &&*/}
+                                                {/*    <button style={{margin: "15px 0 10px 5px"}}*/}
+                                                {/*            className="btn btn-white width-50-percent"*/}
+                                                {/*            onClick={this.toggleDelete}>*/}
+                                                {/*        Xoá*/}
+                                                {/*    </button>*/}
+                                                {/*}*/}
                                                 <button style={{margin: "15px 5px 10px 0"}}
                                                         className="btn btn-success width-50-percent"
                                                         onClick={this.saveSource}>
@@ -235,7 +254,7 @@ class SourceOverlay extends React.Component {
                                                                 className="btn"
                                                                 style={{
                                                                     textAlign: "left",
-                                                                    backgroundColor: sourceAdded ? '#629eec' : '',
+                                                                    backgroundColor: source.color,
                                                                     width: "calc(100% - 30px)",
                                                                     margin: "2px 0",
                                                                     display: "flex",
@@ -243,7 +262,8 @@ class SourceOverlay extends React.Component {
                                                                 }}>
                                                                 {source.name}
                                                                 <div>
-                                                                    {/*{sourceAdded ? <i className="material-icons">done</i> : ""}*/}
+                                                                    {sourceAdded ? <i className="material-icons">done</i> : ""}
+
                                                                 </div>
                                                             </button>
                                                             <div className="board-action" style={{lineHeight: "45px"}}>
