@@ -39,22 +39,22 @@ class MarketingCampaignOverlay extends React.Component {
 
         });
     };
-
-    deleteSource = (campaign) => {
-        this.setState({
-            isProcessing: true
-        });
-        deleteSource(campaign)
-            .then(() => {
-                this.loadMarketingEmail();
-            }).catch(() => {
-            showErrorNotification("Chiến dịch đang sử dụng không thể xóa!");
-        }).finally(() => {
-            this.setState({
-                isProcessing: false
-            });
-        });
-    };
+    //
+    // deleteSource = (campaign) => {
+    //     this.setState({
+    //         isProcessing: true
+    //     });
+    //     deleteSource(campaign)
+    //         .then(() => {
+    //             this.loadMarketingEmail();
+    //         }).catch(() => {
+    //         showErrorNotification("Chiến dịch đang sử dụng không thể xóa!");
+    //     }).finally(() => {
+    //         this.setState({
+    //             isProcessing: false
+    //         });
+    //     });
+    // };
 
     toggleDelete = () => {
         this.setState({
