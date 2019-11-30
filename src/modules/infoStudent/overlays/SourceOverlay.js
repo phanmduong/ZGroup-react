@@ -123,7 +123,8 @@ class SourceOverlay extends React.Component {
     };
 
     close = () => {
-        this.setState(this.initState);
+        console.log(1)
+        this.setState({show:false});
     };
 
     changeColor = (color) => {
@@ -153,13 +154,7 @@ class SourceOverlay extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay" style={{width: "300px", marginTop: 25}}>
-                        <button
-                            onClick={this.close}
-                            type="button" className="close"
-                            style={{color: '#5a5a5a'}}>
-                            <span aria-hidden="true">×</span>
-                            <span className="sr-only">Close</span>
-                        </button>
+
 
                         {!showLoading && <div style={{position: "relative"}}>
                             {
@@ -178,7 +173,13 @@ class SourceOverlay extends React.Component {
                                     </a>
                                 )
                             }
-
+                            <button
+                                onClick={this.close}
+                                type="button" className="close"
+                                style={{color: '#5a5a5a'}}>
+                                <span aria-hidden="true">×</span>
+                                <span className="sr-only">Close</span>
+                            </button>
                             <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>Nguồn
                             </div>
                         </div>}
