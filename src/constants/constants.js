@@ -719,3 +719,9 @@ export const googleAnalyticMetrics = {
 export const googleAnalyticDimensions = {
     date: "ga:date",
 };
+
+export const allowedDateFormats = ['DD/MM/YYYY', 'D/M/YYYY', 'DD.MM.YYYY', 'D.M.YYYY', 'DD. MM. YYYY', 'D. M. YYYY',
+    'DD-MM-YYYY', 'D-M-YYYY', "DD-MM", "DD/MM", "MM/YYYY", "MM-YYYY", "M/YYYY", "M-YYYY", "M.YYYY", "MM.YYYY", "YYYY",
+    "HH:mm DD/MM/YYYY", "HH:mm:ss DD/MM/YYYY", "HH:mm DD-MM-YYYY", "HH:mm:ss DD-MM-YYYY",
+    "DD/MM/YYYY HH:mm", "DD/MM/YYYY HH:mm:ss", "DD-MM-YYYY HH:mm", "DD-MM-YYYY HH:mm:ss",
+];

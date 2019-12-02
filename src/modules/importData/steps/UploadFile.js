@@ -1,12 +1,17 @@
 import React from "react";
 import {observer} from "mobx-react";
 import {readExcel, showErrorMessage} from "../../../helpers/helper";
+import {Modal} from "react-bootstrap";
+import Loading from "../../../components/common/Loading";
 
 @observer
 class UploadFile extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onChangeUploadFile = this.onChangeUploadFile.bind(this);
+        this.state = {
+            isLoadingFile: false
+        };
     }
 
     componentWillMount() {
@@ -20,42 +25,66 @@ class UploadFile extends React.Component {
         });
     }
 
-    onChangeUploadFile(e) {
+    setDataFormatStep = (header) => {
+        const formatStep = this.props.store.getStep(2);
+        const {currentStep} = this.props.store;
+        if (header) {
+            const data = header.map((col) => {
+                const data = currentStep.data.data_file.map((item) => item[col] ? item[col].trim() : '');
+                return {
+                    match_format: false,
+                    col_name: col,
+                    data,
+                    typeData: {}
+                }
+            });
+
+            formatStep.data.formatters = data;
+        }
+    }
+
+    onChangeUploadFile = (e) => {
+        this.setState({isLoadingFile: true});
         const {currentStep} = this.props.store;
         currentStep.data.file = e.target.files[0];
-        currentStep.data.typeSelected = 'file';
-        readExcel(currentStep.data.file, false, false).then((data) => {
-            currentStep.data.data_file = data;
-            console.log(data);
-        }).catch((e) => {
-            console.log(e);
-            showErrorMessage("Kiểm tra lại file");
-        });
+        if (currentStep.data.file) {
+            currentStep.data.typeSelected = 'file';
 
-        // event.target.value = '';
+            readExcel(currentStep.data.file, false, false).then(async (data) => {
+                currentStep.data.data_file = data.rows;
+                const header = data.header.filter((item) => !item.includes("UNKNOWN"));
+                await this.setDataFormatStep(header);
+            }).catch(() => {
+                showErrorMessage("Kiểm tra lại file");
+            }).finally(() => {
+                this.setState({isLoadingFile: false});
+            });
+        }
+
+        e.target.value = '';
     }
 
 
     render() {
         const {currentStep} = this.props.store;
         return (
-            <div className="upload-data-container">
-                <div className="choose-type-upload">
-                    <div className="radio-container" onClick={() => currentStep.data.typeSelected = 'google_sheet'}>
-                        Từ Google Sheet
-                        <input type="radio" checked={currentStep.data.typeSelected == 'google_sheet' ? "checked" : ''}
-                               name="file"
-                               defaultValue={currentStep.data.link_google}
-                               onChange={(e) => {
-                                   currentStep.data.link_google = e.target.value
-                               }}
-                        />
-                        <span className="checkmark"></span>
-                    </div>
-                    <div className="input-link">
-                        <input type="text" placeholder="Link Google Sheet"/>
-                    </div>
-                </div>
+            <div className="upload-data-container" id={"upload-import-file"}>
+                {/*<div className="choose-type-upload">*/}
+                {/*    <div className="radio-container" onClick={() => currentStep.data.typeSelected = 'google_sheet'}>*/}
+                {/*        Từ Google Sheet*/}
+                {/*        <input type="radio" checked={currentStep.data.typeSelected == 'google_sheet' ? "checked" : ''}*/}
+                {/*               name="file"*/}
+                {/*               defaultValue={currentStep.data.link_google}*/}
+                {/*               onChange={(e) => {*/}
+                {/*                   currentStep.data.link_google = e.target.value*/}
+                {/*               }}*/}
+                {/*        />*/}
+                {/*        <span className="checkmark"></span>*/}
+                {/*    </div>*/}
+                {/*    <div className="input-link">*/}
+                {/*        <input type="text" placeholder="Link Google Sheet"/>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="choose-type-upload">
                     <div className="radio-container" onClick={() => currentStep.data.typeSelected = 'file'}>
                         Từ File Excel
@@ -74,10 +103,16 @@ class UploadFile extends React.Component {
 
                             </div>
                         </div>
-
                     </div>
-                    {/*<input type="radio" name="file"/><br/>*/}
                 </div>
+                <Modal
+                    show={this.state.isLoadingFile}
+                    bsStyle="primary"
+                >
+                    <Modal.Body>
+                        <Loading text="Đang tải file..."/>
+                    </Modal.Body>
+                </Modal>
             </div>
 
         );

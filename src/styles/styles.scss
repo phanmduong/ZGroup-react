@@ -1755,6 +1755,7 @@ table tr td .avatar-honor {
   }
 }
 
+
 ul.nav.nav-pills.nav-pills-gradient {
   margin-bottom: 20px;
 
@@ -2134,6 +2135,11 @@ $min-height-step-content: 500px;
   user-select: none;
   min-width: 20px;
   min-height: 20px;
+
+  &.disable {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 }
 
 //when add tag label
@@ -2354,6 +2360,57 @@ $min-height-step-content: 500px;
       color: #a8a8a8;
     }
   }
+
+  .format-error {
+    .item-error {
+      width: 100%;
+      padding: 10px;
+      font-weight: bold;
+      background-color: rgba(255, 164, 89, 0.16);
+      margin: 5px;
+      border-radius: 5px;
+    }
+  }
+}
+
+.detail-data-container {
+  min-height: $min-height-step-content;
+  padding-top: 20px;
+
+  .noti-available{
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 30px;
+  }
+
+  .check-property-item {
+
+    .check-property-header {
+      margin: 40px 0;
+    }
+
+    .property-title {
+      font-weight: bold;
+      font-size: 25px;
+    }
+
+    .property-description {
+      margin-top: 10px;
+      color: #757575;
+    }
+
+    .item-word{
+      margin: 20px 0;
+      .word{
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .total-word{
+        color: #646464;
+      }
+    }
+  }
 }
 
 .btn-white {
@@ -2372,3 +2429,111 @@ $min-height-step-content: 500px;
 }
 
 
+
+
+.third-level-menu {
+  position: absolute;
+  top: 0;
+  right: -150px;
+  width: 150px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+}
+
+.third-level-menu > li {
+  height: 30px;
+  background: #999999;
+}
+
+.third-level-menu > li:hover {
+  background: #CCCCCC;
+}
+
+.select-multi-level {
+  list-style: none;
+  margin: 0;
+  position: relative;
+  float: left;
+  height: 45px;
+  width: 250px;
+  background: #eeeeee;
+  border-radius: 5px;
+  cursor: pointer;
+
+  & > div.flex {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+
+  }
+
+  &:hover {
+    background: #CCCCCC;
+  }
+
+  & .first-level-menu.active {
+    display: inline;
+    z-index: 10;
+  }
+
+  .first-level-menu {
+    position: absolute;
+    top: 50px;
+    left: 0 !important;
+    width: 120px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    border: solid 1px #d5d5d5;
+    border-radius: 5px;
+    background-color: white;
+
+    & > div {
+      padding: 10px;
+      position: relative;
+
+      &:hover {
+        background-color: #eeeeee;
+
+        .second-level-menu {
+          display: inline;
+        }
+      }
+
+      &:last-child {
+      }
+    }
+
+
+  }
+
+  .second-level-menu {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    border-radius: 5px;
+    border: solid 1px #d5d5d5;
+    background-color: white;
+    z-index: 11;
+    margin-top: 5px;
+
+    & > div {
+      padding: 10px;
+
+      &:last-child {
+      }
+
+      &:hover {
+        background-color: #eeeeee;
+      }
+    }
+  }
+}

@@ -6,7 +6,13 @@ import TypeData from "./steps/TypeData";
 import UploadFile from "./steps/UploadFile";
 import FormatData from "./steps/Format";
 import Detail from "./steps/Detail";
-import {showWarningNotification} from "../../helpers/helper";
+import {confirm, showWarningNotification} from "../../helpers/helper";
+import {isEmpty, removeObservable} from "../../helpers/entity/mobx";
+import {Modal} from "react-bootstrap";
+import Loading from "../../components/common/Loading";
+import moment from "moment";
+import {allowedDateFormats, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import _ from 'lodash';
 
 const STEPS = [
     {
@@ -48,17 +54,63 @@ const STEPS = [
         name: "Định dạng",
         component: FormatData,
         data: {
-            formatters: []
+            formatters: [],
+            formatErrors: [],
+            indexNotMatch: [],
         },
-        isNext: () => {
-            return true;
+        isNext: (data, store) => {
+            data.formatErrors = [];
+            const typeDataStep = store.getStep(0);
+            const {currentStep} = store;
+
+            const dataTypesSelected = currentStep.data.formatters.filter((formatter) => !isEmpty(formatter.typeData.name));
+
+            const keyDataTypesSelected = dataTypesSelected.map((formatter) => formatter.typeData.key);
+
+            //find type which selected at choose type data step
+            let dataTypes = typeDataStep.data.types.filter((type) => type.selected);
+
+            dataTypes.forEach((type) => {
+                const propertiesRequire = type.properties.filter((property) =>
+                    (keyDataTypesSelected.indexOf(property.key) < 0) && property.required);
+
+                data.formatErrors = [...data.formatErrors, ...propertiesRequire];
+            });
+            const isError = data.formatErrors.length > 0;
+            if (isError) {
+                $(".main-panel").scrollTop(0);
+                return false;
+            }
+
+            let indexNotMatch = []
+
+            dataTypesSelected.forEach((formatter) => {
+                if (!formatter.match_format) {
+                    indexNotMatch = [...indexNotMatch, ...formatter.indexNotMatch];
+                }
+            });
+
+            indexNotMatch = _.union(indexNotMatch);
+
+            if (indexNotMatch.length > 0) {
+                confirm("warning", "Dữ liệu không hợp lệ", `Có <strong>${indexNotMatch.length}</strong> bản ghi không hợp lệ, dữ liệu này sẽ không được import vào hệ thống`, () => {
+                    store.currentOrder = store.currentStep.order + 1;
+                    data.indexNotMatch = indexNotMatch;
+                });
+            } else {
+                return true;
+            }
+
+
         }
     },
     {
         order: 3,
         name: "Chi tiết",
         component: Detail,
-        data: {},
+        data: {
+            checkProperties: []
+        },
         isNext: () => {
             return true;
         }
@@ -69,19 +121,19 @@ const STEPS = [
 class ImportContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {}
         this.store = new Store(STEPS);
         this.nextStep = this.nextStep.bind(this);
         this.backStep = this.backStep.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        this.store.getData();
     }
 
     nextStep() {
         const {steps, currentStep} = this.store;
 
-        if (!currentStep.isNext(currentStep.data)) return;
+        if (!currentStep.isNext(currentStep.data, this.store)) return;
         if (currentStep.order < steps[STEPS.length - 1].order) {
             this.store.currentOrder = currentStep.order + 1
         }
@@ -94,9 +146,76 @@ class ImportContainer extends React.Component {
         }
     }
 
+    isFinishStep = () => {
+        const {steps, currentStep} = this.store;
+        if (currentStep.order == steps[STEPS.length - 1].order) {
+            return true;
+        }
+        return false;
+    }
+
+    reset = () => {
+        this.store.steps = STEPS;
+        this.store.currentOrder = 0;
+    }
+
+    submitData = () => {
+        const formatDataStep = removeObservable(this.store.getStep(2));
+        const detailDataStep = removeObservable(this.store.getStep(3));
+        let formatters = formatDataStep.data.formatters.filter((formatter) => !isEmpty(formatter.typeData.name));
+        let data = [];
+        formatters.forEach((formater) => {
+            formater.data.forEach((itemData, index) => {
+                if (isEmpty(data[index])) {
+                    data[index] = {};
+                }
+
+                if (formater.typeData.format == 'date') {
+                    itemData = moment(itemData, allowedDateFormats).format(DATETIME_FORMAT_SQL);
+                }
+
+                data[index][formater.typeData.key] = itemData;
+                // console.log(formater.typeData);
+
+
+                //replace data
+                if (formater.typeData.check_new) {
+                    const checkProperty = detailDataStep.data.checkProperties
+                        .filter((checkProperty) => checkProperty.key == formater.typeData.key)[0];
+
+                    const word = checkProperty.check_words.filter((word) => word.raw == itemData)[0];
+
+
+                    if (!isEmpty(word) && !isEmpty(word.replace_by)) {
+                        data[index][formater.typeData.key] = word.replace_by;
+                    }
+                }
+            });
+        })
+
+        //convert data to upload server
+        data = data.map((itemData) => {
+            let newData = {};
+            Object.keys(itemData).forEach((key) => {
+                const keySplit = key.split(".");
+                if (isEmpty(newData[keySplit[0]])) {
+                    newData[keySplit[0]] = {};
+                }
+                newData[keySplit[0]][keySplit[1]] = itemData[key];
+            });
+            return newData;
+        });
+        //remove not match
+
+        data = data.filter((data, index) => formatDataStep.data.indexNotMatch.indexOf(index) < 0);
+
+        this.store.uploadData(data, this.reset);
+
+    }
+
 
     render() {
-        const {steps, currentStep} = this.store;
+        const {steps, currentStep, isUploading} = this.store;
         const Component = currentStep.component;
         return (
             <div className="container-fluid">
@@ -130,17 +249,32 @@ class ImportContainer extends React.Component {
                                     arrow_back_ios
                                 </i> Quay lại
                             </div>
-                            <div onClick={this.nextStep} className="button-green">
-                                Tiếp theo &nbsp;
-                                <i className="material-icons">
-                                    arrow_forward_ios
-                                </i>
-                            </div>
+                            {
+                                this.isFinishStep() ?
+                                    <div onClick={this.submitData} className="button-green">
+                                        Hoàn tất
+                                    </div>
+                                    :
+                                    <div onClick={this.nextStep} className="button-green">
+                                        Tiếp theo &nbsp;
+                                        <i className="material-icons">
+                                            arrow_forward_ios
+                                        </i>
+                                    </div>
+                            }
+
                         </div>
 
                     </div>
                 </div>
-
+                <Modal
+                    show={isUploading}
+                    bsStyle="primary"
+                >
+                    <Modal.Body>
+                        <Loading text="Đang import..."/>
+                    </Modal.Body>
+                </Modal>
             </div>
 
         );

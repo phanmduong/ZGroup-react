@@ -254,6 +254,16 @@ export function sweetAlertSuccess(message) {
     });
 }
 
+export function sweetAlertWaring(message) {
+    swal({
+        title: 'Thông báo',
+        text: message,
+        type: 'warning',
+        buttonsStyling: false,
+        confirmButtonClass: 'btn btn-warning'
+    });
+}
+
 export function sweetAlertError(message) {
     swal({
         title: 'Thất bại',
@@ -861,6 +871,22 @@ export function changeToSlugSpace(title) {
     return slug;
 }
 
+function get_header_row(sheet) {
+    var headers = [];
+    var range = XLSX.utils.decode_range(sheet['!ref']);
+    var C, R = range.s.r; /* start in the first row */
+    /* walk every column in the range */
+    for (C = range.s.c; C <= range.e.c; ++C) {
+        var cell = sheet[XLSX.utils.encode_cell({c: C, r: R})] /* find the cell in the first row */
+
+        var hdr = "UNKNOWN " + C; // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
+
+        headers.push(hdr);
+    }
+    return headers;
+}
+
 export function readExcel(file, isSkipReadFile, ignoreHeader = true) {
     let promise = new Promise((resolve) => {
         const reader = new FileReader();
@@ -879,8 +905,14 @@ export function readExcel(file, isSkipReadFile, ignoreHeader = true) {
             }
             /* Convert array of arrays */
             const data = XLSX.utils.sheet_to_json(ws, {header: ignoreHeader});
-            /* Update state */
-            resolve(data);
+
+            const header = get_header_row(ws);
+            if (ignoreHeader) {
+                resolve(data);
+            } else {
+                resolve({rows: data, header: header});
+            }
+
         };
         reader.readAsBinaryString(file);
     });

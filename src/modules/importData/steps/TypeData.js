@@ -1,5 +1,6 @@
 import React from "react";
 import {observer} from "mobx-react";
+import validation from "../../../helpers/validateData";
 
 const types = [
     {
@@ -8,6 +9,103 @@ const types = [
         description: "Đây là mô tả",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900idmduO8uhmBJyHV.png",
         selected: false,
+        properties: [
+            {
+                key: "user.name",
+                required: true,
+                name: 'Họ và tên',
+                text_error: 'Họ và tên của leads là bắt buộc',
+                checkFormat: (data) => {
+                    return validation.isNotEmpty(data);
+                }
+            },
+            {
+                key: "user.father_name",
+                name: 'Họ và tên bố',
+            },
+            {
+                key: "user.mother_name",
+                name: 'Họ và tên mẹ',
+            },
+            {
+                key: "user.email",
+                required: true,
+                name: "Email",
+                text_error: 'Email của leads là bắt buộc',
+                checkFormat: (data) => {
+                    return validation.isNotEmpty(data) && validation.isEmailAddress(data);
+                }
+            },
+            {
+                key: "user.phone",
+                name: "Số điện thoại",
+                checkFormat: (data) => {
+                    return validation.isNumber(data);
+                }
+            },
+            {
+                key: "user.dob",
+                name: "Ngày sinh",
+                format: 'date',
+                checkFormat: (data) => {
+                    return validation.isDate(data);
+                }
+            },
+            {
+                key: "user.created_at",
+                name: "Ngày nhập",
+                format: 'date',
+                checkFormat: (data) => {
+                    return validation.isDate(data);
+                }
+            },
+            {
+                key: "user.address",
+                name: "Địa chỉ"
+            },
+            {
+                key: "user.code",
+                name: "Mã học viên"
+            },
+            {
+                key: "user.note",
+                name: "Ghi chú"
+            },
+            {
+                key: "user.district",
+                name: "Quận/Huyện"
+            },
+            {
+                key: "user.city",
+                name: "Tỉnh/Thành Phố"
+            },
+            {
+                key: "user.university",
+                name: "Trường học"
+            },
+            {
+                key: "user.rate",
+                name: "Phận loại(Sao)"
+            },
+            {
+                key: "marketing_campaign.name",
+                name: "Chiến dịch",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} chiến dịch, trong đó có ${not_available_total} chiến dịch chưa xác định, vui lòng cho chúng tôi biết đó là chiến nào`;
+                },
+                check_key_data: "marketing_campaigns"
+            },
+            {
+                key: "source.name",
+                name: "Nguồn học viên",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} nguồn học viên, trong đó có ${not_available_total} nguồn chưa xác định, vui lòng cho chúng tôi biết đó là nguồn nào`;
+                },
+                check_key_data: "sources",
+            },
+        ]
     },
     {
         key: "deals",
@@ -15,6 +113,25 @@ const types = [
         description: "Đây là mô tả",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900KQ2v8YCptdCyuCV.png",
         selected: false,
+        properties: [
+            {
+                key: "class.name",
+                name: "Tên lớp",
+                text_error: 'Tên lớp là bắt buộc',
+                required: true,
+            },
+            {
+                key: "register.note",
+                name: "Ghi chú"
+            },
+            {
+                key: "register.money",
+                name: "Số tiền",
+                checkFormat: (data) => {
+                    return validation.isNumber(data);
+                }
+            }
+        ]
     },
     {
         key: "classes",
@@ -22,13 +139,39 @@ const types = [
         description: "Đây là mô tả",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900d7B1pYZVBH0YtOJ.png",
         selected: false,
+        properties: [
+            {
+                key: "class.name",
+                name: "Tên lớp",
+                text_error: 'Tên lớp là bắt buộc',
+                required: true,
+            },
+            {
+                key: "course.name",
+                name: "Tên môn học",
+                text_error: 'Tên môn học là bắt buộc',
+                required: true,
+            }
+        ]
     },
     {
-        key: "learning",
-        name: "Học tập",
+        key: "course",
+        name: "Môn học",
         description: "Đây là mô tả",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900oUaNuMRVitwULgQ.png",
         selected: false,
+        properties: [
+            {
+                key: "course.name",
+                name: "Tên môn học",
+                text_error: 'Tên môn học là bắt buộc',
+                required: true,
+            },
+            {
+                key: "course.duration",
+                name: "Số buổi học",
+            }
+        ]
     },
 
 ];
