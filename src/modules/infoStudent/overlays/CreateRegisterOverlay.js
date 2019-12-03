@@ -149,9 +149,7 @@ class CreateRegisterOverlay extends React.Component {
                 <button className="btn btn-register-action" mask="create"
                         ref="target" onClick={this.toggle}
                         disabled={isSavingRegister}>
-                    Đăng kí
-                    <i className="material-icons">add_shopping_cart</i>
-
+                    Tạo đăng kí mới
                 </button>
                 <Overlay
                     rootClose={true}
@@ -160,9 +158,9 @@ class CreateRegisterOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-call-register" style={{width: 300, marginTop: 20}}>
+                    <div className="kt-overlay overlay-call-register" style={{width: 300, marginTop: 10}}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
-                            <div><b>Đăng kí mới</b></div>
+                            <div><b>Tạo đăng kí mới</b></div>
                             <button
                                 onClick={this.close}
                                 type="button" className="close"

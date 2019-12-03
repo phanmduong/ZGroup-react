@@ -1470,7 +1470,7 @@ table tr td .avatar-honor {
   position: relative;
 
   .btn {
-    box-shadow: none;
+    box-shadow: none!important;
   }
 
   &[mask=transparent] {
@@ -1489,8 +1489,9 @@ table tr td .avatar-honor {
     }
 
     .timeline > li.timeline-inverted > .timeline-panel {
-      background-color: #f7f7f7;
+      //background-color: #f7f7f7;
       box-shadow: none;
+      padding: 0;
     }
 
     img.img-user {
@@ -1703,18 +1704,6 @@ table tr td .avatar-honor {
     }
   }
 
-  .col-md-3{
-    padding-left: 8px !important;
-    padding-right: 8px !important;
-    &:first-child{
-      padding-left: 16px !important;
-      padding-right: 8px !important;
-    }
-    &:last-child{
-      padding-left: 8px !important;
-      padding-right: 16px !important;
-    }
-  }
 
   &:before {
     height: 90%;
@@ -1722,31 +1711,33 @@ table tr td .avatar-honor {
 
 
   .btn-register-action {
-    & {
-      padding: 20px 0px !important;
+    &{
+      padding: 10px 20px !important;
       font-size: 14px;
-      color: white !important;
+      color: black!important;
       cursor: pointer;
       margin-right: 10px;
-      border-radius: 10px;
-      width: 100%;
+      border-radius: 8px;
       display: flex;
       justify-content: space-around;
       align-items: center;
       margin-top: 0;
       flex-wrap: wrap;
+      background-color: #F7F5F7;
     }
-    &[mask=call]{
-      background-color: #18cc41 !important;
-    }
-    &[mask=create]{
-      background-color:#f06a46 !important;
-    }
-    &[mask=money]{
-      background-color: #e65238 !important;
-    }
+
+    //&[mask=call]{
+    //  background-color: #18cc41 !important;
+    //}
+    //&[mask=create]{
+    //  background-color:#f06a46 !important;
+    //}
+    //&[mask=money]{
+    //  background-color: #e65238 !important;
+    //}
     &[mask=extra]{
-      background-color: #629eec !important;
+      padding: 7px 5px!important;
+      width: unset;
     }
 
     i {
@@ -1756,12 +1747,15 @@ table tr td .avatar-honor {
 }
 
 
-ul.nav.nav-pills.nav-pills-gradient {
+ul.nav.nav-pills.nav-pills-dark {
   margin-bottom: 20px;
+  li a{
+    margin-bottom: 3px;
 
+  }
   li.active {
     a {
-      background: transparent linear-gradient(109deg, #FF8E5C 0%, #E55035 100%) 0% 0% no-repeat padding-box !important;
+      background: #505661 !important;
       box-shadow: none !important;
     }
   }
@@ -1797,7 +1791,7 @@ ul.nav.nav-pills.nav-pills-gradient {
   padding-right: 15px;
 
   &[mask=extra]{
-    left: unset!important;
+    left: 0;
     right: 0;
   }
   &[mask=money]{
@@ -2536,4 +2530,7 @@ $min-height-step-content: 500px;
       }
     }
   }
+}
+.timeline > li > .timeline-badge{
+  box-shadow: none!important;
 }

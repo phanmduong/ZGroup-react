@@ -21,7 +21,7 @@ import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMo
 import LogsContainer from "./logsStudent/LogsContainer";
 import CallRegisterOverlay from "./overlays/CallRegisterOverlay";
 import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
-import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
+// import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
 import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
 import SourceOverlay from "./overlays/SourceOverlay";
 import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
@@ -31,25 +31,14 @@ class InfoStudentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
-
+        console.log(this.props);
         this.openModalChangePassword = this.openModalChangePassword.bind(this);
-        this.path = '';
+        this.path = window.location.pathname;
         this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.closeModalChangePassword = this.closeModalChangePassword.bind(this);
-        this.state = {
-            showModal: false,
-            student: {},
-            showModalChangePassword: false,
-            showModalViewImage: false,
-            imageUrl: '',
-            currentRoute: {
-                path: `/sales/info-student/${this.studentId}`, text: 'Đăng kí',
-                component: <RegistersContainer studentId={this.studentId}/>
-            },
-        };
         this.routes = [
             {
                 path: `/sales/info-student/${this.studentId}`, text: 'Đăng kí',
@@ -75,6 +64,15 @@ class InfoStudentContainer extends React.Component {
                 component: <LogsContainer studentId={this.studentId}/>
             },
         ];
+        this.state = {
+            showModal: false,
+            student: {},
+            showModalChangePassword: false,
+            showModalViewImage: false,
+            imageUrl: '',
+            currentRoute: this.routes.filter(r => r.path == this.path)[0],
+        };
+
     }
 
     componentWillMount() {
@@ -89,22 +87,17 @@ class InfoStudentContainer extends React.Component {
     getRouteItem(route, index) {
         const changeRoute = () => {
             history.pushState({}, "modal", route.path);
+            this.path = route.path;
             this.setState({currentRoute: route});
         };
 
-        return index == 0 ? (
-            <li key={index} className={this.path === route.path ? 'active' : ''}>
-                <a onClick={changeRoute}>
-                    {route.text}
-                </a>
-            </li>
-        ) : (
-            <li key={index} className={this.path === route.path ? 'active' : ''}>
-                <a onClick={changeRoute}>
-                    {route.text}
-                </a>
-            </li>
-        );
+
+        return <li key={index} className={this.path === route.path ? 'active' : ''}>
+            <a onClick={changeRoute}>
+                {route.text}
+            </a>
+        </li>
+            ;
     }
 
     updateFormData(event) {
@@ -216,7 +209,8 @@ class InfoStudentContainer extends React.Component {
     // };
 
     render() {
-        this.path = window.location.pathname;
+
+
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
         return (
@@ -286,28 +280,28 @@ class InfoStudentContainer extends React.Component {
                                             <SourceOverlay
                                                 student={this.props.student}
                                                 updateInfoStudent={this.props.studentActions.updateInfoStudent}
-                                                />
+                                            />
 
                                         </div>
 
-                                    <div className="source-wrap">
-                                        <div className="source-name">Chiến dịch</div>
-                                        {/*<div className="source-value">N/A</div>*/}
-                                        <MarketingCampaignOverlay
-                                            student={this.props.student}
-                                            updateInfoStudent={this.props.studentActions.updateInfoStudent}
-                                        />
-                                    </div>
-                                    <div className="source-wrap">
-                                        <div className="source-name">Người nhập</div>
-                                        <div className="source-value">N/A</div>
-                                    </div>
-                                    <div className="source-wrap">
-                                        <div className="source-name">P.I.C</div>
-                                        <div className="source-value">N/A</div>
-                                    </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Chiến dịch</div>
+                                            {/*<div className="source-value">N/A</div>*/}
+                                            <MarketingCampaignOverlay
+                                                student={this.props.student}
+                                                updateInfoStudent={this.props.studentActions.updateInfoStudent}
+                                            />
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Người nhập</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">P.I.C</div>
+                                            <div className="source-value">N/A</div>
+                                        </div>
 
-                                </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -338,42 +332,44 @@ class InfoStudentContainer extends React.Component {
                                 <div className="col-md-12">
                                     <ul className="timeline timeline-simple time-line-register">
                                         <li className="timeline-inverted">
-                                            <div className={"timeline-badge success"}>
-                                                {/*<i className="material-icons">phone</i>*/}
+                                            <div className={"timeline-badge warning"}>
+                                                <i className="material-icons">star</i>
                                             </div>
                                             <div className="timeline-panel">
                                                 <div className="timeline-heading">
-                                                    <div className="row">
-                                                        <div className="col-md-3">
-                                                            <CallRegisterOverlay
-                                                                studentId={this.props.student.id}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <CreateRegisterOverlay
-                                                                student={this.props.student}
-                                                                studentId={this.props.student.id}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <PurchaseRegisterOverlay
-                                                                studentId={this.props.student.id}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <ExtraRegisterOverlay
-                                                                openModalChangePassword={this.openModalChangePassword}
-                                                                studentId={this.props.student.id}
-                                                            />
-                                                        </div>
-                                                    </div>
+                                                    <div className="flex flex-wrap">
+
+                                                        <CallRegisterOverlay
+                                                            studentId={this.props.student.id}
+                                                        />
+
+
+                                                        <CreateRegisterOverlay
+                                                            student={this.props.student}
+                                                            studentId={this.props.student.id}
+                                                        />
+
+                                                    {/*<div className="col-md-3">*/}
+                                                    {/*    <PurchaseRegisterOverlay*/}
+                                                    {/*        studentId={this.props.student.id}*/}
+                                                    {/*    />*/}
+                                                    {/*</div>*/}
+
+                                                        <ExtraRegisterOverlay
+                                                            openModalChangePassword={this.openModalChangePassword}
+                                                            studentId={this.props.student.id}
+                                                        />
+
+                                                </div>
                                                 </div>
                                                 <div className="timeline-body">
-                                                    <ul className="nav nav-pills nav-pills-gradient" data-tabs="tabs">
+                                                    <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                                                         {this.routes.map((route, index) => {
                                                             return this.getRouteItem(route, index);
                                                         })}
                                                     </ul>
+
+
                                                 </div>
 
                                             </div>

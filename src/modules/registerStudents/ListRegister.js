@@ -27,8 +27,8 @@ class ListRegister extends React.Component {
                         <th>Lớp</th>
                         <th>Gọi</th>
                         <th>Họ tên</th>
-                        <th>Email</th>
-                        <th>Phone</th>
+                        {/*<th>Email</th>*/}
+                        {/*<th>Phone</th>*/}
                         {this.props.genId == 0 && <th>Khóa</th>}
                         <th>Mã thẻ</th>
                         <th>Saler</th>
@@ -127,16 +127,19 @@ class ListRegister extends React.Component {
                                         openModalRegisterDetail={this.props.openModalRegisterDetail}
                                         register={register}
                                     />
-                                </td>
-                                <td>
                                     <div id="register-email" data-toggle="tooltip" title=""
-                                         type="button" rel="tooltip"
-                                         data-original-title={register.email}>{register.email}</div>
+                                         type="button" rel="tooltip" style={{"whiteSpace":"nowrap"}}
+                                         data-original-title={register.email}>
+                                        {register.email}</div>
+                                    <a href={"tel:" + register.phone} className="text-name-student-register">
+                                        {helper.formatPhone(register.phone)}
+                                    </a>
                                 </td>
-                                <td><a href={"tel:" + register.phone} className="text-name-student-register">
-                                    {helper.formatPhone(register.phone)}
-                                </a>
-                                </td>
+                                {/*<td>*/}
+                                {/*   */}
+                                {/*</td>*/}
+                                {/*<td>*/}
+                                {/*</td>*/}
                                 {this.props.genId == 0 && <th>{register.gen_name}</th>}
                                 <td>{register.code}</td>
                                 <td>

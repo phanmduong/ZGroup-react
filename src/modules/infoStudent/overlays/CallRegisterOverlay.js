@@ -58,8 +58,8 @@ class CallRegisterOverlay extends React.Component {
                 <button className="btn btn-register-action"  mask="call"
                         ref="target" onClick={this.toggle}
                         disabled={isChangingStatusCall}>
-                    Cuộc gọi
-                    <i className="material-icons">phone</i>
+                    Gọi điện
+
 
                 </button>
                 <Overlay
@@ -71,7 +71,7 @@ class CallRegisterOverlay extends React.Component {
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay overlay-call-register" style={{
                         width: 300,
-                        marginTop: 20
+                        marginTop: 10
                     }}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
                             <div><b>Cuộc gọi mới</b></div>

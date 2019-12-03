@@ -56,7 +56,7 @@ class ExtraRegisterOverlay extends React.Component {
                 <button className="btn btn-register-action" mask="extra"
                         ref="target" onClick={this.toggle}
                         disabled={isChangingStatusCall}>
-                    Khác
+
                     <i className="material-icons">arrow_drop_down</i>
 
                 </button>
@@ -69,9 +69,9 @@ class ExtraRegisterOverlay extends React.Component {
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay overlay-call-register"  mask="extra" style={{
                         width: 200,
-                        marginTop: 20,
-                        left:'unset',
-                        right:0
+                        marginTop: 10,
+                        left:0,
+                        // right:0
                     }}>
 
                         <div>

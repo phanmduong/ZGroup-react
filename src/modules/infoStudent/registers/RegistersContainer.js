@@ -34,9 +34,54 @@ class RegistersContainer extends React.Component {
                                             <img className="circle" src={register.class.avatar_url} alt=""/>
                                         </div>
                                         <div className="timeline-panel">
+                                            <div className="flex">
                                             <h4>
                                                 <b>{register.class.name}</b>
                                             </h4>
+                                                <div className="timeline-heading margin-left-15">
+                                                    <div className="flex-row-center">
+                                                        {
+                                                            register.saler &&
+                                                            <button className="btn btn-xs"
+                                                                    style={{backgroundColor: '#' + register.saler.color}}
+                                                            >
+                                                                {helper.getShortName(register.saler.name)}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        }
+                                                        {
+                                                            register.campaign &&
+                                                            <button className="btn btn-xs"
+                                                                    style={{backgroundColor: '#' + register.campaign.color}}
+                                                            >
+                                                                {helper.getShortName(register.campaign.name)}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        }
+                                                        {
+                                                            register.paid_status ?
+                                                                (
+                                                                    <button className="btn btn-xs btn-rose"
+                                                                            style={{width: '70px'}}
+                                                                    >
+                                                                        {register.money}
+                                                                        <div className="ripple-container"/>
+                                                                    </button>
+                                                                )
+                                                                :
+                                                                (
+                                                                    <button className="btn btn-xs btn-rose"
+                                                                    >
+                                                                        Chưa đóng
+                                                                        <div className="ripple-container"/>
+                                                                    </button>
+                                                                )
+                                                        }
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                             <div className="timeline-body">
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
@@ -64,49 +109,6 @@ class RegistersContainer extends React.Component {
                                                         </i>&nbsp; &nbsp; Trợ giảng: {register.class.assist.name}
                                                     </div>
                                                 }
-
-                                            </div>
-                                            <div className="timeline-heading margintop-10">
-                                                <div className="flex-row-center">
-                                                    {
-                                                        register.saler &&
-                                                        <button className="btn btn-xs"
-                                                                style={{backgroundColor: '#' + register.saler.color}}
-                                                        >
-                                                            {helper.getShortName(register.saler.name)}
-                                                            <div className="ripple-container"/>
-                                                        </button>
-                                                    }
-                                                    {
-                                                        register.campaign &&
-                                                        <button className="btn btn-xs"
-                                                                style={{backgroundColor: '#' + register.campaign.color}}
-                                                        >
-                                                            {helper.getShortName(register.campaign.name)}
-                                                            <div className="ripple-container"/>
-                                                        </button>
-                                                    }
-                                                    {
-                                                        register.paid_status ?
-                                                            (
-                                                                <button className="btn btn-xs btn-rose"
-                                                                        style={{width: '70px'}}
-                                                                >
-                                                                    {register.money}
-                                                                    <div className="ripple-container"/>
-                                                                </button>
-                                                            )
-                                                            :
-                                                            (
-                                                                <button className="btn btn-xs btn-rose"
-                                                                >
-                                                                    Chưa đóng
-                                                                    <div className="ripple-container"/>
-                                                                </button>
-                                                            )
-                                                    }
-
-                                                </div>
 
                                             </div>
 
