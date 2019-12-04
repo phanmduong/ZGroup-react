@@ -10,6 +10,7 @@ import StudyProgressTooltip from "./StudyProgressTooltip";
 class ListRegister extends React.Component {
     constructor(props, context) {
         super(props, context);
+
     }
 
 
@@ -36,8 +37,7 @@ class ListRegister extends React.Component {
                         <th>Học phí</th>
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
-                        <th>Hẹn nộp</th>
-                        <th>Hẹn test</th>
+                        {/*<th>Hẹn test</th>*/}
                         <th/>
                     </tr>
                     </thead>
@@ -128,7 +128,7 @@ class ListRegister extends React.Component {
                                         register={register}
                                     />
                                     <div id="register-email" data-toggle="tooltip" title=""
-                                         type="button" rel="tooltip" style={{"whiteSpace":"nowrap"}}
+                                         type="button" rel="tooltip"
                                          data-original-title={register.email}>
                                         {register.email}</div>
                                     <a href={"tel:" + register.phone} className="text-name-student-register">
@@ -200,7 +200,16 @@ class ListRegister extends React.Component {
                                                  data-original-title={register.note}>
                                                 {helper.dotNumber(register.money)} vnd
                                             </div>
-                                            : 'Chưa nộp'
+                                            :
+                                            <TooltipButton text={`Hẹn nộp ${register.appointment_payment_date}`} placement="top">
+                                                <div>
+                                                    {
+                                                        register.appointment_payment ?
+                                                        register.appointment_payment :
+                                                            'Chưa nộp'
+                                                    }
+                                                </div>
+                                            </TooltipButton>
                                     }
                                 </td>
                                 <td>{register.coupon}</td>
@@ -211,20 +220,13 @@ class ListRegister extends React.Component {
                                         {register.created_at}
                                     </div>
                                 </td>
-                                <td>
-                                    <TooltipButton text={register.appointment_payment_date} placement="top">
-                                        <div>
-                                            {register.appointment_payment}
-                                        </div>
-                                    </TooltipButton>
-                                </td>
-                                <td>
-                                    <TooltipButton text={register.date_test_date} placement="top">
-                                        <div>
-                                            {register.date_test}
-                                        </div>
-                                    </TooltipButton>
-                                </td>
+                                {/*<td>*/}
+                                {/*    <TooltipButton text={register.date_test_date} placement="top">*/}
+                                {/*        <div>*/}
+                                {/*            {register.date_test}*/}
+                                {/*        </div>*/}
+                                {/*    </TooltipButton>*/}
+                                {/*</td>*/}
                                 <td>
                                     <ButtonGroupAction
                                         disabledEdit={!(register.editable && register.paid_status)}
