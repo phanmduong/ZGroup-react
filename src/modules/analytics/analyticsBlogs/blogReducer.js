@@ -44,6 +44,8 @@ let blogInitState = {
         { value: "promotion", label: "Ưu đãi" },
         { value: "resource", label: "Tài nguyên" },
         { value: "tutorial", label: "Hướng dẫn" },
+        { value: "news", label: "Tin tức" },
+
     ],
 };
 export default function blogReducer(state = blogInitState, action) {
