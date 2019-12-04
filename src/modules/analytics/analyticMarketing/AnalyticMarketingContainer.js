@@ -132,9 +132,7 @@ class AnalyticMarketingContainer extends Component {
                                                             borderRadius: "10px",
                                                             position: "relative"
                                                         }}
-                                                    >
-
-                                                    </div>
+                                                     />
                                                     <div className="card-action">
                                                         <h4 className="card-title" style={{margin: "20px 0px"}}>
                                                             {this.getPostName(post)}
@@ -171,10 +169,7 @@ class AnalyticMarketingContainer extends Component {
                                                 </div>
                                             </div>
 
-                                            <div className="col-lg-8 padding-horizontal-30px">
-
-
-                                            </div>
+                                            <div className="col-lg-8 padding-horizontal-30px" />
 
                                         </div>
 

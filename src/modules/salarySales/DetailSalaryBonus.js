@@ -50,7 +50,7 @@ class DetailSalaryBonus extends React.Component {
                     }
                 </Modal.Body>
             </Modal>
-        )
+        );
     }
 }
 

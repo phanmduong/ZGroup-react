@@ -993,7 +993,7 @@ class ClassContainer extends React.Component {
                 <Modal
                     show={this.state.showModalAddCheckinCheckout}
                     onHide={() => {
-                        this.setState({showModalAddCheckinCheckout: false})
+                        this.setState({showModalAddCheckinCheckout: false});
                     }}
                 >
                     <Modal.Header>

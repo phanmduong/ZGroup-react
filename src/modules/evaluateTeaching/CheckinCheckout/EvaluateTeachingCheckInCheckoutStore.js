@@ -28,7 +28,7 @@ export default class EvaluateTeachingCheckinCheckout {
         this.isLoading = true;
         let api = this.selectedTeaching == "teacher" ?
             loadEvaluateTeacherDetailCheckinCheckoutApi :
-            loadEvaluateTeachingAssistantDetailCheckinCheckoutApi
+            loadEvaluateTeachingAssistantDetailCheckinCheckoutApi;
         api(this.selectedGenId, this.selectedBaseId, this.user.id).then((res) => {
             this.data = res.data.data;
         }).finally(() => {
@@ -62,7 +62,7 @@ export default class EvaluateTeachingCheckinCheckout {
             }
 
             return true;
-        })
+        });
     }
 
     @computed
@@ -81,6 +81,6 @@ export default class EvaluateTeachingCheckinCheckout {
             }
 
             return false;
-        })
+        });
     }
 }

@@ -30,7 +30,7 @@ export default class EvaluateTeachingCheckinCheckout {
         this.isLoading = true;
         let api = this.selectedTeaching == "teacher" ?
             loadEvaluateTeacherDetailStudentAttendanceApi :
-            loadEvaluateTeachingAssistantDetailStudentAttendanceApi
+            loadEvaluateTeachingAssistantDetailStudentAttendanceApi;
         api(this.selectedGenId, this.selectedBaseId, this.user.id).then((res) => {
             this.data = res.data.data;
         }).finally(() => {

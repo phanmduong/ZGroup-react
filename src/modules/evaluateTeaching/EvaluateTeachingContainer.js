@@ -76,7 +76,7 @@ class EvaluateTeachingContainer extends React.Component {
                             <Modal show={store.showModalCheckinCheckout}
                                 // bsSize="small"
                                    onHide={() => {
-                                       store.showModalCheckinCheckout = false
+                                       store.showModalCheckinCheckout = false;
                                    }}>
                                 <Modal.Body>
                                     {store.showModalCheckinCheckout && <CheckinCheckoutContainer
@@ -90,7 +90,7 @@ class EvaluateTeachingContainer extends React.Component {
                             </Modal>
                             <Modal show={store.showModalStudentAttendance}
                                    onHide={() => {
-                                       store.showModalStudentAttendance = false
+                                       store.showModalStudentAttendance = false;
                                    }}>
                                 <Modal.Body>
                                     {store.showModalStudentAttendance && <StudentAttendanceContainer
@@ -104,7 +104,7 @@ class EvaluateTeachingContainer extends React.Component {
                             </Modal>
                             <Modal show={store.showModalStudentRating}
                                    onHide={() => {
-                                       store.showModalStudentRating = false
+                                       store.showModalStudentRating = false;
                                    }}>
                                 <Modal.Body>
                                     {store.showModalStudentRating && <StudentRatingContainer
@@ -118,7 +118,7 @@ class EvaluateTeachingContainer extends React.Component {
                             </Modal>
                             <Modal show={store.showModalCommentProduct}
                                    onHide={() => {
-                                       store.showModalCommentProduct = false
+                                       store.showModalCommentProduct = false;
                                    }}>
                                 <Modal.Body>
                                     {store.showModalCommentProduct && <CommentProductContainer

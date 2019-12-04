@@ -63,9 +63,7 @@ class StudyProgressTooltip extends React.Component {
                                 attendances={progressClass.attendances}
                             />
                         </div>
-                        <div className="flex-row-center">
-
-                        </div>
+                        <div className="flex-row-center" />
                     </div>
                 );
             })}

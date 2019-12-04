@@ -11,7 +11,7 @@ class FormatData extends React.Component {
         this.state = {
             dataNotFormatMatch: [],
             showModalNotFormatMatch: false
-        }
+        };
     }
 
     getDataTypes() {
@@ -43,7 +43,7 @@ class FormatData extends React.Component {
             }
         });
 
-        this.setState({dataNotFormatMatch: dataNotFormatMatch})
+        this.setState({dataNotFormatMatch: dataNotFormatMatch});
 
 
     }
@@ -61,7 +61,7 @@ class FormatData extends React.Component {
                                 <div className="item-error">
                                     <div>{property.text_error}</div>
                                 </div>
-                            )
+                            );
                         })
                     }
                 </div>
@@ -88,7 +88,7 @@ class FormatData extends React.Component {
                                     >
                                         <div className="checkbox-container disable">
                                             <input type="checkbox" checked={formatter.match_format}/>
-                                            <span className="checkmark"></span>
+                                            <span className="checkmark" />
                                         </div>
                                     </td>
                                     <td>
@@ -96,7 +96,7 @@ class FormatData extends React.Component {
                                     </td>
                                     <td className="text-grey">
                                         {formatter.data.slice(0, 3).map((instance) => {
-                                            return (<div>{isEmpty(instance) ? "--" : instance}</div>)
+                                            return (<div>{isEmpty(instance) ? "--" : instance}</div>);
                                         })}
                                         <div style={{color: "#ff4700", cursor: "pointer"}}
                                              onClick={() => this.showModalNotFormatMatch(index)}>
@@ -137,7 +137,7 @@ class FormatData extends React.Component {
                                             <td>{data.index}</td>
                                             <td>{isEmpty(data.data) ? "\"Không có dữ liệu\"" : data.data}</td>
                                         </tr>
-                                    )
+                                    );
                                 })}
 
                                 </tbody>

@@ -26,7 +26,7 @@ class ListClass extends React.Component {
         return (
             <div className="col-xs-12">
                 <div className="table-responsive table-split">
-                    <table className="table"  cellspacing="0">
+                    <table className="table"  cellSpacing="0">
                         <thead className="text-rose">
                         <tr>
                             <th/>

@@ -24,7 +24,7 @@ class SalaryTeachingContainer extends React.Component {
 
     componentWillMount() {
         if (this.props.params.genId) {
-            store.selectedGenId = this.props.params.genId
+            store.selectedGenId = this.props.params.genId;
         }
         store.loadGens();
         store.loadBases();
@@ -117,7 +117,7 @@ class SalaryTeachingContainer extends React.Component {
                                         className={"btn btn-success btn-round " + (store.isSendingEmail ? "disabled" : "")}
                                         style={{width: '100%'}}
                                         onClick={() => {
-                                            store.openModalSendMail = true
+                                            store.openModalSendMail = true;
                                         }}
                                     >
                                         Gửi mail

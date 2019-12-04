@@ -37,11 +37,12 @@ class Store {
         uploadImportData(data).then((res) => {
             const dataRes = res.data.data;
             if (dataRes.error.length > 0) {
-                sweetAlertWaring(`Import thành công ${data.length - dataRes.error.length} bản ghi, thất bại ${dataRes.error.length} bản ghi`)
+                sweetAlertWaring(`Import thành công ${data.length - dataRes.error.length} bản ghi, thất bại ${dataRes.error.length} bản ghi`);
                 return;
             }
             sweetAlertSuccess(`Import thành công ${data.length - dataRes.error.length} bản ghi, thất bại ${dataRes.error.length} bản ghi`);
             reset();
+            window.history.back();
         }).catch(() => {
             sweetAlertError("Import dữ liệu lỗi");
         }).finally(() => {

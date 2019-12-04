@@ -113,7 +113,7 @@ class RatingDetailContainer extends React.Component {
                                             </div>
                                             <hr/>
                                         </div>
-                                    )
+                                    );
                                 })
                             }
 

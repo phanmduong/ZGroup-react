@@ -81,7 +81,7 @@ class EvaluateClassesContainer extends React.Component {
                             </div>
                             <EvaluateClasses store={store}/>
                             <Modal show={store.showModalAttendance}
-                                   onHide={() => {store.showModalAttendance = false}}>
+                                   onHide={() => {store.showModalAttendance = false;}}>
                                 <Modal.Body>
                                     <AttendanceDetailContainer
                                         data={store.attendanceDetail}
@@ -89,7 +89,7 @@ class EvaluateClassesContainer extends React.Component {
                                 </Modal.Body>
                             </Modal>
                             <Modal show={store.showModalHomework}
-                                   onHide={() => {store.showModalHomework = false}}>
+                                   onHide={() => {store.showModalHomework = false;}}>
                                 <Modal.Body>
                                     <TopicDetailContainer
                                         data={store.homeworkDetail}
@@ -106,7 +106,7 @@ class EvaluateClassesContainer extends React.Component {
                             {/*</Modal>*/}
                             <Modal
                                 show={store.showModalDetailClass}
-                                onHide={() => {store.showModalDetailClass = false}}
+                                onHide={() => {store.showModalDetailClass = false;}}
                                 bsSize="large"
                             >
                                 <Modal.Header closeButton>
@@ -149,7 +149,7 @@ class EvaluateClassesContainer extends React.Component {
                                 </Modal.Body>
                             </Modal>
                             <Modal show={store.showModalRating}
-                                   onHide={() => {store.showModalRating = false}}>
+                                   onHide={() => {store.showModalRating = false;}}>
                                 <Modal.Body>
 
                                     {store.showModalRating && <StudentRatingContainer

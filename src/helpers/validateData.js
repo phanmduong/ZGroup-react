@@ -9,16 +9,20 @@ const validation = {
         return pattern.test(str.trim());  // returns a boolean
     },
     isNotEmpty: function (str) {
-        var pattern = /\S+/;
+        let pattern = /\S+/;
         return pattern.test(str.trim());  // returns a boolean
     },
     isNumber: function (str) {
-        var pattern = /^[0-9]*$/;
+        let pattern = /^[0-9]*$/;
         return pattern.test(str.trim());  // returns a boolean
     },
     isDate: function (str) {
         return moment(str.trim(), allowedDateFormats, true).isValid();
-    }
+    },
+    isPhoneNumber: function (str) {
+        let pattern = /^\+?[0-9]*$/;
+        return pattern.test(str.trim());  // returns a boolean
+    },
 };
 
 export default validation;

@@ -59,7 +59,7 @@ export default new class evaluateTeachingStore {
     @action
     loadEvaluate() {
         this.isLoading = true;
-        let api = this.selectedTeaching == "teacher" ? loadEvaluateTeacherApi : loadEvaluateTeachingAssistantApi
+        let api = this.selectedTeaching == "teacher" ? loadEvaluateTeacherApi : loadEvaluateTeachingAssistantApi;
         api(this.selectedGenId, this.selectedBaseId).then((res) => {
             this.data = res.data;
             console.log(this.data);
@@ -94,4 +94,4 @@ export default new class evaluateTeachingStore {
             ...baseData
         ];
     }
-}
+};

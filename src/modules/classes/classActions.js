@@ -434,7 +434,7 @@ export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, 
             dispatch({
                 type: types.ERROR_ADD_CHECKIN_CHECKOUT_CLASS_DATA,
             });
-        })
+        });
     };
 }
 

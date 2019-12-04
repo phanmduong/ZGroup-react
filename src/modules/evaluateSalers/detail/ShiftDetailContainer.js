@@ -16,7 +16,7 @@ class ShiftDetailContainer extends React.Component {
         this.state = {
             tab: 1,
             dateIndex: 0,
-        }
+        };
     }
 
     componentWillMount() {

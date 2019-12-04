@@ -88,7 +88,7 @@ export default new class salaryTeachingStore {
                     return {
                         ...item,
                         bonus: res.data.data.total_bonus
-                    }
+                    };
                 }
                 return item;
             });
@@ -97,7 +97,7 @@ export default new class salaryTeachingStore {
                     return {
                         ...item,
                         bonus: res.data.data.total_bonus
-                    }
+                    };
                 }
                 return item;
             });
@@ -105,7 +105,7 @@ export default new class salaryTeachingStore {
                 ...this.data,
                 teachers,
                 teaching_assistant
-            }
+            };
 
         }).finally(() => {
             this.isAddingSalaryBonus = false;
@@ -119,7 +119,7 @@ export default new class salaryTeachingStore {
             this.detailSalaryBonus = res.data.data.salary_bonuses;
         }).finally(() => {
             this.isLoadingDetailSalaryBonus = false;
-        })
+        });
     };
 
     @action
@@ -135,7 +135,7 @@ export default new class salaryTeachingStore {
         }).catch(() => {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
-        })
+        });
     };
 
 
@@ -176,7 +176,7 @@ export default new class salaryTeachingStore {
             return {
                 ...data,
                 total_salary,
-            }
+            };
         });
 
         return result;
@@ -213,4 +213,4 @@ export default new class salaryTeachingStore {
     @computed get totalBonus() {
         return _.sumBy(this.detailSalaryBonus, "amount");
     }
-}
+};

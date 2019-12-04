@@ -10,7 +10,7 @@ class SendMail extends React.Component {
         this.store = this.props.store;
         this.state = {
             data: this.store.getData.map((data) => {
-                return {...data, isSendMail: true}
+                return {...data, isSendMail: true};
             }),
             checkboxAll: true
         };
@@ -75,7 +75,7 @@ class SendMail extends React.Component {
                     </div>
                 </Modal.Body>
             </Modal>
-        )
+        );
     }
 }
 

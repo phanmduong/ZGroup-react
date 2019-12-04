@@ -13,7 +13,7 @@ class CheckinCheckoutContainer extends React.Component {
         super(props, context);
         this.state = {
             tab: 1
-        }
+        };
     }
 
     componentWillMount() {
@@ -143,7 +143,7 @@ class CheckinCheckoutContainer extends React.Component {
                                         <AttendanceTeacher
                                             data={shift}
                                             key={index2}
-                                        />)
+                                        />);
                                 })
                             }
                         </div>
@@ -151,7 +151,7 @@ class CheckinCheckoutContainer extends React.Component {
                 })
                 }
             </div>
-        )
+        );
     }
 }
 

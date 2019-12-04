@@ -45,9 +45,9 @@ class AnalyticsComponent extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <div className="row col-md-12 margin-bottom-20" id={"embed-api-auth-container"}></div>
+                <div className="row col-md-12 margin-bottom-20" id={"embed-api-auth-container"} />
 
-                <div className="flex col-md-12" id={"view-selector-container"}></div>
+                <div className="flex col-md-12" id={"view-selector-container"} />
                 <div className="row">
                     <div className="col-md-4">
                         <FormInputDate value={this.state.filter['start-date']}
@@ -77,7 +77,7 @@ class AnalyticsComponent extends React.Component {
                             return (
                                 <div key={index} className={clsName}>
                                     <div>{obj.name ? obj.name : ""}</div>
-                                    <div id={"chart-" + obj.id + "-container"}></div>
+                                    <div id={"chart-" + obj.id + "-container"} />
                                 </div>
                             );
                         })}

@@ -126,7 +126,7 @@ export default new class evaluateTeachingStore {
             }
 
             return true;
-        })
+        });
     }
 
 
@@ -154,7 +154,7 @@ export default new class evaluateTeachingStore {
             }
 
             return false;
-        })
+        });
     }
 
     @computed
@@ -173,4 +173,4 @@ export default new class evaluateTeachingStore {
             ...baseData
         ];
     }
-}
+};

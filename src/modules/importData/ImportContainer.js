@@ -10,8 +10,6 @@ import {confirm, showWarningNotification} from "../../helpers/helper";
 import {isEmpty, removeObservable} from "../../helpers/entity/mobx";
 import {Modal} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
-import moment from "moment";
-import {allowedDateFormats, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import _ from 'lodash';
 
 const STEPS = [
@@ -82,10 +80,10 @@ const STEPS = [
                 return false;
             }
 
-            let indexNotMatch = []
+            let indexNotMatch = [];
 
             dataTypesSelected.forEach((formatter) => {
-                if (!formatter.match_format) {
+                if (!formatter.match_format && formatter.typeData.required) {
                     indexNotMatch = [...indexNotMatch, ...formatter.indexNotMatch];
                 }
             });
@@ -115,7 +113,7 @@ const STEPS = [
             return true;
         }
     },
-]
+];
 
 @observer
 class ImportContainer extends React.Component {
@@ -135,7 +133,7 @@ class ImportContainer extends React.Component {
 
         if (!currentStep.isNext(currentStep.data, this.store)) return;
         if (currentStep.order < steps[STEPS.length - 1].order) {
-            this.store.currentOrder = currentStep.order + 1
+            this.store.currentOrder = currentStep.order + 1;
         }
     }
 
@@ -170,8 +168,8 @@ class ImportContainer extends React.Component {
                     data[index] = {};
                 }
 
-                if (formater.typeData.format == 'date') {
-                    itemData = moment(itemData, allowedDateFormats).format(DATETIME_FORMAT_SQL);
+                if (formater.typeData.reformat) {
+                    itemData = formater.typeData.reformat(itemData);
                 }
 
                 data[index][formater.typeData.key] = itemData;
@@ -191,7 +189,7 @@ class ImportContainer extends React.Component {
                     }
                 }
             });
-        })
+        });
 
         //convert data to upload server
         data = data.map((itemData) => {

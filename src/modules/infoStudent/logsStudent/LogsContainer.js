@@ -14,7 +14,7 @@ class LogsContainer extends React.Component {
         super(props, context);
         this.state = {
             currentPage: 1
-        }
+        };
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
 
     }

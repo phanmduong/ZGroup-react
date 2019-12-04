@@ -68,7 +68,7 @@ class StudentRatingContainer extends React.Component {
                                                     className={"btn btn-round " + (comment.point == 1 ? "btn-success" : "btn-danger")}>
                                                     {comment.word} ({comment.frequency})
                                                 </div>
-                                            )
+                                            );
                                         })
                                     }
                                 </div>
@@ -113,11 +113,11 @@ class StudentRatingContainer extends React.Component {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        )
+                                                        );
                                                     })
                                                 }
                                             </div>
-                                        )
+                                        );
                                     })
                                 }
 

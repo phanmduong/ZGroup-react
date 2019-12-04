@@ -195,7 +195,7 @@ class EvaluateClasses extends React.Component {
                     {this.tooltip(raitoRate, data)}
                 </div>
             </div>
-        )
+        );
     }
 
     render() {
@@ -223,7 +223,7 @@ class EvaluateClasses extends React.Component {
         this.props.store.selectedUser = user;
         this.props.store.showModalCheckinCheckout = true;
         if (gen) {
-            this.props.store.selectedGenId = gen.id
+            this.props.store.selectedGenId = gen.id;
         }
     }
 
@@ -231,7 +231,7 @@ class EvaluateClasses extends React.Component {
         this.props.store.selectedUser = user;
         this.props.store.showModalStudentAttendance = true;
         if (gen) {
-            this.props.store.selectedGenId = gen.id
+            this.props.store.selectedGenId = gen.id;
         }
     }
 
@@ -239,7 +239,7 @@ class EvaluateClasses extends React.Component {
         this.props.store.selectedUser = user;
         this.props.store.showModalStudentRating = true;
         if (gen) {
-            this.props.store.selectedGenId = gen.id
+            this.props.store.selectedGenId = gen.id;
         }
     }
 }

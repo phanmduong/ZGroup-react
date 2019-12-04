@@ -179,7 +179,7 @@ class ListCourse extends React.Component {
                                                     </li>
                                                     <li className="more-dropdown-item">
                                                         <a href={LINK_REGISTER_COURSE + "/" + course.id}
-                                                           target='_blank'>
+                                                           target="_blank">
                                                             <i className="material-icons">link</i> Lấy link
                                                         </a>
                                                     </li>

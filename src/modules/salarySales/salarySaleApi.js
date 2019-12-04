@@ -86,7 +86,7 @@ export function sendEmailSaleSalaryApi(salaryIds = []) {
 export function approvalSaleSalaryApi(genId, baseId = 0) {
     let url = env.MANAGE_API_URL + "/finance/approval-salary-sale/" + genId;
     if (baseId) {
-        url += "/" + baseId
+        url += "/" + baseId;
     }
     let token = localStorage.getItem('token');
     if (token) {

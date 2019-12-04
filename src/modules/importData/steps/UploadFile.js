@@ -36,7 +36,7 @@ class UploadFile extends React.Component {
                     col_name: col,
                     data,
                     typeData: {}
-                }
+                };
             });
 
             formatStep.data.formatters = data;
@@ -90,7 +90,7 @@ class UploadFile extends React.Component {
                         Từ File Excel
                         <input type="radio" checked={currentStep.data.typeSelected == 'file' ? "checked" : ''}
                                name="file"/>
-                        <span className="checkmark"></span>
+                        <span className="checkmark" />
                     </div>
                     <div className="form-upload-file">
                         <div className="button-upload">

@@ -52,7 +52,7 @@ class AttendanceDetailContainer extends React.Component {
                         <div className="panel-body" style={{paddingLeft: 30}}>
                             {
                                 data.attendance.map((lesson, index) => {
-                                    if(!lesson) return (<div key={index}></div>);
+                                    if(!lesson) return (<div key={index} />);
                                     const raito =Math.round(data.real_register_count ?  lesson.present * 100 / data.real_register_count : 0);
                                     const width =Math.round(raito );
                                     return (
@@ -73,7 +73,7 @@ class AttendanceDetailContainer extends React.Component {
                                                      }}/>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })
                             }
 

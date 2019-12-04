@@ -10,7 +10,7 @@ class SelectTypeFormat extends React.Component {
         super(props, context);
         this.state = {
             selected: false,
-        }
+        };
     }
 
     onSelect = (data = '') => {
@@ -63,7 +63,7 @@ class SelectTypeFormat extends React.Component {
                                         <div>{wordReplace}</div>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
                         <div style={{color: "#b2b2b2"}}>
                             <div className="flex flex-row flex-align-items-center flex-space-between"

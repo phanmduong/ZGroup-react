@@ -1,6 +1,9 @@
 import React from "react";
 import {observer} from "mobx-react";
 import validation from "../../../helpers/validateData";
+import {isEmptyInput} from "../../../helpers/helper";
+import moment from "moment";
+import {allowedDateFormats, DATETIME_FORMAT_SQL} from "../../../constants/constants";
 
 const types = [
     {
@@ -21,11 +24,11 @@ const types = [
             },
             {
                 key: "user.father_name",
-                name: 'Họ và tên bố',
+                name: 'Tên phụ huynh 1',
             },
             {
                 key: "user.mother_name",
-                name: 'Họ và tên mẹ',
+                name: 'Tên phụ huynh 2',
             },
             {
                 key: "user.email",
@@ -40,7 +43,11 @@ const types = [
                 key: "user.phone",
                 name: "Số điện thoại",
                 checkFormat: (data) => {
-                    return validation.isNumber(data);
+                    return isEmptyInput(data) || validation.isPhoneNumber(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return '';
+                    return data.match(/\d+/g)[0].replace("84", "");
                 }
             },
             {
@@ -48,7 +55,15 @@ const types = [
                 name: "Ngày sinh",
                 format: 'date',
                 checkFormat: (data) => {
-                    return validation.isDate(data);
+                    return isEmptyInput(data) || validation.isDate(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return null;
+                    if (validation.isDate(data)) {
+                        return (moment(data, allowedDateFormats).format(DATETIME_FORMAT_SQL));
+                    }
+                    return null;
+
                 }
             },
             {
@@ -56,7 +71,15 @@ const types = [
                 name: "Ngày nhập",
                 format: 'date',
                 checkFormat: (data) => {
-                    return validation.isDate(data);
+                    return isEmptyInput(data) || validation.isDate(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return null;
+                    if (validation.isDate(data)) {
+                        return (moment(data, allowedDateFormats).format(DATETIME_FORMAT_SQL));
+                    }
+                    return null;
+
                 }
             },
             {
@@ -212,12 +235,12 @@ class TypeData extends React.Component {
                                         </div>
                                         <div className="checkbox-container type-checkbox">
                                             <input type="checkbox" checked={type.selected}/>
-                                            <span className="checkmark"></span>
+                                            <span className="checkmark" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        )
+                        );
                     })}
                 </div>
             </div>

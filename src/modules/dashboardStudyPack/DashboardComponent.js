@@ -342,7 +342,7 @@ class DashboardComponent extends React.Component {
                                                                      }}/>
                                                             </div>
                                                         </div>
-                                                    )
+                                                    );
                                                 })
                                             }
                                         </div>
@@ -380,7 +380,7 @@ class DashboardComponent extends React.Component {
                                                                      }}/>
                                                             </div>
                                                         </div>
-                                                    )
+                                                    );
                                                 })
                                             }
                                         </div>
@@ -432,7 +432,7 @@ class DashboardComponent extends React.Component {
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                    )
+                                                    );
                                                 })
 
                                             }

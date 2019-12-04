@@ -23,7 +23,7 @@ class ListRegister extends React.Component {
                     <thead>
                     <tr>
                         <th>Đánh dấu</th>
-                        <th></th>
+                        <th />
                         <th>Lớp</th>
                         <th>Gọi</th>
                         <th>Họ tên</th>

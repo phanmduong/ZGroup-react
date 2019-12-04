@@ -26,7 +26,7 @@ class AddSalary extends React.Component {
         this.store.salary = {
             ...this.store.salary,
             [name]: value
-        }
+        };
 
     }
 
@@ -85,7 +85,7 @@ class AddSalary extends React.Component {
                     </form>
                 </Modal.Body>
             </Modal>
-        )
+        );
     }
 }
 

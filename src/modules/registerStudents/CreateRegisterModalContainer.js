@@ -143,8 +143,8 @@ class CreateRegisterModalContainer extends React.Component {
                 address = [...address, {
                     value: `${district.type} ${district.name}, ${province.type} ${province.name}`,
                     label: `${district.type} ${district.name}, ${province.type} ${province.name}`,
-                }]
-            })
+                }];
+            });
 
         });
         return address;

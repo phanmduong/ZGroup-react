@@ -131,4 +131,4 @@ export default new class evaluateTeachingStore {
             ...courseData
         ];
     }
-}
+};

@@ -39,7 +39,7 @@ class SendMail extends React.Component {
                     {this.store.data && this.store.data.map((data) => {
                         return (
                             <Checkbox label={data.user.name} checked={data.isSendMail} checkBoxLeft onChange={() => {
-                                data.isSendMail = !data.isSendMail
+                                data.isSendMail = !data.isSendMail;
                             }}/>
                         );
                     })}
@@ -54,7 +54,7 @@ class SendMail extends React.Component {
                     </div>
                 </Modal.Body>
             </Modal>
-        )
+        );
     }
 }
 

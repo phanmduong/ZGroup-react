@@ -12,7 +12,7 @@ class Detail extends React.Component {
 
     componentDidMount() {
 
-        let checkProperties = []
+        let checkProperties = [];
         const typeDataStep = this.props.store.getStep(0);
         const formatDataStep = this.props.store.getStep(2);
         const {currentStep, dataCheck} = this.props.store;
@@ -44,13 +44,13 @@ class Detail extends React.Component {
                     raw: data,
                     replace_by: "",
                     total: typeData.data.filter((item) => item == data).length
-                }
+                };
             });
             return {
                 ...property,
                 check_words: words,
                 union_words: unionData
-            }
+            };
         });
 
     }
@@ -92,7 +92,7 @@ class Detail extends React.Component {
                                                                           wordsReplace={dataCheck[checkProperty.check_key_data]}/>
                                                     </div>
                                                 </div>
-                                            )
+                                            );
                                         })}
 
                                     </div>

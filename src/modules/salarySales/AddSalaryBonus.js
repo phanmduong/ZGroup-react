@@ -26,7 +26,7 @@ class AddSalaryBonus extends React.Component {
         this.store.salaryBonus = {
             ...this.store.salaryBonus,
             [name]: value
-        }
+        };
 
     }
 
@@ -85,7 +85,7 @@ class AddSalaryBonus extends React.Component {
                     </form>
                 </Modal.Body>
             </Modal>
-        )
+        );
     }
 }
 

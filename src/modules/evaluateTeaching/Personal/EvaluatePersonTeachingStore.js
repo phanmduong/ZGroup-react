@@ -29,11 +29,11 @@ export default new class evaluatePersonTeachingStore {
     @action
     loadEvaluate() {
         this.isLoading = true;
-        let api = this.selectedTeaching == "teacher" ? loadEvaluatePersonTeacherApi : loadEvaluatePersonTeachingAssistantApi
+        let api = this.selectedTeaching == "teacher" ? loadEvaluatePersonTeacherApi : loadEvaluatePersonTeachingAssistantApi;
         api(this.selectedUser.id).then((res) => {
             this.data = res.data;
         }).finally(() => {
             this.isLoading = false;
         });
     }
-}
+};

@@ -29,7 +29,7 @@ class CollectMoneyForm extends React.Component {
                         ? props.nextWaitingCode
                         : props.nextCode)
             }
-        }
+        };
     }
 
     componentDidUpdate() {

@@ -26,7 +26,7 @@ class RegisterStudyPack extends React.Component {
             filter_status: 1,  // 0 not paid, 1 paid
             showModalViewImage: false,
             imageUrl: ''
-        }
+        };
     }
 
     componentWillMount() {
@@ -81,7 +81,7 @@ class RegisterStudyPack extends React.Component {
                 return {...register};
             });
             return {...register};
-        })
+        });
         return registers;
     }
 
@@ -291,9 +291,7 @@ class RegisterStudyPack extends React.Component {
                                                                 background: `url('${helper.validateLinkImage(register.user.image1)}') center center / cover`,
                                                                 width: 80,
                                                                 height: 50
-                                                            }}>
-
-                                                        </div>
+                                                            }} />
                                                         <div
                                                             onClick={() => this.openModalImageView(register.user.image2)}
                                                             style={{
@@ -301,9 +299,7 @@ class RegisterStudyPack extends React.Component {
                                                                 width: 80,
                                                                 height: 50,
                                                                 marginLeft: 10
-                                                            }}>
-
-                                                        </div>
+                                                            }} />
                                                     </div>
                                                 </td>
                                             </tr>

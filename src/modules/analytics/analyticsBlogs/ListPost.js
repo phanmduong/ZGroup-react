@@ -171,9 +171,7 @@ class ListPost extends React.Component {
                                                         borderRadius: "10px",
                                                         position: "relative"
                                                     }}
-                                                >
-
-                                                </div>
+                                                 />
                                                 <div className="card-action">
                                                     <h4 className="card-title" style={{margin: "30px 0px"}}>
                                                         <a href={`/blog/${post.id}/editor`} target="_blank">
@@ -209,7 +207,7 @@ class ListPost extends React.Component {
                                         </div>
                                         <div className="col-lg-8 padding-horizontal-30px">
 
-                                            <div id={"chart-" + post.id + "-container"}></div>
+                                            <div id={"chart-" + post.id + "-container"} />
 
                                             {!this.props.isLoadingPosts && <div className="row">
                                                 <div className="col-md-4">

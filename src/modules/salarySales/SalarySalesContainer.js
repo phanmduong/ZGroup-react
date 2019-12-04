@@ -129,7 +129,7 @@ class SalarySalesContainer extends React.Component {
                                         className={"btn btn-success btn-round " + (store.isSendingEmail ? "disabled" : "")}
                                         style={{width: '100%'}}
                                         onClick={() => {
-                                            store.openModalSendMail = true
+                                            store.openModalSendMail = true;
                                         }}
                                     >
                                         Gửi mail

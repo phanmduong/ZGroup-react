@@ -64,7 +64,7 @@ export default class EvaluateTeachingCheckinCheckout {
             }
 
             return true;
-        })
+        });
     }
 
     @computed
@@ -93,6 +93,6 @@ export default class EvaluateTeachingCheckinCheckout {
             }
 
             return false;
-        })
+        });
     }
 }

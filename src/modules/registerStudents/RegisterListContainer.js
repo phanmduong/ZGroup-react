@@ -900,11 +900,11 @@ class RegisterListContainer extends React.Component {
 
     openModalRegisterDetail = (selectedStudentId)=>{
         history.pushState({}, "modal", `/sales/info-student/${selectedStudentId}`);
-        this.setState({selectedStudentId, showModalRegisterDetail: true})
+        this.setState({selectedStudentId, showModalRegisterDetail: true});
     }
     closeModalRegisterDetail = ()=>{
         history.pushState({}, "modal", `/sales/registerlist`);
-        this.setState({showModalRegisterDetail: false})
+        this.setState({showModalRegisterDetail: false});
     }
 
     render() {

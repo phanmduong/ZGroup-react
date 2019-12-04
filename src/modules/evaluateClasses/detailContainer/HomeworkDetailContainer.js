@@ -71,7 +71,7 @@ class HomeworkDetailContainer extends React.Component {
                                                      }}/>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })
                             }
 
