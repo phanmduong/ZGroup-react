@@ -17,6 +17,7 @@ import {
 import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
 import TooltipButton from "../../components/common/TooltipButton";
+import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 
@@ -123,7 +124,7 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>
-                                                <a href={`/sales/info-student/${lead.id}`}
+                                                <a onClick={()=>openModalRegisterDetail(lead.id)}
                                                    className="text-name-student-register">
                                                     {lead.name}
                                                 </a>

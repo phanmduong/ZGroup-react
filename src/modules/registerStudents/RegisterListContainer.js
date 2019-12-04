@@ -10,7 +10,7 @@ import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import Select from './SelectGen';
 import ReactSelect from 'react-select';
-import {Modal,  Panel} from 'react-bootstrap';
+import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
@@ -18,11 +18,8 @@ import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/co
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
-
-// import TooltipButton from '../../components/common/TooltipButton';
-
 import Pagination from "../../components/common/Pagination";
-import InfoStudentContainer from "../infoStudent/InfoStudentContainer";
+import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -898,14 +895,9 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.uploadDistributionLead(userID, this.addLeadSuccess);
     };
 
-    openModalRegisterDetail = (selectedStudentId)=>{
-        history.pushState({}, "modal", `/sales/info-student/${selectedStudentId}`);
-        this.setState({selectedStudentId, showModalRegisterDetail: true});
-    }
-    closeModalRegisterDetail = ()=>{
-        history.pushState({}, "modal", `/sales/registerlist`);
-        this.setState({showModalRegisterDetail: false});
-    }
+    openModalRegisterDetail = (selectedStudentId) => {
+        openModalRegisterDetail(selectedStudentId);
+    };
 
     render() {
         return (
@@ -1003,153 +995,153 @@ class RegisterListContainer extends React.Component {
                             }>
                                 <div className="white-light-round">
 
-                                        <div className="row">
-                                            <div className="col-md-3">
-                                                <label className="">
-                                                    Theo cơ sở
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
-                                                    className=""
-                                                    options={this.state.baseFilter}
-                                                    onChange={this.onBaseFilterChange}
-                                                    value={this.state.selectedBaseId}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_base"
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <label className="">
-                                                    Theo lớp học
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoadingClassFilter || this.props.isLoading}
-                                                    className=""
-                                                    options={this.state.classFilter}
-                                                    onChange={this.onClassFilterChange}
-                                                    value={this.state.selectedClassId}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_class"
-                                                />
-                                            </div>
-
-                                            <div className="col-md-3">
-                                                <label className="">
-                                                    Theo Saler
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
-                                                    options={this.state.salerFilter}
-                                                    onChange={this.onSalerFilterChange}
-                                                    value={this.state.selectedSalerId}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_saler"
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <label className="">
-                                                    Theo Chiến dịch
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
-                                                    options={this.state.campaignFilter}
-                                                    onChange={this.onCampaignFilterChange}
-                                                    value={this.state.campaignId}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_campaign"
-                                                />
-                                            </div>
-                                            <div className="col-md-3 form-group">
-                                                <label className="">
-                                                    Theo học phí
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoading}
-                                                    options={this.state.moneyFilter}
-                                                    onChange={this.onMoneyFilterChange}
-                                                    value={this.state.selectedMoneyFilter}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_money"
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <FormInputDate
-                                                    label="Từ ngày"
-                                                    name="startTime"
-                                                    updateFormData={this.updateFormDate}
-
-                                                    id="form-start-time"
-                                                    value={this.state.time.startTime}
-                                                    maxDate={this.state.time.endTime}
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <FormInputDate
-                                                    label="Đến ngày"
-                                                    name="endTime"
-                                                    updateFormData={this.updateFormDate}
-                                                    id="form-end-time"
-                                                    value={this.state.time.endTime}
-                                                    minDate={this.state.time.startTime}
-                                                />
-                                            </div>
-                                            <div className="col-md-3 form-group">
-                                                <label className="">
-                                                    Theo trạng thái lớp
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoading || this.isWaitListPage}
-                                                    options={this.state.classStatusFilter}
-                                                    onChange={this.onClassStatusFilterChange}
-                                                    value={this.state.selectedClassStatus}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_class_status"
-                                                />
-                                            </div>
-                                            <div className="col-md-3 form-group">
-                                                <label className="">
-                                                    Theo trạng thái cuộc gọi
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoading || this.isWaitListPage}
-                                                    options={this.state.teleCallStatus}
-                                                    onChange={this.onTeleCallStatusFilterChange}
-                                                    value={this.state.selectedTeleCallStatus}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_class_status"
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <FormInputDate
-                                                    label="Hẹn ngày nộp tiền"
-                                                    name="appointmentPayment"
-                                                    updateFormData={this.updateFormDate}
-                                                    id="form-appointment-payment"
-                                                    value={this.state.time.appointmentPayment}
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <Search
-                                                    onChange={this.searchByCoupon}
-                                                    value={this.state.query_coupon}
-                                                    label="Tìm kiếm theo coupon"
-                                                    placeholder="Nhập coupon"
-                                                />
-                                            </div>
-                                            <div className="col-md-3 form-group">
-                                                <label>
-                                                    Theo đánh dấu
-                                                </label>
-                                                <ReactSelect
-                                                    disabled={this.props.isLoading}
-                                                    options={this.state.bookmarkFilter}
-                                                    onChange={this.onBookmarkStatusFilterChange}
-                                                    value={this.state.selectedBookmarkStatus}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="filter_bookmark_status"
-                                                />
-                                            </div>
+                                    <div className="row">
+                                        <div className="col-md-3">
+                                            <label className="">
+                                                Theo cơ sở
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
+                                                className=""
+                                                options={this.state.baseFilter}
+                                                onChange={this.onBaseFilterChange}
+                                                value={this.state.selectedBaseId}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_base"
+                                            />
                                         </div>
+                                        <div className="col-md-3">
+                                            <label className="">
+                                                Theo lớp học
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoadingClassFilter || this.props.isLoading}
+                                                className=""
+                                                options={this.state.classFilter}
+                                                onChange={this.onClassFilterChange}
+                                                value={this.state.selectedClassId}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_class"
+                                            />
+                                        </div>
+
+                                        <div className="col-md-3">
+                                            <label className="">
+                                                Theo Saler
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
+                                                options={this.state.salerFilter}
+                                                onChange={this.onSalerFilterChange}
+                                                value={this.state.selectedSalerId}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_saler"
+                                            />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <label className="">
+                                                Theo Chiến dịch
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
+                                                options={this.state.campaignFilter}
+                                                onChange={this.onCampaignFilterChange}
+                                                value={this.state.campaignId}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_campaign"
+                                            />
+                                        </div>
+                                        <div className="col-md-3 form-group">
+                                            <label className="">
+                                                Theo học phí
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={this.state.moneyFilter}
+                                                onChange={this.onMoneyFilterChange}
+                                                value={this.state.selectedMoneyFilter}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_money"
+                                            />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <FormInputDate
+                                                label="Từ ngày"
+                                                name="startTime"
+                                                updateFormData={this.updateFormDate}
+
+                                                id="form-start-time"
+                                                value={this.state.time.startTime}
+                                                maxDate={this.state.time.endTime}
+                                            />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <FormInputDate
+                                                label="Đến ngày"
+                                                name="endTime"
+                                                updateFormData={this.updateFormDate}
+                                                id="form-end-time"
+                                                value={this.state.time.endTime}
+                                                minDate={this.state.time.startTime}
+                                            />
+                                        </div>
+                                        <div className="col-md-3 form-group">
+                                            <label className="">
+                                                Theo trạng thái lớp
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoading || this.isWaitListPage}
+                                                options={this.state.classStatusFilter}
+                                                onChange={this.onClassStatusFilterChange}
+                                                value={this.state.selectedClassStatus}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_class_status"
+                                            />
+                                        </div>
+                                        <div className="col-md-3 form-group">
+                                            <label className="">
+                                                Theo trạng thái cuộc gọi
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoading || this.isWaitListPage}
+                                                options={this.state.teleCallStatus}
+                                                onChange={this.onTeleCallStatusFilterChange}
+                                                value={this.state.selectedTeleCallStatus}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_class_status"
+                                            />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <FormInputDate
+                                                label="Hẹn ngày nộp tiền"
+                                                name="appointmentPayment"
+                                                updateFormData={this.updateFormDate}
+                                                id="form-appointment-payment"
+                                                value={this.state.time.appointmentPayment}
+                                            />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <Search
+                                                onChange={this.searchByCoupon}
+                                                value={this.state.query_coupon}
+                                                label="Tìm kiếm theo coupon"
+                                                placeholder="Nhập coupon"
+                                            />
+                                        </div>
+                                        <div className="col-md-3 form-group">
+                                            <label>
+                                                Theo đánh dấu
+                                            </label>
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={this.state.bookmarkFilter}
+                                                onChange={this.onBookmarkStatusFilterChange}
+                                                value={this.state.selectedBookmarkStatus}
+                                                defaultMessage="Tuỳ chọn"
+                                                name="filter_bookmark_status"
+                                            />
+                                        </div>
+                                    </div>
 
                                     <div className="row">
                                         <div className="col-sm-2">
@@ -1636,19 +1628,7 @@ class RegisterListContainer extends React.Component {
                         }
                     </Modal.Body>
                 </Modal>
-                <Modal show={this.state.showModalRegisterDetail}
-                       dialogClassName="modal-xlg"
-                       onHide={()=>this.closeModalRegisterDetail()}
-                       bsSize="lg"
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>Thông tin học viên</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <InfoStudentContainer
-                            studentId={this.state.selectedStudentId}/>
-                    </Modal.Body>
-                </Modal>
+
                 <Modal
                     show={this.props.isLoadingExcel}
                     onHide={() => {

@@ -2651,5 +2651,10 @@ export default {
             limit: 20,
         },
     },
+    globalModal:{
+        registerDetail:{
+            showModalRegisterDetail:false
+        }
+    }
 
 };

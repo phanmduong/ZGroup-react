@@ -9,6 +9,8 @@ import {Modal} from "react-bootstrap";
 import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
 import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
+import GlobalModalContainer from "../modules/globalModal/GlobalModalContainer";
+// import globalModalActions from "../modules/globalModal/globalModalActions";
 
 
 class AppContainer extends React.Component {
@@ -92,9 +94,8 @@ class AppContainer extends React.Component {
         return (
             <div>
                 <GlobalLoadingContainer/>
-
                 <FirstLoginContainer/>
-
+                <GlobalModalContainer/>
                 <App
                     pathname={this.props.location.pathname}
                     {...this.props}

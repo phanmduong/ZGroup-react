@@ -31,9 +31,9 @@ class InfoStudentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
-
-        this.openModalChangePassword = this.openModalChangePassword.bind(this);
         this.path = window.location.pathname;
+        console.log(this.studentId);
+        this.openModalChangePassword = this.openModalChangePassword.bind(this);
         this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
@@ -86,10 +86,10 @@ class InfoStudentContainer extends React.Component {
 
     getRouteItem(route, index) {
         const changeRoute = () => {
-            window.history.pushState({}, "modal", route.path);
-
+            // window.history.pushState({}, "modal", route.path);
             this.path = route.path;
             this.setState({currentRoute: route});
+
         };
 
 
