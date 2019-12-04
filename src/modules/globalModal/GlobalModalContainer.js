@@ -8,7 +8,7 @@ class GlobalModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            registerDetail:{
+            registerDetail: {
                 studentId: null,
                 showModalRegisterDetail: false,
             }
@@ -20,9 +20,9 @@ class GlobalModalContainer extends React.Component {
         window.onpopstate = () => {
             let {state} = window.history;
             switch (state.type) {
-                case OPEN_MODAL_REGISTER_DETAIL:{
+                case OPEN_MODAL_REGISTER_DETAIL: {
                     this.setState({
-                        registerDetail:{
+                        registerDetail: {
                             studentId: state.studentId,
                             showModalRegisterDetail: true,
                         }
@@ -33,12 +33,19 @@ class GlobalModalContainer extends React.Component {
         };
     }
 
-    render(){
+    closeModalRegisterDetail = () => {
+        let {state} = window.history;
+        this.setState({registerDetail: {showModalRegisterDetail: false}});
+        history.pushState({}, "modal", state.prevUrl);
+
+    };
+
+    render() {
         let {registerDetail} = this.state;
-        return(<div>
+        return (<div>
             <Modal show={registerDetail.showModalRegisterDetail}
                    dialogClassName="modal-xlg"
-                   onHide={()=>this.setState({registerDetail:{showModalRegisterDetail: false}})}
+                   onHide={this.closeModalRegisterDetail}
                    bsSize="lg"
             >
                 <Modal.Header closeButton>
@@ -52,7 +59,6 @@ class GlobalModalContainer extends React.Component {
         </div>);
     }
 }
-
 
 
 export default (GlobalModalContainer);

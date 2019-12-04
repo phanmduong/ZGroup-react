@@ -32,7 +32,6 @@ class InfoStudentContainer extends React.Component {
         super(props, context);
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
         this.path = window.location.pathname;
-        console.log(this.studentId);
         this.openModalChangePassword = this.openModalChangePassword.bind(this);
         this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
