@@ -99,6 +99,14 @@ class AppContainer extends React.Component {
     render() {
         return (
             <div>
+                <Sidebar
+                    sidebar={<MyTaskContainer/>}
+                    open={this.state.sidebarOpen}
+                    onSetOpen={this.onSetSidebarOpen}
+                    styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
+                    pullRight
+                >
+                </Sidebar>
                 <GlobalLoadingContainer/>
 
                 <FirstLoginContainer/>
@@ -111,14 +119,6 @@ class AppContainer extends React.Component {
                     onSetSidebarOpen={this.onSetSidebarOpen}
                 />
 
-                <Sidebar
-                    sidebar={<MyTaskContainer/>}
-                    open={this.state.sidebarOpen}
-                    onSetOpen={this.onSetSidebarOpen}
-                    styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
-                    pullRight
-                >
-                </Sidebar>
                 <Modal show={this.state.showModalRule} onHide={this.closeModalRule} bsSize="large">
                     <Modal.Header closeButton>
                         <Modal.Title>
