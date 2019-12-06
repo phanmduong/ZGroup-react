@@ -92,9 +92,9 @@ table tr td .avatar-list-staff {
   }
 }
 
-.btn-main {
-  width: 100%;
-}
+//.btn-main {
+//  width: 100%;
+//}
 
 .progress-bar-table {
   width: 100px;
@@ -1337,9 +1337,10 @@ table tr td .avatar-honor {
     border-spacing: 0 10px;
   }
 
-  a.btn.btn-xs.btn-main {
+  .btn.btn-xs.btn-main {
     color: white !important;
     font-size: 10px !important;
+    margin: 0 0 10px 0;
   }
 
   tr > th, td > a {
@@ -1470,7 +1471,7 @@ table tr td .avatar-honor {
   position: relative;
 
   .btn {
-    box-shadow: none !important;
+    box-shadow: none!important;
   }
 
   &[mask=transparent] {
@@ -1583,7 +1584,6 @@ table tr td .avatar-honor {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-
       span {
         font-weight: 500;
       }
@@ -1632,15 +1632,13 @@ table tr td .avatar-honor {
       border-radius: 3px;
       font-size: 10px;
       font-weight: 600;
-      color: white;
-
-      .kt-overlay {
+        color: white;
+      .kt-overlay{
         box-shadow: none;
         color: black;
 
       }
-
-      input {
+      input{
         padding: 20px 10px !important;
         background-color: #f3f4f3 !important;
         border-radius: 5px !important;
@@ -1693,17 +1691,15 @@ table tr td .avatar-honor {
 
 .time-line-register {
 
-  .timeline-panel, & li, & {
+  .timeline-panel, & li,& {
     padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 0!important;
 
   }
-
   .timeline-panel {
     box-shadow: none !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
-
     &:before, .timeline-inverted:after, &:after {
       display: none !important;
     }
@@ -1716,10 +1712,10 @@ table tr td .avatar-honor {
 
 
   .btn-register-action {
-    & {
+    &{
       padding: 10px 20px !important;
       font-size: 14px;
-      color: black !important;
+      color: black!important;
       cursor: pointer;
       margin-right: 10px;
       border-radius: 8px;
@@ -1740,8 +1736,8 @@ table tr td .avatar-honor {
     //&[mask=money]{
     //  background-color: #e65238 !important;
     //}
-    &[mask=extra] {
-      padding: 7px 5px !important;
+    &[mask=extra]{
+      padding: 7px 5px!important;
       width: unset;
     }
 
@@ -1754,12 +1750,10 @@ table tr td .avatar-honor {
 
 ul.nav.nav-pills.nav-pills-dark {
   margin-bottom: 20px;
-
-  li a {
+  li a{
     margin-bottom: 3px;
 
   }
-
   li.active {
     a {
       background: #505661 !important;
@@ -1797,13 +1791,12 @@ ul.nav.nav-pills.nav-pills-dark {
   padding-left: 15px;
   padding-right: 15px;
 
-  &[mask=extra] {
+  &[mask=extra]{
     left: 0;
     right: 0;
   }
-
-  &[mask=money] {
-    left: unset !important;
+  &[mask=money]{
+    left: unset!important;
     right: 0;
   }
 
@@ -1813,33 +1806,27 @@ ul.nav.nav-pills.nav-pills-dark {
 
   &.kt-overlay {
     z-index: 101 !important;
-
-    .Select-control {
+    .Select-control{
       border: none;
       background-color: #f3f4f3;
       cursor: pointer;
-      box-shadow: none !important;
+      box-shadow: none!important;
     }
-
-    .Select-input input {
+    .Select-input input{
       padding: 10px 0px !important;
     }
-
-    .Select-placeholder {
+    .Select-placeholder{
       display: flex;
       align-items: center;
     }
-
-    .panel-heading {
+    .panel-heading{
       border: none;
-
-      h4 {
+      h4{
         display: flex;
         justify-content: center;
         color: black;
       }
     }
-
     .input-note-register {
       border-radius: 5px;
       background-color: #f3f4f3;
@@ -1865,14 +1852,12 @@ ul.nav.nav-pills.nav-pills-dark {
     //&.btn-white {
     //  padding: 0px !important;
     //}
-    &.btn-white {
-      margin: 0 !important;
+    &.btn-white{
+      margin: 0!important;
     }
-
-    &.btn-white:hover {
-      background-color: transparent !important;
+    &.btn-white:hover{
+      background-color: transparent!important;
     }
-
     &.filter-white {
       filter: opacity(0.5);
     }
@@ -2387,7 +2372,7 @@ $min-height-step-content: 500px;
   min-height: $min-height-step-content;
   padding-top: 20px;
 
-  .noti-available {
+  .noti-available{
     font-size: 28px;
     text-align: center;
     font-weight: bold;
@@ -2410,15 +2395,13 @@ $min-height-step-content: 500px;
       color: #757575;
     }
 
-    .item-word {
+    .item-word{
       margin: 20px 0;
-
-      .word {
+      .word{
         font-weight: bold;
         font-size: 20px;
       }
-
-      .total-word {
+      .total-word{
         color: #646464;
       }
     }
@@ -2435,10 +2418,13 @@ $min-height-step-content: 500px;
 }
 
 @media (min-width: 992px) {
-  .modal-lg.modal-xlg {
-    width: 1268px;
+  .modal-lg.modal-xlg{
+    width:  95%;
+    max-width: 1366px;
   }
 }
+
+
 
 
 .third-level-menu {

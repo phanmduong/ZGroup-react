@@ -1,7 +1,7 @@
 import React from 'react';
 import InfoStudentContainer from "../infoStudent/InfoStudentContainer";
 import {Modal} from 'react-bootstrap';
-import {OPEN_MODAL_REGISTER_DETAIL} from '../../constants/actionTypes';
+
 
 
 class GlobalModalContainer extends React.Component {
@@ -18,18 +18,17 @@ class GlobalModalContainer extends React.Component {
 
     componentDidMount() {
         window.onpopstate = () => {
-            let {state} = window.history;
-            switch (state.type) {
-                case OPEN_MODAL_REGISTER_DETAIL: {
-                    this.setState({
-                        registerDetail: {
-                            studentId: state.studentId,
-                            showModalRegisterDetail: true,
-                        }
-                    });
-                    break;
-                }
+            let regexModalInfoStudent = /\/*sales\/info-student\/[0-9]+\/*\S*/;
+            if(regexModalInfoStudent.test(window.location.pathname)){
+                let studentId = window.location.pathname.match(/[0-9]+/)[0];
+                this.setState({
+                    registerDetail: {
+                        studentId,
+                        showModalRegisterDetail: true,
+                    }
+                });
             }
+
         };
     }
 

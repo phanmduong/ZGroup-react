@@ -69,17 +69,12 @@ class ListLead extends React.Component {
                                 {this.props.isDistribution && <th/>}
                                 <th/>
                                 <th>Họ tên</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
                                 <th>Ngày sinh</th>
                                 <th>Nguồn</th>
-                                <th>Chiến dịch</th>
                                 <th>Đã đóng tiền</th>
                                 <th>Đánh giá</th>
                                 <th>Ghi chú</th>
-                                {
-                                    !this.props.showSelectedLead && <th>Nhân viên</th>
-                                }
+
                                 {
                                     !this.props.showSelectedLead && <th>Thời gian</th>
                                 }
@@ -124,18 +119,33 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>
-                                                <a onClick={()=>openModalRegisterDetail(lead.id)}
+                                                <a onClick={()=>openModalRegisterDetail(`/sales/info-student/${lead.id}`)}
                                                    className="text-name-student-register">
                                                     {lead.name}
                                                 </a>
+                                                <div>{lead.email}</div>
+                                                <div>{lead.phone}</div>
                                             </td>
-                                            <td>
-                                                {lead.email}
-                                            </td>
-                                            <td>{lead.phone}</td>
                                             <td>{lead.dob}</td>
-                                            <td>{lead.source}</td>
-                                            <td>{lead.campaign}</td>
+                                            <td>
+                                                <div>{lead.source}</div>
+                                                <div>{lead.campaign}</div>
+                                                {
+
+                                                    !this.props.showSelectedLead &&
+                                                        lead.carer &&
+                                                        <div className="btn btn-xs btn-main"
+                                                             style={{backgroundColor: '#' + lead.carer.color}}
+                                                        >
+                                                            {getShortName(lead.carer.name)}
+                                                            <div className="ripple-container"/>
+                                                        </div>
+
+
+                                                }
+
+                                            </td>
+
                                             <td>
                                                 <div className="flex flex-row">
                                                     {
@@ -170,19 +180,7 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>{lead.note}</td>
-                                            {
 
-                                                !this.props.showSelectedLead && <td>
-                                                    {lead.carer &&
-                                                    <div className="btn btn-xs btn-main"
-                                                         style={{backgroundColor: '#' + lead.carer.color}}
-                                                    >
-                                                        {getShortName(lead.carer.name)}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    }
-                                                </td>
-                                            }
                                             {
                                                 !this.props.showSelectedLead && <td>{lead.created_at}</td>
                                             }

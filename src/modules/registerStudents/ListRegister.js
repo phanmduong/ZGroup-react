@@ -24,7 +24,7 @@ class ListRegister extends React.Component {
                     <thead>
                     <tr>
                         <th>Đánh dấu</th>
-                        <th />
+                        <th/>
                         <th>Lớp</th>
                         <th>Gọi</th>
                         <th>Họ tên</th>
@@ -33,7 +33,7 @@ class ListRegister extends React.Component {
                         {this.props.genId == 0 && <th>Khóa</th>}
                         <th>Mã thẻ</th>
                         <th>Saler</th>
-                        <th>Chiến dịch</th>
+                        {/*<th>Chiến dịch</th>*/}
                         <th>Học phí</th>
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
@@ -143,57 +143,55 @@ class ListRegister extends React.Component {
                                 {this.props.genId == 0 && <th>{register.gen_name}</th>}
                                 <td>{register.code}</td>
                                 <td>
-                                    {
-                                        register.saler ?
-                                            (
-                                                <Link className="btn btn-xs btn-main"
-                                                      style={{backgroundColor: '#' + register.saler.color}}
-                                                      to={`/sales/registerlist/${register.saler.id}`}
-                                                >
-                                                    {helper.getShortName(register.saler.name)}
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            )
-                                            :
-                                            (
-                                                <Link className="btn btn-xs btn-main no-data"
-                                                      to={`/sales/registerlist/-1`}
-                                                >
-                                                    Không có
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            )
+                                    <div className="flex flex-col">
+                                        {
+                                            register.saler ?
+                                                (
+                                                    <Link className="btn btn-xs btn-main"
+                                                          style={{backgroundColor: '#' + register.saler.color}}
+                                                          to={`/sales/registerlist/${register.saler.id}`}
+                                                    >
+                                                        {helper.getShortName(register.saler.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                                :
+                                                (
+                                                    <Link className="btn btn-xs btn-main"
+                                                          to={`/sales/registerlist/-1`}
+                                                    >
+                                                        Không có
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
 
-                                    }
-
-                                </td>
-                                <td>
-                                    {
-                                        register.campaign ?
-                                            (
-                                                <button className="btn btn-xs btn-main"
-                                                        style={{backgroundColor: '#' + register.campaign.color}}
-                                                        onClick={() => this.props.loadRegisterStudentByCampaign(register.campaign.id)}
-                                                >
-                                                    {register.campaign.name}
-                                                    <div className="ripple-container"/>
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-xs btn-main no-data"
-                                                        onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
-                                                >
-                                                    Không có
-                                                    <div className="ripple-container"/>
-                                                </button>
-                                            )
-                                    }
+                                        }
+                                        {
+                                            register.campaign ?
+                                                (
+                                                    <button className="btn btn-xs btn-main"
+                                                            style={{backgroundColor: '#' + register.campaign.color}}
+                                                            onClick={() => this.props.loadRegisterStudentByCampaign(register.campaign.id)}
+                                                    >
+                                                        {register.campaign.name}
+                                                        <div className="ripple-container"/>
+                                                    </button>
+                                                )
+                                                :
+                                                (
+                                                    <button className="btn btn-xs btn-main"
+                                                            onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
+                                                    >
+                                                        Không có
+                                                        <div className="ripple-container"/>
+                                                    </button>
+                                                )
+                                        }
+                                    </div>
                                 </td>
                                 <td className="text-center">
                                     {
                                         register.paid_status ?
-
                                             <div className="btn btn-xs btn-main main-background-color"
                                                  data-toggle="tooltip" title=""
                                                  type="button" rel="tooltip"
@@ -201,11 +199,12 @@ class ListRegister extends React.Component {
                                                 {helper.dotNumber(register.money)} vnd
                                             </div>
                                             :
-                                            <TooltipButton text={`Hẹn nộp ${register.appointment_payment_date}`} placement="top">
+                                            <TooltipButton text={`Hẹn nộp ${register.appointment_payment_date}`}
+                                                           placement="top">
                                                 <div>
                                                     {
                                                         register.appointment_payment ?
-                                                        register.appointment_payment :
+                                                            register.appointment_payment :
                                                             'Chưa nộp'
                                                     }
                                                 </div>

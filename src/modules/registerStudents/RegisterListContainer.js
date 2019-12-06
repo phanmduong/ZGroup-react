@@ -896,7 +896,7 @@ class RegisterListContainer extends React.Component {
     };
 
     openModalRegisterDetail = (selectedStudentId) => {
-        openModalRegisterDetail(selectedStudentId);
+        openModalRegisterDetail(`/sales/info-student/${selectedStudentId}`);
     };
 
     render() {

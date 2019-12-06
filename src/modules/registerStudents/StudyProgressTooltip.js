@@ -85,7 +85,7 @@ class StudyProgressTooltip extends React.Component {
                 {/*      className="text-name-student-register">*/}
                 {/*    {this.props.register.name}*/}
                 {/*</Link>*/}
-                <a onClick={()=>this.props.openModalRegisterDetail(this.props.register.student_id)}
+                <a onClick={()=>this.props.openModalRegisterDetail(this.props.register.id)}
                       className="text-name-student-register">
                     {this.props.register.name}
                 </a>

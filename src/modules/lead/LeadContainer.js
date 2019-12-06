@@ -13,7 +13,7 @@ import Star from "../../components/common/Star";
 import {NO_AVATAR} from "../../constants/env";
 import FormInputText from "../../components/common/FormInputText";
 import Checkbox from "../../components/common/Checkbox";
-import {Modal} from "react-bootstrap";
+import {Modal, Panel} from "react-bootstrap";
 import {
     confirm,
     isEmptyInput,
@@ -445,6 +445,10 @@ class LeadContainer extends React.Component {
         this.props.createRegisterActions.showCreateRegisterModal(true);
         this.props.createRegisterActions.updateFormData(user);
     };
+    openFilterPanel = () => {
+        let newstatus = !this.state.openFilterPanel;
+        this.setState({openFilterPanel: newstatus});
+    };
 
     render() {
         return (
@@ -466,193 +470,207 @@ class LeadContainer extends React.Component {
                                 <h5 className="card-title">
                                     <strong>{this.props.route.type === "my-leads" ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>
                                 </h5>
-
-                                {this.props.route.type !== "my-leads" &&
-                                <div>
-                                    <div className="btn btn-white margin-right-10"
-                                         onClick={() => $('#btn-add-leads').removeClass('open')}>
-                                        Upload
-                                        <input type="file"
-                                               accept=".csv,.xls,.xlsx"
-                                               onChange={this.handleFile}
-                                               style={{
-                                                   cursor: 'pointer',
-                                                   opacity: "0.0",
-                                                   position: "absolute",
-                                                   top: 0,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0,
-                                                   width: "100%",
-                                                   height: "100%"
-                                               }}
-                                        />
-                                    </div>
-
-                                    <a target="_blank" className="btn btn-white"
-                                       href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/lead-data-sample.xlsx">
-                                        Tải file mẫu
-                                    </a>
-
-                                </div>
-                                }
                             </div>
                         }
+                        {
 
-                    </div>
-                    <br/><br/><br/><br/><br/><br/>
-
-                </div>
-                }
-                <div className="card">
-                    <div className="card-content">
-                        <div className="row">
-
-
-                            <div className="col-md-12">
+                            this.props.route.type !== "my-leads" && !this.state.isDistribution &&
+                            <div className="flex-align-items-center flex flex-wrap" style={{marginTop: '8%'}}>
                                 <Search
                                     onChange={this.searchChange}
                                     placeholder="Tim kiếm leads"
                                     value={this.state.query}
+                                    className="round-white-seacrh"
+
                                 />
+                                <button
+                                    onClick={this.openFilterPanel}
+                                    className="btn btn-white btn-round margin-right-10"
+                                    disabled={this.props.isLoading}
+                                >
+                                    Lọc
+                                </button>
+                                <div className="btn btn-white btn-round margin-right-10 "
+                                     onClick={() => $('#btn-add-leads').removeClass('open')}>
+                                    Upload
+                                    <input type="file"
+                                           accept=".csv,.xls,.xlsx"
+                                           onChange={this.handleFile}
+                                           style={{
+                                               cursor: 'pointer',
+                                               opacity: "0.0",
+                                               position: "absolute",
+                                               top: 0,
+                                               left: 0,
+                                               bottom: 0,
+                                               right: 0,
+                                               width: "100%",
+                                               height: "100%"
+                                           }}
+                                    />
+                                </div>
+
+                                <a target="_blank" className="btn btn-white btn-round margin-right-10 "
+                                   href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/lead-data-sample.xlsx">
+                                    Tải file mẫu
+                                </a>
                             </div>
 
 
-                            <div className="col-md-3">
-                                <FormInputDate
-                                    label="Từ ngày"
-                                    name="startTime"
-                                    updateFormData={this.updateFormFilter}
-                                    id="form-start-time"
-                                    value={this.state.filter.startTime}
-                                    maxDate={this.state.filter.endTime}
-                                />
-                            </div>
-                            <div className="col-md-3">
-                                <FormInputDate
-                                    label="Đến ngày"
-                                    name="endTime"
-                                    updateFormData={this.updateFormFilter}
-                                    id="form-end-time"
-                                    value={this.state.filter.endTime}
-                                    minDate={this.state.filter.startTime}
+                        }
 
-                                />
-                            </div>
+                    </div>
 
 
-                            {
-                                (this.state.isDistribution || this.props.route.type === "my-leads") ?
-                                    <div/>
-                                    :
-                                    <div className="col-md-3" style={{zIndex: 10, marginTop: 20}}>
-                                        <div className="form-group none-padding">
-                                            {/*<label className="label-control"/>*/}
-                                            <ReactSelect.Async
-                                                loadOptions={this.loadStaffs}
-                                                loadingPlaceholder="Đang tải..."
-                                                placeholder="Chọn nhân viên"
-                                                searchPromptText="Không có dữ liệu nhân viên"
-                                                onChange={this.changeStaff}
-                                                value={this.state.staff}
-                                                optionRenderer={(option) => {
-                                                    return (
-                                                        <ItemReactSelect label={option.label}
-                                                                         url={option.avatar_url}/>
-                                                    );
-                                                }}
-                                                valueRenderer={(option) => {
-                                                    return (
-                                                        <ItemReactSelect label={option.label}
-                                                                         url={option.avatar_url}/>
-                                                    );
+                </div>
+                }
+                <Panel collapsible expanded={
+                    this.state.openFilterPanel
+                    &&
+                    !(this.props.isLoading)
+                }>
+                    <div className="card">
+                        <div className="card-content">
+                            <div className="row">
+
+
+                                <div className="col-md-3">
+                                    <FormInputDate
+                                        label="Từ ngày"
+                                        name="startTime"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-start-time"
+                                        value={this.state.filter.startTime}
+                                        maxDate={this.state.filter.endTime}
+                                    />
+                                </div>
+                                <div className="col-md-3">
+                                    <FormInputDate
+                                        label="Đến ngày"
+                                        name="endTime"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-end-time"
+                                        value={this.state.filter.endTime}
+                                        minDate={this.state.filter.startTime}
+
+                                    />
+                                </div>
+                                <div className="col-md-6"/>
+
+
+                                {
+                                    (this.state.isDistribution || this.props.route.type === "my-leads") ?
+                                        <div/>
+                                        :
+                                        <div className="col-md-3" style={{zIndex: 10, marginTop: 20}}>
+                                            <div className="form-group none-padding">
+                                                {/*<label className="label-control"/>*/}
+                                                <ReactSelect.Async
+                                                    loadOptions={this.loadStaffs}
+                                                    loadingPlaceholder="Đang tải..."
+                                                    placeholder="Chọn nhân viên"
+                                                    searchPromptText="Không có dữ liệu nhân viên"
+                                                    onChange={this.changeStaff}
+                                                    value={this.state.staff}
+                                                    optionRenderer={(option) => {
+                                                        return (
+                                                            <ItemReactSelect label={option.label}
+                                                                             url={option.avatar_url}/>
+                                                        );
+                                                    }}
+                                                    valueRenderer={(option) => {
+                                                        return (
+                                                            <ItemReactSelect label={option.label}
+                                                                             url={option.avatar_url}/>
+                                                        );
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                }
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label className="label-control">Chọn đánh giá</label>
+                                        <div className="flex flex-row-center">
+                                            <Star
+                                                value={0}
+                                                maxStar={5}
+                                                onChange={(value) => {
+                                                    this.changeRate(value);
                                                 }}
                                             />
                                         </div>
                                     </div>
-                            }
-                            <div className="col-md-6">
-                                <div className="form-group margin-bottom-20">
-                                    <label className="label-control">Chọn đánh giá</label>
-                                    <div className="flex flex-row-center">
-                                        <Star
-                                            value={0}
-                                            maxStar={5}
-                                            onChange={(value) => {
-                                                this.changeRate(value);
+                                </div>
+                                {this.state.isDistribution &&
+                                <div className="col-md-3">
+                                    <div className="form-group">
+                                        <ReactSelect.Async
+                                            loadOptions={this.loadStaffs}
+                                            loadingPlaceholder="Đang tải..."
+                                            placeholder="Chọn nhân viên"
+                                            searchPromptText="Không có dữ liệu nhân viên"
+                                            onChange={this.changeStaff}
+                                            value={this.state.carer}
+                                            className="react-select-white"
+                                            optionRenderer={(option) => {
+                                                return (
+                                                    <ItemReactSelect label={option.label}
+                                                                     url={option.avatar_url}/>
+                                                );
+                                            }}
+                                            valueRenderer={(option) => {
+                                                return (
+                                                    <ItemReactSelect label={option.label}
+                                                                     url={option.avatar_url}/>
+                                                );
                                             }}
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            {this.state.isDistribution &&
-                            <div className="col-md-3">
-                                <div className="form-group">
-                                    <ReactSelect.Async
-                                        loadOptions={this.loadStaffs}
-                                        loadingPlaceholder="Đang tải..."
-                                        placeholder="Chọn nhân viên"
-                                        searchPromptText="Không có dữ liệu nhân viên"
-                                        onChange={this.changeStaff}
-                                        value={this.state.carer}
-                                        className="react-select-white"
-                                        optionRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label}
-                                                                 url={option.avatar_url}/>
-                                            );
-                                        }}
-                                        valueRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label}
-                                                                 url={option.avatar_url}/>
-                                            );
-                                        }}
+                                }
+                                {this.state.isDistribution &&
+                                <div className="col-md-3">
+                                    <div className="form-group">
+                                        <Checkbox
+                                            label={`Chọn tất cả (${this.props.totalCount})`}
+                                            checkBoxLeft
+                                            onChange={this.onChangeAll}
+                                            name="isAll"
+                                            checked={this.state.isAll}
+
+                                        /></div>
+                                </div>}
+
+                                {this.state.isDistribution &&
+                                <div className="col-md-3">
+                                    <FormInputText
+                                        required
+                                        type="number"
+                                        placeholder="Nhập top"
+                                        updateFormData={this.changeTop}
+                                        value={this.state.top}
+                                        // className="none-padding none-margin"
                                     />
+                                </div>}
+
+                                {this.state.isDistribution &&
+                                <div className="col-md-3">
+                                    <button className="btn btn-rose"
+                                            onClick={this.openModalSelectedLeadsModal}
+                                    >
+                                        Phân leads
+                                    </button>
                                 </div>
+
+                                }
+
+
                             </div>
-                            }
-                            {this.state.isDistribution &&
-                            <div className="col-md-3">
-                                <div className="form-group">
-                                    <Checkbox
-                                        label={`Chọn tất cả (${this.props.totalCount})`}
-                                        checkBoxLeft
-                                        onChange={this.onChangeAll}
-                                        name="isAll"
-                                        checked={this.state.isAll}
-
-                                    /></div>
-                            </div>}
-
-                            {this.state.isDistribution &&
-                            <div className="col-md-3">
-                                <FormInputText
-                                    required
-                                    type="number"
-                                    placeholder="Nhập top"
-                                    updateFormData={this.changeTop}
-                                    value={this.state.top}
-                                    // className="none-padding none-margin"
-                                />
-                            </div>}
-
-                            {this.state.isDistribution &&
-                            <div className="col-md-3">
-                                <button className="btn btn-rose"
-                                        onClick={this.openModalSelectedLeadsModal}
-                                >
-                                    Phân leads
-                                </button>
-                            </div>
-
-                            }
-
-
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                </Panel>
 
                 <ListLead
                     leads={this.props.leads}
