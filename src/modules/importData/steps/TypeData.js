@@ -47,8 +47,16 @@ const types = [
                 },
                 reformat: (data) => {
                     if (isEmptyInput(data)) return '';
-                    return data.match(/\d+/g)[0].replace("84", "");
+                    data = data.match(/\d+/g)[0];
+                    if (data[0]=='8' && data[1]=='4'){
+                        data = data.replace("84", "");
+                    }
+                    return data;
                 }
+            },
+            {
+                key: "user.yob",
+                name: "Năm sinh",
             },
             {
                 key: "user.dob",

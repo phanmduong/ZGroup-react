@@ -1,9 +1,9 @@
 import React from "react";
-import { NAME_COMPANY, LOGO_SIDEBAR, NO_AVATAR } from "../constants/env";
+import {NAME_COMPANY, LOGO_SIDEBAR, NO_AVATAR} from "../constants/env";
 import Loading from "./common/Loading";
 import PropTypes from "prop-types";
 import TabContainer from "../modules/tab/TabContainer";
-import { Link } from "react-router";
+import {Link} from "react-router";
 import * as helper from "../helpers/helper";
 import NotificationContainer from "../modules/notification/NotificationContainer";
 
@@ -29,7 +29,7 @@ class App extends React.Component {
                     </div>
                     <div className="logo logo-mini">
                         <Link to="/" className="simple-text">
-                            <img src={LOGO_SIDEBAR} className="logo-sidebar" />
+                            <img src={LOGO_SIDEBAR} className="logo-sidebar"/>
                         </Link>
                     </div>
                     <div className="sidebar-wrapper">
@@ -48,7 +48,7 @@ class App extends React.Component {
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">
 
                                     {this.props.user ? this.props.user.name : ""}
-                                    <b className="caret" />
+                                    <b className="caret"/>
                                 </a>
                                 <div className="collapse" id="collapseExample">
                                     <ul className="nav">
@@ -65,7 +65,7 @@ class App extends React.Component {
                             </div>
                         </div>
 
-                        <TabContainer pathname={this.props.pathname} />
+                        <TabContainer pathname={this.props.pathname}/>
                     </div>
                 </div>
                 <div className="main-panel">
@@ -82,9 +82,9 @@ class App extends React.Component {
                             <div className="navbar-header">
                                 <button type="button" className="navbar-toggle" data-toggle="collapse">
                                     <span className="sr-only">Toggle navigation</span>
-                                    <span className="icon-bar" />
-                                    <span className="icon-bar" />
-                                    <span className="icon-bar" />
+                                    <span className="icon-bar"/>
+                                    <span className="icon-bar"/>
+                                    <span className="icon-bar"/>
                                 </button>
                                 <Link className="navbar-brand" to="/">
                                     {" "}
@@ -94,12 +94,18 @@ class App extends React.Component {
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
+                                        <a onClick={() => this.props.onSetSidebarOpen(true)}>
+                                            <i className="material-icons">chrome_reader_mode</i>
+                                            <p className="hidden-lg hidden-md">Công việc</p>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a onClick={this.props.openModalRule}>
                                             <i className="material-icons">info</i>
                                             <p className="hidden-lg hidden-md">Quy định</p>
                                         </a>
                                     </li>
-                                    <NotificationContainer />
+                                    <NotificationContainer/>
                                     <li>
                                         <a
                                             onClick={this.props.onLogOut}
@@ -109,16 +115,16 @@ class App extends React.Component {
                                             <p className="hidden-lg hidden-md">Đăng xuất</p>
                                         </a>
                                     </li>
-                                    <li className="separator hidden-lg hidden-md" />
+                                    <li className="separator hidden-lg hidden-md"/>
                                 </ul>
                                 <form className="navbar-form navbar-right" role="search">
                                     <div className="form-group form-search is-empty">
-                                        <input type="text" className="form-control" placeholder="Search" />
-                                        <span className="material-input" />
+                                        <input type="text" className="form-control" placeholder="Search"/>
+                                        <span className="material-input"/>
                                     </div>
                                     <button type="submit" className="btn btn-white btn-round btn-just-icon">
                                         <i className="material-icons">search</i>
-                                        <div className="ripple-container" />
+                                        <div className="ripple-container"/>
                                     </button>
                                 </form>
                             </div>
@@ -130,7 +136,7 @@ class App extends React.Component {
                                 this.props.children
                             ) : (
                                 <div id="loading-page">
-                                    <Loading />
+                                    <Loading/>
                                 </div>
                             )}
                         </div>

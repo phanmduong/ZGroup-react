@@ -10,7 +10,8 @@ import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
 import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
 import GlobalModalContainer from "../modules/globalModal/GlobalModalContainer";
-// import globalModalActions from "../modules/globalModal/globalModalActions";
+import MyTaskContainer from "../modules/myTasks/MyTaskContainer";
+import Sidebar from "react-sidebar";
 
 
 class AppContainer extends React.Component {
@@ -20,10 +21,15 @@ class AppContainer extends React.Component {
 
         this.state = {
             showModalRule: false,
+            sidebarOpen: false
         };
         this.openModalRule = this.openModalRule.bind(this);
         this.closeModalRule = this.closeModalRule.bind(this);
 
+    }
+
+    onSetSidebarOpen = (status) => {
+        this.setState({sidebarOpen: status});
     }
 
     componentWillMount() {
@@ -37,7 +43,7 @@ class AppContainer extends React.Component {
         if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0) {
             console.log('send tag user_id');
             if (window.sendTagNoti) {
-                window.sendTagNoti('user_id',this.props.user.id);
+                window.sendTagNoti('user_id', this.props.user.id);
             }
 
             /* eslint-enable */
@@ -94,6 +100,7 @@ class AppContainer extends React.Component {
         return (
             <div>
                 <GlobalLoadingContainer/>
+
                 <FirstLoginContainer/>
                 <GlobalModalContainer/>
                 <App
@@ -101,7 +108,17 @@ class AppContainer extends React.Component {
                     {...this.props}
                     onLogOut={this.onLogOut}
                     openModalRule={this.openModalRule}
+                    onSetSidebarOpen={this.onSetSidebarOpen}
                 />
+
+                <Sidebar
+                    sidebar={<MyTaskContainer/>}
+                    open={this.state.sidebarOpen}
+                    onSetOpen={this.onSetSidebarOpen}
+                    styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
+                    pullRight
+                >
+                </Sidebar>
                 <Modal show={this.state.showModalRule} onHide={this.closeModalRule} bsSize="large">
                     <Modal.Header closeButton>
                         <Modal.Title>
