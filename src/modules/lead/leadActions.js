@@ -1,6 +1,11 @@
 import * as types from '../../constants/actionTypes';
 import * as leadApi from './leadApi';
-import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
+import {
+    showErrorNotification,
+    showNotification,
+    showTypeNotification,
+    showWarningNotification
+} from "../../helpers/helper";
 import async from "async";
 
 /*eslint no-console: 0 */
@@ -52,6 +57,32 @@ export function editInfoLead(lead, closeModal) {
             .then(res => {
                 if (res.data.status == 1) {
                     closeModal();
+                    dispatch({
+                        type: types.EDIT_INFO_LEAD_SUCCESS,
+                        lead: res.data.data.lead
+                    });
+                    showNotification("Sửa thành công");
+                } else {
+                    showErrorNotification(res.data.message);
+                    dispatch({type: types.EDIT_INFO_LEAD_ERROR});
+                }
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra. Thử lại");
+                dispatch({type: types.EDIT_INFO_LEAD_ERROR});
+            });
+    };
+}
+
+
+export function changeLeadRate(lead) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_INFO_LEAD});
+        showWarningNotification("Đang thực hiện...");
+        leadApi.changeLeadRate(lead)
+            .then(res => {
+                if (res.data.status == 1) {
+
                     dispatch({
                         type: types.EDIT_INFO_LEAD_SUCCESS,
                         lead: res.data.data.lead

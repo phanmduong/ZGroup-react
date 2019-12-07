@@ -5,6 +5,7 @@ import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer"
 import firstLoginReducer from "../modules/firstLogin/firstLoginReducer";
 import studentReducer from "../modules/infoStudent/studentReducer";
 import createRegister from "../modules/registerStudents/createRegisterReducer";
+import leadReducer from "../modules/lead/leadReducer";
 
 export default {
     globalLoading: globalLoadingReducer,
@@ -13,5 +14,6 @@ export default {
     notification: notificationReducer,
     firstLogin: firstLoginReducer,
     infoStudent: studentReducer,
+    lead: leadReducer,
     createRegister: createRegister,
 };

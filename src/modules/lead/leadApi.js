@@ -57,6 +57,18 @@ export function editInfoLead(lead) {
         'note': lead.note,
     });
 }
+export function changeLeadRate(lead) {
+    let url = env.MANAGE_API_URL + `/lead/change-rate-lead`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.put(url, {
+        'id': lead.id,
+        'rate': lead.rate,
+    });
+}
 
 export function loadLeadWithIds(search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "") {
 

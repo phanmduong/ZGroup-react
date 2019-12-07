@@ -25,6 +25,8 @@ import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
 import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
 import SourceOverlay from "./overlays/SourceOverlay";
 import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
+import Star from "../../components/common/Star";
+import * as leadActions from "../lead/leadActions";
 
 
 class InfoStudentContainer extends React.Component {
@@ -32,7 +34,6 @@ class InfoStudentContainer extends React.Component {
         super(props, context);
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
         this.path = window.location.pathname;
-        console.log( this.studentId,this.path);
         this.openModalChangePassword = this.openModalChangePassword.bind(this);
         this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -91,8 +92,6 @@ class InfoStudentContainer extends React.Component {
             this.setState({currentRoute: route});
 
         };
-
-
 
 
         return <li key={index} className={this.path === route.path ? 'active' : ''}>
@@ -206,10 +205,14 @@ class InfoStudentContainer extends React.Component {
         return address;
     };
 
-    // getChildren = () => {
-    //     let route = this.routes.filter(r => r.path == window.location.pathname)[0];
-    //     return route ? route.component : <RegistersContainer studentId={this.studentId}/>;
-    // };
+    changeRateStudent = (rate) => {
+        helper.confirm('warning',
+            "Xác nhận đổi rate?", '',
+            () => this.props.leadActions.changeLeadRate({
+                id: this.studentId,
+                rate
+            }));
+    };
 
     render() {
 
@@ -243,8 +246,17 @@ class InfoStudentContainer extends React.Component {
                                             </TooltipButton>
                                         </div>
 
+                                        <div className="flex flex-row-center flex-justify-content-center margintop-10">
+                                            <Star
+                                                value={this.props.student.rate}
+                                                maxStar={5}
+                                                onChange={this.changeRateStudent}
+                                                disable={this.props.isEditing}
+                                            />
+                                        </div>
 
                                         <h4 className="card-title">{this.props.student.name}</h4>
+
                                         <h6 className="category text-gray text-email">
                                             {this.props.student.email}
 
@@ -356,18 +368,18 @@ class InfoStudentContainer extends React.Component {
                                                             studentId={this.props.student.id}
                                                         />
 
-                                                    {/*<div className="col-md-3">*/}
-                                                    {/*    <PurchaseRegisterOverlay*/}
-                                                    {/*        studentId={this.props.student.id}*/}
-                                                    {/*    />*/}
-                                                    {/*</div>*/}
+                                                        {/*<div className="col-md-3">*/}
+                                                        {/*    <PurchaseRegisterOverlay*/}
+                                                        {/*        studentId={this.props.student.id}*/}
+                                                        {/*    />*/}
+                                                        {/*</div>*/}
 
                                                         <ExtraRegisterOverlay
                                                             openModalChangePassword={this.openModalChangePassword}
                                                             studentId={this.props.student.id}
                                                         />
 
-                                                </div>
+                                                    </div>
                                                 </div>
                                                 <div className="timeline-body">
                                                     <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
@@ -548,6 +560,8 @@ class InfoStudentContainer extends React.Component {
             </div>
         );
     }
+
+
 }
 
 
@@ -571,6 +585,7 @@ InfoStudentContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         student: state.infoStudent.student,
+        isEditing: state.lead.isEditing,
         isLoadingStudent: state.infoStudent.isLoadingStudent,
         isEditingStudent: state.infoStudent.isEditingStudent,
         isChangingPassword: state.infoStudent.isChangingPassword,
@@ -581,6 +596,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         studentActions: bindActionCreators(studentActions, dispatch),
+        leadActions: bindActionCreators(leadActions, dispatch),
         createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
     };
 }
