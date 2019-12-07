@@ -21,7 +21,8 @@ class AppContainer extends React.Component {
 
         this.state = {
             showModalRule: false,
-            sidebarOpen: false
+            sidebarOpen: false,
+            totalTaskNotComplete: 0
         };
         this.openModalRule = this.openModalRule.bind(this);
         this.closeModalRule = this.closeModalRule.bind(this);
@@ -67,8 +68,8 @@ class AppContainer extends React.Component {
     }
 
     onLogOut() {
-        helper.confirm('warning', 'Đăng xuất', 'Bạn có chắc muốn đăng xuất khỏi hệ thống?', 
-            ()=>{
+        helper.confirm('warning', 'Đăng xuất', 'Bạn có chắc muốn đăng xuất khỏi hệ thống?',
+            () => {
                 helper.closeSidebar();
                 helper.removeDataLoginLocal();
                 helper.onesignalSetUserId(0);
@@ -83,7 +84,7 @@ class AppContainer extends React.Component {
                 /* eslint-enable */
             }
         );
-        
+
     }
 
     closeModalRule() {
@@ -96,11 +97,16 @@ class AppContainer extends React.Component {
         });
     }
 
+    updateTotalTask = (number) => {
+        console.log({number});
+        this.setState({totalTaskNotComplete: number});
+    }
+
     render() {
         return (
             <div>
                 <Sidebar
-                    sidebar={<MyTaskContainer/>}
+                    sidebar={<MyTaskContainer updateTotalTask={this.updateTotalTask}/>}
                     open={this.state.sidebarOpen}
                     onSetOpen={this.onSetSidebarOpen}
                     styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
@@ -117,6 +123,7 @@ class AppContainer extends React.Component {
                     onLogOut={this.onLogOut}
                     openModalRule={this.openModalRule}
                     onSetSidebarOpen={this.onSetSidebarOpen}
+                    totalTaskNotComplete={this.state.totalTaskNotComplete}
                 />
 
                 <Modal show={this.state.showModalRule} onHide={this.closeModalRule} bsSize="large">

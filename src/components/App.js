@@ -96,6 +96,10 @@ class App extends React.Component {
                                     <li>
                                         <a onClick={() => this.props.onSetSidebarOpen(true)}>
                                             <i className="material-icons">chrome_reader_mode</i>
+                                            {
+                                                this.props.totalTaskNotComplete > 0 &&
+                                                <span className="notification">{this.props.totalTaskNotComplete}</span>
+                                            }
                                             <p className="hidden-lg hidden-md">Công việc</p>
                                         </a>
                                     </li>

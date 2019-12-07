@@ -44,7 +44,7 @@ class Week extends React.Component {
 
 
     render() {
-        const {selectedDate, tasksCompleted, tasks} = this.props.store;
+        const {selectedDate, analyticTasks} = this.props.store;
         return (
             <div className={"task-date"}>
                 <div className="flex flex-row flex-align-items-center flex-space-between">
@@ -54,7 +54,16 @@ class Week extends React.Component {
                         </i>
                     </div>
                     {this.state.week.map((date, index) => {
-                        const isSelectDate = moment(date).format("DD/MM/YYYY") == moment(selectedDate).format("DD/MM/YYYY")
+                        const isSelectDate = moment(date).format("DD/MM/YYYY") == moment(selectedDate).format("DD/MM/YYYY");
+                        let analyticTask = analyticTasks.filter((analyticTask) =>
+                            moment(date).format("YYYY-MM-DD") == analyticTask.date
+                        )[0];
+
+                        analyticTask = analyticTask ? analyticTask : {
+                            total_completed: 0,
+                            total: 1
+                        };
+
                         return (
                             <div className={"item-date" + (isSelectDate ? " active " : "")}
                                  onClick={() => this.onSelectDate(date)}>
@@ -64,7 +73,7 @@ class Week extends React.Component {
                                                          size={40}
                                                          width={5}
                                                          strokeWidth={2}
-                                                         percentage={isSelectDate ? tasksCompleted.length * 100 / tasks.length : 0}/>
+                                                         percentage={analyticTask.total_completed * 100 / analyticTask.total}/>
                                 </div>
                             </div>
                         )
