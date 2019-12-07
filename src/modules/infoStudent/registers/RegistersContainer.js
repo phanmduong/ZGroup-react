@@ -128,12 +128,12 @@ class RegistersContainer extends React.Component {
                                                     <CallRegisterOverlay
                                                         studentId={this.studentId}
                                                     />
-                                                    <button className="btn btn-register-action" mask="create"
-                                                        // onClick={this.toggle}
-                                                        // disabled={isSavingRegister}
-                                                            ref="target">
-                                                        Nộp học phí
-                                                    </button>
+                                                    {/*<button className="btn btn-register-action" mask="create"*/}
+                                                    {/*    // onClick={this.toggle}*/}
+                                                    {/*    // disabled={isSavingRegister}*/}
+                                                    {/*        ref="target">*/}
+                                                    {/*    Nộp học phí*/}
+                                                    {/*</button>*/}
                                                     <ExtraRegisterOverlay
                                                         register={register}
                                                         openModalChangePassword={this.openModalChangePassword}
