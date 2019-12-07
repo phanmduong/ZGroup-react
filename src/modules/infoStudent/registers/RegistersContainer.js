@@ -8,10 +8,15 @@ import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
+import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
+import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
+import ChangePassword from "../ChangePassword";
+import {Modal} from 'react-bootstrap';
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {};
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
     }
 
@@ -19,15 +24,24 @@ class RegistersContainer extends React.Component {
         this.props.studentActions.loadRegisters(this.studentId);
     }
 
+    closeModalChangePassword = () => {
+        this.setState({showModalChangePassword: false});
+    };
+
+    openModalChangePassword = () => {
+        this.setState({showModalChangePassword: true});
+    };
+
     render() {
+        console.log(this.props);
         return (
             <div className="tab-pane active">
 
                 {this.props.isLoadingRegisters ? <Loading/>
                     :
-                    <ul className="timeline timeline-simple">
+                    <ul className="timeline timeline-simple time-line-register">
                         {
-                            this.props.registers.map(function (register, index) {
+                            this.props.registers.map((register, index) => {
                                 return (
                                     <li className="timeline-inverted" key={index}>
                                         <div className="timeline-badge">
@@ -35,9 +49,9 @@ class RegistersContainer extends React.Component {
                                         </div>
                                         <div className="timeline-panel">
                                             <div className="flex">
-                                            <h4>
-                                                <b>{register.class.name}</b>
-                                            </h4>
+                                                <h4>
+                                                    <b>{register.class.name}</b>
+                                                </h4>
                                                 <div className="timeline-heading margin-left-15">
                                                     <div className="flex-row-center">
                                                         {
@@ -95,6 +109,7 @@ class RegistersContainer extends React.Component {
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
                                                 </div>
+
                                                 {
                                                     register.class.teach &&
                                                     <div className="flex-row-center">
@@ -109,7 +124,23 @@ class RegistersContainer extends React.Component {
                                                         </i>&nbsp; &nbsp; Trợ giảng: {register.class.assist.name}
                                                     </div>
                                                 }
-
+                                                <div className="flex flex-wrap margin-vertical-30">
+                                                    <CallRegisterOverlay
+                                                        studentId={this.studentId}
+                                                    />
+                                                    <button className="btn btn-register-action" mask="create"
+                                                        // onClick={this.toggle}
+                                                        // disabled={isSavingRegister}
+                                                            ref="target">
+                                                        Nộp học phí
+                                                    </button>
+                                                    <ExtraRegisterOverlay
+                                                        register={register}
+                                                        openModalChangePassword={this.openModalChangePassword}
+                                                        studentId={this.studentId}
+                                                        reload={() => this.props.studentActions.loadRegisters(this.studentId)}
+                                                    />
+                                                </div>
                                             </div>
 
                                         </div>
@@ -119,7 +150,19 @@ class RegistersContainer extends React.Component {
                         }
                     </ul>
                 }
-
+                <Modal show={this.state.showModalChangePassword}>
+                    <Modal.Header closeButton={!this.props.isChangingPassword}
+                                  onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}
+                                  closeLabel="Đóng">
+                        <Modal.Title>Thay đổi mật khẩu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ChangePassword
+                            studentId={this.studentId}
+                            closeModal={this.closeModalChangePassword}
+                        />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -136,6 +179,7 @@ RegistersContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         registers: state.infoStudent.registers,
+        isChangingPassword: state.infoStudent.isChangingPassword,
         isLoadingRegisters: state.infoStudent.isLoadingRegisters
     };
 }

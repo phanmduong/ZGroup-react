@@ -9,7 +9,7 @@ import Loading from "../../components/common/Loading";
 import * as globalModalActions from "../../modules/globalModal/globalModalActions";
 import {CHANNEL} from "../../constants/env";
 import socket from "../../services/socketio";
-import {allowedDateFormats, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import {DATETIME_FORMAT_SQL} from "../../constants/constants";
 
 @observer
 class MyTaskContainer extends React.Component {
