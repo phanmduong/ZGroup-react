@@ -34,7 +34,7 @@ class InfoStudentContainer extends React.Component {
         super(props, context);
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
         this.path = window.location.pathname;
-        this.openModalChangePassword = this.openModalChangePassword.bind(this);
+
         this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
@@ -136,7 +136,7 @@ class InfoStudentContainer extends React.Component {
         this.setState({showModalChangePassword: false});
     }
 
-    openModalChangePassword() {
+    openModalChangePassword = () => {
         this.setState({showModalChangePassword: true});
     }
 
@@ -376,6 +376,7 @@ class InfoStudentContainer extends React.Component {
 
                                                         <ExtraRegisterOverlay
                                                             openModalChangePassword={this.openModalChangePassword}
+
                                                             studentId={this.props.student.id}
                                                         />
 

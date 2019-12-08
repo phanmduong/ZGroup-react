@@ -92,9 +92,9 @@ table tr td .avatar-list-staff {
   }
 }
 
-//.btn-main {
-//  width: 100%;
-//}
+.btn-main {
+  width: 100%;
+}
 
 .progress-bar-table {
   width: 100px;
@@ -1341,6 +1341,7 @@ table tr td .avatar-honor {
     color: white !important;
     font-size: 10px !important;
     margin: 0 0 10px 0;
+    width: unset!important;
   }
 
   tr > th, td > a {
