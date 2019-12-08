@@ -9,7 +9,7 @@ import Loading from "../../components/common/Loading";
 import * as globalModalActions from "../../modules/globalModal/globalModalActions";
 import {CHANNEL} from "../../constants/env";
 import socket from "../../services/socketio";
-import {allowedDateFormats, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import {DATETIME_FORMAT_SQL} from "../../constants/constants";
 
 @observer
 class MyTaskContainer extends React.Component {
@@ -29,22 +29,31 @@ class MyTaskContainer extends React.Component {
         this.store.getAnalyticsTasks();
         const channel = CHANNEL + ":task";
         socket.on(channel, (data) => {
-            if (data && data.user && data.user.id == this.props.user.id) {
+            if (data) {
                 if (moment(data.deadline, DATETIME_FORMAT_SQL).format("DD/MM/YYYY") == moment(this.store.selectedDate).format("DD/MM/YYYY")) {
-                    this.store.tasks = [data, ...this.store.tasks];
+                    if (data.user && data.user.id == this.props.user.id) {
+                        this.store.tasks = [data, ...this.store.tasks];
+                    } else {
+                        this.store.tasks = this.store.tasks.map((task) => {
+                            if (task.id == data.id) {
+                                return {
+                                    ...task,
+                                    ...data,
+                                }
+                            }
+                            return task;
+                        })
+                    }
                     this.updateTotalTask();
                 }
             }
-            // if (data.transaction && (data.transaction.sender_id == this.props.user.id ||
-            //     data.transaction.receiver_id == this.props.user.id)) {
-            //     this.props.moneyTransferActions.getUser();
-            // }
         });
     }
 
     updateTotalTask = () => {
         const {tasksNotComplete} = this.store;
-        this.props.updateTotalTask(tasksNotComplete.length);
+        if (moment(this.store.selectedDate).format("DD/MM/YYYY") == moment(new Date()).format("DD/MM/YYYY"))
+            this.props.updateTotalTask(tasksNotComplete.length);
     };
 
     onClickTask = (task) => {
@@ -64,7 +73,7 @@ class MyTaskContainer extends React.Component {
             <div className="my-task">
                 <div className="title"> Việc cần làm</div>
                 <div className="subtitle">{nameSelectedDate}</div>
-                <Week store={this.store}/>
+                <Week store={this.store} updateTotalTask={this.updateTotalTask}/>
                 {
                     isLoading ? <Loading/> :
                         <div className="tab-task">

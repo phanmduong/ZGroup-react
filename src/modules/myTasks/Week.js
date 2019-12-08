@@ -20,7 +20,13 @@ class Week extends React.Component {
         let date = new Date(dateData);
         let week = [];
         for (let i = 1; i <= 7; i++) {
-            let first = (date.getDate() - date.getDay() + i)
+            let first
+            if (date.getDay() == 0) {
+                first = (date.getDate() - 7 + i)
+            } else {
+                first = (date.getDate() - date.getDay() + i)
+            }
+
             let day = new Date(date.setDate(first));
             week.push(day);
         }
@@ -39,7 +45,7 @@ class Week extends React.Component {
 
     onSelectDate = (date) => {
         this.props.store.selectedDate = date;
-        this.props.store.getTasks();
+        this.props.store.getTasks(this.props.updateTotalTask);
     }
 
 
@@ -61,7 +67,7 @@ class Week extends React.Component {
 
                         analyticTask = analyticTask ? analyticTask : {
                             total_completed: 0,
-                            total: 1
+                            total: 0.1
                         };
 
                         return (
@@ -73,7 +79,8 @@ class Week extends React.Component {
                                                          size={40}
                                                          width={5}
                                                          strokeWidth={2}
-                                                         percentage={analyticTask.total_completed * 100 / analyticTask.total}/>
+                                                         color={(analyticTask.total_completed == 0 && analyticTask.total >= 1) ? "#ff472a" : null}
+                                                         percentage={(analyticTask.total_completed == 0 && analyticTask.total >= 1) ? 100 : analyticTask.total_completed * 100 / analyticTask.total}/>
                                 </div>
                             </div>
                         )

@@ -41,7 +41,8 @@ class CircularProgressBar extends React.Component {
                     style={{
                         strokeDasharray: dashArray,
                         strokeDashoffset: dashOffset,
-                        strokeWidth: this.props.strokeWidth
+                        strokeWidth: this.props.strokeWidth,
+                        stroke: this.props.color
                     }}/>
                 <text
                     className="circle-text"
@@ -60,7 +61,8 @@ CircularProgressBar.defaultProps = {
     size: 200,
     percentage: 25,
     width: 10,
-    strokeWidth: 1
+    strokeWidth: 1,
+    color: "#00b41e"
 };
 
 CircularProgressBar.propTypes = {
