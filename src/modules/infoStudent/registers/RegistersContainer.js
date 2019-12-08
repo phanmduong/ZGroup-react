@@ -12,6 +12,7 @@ import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
 import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
 import ChangePassword from "../ChangePassword";
 import {Modal} from 'react-bootstrap';
+import MoneyRegisterOverlay from "../overlays/MoneyRegisterOverlay";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -31,9 +32,10 @@ class RegistersContainer extends React.Component {
     openModalChangePassword = () => {
         this.setState({showModalChangePassword: true});
     };
-
+    reload = ()=>{
+        this.props.studentActions.loadRegisters(this.studentId);
+    }
     render() {
-        console.log(this.props);
         return (
             <div className="tab-pane active">
 
@@ -128,17 +130,17 @@ class RegistersContainer extends React.Component {
                                                     <CallRegisterOverlay
                                                         studentId={this.studentId}
                                                     />
-                                                    {/*<button className="btn btn-register-action" mask="create"*/}
-                                                    {/*    // onClick={this.toggle}*/}
-                                                    {/*    // disabled={isSavingRegister}*/}
-                                                    {/*        ref="target">*/}
-                                                    {/*    Nộp học phí*/}
-                                                    {/*</button>*/}
+
+                                                    <MoneyRegisterOverlay
+                                                        studentId={this.studentId}
+                                                        register={register}
+                                                        reload={this.reload}
+                                                    />
                                                     <ExtraRegisterOverlay
                                                         register={register}
                                                         openModalChangePassword={this.openModalChangePassword}
                                                         studentId={this.studentId}
-                                                        reload={() => this.props.studentActions.loadRegisters(this.studentId)}
+                                                        reload={this.reload}
                                                     />
                                                 </div>
                                             </div>

@@ -32,6 +32,7 @@ class LeadContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+            address: '',
             filter: {
                 startTime: '',
                 endTime: '',
@@ -226,6 +227,20 @@ class LeadContainer extends React.Component {
             this.setState({staff: staff, page: 1});
         }
     }
+
+    changeAddress = (address) => {
+        this.setState({address});
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(
+            () => {
+                if (!this.state.isDistribution) {
+                    this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime, this.state.carer, this.state.rate, this.state.top, address);
+                }
+            }, 1500);
+
+    };
 
     loadStaffs(input, callback) {
         if (this.timeOut !== null) {
@@ -472,10 +487,11 @@ class LeadContainer extends React.Component {
                                 </h5>
                             </div>
                         }
+                        <div style={{marginTop: '10%'}}></div>
                         {
 
                             this.props.route.type !== "my-leads" && !this.state.isDistribution &&
-                            <div className="flex-align-items-center flex flex-wrap" style={{marginTop: '8%'}}>
+                            <div className="flex-align-items-center flex flex-wrap">
                                 <Search
                                     onChange={this.searchChange}
                                     placeholder="Tim kiếm leads"
@@ -604,7 +620,7 @@ class LeadContainer extends React.Component {
                                 </div>
                                 {this.state.isDistribution &&
                                 <div className="col-md-3">
-                                    <div className="form-group">
+                                    <div className="form-group margin-bottom-20">
                                         <ReactSelect.Async
                                             loadOptions={this.loadStaffs}
                                             loadingPlaceholder="Đang tải..."
@@ -641,7 +657,17 @@ class LeadContainer extends React.Component {
 
                                         /></div>
                                 </div>}
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
 
+                                        <Search
+                                            onChange={this.changeAddress}
+                                            value={this.state.address}
+                                            placeholder="Nhập tỉnh/thành phố"
+                                            disabled={this.props.isLoading}
+                                        />
+                                    </div>
+                                </div>
                                 {this.state.isDistribution &&
                                 <div className="col-md-3">
                                     <FormInputText

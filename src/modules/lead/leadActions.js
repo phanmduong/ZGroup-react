@@ -8,11 +8,13 @@ import {
 } from "../../helpers/helper";
 import async from "async";
 
+
+
 /*eslint no-console: 0 */
-export function getLeads(page, search, startTime, endTime, staffId, rate, top) {
+export function getLeads(page, search, startTime, endTime, staffId, rate, top, address) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_LIST_LEAD});
-        leadApi.loadLeads(page, search, startTime, endTime, staffId, rate, top)
+        leadApi.loadLeads(page, search, startTime, endTime, staffId, rate, top,address)
             .then(res => {
                 dispatch({
                     type: types.LOAD_LIST_LEAD_SUCCESS,
