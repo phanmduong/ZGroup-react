@@ -69,12 +69,17 @@ export function changeStatusPause(registerId) {
         registerStudentsApi
             .changeStatusPause(registerId)
             .then(res => {
-                showTypeNotification("Bảo lưu thành công", "success");
-                dispatch({
-                    type: types.CHANGE_STATUS_PAUSE_SUCCESS,
-                    registerId: res.data.data.register_id,
-                    status: res.data.data.status,
-                });
+                if (res.data.status != 0) {
+                    showTypeNotification("Bảo lưu thành công", "success");
+                    dispatch({
+                        type: types.CHANGE_STATUS_PAUSE_SUCCESS,
+                        registerId: res.data.data.register_id,
+                        status: res.data.data.status,
+                    });
+
+                } else {
+                    showTypeNotification(res.data.message, "error");
+                }
             })
             .catch(() => {
                 showTypeNotification("Bảo lưu thất bại", "error");
@@ -164,7 +169,7 @@ export function loadRegisterStudent(page,
                                     endTime,
                                     baseId,
                                     appointment_payment,
-                                    query_coupon, tele_call_status,bookmark) {
+                                    query_coupon, tele_call_status, bookmark) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
@@ -332,7 +337,7 @@ export function changeMarkRegister(register_id, bookmark) {
             .then(() => {
                 showNotification("Đã lưu!");
                 dispatch({
-                    type: types.CHANGE_BOOKMARK_REGISTER_SUCCESS,register_id, bookmark
+                    type: types.CHANGE_BOOKMARK_REGISTER_SUCCESS, register_id, bookmark
                 });
             })
             .catch(() => {

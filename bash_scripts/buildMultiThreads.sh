@@ -17,7 +17,7 @@ echo "${i} : ${file_name%.*}"
 i=$((i+1))
 if ! (( i % 12 ));
 then
-  sleep 100
+  sleep 80
 fi
 
 gnome-terminal --tab --command="./build.sh $module_name $branch_name & exit"

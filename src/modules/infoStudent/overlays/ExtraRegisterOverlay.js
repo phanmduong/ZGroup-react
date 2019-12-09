@@ -54,7 +54,6 @@ class ExtraRegisterOverlay extends React.Component {
 
     addMyLead = (userID) => {
         let {registerActions, reload} = this.props;
-        console.log(userID);
         registerActions.uploadDistributionLead(userID, reload ? reload : ()=>{});
     };
 
