@@ -1344,7 +1344,7 @@ table tr td .avatar-honor {
     width: unset!important;
   }
 
-  tr > th, td > a {
+  tr > th, td > a:not(.btn-main) {
     color: black;
     font-size: 14px !important;
     font-weight: 500 !important;
@@ -1352,6 +1352,8 @@ table tr td .avatar-honor {
 
   .btn-main {
     color: white !important;
+    width: unset!important;
+
   }
 
   tr > td:first-child, tr > th:first-child {
