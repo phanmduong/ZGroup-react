@@ -1,7 +1,7 @@
 import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {loadSources, deleteSource, createSource,assignSource} from "../studentApi";
+import {loadSources, deleteSource, createSource, assignSource} from "../studentApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
@@ -46,9 +46,9 @@ class SourceOverlay extends React.Component {
         deleteSource(source)
             .then(() => {
                 this.loadSources();
-            }).catch(()=>{
-                showErrorNotification("Nguồn đang sử dụng không thể xóa!");
-        }).finally(()=>{
+            }).catch(() => {
+            showErrorNotification("Nguồn đang sử dụng không thể xóa!");
+        }).finally(() => {
             this.setState({
                 isProcessing: false
             });
@@ -89,9 +89,9 @@ class SourceOverlay extends React.Component {
             showErrorNotification("Bạn cần nhập tên nguồn");
         } else if (this.state.source.name.length > 20) {
             showErrorNotification("Độ dài tên nguồn không quá 20 kí tự");
-        }  else if (isEmptyInput(this.state.source.color)) {
+        } else if (isEmptyInput(this.state.source.color)) {
             showErrorNotification("Bạn cần chọn màu");
-        }else {
+        } else {
             this.setState({
                 isLoading: true,
                 create: false
@@ -113,11 +113,11 @@ class SourceOverlay extends React.Component {
         this.setState({
             isProcessing: true
         });
-        assignSource(source,this.props.student)
+        assignSource(source, this.props.student)
             .then(() => {
                 this.loadSources();
                 let {updateInfoStudent, student} = this.props;
-                updateInfoStudent({...student, source_id:source.id });
+                updateInfoStudent({...student, source_id: source.id});
                 this.setState({
                     isProcessing: false
                 });
@@ -125,7 +125,7 @@ class SourceOverlay extends React.Component {
     };
 
     close = () => {
-        this.setState({show:false});
+        this.setState({show: false});
     };
 
     changeColor = (color) => {
@@ -136,16 +136,16 @@ class SourceOverlay extends React.Component {
                 color
             }
         });
-    }
+    };
 
-    sourceName = ()=>{
+    sourceName = () => {
         let s = this.state.sources && this.state.sources.filter(i => i.id == this.props.student.source_id)[0];
         return s ? s.name : "N/A";
-    }
+    };
 
     render() {
-        let {isDeleting,isLoading, isProcessing} = this.state;
-        let showLoading =  isLoading ||isProcessing;
+        let {isDeleting, isLoading, isProcessing} = this.state;
+        let showLoading = isLoading || isProcessing;
 
         return (
             <div style={{position: "relative"}} className="source-value">
@@ -165,25 +165,26 @@ class SourceOverlay extends React.Component {
 
                         {!showLoading && <div style={{position: "relative"}}>
                             {
-                                this.state.create ? (
+                                this.state.create && (
                                     <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
                                        onClick={this.toggle}>
                                         <i className="material-icons">keyboard_arrow_left</i>
                                     </a>
-                                ) : (
-                                    <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
-                                       onClick={()=>this.setState({
-                                           create: !this.state.create,
-                                           source:{}
-                                       })}>
-                                        <i className="material-icons">add</i>
-                                    </a>
                                 )
+                                // : (
+                                //     <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
+                                //        onClick={() => this.setState({
+                                //            create: !this.state.create,
+                                //            source: {}
+                                //        })}>
+                                //         <i className="material-icons">add</i>
+                                //     </a>
+                                // )
                             }
                             <button
                                 onClick={this.close}
                                 type="button" className="close"
-                                style={{color: '#5a5a5a'}}>
+                                style={{color: '#5a5a5a', fontSize: 20}}>
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
@@ -213,7 +214,7 @@ class SourceOverlay extends React.Component {
                                             onChangeComplete={this.changeColor}/>
                                     </div>
                                     {
-                                       isDeleting ? (
+                                        isDeleting ? (
                                             <div>
                                                 {!isProcessing && (
                                                     <div style={{display: "flex", flexWrap: 'no-wrap'}}>
@@ -258,27 +259,40 @@ class SourceOverlay extends React.Component {
                                     {
                                         !showLoading && (
                                             <div>
-                                                <div>
-                                                    <button
-                                                        onClick={() => {
-                                                            this.assignSource({id:null});
-                                                        }}
-                                                        className="btn"
-                                                        style={{
-                                                            textAlign: "left",
-                                                            width: "calc(100% - 30px)",
-                                                            margin: "2px 0",
-                                                            display: "flex",
-                                                            justifyContent: "space-between"
-                                                        }}>
-                                                        Không có nguồn
-                                                        <div>
-                                                            {!this.props.student.source_id ?
-                                                                <i className="material-icons">done</i> : ""}
-                                                        </div>
-                                                    </button>
 
-                                                </div>
+                                                {!this.state.isCreate &&
+                                                <a className="btn btn-add"
+                                                   onClick={() => this.setState({
+                                                       create: !this.state.create,
+                                                       source: {}
+                                                   })}>
+                                                    Thêm nguồn mới
+                                                    <i className="material-icons">add</i>
+                                                </a>
+                                                }
+                                                <button
+                                                    onClick={() => {
+                                                        this.assignSource({id: null});
+                                                    }}
+                                                    className="btn"
+                                                    style={{
+                                                        textAlign: "left",
+                                                        width: "100%",
+                                                        marginBottom: 10,
+                                                        display: "flex",
+                                                        backgroundColor: 'transparent',
+                                                        border: '1.5px dashed #e6e6e6',
+                                                        color: '#a9a9a9',
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                    Không có nguồn
+                                                    <div>
+                                                        {!this.props.student.source_id ?
+                                                            <i className="material-icons">done</i> : ""}
+                                                    </div>
+                                                </button>
+
+
                                                 {this.state.sources && this.state.sources
                                                     .filter(source => {
                                                         const s1 = source.name.trim().toLowerCase();
@@ -286,35 +300,41 @@ class SourceOverlay extends React.Component {
                                                         return s1.includes(s2) || s2.includes(s1);
                                                     })
                                                     .map((source) => {
-                                                    const sourceAdded = this.props.student && this.props.student.source_id == source.id;
-                                                    return (
-                                                        <div key={source.id} style={{display: "flex"}}>
-                                                            <button
-                                                                onClick={() => {
-                                                                    this.assignSource(source);
-                                                                }}
-                                                                className="btn"
-                                                                style={{
-                                                                    textAlign: "left",
-                                                                    backgroundColor: source.color,
-                                                                    width: "calc(100% - 30px)",
-                                                                    margin: "2px 0",
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between"
-                                                                }}>
-                                                                {source.name}
-                                                                <div>
-                                                                    {sourceAdded ? <i className="material-icons">done</i> : ""}
+                                                        const sourceAdded = this.props.student && this.props.student.source_id == source.id;
+                                                        return (
+                                                            <div key={source.id} style={{
+                                                                marginBottom:5,
+                                                                display: "flex",
+                                                                justifyContent: 'space-between'
+                                                            }}>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        this.assignSource(source);
+                                                                    }}
+                                                                    className="btn"
+                                                                    style={{
+                                                                        textAlign: "left",
+                                                                        backgroundColor: source.color,
+                                                                        width: "calc(100% - 50px)",
+                                                                        margin: "2px 0",
+                                                                        display: "flex",
+                                                                        justifyContent: "space-between"
+                                                                    }}>
+                                                                    {source.name}
+                                                                    <div>
+                                                                        {sourceAdded ?
+                                                                            <i className="material-icons">done</i> : ""}
 
+                                                                    </div>
+                                                                </button>
+                                                                <div className="board-action"
+                                                                     style={{lineHeight: "45px"}}>
+                                                                    <a onClick={() => this.editSource(source)}><i
+                                                                        className="material-icons">edit</i></a>
                                                                 </div>
-                                                            </button>
-                                                            <div className="board-action" style={{lineHeight: "45px"}}>
-                                                                <a onClick={() => this.editSource(source)}><i
-                                                                    className="material-icons">edit</i></a>
                                                             </div>
-                                                        </div>
-                                                    );
-                                                })}
+                                                        );
+                                                    })}
                                             </div>
                                         )
                                     }
