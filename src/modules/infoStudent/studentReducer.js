@@ -2,7 +2,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function studySessionReducer(state = initialState.infoStudent, action) {
+export default function studentReducer(state = initialState.infoStudent, action) {
 
     switch (action.type) {
         case types.BEGIN_LOAD_INFO_STUDENT:
@@ -255,6 +255,16 @@ export default function studySessionReducer(state = initialState.infoStudent, ac
                     student: {
                         ...state.student,
                         [action.imageField]: action.image_url
+                    }
+                }
+            };
+        case types.EDIT_INFO_LEAD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    student: {
+                        ...state.student,
+                        rate: action.lead.rate
                     }
                 }
             };

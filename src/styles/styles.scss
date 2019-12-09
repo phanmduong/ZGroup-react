@@ -1791,10 +1791,12 @@ ul.nav.nav-pills.nav-pills-dark {
 .overlay-call-register {
   padding-left: 15px;
   padding-right: 15px;
-
+  border: none;
   &[mask=extra]{
     left: 0;
     right: 0;
+    padding: 15px 5px;
+    button.btn.btn-white{ padding:  10px 0px!important;}
   }
   &[mask=money]{
     left: unset!important;

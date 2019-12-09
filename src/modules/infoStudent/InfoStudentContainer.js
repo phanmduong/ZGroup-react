@@ -25,7 +25,7 @@ import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
 import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
 import SourceOverlay from "./overlays/SourceOverlay";
 import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
-import Star from "../../components/common/Star";
+import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
 
 
@@ -247,7 +247,7 @@ class InfoStudentContainer extends React.Component {
                                         </div>
 
                                         <div className="flex flex-row-center flex-justify-content-center margintop-10">
-                                            <Star
+                                            <StarInput
                                                 value={this.props.student.rate}
                                                 maxStar={5}
                                                 onChange={this.changeRateStudent}

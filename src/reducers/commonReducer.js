@@ -6,6 +6,7 @@ import firstLoginReducer from "../modules/firstLogin/firstLoginReducer";
 import studentReducer from "../modules/infoStudent/studentReducer";
 import createRegister from "../modules/registerStudents/createRegisterReducer";
 import leadReducer from "../modules/lead/leadReducer";
+import registerReducer from "../modules/registerStudents/registerReducer";
 
 export default {
     globalLoading: globalLoadingReducer,
@@ -15,5 +16,6 @@ export default {
     firstLogin: firstLoginReducer,
     infoStudent: studentReducer,
     lead: leadReducer,
+    registerStudents: registerReducer,
     createRegister: createRegister,
 };

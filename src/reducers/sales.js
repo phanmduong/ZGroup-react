@@ -4,7 +4,6 @@ import commonReducer from "./commonReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import summarySalesRoomReducer from "../modules/summarySalesRoom/summarySalesRoomReducer";
-import registerReducer from "../modules/registerStudents/registerReducer";
 import studentReducer from "../modules/infoStudent/studentReducer";
 import createRegister from "../modules/registerStudents/createRegisterReducer";
 import targetSaleReducer from "../modules/sales/targetSaleReducer";
@@ -14,7 +13,6 @@ const appReducer = combineReducers({
     summarySalesUp: summarySalesUpReducer,
     summarySalesRoom: summarySalesRoomReducer,
     summarySales: summarySalesReducer,
-    registerStudents: registerReducer,
     infoStudent: studentReducer,
     createRegister,
     targetSale: targetSaleReducer

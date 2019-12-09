@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import PropTypes from 'prop-types';
-import FormInputDate from "../../../components/common/FormInputDate";
+// import FormInputDate from "../../../components/common/FormInputDate";
 
 class HistoryCallContainer extends React.Component {
     constructor(props, context) {
@@ -82,100 +82,100 @@ class HistoryCallContainer extends React.Component {
                             }
                         </ul>
                 }
-                <div className="form-group label-floating is-empty">
-                    <label className="control-label">Ghi chú</label>
-                    <input type="text" className="form-control"
-                           value={this.state.note}
-                           onChange={(event) => this.setState({note: event.target.value})}/>
-                    <span className="material-input"/>
-                    <span className="material-input"/></div>
-                <FormInputDate
-                    label="Hẹn nộp tiền"
-                    name="appointmentPayment"
-                    updateFormData={(event) => {
-                        this.setState({appointmentPayment: event.target.value});
-                    }}
-                    id="form-appointment_payment"
-                    value={this.state.appointmentPayment}
-                />
-                <FormInputDate
-                    label="Hẹn kiểm tra"
-                    name="dateTest"
-                    updateFormData={(event) => {
-                        this.setState({dateTest: event.target.value});
-                    }}
-                    id="form-date_test"
-                    value={this.state.dateTest}
-                />
-                {this.props.isChangingStatusCall ?
-                    (
-                        <div>
-                            <button type="button"
-                                    className="btn btn-success btn-round disabled"
-                                    data-dismiss="modal"
-                            >
-                                <i className="fa fa-spinner fa-spin"/>
-                                Đang cập nhật
-                            </button>
-                            <button type="button"
-                                    className="btn btn-danger btn-round disabled"
-                                    data-dismiss="modal"
-                            >
-                                <i className="fa fa-spinner fa-spin"/>
-                                Đang cập nhật
-                            </button>
-                        </div>
+                {/*<div className="form-group label-floating is-empty">*/}
+                {/*    <label className="control-label">Ghi chú</label>*/}
+                {/*    <input type="text" className="form-control"*/}
+                {/*           value={this.state.note}*/}
+                {/*           onChange={(event) => this.setState({note: event.target.value})}/>*/}
+                {/*    <span className="material-input"/>*/}
+                {/*    <span className="material-input"/></div>*/}
+                {/*<FormInputDate*/}
+                {/*    label="Hẹn nộp tiền"*/}
+                {/*    name="appointmentPayment"*/}
+                {/*    updateFormData={(event) => {*/}
+                {/*        this.setState({appointmentPayment: event.target.value});*/}
+                {/*    }}*/}
+                {/*    id="form-appointment_payment"*/}
+                {/*    value={this.state.appointmentPayment}*/}
+                {/*/>*/}
+                {/*<FormInputDate*/}
+                {/*    label="Hẹn kiểm tra"*/}
+                {/*    name="dateTest"*/}
+                {/*    updateFormData={(event) => {*/}
+                {/*        this.setState({dateTest: event.target.value});*/}
+                {/*    }}*/}
+                {/*    id="form-date_test"*/}
+                {/*    value={this.state.dateTest}*/}
+                {/*/>*/}
+                {/*{this.props.isChangingStatusCall ?*/}
+                {/*    (*/}
+                {/*        <div>*/}
+                {/*            <button type="button"*/}
+                {/*                    className="btn btn-success btn-round disabled"*/}
+                {/*                    data-dismiss="modal"*/}
+                {/*            >*/}
+                {/*                <i className="fa fa-spinner fa-spin"/>*/}
+                {/*                Đang cập nhật*/}
+                {/*            </button>*/}
+                {/*            <button type="button"*/}
+                {/*                    className="btn btn-danger btn-round disabled"*/}
+                {/*                    data-dismiss="modal"*/}
+                {/*            >*/}
+                {/*                <i className="fa fa-spinner fa-spin"/>*/}
+                {/*                Đang cập nhật*/}
+                {/*            </button>*/}
+                {/*        </div>*/}
 
-                    )
-                    :
-                    (
-                        this.props.isLoadingHistoryCalls ?
-                            (
-                                <div>
-                                    <button type="button"
-                                            className="btn btn-success btn-round disabled"
-                                            data-dismiss="modal"
-                                    >
-                                        <i className="material-icons">phone</i>
-                                        Gọi thành công
-                                    </button>
-                                    <button type="button"
-                                            className="btn btn-danger btn-round disabled"
-                                            data-dismiss="modal"
-                                    >
-                                        <i className="material-icons">phone</i>
-                                        Không gọi được
-                                    </button>
-                                </div>
-                            )
-                            :
-                            (
-                                <div>
-                                    <button type="button"
-                                            className="btn btn-success btn-round"
+                {/*    )*/}
+                {/*    :*/}
+                {/*    (*/}
+                {/*        this.props.isLoadingHistoryCalls ?*/}
+                {/*            (*/}
+                {/*                <div>*/}
+                {/*                    <button type="button"*/}
+                {/*                            className="btn btn-success btn-round disabled"*/}
+                {/*                            data-dismiss="modal"*/}
+                {/*                    >*/}
+                {/*                        <i className="material-icons">phone</i>*/}
+                {/*                        Gọi thành công*/}
+                {/*                    </button>*/}
+                {/*                    <button type="button"*/}
+                {/*                            className="btn btn-danger btn-round disabled"*/}
+                {/*                            data-dismiss="modal"*/}
+                {/*                    >*/}
+                {/*                        <i className="material-icons">phone</i>*/}
+                {/*                        Không gọi được*/}
+                {/*                    </button>*/}
+                {/*                </div>*/}
+                {/*            )*/}
+                {/*            :*/}
+                {/*            (*/}
+                {/*                <div>*/}
+                {/*                    <button type="button"*/}
+                {/*                            className="btn btn-success btn-round"*/}
 
-                                            data-dismiss="modal"
-                                            onClick={() => {
-                                                this.changeCallStatusStudent(1, this.studentId);
-                                            }}>
-                                        <i className="material-icons">phone</i>
-                                        Gọi thành công
-                                    </button>
-                                    <button type="button"
-                                            className="btn btn-danger btn-round"
-                                            data-dismiss="modal"
-                                            onClick={() => {
-                                                this.changeCallStatusStudent(0, this.studentId);
-                                            }}>
-                                        <i className="material-icons">phone</i>
-                                        Không gọi được
-                                    </button>
-                                </div>
-                            )
+                {/*                            data-dismiss="modal"*/}
+                {/*                            onClick={() => {*/}
+                {/*                                this.changeCallStatusStudent(1, this.studentId);*/}
+                {/*                            }}>*/}
+                {/*                        <i className="material-icons">phone</i>*/}
+                {/*                        Gọi thành công*/}
+                {/*                    </button>*/}
+                {/*                    <button type="button"*/}
+                {/*                            className="btn btn-danger btn-round"*/}
+                {/*                            data-dismiss="modal"*/}
+                {/*                            onClick={() => {*/}
+                {/*                                this.changeCallStatusStudent(0, this.studentId);*/}
+                {/*                            }}>*/}
+                {/*                        <i className="material-icons">phone</i>*/}
+                {/*                        Không gọi được*/}
+                {/*                    </button>*/}
+                {/*                </div>*/}
+                {/*            )*/}
 
 
-                    )
-                }
+                {/*    )*/}
+                {/*}*/}
             </div>
         );
     }
