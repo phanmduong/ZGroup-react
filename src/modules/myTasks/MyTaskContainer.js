@@ -91,10 +91,7 @@ class MyTaskContainer extends React.Component {
                                     {tasks.map((task) => {
                                         return (
                                             <div className="item-task" onClick={() => this.onClickTask(task)}>
-                                                <div className="task-icon" style={{backgroundColor: task.color}}>
-                                                    {//eslint-disable-next-line
-                                                    }
-                                                    <div dangerouslySetInnerHTML={{__html: task.icon}}/>
+                                                <div className="task-icon" style={{backgroundColor: task.color}} dangerouslySetInnerHTML={{__html: task.icon}}>
                                                 </div>
                                                 <div className="task-content">
                                                     <div className="task-title">
