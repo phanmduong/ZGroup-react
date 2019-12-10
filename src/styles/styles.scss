@@ -1632,7 +1632,7 @@ table tr td .avatar-honor {
       text-align: center;
       width: 50%;
       background-color: #ffffff70;
-      border-radius: 3px;
+      border-radius: 3px!important;
       font-size: 10px;
       font-weight: 600;
         color: white;
@@ -1657,12 +1657,11 @@ table tr td .avatar-honor {
         .board-action a i{
           border-radius: 5px;
           padding: 5px;
-          width: 41px;
-          line-height: 30px;
-          height: 41px;
+          width: 35px;
+          line-height: 25px;
+          height: 35px;
           background-color: #f3f4f3;
           color: black;
-          border: .5px solid #e8eaea;
           font-size: 16px;
         }
       }

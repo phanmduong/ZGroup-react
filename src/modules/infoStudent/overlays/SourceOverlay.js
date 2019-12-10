@@ -146,11 +146,11 @@ class SourceOverlay extends React.Component {
     render() {
         let {isDeleting, isLoading, isProcessing} = this.state;
         let showLoading = isLoading || isProcessing;
+        const current = (this.props.student  && this.state.sources && this.state.sources.filter(s=>s.id == this.props.student.source_id)[0]) || {};
 
         return (
-            <div style={{position: "relative"}} className="source-value">
-                <div className=""
-                     onClick={() => this.setState({show: true})}>
+            <div style={{position: "relative",backgroundColor: current.color}} className="source-value">
+                <div onClick={() => this.setState({show: true})}>
                     {this.sourceName()}
                 </div>
                 <Overlay
@@ -303,7 +303,7 @@ class SourceOverlay extends React.Component {
                                                         const sourceAdded = this.props.student && this.props.student.source_id == source.id;
                                                         return (
                                                             <div key={source.id} style={{
-                                                                marginBottom:5,
+                                                                marginBottom:10,
                                                                 display: "flex",
                                                                 justifyContent: 'space-between'
                                                             }}>
@@ -315,10 +315,12 @@ class SourceOverlay extends React.Component {
                                                                     style={{
                                                                         textAlign: "left",
                                                                         backgroundColor: source.color,
-                                                                        width: "calc(100% - 50px)",
-                                                                        margin: "2px 0",
+                                                                        width: "calc(100% - 30px)",
+                                                                        margin: "0",
                                                                         display: "flex",
-                                                                        justifyContent: "space-between"
+                                                                        justifyContent: "space-between",
+                                                                        height:35,
+                                                                        padding: '0 15px',
                                                                     }}>
                                                                     {source.name}
                                                                     <div>
@@ -327,9 +329,13 @@ class SourceOverlay extends React.Component {
 
                                                                     </div>
                                                                 </button>
-                                                                <div className="board-action"
-                                                                     style={{lineHeight: "45px"}}>
-                                                                    <a onClick={() => this.editSource(source)}><i
+                                                                <div className="board-action">
+                                                                    <a onClick={() => this.editSource(source)}
+
+                                                                    ><i style={{
+                                                                            backgroundColor: source.color,
+                                                                            color:'white'
+                                                                        }}
                                                                         className="material-icons">edit</i></a>
                                                                 </div>
                                                             </div>

@@ -1,7 +1,11 @@
 import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {loadMarketingEmail, storeMarketingCampaign, assignMarketingCampaign} from "../../marketingCampaign/marketingCampaignApi";
+import {
+    loadMarketingEmail,
+    storeMarketingCampaign,
+    assignMarketingCampaign
+} from "../../marketingCampaign/marketingCampaignApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
@@ -40,11 +44,11 @@ class MarketingCampaignOverlay extends React.Component {
         });
     };
     //
-    // deleteSource = (campaign) => {
+    // delete = (campaign) => {
     //     this.setState({
     //         isProcessing: true
     //     });
-    //     deleteSource(campaign)
+    //     delete(campaign)
     //         .then(() => {
     //             this.loadMarketingEmail();
     //         }).catch(() => {
@@ -62,7 +66,7 @@ class MarketingCampaignOverlay extends React.Component {
         });
     };
 
-    editSource = (campaign) => {
+    edit = (campaign) => {
         this.setState({
             campaign,
             create: true
@@ -145,9 +149,10 @@ class MarketingCampaignOverlay extends React.Component {
     render() {
         let {isDeleting, isLoading, isProcessing} = this.state;
         let showLoading = isLoading || isProcessing;
+        const current = (this.props.student  && this.state.campaigns && this.state.campaigns.filter(s=>s.id == this.props.student.campaign_id)[0]) || {};
 
         return (
-            <div style={{position: "relative"}} className="source-value">
+            <div style={{position: "relative",backgroundColor: current.color}} className="source-value">
                 <div className=""
                      onClick={() => this.setState({show: true})}>
                     {this.campaignName()}
@@ -164,29 +169,23 @@ class MarketingCampaignOverlay extends React.Component {
 
                         {!showLoading && <div style={{position: "relative"}}>
                             {
-                                this.state.create ? (
+                                this.state.create && (
                                     <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
                                        onClick={this.toggle}>
                                         <i className="material-icons">keyboard_arrow_left</i>
                                     </a>
-                                ) : (
-                                    <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
-                                       onClick={() => this.setState({
-                                           create: !this.state.create,
-                                           campaign: {}
-                                       })}>
-                                        <i className="material-icons">add</i>
-                                    </a>
                                 )
+                                // : (<a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}onClick={() => this.setState({create: !this.state.create,campaign: {}})}><i className="material-icons">add</i></a>)
                             }
                             <button
                                 onClick={this.close}
                                 type="button" className="close"
-                                style={{color: '#5a5a5a'}}>
+                                style={{color: '#5a5a5a', fontSize: 20}}>
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>Chiến dịch
+                            <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>Chiến
+                                dịch
                             </div>
                         </div>}
                         <div>{showLoading && <Loading/>}</div>
@@ -223,7 +222,7 @@ class MarketingCampaignOverlay extends React.Component {
                                                         </button>
                                                         <button style={{margin: "15px 5px 10px 0"}}
                                                                 className="btn btn-danger width-50-percent"
-                                                                onClick={() => this.deleteSource(this.state.campaign)}>
+                                                                onClick={() => this.delete(this.state.campaign)}>
                                                             Xác nhận
                                                         </button>
                                                     </div>
@@ -257,27 +256,34 @@ class MarketingCampaignOverlay extends React.Component {
                                     {
                                         !showLoading && (
                                             <div>
-                                                <div>
-                                                    <button
-                                                        onClick={() => {
-                                                            this.assignMarketingCampaign({id:null});
-                                                        }}
-                                                        className="btn"
-                                                        style={{
-                                                            textAlign: "left",
-                                                            width: "calc(100% - 30px)",
-                                                            margin: "2px 0",
-                                                            display: "flex",
-                                                            justifyContent: "space-between"
-                                                        }}>
-                                                        Không có chiến dịch
-                                                        <div>
-                                                            {!this.props.student.campaign_id ?
-                                                                <i className="material-icons">done</i> : ""}
-                                                        </div>
-                                                    </button>
+                                                <a className="btn btn-add"
+                                                   onClick={() => this.setState({
+                                                       create: !this.state.create,
+                                                       campaign: {}
+                                                   })}>Thêm chiến dịch mới<i className="material-icons">add</i></a>
+                                                <button
+                                                    onClick={() => {
+                                                        this.assignMarketingCampaign({id: null});
+                                                    }}
+                                                    className="btn"
+                                                    style={{
+                                                        textAlign: "left",
+                                                        width: "100%",
+                                                        marginBottom: 10,
+                                                        display: "flex",
+                                                        backgroundColor: 'transparent',
+                                                        border: '1.5px dashed #e6e6e6',
+                                                        color: '#a9a9a9',
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                    Không có chiến dịch
+                                                    <div>
+                                                        {!this.props.student.campaign_id ?
+                                                            <i className="material-icons">done</i> : ""}
+                                                    </div>
+                                                </button>
 
-                                                </div>
+
                                                 {this.state.campaigns && this.state.campaigns
                                                     .filter(campaign => {
                                                         const s1 = campaign.name.trim().toLowerCase();
@@ -287,7 +293,10 @@ class MarketingCampaignOverlay extends React.Component {
                                                     .map((campaign) => {
                                                         const campaignAdded = this.props.student && this.props.student.campaign_id == campaign.id;
                                                         return (
-                                                            <div key={campaign.id} style={{display: "flex"}}>
+                                                            <div key={campaign.id} style={{
+                                                                marginBottom:10,
+                                                                display: "flex",
+                                                                justifyContent: 'space-between'}}>
                                                                 <button
                                                                     onClick={() => {
                                                                         this.assignMarketingCampaign(campaign);
@@ -297,9 +306,11 @@ class MarketingCampaignOverlay extends React.Component {
                                                                         textAlign: "left",
                                                                         backgroundColor: `#${campaign.color}`,
                                                                         width: "calc(100% - 30px)",
-                                                                        margin: "2px 0",
+                                                                        margin: "0",
                                                                         display: "flex",
-                                                                        justifyContent: "space-between"
+                                                                        justifyContent: "space-between",
+                                                                        height:35,
+                                                                        padding: '0 15px',
                                                                     }}>
                                                                     {campaign.name}
                                                                     <div>
@@ -308,10 +319,11 @@ class MarketingCampaignOverlay extends React.Component {
 
                                                                     </div>
                                                                 </button>
-                                                                <div className="board-action"
-                                                                     style={{lineHeight: "45px"}}>
-                                                                    <a onClick={() => this.editSource(campaign)}><i
-                                                                        className="material-icons">edit</i></a>
+                                                                <div className="board-action">
+                                                                    <a onClick={() => this.edit(campaign)}><i style={{
+                                                                        backgroundColor: `#${campaign.color}`,
+                                                                        color:'white'
+                                                                    }} className="material-icons">edit</i></a>
                                                                 </div>
                                                             </div>
                                                         );
