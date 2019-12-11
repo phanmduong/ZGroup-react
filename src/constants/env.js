@@ -26,6 +26,7 @@ export const DOMAIN = "http://" + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
 // export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
 export const MANAGE_API_URL = env.IS_SUBDOMAIN ? "http://" + "manageapi." + URL : BASE_URL + "/manageapi/v3";
+export const NEW_MANAGE_API_URL = env.IS_SUBDOMAIN ? "http://" + "manageapi." + URL + '/v4' : BASE_URL + "/manageapi/v4";
 
 export const FACEBOOK_TOKEN = env.FACEBOOK_TOKEN;
 export const FB_TOKEN = "259398704989951|OqAhnC6jKJZTYHN-6NzmPa_b2RM";

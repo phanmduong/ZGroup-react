@@ -10,6 +10,7 @@ import * as globalModalActions from "../../modules/globalModal/globalModalAction
 import {CHANNEL} from "../../constants/env";
 import socket from "../../services/socketio";
 import {DATETIME_FORMAT_SQL} from "../../constants/constants";
+import {getShortName} from "../../helpers/helper";
 
 @observer
 class MyTaskContainer extends React.Component {
@@ -91,14 +92,24 @@ class MyTaskContainer extends React.Component {
                                     {tasks.map((task) => {
                                         return (
                                             <div className="item-task" onClick={() => this.onClickTask(task)}>
-                                                <div className="task-icon" style={{backgroundColor: task.color}} dangerouslySetInnerHTML={{__html: task.icon}}>
+                                                <div className="task-icon"
+                                                     style={{backgroundColor: task.task_list.color}}
+                                                     dangerouslySetInnerHTML={{__html: task.task_list.icon}}>
                                                 </div>
                                                 <div className="task-content">
                                                     <div className="task-title">
                                                         {task.title}
+                                                        {
+                                                            task.register && task.register.saler &&
+                                                            <div className="tag"
+                                                                 style={{backgroundColor: "#" + task.register.saler.color}}>
+                                                                {getShortName(task.register.saler.name)}
+                                                            </div>
+                                                        }
+
                                                     </div>
                                                     <div>
-                                                        {task.description} - {task.remain_time}
+                                                        {task.task_list.title} - {task.remain_time}
                                                     </div>
                                                 </div>
                                             </div>

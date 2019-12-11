@@ -11,8 +11,8 @@ class Store {
     @action getTasks(updateTotalTask) {
         this.isLoading = true;
         getTasksApi(moment(this.selectedDate).format("YYYY-MM-DD")).then((res) => {
-            this.tasks = res.data.data.tasks;
-            if (updateTotalTask){
+            this.tasks = res.data.tasks;
+            if (updateTotalTask) {
                 updateTotalTask();
             }
         }).finally(() => {
