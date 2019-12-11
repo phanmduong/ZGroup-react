@@ -6,7 +6,6 @@ import {bindActionCreators} from "redux";
 import * as createRegisterActions from "./createRegisterActions";
 import {connect} from "react-redux";
 import ReactSelect from "react-select";
-import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import MemberReactSelectOption from "./MemberReactSelectOption";
 import MemberReactSelectValue from "./MemberReactSelectValue";
@@ -82,12 +81,12 @@ class CreateRegisterModalContainer extends React.Component {
         let register = {...this.props.register};
         register["gender"] = e.value;
         this.props.createRegisterActions.updateFormData(register);
-    }
+    };
     updateAddress = (e) => {
         let register = {...this.props.register};
         register["address"] = e.value;
         this.props.createRegisterActions.updateFormData(register);
-    }
+    };
 
     updateClass(e) {
         let register = {...this.props.register};
@@ -148,177 +147,176 @@ class CreateRegisterModalContainer extends React.Component {
 
         });
         return address;
-    }
+    };
 
     render() {
         const {register} = this.props;
 
         return (
             <form role="form" id="form-info-student">
-                {this.props.isLoadingCourses || this.props.isLoadingCampaigns ? <Loading/>
-                    :
+                {!(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
 
-                    <Modal show={this.props.showCreateRegisterModal} onHide={this.hide}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                <strong>Tạo đăng kí mới</strong>
-                            </Modal.Title> </Modal.Header>
-                        <Modal.Body>
-                            <FormInputText
-                                name="name"
-                                label="Tên học viên"
-                                required
-                                value={register.name}
-                                updateFormData={this.updateFormData}
-                            />
-                            <FormInputText
-                                name="email"
-                                label="Email học viên"
-                                required
-                                value={register.email}
-                                updateFormData={this.updateFormData}
-                            />
-                            <FormInputText
-                                name="phone"
-                                label="Số điện thoại học viên"
-                                required
-                                value={register.phone}
-                                updateFormData={this.updateFormData}
-                            />
-                            <FormInputText
-                                name="coupon"
-                                label="Mã khuyến mãi"
-                                // required
-                                value={register.coupon}
-                                updateFormData={this.updateFormData}
-                            />
-                            <br/>
-                            {/*<div className="row">*/}
-                            {/*<div className="col-md-6">*/}
-                            <ReactSelect
-                                optionComponent={MemberReactSelectOption}
-                                value={register.course_id}
-                                options={addSelectCourse(this.props.courses)}
-                                onChange={this.updateCourse}
-                                placeholder="Chọn môn học"
-                                valueComponent={MemberReactSelectValue}
-                            />
-                            {/*</div>*/}
-                            {/*<div className="col-md-6">*/}
-                            <br/>
-                            <ReactSelect
-                                value={register.class_id}
-                                options={addSelectClass(this.props.classes)}
-                                onChange={this.updateClass}
-                                placeholder="Chọn lớp học"
-                            />
-                            {/*</div>*/}
-                            {/*</div>*/}
-                            <br/>
-                            <ReactSelect
-                                value={register.campaign_id}
-                                options={addSelectCampaign(this.props.campaigns)}
-                                onChange={this.updateCampaign}
-                                placeholder="Chọn chiến dịch"
-                            />
-                            <div className="panel panel-default">
-                                <div className="panel-heading" role="tab"
-                                     id="headingTwo">
-                                    <a className="collapsed" role="button"
-                                       data-toggle="collapse"
-                                       data-parent="#accordion"
-                                       href="#collapseTwo" aria-expanded="false"
-                                       aria-controls="collapseTwo">
-                                        <h4 className="panel-title">
-                                            Mở rộng
-                                            <i className="material-icons">keyboard_arrow_down</i>
-                                        </h4>
-                                    </a>
-                                </div>
-                                <div id="collapseTwo"
-                                     className="panel-collapse collapse"
-                                     role="tabpanel"
-                                     aria-labelledby="headingTwo"
-                                     aria-expanded="false"
-                                     style={{height: '0px'}}>
-                                    <div className="panel-body">
-                                        <ReactSelect
-                                            value={register.gender}
-                                            options={GENDER}
-                                            onChange={this.updateGender}
-                                            placeholder="Chọn giới tính"
+                <Modal show={this.props.showCreateRegisterModal} onHide={this.hide}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Tạo đăng kí mới</strong>
+                        </Modal.Title> </Modal.Header>
+                    <Modal.Body>
+                        <FormInputText
+                            name="name"
+                            label="Tên học viên"
+                            required
+                            value={register.name}
+                            updateFormData={this.updateFormData}
+                        />
+                        <FormInputText
+                            name="email"
+                            label="Email học viên"
+                            required
+                            value={register.email}
+                            updateFormData={this.updateFormData}
+                        />
+                        <FormInputText
+                            name="phone"
+                            label="Số điện thoại học viên"
+                            required
+                            value={register.phone}
+                            updateFormData={this.updateFormData}
+                        />
+                        <FormInputText
+                            name="coupon"
+                            label="Mã khuyến mãi"
+                            // required
+                            value={register.coupon}
+                            updateFormData={this.updateFormData}
+                        />
+                        <br/>
+                        {/*<div className="row">*/}
+                        {/*<div className="col-md-6">*/}
+                        <ReactSelect
+                            optionComponent={MemberReactSelectOption}
+                            value={register.course_id}
+                            options={addSelectCourse(this.props.courses)}
+                            onChange={this.updateCourse}
+                            placeholder="Chọn môn học"
+                            valueComponent={MemberReactSelectValue}
+                        />
+                        {/*</div>*/}
+                        {/*<div className="col-md-6">*/}
+                        <br/>
+                        <ReactSelect
+                            value={register.class_id}
+                            options={addSelectClass(this.props.classes)}
+                            onChange={this.updateClass}
+                            placeholder="Chọn lớp học"
+                        />
+                        {/*</div>*/}
+                        {/*</div>*/}
+                        <br/>
+                        <ReactSelect
+                            value={register.campaign_id}
+                            options={addSelectCampaign(this.props.campaigns)}
+                            onChange={this.updateCampaign}
+                            placeholder="Chọn chiến dịch"
+                        />
+                        <div className="panel panel-default">
+                            <div className="panel-heading" role="tab"
+                                 id="headingTwo">
+                                <a className="collapsed" role="button"
+                                   data-toggle="collapse"
+                                   data-parent="#accordion"
+                                   href="#collapseTwo" aria-expanded="false"
+                                   aria-controls="collapseTwo">
+                                    <h4 className="panel-title">
+                                        Mở rộng
+                                        <i className="material-icons">keyboard_arrow_down</i>
+                                    </h4>
+                                </a>
+                            </div>
+                            <div id="collapseTwo"
+                                 className="panel-collapse collapse"
+                                 role="tabpanel"
+                                 aria-labelledby="headingTwo"
+                                 aria-expanded="false"
+                                 style={{height: '0px'}}>
+                                <div className="panel-body">
+                                    <ReactSelect
+                                        value={register.gender}
+                                        options={GENDER}
+                                        onChange={this.updateGender}
+                                        placeholder="Chọn giới tính"
+                                    />
+                                    <FormInputDate
+                                        label="Chọn ngày sinh"
+                                        value={register.dob}
+                                        updateFormData={this.updateFormData}
+                                        id="form-change-dob"
+                                        name="dob"
+                                    />
+                                    <ReactSelect
+                                        value={register.address}
+                                        options={this.getDataAddress()}
+                                        onChange={this.updateAddress}
+                                        placeholder="Địa chỉ"
+                                    />
+                                    <FormInputText
+                                        name="university"
+                                        label="Trường học"
+                                        value={register.university}
+                                        updateFormData={this.updateFormData}
+                                    />
+                                    <FormInputText
+                                        name="work"
+                                        label="Nơi làm việc"
+                                        value={register.work}
+                                        updateFormData={this.updateFormData}
+                                    />
+                                    <FormInputText
+                                        name="how_know"
+                                        label="Lý do biết đến"
+                                        value={register.how_know}
+                                        updateFormData={this.updateFormData}
+                                    />
+                                    <FormInputText
+                                        name="facebook"
+                                        label="Link Facebook"
+                                        value={register.facebook}
+                                        updateFormData={this.updateFormData}
+                                    />
+                                    <div className="form-group">
+                                        <label className="label-control">Mô tả</label>
+                                        <textarea
+                                            type="text"
+                                            rows={5}
+                                            className="form-control"
+                                            value={
+                                                register.description ? register.description : ""
+                                            }
+                                            name="description"
+                                            onChange={this.updateFormData}
                                         />
-                                        <FormInputDate
-                                            label="Chọn ngày sinh"
-                                            value={register.dob}
-                                            updateFormData={this.updateFormData}
-                                            id="form-change-dob"
-                                            name="dob"
-                                        />
-                                        <ReactSelect
-                                            value={register.address}
-                                            options={this.getDataAddress()}
-                                            onChange={this.updateAddress}
-                                            placeholder="Địa chỉ"
-                                        />
-                                        <FormInputText
-                                            name="university"
-                                            label="Trường học"
-                                            value={register.university}
-                                            updateFormData={this.updateFormData}
-                                        />
-                                        <FormInputText
-                                            name="work"
-                                            label="Nơi làm việc"
-                                            value={register.work}
-                                            updateFormData={this.updateFormData}
-                                        />
-                                        <FormInputText
-                                            name="how_know"
-                                            label="Lý do biết đến"
-                                            value={register.how_know}
-                                            updateFormData={this.updateFormData}
-                                        />
-                                        <FormInputText
-                                            name="facebook"
-                                            label="Link Facebook"
-                                            value={register.facebook}
-                                            updateFormData={this.updateFormData}
-                                        />
-                                        <div className="form-group">
-                                            <label className="label-control">Mô tả</label>
-                                            <textarea
-                                                type="text"
-                                                rows={5}
-                                                className="form-control"
-                                                value={
-                                                    register.description ? register.description : ""
-                                                }
-                                                name="description"
-                                                onChange={this.updateFormData}
-                                            />
-                                            <span className="material-input"/>
-                                        </div>
+                                        <span className="material-input"/>
                                     </div>
                                 </div>
                             </div>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            {this.props.isSavingRegister ? (
-                                <button className="btn btn-rose disabled" type="button">
-                                    <i className="fa fa-spinner fa-spin"/> Đang lưu
-                                </button>
-                            ) : (
-                                <button
-                                    className="btn btn-fill btn-rose"
-                                    type="button"
-                                    style={{width: "20%"}}
-                                    onClick={(e) => this.createRegister(e)}>
-                                    Lưu
-                                </button>
-                            )}
-                        </Modal.Footer>
-                    </Modal>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {this.props.isSavingRegister ? (
+                            <button className="btn btn-rose disabled" type="button">
+                                <i className="fa fa-spinner fa-spin"/> Đang lưu
+                            </button>
+                        ) : (
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                style={{width: "20%"}}
+                                onClick={(e) => this.createRegister(e)}>
+                                Lưu
+                            </button>
+                        )}
+                    </Modal.Footer>
+                </Modal>
                 }
             </form>
         );

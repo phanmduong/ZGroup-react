@@ -30,6 +30,10 @@ class MoneyRegisterOverlay extends React.Component {
         this.state = this.initState;
     }
 
+    componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
     toggle = () => {
         this.setState({show: !this.state.show});
     };
@@ -99,19 +103,30 @@ class MoneyRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isLoading, register} = this.state;
+        let {isLoading} = this.state;
+        let {register} = this.props;
         let text = '', style;
-        if (register && register.status > 0) {
-            text = `${register.money} vnđ`;
-            style = {backgroundColor : '#c50000', color:'white'};
-        } else {
-            text = 'Nộp học phí';
-            style = {backgroundColor : '#F7F5F7'};
+        if (register) {
+            if (!register.paid_status && register.appointment_payment) {
+                text = `Hẹn nộp: ${register.appointment_payment}`;
+                style = {backgroundColor: '#c50000', color: 'white'};
+            }else
+            if (register.status > 0 || register.paid_status) {
+                text = dotNumber(register.money) + ` vnđ`;
+                style = {backgroundColor: '#c50000', color: 'white'};
+            }else {
+                text = 'Nộp học phí';
+                style = {backgroundColor: '#F7F5F7'};
+            }
         }
+        console.log(text)
         return (
             <div style={{position: "relative"}} className="">
                 <button className="btn btn-register-action" mask="money"
                         onClick={this.toggle} disabled={isLoading} ref="target"
+                        data-toggle="tooltip" title=""
+                        type="button" rel="tooltip"
+                        data-original-title={register.note}
                         style={style}>
                     {text}
                 </button>
