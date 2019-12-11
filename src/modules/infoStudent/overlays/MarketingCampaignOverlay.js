@@ -20,7 +20,7 @@ class MarketingCampaignOverlay extends React.Component {
             show: false,
             create: false,
             campaign: {},
-            isLoading: false,
+            isLoading: true,
             isProcessing: false,
             isDeleting: false,
             search: ''
@@ -33,8 +33,8 @@ class MarketingCampaignOverlay extends React.Component {
     }
 
     loadMarketingEmail = () => {
-        this.setState({campaign: {}, create: false, isLoading: true, isDeleting: false});
         loadMarketingEmail(1, -1).then((res) => {
+            if (this.refs.MarketingCampaignOverlay)
 
             this.setState({
                 campaigns: res.data.data.marketing_campaigns,
@@ -152,7 +152,7 @@ class MarketingCampaignOverlay extends React.Component {
         const current = (this.props.student  && this.state.campaigns && this.state.campaigns.filter(s=>s.id == this.props.student.campaign_id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color}} className="source-value">
+            <div style={{position: "relative",backgroundColor: current.color}} className="source-value" ref="MarketingCampaignOverlay">
                 <div className=""
                      onClick={() => this.setState({show: true})}>
                     {this.campaignName()}

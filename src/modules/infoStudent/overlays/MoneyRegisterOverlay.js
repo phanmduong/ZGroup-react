@@ -53,8 +53,8 @@ class MoneyRegisterOverlay extends React.Component {
         }
         this.setState({register});
         $('#form-collect-money').validate({
-            rules:{money:'required'},
-            messages:{'money':'Vui lòng nhập số tiền!'}
+            rules: {money: 'required'},
+            messages: {'money': 'Vui lòng nhập số tiền!'}
         });
     };
     onPaymentMethodChange = (obj) => {
@@ -74,40 +74,46 @@ class MoneyRegisterOverlay extends React.Component {
                 showTypeNotification("Vui lòng chọn phương thức thanh toán", "warning");
                 return;
             }
-            this.setState({isLoading:true});
+            this.setState({isLoading: true});
             payMoney({
                 id: register.id,
                 money: "" + register.money,
                 code: register.code,
                 note: register.note,
                 payment_method: register.payment_method
-            }).then((res)=>{
-                if(res.data.status == 1){
+            }).then((res) => {
+                if (res.data.status == 1) {
                     showNotification('Nộp tiền thành công!');
                     this.props.reload();
-                }else{
+                } else {
                     showErrorNotification(res.data.message);
                 }
 
-            }).catch(()=>{
+            }).catch(() => {
                 showErrorNotification("Có lỗi xảy ra!");
-            }).finally(()=>{
-                this.setState({isLoading:false});
+            }).finally(() => {
+                this.setState({isLoading: false});
             });
         }
 
     };
 
     render() {
-        let {isLoading} = this.state;
+        let {isLoading, register} = this.state;
+        let text = '', style;
+        if (register && register.status > 0) {
+            text = `${register.money} vnđ`;
+            style = {backgroundColor : '#c50000', color:'white'};
+        } else {
+            text = 'Nộp học phí';
+            style = {backgroundColor : '#F7F5F7'};
+        }
         return (
-
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action" mask="create"
-                        onClick={this.toggle}
-                        disabled={isLoading}
-                        ref="target">
-                    Nộp học phí
+                <button className="btn btn-register-action" mask="money"
+                        onClick={this.toggle} disabled={isLoading} ref="target"
+                        style={style}>
+                    {text}
                 </button>
                 <Overlay
                     rootClose={true}

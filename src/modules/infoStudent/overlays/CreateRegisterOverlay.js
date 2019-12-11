@@ -14,7 +14,18 @@ import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import * as helper from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
+import * as registerActions from "../../registerStudents/registerActions";
 
+
+function addSelectSaler(items) {
+    return items && items.map(item => {
+        return {
+            value: item.id,
+            label: item.name,
+            icon_url: item.avatar_url,
+        };
+    });
+}
 
 function addSelectCourse(items) {
     return items && items.map(item => {
@@ -46,7 +57,7 @@ class CreateRegisterOverlay extends React.Component {
         super(props, context);
         this.initState = {
             show: false,
-            register: {...this.props.student},
+            register: {...this.props.student, saler_id: this.props.user && this.props.user.id},
         };
         this.state = this.initState;
     }
@@ -55,6 +66,7 @@ class CreateRegisterOverlay extends React.Component {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
         this.props.createRegisterActions.loadAllProvinces();
+        this.props.registerActions.loadSalerFilter();
     }
 
     updateFormData = (event) => {
@@ -91,6 +103,11 @@ class CreateRegisterOverlay extends React.Component {
     updateClass = (e) => {
         let register = {...this.state.register};
         register["class_id"] = e.value;
+        this.setState({register});
+    };
+    updateSaler = (e) => {
+        let register = {...this.state.register};
+        register["saler_id"] = e ? e.value : null;
         this.setState({register});
     };
 
@@ -141,7 +158,7 @@ class CreateRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isSavingRegister} = this.props;
+        let {isSavingRegister, salers} = this.props;
         let {register} = this.state;
         return (
 
@@ -202,6 +219,16 @@ class CreateRegisterOverlay extends React.Component {
                                 updateFormData={this.updateFormData}
                             />
                             <br/>
+                            <ReactSelect
+                                optionComponent={MemberReactSelectOption}
+                                valueComponent={MemberReactSelectValue}
+                                options={addSelectSaler(salers)}
+                                onChange={this.updateSaler}
+                                value={register.saler_id}
+                                placeholder="Chọn saler"
+                                name="saler_id"
+                            /> <br/>
+
                             <ReactSelect
                                 optionComponent={MemberReactSelectOption}
                                 value={register.course_id}
@@ -351,7 +378,8 @@ CreateRegisterOverlay.propTypes = {
 function mapStateToProps(state) {
     const {isSavingRegister, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
-
+        salers: state.registerStudents.salerFilter,
+        user: state.login.user,
         isLoading,
         register,
         courses,
@@ -368,6 +396,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
+        registerActions: bindActionCreators(registerActions, dispatch),
         studentActions: bindActionCreators(studentActions, dispatch)
 
     };

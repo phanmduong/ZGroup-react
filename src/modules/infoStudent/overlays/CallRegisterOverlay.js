@@ -25,6 +25,10 @@ class CallRegisterOverlay extends React.Component {
         this.state = this.initState;
     }
 
+    componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
     toggle = () => {
         this.setState({show: !this.state.show});
     };
@@ -51,16 +55,36 @@ class CallRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isChangingStatusCall} = this.props;
+        let {isChangingStatusCall,register} = this.props;
+        let style = {};
+        let titleCall = 'Cuộc gọi mới';
+        let textCall = 'Gọi điện';
+        if(register)
+            if (register.call_status === 1) {
+                style.backgroundColor = '#4caf50';
+                style.color = 'white';
+                textCall = 'Gọi thành công';
+                titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
+            } else if (register.call_status === 0) {
+                style.backgroundColor = '#f44336';
+                style.color = 'white';
+                textCall = 'Gọi thất bại';
+                titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
+            } else {
+                style.backgroundColor = '#F7F5F7';
+                textCall = 'Chưa gọi';
+                titleCall = 'Chưa gọi - Còn ' + register.time_to_reach + 'h';
+            }
+
         return (
-
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action"  mask="call"
-                        ref="target" onClick={this.toggle}
+                <button className={"btn btn-register-action"}
+                        style={style}
+                        onClick={this.toggle}  mask="call"
+                        data-toggle="tooltip" title="" type="button" rel="tooltip"
+                        data-original-title={titleCall}
                         disabled={isChangingStatusCall}>
-                    Gọi điện
-
-
+                    {textCall}
                 </button>
                 <Overlay
                     rootClose={true}
@@ -71,6 +95,7 @@ class CallRegisterOverlay extends React.Component {
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay overlay-call-register" style={{
                         width: 300,
+                        top:'unset',
                         marginTop: 10
                     }}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>

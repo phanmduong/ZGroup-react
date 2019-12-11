@@ -54,7 +54,8 @@ class ExtraRegisterOverlay extends React.Component {
 
     addMyLead = (userID) => {
         let {registerActions, reload} = this.props;
-        registerActions.uploadDistributionLead(userID, reload ? reload : ()=>{});
+        registerActions.uploadDistributionLead(userID, reload ? reload : () => {
+        });
     };
 
     changeStatusPause = (register) => {
@@ -71,15 +72,16 @@ class ExtraRegisterOverlay extends React.Component {
         this.props.registerActions.loadClasses(registerId, isGenNow);
     };
     closeModalChangeClass = () => {
-        if(this.props.isChangingClass) return;
+        if (this.props.isChangingClass) return;
         this.setState({showModalChangeClass: false});
     };
 
     confirmChangeClass = (classData) => {
         this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.closeModalChangeClass);
     };
+
     render() {
-        let {isChangingStatusCall, register, studentId} = this.props;
+        let {isChangingStatusCall, register} = this.props;
         return (
 
             <div style={{position: "relative"}} className="">
@@ -105,7 +107,7 @@ class ExtraRegisterOverlay extends React.Component {
                     }}>
                         {this.props.openModalChangePassword &&
                         <button type="button"
-                                className="btn btn-white width-100 text-center"
+                                className="btn btn-white width-100"
                                 disabled={isChangingStatusCall}
                                 onClick={this.props.openModalChangePassword}>
                             Thay đổi mật khẩu
@@ -113,7 +115,7 @@ class ExtraRegisterOverlay extends React.Component {
 
                         {register && register.status <= 4 &&
                         <button type="button"
-                                className="btn btn-white width-100 text-center"
+                                className="btn btn-white width-100"
                                 onClick={() => this.openModalChangeClass(register.id, (register.status == 3 || register.status == 2))}>
                             {register.status == 3 ? "Học lại" : "Đổi lớp"}
                         </button>
@@ -121,19 +123,19 @@ class ExtraRegisterOverlay extends React.Component {
 
                         {register && register.status == 1 &&
                         <button type="button"
-                                className="btn btn-white width-100 text-center"
+                                className="btn btn-white width-100"
                                 onClick={() => this.changeStatusPause(register)}>
                             Bảo lưu
                         </button>
                         }
 
-                        {register && !register.has_in_lead &&
-                        <button type="button"
-                                className="btn btn-white width-100 text-center"
-                                onClick={() => this.addMyLead(studentId)}>
-                            Thêm vào lead
-                        </button>
-                        }
+                        {/*{register && !register.has_in_lead &&*/}
+                        {/*<button type="button"*/}
+                        {/*        className="btn btn-white width-100 "*/}
+                        {/*        onClick={() => this.addMyLead(studentId)}>*/}
+                        {/*    Thêm vào lead*/}
+                        {/*</button>*/}
+                        {/*}*/}
 
 
                     </div>
