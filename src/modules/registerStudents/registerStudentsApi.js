@@ -260,6 +260,7 @@ export function saveRegisterApi(register) {
         url += "?token=" + token;
     }
     return axios.post(url, {
+        saler_id: register.saler_id,
         name: register.name,
         phone: register.phone,
         email: register.email,
