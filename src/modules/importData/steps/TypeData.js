@@ -15,12 +15,12 @@ const types = [
         properties: [
             {
                 key: "user.name",
-                required: true,
+                // required: true,
                 name: 'Họ và tên',
                 text_error: 'Họ và tên của leads là bắt buộc',
-                checkFormat: (data) => {
-                    return validation.isNotEmpty(data);
-                }
+                // checkFormat: (data) => {
+                //     return validation.isNotEmpty(data);
+                // }
             },
             {
                 key: "user.father_name",
@@ -32,11 +32,12 @@ const types = [
             },
             {
                 key: "user.email",
-                required: true,
+                // required: true,
                 name: "Email",
                 text_error: 'Email của leads là bắt buộc',
                 checkFormat: (data) => {
-                    return validation.isNotEmpty(data) && validation.isEmailAddress(data);
+                    // return validation.isNotEmpty(data) && validation.isEmailAddress(data);
+                    return !validation.isNotEmpty(data) || validation.isEmailAddress(data);
                 }
             },
             {
@@ -48,7 +49,7 @@ const types = [
                 reformat: (data) => {
                     if (isEmptyInput(data)) return '';
                     data = data.match(/\d+/g)[0];
-                    if (data[0]=='8' && data[1]=='4'){
+                    if (data[0] == '8' && data[1] == '4') {
                         data = data.replace("84", "");
                     }
                     return data;
@@ -101,6 +102,10 @@ const types = [
             {
                 key: "user.note",
                 name: "Ghi chú"
+            },
+            {
+                key: "user.interest",
+                name: "Quan tâm"
             },
             {
                 key: "user.district",
@@ -243,7 +248,7 @@ class TypeData extends React.Component {
                                         </div>
                                         <div className="checkbox-container type-checkbox">
                                             <input type="checkbox" checked={type.selected}/>
-                                            <span className="checkmark" />
+                                            <span className="checkmark"/>
                                         </div>
                                     </div>
                                 </div>
