@@ -25,6 +25,10 @@ class CallRegisterOverlay extends React.Component {
         this.state = this.initState;
     }
 
+    componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
     toggle = () => {
         this.setState({show: !this.state.show});
     };
@@ -37,9 +41,9 @@ class CallRegisterOverlay extends React.Component {
         this.setState(this.initState);
     };
 
-    changeCallStatusStudent = () => {
+    changeCallStatusStudent = (callStatus) => {
         let {studentId} = this.props;
-        let {callStatus, note, appointmentPayment, dateTest} = this.state;
+        let { note, appointmentPayment, dateTest} = this.state;
         this.props.studentActions.changeCallStatusStudent(
             callStatus,
             studentId,
@@ -51,16 +55,36 @@ class CallRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isChangingStatusCall} = this.props;
+        let {isChangingStatusCall,register} = this.props;
+        let style = {};
+        let titleCall = 'Cuộc gọi mới';
+        let textCall = 'Gọi điện';
+        if(register)
+            if (register.call_status === 1) {
+                style.backgroundColor = '#4caf50';
+                style.color = 'white';
+                textCall = 'Gọi thành công';
+                titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
+            } else if (register.call_status === 0) {
+                style.backgroundColor = '#f44336';
+                style.color = 'white';
+                textCall = 'Gọi thất bại';
+                titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
+            } else {
+                style.backgroundColor = '#F7F5F7';
+                textCall = 'Chưa gọi';
+                titleCall = 'Chưa gọi - Còn ' + register.time_to_reach + 'h';
+            }
+
         return (
-
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action"  mask="call"
-                        ref="target" onClick={this.toggle}
+                <button className={"btn btn-register-action"}
+                        style={style}
+                        onClick={this.toggle}  mask="call"
+                        data-toggle="tooltip" title="" type="button" rel="tooltip"
+                        data-original-title={titleCall}
                         disabled={isChangingStatusCall}>
-                    Gọi điện
-
-
+                    {textCall}
                 </button>
                 <Overlay
                     rootClose={true}
@@ -71,6 +95,7 @@ class CallRegisterOverlay extends React.Component {
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay overlay-call-register" style={{
                         width: 300,
+                        top:'unset',
                         marginTop: 10
                     }}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
@@ -85,25 +110,6 @@ class CallRegisterOverlay extends React.Component {
                         </div>
                         {isChangingStatusCall ? <Loading/> :
                             <div>
-                                <button type="button"
-                                        className={
-                                            "btn btn-success width-100 flex flex-space-between "
-                                            + (this.state.callStatus == 0 ? "filter-white" : "")
-                                        }
-                                        style={{backgroundColor:'#2acc4c'}}
-                                        onClick={() => this.changeCallStatus(1)}>
-                                    Thành công
-                                    <i className="material-icons">phone</i>
-                                </button>
-                                <button type="button"
-                                        className={
-                                            "btn btn-danger width-100 flex flex-space-between "
-                                            + (this.state.callStatus == 1 ? "filter-white" : "")
-                                        }
-                                        onClick={() => this.changeCallStatus(0)}>
-                                    Thất bại
-                                    <i className="material-icons">call_end</i>
-                                </button>
                                 <div className="input-note-register">
                                 <textarea type="text" className="form-control"
                                           placeholder="Ghi chú"
@@ -132,13 +138,28 @@ class CallRegisterOverlay extends React.Component {
 
                         }
                         <div>
-                            <button type="button"
-                                    className="btn btn-success width-100 text-center"
-                                    disabled={isChangingStatusCall}
-                                    style={{backgroundColor:'#2acc4c'}}
-                                    onClick={this.changeCallStatusStudent}>
-                                Hoàn tất
-                            </button>
+                            <div className="flex">
+                                <button type="button"
+                                        className="btn btn-danger flex flex-space-between width-50-percent margin-right-10"
+                                        onClick={() => this.changeCallStatusStudent(0)}>
+                                    Thất bại
+                                    <i className="material-icons">call_end</i>
+                                </button>
+                                <button type="button"
+                                        className="btn btn-success flex flex-space-between width-50-percent"
+                                        style={{backgroundColor:'#2acc4c'}}
+                                        onClick={() => this.changeCallStatusStudent(1)}>
+                                    Thành công
+                                    <i className="material-icons">phone</i>
+                                </button>
+                            </div>
+                            {/*<button type="button"*/}
+                            {/*        className="btn btn-success width-100 text-center"*/}
+                            {/*        disabled={isChangingStatusCall}*/}
+                            {/*        style={{backgroundColor:'#2acc4c'}}*/}
+                            {/*        onClick={this.changeCallStatusStudent}>*/}
+                            {/*    Hoàn tất*/}
+                            {/*</button>*/}
                             <button type="button"
                                     disabled={isChangingStatusCall}
                                     className="btn btn-white width-100 text-center"

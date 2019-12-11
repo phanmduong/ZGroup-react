@@ -16,7 +16,7 @@ class SourceOverlay extends React.Component {
             show: false,
             create: false,
             source: {},
-            isLoading: false,
+            isLoading: true,
             isProcessing: false,
             isDeleting: false,
             search: ''
@@ -24,18 +24,18 @@ class SourceOverlay extends React.Component {
         this.state = this.initState;
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.loadSources();
     }
 
     loadSources = () => {
-        this.setState({source: {}, create: false, isLoading: true, isDeleting: false});
+
         loadSources().then((res) => {
-            this.setState({
+            if (this.refs.SourceOverlay)
+                this.setState({
                 sources: res.data.sources,
                 isLoading: false
             });
-
         });
     };
 
@@ -149,7 +149,7 @@ class SourceOverlay extends React.Component {
         const current = (this.props.student  && this.state.sources && this.state.sources.filter(s=>s.id == this.props.student.source_id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color}} className="source-value">
+            <div style={{position: "relative",backgroundColor: current.color}} className="source-value" ref="SourceOverlay">
                 <div onClick={() => this.setState({show: true})}>
                     {this.sourceName()}
                 </div>

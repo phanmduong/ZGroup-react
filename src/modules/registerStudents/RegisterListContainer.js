@@ -908,7 +908,7 @@ class RegisterListContainer extends React.Component {
                 <div>
 
 
-                    {this.props.isLoadingGens ? <Loading/> :
+                    {!this.props.isLoadingGens &&
                         <div>
 
                             <div className="card" mask="purple">

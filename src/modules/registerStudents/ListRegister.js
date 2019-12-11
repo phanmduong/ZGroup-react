@@ -56,24 +56,7 @@ class ListRegister extends React.Component {
                             titleCall = 'Đang gọi';
                         }
 
-                        let color = "";
-                        switch (register.status) {
-                            case 1:
-                                color = "success";
-                                break;
-                            case 2:
-                                color = "warning";
-                                break;
-                            case 3:
-                                color = "danger";
-                                break;
-                            case 4:
-                                color = "info";
-                                break;
-                            case 5:
-                                color = "gray";
-                                break;
-                        }
+                        let color = ['','success','warning','danger','info','gray'][register.status];
 
                         return (
                             <tr key={register.id} className={color}>

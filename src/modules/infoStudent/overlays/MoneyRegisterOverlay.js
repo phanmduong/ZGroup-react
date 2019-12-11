@@ -30,6 +30,10 @@ class MoneyRegisterOverlay extends React.Component {
         this.state = this.initState;
     }
 
+    componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
     toggle = () => {
         this.setState({show: !this.state.show});
     };
@@ -53,8 +57,8 @@ class MoneyRegisterOverlay extends React.Component {
         }
         this.setState({register});
         $('#form-collect-money').validate({
-            rules:{money:'required'},
-            messages:{'money':'Vui lòng nhập số tiền!'}
+            rules: {money: 'required'},
+            messages: {'money': 'Vui lòng nhập số tiền!'}
         });
     };
     onPaymentMethodChange = (obj) => {
@@ -74,25 +78,25 @@ class MoneyRegisterOverlay extends React.Component {
                 showTypeNotification("Vui lòng chọn phương thức thanh toán", "warning");
                 return;
             }
-            this.setState({isLoading:true});
+            this.setState({isLoading: true});
             payMoney({
                 id: register.id,
                 money: "" + register.money,
                 code: register.code,
                 note: register.note,
                 payment_method: register.payment_method
-            }).then((res)=>{
-                if(res.data.status == 1){
+            }).then((res) => {
+                if (res.data.status == 1) {
                     showNotification('Nộp tiền thành công!');
                     this.props.reload();
-                }else{
+                } else {
                     showErrorNotification(res.data.message);
                 }
 
-            }).catch(()=>{
+            }).catch(() => {
                 showErrorNotification("Có lỗi xảy ra!");
-            }).finally(()=>{
-                this.setState({isLoading:false});
+            }).finally(() => {
+                this.setState({isLoading: false});
             });
         }
 
@@ -100,14 +104,31 @@ class MoneyRegisterOverlay extends React.Component {
 
     render() {
         let {isLoading} = this.state;
+        let {register} = this.props;
+        let text = '', style;
+        if (register) {
+            if (!register.paid_status && register.appointment_payment) {
+                text = `Hẹn nộp: ${register.appointment_payment}`;
+                style = {backgroundColor: '#c50000', color: 'white'};
+            }else
+            if (register.status > 0 || register.paid_status) {
+                text = dotNumber(register.money) + ` vnđ`;
+                style = {backgroundColor: '#c50000', color: 'white'};
+            }else {
+                text = 'Nộp học phí';
+                style = {backgroundColor: '#F7F5F7'};
+            }
+        }
+        console.log(text)
         return (
-
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action" mask="create"
-                        onClick={this.toggle}
-                        disabled={isLoading}
-                        ref="target">
-                    Nộp học phí
+                <button className="btn btn-register-action" mask="money"
+                        onClick={this.toggle} disabled={isLoading} ref="target"
+                        data-toggle="tooltip" title=""
+                        type="button" rel="tooltip"
+                        data-original-title={register.note}
+                        style={style}>
+                    {text}
                 </button>
                 <Overlay
                     rootClose={true}

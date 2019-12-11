@@ -74,25 +74,25 @@ class RegistersContainer extends React.Component {
                                                                 <div className="ripple-container"/>
                                                             </button>
                                                         }
-                                                        {
-                                                            register.paid_status ?
-                                                                (
-                                                                    <button className="btn btn-xs btn-rose"
-                                                                            style={{width: '70px'}}
-                                                                    >
-                                                                        {register.money}
-                                                                        <div className="ripple-container"/>
-                                                                    </button>
-                                                                )
-                                                                :
-                                                                (
-                                                                    <button className="btn btn-xs btn-rose"
-                                                                    >
-                                                                        Chưa đóng
-                                                                        <div className="ripple-container"/>
-                                                                    </button>
-                                                                )
-                                                        }
+                                                        {/*{*/}
+                                                        {/*    register.paid_status ?*/}
+                                                        {/*        (*/}
+                                                        {/*            <button className="btn btn-xs btn-rose"*/}
+                                                        {/*                    style={{width: '70px'}}*/}
+                                                        {/*            >*/}
+                                                        {/*                {register.money}*/}
+                                                        {/*                <div className="ripple-container"/>*/}
+                                                        {/*            </button>*/}
+                                                        {/*        )*/}
+                                                        {/*        :*/}
+                                                        {/*        (*/}
+                                                        {/*            <button className="btn btn-xs btn-rose"*/}
+                                                        {/*            >*/}
+                                                        {/*                Chưa đóng*/}
+                                                        {/*                <div className="ripple-container"/>*/}
+                                                        {/*            </button>*/}
+                                                        {/*        )*/}
+                                                        {/*}*/}
 
                                                     </div>
 
@@ -129,6 +129,7 @@ class RegistersContainer extends React.Component {
                                                 <div className="flex flex-wrap margin-vertical-30">
                                                     <CallRegisterOverlay
                                                         studentId={this.studentId}
+                                                        register={register}
                                                     />
 
                                                     <MoneyRegisterOverlay
@@ -138,7 +139,7 @@ class RegistersContainer extends React.Component {
                                                     />
                                                     <ExtraRegisterOverlay
                                                         register={register}
-                                                        openModalChangePassword={this.openModalChangePassword}
+                                                        // openModalChangePassword={this.openModalChangePassword}
                                                         studentId={this.studentId}
                                                         reload={this.reload}
                                                     />
@@ -174,8 +175,6 @@ RegistersContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     studentActions: PropTypes.object.isRequired,
     isLoadingRegisters: PropTypes.bool.isRequired,
-    location: PropTypes.object,
-    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
