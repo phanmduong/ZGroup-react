@@ -5,6 +5,36 @@ import initialState from '../../reducers/initialState';
 export default function studentReducer(state = initialState.infoStudent, action) {
 
     switch (action.type) {
+        case types.BEGIN_LOAD_STATUSES:
+            return {
+                ...state,
+                ...{
+                    isLoadingStatuses: true,
+                    isLoadedStatuses: true,
+                }
+            };
+        case types.LOAD_STATUSES_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingStatuses: false,
+                    statuses: action.statuses
+                }
+            };
+        case types.LOAD_STATUSES_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingStatuses: false,
+                }
+            };
+        case types.LOAD_STATUSES_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingStatuses: false,
+                }
+            };
         case types.BEGIN_LOAD_INFO_STUDENT:
             return {
                 ...state,

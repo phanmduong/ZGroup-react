@@ -48,6 +48,29 @@ export function loadRegisters(studentId) {
 
     return axios.get(url);
 }
+export function assignStatuses(status, refId, statusRef) {
+    let url = env.NEW_MANAGE_API_URL + '/statuses/assign';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        id: refId,
+        statusRef,
+        status_id: status.id,
+    });
+}
+
+export function loadStatuses(statusRef) {
+    let url = env.NEW_MANAGE_API_URL + `/statuses/all`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    url += '&ref=' + statusRef;
+
+    return axios.get(url);
+}
 
 export function loadInfoStudent(studentId) {
     let url = env.MANAGE_API_URL + `/student/${studentId}`;
@@ -119,7 +142,6 @@ export function editStudent(student) {
         address: student.address,
     });
 }
-
 export function changePassword(studentId, newPassword) {
     let url = env.MANAGE_API_URL + '/change-password-student';
     let token = localStorage.getItem('token');

@@ -41,6 +41,22 @@ export function changeCallStatusStudent(callStatus,
 }
 
 
+export function loadStatuses(statusRef) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_STATUSES});
+        studentApi.loadStatuses(statusRef)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_STATUSES_SUCCESS,
+                    statuses: res.data.statuses
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_STATUSES_ERROR});
+            });
+    };
+}
+
 export function loadInfoStudent(studentId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_INFO_STUDENT});

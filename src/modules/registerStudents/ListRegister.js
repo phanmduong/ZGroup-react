@@ -6,6 +6,7 @@ import {Link} from "react-router";
 import TooltipButton from "../../components/common/TooltipButton";
 import ToggleStar from "../../components/common/ToggleStar";
 import StudyProgressTooltip from "./StudyProgressTooltip";
+import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 
 class ListRegister extends React.Component {
     constructor(props, context) {
@@ -35,6 +36,7 @@ class ListRegister extends React.Component {
                         <th>Saler</th>
                         {/*<th>Chiến dịch</th>*/}
                         <th>Học phí</th>
+                        <th>Trạng thái</th>
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
                         {/*<th>Hẹn test</th>*/}
@@ -56,7 +58,7 @@ class ListRegister extends React.Component {
                             titleCall = 'Đang gọi';
                         }
 
-                        let color = ['','success','warning','danger','info','gray'][register.status];
+                        let color = ['', 'success', 'warning', 'danger', 'info', 'gray'][register.status];
 
                         return (
                             <tr key={register.id} className={color}>
@@ -193,6 +195,13 @@ class ListRegister extends React.Component {
                                                 </div>
                                             </TooltipButton>
                                     }
+                                </td>
+                                <td>
+                                    <StatusesOverlay
+                                        data={register.register_status}
+                                        refId={register.id}
+                                        statusRef="registers"
+                                    />
                                 </td>
                                 <td>{register.coupon}</td>
                                 <td>

@@ -1208,6 +1208,9 @@ export default {
         errorChangePassword: false,
         isChangingStatusCall: false,
         errorChangeStatusCall: false,
+        isLoadingStatuses: false,
+        isLoadedStatuses: false,
+        statuses: [],
         log: {
             isLoading: false,
             error: false,
