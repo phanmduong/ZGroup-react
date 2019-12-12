@@ -60,16 +60,21 @@ class CallRegisterOverlay extends React.Component {
         let titleCall = 'Cuộc gọi mới';
         let textCall = 'Gọi điện';
         if(register)
-            if (register.call_status === 1) {
+            if (register.call_status === 'success') {
                 style.backgroundColor = '#4caf50';
                 style.color = 'white';
                 textCall = 'Gọi thành công';
                 titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
-            } else if (register.call_status === 0) {
+            } else if (register.call_status === 'failed') {
                 style.backgroundColor = '#f44336';
                 style.color = 'white';
                 textCall = 'Gọi thất bại';
                 titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
+            } else if (register.call_status === 'calling') {
+                style.backgroundColor = '#ff9800';
+                style.color = 'white';
+                titleCall = 'Đang gọi';
+                textCall = 'Đang gọi';
             } else {
                 style.backgroundColor = '#F7F5F7';
                 textCall = 'Chưa gọi';

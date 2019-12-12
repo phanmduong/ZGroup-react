@@ -78,6 +78,10 @@ class MoneyRegisterOverlay extends React.Component {
                 showTypeNotification("Vui lòng chọn phương thức thanh toán", "warning");
                 return;
             }
+            if (isEmptyInput(this.state.register.code)) {
+                showTypeNotification("Vui lòng nhập mã học viên", "warning");
+                return;
+            }
             this.setState({isLoading: true});
             payMoney({
                 id: register.id,
@@ -119,7 +123,6 @@ class MoneyRegisterOverlay extends React.Component {
                 style = {backgroundColor: '#F7F5F7'};
             }
         }
-        console.log(text)
         return (
             <div style={{position: "relative"}} className="">
                 <button className="btn btn-register-action" mask="money"

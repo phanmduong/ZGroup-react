@@ -1720,7 +1720,7 @@ function mapStateToProps(state) {
         isLoadingClasses: state.registerStudents.isLoadingClasses,
         isLoadingRegistersByStudent: state.registerStudents.isLoadingRegistersByStudent,
         isLoadingClassFilter: state.registerStudents.isLoadingClassFilter,
-        isLoadingSalerFilter: state.registerStudents.isLoadingClassFilter,
+        isLoadingSalerFilter: state.registerStudents.isLoadingSalerFilter,
         isLoadingCampaignFilter: state.registerStudents.isLoadingCampaignFilter,
         isChangingBookmark: state.registerStudents.isChangingBookmark,
         genId: state.registerStudents.genId,

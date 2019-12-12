@@ -11,6 +11,7 @@ import MemberReactSelectOption from "./MemberReactSelectOption";
 import MemberReactSelectValue from "./MemberReactSelectValue";
 import {GENDER} from "../../constants/constants";
 import FormInputDate from "../../components/common/FormInputDate";
+import * as registerActions from "./registerActions";
 
 
 function addSelectCourse(items) {
@@ -19,6 +20,16 @@ function addSelectCourse(items) {
             value: item.id,
             label: item.name,
             icon_url: item.icon_url,
+        };
+    });
+}
+
+function addSelectSaler(items) {
+    return items && items.map(item => {
+        return {
+            value: item.id,
+            label: item.name,
+            icon_url: item.avatar_url,
         };
     });
 }
@@ -55,6 +66,8 @@ class CreateRegisterModalContainer extends React.Component {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
         this.props.createRegisterActions.loadAllProvinces();
+        this.props.registerActions.loadSalerFilter();
+        this.updateSaler({value: this.props.user.id});
     }
 
     updateFormData(event) {
@@ -86,6 +99,13 @@ class CreateRegisterModalContainer extends React.Component {
         let register = {...this.props.register};
         register["address"] = e.value;
         this.props.createRegisterActions.updateFormData(register);
+    };
+
+    updateSaler = (e) => {
+        let register = {...this.props.register};
+        register["saler_id"] = e ? e.value : null;
+        this.props.createRegisterActions.updateFormData(register);
+
     };
 
     updateClass(e) {
@@ -150,7 +170,7 @@ class CreateRegisterModalContainer extends React.Component {
     };
 
     render() {
-        const {register} = this.props;
+        const {register, salers} = this.props;
 
         return (
             <form role="form" id="form-info-student">
@@ -193,6 +213,15 @@ class CreateRegisterModalContainer extends React.Component {
                         <br/>
                         {/*<div className="row">*/}
                         {/*<div className="col-md-6">*/}
+                        <ReactSelect
+                            optionComponent={MemberReactSelectOption}
+                            valueComponent={MemberReactSelectValue}
+                            options={addSelectSaler(salers)}
+                            onChange={this.updateSaler}
+                            value={register.saler_id}
+                            placeholder="Chọn saler"
+                            name="saler_id"
+                        /> <br/>
                         <ReactSelect
                             optionComponent={MemberReactSelectOption}
                             value={register.course_id}
@@ -340,6 +369,9 @@ CreateRegisterModalContainer.propTypes = {
 function mapStateToProps(state) {
     const {showCreateRegisterModal, isSavingRegister, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
+        salers: state.registerStudents.salerFilter,
+        isLoadingSalerFilter: state.registerStudents.isLoadingSalerFilter,
+        user: state.login.user,
         showCreateRegisterModal,
         isLoading,
         register,
@@ -357,6 +389,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        registerActions: bindActionCreators(registerActions, dispatch),
         createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
     };
 }
