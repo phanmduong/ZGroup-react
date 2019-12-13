@@ -48,6 +48,16 @@ export function loadRegisters(studentId) {
 
     return axios.get(url);
 }
+export function createStatuses(status) {
+    let url = env.NEW_MANAGE_API_URL + '/statuses/create';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        ...status
+    });
+}
 export function assignStatuses(status, refId, statusRef) {
     let url = env.NEW_MANAGE_API_URL + '/statuses/assign';
     let token = localStorage.getItem('token');
@@ -59,6 +69,10 @@ export function assignStatuses(status, refId, statusRef) {
         statusRef,
         status_id: status.id,
     });
+}
+
+export function deleteStatuses() {
+
 }
 
 export function loadStatuses(statusRef) {

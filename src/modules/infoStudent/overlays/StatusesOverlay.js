@@ -95,13 +95,14 @@ class StatusesOverlay extends React.Component {
                 isLoading: true,
                 create: false
             });
-            createStatuses(this.state.status)
+            createStatuses({...this.state.status, ref: this.props.statusRef})
                 .then(() => {
                     this.setState({
                         status: {},
-                        create: false
+                        create: false,
+                        isLoading:false
                     });
-                    this.loadStatuses();
+                    this.loadStatuses(true);
                 });
 
 
@@ -114,7 +115,7 @@ class StatusesOverlay extends React.Component {
         });
         assignStatuses(status, this.props.refId, this.props.statusRef)
             .then(() => {
-                this.loadStatuses(true);
+                // this.loadStatuses(true);
 
                 this.setState({
                     isProcessing: false,
@@ -164,7 +165,7 @@ class StatusesOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay" style={{width: "300px", marginTop: 30}}>
+                    <div className="kt-overlay" style={{width: "300px", marginTop: 35}}>
 
 
                         {!showLoading && <div style={{position: "relative"}}>

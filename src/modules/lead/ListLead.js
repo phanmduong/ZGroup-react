@@ -18,6 +18,7 @@ import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
 import TooltipButton from "../../components/common/TooltipButton";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
+import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 
@@ -71,6 +72,7 @@ class ListLead extends React.Component {
                                 <th>Họ tên</th>
                                 <th>Ngày sinh</th>
                                 <th>Nguồn</th>
+                                <th>Trạng thái</th>
                                 <th>Đã đóng tiền</th>
                                 <th>Đánh giá</th>
                                 <th>Ghi chú</th>
@@ -146,6 +148,13 @@ class ListLead extends React.Component {
 
                                             </td>
 
+                                            <td>
+                                                <StatusesOverlay
+                                                    data={lead.lead_status}
+                                                    refId={lead.id}
+                                                    statusRef="leads"
+                                                />
+                                            </td>
                                             <td>
                                                 <div className="flex flex-row">
                                                     {

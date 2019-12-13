@@ -13,6 +13,7 @@ import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
 import ChangePassword from "../ChangePassword";
 import {Modal} from 'react-bootstrap';
 import MoneyRegisterOverlay from "../overlays/MoneyRegisterOverlay";
+import StatusesOverlay from "../overlays/StatusesOverlay";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -74,6 +75,11 @@ class RegistersContainer extends React.Component {
                                                                 <div className="ripple-container"/>
                                                             </button>
                                                         }
+                                                        <StatusesOverlay
+                                                            data={register.register_status}
+                                                            refId={register.id}
+                                                            statusRef="registers"
+                                                        />
                                                         {/*{*/}
                                                         {/*    register.paid_status ?*/}
                                                         {/*        (*/}

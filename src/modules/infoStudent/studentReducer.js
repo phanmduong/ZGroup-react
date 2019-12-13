@@ -28,13 +28,6 @@ export default function studentReducer(state = initialState.infoStudent, action)
                     isLoadingStatuses: false,
                 }
             };
-        case types.LOAD_STATUSES_ERROR:
-            return {
-                ...state,
-                ...{
-                    isLoadingStatuses: false,
-                }
-            };
         case types.BEGIN_LOAD_INFO_STUDENT:
             return {
                 ...state,
