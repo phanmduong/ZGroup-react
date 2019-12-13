@@ -1639,6 +1639,12 @@ table tr td .avatar-honor {
       .kt-overlay{
         border: none;
         color: black;
+        label{
+          color: black;
+          font-size: 14px;
+          margin: 10px;
+          font-weight: 500;
+        }
         .btn{
           padding: 12px 10px 12px 15px;
         }
@@ -1873,12 +1879,20 @@ ul.nav.nav-pills.nav-pills-dark {
   }
 
   .form-group {
-    margin-top: 10px;
+    margin-top: 0px;
+    padding-bottom: 0;
   }
 
   &.kt-overlay {
     z-index: 101 !important;
     top: unset!important;
+    label{
+      color: black;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: -5px;
+      margin-top: 10px;
+    }
     .Select-control{
       border: none;
       background-color: #f3f4f3;
@@ -1892,8 +1906,13 @@ ul.nav.nav-pills.nav-pills-dark {
       display: flex;
       align-items: center;
     }
+    .panel-body{
+      padding: 0;
+    }
     .panel-heading{
       border: none;
+      padding-top: 10px;
+      padding-bottom: 0;
       h4{
         display: flex;
         justify-content: center;

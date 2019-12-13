@@ -142,7 +142,7 @@ class StatusesOverlay extends React.Component {
         let {statuses } = this.props;
         let {data}  = this.state;
         let s = statuses && statuses.filter(i => i.id == data.id)[0];
-        return s ? s.name : "N/A";
+        return s ? s.name : "Trạng thái";
     };
 
     render() {

@@ -27,6 +27,7 @@ import SourceOverlay from "./overlays/SourceOverlay";
 import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
 import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
+import PicOverlay from "./overlays/PicOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -272,7 +273,7 @@ class InfoStudentContainer extends React.Component {
                                         <div className="detail-wrap">
                                             <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
                                             <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
-                                            <p>Phụ huynh<strong>N/A</strong></p>
+                                            <p>Phụ huynh<strong>Chưa có</strong></p>
                                             <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
                                         </div>
                                         {this.props.isEditingStudent ?
@@ -313,11 +314,15 @@ class InfoStudentContainer extends React.Component {
                                         </div>
                                         <div className="source-wrap">
                                             <div className="source-name">Người nhập</div>
-                                            <div className="source-value">N/A</div>
+                                            <div className="source-value">Chưa có</div>
                                         </div>
                                         <div className="source-wrap">
                                             <div className="source-name">P.I.C</div>
-                                            <div className="source-value">N/A</div>
+                                            {/*<div className="source-value">Chưa có</div>*/}
+                                            <PicOverlay
+                                                student={this.props.student}
+
+                                            />
                                         </div>
 
                                     </div>

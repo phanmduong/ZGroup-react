@@ -121,16 +121,16 @@ class App extends React.Component {
                                     </li>
                                     <li className="separator hidden-lg hidden-md"/>
                                 </ul>
-                                <form className="navbar-form navbar-right" role="search">
-                                    <div className="form-group form-search is-empty">
-                                        <input type="text" className="form-control" placeholder="Search"/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <button type="submit" className="btn btn-white btn-round btn-just-icon">
-                                        <i className="material-icons">search</i>
-                                        <div className="ripple-container"/>
-                                    </button>
-                                </form>
+                                {/*<form className="navbar-form navbar-right" role="search">*/}
+                                {/*    <div className="form-group form-search is-empty">*/}
+                                {/*        <input type="text" className="form-control" placeholder="Search"/>*/}
+                                {/*        <span className="material-input"/>*/}
+                                {/*    </div>*/}
+                                {/*    <button type="submit" className="btn btn-white btn-round btn-just-icon">*/}
+                                {/*        <i className="material-icons">search</i>*/}
+                                {/*        <div className="ripple-container"/>*/}
+                                {/*    </button>*/}
+                                {/*</form>*/}
                             </div>
                         </div>
                     </nav>

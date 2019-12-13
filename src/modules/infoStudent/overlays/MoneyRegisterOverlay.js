@@ -114,11 +114,10 @@ class MoneyRegisterOverlay extends React.Component {
             if (!register.paid_status && register.appointment_payment) {
                 text = `Hẹn nộp: ${register.appointment_payment}`;
                 style = {backgroundColor: '#c50000', color: 'white'};
-            }else
-            if (register.status > 0 || register.paid_status) {
+            } else if (register.status > 0 || register.paid_status) {
                 text = dotNumber(register.money) + ` vnđ`;
                 style = {backgroundColor: '#c50000', color: 'white'};
-            }else {
+            } else {
                 text = 'Nộp học phí';
                 style = {backgroundColor: '#F7F5F7'};
             }
@@ -156,39 +155,43 @@ class MoneyRegisterOverlay extends React.Component {
                         </div>
                         {isLoading ? <Loading/> :
                             <form id="form-collect-money" onSubmit={(e) => e.preventDefault()}>
-                                <FormInputText
-                                    name="money"
-                                    placeholder="Số tiền"
-                                    value={dotNumber(this.state.register.money)}
-                                    required
-                                    type="text"
-                                    updateFormData={this.updateFormData}
-                                />
-                                <FormInputText
-                                    name="note"
-                                    placeholder="Note"
-                                    value={this.state.register.note}
-                                    updateFormData={this.updateFormData}
-                                />
-                                <FormInputText
-                                    placeholder="Mã học viên"
-                                    name="code"
-                                    updateFormData={this.updateFormData}
-                                    value={this.state.register.code}
-                                    type="text"
-                                    disabled={this.state.register.is_paid}
-                                />
-
-                                <ReactSelect
-                                    disabled={this.state.isLoading}
-                                    className="form-group"
-                                    options={PAYMENT_METHODS}
-                                    onChange={this.onPaymentMethodChange}
-                                    value={this.state.register.payment_method}
-                                    placeholder="Phương thức thanh toán"
-                                    name="payment_method"
-                                />
-
+                                <div><label>Số tiền</label>
+                                    <FormInputText
+                                        name="money"
+                                        placeholder="Số tiền"
+                                        value={dotNumber(this.state.register.money)}
+                                        required
+                                        type="text"
+                                        updateFormData={this.updateFormData}
+                                    /></div>
+                                <div><label>Ghi chú</label>
+                                    <FormInputText
+                                        name="note"
+                                        placeholder="Note"
+                                        value={this.state.register.note}
+                                        updateFormData={this.updateFormData}
+                                    /></div>
+                                <div><label>Mã học viên</label>
+                                    <FormInputText
+                                        placeholder="Mã học viên"
+                                        name="code"
+                                        updateFormData={this.updateFormData}
+                                        value={this.state.register.code}
+                                        type="text"
+                                        disabled={this.state.register.is_paid}
+                                    />
+                                </div>
+                                <div><label>Phương thức thanh toán</label>
+                                    <ReactSelect
+                                        disabled={this.state.isLoading}
+                                        className="form-group"
+                                        options={PAYMENT_METHODS}
+                                        onChange={this.onPaymentMethodChange}
+                                        value={this.state.register.payment_method}
+                                        placeholder="Phương thức thanh toán"
+                                        name="payment_method"
+                                    />
+                                </div>
                             </form>
 
                         }

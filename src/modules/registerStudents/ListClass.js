@@ -7,6 +7,7 @@ class ListClass extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div className="table-responsive">
                 <table className="table">
@@ -23,9 +24,12 @@ class ListClass extends React.Component {
                     {
                         this.props.classes.map((classItem, index) => {
                             return (
-                                <tr key = {index}>
+                                <tr key={index}>
                                     <td>{classItem.name}</td>
-                                    <td>{classItem.study_time}</td>
+                                    <td>{classItem.study_time}
+                                    {classItem.base && <div>{classItem.base.name + ' ' + classItem.base.address}</div>}
+                                    </td>
+
                                     <td>
                                         <h6>{classItem.total_paid + "/" + classItem.target}</h6>
                                         <div className="progress progress-line-success progress-bar-table">

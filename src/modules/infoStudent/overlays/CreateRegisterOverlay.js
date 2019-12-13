@@ -212,45 +212,57 @@ class CreateRegisterOverlay extends React.Component {
                             {/*    value={register.phone}*/}
                             {/*    updateFormData={this.updateFormData}*/}
                             {/*/>*/}
-                            <FormInputText
-                                name="coupon"
-                                placeholder="Mã khuyến mãi"
-                                value={register.coupon}
-                                updateFormData={this.updateFormData}
-                            />
-                            <br/>
-                            <ReactSelect
-                                optionComponent={MemberReactSelectOption}
-                                valueComponent={MemberReactSelectValue}
-                                options={addSelectSaler(salers)}
-                                onChange={this.updateSaler}
-                                value={register.saler_id}
-                                placeholder="Chọn saler"
-                                name="saler_id"
-                            /> <br/>
+                            <div>
+                                <label>Mã khuyến mãi</label>
+                                <FormInputText
+                                    name="coupon"
 
-                            <ReactSelect
-                                optionComponent={MemberReactSelectOption}
-                                value={register.course_id}
-                                options={addSelectCourse(this.props.courses)}
-                                onChange={this.updateCourse}
-                                placeholder="Chọn môn học"
-                                valueComponent={MemberReactSelectValue}
-                            /> <br/>
+                                    placeholder="Mã khuyến mãi"
+                                    value={register.coupon}
+                                    updateFormData={this.updateFormData}
+                                />
+                            </div>
 
-                            <ReactSelect
-                                value={register.class_id}
-                                options={addSelectClass(this.props.classes)}
-                                onChange={this.updateClass}
-                                placeholder="Chọn lớp học"
-                            />
-                            <br/>
-                            <ReactSelect
-                                value={register.campaign_id}
-                                options={addSelectCampaign(this.props.campaigns)}
-                                onChange={this.updateCampaign}
-                                placeholder="Chọn chiến dịch"
-                            />
+                            <div>
+                                <label>Nhân viên sale</label>
+                                <ReactSelect
+                                    optionComponent={MemberReactSelectOption}
+                                    valueComponent={MemberReactSelectValue}
+                                    options={addSelectSaler(salers)}
+                                    onChange={this.updateSaler}
+                                    value={register.saler_id}
+                                    placeholder="Chọn saler"
+                                    name="saler_id"
+                                /></div>
+
+                            <div>
+                                <label>Môn học</label>
+                                <ReactSelect
+                                    optionComponent={MemberReactSelectOption}
+                                    value={register.course_id}
+                                    options={addSelectCourse(this.props.courses)}
+                                    onChange={this.updateCourse}
+                                    placeholder="Chọn môn học"
+                                    valueComponent={MemberReactSelectValue}
+                                /></div>
+
+                            <div>
+                                <label>Lớp học</label>
+                                <ReactSelect
+                                    value={register.class_id}
+                                    options={addSelectClass(this.props.classes)}
+                                    onChange={this.updateClass}
+                                    placeholder="Chọn lớp học"
+                                /></div>
+
+                            <div>
+                                <label>Chiến dịch</label>
+                                <ReactSelect
+                                    value={register.campaign_id}
+                                    options={addSelectCampaign(this.props.campaigns)}
+                                    onChange={this.updateCampaign}
+                                    placeholder="Chọn chiến dịch"
+                                /></div>
                             <div className="panel panel-default">
                                 <div className="panel-heading" role="tab"
                                      id="headingTwo">
@@ -272,51 +284,63 @@ class CreateRegisterOverlay extends React.Component {
                                      aria-expanded="false"
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
-                                        <ReactSelect
-                                            value={register.gender}
-                                            options={GENDER}
-                                            onChange={this.updateGender}
-                                            placeholder="Chọn giới tính"
-                                        />
-                                        <FormInputDate
-                                            placeholder="Chọn ngày sinh"
-                                            value={register.dob}
-                                            updateFormData={this.updateFormData}
-                                            id="form-change-dob"
-                                            name="dob"
-                                        />
-                                        <ReactSelect
+                                        <div>
+                                            <label>Giới tính</label>
+                                            <ReactSelect
+                                                value={register.gender}
+                                                options={GENDER}
+                                                onChange={this.updateGender}
+                                                placeholder="Chọn giới tính"
+                                            /></div>
+                                        <div>
+                                            <label>Ngày sinh</label>
+                                            <FormInputDate
+                                                placeholder="Chọn ngày sinh"
+                                                value={register.dob}
+                                                updateFormData={this.updateFormData}
+                                                id="form-change-dob"
+                                                name="dob"
+                                            /></div>
+                                        <div>
+                                            <label>Địa chỉ</label><ReactSelect
                                             value={register.address}
                                             options={this.getDataAddress()}
                                             onChange={this.updateAddress}
                                             placeholder="Địa chỉ"
-                                        />
-                                        <FormInputText
+                                        /></div>
+                                        <div>
+                                            <label>Trường học</label><FormInputText
                                             name="university"
                                             placeholder="Trường học"
                                             value={register.university}
                                             updateFormData={this.updateFormData}
-                                        />
-                                        <FormInputText
+                                        /></div>
+                                        <div>
+                                            <label>Nơi làm việc</label><FormInputText
                                             name="work"
                                             placeholder="Nơi làm việc"
                                             value={register.work}
                                             updateFormData={this.updateFormData}
-                                        />
-                                        <FormInputText
+                                        /></div>
+                                        <div>
+                                            <label>Lý do biết đến</label><FormInputText
                                             name="how_know"
                                             placeholder="Lý do biết đến"
                                             value={register.how_know}
                                             updateFormData={this.updateFormData}
-                                        />
-                                        <FormInputText
-                                            name="facebook"
-                                            placeholder="Link Facebook"
-                                            value={register.facebook}
-                                            updateFormData={this.updateFormData}
-                                        />
-                                        <div className="form-group">
-                                            <div className="input-note-register">
+                                        /></div>
+                                        <div>
+                                            <label>Facebook</label>
+                                            <FormInputText
+                                                name="facebook"
+                                                placeholder="Link Facebook"
+                                                value={register.facebook}
+                                                updateFormData={this.updateFormData}
+                                            /></div>
+                                        <div>
+                                            <label>Ghi chú</label>
+                                            <div className="form-group">
+                                                <div className="input-note-register">
                                                          <textarea type="text" className="form-control"
                                                                    rows={5}
                                                                    name="description"
@@ -325,6 +349,7 @@ class CreateRegisterOverlay extends React.Component {
                                                                        register.description ? register.description : ""
                                                                    }
                                                                    onChange={this.updateFormData}/>
+                                                </div>
                                             </div>
                                         </div>
 
