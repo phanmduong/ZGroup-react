@@ -66,6 +66,8 @@ class CreateRegisterOverlay extends React.Component {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
         this.props.createRegisterActions.loadAllProvinces();
+        if(!this.props.isLoadingSources)
+            this.props.createRegisterActions.loadSources();
         this.props.registerActions.loadSalerFilter();
     }
 
@@ -108,6 +110,11 @@ class CreateRegisterOverlay extends React.Component {
     updateSaler = (e) => {
         let register = {...this.state.register};
         register["saler_id"] = e ? e.value : null;
+        this.setState({register});
+    };
+    updateSource = (e) => {
+        let register = {...this.state.register};
+        register["source_id"] = e ? e.value : null;
         this.setState({register});
     };
 
@@ -158,8 +165,9 @@ class CreateRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isSavingRegister, salers} = this.props;
+        let {isSavingRegister, salers,sources} = this.props;
         let {register} = this.state;
+        console.log(register)
         return (
 
             <div style={{position: "relative"}} className="">
@@ -233,6 +241,15 @@ class CreateRegisterOverlay extends React.Component {
                                     value={register.saler_id}
                                     placeholder="Chọn saler"
                                     name="saler_id"
+                                /></div>
+                            <div>
+                                <label>Nguồn</label>
+                                <ReactSelect
+                                    options={addSelectCampaign(sources)}
+                                    onChange={this.updateSource}
+                                    value={register.source_id}
+                                    placeholder="Chọn nguồn"
+                                    name="source_id"
                                 /></div>
 
                             <div>
@@ -370,7 +387,8 @@ class CreateRegisterOverlay extends React.Component {
                                 </button>
                                 <button type="button"
                                         className="btn btn-success width-50-percent text-center"
-                                        disabled={isSavingRegister}
+                                        disabled={isSavingRegister || this.props.isLoadingCourses ||
+                                            this.props.isLoadingCampaigns}
                                         style={{backgroundColor: '#2acc4c'}}
                                         onClick={(e) => this.createRegister(e)}>
                                     Hoàn tất
@@ -401,13 +419,15 @@ CreateRegisterOverlay.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {isSavingRegister, isLoading, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {isSavingRegister,sources, isLoading,isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         salers: state.registerStudents.salerFilter,
         user: state.login.user,
         isLoading,
         register,
+        isLoadingSources,
         courses,
+        sources,
         classes,
         isLoadingCourses,
         isLoadingCampaigns,

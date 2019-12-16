@@ -16,6 +16,8 @@ import {
 
 } from "./createRegisterActionType";
 import * as registerStudentsApi from "./registerStudentsApi";
+import * as studentApi from "../infoStudent/studentApi";
+
 import * as helper from "../../helpers/helper";
 import * as types from "../../constants/actionTypes";
 
@@ -99,11 +101,20 @@ export function createRegister(register, hide) {
                         helper.showTypeNotification("Đã lưu đăng kí!", "success");
                     }
                     else {
-                        helper.showErrorNotification("Có lỗi xảy ra");
+                        helper.showErrorNotification(res.data.message);
+                        dispatch({
+                            type: SAVED_REGISTER_ERROR,
+                        });
+
+                        dispatch({
+                            type: SAVED_REGISTER_ERROR2,
+                        });
                     }
                 }
             )
-            .catch(() => {
+            .catch((e) => {
+                console.log(e.message, e.data)
+                helper.showErrorNotification(e.data.message)
                 dispatch({
                     type: SAVED_REGISTER_ERROR,
                 });
@@ -146,6 +157,20 @@ export function loadAllProvinces() {
                 dispatch({
                     type: types.LOAD_ALL_PROVINCES_SUCCESS,
                     provinces: res.data.data.provinces
+                });
+            });
+    };
+}
+export function loadSources() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_SOURCES
+        });
+        studentApi.loadSources()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_ALL_SOURCES_SUCCESS,
+                    sources: res.data.sources
                 });
             });
     };

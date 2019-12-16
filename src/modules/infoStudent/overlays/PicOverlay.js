@@ -1,7 +1,7 @@
 import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {getAllStaffs} from "../../manageStaff/staffApi";
+import {getAllStaffs,assignLeadStaff} from "../../manageStaff/staffApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import Search from "../../../components/common/Search";
@@ -16,7 +16,8 @@ class PicOverlay extends React.Component {
             isLoading: true,
             isProcessing: false,
             isDeleting: false,
-            search: ''
+            search: '',
+            student: this.props.student,
         };
         this.state = this.initState;
     }
@@ -45,19 +46,20 @@ class PicOverlay extends React.Component {
     };
 
 
-    assignStaff = () => {
-        // this.setState({
-        //     isProcessing: true
-        // });
-        // assignStaff(staff, this.props.student)
-        //     .then(() => {
-        //         this.getAllStaffs();
-        //         let {updateInfoStudent, student} = this.props;
-        //         updateInfoStudent({...student, staff_id: staff.id});
-        //         this.setState({
-        //             isProcessing: false
-        //         });
-        //     });
+    assignLeadStaff = (staff) => {
+        this.setState({
+            isProcessing: true
+        });
+        assignLeadStaff(staff.id, this.props.student.id)
+            .then(() => {
+                this.setState({
+                    isProcessing: false,
+                    student:{
+                        ...this.state.student,
+                        staff_id: staff.id
+                    }
+                });
+            });
     };
 
     close = () => {
@@ -66,17 +68,17 @@ class PicOverlay extends React.Component {
 
 
     staffName = () => {
-        let s = this.state.staffs && this.state.staffs.filter(i => i.id == this.props.student.staff_id)[0];
+        let s = this.state.staffs && this.state.staffs.filter(i => i.id == this.state.student.staff_id)[0];
         return s ? s.name : "Chưa có";
     };
 
     render() {
-        let {isDeleting, isLoading, isProcessing} = this.state;
+        let {isDeleting, isLoading, isProcessing,student,staffs} = this.state;
         let showLoading = isLoading || isProcessing;
-        const current = (this.props.student  && this.state.staffs && this.state.staffs.filter(s=>s.id == this.props.student.staff_id)[0]) || {};
+        const current = (student  && staffs && staffs.filter(s=>s.id == student.staff_id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color}} className="source-value" ref="PicOverlay">
+            <div style={{position: "relative",backgroundColor: `#${current.color}`}} className="source-value" ref="PicOverlay">
                 <div onClick={() => this.setState({show: true})}>
                     {this.staffName()}
                 </div>
@@ -171,7 +173,7 @@ class PicOverlay extends React.Component {
                                             <div>
                                                 <button
                                                     onClick={() => {
-                                                        this.assignStaff({id: null});
+                                                        this.assignLeadStaff({id: null});
                                                     }}
                                                     className="btn"
                                                     style={{
@@ -186,20 +188,20 @@ class PicOverlay extends React.Component {
                                                     }}>
                                                     Không có nhân viên
                                                     <div>
-                                                        {!this.props.student.staff_id ?
+                                                        {!student.staff_id ?
                                                             <i className="material-icons">done</i> : ""}
                                                     </div>
                                                 </button>
 
 
-                                                {this.state.staffs && this.state.staffs
+                                                {staffs && staffs
                                                     .filter(staff => {
                                                         const s1 = staff.name.trim().toLowerCase();
                                                         const s2 = this.state.search.trim().toLowerCase();
                                                         return s1.includes(s2) || s2.includes(s1);
                                                     })
                                                     .map((staff) => {
-                                                        const staffAdded = this.props.student && this.props.student.staff_id == staff.id;
+                                                        const staffAdded = student && student.staff_id == staff.id;
                                                         return (
                                                             <div key={staff.id} style={{
                                                                 marginBottom:10,
@@ -208,7 +210,7 @@ class PicOverlay extends React.Component {
                                                             }}>
                                                                 <button
                                                                     onClick={() => {
-                                                                        this.assignStaff(staff);
+                                                                        this.assignLeadStaff(staff);
                                                                     }}
                                                                     className="btn"
                                                                     style={{

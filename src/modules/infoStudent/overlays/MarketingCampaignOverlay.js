@@ -2,9 +2,9 @@ import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
 import {
+    assignMarketingCampaign,
     loadMarketingEmail,
-    storeMarketingCampaign,
-    assignMarketingCampaign
+    storeMarketingCampaign
 } from "../../marketingCampaign/marketingCampaignApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
@@ -36,10 +36,10 @@ class MarketingCampaignOverlay extends React.Component {
         loadMarketingEmail(1, -1).then((res) => {
             if (this.refs.MarketingCampaignOverlay)
 
-            this.setState({
-                campaigns: res.data.data.marketing_campaigns,
-                isLoading: false
-            });
+                this.setState({
+                    campaigns: res.data.data.marketing_campaigns,
+                    isLoading: false
+                });
 
         });
     };
@@ -149,10 +149,11 @@ class MarketingCampaignOverlay extends React.Component {
     render() {
         let {isDeleting, isLoading, isProcessing} = this.state;
         let showLoading = isLoading || isProcessing;
-        const current = (this.props.student  && this.state.campaigns && this.state.campaigns.filter(s=>s.id == this.props.student.campaign_id)[0]) || {};
+        const current = (this.props.student && this.state.campaigns && this.state.campaigns.filter(s => s.id == this.props.student.campaign_id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color}} className="source-value" ref="MarketingCampaignOverlay">
+            <div style={{position: "relative", backgroundColor: current.color}} className="source-value"
+                 ref="MarketingCampaignOverlay">
                 <div className=""
                      onClick={() => this.setState({show: true})}>
                     {this.campaignName()}
@@ -283,51 +284,54 @@ class MarketingCampaignOverlay extends React.Component {
                                                     </div>
                                                 </button>
 
+                                                <div className="kt-scroll">
+                                                    {this.state.campaigns && this.state.campaigns
+                                                        .filter(campaign => {
+                                                            const s1 = campaign.name.trim().toLowerCase();
+                                                            const s2 = this.state.search.trim().toLowerCase();
+                                                            return s1.includes(s2) || s2.includes(s1);
+                                                        })
+                                                        .map((campaign) => {
+                                                            const campaignAdded = this.props.student && this.props.student.campaign_id == campaign.id;
+                                                            return (
+                                                                <div key={campaign.id} style={{
+                                                                    marginBottom: 10,
+                                                                    display: "flex",
+                                                                    justifyContent: 'space-between'
+                                                                }}>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            this.assignMarketingCampaign(campaign);
+                                                                        }}
+                                                                        className="btn"
+                                                                        style={{
+                                                                            textAlign: "left",
+                                                                            backgroundColor: `#${campaign.color}`,
+                                                                            width: "calc(100% - 30px)",
+                                                                            margin: "0",
+                                                                            display: "flex",
+                                                                            justifyContent: "space-between",
+                                                                            height: 35,
+                                                                            padding: '0 15px',
+                                                                        }}>
+                                                                        {campaign.name}
+                                                                        <div>
+                                                                            {campaignAdded ?
+                                                                                <i className="material-icons">done</i> : ""}
 
-                                                {this.state.campaigns && this.state.campaigns
-                                                    .filter(campaign => {
-                                                        const s1 = campaign.name.trim().toLowerCase();
-                                                        const s2 = this.state.search.trim().toLowerCase();
-                                                        return s1.includes(s2) || s2.includes(s1);
-                                                    })
-                                                    .map((campaign) => {
-                                                        const campaignAdded = this.props.student && this.props.student.campaign_id == campaign.id;
-                                                        return (
-                                                            <div key={campaign.id} style={{
-                                                                marginBottom:10,
-                                                                display: "flex",
-                                                                justifyContent: 'space-between'}}>
-                                                                <button
-                                                                    onClick={() => {
-                                                                        this.assignMarketingCampaign(campaign);
-                                                                    }}
-                                                                    className="btn"
-                                                                    style={{
-                                                                        textAlign: "left",
-                                                                        backgroundColor: `#${campaign.color}`,
-                                                                        width: "calc(100% - 30px)",
-                                                                        margin: "0",
-                                                                        display: "flex",
-                                                                        justifyContent: "space-between",
-                                                                        height:35,
-                                                                        padding: '0 15px',
-                                                                    }}>
-                                                                    {campaign.name}
-                                                                    <div>
-                                                                        {campaignAdded ?
-                                                                            <i className="material-icons">done</i> : ""}
-
+                                                                        </div>
+                                                                    </button>
+                                                                    <div className="board-action">
+                                                                        <a onClick={() => this.edit(campaign)}><i
+                                                                            style={{
+                                                                                backgroundColor: `#${campaign.color}`,
+                                                                                color: 'white'
+                                                                            }} className="material-icons">edit</i></a>
                                                                     </div>
-                                                                </button>
-                                                                <div className="board-action">
-                                                                    <a onClick={() => this.edit(campaign)}><i style={{
-                                                                        backgroundColor: `#${campaign.color}`,
-                                                                        color:'white'
-                                                                    }} className="material-icons">edit</i></a>
                                                                 </div>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                            );
+                                                        })}
+                                                </div>
                                             </div>
                                         )
                                     }

@@ -19,6 +19,7 @@ import Checkbox from "../../components/common/Checkbox";
 import TooltipButton from "../../components/common/TooltipButton";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
+import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 
@@ -130,8 +131,9 @@ class ListLead extends React.Component {
                                             </td>
                                             <td>{lead.dob}</td>
                                             <td>
-                                                <div>{lead.source}</div>
-                                                <div>{lead.campaign}</div>
+
+                                                {lead.campaign && <div className="btn btn-xs btn-main">
+                                                    {lead.campaign }</div>}
                                                 {
 
                                                     !this.props.showSelectedLead &&
@@ -145,7 +147,11 @@ class ListLead extends React.Component {
 
 
                                                 }
-
+                                                <SourceOverlay
+                                                    style={{padding:'4px 15px'}}
+                                                    className="btn-xs width-unset source-value margin-bottom-10"
+                                                    student={lead}
+                                                />
                                             </td>
 
                                             <td>
@@ -153,6 +159,7 @@ class ListLead extends React.Component {
                                                     data={lead.lead_status}
                                                     refId={lead.id}
                                                     statusRef="leads"
+
                                                 />
                                             </td>
                                             <td>

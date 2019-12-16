@@ -1,12 +1,15 @@
 import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {loadSources, deleteSource, createSource, assignSource} from "../studentApi";
+import {assignSource, createSource, deleteSource} from "../studentApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import Search from "../../../components/common/Search";
+import * as createRegisterActions from "../../registerStudents/createRegisterActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 
 class SourceOverlay extends React.Component {
@@ -19,24 +22,42 @@ class SourceOverlay extends React.Component {
             isLoading: true,
             isProcessing: false,
             isDeleting: false,
-            search: ''
+            search: '',
+            student: {
+                ...this.props.student,
+                id: this.props.student.student_id ? this.props.student.student_id : this.props.student.id
+            }
         };
         this.state = this.initState;
     }
 
     componentWillMount() {
-        this.loadSources();
+        this.loadSources(false);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.isLoadingSources && !nextProps.isLoadingSources) {
+            this.setState({
+                sources: nextProps.sources,
+                isLoading: false
+            });
+        }
     }
 
     loadSources = () => {
+        let {createRegisterActions, isLoadingSources} = this.props;
+        if (!isLoadingSources) {
+            this.setState({isLoading: true});
+            createRegisterActions.loadSources();
+        }
 
-        loadSources().then((res) => {
-            if (this.refs.SourceOverlay)
-                this.setState({
-                sources: res.data.sources,
-                isLoading: false
-            });
-        });
+        // loadSources().then((res) => {
+        //     if (this.refs.SourceOverlay)
+        //         this.setState({
+        //         sources: res.data.sources,
+        //         isLoading: false
+        //     });
+        // });
     };
 
     deleteSource = (source) => {
@@ -113,13 +134,16 @@ class SourceOverlay extends React.Component {
         this.setState({
             isProcessing: true
         });
-        assignSource(source, this.props.student)
+        let {student} = this.state;
+        assignSource(source, student)
             .then(() => {
-                this.loadSources();
-                let {updateInfoStudent, student} = this.props;
-                updateInfoStudent({...student, source_id: source.id});
+                // this.loadSources();
                 this.setState({
-                    isProcessing: false
+                    isProcessing: false,
+                    student: {
+                        ...student,
+                        source_id: source.id
+                    }
                 });
             });
     };
@@ -139,17 +163,20 @@ class SourceOverlay extends React.Component {
     };
 
     sourceName = () => {
-        let s = this.state.sources && this.state.sources.filter(i => i.id == this.props.student.source_id)[0];
+        let {student} = this.state;
+        let s = this.state.sources && this.state.sources.filter(i => i.id == student.source_id)[0];
         return s ? s.name : "Nguồn";
     };
 
     render() {
-        let {isDeleting, isLoading, isProcessing} = this.state;
+        let {isDeleting, isLoading, isProcessing, student} = this.state;
+        let {className,style} = this.props;
         let showLoading = isLoading || isProcessing;
-        const current = (this.props.student  && this.state.sources && this.state.sources.filter(s=>s.id == this.props.student.source_id)[0]) || {};
+        const current = (student && this.state.sources && this.state.sources.filter(s => s.id == student.source_id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color}} className="source-value" ref="SourceOverlay">
+            <div style={{position: "relative", backgroundColor: current.color, ...style}} className={className}
+                 ref="SourceOverlay">
                 <div onClick={() => this.setState({show: true})}>
                     {this.sourceName()}
                 </div>
@@ -161,8 +188,6 @@ class SourceOverlay extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay" style={{width: "300px", marginTop: 25}}>
-
-
                         {!showLoading && <div style={{position: "relative"}}>
                             {
                                 this.state.create && (
@@ -288,60 +313,61 @@ class SourceOverlay extends React.Component {
                                                     }}>
                                                     Không có nguồn
                                                     <div>
-                                                        {!this.props.student.source_id ?
+                                                        {!student.source_id ?
                                                             <i className="material-icons">done</i> : ""}
                                                     </div>
                                                 </button>
 
-
-                                                {this.state.sources && this.state.sources
-                                                    .filter(source => {
-                                                        const s1 = source.name.trim().toLowerCase();
-                                                        const s2 = this.state.search.trim().toLowerCase();
-                                                        return s1.includes(s2) || s2.includes(s1);
-                                                    })
-                                                    .map((source) => {
-                                                        const sourceAdded = this.props.student && this.props.student.source_id == source.id;
-                                                        return (
-                                                            <div key={source.id} style={{
-                                                                marginBottom:10,
-                                                                display: "flex",
-                                                                justifyContent: 'space-between'
-                                                            }}>
-                                                                <button
-                                                                    onClick={() => {
-                                                                        this.assignSource(source);
-                                                                    }}
-                                                                    className="btn"
-                                                                    style={{
-                                                                        textAlign: "left",
-                                                                        backgroundColor: source.color,
-                                                                        width: "calc(100% - 30px)",
-                                                                        margin: "0",
-                                                                        display: "flex",
-                                                                        justifyContent: "space-between",
-                                                                        height:35,
-                                                                        padding: '0 15px',
-                                                                    }}>
-                                                                    {source.name}
-                                                                    <div>
-                                                                        {sourceAdded ?
-                                                                            <i className="material-icons">done</i> : ""}
-
-                                                                    </div>
-                                                                </button>
-                                                                <div className="board-action">
-                                                                    <a onClick={() => this.editSource(source)}
-
-                                                                    ><i style={{
-                                                                            backgroundColor: source.color,
-                                                                            color:'white'
+                                                <div className="kt-scroll">
+                                                    {this.state.sources && this.state.sources
+                                                        .filter(source => {
+                                                            const s1 = source.name.trim().toLowerCase();
+                                                            const s2 = this.state.search.trim().toLowerCase();
+                                                            return s1.includes(s2) || s2.includes(s1);
+                                                        })
+                                                        .map((source) => {
+                                                            const sourceAdded = student && student.source_id == source.id;
+                                                            return (
+                                                                <div key={source.id} style={{
+                                                                    marginBottom: 10,
+                                                                    display: "flex",
+                                                                    justifyContent: 'space-between'
+                                                                }}>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            this.assignSource(source);
                                                                         }}
-                                                                        className="material-icons">edit</i></a>
+                                                                        className="btn"
+                                                                        style={{
+                                                                            textAlign: "left",
+                                                                            backgroundColor: source.color,
+                                                                            width: "calc(100% - 30px)",
+                                                                            margin: "0",
+                                                                            display: "flex",
+                                                                            justifyContent: "space-between",
+                                                                            height: 35,
+                                                                            padding: '0 15px',
+                                                                        }}>
+                                                                        {source.name}
+                                                                        <div>
+                                                                            {sourceAdded ?
+                                                                                <i className="material-icons">done</i> : ""}
+
+                                                                        </div>
+                                                                    </button>
+                                                                    <div className="board-action">
+                                                                        <a onClick={() => this.editSource(source)}
+
+                                                                        ><i style={{
+                                                                            backgroundColor: source.color,
+                                                                            color: 'white'
+                                                                        }}
+                                                                            className="material-icons">edit</i></a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                            );
+                                                        })}
+                                                </div>
                                             </div>
                                         )
                                     }
@@ -357,4 +383,17 @@ class SourceOverlay extends React.Component {
     }
 }
 
-export default SourceOverlay;
+function mapStateToProps(state) {
+    return {
+        isLoadingSources: state.createRegister.isLoadingSources,
+        sources: state.createRegister.sources
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SourceOverlay);

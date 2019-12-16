@@ -298,7 +298,7 @@ class StatusesOverlay extends React.Component {
                                                     </div>
                                                 </button>
 
-
+                                                <div className="kt-scroll">
                                                 {statuses && statuses
                                                     .filter(status => {
                                                         const s1 = status.name.trim().toLowerCase();
@@ -347,6 +347,7 @@ class StatusesOverlay extends React.Component {
                                                             </div>
                                                         );
                                                     })}
+                                            </div>
                                             </div>
                                         )
                                     }

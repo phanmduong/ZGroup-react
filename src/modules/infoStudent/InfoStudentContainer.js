@@ -219,7 +219,8 @@ class InfoStudentContainer extends React.Component {
 
 
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
-        // let gender = GENDER.filter((item) => item.value == this.props.student.gender)[0];
+        // let gender = GENDER.filter((item) => item.value == student.gender)[0];
+        let {student} = this.props;
         return (
             <div className={this.props.location ? "card" : ''}>
                 <div className={this.props.location ? "card-content" : ''}>
@@ -238,7 +239,7 @@ class InfoStudentContainer extends React.Component {
                                                 <div className="img father"
                                                      onClick={() => this.handleFileUpload('avatar_url')}
                                                      style={{
-                                                         backgroundImage: `url(${helper.validateLinkImage(this.props.student.avatar_url)})`
+                                                         backgroundImage: `url(${helper.validateLinkImage(student.avatar_url)})`
                                                      }}>
                                                     <div className="son"><i className="material-icons">
                                                         photo_camera
@@ -249,21 +250,21 @@ class InfoStudentContainer extends React.Component {
 
                                         <div className="flex flex-row-center flex-justify-content-center margintop-10">
                                             <StarInput
-                                                value={this.props.student.rate}
+                                                value={student.rate}
                                                 maxStar={5}
                                                 onChange={this.changeRateStudent}
                                                 disable={this.props.isEditing}
                                             />
                                         </div>
 
-                                        <h4 className="card-title">{this.props.student.name}</h4>
+                                        <h4 className="card-title">{student.name}</h4>
 
                                         <h6 className="category text-gray text-email">
-                                            {this.props.student.email}
+                                            {student.email}
 
                                         </h6>
                                         <h6 className="category text-gray text-email">
-                                            <span>{this.props.student.phone}</span>
+                                            <span>{student.phone}</span>
 
                                         </h6>
                                     </div>
@@ -271,10 +272,14 @@ class InfoStudentContainer extends React.Component {
                                 <div className="card detail-wrap">
                                     <div className="card-content">
                                         <div className="detail-wrap">
-                                            <p>Ngày sinh<strong>{this.props.student.dob}</strong></p>
-                                            <p>Địa chỉ<strong>{this.props.student.address}</strong></p>
-                                            <p>Phụ huynh<strong>Chưa có</strong></p>
-                                            <p>Nơi làm việc<strong>{this.props.student.work}</strong></p>
+                                            <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>
+                                            <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>
+                                            <p>Phụ huynh<strong>{student.father_name  || "Chưa có"}</strong></p>
+                                            <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>
+                                            <p>Giới tính<strong>{GENDER[student.gender] == null ? "Khác" : GENDER[student.gender].name}</strong></p>
+                                            <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>
+                                            <p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>
+                                            <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>
                                         </div>
                                         {this.props.isEditingStudent ?
                                             (
@@ -298,8 +303,8 @@ class InfoStudentContainer extends React.Component {
                                             <div className="source-name">Nguồn</div>
 
                                             <SourceOverlay
-                                                student={this.props.student}
-                                                updateInfoStudent={this.props.studentActions.updateInfoStudent}
+                                                className="source-value"
+                                                student={student}
                                             />
 
                                         </div>
@@ -308,8 +313,8 @@ class InfoStudentContainer extends React.Component {
                                             <div className="source-name">Chiến dịch</div>
                                             {/*<div className="source-value">N/A</div>*/}
                                             <MarketingCampaignOverlay
-                                                student={this.props.student}
-                                                updateInfoStudent={this.props.studentActions.updateInfoStudent}
+                                                student={student}
+                                                updateInfoStudent={studentActions.updateInfoStudent}
                                             />
                                         </div>
                                         <div className="source-wrap">
@@ -320,7 +325,7 @@ class InfoStudentContainer extends React.Component {
                                             <div className="source-name">P.I.C</div>
                                             {/*<div className="source-value">Chưa có</div>*/}
                                             <PicOverlay
-                                                student={this.props.student}
+                                                student={student}
 
                                             />
                                         </div>
@@ -335,16 +340,16 @@ class InfoStudentContainer extends React.Component {
                             <div>
                                 <div className="card" mask="transparent">
                                     <img className="img-user"
-                                        // onClick={() => this.openModalImageView(this.props.student.image1)}
+                                        // onClick={() => this.openModalImageView(student.image1)}
                                          onClick={() => this.handleFileUpload('image1')}
-                                         src={helper.validateLinkImage(this.props.student.image1, dfImg)}/>
+                                         src={helper.validateLinkImage(student.image1, dfImg)}/>
                                     {/*</div>*/}
 
                                     {/*<div className="card" mask="transparent">*/}
                                     <img className="img-user"
-                                        // onClick={() => this.openModalImageView(this.props.student.image2)}
+                                        // onClick={() => this.openModalImageView(student.image2)}
                                          onClick={() => this.handleFileUpload('image2')}
-                                         src={helper.validateLinkImage(this.props.student.image2, dfImg)}/>
+                                         src={helper.validateLinkImage(student.image2, dfImg)}/>
                                 </div>
                             </div>
                             }
@@ -364,25 +369,25 @@ class InfoStudentContainer extends React.Component {
                                                     <div className="flex flex-wrap">
 
                                                         <CallRegisterOverlay
-                                                            studentId={this.props.student.id}
+                                                            studentId={student.id}
                                                         />
 
 
                                                         <CreateRegisterOverlay
-                                                            student={this.props.student}
-                                                            studentId={this.props.student.id}
+                                                            student={student}
+                                                            studentId={student.id}
                                                         />
 
                                                         {/*<div className="col-md-3">*/}
                                                         {/*    <PurchaseRegisterOverlay*/}
-                                                        {/*        studentId={this.props.student.id}*/}
+                                                        {/*        studentId={student.id}*/}
                                                         {/*    />*/}
                                                         {/*</div>*/}
 
                                                         <ExtraRegisterOverlay
                                                             openModalChangePassword={this.openModalChangePassword}
 
-                                                            studentId={this.props.student.id}
+                                                            studentId={student.id}
                                                         />
 
                                                     </div>

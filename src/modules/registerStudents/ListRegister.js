@@ -7,6 +7,7 @@ import TooltipButton from "../../components/common/TooltipButton";
 import ToggleStar from "../../components/common/ToggleStar";
 import StudyProgressTooltip from "./StudyProgressTooltip";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
+import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
 
 class ListRegister extends React.Component {
     constructor(props, context) {
@@ -112,10 +113,10 @@ class ListRegister extends React.Component {
                                         openModalRegisterDetail={this.props.openModalRegisterDetail}
                                         register={register}
                                     />
-                                    <div id="register-email" data-toggle="tooltip" title=""
-                                         type="button" rel="tooltip"
-                                         data-original-title={register.email}>
-                                        {register.email}</div>
+                                    {/*<div id="register-email" data-toggle="tooltip" title=""*/}
+                                    {/*     type="button" rel="tooltip"*/}
+                                    {/*     data-original-title={register.email}>*/}
+                                    {/*    {register.email}</div>*/}
                                     <a href={"tel:" + register.phone} className="text-name-student-register">
                                         {helper.formatPhone(register.phone)}
                                     </a>
@@ -172,6 +173,18 @@ class ListRegister extends React.Component {
                                                     </button>
                                                 )
                                         }
+
+
+
+                                                   <SourceOverlay
+                                                       className="btn-xs width-100 padding-vertical-10px source-value"
+                                                       student={register}
+                                                   />
+
+
+
+
+
                                     </div>
                                 </td>
                                 <td className="text-center">

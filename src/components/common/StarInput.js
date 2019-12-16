@@ -18,7 +18,6 @@ class StarInput extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (this.props.value !== nextProps.value) {
             this.setState({
                 stars: this.renderStars(nextProps.value),
