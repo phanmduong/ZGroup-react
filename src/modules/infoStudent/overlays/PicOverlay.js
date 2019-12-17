@@ -69,7 +69,7 @@ class PicOverlay extends React.Component {
 
     staffName = () => {
         let s = this.state.staffs && this.state.staffs.filter(i => i.id == this.state.student.staff_id)[0];
-        return s ? s.name : "Chưa có";
+        return s ? s.name : "No P.I.C";
     };
 
     render() {

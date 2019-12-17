@@ -142,19 +142,19 @@ class StatusesOverlay extends React.Component {
         let {statuses } = this.props;
         let {data}  = this.state;
         let s = statuses && statuses.filter(i => i.id == data.id)[0];
-        return s ? s.name : "Trạng thái";
+        return s ? s.name : "No status";
     };
 
     render() {
         let {isDeleting, isLoading,data, isProcessing} = this.state;
-        let {statuses, isLoadingStatuses} = this.props;
+        let {statuses, isLoadingStatuses, className} = this.props;
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
 
         return (
-            <div style={{position: "relative"}} className="status-overlay">
-                <div className="btn btn-xs btn-main" ref="StatusesOverlay"
-                     style={{backgroundColor: current.color}}
+            <div style={{position: "relative"}} className={className} style={{backgroundColor: current.color, borderRadius:3, cursor:'pointer'}}>
+                <div ref="StatusesOverlay"
+
                      onClick={() => this.setState({show: true})}>
                     {this.statusName()}
                 </div>

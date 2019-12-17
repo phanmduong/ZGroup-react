@@ -71,7 +71,7 @@ class ListLead extends React.Component {
                                 {this.props.isDistribution && <th/>}
                                 <th/>
                                 <th>Họ tên</th>
-                                <th>Ngày sinh</th>
+                                <th>Quan tâm</th>
                                 <th>Nguồn</th>
                                 <th>Trạng thái</th>
                                 <th>Đã đóng tiền</th>
@@ -126,10 +126,10 @@ class ListLead extends React.Component {
                                                    className="text-name-student-register">
                                                     {lead.name}
                                                 </a>
-                                                <div>{lead.email}</div>
+                                                {/*<div>{lead.email}</div>*/}
                                                 <div>{lead.phone}</div>
                                             </td>
-                                            <td>{lead.dob}</td>
+                                            <td>{lead.interest}</td>
                                             <td>
 
                                                 {lead.campaign && <div className="btn btn-xs btn-main">
@@ -159,7 +159,7 @@ class ListLead extends React.Component {
                                                     data={lead.lead_status}
                                                     refId={lead.id}
                                                     statusRef="leads"
-
+                                                    className="status-overlay"
                                                 />
                                             </td>
                                             <td>

@@ -28,6 +28,7 @@ import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
 import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
+import StatusesOverlay from "./overlays/StatusesOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -319,7 +320,7 @@ class InfoStudentContainer extends React.Component {
                                         </div>
                                         <div className="source-wrap">
                                             <div className="source-name">Người nhập</div>
-                                            <div className="source-value">Chưa có</div>
+                                            <div className="source-value">No Importer</div>
                                         </div>
                                         <div className="source-wrap">
                                             <div className="source-name">P.I.C</div>
@@ -327,6 +328,15 @@ class InfoStudentContainer extends React.Component {
                                             <PicOverlay
                                                 student={student}
 
+                                            />
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Trạng thái</div>
+                                            <StatusesOverlay
+                                                data={student.lead_status}
+                                                refId={student.id}
+                                                statusRef="leads"
+                                                className="source-value"
                                             />
                                         </div>
 

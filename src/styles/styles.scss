@@ -208,20 +208,15 @@ table tr td .avatar-list-staff {
     overflow: hidden;
     overflow-y: scroll;
     padding-right: 5px;
-    /* width */
+    width: 103%;
     &::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
       cursor: pointer;
     }
-
-    /* Track */
     &::-webkit-scrollbar-track {
       background: transparent;
       border-radius: 100px;
-
     }
-
-    /* Handle */
     &::-webkit-scrollbar-thumb {
       cursor: pointer;
       background: #adadad;
@@ -398,6 +393,10 @@ svg:not(:root) {
 .text-name-student-register {
   color: black;
   font-weight: 600;
+}
+.text-phone-student-register {
+  color: black;
+  font-weight: unset!important;
 }
 
 $ratingSize: 100px;
@@ -1389,10 +1388,10 @@ table tr td .avatar-honor {
     font-weight: 600;
   }
 
-  tr > th, td > a:not(.btn-main) {
+  tr > th, td > a:not(.btn-main, .text-name-student-register) {
     color: black;
     font-size: 14px !important;
-    font-weight: 500 !important;
+    font-weight: 500 ;
   }
 
   .btn-main {
@@ -1737,25 +1736,25 @@ table tr td .avatar-honor {
     margin-bottom: 10px;
 
 
-    &:nth-of-type(1) .source-value {
-      background-color: #629eec;
-    }
-
-    &:nth-of-type(2) .source-value {
-      background-color: #ef408b;
-    }
-
-    &:nth-of-type(3) .source-value {
-      background-color: #ffbf60;
-    }
-
-    &:nth-of-type(4) .source-value {
-      background-color: #49bc31;
-    }
   }
 }
 
 .status-overlay {
+  color: white !important;
+  font-size: 10px !important;
+  //margin: 0 0 10px 0;
+  width: unset !important;
+  font-weight: 600;
+  padding: 4px 15px;
+  background-color: #999999;
+  border: none;
+  border-radius: 3px;
+  position: relative;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   .kt-overlay {
     border: none;
     color: black;

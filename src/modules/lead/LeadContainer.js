@@ -488,9 +488,7 @@ class LeadContainer extends React.Component {
                             </div>
                         }
                         <div style={{marginTop: '10%'}} />
-                        {
-
-                            this.props.route.type !== "my-leads" && !this.state.isDistribution &&
+                        {this.props.route.type !== "my-leads" && !this.state.isDistribution &&
                             <div className="flex-align-items-center flex flex-wrap">
                                 <Search
                                     onChange={this.searchChange}
@@ -498,7 +496,7 @@ class LeadContainer extends React.Component {
                                     value={this.state.query}
                                     className="round-white-seacrh"
 
-                                />
+                                />}
                                 <button
                                     onClick={this.openFilterPanel}
                                     className="btn btn-white btn-round margin-right-10"
@@ -506,7 +504,7 @@ class LeadContainer extends React.Component {
                                 >
                                     Lọc
                                 </button>
-                                <div className="btn btn-white btn-round margin-right-10 "
+                                {this.props.route.type !== "my-leads" && !this.state.isDistribution &&<div className="btn btn-white btn-round margin-right-10 "
                                      onClick={() => $('#btn-add-leads').removeClass('open')}>
                                     Upload
                                     <input type="file"
@@ -524,7 +522,7 @@ class LeadContainer extends React.Component {
                                                height: "100%"
                                            }}
                                     />
-                                </div>
+                                </div>}
 
                                 <a target="_blank" className="btn btn-white btn-round margin-right-10 "
                                    href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/lead-data-sample.xlsx">

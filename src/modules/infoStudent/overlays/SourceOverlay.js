@@ -165,7 +165,7 @@ class SourceOverlay extends React.Component {
     sourceName = () => {
         let {student} = this.state;
         let s = this.state.sources && this.state.sources.filter(i => i.id == student.source_id)[0];
-        return s ? s.name : "Nguồn";
+        return s ? s.name : "No Source";
     };
 
     render() {

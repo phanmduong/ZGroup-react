@@ -117,7 +117,7 @@ class ListRegister extends React.Component {
                                     {/*     type="button" rel="tooltip"*/}
                                     {/*     data-original-title={register.email}>*/}
                                     {/*    {register.email}</div>*/}
-                                    <a href={"tel:" + register.phone} className="text-name-student-register">
+                                    <a href={"tel:" + register.phone} className="text-phone-student-register">
                                         {helper.formatPhone(register.phone)}
                                     </a>
                                 </td>
@@ -214,6 +214,7 @@ class ListRegister extends React.Component {
                                         data={register.register_status}
                                         refId={register.id}
                                         statusRef="registers"
+                                        className="status-overlay"
                                     />
                                 </td>
                                 <td>{register.coupon}</td>

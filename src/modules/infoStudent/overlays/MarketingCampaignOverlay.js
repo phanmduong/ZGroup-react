@@ -143,7 +143,7 @@ class MarketingCampaignOverlay extends React.Component {
 
     campaignName = () => {
         let s = this.state.campaigns && this.state.campaigns.filter(i => i.id == this.props.student.campaign_id)[0];
-        return s ? s.name : "Chiến dịch";
+        return s ? s.name : "No Campaign";
     };
 
     render() {
