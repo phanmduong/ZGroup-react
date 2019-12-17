@@ -111,8 +111,7 @@ class AppContainer extends React.Component {
                     onSetOpen={this.onSetSidebarOpen}
                     styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
                     pullRight
-                >
-                </Sidebar>
+                 />
                 <GlobalLoadingContainer/>
 
                 <FirstLoginContainer/>

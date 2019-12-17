@@ -67,7 +67,7 @@ class SelectEmployee extends React.Component {
                                         </div>
                                         {employee.id == selectedEmployee.id && <div className="dot"/>}
                                     </div>
-                                )
+                                );
                             })}
                         </div>
                     </div>

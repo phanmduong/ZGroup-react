@@ -43,10 +43,10 @@ class MyTaskContainer extends React.Component {
                                 return {
                                     ...task,
                                     ...data,
-                                }
+                                };
                             }
                             return task;
-                        })
+                        });
                     }
                     this.updateTotalTask();
                 }
@@ -103,8 +103,7 @@ class MyTaskContainer extends React.Component {
                                             <div className="item-task" onClick={() => this.onClickTask(task)}>
                                                 <div className="task-icon"
                                                      style={{backgroundColor: task.task_list.color}}
-                                                     dangerouslySetInnerHTML={{__html: task.task_list.icon}}>
-                                                </div>
+                                                     dangerouslySetInnerHTML={{__html: task.task_list.icon}} />
                                                 <div className="task-content">
                                                     <div className="task-title">
                                                         {task.title}
@@ -122,7 +121,7 @@ class MyTaskContainer extends React.Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                        )
+                                        );
                                     })}
                                 </div>
                             </div>

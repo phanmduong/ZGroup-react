@@ -167,7 +167,7 @@ class CreateRegisterOverlay extends React.Component {
     render() {
         let {isSavingRegister, salers,sources} = this.props;
         let {register} = this.state;
-        console.log(register)
+        console.log(register);
         return (
 
             <div style={{position: "relative"}} className="">

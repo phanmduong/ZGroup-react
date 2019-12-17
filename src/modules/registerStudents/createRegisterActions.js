@@ -113,8 +113,8 @@ export function createRegister(register, hide) {
                 }
             )
             .catch((e) => {
-                console.log(e.message, e.data)
-                helper.showErrorNotification(e.data.message)
+                console.log(e.message, e.data);
+                helper.showErrorNotification(e.data.message);
                 dispatch({
                     type: SAVED_REGISTER_ERROR,
                 });

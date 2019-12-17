@@ -20,11 +20,11 @@ class Week extends React.Component {
         let date = new Date(dateData);
         let week = [];
         for (let i = 1; i <= 7; i++) {
-            let first
+            let first;
             if (date.getDay() == 0) {
-                first = (date.getDate() - 7 + i)
+                first = (date.getDate() - 7 + i);
             } else {
-                first = (date.getDate() - date.getDay() + i)
+                first = (date.getDate() - date.getDay() + i);
             }
 
             let day = new Date(date.setDate(first));
@@ -83,7 +83,7 @@ class Week extends React.Component {
                                                          percentage={(analyticTask.total_completed == 0 && analyticTask.total >= 1) ? 100 : analyticTask.total_completed * 100 / analyticTask.total}/>
                                 </div>
                             </div>
-                        )
+                        );
                     })}
                     <div onClick={this.nextWeek} className="next-date">
                         <i className="material-icons">

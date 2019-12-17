@@ -59,7 +59,7 @@ class CallRegisterOverlay extends React.Component {
         let style = {};
         let titleCall = 'Cuộc gọi mới';
         let textCall = 'Gọi điện';
-        console.log(register)
+        console.log(register);
         if(register)
             if (register.call_status === 'success') {
                 style.backgroundColor = '#4caf50';

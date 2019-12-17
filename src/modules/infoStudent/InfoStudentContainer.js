@@ -95,11 +95,11 @@ class InfoStudentContainer extends React.Component {
         };
 
 
-        return <li key={index} className={this.path === route.path ? 'active' : ''}>
+        return (<li key={index} className={this.path === route.path ? 'active' : ''}>
             <a onClick={changeRoute}>
                 {route.text}
             </a>
-        </li>
+        </li>)
             ;
     }
 

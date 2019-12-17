@@ -487,7 +487,7 @@ class LeadContainer extends React.Component {
                                 </h5>
                             </div>
                         }
-                        <div style={{marginTop: '10%'}}></div>
+                        <div style={{marginTop: '10%'}} />
                         {
 
                             this.props.route.type !== "my-leads" && !this.state.isDistribution &&

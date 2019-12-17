@@ -2743,6 +2743,8 @@ $min-height-step-content: 500px;
     right: 0;
     border: none;
     padding: 0px;
+    overflow-y: auto;
+    max-height: 400px;
 
 
     .item-employee {
