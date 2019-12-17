@@ -107,6 +107,10 @@ class RegistersContainer extends React.Component {
                                             <div className="timeline-body">
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
+                                                    &nbsp; &nbsp;Đăng kí {register.created_at_cal}
+                                                </div>
+                                                <div className="flex-row-center">
+                                                    <i className="material-icons">access_time</i>
                                                     <b>&nbsp; &nbsp; {register.class.study_time} </b>
                                                 </div>
                                                 <div className="flex-row-center">
