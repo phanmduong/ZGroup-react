@@ -1,4 +1,5 @@
 branch=$1
+sudo rm -rf ../dist/
 if [ -z "$branch" ]; then
     branch=zgroup
 fi
@@ -17,10 +18,11 @@ echo "${i} : ${file_name%.*}"
 i=$((i+1))
 if ! (( i % 10 ));
 then
-  sleep 50
+  sleep 70
 fi
 
+
+
 gnome-terminal --tab --command="./build.sh $module_name $branch_name"
-#gnome-terminal --tab --command="./build.sh $module_name $branch_name"
 
 done

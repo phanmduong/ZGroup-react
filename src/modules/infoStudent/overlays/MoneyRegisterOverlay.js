@@ -22,6 +22,7 @@ class MoneyRegisterOverlay extends React.Component {
             isLoading: false,
             register: {
                 ...this.props.register,
+                code:this.props.register.class.type == 'active' ? this.props.register.next_code : this.props.register.next_waiting_code,
                 money: 0,
                 note: '',
                 payment_method: ''

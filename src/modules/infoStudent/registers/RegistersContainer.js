@@ -76,7 +76,7 @@ class RegistersContainer extends React.Component {
                                                             </button>
                                                         }
                                                         <StatusesOverlay
-                                                            data={register.register_status}
+                                                            data={register.register_status || {}}
                                                             refId={register.id}
                                                             statusRef="registers"
                                                             className="status-overlay btn-xs"

@@ -23,7 +23,7 @@ class StatusesOverlay extends React.Component {
             isProcessing: false,
             isDeleting: false,
             search: '',
-            data:  this.props.data
+            data:  this.props.data ?this.props.data : {}
         };
         this.state = this.initState;
     }
@@ -152,7 +152,7 @@ class StatusesOverlay extends React.Component {
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
 
         return (
-            <div style={{position: "relative"}} className={className} style={{backgroundColor: current.color, borderRadius:3, cursor:'pointer'}}>
+            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer'}} className={className}>
                 <div ref="StatusesOverlay"
 
                      onClick={() => this.setState({show: true})}>
@@ -293,7 +293,7 @@ class StatusesOverlay extends React.Component {
                                                     }}>
                                                     Không có trạng thái
                                                     <div>
-                                                        {!data.id ?
+                                                        {(!data || (data && !data.id) )?
                                                             <i className="material-icons">done</i> : ""}
                                                     </div>
                                                 </button>
