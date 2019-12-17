@@ -38,7 +38,7 @@ class FormatData extends React.Component {
         const {currentStep} = this.props.store;
         let dataNotFormatMatch = [];
         currentStep.data.formatters[index].data.forEach((data, indexData) => {
-            if (currentStep.data.formatters[index].indexNotMatch.indexOf(indexData) > 0) {
+            if (currentStep.data.formatters[index].indexNotMatch.indexOf(indexData) >= 0) {
                 dataNotFormatMatch = [...dataNotFormatMatch, {index: indexData, data}];
             }
         });
@@ -71,7 +71,7 @@ class FormatData extends React.Component {
                     <table className="table">
                         <thead>
                         <tr>
-                            <th>Khớp định dạng</th>
+                            {/*<th>Khớp định dạng</th>*/}
                             <th>Cột dữ liệu</th>
                             <th>Xem trước</th>
                             <th>Tương ứng với</th>
@@ -83,14 +83,14 @@ class FormatData extends React.Component {
                             return (
                                 <tr key={index}
                                     style={{backgroundColor: (notFormatMatch ? 'rgba(255,164,89,0.16)' : 'white')}}>
-                                    <td style={{minWidth: 100, height: 90}}
-                                        className="flex flex-align-items-center flex-justify-content-center"
-                                    >
-                                        <div className="checkbox-container disable">
-                                            <input type="checkbox" checked={formatter.match_format}/>
-                                            <span className="checkmark" />
-                                        </div>
-                                    </td>
+                                    {/*<td style={{minWidth: 100, height: 90}}*/}
+                                    {/*    className="flex flex-align-items-center flex-justify-content-center"*/}
+                                    {/*>*/}
+                                    {/*    <div className="checkbox-container disable">*/}
+                                    {/*        <input type="checkbox" checked={formatter.match_format}/>*/}
+                                    {/*        <span className="checkmark" />*/}
+                                    {/*    </div>*/}
+                                    {/*</td>*/}
                                     <td>
                                         {formatter.col_name}
                                     </td>

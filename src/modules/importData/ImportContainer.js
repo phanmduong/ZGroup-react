@@ -21,7 +21,6 @@ const STEPS = [
             types: []
         },
         isNext: (data) => {
-            console.log(data);
             const is_next = data.types.filter((type) => type.selected).length > 0;
             if (!is_next) {
                 showWarningNotification("Bạn phải chọn ít nhất 1 kiểu dữ liệu");

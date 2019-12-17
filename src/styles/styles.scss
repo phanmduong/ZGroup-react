@@ -202,7 +202,8 @@ table tr td .avatar-list-staff {
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 10px;
-  .kt-scroll{
+
+  .kt-scroll {
     max-height: 250px;
     overflow: hidden;
     overflow-y: scroll;
@@ -291,8 +292,9 @@ svg:not(:root) {
 .max-width-100 {
   max-width: 100px;
 }
+
 .width-unset {
-  width: unset!important;
+  width: unset !important;
 }
 
 .width-10-percent {
@@ -338,6 +340,7 @@ svg:not(:root) {
 .margin-bottom-20 {
   margin-bottom: 20px !important;
 }
+
 .margin-bottom-10 {
   margin-bottom: 10px !important;
 }
@@ -528,6 +531,7 @@ $starInactive: #c4c5c6;
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
 .padding-horizontal-10px {
   padding-left: 5px;
   padding-right: 5px;
@@ -1515,7 +1519,7 @@ table tr td .avatar-honor {
   position: relative;
 
   .btn {
-    box-shadow: none!important;
+    box-shadow: none !important;
   }
 
   &[mask=transparent] {
@@ -1628,6 +1632,7 @@ table tr td .avatar-honor {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+
       span {
         font-weight: 500;
       }
@@ -1665,23 +1670,27 @@ table tr td .avatar-honor {
   text-align: center;
   width: 50%;
   background-color: #999999;
-  border-radius: 3px!important;
+  border-radius: 3px !important;
   font-size: 10px;
   font-weight: 600;
   color: white;
-  .kt-overlay{
+
+  .kt-overlay {
     border: none;
     color: black;
-    label{
+
+    label {
       color: black;
       font-size: 14px;
       margin: 10px;
       font-weight: 500;
     }
-    .btn{
+
+    .btn {
       padding: 12px 10px 12px 15px;
     }
-    .btn-add{
+
+    .btn-add {
       //background: #e6e6e6;
       width: 100%;
       margin-bottom: 10px;
@@ -1693,7 +1702,8 @@ table tr td .avatar-honor {
       padding: 12px 10px 12px 15px;
       border-radius: 5px;
     }
-    .board-action a i{
+
+    .board-action a i {
       border-radius: 5px;
       padding: 5px;
       width: 35px;
@@ -1704,10 +1714,12 @@ table tr td .avatar-honor {
       font-size: 16px;
     }
   }
-  input{
-    &, &::placeholder{
+
+  input {
+    &, &::placeholder {
       font-size: 12px;
     }
+
     padding: 20px 15px !important;
     background-color: #f3f4f3 !important;
     border-radius: 5px !important;
@@ -1723,7 +1735,6 @@ table tr td .avatar-honor {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-
 
 
     &:nth-of-type(1) .source-value {
@@ -1744,14 +1755,16 @@ table tr td .avatar-honor {
   }
 }
 
-.status-overlay{
-  .kt-overlay{
+.status-overlay {
+  .kt-overlay {
     border: none;
     color: black;
-    .btn{
+
+    .btn {
       padding: 12px 10px 12px 15px;
     }
-    .btn-add{
+
+    .btn-add {
       width: 100%;
       margin-bottom: 10px;
       margin-top: 0px;
@@ -1762,7 +1775,8 @@ table tr td .avatar-honor {
       padding: 12px 10px 12px 15px;
       border-radius: 5px;
     }
-    .board-action a i{
+
+    .board-action a i {
       border-radius: 5px;
       padding: 5px 8px;
       width: 35px;
@@ -1771,10 +1785,12 @@ table tr td .avatar-honor {
       background-color: #f3f4f3;
       font-size: 18px;
     }
-    input{
-      &, &::placeholder{
+
+    input {
+      &, &::placeholder {
         font-size: 12px;
       }
+
       padding: 20px 15px !important;
       background-color: #f3f4f3 !important;
       border-radius: 5px !important;
@@ -1810,15 +1826,17 @@ table tr td .avatar-honor {
 
 .time-line-register {
 
-  .timeline-panel, & li,& {
+  .timeline-panel, & li, & {
     padding-bottom: 0 !important;
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 
   }
+
   .timeline-panel {
     box-shadow: none !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+
     &:before, .timeline-inverted:after, &:after {
       display: none !important;
     }
@@ -1831,7 +1849,7 @@ table tr td .avatar-honor {
 
 
   .btn-register-action {
-    &{
+    & {
       padding: 10px 20px !important;
       font-size: 14px;
       color: black;
@@ -1846,18 +1864,20 @@ table tr td .avatar-honor {
       background-color: #F7F5F7;
     }
 
-    &[mask=call]{
+    &[mask=call] {
       //color: white;
     }
+
     //&[mask=create]{
     //  background-color:#f06a46 !important;
     //}
-    &[mask=money]{
+    &[mask=money] {
       //background-color: #c50000 !important;
       //color: white;
     }
-    &[mask=extra]{
-      padding: 7px 5px!important;
+
+    &[mask=extra] {
+      padding: 7px 5px !important;
       width: unset;
     }
 
@@ -1870,10 +1890,12 @@ table tr td .avatar-honor {
 
 ul.nav.nav-pills.nav-pills-dark {
   margin-bottom: 20px;
-  li a{
+
+  li a {
     margin-bottom: 3px;
 
   }
+
   li.active {
     a {
       background: #505661 !important;
@@ -1911,14 +1933,20 @@ ul.nav.nav-pills.nav-pills-dark {
   padding-left: 15px;
   padding-right: 15px;
   border: none;
-  &[mask=extra]{
+
+  &[mask=extra] {
     left: 0;
     right: 0;
     padding: 15px 5px;
-    button.btn.btn-white{ padding:  10px 10px!important;text-align: left;}
+
+    button.btn.btn-white {
+      padding: 10px 10px !important;
+      text-align: left;
+    }
   }
-  &[mask=money]{
-    left: unset!important;
+
+  &[mask=money] {
+    left: unset !important;
     right: 0;
   }
 
@@ -1929,40 +1957,48 @@ ul.nav.nav-pills.nav-pills-dark {
 
   &.kt-overlay {
     z-index: 101 !important;
-    top: unset!important;
-    label{
+    top: unset !important;
+
+    label {
       color: black;
       font-size: 13px;
       font-weight: 500;
       margin-bottom: -5px;
       margin-top: 10px;
     }
-    .Select-control{
+
+    .Select-control {
       border: none;
       background-color: #f3f4f3;
       cursor: pointer;
-      box-shadow: none!important;
+      box-shadow: none !important;
     }
-    .Select-input input{
+
+    .Select-input input {
       padding: 10px 0px !important;
     }
-    .Select-placeholder{
+
+    .Select-placeholder {
       display: flex;
       align-items: center;
     }
-    .panel-body{
+
+    .panel-body {
       padding: 0;
     }
-    .panel-heading{
+
+    .panel-heading {
       border: none;
       padding-top: 10px;
       padding-bottom: 0;
-      h4{
+
+      h4 {
         display: flex;
         justify-content: center;
         color: black;
       }
     }
+
     .input-note-register {
       border-radius: 5px;
       background-color: #f3f4f3;
@@ -1988,12 +2024,14 @@ ul.nav.nav-pills.nav-pills-dark {
     //&.btn-white {
     //  padding: 0px !important;
     //}
-    &.btn-white{
-      margin: 0!important;
+    &.btn-white {
+      margin: 0 !important;
     }
-    &.btn-white:hover{
-      background-color: transparent!important;
+
+    &.btn-white:hover {
+      background-color: transparent !important;
     }
+
     &.filter-white {
       filter: opacity(0.5);
     }
@@ -2508,7 +2546,7 @@ $min-height-step-content: 500px;
   min-height: $min-height-step-content;
   padding-top: 20px;
 
-  .noti-available{
+  .noti-available {
     font-size: 28px;
     text-align: center;
     font-weight: bold;
@@ -2531,13 +2569,15 @@ $min-height-step-content: 500px;
       color: #757575;
     }
 
-    .item-word{
+    .item-word {
       margin: 20px 0;
-      .word{
+
+      .word {
         font-weight: bold;
         font-size: 20px;
       }
-      .total-word{
+
+      .total-word {
         color: #646464;
       }
     }
@@ -2559,8 +2599,6 @@ $min-height-step-content: 500px;
     max-width: 1366px;
   }
 }
-
-
 
 
 .third-level-menu {
@@ -2678,6 +2716,59 @@ $min-height-step-content: 500px;
   width: 400px;
   margin-top: 20px;
   padding: 0 10px;
+
+  .task-header {
+    position: relative;
+
+    .action-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    .img-task {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      background: url(https://d1j8r0kxyu9tj8.cloudfront.net/images/1559623232zRMbI8IrXfpfAgc.jpg) center center / cover;
+    }
+  }
+
+  .task-select-employee {
+    left: unset !important;
+    right: 0;
+    border: none;
+    padding: 0px;
+
+
+    .item-employee {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px 15px;
+
+      &:hover {
+        background-color: #eeeeee;
+      }
+
+      .name {
+        font-weight: 500;
+        margin-left: 10px;
+      }
+
+      .dot {
+        border-radius: 50%;
+        width: 7px;
+        height: 7px;
+        background-color: #00BC07;
+      }
+    }
+  }
 
   .title {
     font-size: 18px;

@@ -244,14 +244,19 @@ export function isClassWait(type) {
     return type == 'waiting';
 }
 
-export function sweetAlertSuccess(message) {
+export function sweetAlertSuccess(message, success) {
     swal({
         title: 'Thành công',
         text: message,
         type: 'success',
         buttonsStyling: false,
         confirmButtonClass: 'btn btn-success'
-    });
+    }).then(
+        () => {
+            if (success) {
+                success();
+            }
+        });
 }
 
 export function sweetAlertWaring(message) {

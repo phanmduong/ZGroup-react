@@ -1,16 +1,18 @@
 import {observable, computed, action} from "mobx";
 import moment from "moment";
-import {getAnalyticTasksApi, getTasksApi} from "./taskApi";
+import {getAnalyticTasksApi, getEmployeesApi, getTasksApi} from "./taskApi";
 
 class Store {
     @observable selectedDate = {};
     @observable tasks = [];
     @observable analyticTasks = [];
     @observable isLoading = false;
+    @observable employees = [];
+    @observable selectedEmployee = {};
 
     @action getTasks(updateTotalTask) {
         this.isLoading = true;
-        getTasksApi(moment(this.selectedDate).format("YYYY-MM-DD")).then((res) => {
+        getTasksApi(moment(this.selectedDate).format("YYYY-MM-DD"), this.selectedEmployee.id).then((res) => {
             this.tasks = res.data.tasks;
             if (updateTotalTask) {
                 updateTotalTask();
@@ -20,8 +22,15 @@ class Store {
         });
     }
 
+    @action getEmployees() {
+        getEmployeesApi().then((res) => {
+            this.employees = res.data.employees;
+        }).finally(() => {
+        });
+    }
+
     @action getAnalyticsTasks() {
-        getAnalyticTasksApi().then((res) => {
+        getAnalyticTasksApi(this.selectedEmployee.id).then((res) => {
             this.analyticTasks = res.data.data.tasks;
         }).finally(() => {
         });

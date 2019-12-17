@@ -22,8 +22,10 @@ class SelectTypeFormat extends React.Component {
             if (typeData.checkFormat && !typeData.checkFormat(data)) {
                 matchFormat = false;
                 indexNotMatch = [...indexNotMatch, index];
+
             }
         });
+        console.log({indexNotMatch});
         this.props.formatter.match_format = matchFormat;
         this.props.formatter.indexNotMatch = indexNotMatch;
         if (!matchFormat) {

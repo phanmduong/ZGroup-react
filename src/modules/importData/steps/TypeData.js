@@ -9,7 +9,7 @@ const types = [
     {
         key: "leads",
         name: "Leads",
-        description: "Đây là mô tả",
+        description: "Danh sách các học viên tiềm năng, các học viên cũ, các học viên đang học",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900idmduO8uhmBJyHV.png",
         selected: false,
         properties: [
@@ -50,7 +50,10 @@ const types = [
                     if (isEmptyInput(data)) return '';
                     data = data.match(/\d+/g)[0];
                     if (data[0] == '8' && data[1] == '4') {
-                        data = data.replace("84", "");
+                        data = data.replace("84", "0");
+                    }
+                    if (data[0] != '0') {
+                        data = '0' + data;
                     }
                     return data;
                 }
@@ -146,7 +149,7 @@ const types = [
     {
         key: "deals",
         name: "Deals",
-        description: "Đây là mô tả",
+        description: "Danh sách các lượt đăng kí học, thông tin về học phí, lịch sử chăm sóc đăng kí",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900KQ2v8YCptdCyuCV.png",
         selected: false,
         properties: [
@@ -172,7 +175,7 @@ const types = [
     {
         key: "classes",
         name: "Lớp học",
-        description: "Đây là mô tả",
+        description: "Danh sách các lớp học, môn học, thời gian diễn ra và thông tin giảng viên, trợ giảng",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900d7B1pYZVBH0YtOJ.png",
         selected: false,
         properties: [
@@ -193,7 +196,7 @@ const types = [
     {
         key: "course",
         name: "Môn học",
-        description: "Đây là mô tả",
+        description: "Thông tin chi tiết về lịch sử học tập, điểm, điểm danh, nhận xét của giảng viên đối vói học viên",
         icon: "https://d1j8r0kxyu9tj8.cloudfront.net/files/1574699900oUaNuMRVitwULgQ.png",
         selected: false,
         properties: [

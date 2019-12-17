@@ -40,9 +40,11 @@ class Store {
                 sweetAlertWaring(`Import thành công ${data.length - dataRes.error.length} bản ghi, thất bại ${dataRes.error.length} bản ghi`);
                 return;
             }
-            sweetAlertSuccess(`Import thành công ${data.length - dataRes.error.length} bản ghi, thất bại ${dataRes.error.length} bản ghi`);
+            sweetAlertSuccess(`Import thành công ${data.length - dataRes.error.length} bản ghi, thất bại ${dataRes.error.length} bản ghi`, () => {
+                window.history.back();
+            });
             reset();
-            window.history.back();
+
         }).catch(() => {
             sweetAlertError("Import dữ liệu lỗi");
         }).finally(() => {

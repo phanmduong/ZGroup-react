@@ -11,6 +11,7 @@ import {CHANNEL} from "../../constants/env";
 import socket from "../../services/socketio";
 import {DATETIME_FORMAT_SQL} from "../../constants/constants";
 import {getShortName} from "../../helpers/helper";
+import SelectEmployee from "./SelectEmployee";
 
 @observer
 class MyTaskContainer extends React.Component {
@@ -28,6 +29,8 @@ class MyTaskContainer extends React.Component {
         // this.store.selectedDate = this.store.selectedDate.setDate(this.store.selectedDate.getDate() - 1);
         this.store.getTasks(this.updateTotalTask);
         this.store.getAnalyticsTasks();
+        this.store.selectedEmployee = this.props.user;
+        this.store.getEmployees();
         const channel = CHANNEL + ":task";
         socket.on(channel, (data) => {
             if (data) {
@@ -53,7 +56,8 @@ class MyTaskContainer extends React.Component {
 
     updateTotalTask = () => {
         const {tasksNotComplete} = this.store;
-        if (moment(this.store.selectedDate).format("DD/MM/YYYY") == moment(new Date()).format("DD/MM/YYYY"))
+        if (moment(this.store.selectedDate).format("DD/MM/YYYY") == moment(new Date()).format("DD/MM/YYYY")
+            && this.store.selectedEmployee.id == this.props.user.id)
             this.props.updateTotalTask(tasksNotComplete.length);
     };
 
@@ -72,9 +76,15 @@ class MyTaskContainer extends React.Component {
         return (
 
             <div className="my-task">
-                <div className="title"> Việc cần làm</div>
-                <div className="subtitle">{nameSelectedDate}</div>
+                <div className="task-header">
+                    <div className="action-right">
+                        <SelectEmployee store={this.store} user={this.props.user}/>
+                    </div>
+                    <div className="title"> Việc cần làm</div>
+                    <div className="subtitle">{nameSelectedDate}</div>
+                </div>
                 <Week store={this.store} updateTotalTask={this.updateTotalTask}/>
+
                 {
                     isLoading ? <Loading/> :
                         <div className="tab-task">
@@ -87,7 +97,6 @@ class MyTaskContainer extends React.Component {
                                 </li>
                             </ul>
                             <div className="list-task">
-
                                 <div>
                                     {tasks.map((task) => {
                                         return (
