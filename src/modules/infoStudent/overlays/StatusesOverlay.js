@@ -33,9 +33,10 @@ class StatusesOverlay extends React.Component {
     }
 
     loadStatuses = (singleLoad) => {
-        let {studentActions,isLoadedStatuses} = this.props;
+        let {studentActions,statusRef} = this.props;
+        let isLoadedStatuses = this.props.isLoadedStatuses[statusRef];
         if(!isLoadedStatuses || singleLoad)
-            studentActions.loadStatuses(this.props.statusRef);
+            studentActions.loadStatuses(statusRef);
     };
 
     deleteStatuses = (status) => {
@@ -139,7 +140,7 @@ class StatusesOverlay extends React.Component {
     };
 
     statusName = () => {
-        let {statuses } = this.props;
+        let statuses =  this.props.statuses[this.props.statusRef] || [];
         let {data}  = this.state;
         let s = statuses && statuses.filter(i => i.id == data.id)[0];
         return s ? s.name : "No status";
@@ -147,14 +148,17 @@ class StatusesOverlay extends React.Component {
 
     render() {
         let {isDeleting, isLoading,data, isProcessing} = this.state;
-        let {statuses, isLoadingStatuses, className} = this.props;
+        let { isLoadingStatuses, className} = this.props;
+        let statuses =  this.props.statuses[this.props.statusRef] || [];
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer'}} className={className}>
-                <div ref="StatusesOverlay"
-
+            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer'}} className={className} ref="StatusesOverlay">
+                <div
+                     data-toggle="tooltip"
+                     rel="tooltip"
+                     data-original-title="Trạng thái"
                      onClick={() => this.setState({show: true})}>
                     {this.statusName()}
                 </div>

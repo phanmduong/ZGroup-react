@@ -17,7 +17,7 @@ import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 
 
-function addSelectSaler(items) {
+function getSelectSaler(items) {
     return items && items.map(item => {
         return {
             value: item.id,
@@ -27,7 +27,7 @@ function addSelectSaler(items) {
     });
 }
 
-function addSelectCourse(items) {
+function getSelectCourse(items) {
     return items && items.map(item => {
         return {
             value: item.id,
@@ -37,7 +37,7 @@ function addSelectCourse(items) {
     });
 }
 
-function addSelectCampaign(items) {
+function getSelectCampaign(items) {
     return items && items.map(item => {
         return {
             value: item.id,
@@ -45,10 +45,26 @@ function addSelectCampaign(items) {
         };
     });
 }
-
-function addSelectClass(items) {
+function getSelectBase(items, studyClasses) {
     return items && items.map(item => {
-        return {value: item.id, label: item.name + " - " + item.date_start + " - " + item.study_time};
+        const count  = studyClasses.filter(sc=>sc.base.id == item.id).length;
+        return {
+            value: item.id,
+            label:   `${item.province} - ${item.name} - (${count} lớp) - ${item.address}`,
+        };
+    });
+}
+
+function getSelectClass(items) {
+    return items && items.map(item => {
+        let label = item.name ;
+        if(item.date_start){
+            label += " - " + item.date_start ;
+        }
+        if(item.study_time){
+            label += " - " + item.study_time;
+        }
+        return {value: item.id, label};
     });
 }
 
@@ -66,11 +82,17 @@ class CreateRegisterOverlay extends React.Component {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
         this.props.createRegisterActions.loadAllProvinces();
-        if(!this.props.isLoadingSources)
+        if (!this.props.isLoadingSources)
             this.props.createRegisterActions.loadSources();
         this.props.registerActions.loadSalerFilter();
+        this.loadStatuses(false);
     }
 
+    loadStatuses = (singleLoad) => {
+        let {studentActions,isLoadedStatuses} = this.props;
+        if(!isLoadedStatuses || singleLoad)
+            studentActions.loadStatuses('registers');
+    };
     updateFormData = (event) => {
         const {name, value} = event.target;
         let register = {...this.state.register};
@@ -117,6 +139,16 @@ class CreateRegisterOverlay extends React.Component {
         register["source_id"] = e ? e.value : null;
         this.setState({register});
     };
+    updateStatus = (e) => {
+        let register = {...this.state.register};
+        register["status_id"] = e ? e.value : null;
+        this.setState({register});
+    };
+    updateBase = (e) => {
+        let register = {...this.state.register};
+        register["base_id"] = e ? e.value : null;
+        this.setState({register});
+    };
 
     getDataAddress = () => {
         if (!this.props.provinces || this.props.provinces.length <= 0) return;
@@ -135,20 +167,24 @@ class CreateRegisterOverlay extends React.Component {
     };
 
     createRegister = (e) => {
-
-        if (this.state.register.name === null || this.state.register.name === undefined || this.state.register.name === "") {
+        let {register} = this.state;
+        if (register.name === null || register.name === undefined || register.name === "") {
             helper.showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
         }
-        if (this.state.register.phone === null || this.state.register.phone === undefined || this.state.register.phone === "") {
+        if (register.phone === null || register.phone === undefined || register.phone === "") {
             helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             return;
         }
-        if (this.state.register.email === null || this.state.register.email === undefined || this.state.register.email === "") {
+        if (register.email === null || register.email === undefined || register.email === "") {
             helper.showTypeNotification("Vui lòng nhập email", 'warning');
             return;
         }
-        this.props.createRegisterActions.createRegister(this.state.register, () => {
+        if(!register.base_id && !register.class_id){
+            helper.showTypeNotification("Vui lòng chọn lớp hoặc cơ sở", 'warning');
+            return;
+        }
+        this.props.createRegisterActions.createRegister(register, () => {
             this.props.studentActions.loadRegisters(this.props.studentId);
             this.close();
         });
@@ -165,9 +201,12 @@ class CreateRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isSavingRegister, salers,sources} = this.props;
         let {register} = this.state;
-        console.log(register);
+        let {isSavingRegister, salers, sources,bases} = this.props;
+        let classes = (this.props.classes || []).filter(c=>register.base_id ? c.base.id == register.base_id : true);
+
+        let statuses = this.props.statuses.registers;
+
         return (
 
             <div style={{position: "relative"}} className="">
@@ -199,27 +238,72 @@ class CreateRegisterOverlay extends React.Component {
                         {!this.props.isSavingRegister && !(this.props.isLoadingCourses ||
                             this.props.isLoadingCampaigns) &&
                         <form role="form" id="form-info-student">
-                            {/*<FormInputText*/}
-                            {/*    name="name"*/}
-                            {/*    placeholder="Tên học viên"*/}
-                            {/*    required*/}
-                            {/*    value={register.name}*/}
-                            {/*    updateFormData={this.updateFormData}*/}
-                            {/*/>*/}
-                            {/*<FormInputText*/}
-                            {/*    name="email"*/}
-                            {/*    placeholder="Email học viên"*/}
-                            {/*    required*/}
-                            {/*    value={register.email}*/}
-                            {/*    updateFormData={this.updateFormData}*/}
-                            {/*/>*/}
-                            {/*<FormInputText*/}
-                            {/*    name="phone"*/}
-                            {/*    placeholder="Số điện thoại học viên"*/}
-                            {/*    required*/}
-                            {/*    value={register.phone}*/}
-                            {/*    updateFormData={this.updateFormData}*/}
-                            {/*/>*/}
+                            <div>
+                                <label>Môn học</label>
+                                <ReactSelect
+                                    optionComponent={MemberReactSelectOption}
+                                    value={register.course_id}
+                                    options={getSelectCourse(this.props.courses)}
+                                    onChange={this.updateCourse}
+                                    placeholder="Chọn môn học"
+                                    valueComponent={MemberReactSelectValue}
+                                /></div>
+                            <div>
+                                <label>Cơ sở</label>
+                                <ReactSelect
+                                    value={register.base_id}
+                                    options={getSelectBase(bases,(this.props.classes || []))}
+                                    onChange={this.updateBase}
+                                    placeholder="Chọn cơ sở"
+                                /></div>
+                            <div>
+                                <label>Lớp học</label>
+                                <ReactSelect
+                                    value={register.class_id}
+                                    options={getSelectClass(classes)}
+                                    onChange={this.updateClass}
+                                    placeholder="Lớp chờ"
+                                /></div>
+                            <div>
+                                <label>Trạng thái</label>
+                                <ReactSelect
+                                    options={getSelectCampaign(statuses)}
+                                    onChange={this.updateStatus}
+                                    value={register.status_id}
+                                    placeholder="Chọn trạng thái"
+                                    name="status_id"
+                                /></div>
+                            <div>
+                                <label>Nguồn</label>
+                                <ReactSelect
+                                    options={getSelectCampaign(sources)}
+                                    onChange={this.updateSource}
+                                    value={register.source_id}
+                                    placeholder="Chọn nguồn"
+                                    name="source_id"
+                                /></div>
+                            <div>
+                                <label>Chiến dịch</label>
+                                <ReactSelect
+                                    value={register.campaign_id}
+                                    options={getSelectCampaign(this.props.campaigns)}
+                                    onChange={this.updateCampaign}
+                                    placeholder="Chọn chiến dịch"
+                                /></div>
+
+
+                            <div>
+                                <label>Nhân viên sale</label>
+                                <ReactSelect
+                                    optionComponent={MemberReactSelectOption}
+                                    valueComponent={MemberReactSelectValue}
+                                    options={getSelectSaler(salers)}
+                                    onChange={this.updateSaler}
+                                    value={register.saler_id}
+                                    placeholder="Chọn saler"
+                                    name="saler_id"
+                                /></div>
+
                             <div>
                                 <label>Mã khuyến mãi</label>
                                 <FormInputText
@@ -231,55 +315,6 @@ class CreateRegisterOverlay extends React.Component {
                                 />
                             </div>
 
-                            <div>
-                                <label>Nhân viên sale</label>
-                                <ReactSelect
-                                    optionComponent={MemberReactSelectOption}
-                                    valueComponent={MemberReactSelectValue}
-                                    options={addSelectSaler(salers)}
-                                    onChange={this.updateSaler}
-                                    value={register.saler_id}
-                                    placeholder="Chọn saler"
-                                    name="saler_id"
-                                /></div>
-                            <div>
-                                <label>Nguồn</label>
-                                <ReactSelect
-                                    options={addSelectCampaign(sources)}
-                                    onChange={this.updateSource}
-                                    value={register.source_id}
-                                    placeholder="Chọn nguồn"
-                                    name="source_id"
-                                /></div>
-
-                            <div>
-                                <label>Môn học</label>
-                                <ReactSelect
-                                    optionComponent={MemberReactSelectOption}
-                                    value={register.course_id}
-                                    options={addSelectCourse(this.props.courses)}
-                                    onChange={this.updateCourse}
-                                    placeholder="Chọn môn học"
-                                    valueComponent={MemberReactSelectValue}
-                                /></div>
-
-                            <div>
-                                <label>Lớp học</label>
-                                <ReactSelect
-                                    value={register.class_id}
-                                    options={addSelectClass(this.props.classes)}
-                                    onChange={this.updateClass}
-                                    placeholder="Chọn lớp học"
-                                /></div>
-
-                            <div>
-                                <label>Chiến dịch</label>
-                                <ReactSelect
-                                    value={register.campaign_id}
-                                    options={addSelectCampaign(this.props.campaigns)}
-                                    onChange={this.updateCampaign}
-                                    placeholder="Chọn chiến dịch"
-                                /></div>
                             <div className="panel panel-default">
                                 <div className="panel-heading" role="tab"
                                      id="headingTwo">
@@ -388,7 +423,7 @@ class CreateRegisterOverlay extends React.Component {
                                 <button type="button"
                                         className="btn btn-success width-50-percent text-center"
                                         disabled={isSavingRegister || this.props.isLoadingCourses ||
-                                            this.props.isLoadingCampaigns}
+                                        this.props.isLoadingCampaigns}
                                         style={{backgroundColor: '#2acc4c'}}
                                         onClick={(e) => this.createRegister(e)}>
                                     Hoàn tất
@@ -419,9 +454,14 @@ CreateRegisterOverlay.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {isSavingRegister,sources, isLoading,isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {bases,isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         salers: state.registerStudents.salerFilter,
+        bases,
+        bases2:state,
+        statuses: state.infoStudent.statuses,
+        isLoadingStatuses: state.infoStudent.isLoadingStatuses,
+        isLoadedStatuses: state.infoStudent.isLoadedStatuses,
         user: state.login.user,
         isLoading,
         register,

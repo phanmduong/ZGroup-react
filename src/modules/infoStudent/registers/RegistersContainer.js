@@ -14,6 +14,7 @@ import ChangePassword from "../ChangePassword";
 import {Modal} from 'react-bootstrap';
 import MoneyRegisterOverlay from "../overlays/MoneyRegisterOverlay";
 import StatusesOverlay from "../overlays/StatusesOverlay";
+import SourceOverlay from "../overlays/SourceOverlay";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -51,35 +52,59 @@ class RegistersContainer extends React.Component {
                                             <img className="circle" src={register.class.avatar_url} alt=""/>
                                         </div>
                                         <div className="timeline-panel">
-                                            <div className="flex">
+                                            <div className="">
                                                 <h4>
                                                     <b>{register.class.name}</b>
                                                 </h4>
-                                                <div className="timeline-heading margin-left-15">
+                                                <div className="timeline-heading">
                                                     <div className="flex-row-center">
                                                         {
-                                                            register.saler &&
+                                                            register.saler ?
                                                             <button className="btn btn-xs"
+                                                                    data-toggle="tooltip"
+                                                                    rel="tooltip"
+                                                                    data-original-title="Nhân viên sale"
                                                                     style={{backgroundColor: '#' + register.saler.color}}
                                                             >
                                                                 {helper.getShortName(register.saler.name)}
                                                                 <div className="ripple-container"/>
                                                             </button>
+                                                                :
+                                                                (
+                                                                    <div className="btn btn-xs"
+                                                                    >
+                                                                        No saler
+                                                                        <div className="ripple-container"/>
+                                                                    </div>
+                                                                )
                                                         }
                                                         {
-                                                            register.campaign &&
+                                                            register.campaign ?
                                                             <button className="btn btn-xs"
+                                                                    data-toggle="tooltip"
+                                                                    rel="tooltip"
+                                                                    data-original-title="Chiến dịch"
                                                                     style={{backgroundColor: '#' + register.campaign.color}}
                                                             >
                                                                 {helper.getShortName(register.campaign.name)}
                                                                 <div className="ripple-container"/>
                                                             </button>
+                                                            : (
+                                                            <button className="btn btn-xs">
+                                                            No campaign
+                                                            <div className="ripple-container" />
+                                                            </button>
+                                                            )
                                                         }
+                                                        <SourceOverlay
+                                                            className="btn status-overlay btn-xs"
+                                                            student={register}
+                                                        />
                                                         <StatusesOverlay
                                                             data={register.register_status || {}}
                                                             refId={register.id}
                                                             statusRef="registers"
-                                                            className="status-overlay btn-xs"
+                                                            className="btn status-overlay btn-xs"
                                                         />
                                                         {/*{*/}
                                                         {/*    register.paid_status ?*/}
@@ -110,18 +135,18 @@ class RegistersContainer extends React.Component {
                                                     <i className="material-icons">access_time</i>
                                                     &nbsp; &nbsp;Đăng kí {register.created_at_cal}
                                                 </div>
-                                                <div className="flex-row-center">
+                                                {register.class.study_time && <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
-                                                    <b>&nbsp; &nbsp; {register.class.study_time} </b>
-                                                </div>
-                                                <div className="flex-row-center">
+                                                    &nbsp; &nbsp; {register.class.study_time}
+                                                </div>}
+                                                {register.class.room &&<div className="flex-row-center">
                                                     <i className="material-icons">home</i>&nbsp; &nbsp;
                                                     {register.class.room && register.class.room + ' - '}
                                                     {register.class.base}
-                                                </div>
-                                                <div className="flex-row-center">
+                                                </div>}
+                                                {register.class.description && <div className="flex-row-center">
                                                     <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
-                                                </div>
+                                                </div>}
 
                                                 {
                                                     register.class.teach &&

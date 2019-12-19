@@ -47,7 +47,8 @@ export function loadCourses() {
                 (res) => {
                     dispatch({
                         type: LOADED_COURSES_SUCCESS,
-                        courses: res.data.courses,
+                        courses: res.data.data.courses,
+                        bases: res.data.data.bases,
                     });
                 }
             )

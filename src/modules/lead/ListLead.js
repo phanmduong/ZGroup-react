@@ -1,25 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    avatarEmpty, getShortName,
-    //getShortName
-} from "../../helpers/helper";
-import {
-    NO_AVATAR
-} from "../../constants/env";
+import {avatarEmpty, getShortName,} from "../../helpers/helper";
+import {NO_AVATAR} from "../../constants/env";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import Star from "../../components/common/Star";
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import {
-    Modal
-} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
 import TooltipButton from "../../components/common/TooltipButton";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
+import PicOverlay from "../infoStudent/overlays/PicOverlay";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 
@@ -122,7 +116,7 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>
-                                                <a onClick={()=>openModalRegisterDetail(`/sales/info-student/${lead.id}`)}
+                                                <a onClick={() => openModalRegisterDetail(`/sales/info-student/${lead.id}`)}
                                                    className="text-name-student-register">
                                                     {lead.name}
                                                 </a>
@@ -131,26 +125,45 @@ class ListLead extends React.Component {
                                             </td>
                                             <td>{lead.interest}</td>
                                             <td>
-
-                                                {lead.campaign && <div className="btn btn-xs btn-main">
-                                                    {lead.campaign }</div>}
+                                                {lead.campaign ? (
+                                                    <button
+                                                        className="btn btn-xs btn-main width-100"
+                                                        style={{
+                                                            backgroundColor: "#" + lead.campaign.color
+                                                        }}>
+                                                        {lead.campaign.name}
+                                                        <div className="ripple-container" />
+                                                    </button>
+                                                ):(
+                                                    <button className="btn btn-xs btn-main no-data width-100">
+                                                    No Campaign
+                                                    <div className="ripple-container" />
+                                                    </button>
+                                                    )}
+                                                {/*{lead.campaign && <div className="btn btn-xs btn-main width-100">*/}
+                                                {/*    {lead.campaign}</div>}*/}
                                                 {
 
                                                     !this.props.showSelectedLead &&
-                                                        lead.carer &&
-                                                        <div className="btn btn-xs btn-main"
-                                                             style={{backgroundColor: '#' + lead.carer.color}}
-                                                        >
-                                                            {getShortName(lead.carer.name)}
-                                                            <div className="ripple-container"/>
-                                                        </div>
+                                                    lead.carer &&
+                                                    <div className="btn btn-xs btn-main width-100"
+                                                         style={{backgroundColor: '#' + lead.carer.color}}
+                                                    >
+                                                        {getShortName(lead.carer.name)}
+                                                        <div className="ripple-container"/>
+                                                    </div>
 
 
                                                 }
                                                 <SourceOverlay
-                                                    style={{padding:'4px 15px'}}
-                                                    className="btn-xs width-unset source-value margin-bottom-10"
+                                                    style={{padding: '4px 15px'}}
+                                                    className="btn-xs width-100 source-value margin-bottom-10"
                                                     student={lead}
+                                                />
+                                                <PicOverlay
+                                                    student={lead}
+                                                    className="btn-xs width-100 source-value margin-bottom-10"
+
                                                 />
                                             </td>
 
@@ -159,7 +172,7 @@ class ListLead extends React.Component {
                                                     data={lead.lead_status}
                                                     refId={lead.id}
                                                     statusRef="leads"
-                                                    className="status-overlay"
+                                                    className="status-overlay  margin-bottom-10"
                                                 />
                                             </td>
                                             <td>

@@ -29,6 +29,7 @@ const createRegister = {
     isLoadingClasses: false,
     courses: [],
     sources: [],
+    bases: [],
     isLoadingCampaigns: false,
     campaigns: [],
     provinces: [],
@@ -59,6 +60,7 @@ export default function registerReducer(state = createRegister, action) {
                 ...state,
                 isLoadingCourses: false,
                 courses: action.courses,
+                bases: action.bases,
             };
         case LOADED_COURSES_ERROR:
             return {

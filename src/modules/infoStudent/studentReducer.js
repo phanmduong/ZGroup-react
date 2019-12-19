@@ -10,7 +10,10 @@ export default function studentReducer(state = initialState.infoStudent, action)
                 ...state,
                 ...{
                     isLoadingStatuses: true,
-                    isLoadedStatuses: true,
+                    isLoadedStatuses: {
+                        ...state.isLoadedStatuses,
+                        [action.statusRef]:true
+                    },
                 }
             };
         case types.LOAD_STATUSES_SUCCESS:
@@ -18,7 +21,11 @@ export default function studentReducer(state = initialState.infoStudent, action)
                 ...state,
                 ...{
                     isLoadingStatuses: false,
-                    statuses: action.statuses
+                    statuses: {
+                        ...state.statuses,
+                        [action.statusRef]:action.statuses
+                    },
+                    statusRef: action.statusRef
                 }
             };
         case types.LOAD_STATUSES_ERROR:

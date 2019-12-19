@@ -986,14 +986,14 @@ class RegisterListContainer extends React.Component {
                                 </div>
                             </div>
                             <Panel collapsible expanded={
-                                this.state.openFilterPanel
+                                !this.state.openFilterPanel
                                 &&
                                 !(this.props.isLoadingGens ||
                                     this.props.isLoadingClassFilter ||
                                     this.props.isLoadingBaseFilter ||
                                     this.props.isLoadingRegisters)
                             }>
-                                <div className="white-light-round">
+                                <div className="white-light-round card-filter">
 
                                     <div className="row">
                                         <div className="col-md-3">
@@ -1051,7 +1051,7 @@ class RegisterListContainer extends React.Component {
                                                 name="filter_campaign"
                                             />
                                         </div>
-                                        <div className="col-md-3 form-group">
+                                        <div className="col-md-3">
                                             <label className="">
                                                 Theo học phí
                                             </label>
@@ -1065,8 +1065,9 @@ class RegisterListContainer extends React.Component {
                                             />
                                         </div>
                                         <div className="col-md-3">
+                                            <label>Từ ngày</label>
                                             <FormInputDate
-                                                label="Từ ngày"
+                                                label=""
                                                 name="startTime"
                                                 updateFormData={this.updateFormDate}
 
@@ -1076,8 +1077,9 @@ class RegisterListContainer extends React.Component {
                                             />
                                         </div>
                                         <div className="col-md-3">
+                                            <label>Đến ngày</label>
                                             <FormInputDate
-                                                label="Đến ngày"
+                                                label=""
                                                 name="endTime"
                                                 updateFormData={this.updateFormDate}
                                                 id="form-end-time"
@@ -1085,7 +1087,7 @@ class RegisterListContainer extends React.Component {
                                                 minDate={this.state.time.startTime}
                                             />
                                         </div>
-                                        <div className="col-md-3 form-group">
+                                        <div className="col-md-3">
                                             <label className="">
                                                 Theo trạng thái lớp
                                             </label>
@@ -1098,7 +1100,7 @@ class RegisterListContainer extends React.Component {
                                                 name="filter_class_status"
                                             />
                                         </div>
-                                        <div className="col-md-3 form-group">
+                                        <div className="col-md-3">
                                             <label className="">
                                                 Theo trạng thái cuộc gọi
                                             </label>
@@ -1128,7 +1130,7 @@ class RegisterListContainer extends React.Component {
                                                 placeholder="Nhập coupon"
                                             />
                                         </div>
-                                        <div className="col-md-3 form-group">
+                                        <div className="col-md-3">
                                             <label>
                                                 Theo đánh dấu
                                             </label>
@@ -1143,7 +1145,7 @@ class RegisterListContainer extends React.Component {
                                         </div>
                                     </div>
 
-                                    <div className="row">
+                                    <div className="row hidden">
                                         <div className="col-sm-2">
                                             <div className={"flex"}>
                                                 <div

@@ -235,7 +235,7 @@ export function loadBases() {
 }
 
 export function loadCoursesApi() {
-    let url = env.MANAGE_API_URL + "/v2/course/get-all";
+    let url = env.MANAGE_API_URL + "/v2/course/all";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -261,6 +261,10 @@ export function saveRegisterApi(register) {
     }
     return axios.post(url, {
         saler_id: register.saler_id,
+        base_id: register.base_id,
+        course_id: register.course_id,
+        status_id: register.status_id,
+        source_id: register.source_id,
         name: register.name,
         phone: register.phone,
         email: register.email,

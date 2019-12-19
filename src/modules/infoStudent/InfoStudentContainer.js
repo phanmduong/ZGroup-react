@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
+import {isEmptyInput} from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
@@ -11,7 +12,6 @@ import {GENDER} from "../../constants/constants";
 import FormInputDate from "../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
-import {isEmptyInput} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import TooltipButton from "../../components/common/TooltipButton";
 import RegistersContainer from "./registers/RegistersContainer";
@@ -140,7 +140,7 @@ class InfoStudentContainer extends React.Component {
 
     openModalChangePassword = () => {
         this.setState({showModalChangePassword: true});
-    }
+    };
 
     openModalImageView = (imageUrl) => {
         this.setState({
@@ -221,7 +221,7 @@ class InfoStudentContainer extends React.Component {
 
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == student.gender)[0];
-        let {student} = this.props;
+        let {student, studentActions} = this.props;
         return (
             <div className={this.props.location ? "card" : ''}>
                 <div className={this.props.location ? "card-content" : ''}>
@@ -275,9 +275,11 @@ class InfoStudentContainer extends React.Component {
                                         <div className="detail-wrap">
                                             <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>
                                             <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>
-                                            <p>Phụ huynh<strong>{student.father_name  || "Chưa có"}</strong></p>
+                                            <p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>
                                             <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>
-                                            <p>Giới tính<strong>{GENDER[student.gender] == null ? "Khác" : GENDER[student.gender].name}</strong></p>
+                                            <p>Giới
+                                                tính<strong>{GENDER[student.gender] == null ? "Khác" : GENDER[student.gender].name}</strong>
+                                            </p>
                                             <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>
                                             <p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>
                                             <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>
@@ -327,7 +329,7 @@ class InfoStudentContainer extends React.Component {
                                             {/*<div className="source-value">Chưa có</div>*/}
                                             <PicOverlay
                                                 student={student}
-
+                                                className="source-value"
                                             />
                                         </div>
                                         <div className="source-wrap">

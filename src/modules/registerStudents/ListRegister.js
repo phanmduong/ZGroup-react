@@ -33,7 +33,7 @@ class ListRegister extends React.Component {
                         {/*<th>Email</th>*/}
                         {/*<th>Phone</th>*/}
                         {this.props.genId == 0 && <th>Khóa</th>}
-                        <th>Mã thẻ</th>
+                        <th>Mã đăng kí</th>
                         <th>Saler</th>
                         {/*<th>Chiến dịch</th>*/}
                         <th>Học phí</th>
@@ -146,7 +146,7 @@ class ListRegister extends React.Component {
                                                     <Link className="btn btn-xs btn-main"
                                                           to={`/sales/registerlist/-1`}
                                                     >
-                                                        Không có
+                                                        No saler
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 )

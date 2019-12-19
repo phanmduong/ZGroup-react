@@ -61,7 +61,6 @@ class BookingGrid extends React.Component {
         let data = this.props.seatForBooking;
         const height = this.props.height;
         const width = this.props.width;
-        //console.log("size",height,width);
         let svg = d3
             .select(node)
             .append("svg")

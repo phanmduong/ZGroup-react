@@ -1384,7 +1384,7 @@ table tr td .avatar-honor {
     color: white !important;
     font-size: 10px !important;
     margin: 0 0 10px 0;
-    width: unset !important;
+    width: unset;
     font-weight: 600;
   }
 
@@ -1396,7 +1396,7 @@ table tr td .avatar-honor {
 
   .btn-main {
     color: white !important;
-    width: unset !important;
+    width: unset ;
 
   }
 
@@ -1440,6 +1440,49 @@ table tr td .avatar-honor {
 .sidebar {
   box-shadow: none !important;
 
+}
+
+.card-filter{
+  div[class^='col-md']{
+    min-height: 80px;
+  }
+  label{
+    color: black;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  input{
+    padding: 20px 10px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
+  }
+  .form-group{
+    margin: 0;
+  }
+  .Select-control {
+    border: none;
+    background-color: #f3f4f3;
+    cursor: pointer;
+    box-shadow: none !important;
+  }
+
+  .Select-input input {
+    padding: 10px 0px !important;
+  }
+
+  .Select-placeholder {
+    display: flex;
+    align-items: center;
+  }
+  .rating a{
+    font-size: 30px;
+    line-height: 35px;
+  }
+  .btn-success{
+    padding: 11px 30px;
+    margin: 25px 1px;
+  }
 }
 
 ///* width */
@@ -1653,9 +1696,15 @@ table tr td .avatar-honor {
     color: black !important;
     box-shadow: none !important;
     font-weight: 400 !important;
+    padding: 15px 20px;
   }
+  .btn-group.bootstrap-select{
+    color: black !important;
+    font-weight: 400 !important;
+    margin:5px 10px 8px 0px;
 
-  .btn-icon, .select-wrap, .btn-group.bootstrap-select, .round-white-seacrh {
+  }
+  .btn-icon, .select-wrap,  .round-white-seacrh {
     margin-right: 10px;
     color: black !important;
     font-weight: 400 !important;
@@ -1825,6 +1874,10 @@ table tr td .avatar-honor {
 
 .time-line-register {
 
+  .btn-xs{
+    font-weight: 600;
+    will-change: unset!important;
+  }
   .timeline-panel, & li, & {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
@@ -1973,6 +2026,9 @@ ul.nav.nav-pills.nav-pills-dark {
       box-shadow: none !important;
     }
 
+    .Select-value{
+      max-width: 230px;
+    }
     .Select-input input {
       padding: 10px 0px !important;
     }

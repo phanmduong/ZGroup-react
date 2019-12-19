@@ -113,7 +113,6 @@ ns._drawPoints = function(el, scales, state) {
             d3.event.sourceEvent.stopPropagation(); // silence other listeners
         })
         .on("drag", function(d) {
-            // console.log(d3.event.x + "," + d3.event.y);
 
             const x = d3.event.x;
             const y = d3.event.y;
@@ -152,7 +151,6 @@ ns._drawPoints = function(el, scales, state) {
         .data(seats)
         .on("click", function(d) {
             // d3.event.stopPropagation();
-            // console.log(d);
             ns.onPointClick(d.index);
         });
 

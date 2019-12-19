@@ -1,7 +1,7 @@
 import React from 'react';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {getAllStaffs,assignLeadStaff} from "../../manageStaff/staffApi";
+import {assignLeadStaff, getAllStaffs} from "../../manageStaff/staffApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import Search from "../../../components/common/Search";
@@ -12,7 +12,7 @@ class PicOverlay extends React.Component {
         this.initState = {
             show: false,
             create: false,
-            staffs:[],
+            staffs: [],
             isLoading: true,
             isProcessing: false,
             isDeleting: false,
@@ -30,13 +30,11 @@ class PicOverlay extends React.Component {
         getAllStaffs().then((res) => {
             if (this.refs.PicOverlay)
                 this.setState({
-                staffs: res.data.data.staffs,
-                isLoading: false
-            });
+                    staffs: res.data.data.staffs,
+                    isLoading: false
+                });
         });
     };
-
-  
 
 
     toggle = () => {
@@ -50,11 +48,11 @@ class PicOverlay extends React.Component {
         this.setState({
             isProcessing: true
         });
-        assignLeadStaff(staff.id, this.props.student.id)
+        assignLeadStaff(this.props.student.id, staff.id)
             .then(() => {
                 this.setState({
                     isProcessing: false,
-                    student:{
+                    student: {
                         ...this.state.student,
                         staff_id: staff.id
                     }
@@ -73,12 +71,14 @@ class PicOverlay extends React.Component {
     };
 
     render() {
-        let {isDeleting, isLoading, isProcessing,student,staffs} = this.state;
+        let {isDeleting, isLoading, isProcessing, student, staffs} = this.state;
+        let {className} = this.props;
         let showLoading = isLoading || isProcessing;
-        const current = (student  && staffs && staffs.filter(s=>s.id == student.staff_id)[0]) || {};
+        const current = (student && staffs && staffs.filter(s => s.id == student.staff_id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: `#${current.color}`}} className="source-value" ref="PicOverlay">
+            <div style={{position: "relative", backgroundColor: `#${current.color}`}} className={className}
+                 ref="PicOverlay">
                 <div onClick={() => this.setState({show: true})}>
                     {this.staffName()}
                 </div>
@@ -193,47 +193,48 @@ class PicOverlay extends React.Component {
                                                     </div>
                                                 </button>
 
+                                                <div className="kt-scroll">
+                                                    {staffs && staffs
+                                                        .filter(staff => {
+                                                            const s1 = staff.name.trim().toLowerCase();
+                                                            const s2 = this.state.search.trim().toLowerCase();
+                                                            return s1.includes(s2) || s2.includes(s1);
+                                                        })
+                                                        .map((staff) => {
+                                                            const staffAdded = student && student.staff_id == staff.id;
+                                                            return (
+                                                                <div key={staff.id} style={{
+                                                                    marginBottom: 10,
+                                                                    display: "flex",
+                                                                    justifyContent: 'space-between'
+                                                                }}>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            this.assignLeadStaff(staff);
+                                                                        }}
+                                                                        className="btn"
+                                                                        style={{
+                                                                            textAlign: "left",
+                                                                            backgroundColor: `#${staff.color}`,
+                                                                            width: "100%",
+                                                                            margin: "0",
+                                                                            display: "flex",
+                                                                            justifyContent: "space-between",
+                                                                            height: 35,
+                                                                            padding: '0 15px',
+                                                                        }}>
+                                                                        {staff.name}
+                                                                        <div>
+                                                                            {staffAdded ?
+                                                                                <i className="material-icons">done</i> : ""}
 
-                                                {staffs && staffs
-                                                    .filter(staff => {
-                                                        const s1 = staff.name.trim().toLowerCase();
-                                                        const s2 = this.state.search.trim().toLowerCase();
-                                                        return s1.includes(s2) || s2.includes(s1);
-                                                    })
-                                                    .map((staff) => {
-                                                        const staffAdded = student && student.staff_id == staff.id;
-                                                        return (
-                                                            <div key={staff.id} style={{
-                                                                marginBottom:10,
-                                                                display: "flex",
-                                                                justifyContent: 'space-between'
-                                                            }}>
-                                                                <button
-                                                                    onClick={() => {
-                                                                        this.assignLeadStaff(staff);
-                                                                    }}
-                                                                    className="btn"
-                                                                    style={{
-                                                                        textAlign: "left",
-                                                                        backgroundColor: `#${staff.color}`,
-                                                                        width: "100%",
-                                                                        margin: "0",
-                                                                        display: "flex",
-                                                                        justifyContent: "space-between",
-                                                                        height:35,
-                                                                        padding: '0 15px',
-                                                                    }}>
-                                                                    {staff.name}
-                                                                    <div>
-                                                                        {staffAdded ?
-                                                                            <i className="material-icons">done</i> : ""}
+                                                                        </div>
+                                                                    </button>
 
-                                                                    </div>
-                                                                </button>
-
-                                                            </div>
-                                                        );
-                                                    })}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                </div>
                                             </div>
                                         )
                                     }

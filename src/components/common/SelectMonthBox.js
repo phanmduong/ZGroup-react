@@ -16,7 +16,6 @@ class SelectMonthBox extends React.Component {
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
-        // console.log(this.props.value,"aaaaaaaaaaa");
     }
 
     handleClickMonthBox() {

@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 class CollapsePanel extends React.Component {
     constructor(props, context) {
         super(props, context);
-        // console.log(this.props.content);
     }
 
     render() {

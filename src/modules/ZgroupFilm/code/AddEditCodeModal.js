@@ -46,7 +46,6 @@ class AddEditCodeModal extends React.Component {
             if (helper.isEmptyInput(code.end_date)) helper.showErrorNotification("Bạn cần nhập ngày kết thúc");
             if (helper.isEmptyInput(code.length)) helper.showErrorNotification("Bạn cần nhập độ dài mã giảm giá");
         } else {
-            //console.log("aaa", a);
             if (code.codes) this.props.codeAction.editCode(code);
             else this.props.codeAction.creatCode(code);
 

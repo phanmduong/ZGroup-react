@@ -29,9 +29,6 @@ class ListExportOrder extends React.Component {
         this.confirm = this.confirm.bind(this);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log("next list props",nextProps);
-    // }
 
     confirm(id) {
         helper.confirm("success", "Xác Nhận Đã giao hàng", "Sau khi duyệt sẽ không thể hoàn tác?",
@@ -52,7 +49,6 @@ class ListExportOrder extends React.Component {
 
     render() {
         let { listExportOrder } = this.props;
-        //console.log('list', this.props);
         return (
             <div className="table-responsive">
                 <InfoModal

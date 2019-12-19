@@ -98,7 +98,6 @@ class AppContainer extends React.Component {
     }
 
     updateTotalTask = (number) => {
-        console.log({number});
         this.setState({totalTaskNotComplete: number});
     }
 

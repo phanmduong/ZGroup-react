@@ -1209,8 +1209,8 @@ export default {
         isChangingStatusCall: false,
         errorChangeStatusCall: false,
         isLoadingStatuses: false,
-        isLoadedStatuses: false,
-        statuses: [],
+        isLoadedStatuses: [],
+        statuses: {},
         log: {
             isLoading: false,
             error: false,
