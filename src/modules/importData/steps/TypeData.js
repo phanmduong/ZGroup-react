@@ -144,6 +144,15 @@ const types = [
                 },
                 check_key_data: "sources",
             },
+            {
+                key: "status_user.name",
+                name: "Trạng thái",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} trạng thái học viên, trong đó có ${not_available_total} trạng thái chưa xác định, vui lòng cho chúng tôi biết đó là trạng thái nào`;
+                },
+                check_key_data: "statuses_user",
+            },
         ]
     },
     {
@@ -169,7 +178,17 @@ const types = [
                 checkFormat: (data) => {
                     return validation.isNumber(data);
                 }
-            }
+            },
+            {
+                key: "status_register.name",
+                name: "Trạng thái",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} trạng thái đăng kí, trong đó có ${not_available_total} trạng thái chưa xác định, vui lòng cho chúng tôi biết đó là trạng thái nào`;
+                },
+                check_key_data: "statuses_register",
+            },
+
         ]
     },
     {

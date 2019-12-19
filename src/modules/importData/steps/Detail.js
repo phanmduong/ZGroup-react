@@ -23,14 +23,19 @@ class Detail extends React.Component {
         //find type which selected at choose type data step
         let dataTypes = typeDataStep.data.types.filter((type) => type.selected);
 
+
         dataTypes.forEach((type) => {
             const propertiesRequire = type.properties.filter((property) =>
-                (keyDataTypesSelected.indexOf(property.key) > 0) && property.check_new);
+                (keyDataTypesSelected.indexOf(property.key) >= 0) && property.check_new);
+
+            console.log({propertiesRequire});
 
             checkProperties = [...checkProperties, ...propertiesRequire];
         });
 
         currentStep.data.checkProperties = checkProperties;
+
+
 
         currentStep.data.checkProperties = currentStep.data.checkProperties.map((property) => {
 
