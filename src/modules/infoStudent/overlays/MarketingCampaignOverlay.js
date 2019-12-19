@@ -120,7 +120,7 @@ class MarketingCampaignOverlay extends React.Component {
             .then(() => {
                 this.loadMarketingEmail();
                 let {updateInfoStudent, student} = this.props;
-                updateInfoStudent({...student, campaign_id: campaign.id});
+                if(updateInfoStudent)updateInfoStudent({...student, campaign_id: campaign.id});
                 this.setState({
                     isProcessing: false
                 });
@@ -148,11 +148,12 @@ class MarketingCampaignOverlay extends React.Component {
 
     render() {
         let {isDeleting, isLoading, isProcessing} = this.state;
+        let {className} = this.props;
         let showLoading = isLoading || isProcessing;
         const current = (this.props.student && this.state.campaigns && this.state.campaigns.filter(s => s.id == this.props.student.campaign_id)[0]) || {};
 
         return (
-            <div style={{position: "relative", backgroundColor:  `#${current.color}`}} className="source-value"
+            <div style={{position: "relative", backgroundColor:  `#${current.color}`}} className={className}
                  ref="MarketingCampaignOverlay">
                 <div className=""
                      onClick={() => this.setState({show: true})}>

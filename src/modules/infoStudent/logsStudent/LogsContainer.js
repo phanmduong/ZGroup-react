@@ -30,35 +30,37 @@ class LogsContainer extends React.Component {
 
     render() {
         return (
-            <div className="col-md-12">
+            <div className="tab-pane active">
                 {this.props.isLoading ? <Loading/> :
-                    <div className="table-responsive">
+                    <ul className="timeline timeline-simple">
 
-                        <table className="table">
-                            <thead className="text-rose">
-                            <tr>
-                                <th>Thời gian</th>
-                                <th>Trang</th>
-                                <th>IP</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.props.logs.map((log, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>
-                                            {log.time}
-                                        </td>
-                                        <td>
-                                            <a href={log.full_link} target="_blank">{log.link}</a>
-                                        </td>
-                                        <td>{log.ip}</td>
-                                    </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    </div>
+
+                        {this.props.logs.map((log, index) => {
+                            return (
+                                <li className="timeline-inverted" key={index}>
+                                    <div className={"timeline-badge "} style={{backgroundColor: log.color}}>
+                                    </div>
+                                    <div className="timeline-panel">
+                                        <div className="">
+                                            <h4>
+                                                <b>{log.name}</b>
+                                            </h4>
+                                            <div className="timeline-heading">
+                                            </div>
+                                            <div className="timeline-body">
+                                                <div className="flex-row-center">
+                                                    <i className="material-icons">access_time</i>
+                                                    &nbsp; &nbsp;{log.created_at}
+                                                </div>
+                                        </div>
+
+                                    </div>
+                                    </div>
+                                </li>
+                            );
+                        })}
+
+                    </ul>
                 }
                 <Pagination
                     totalPages={this.props.totalPage}

@@ -209,14 +209,17 @@ table tr td .avatar-list-staff {
     overflow-y: scroll;
     padding-right: 5px;
     width: 103%;
+
     &::-webkit-scrollbar {
       width: 4px;
       cursor: pointer;
     }
+
     &::-webkit-scrollbar-track {
       background: transparent;
       border-radius: 100px;
     }
+
     &::-webkit-scrollbar-thumb {
       cursor: pointer;
       background: #adadad;
@@ -394,9 +397,10 @@ svg:not(:root) {
   color: black;
   font-weight: 600;
 }
+
 .text-phone-student-register {
   color: black;
-  font-weight: unset!important;
+  font-weight: unset !important;
 }
 
 $ratingSize: 100px;
@@ -1380,6 +1384,11 @@ table tr td .avatar-honor {
     border-spacing: 0 10px;
   }
 
+  .btn {
+    will-change: unset !important;
+
+  }
+
   .btn.btn-xs.btn-main {
     color: white !important;
     font-size: 10px !important;
@@ -1391,12 +1400,12 @@ table tr td .avatar-honor {
   tr > th, td > a:not(.btn-main, .text-name-student-register) {
     color: black;
     font-size: 14px !important;
-    font-weight: 500 ;
+    font-weight: 500;
   }
 
   .btn-main {
     color: white !important;
-    width: unset ;
+    width: unset;
 
   }
 
@@ -1442,24 +1451,28 @@ table tr td .avatar-honor {
 
 }
 
-.card-filter{
-  div[class^='col-md']{
+.card-filter {
+  div[class^='col-md'] {
     min-height: 80px;
   }
-  label{
+
+  label {
     color: black;
     font-size: 13px;
     font-weight: 500;
   }
-  input{
+
+  input {
     padding: 20px 10px !important;
     background-color: #f3f4f3 !important;
     border-radius: 5px !important;
     background-image: none !important;
   }
-  .form-group{
+
+  .form-group {
     margin: 0;
   }
+
   .Select-control {
     border: none;
     background-color: #f3f4f3;
@@ -1475,11 +1488,13 @@ table tr td .avatar-honor {
     display: flex;
     align-items: center;
   }
-  .rating a{
+
+  .rating a {
     font-size: 30px;
     line-height: 35px;
   }
-  .btn-success{
+
+  .btn-success {
     padding: 11px 30px;
     margin: 25px 1px;
   }
@@ -1698,13 +1713,15 @@ table tr td .avatar-honor {
     font-weight: 400 !important;
     padding: 15px 20px;
   }
-  .btn-group.bootstrap-select{
+
+  .btn-group.bootstrap-select {
     color: black !important;
     font-weight: 400 !important;
-    margin:5px 10px 8px 0px;
+    margin: 5px 10px 8px 0px;
 
   }
-  .btn-icon, .select-wrap,  .round-white-seacrh {
+
+  .btn-icon, .select-wrap, .round-white-seacrh {
     margin-right: 10px;
     color: black !important;
     font-weight: 400 !important;
@@ -1804,6 +1821,7 @@ table tr td .avatar-honor {
   white-space: nowrap;
   vertical-align: middle;
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
   .kt-overlay {
     border: none;
     color: black;
@@ -1874,10 +1892,11 @@ table tr td .avatar-honor {
 
 .time-line-register {
 
-  .btn-xs{
+  .btn-xs {
     font-weight: 600;
-    will-change: unset!important;
+    will-change: unset !important;
   }
+
   .timeline-panel, & li, & {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
@@ -2026,9 +2045,10 @@ ul.nav.nav-pills.nav-pills-dark {
       box-shadow: none !important;
     }
 
-    .Select-value{
+    .Select-value {
       max-width: 230px;
     }
+
     .Select-input input {
       padding: 10px 0px !important;
     }

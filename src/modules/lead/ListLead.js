@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {avatarEmpty, getShortName,} from "../../helpers/helper";
+import {avatarEmpty,} from "../../helpers/helper";
 import {NO_AVATAR} from "../../constants/env";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
@@ -94,8 +94,12 @@ class ListLead extends React.Component {
                                 this.props.leads.map((lead) => {
                                     const avatar = !avatarEmpty(lead.avatar_url) ?
                                         lead.avatar_url : NO_AVATAR;
+                                    let rowClassName = '';
+                                    if(lead.staff_id) rowClassName = 'success';
                                     return (
-                                        <tr key={lead.id} style={{backgroundColor: lead.status}}>
+                                        <tr key={lead.id}  className={rowClassName}
+                                            // style={{backgroundColor: lead.status}}
+                                        >
                                             {
                                                 this.props.isDistribution &&
                                                 <td>
@@ -132,29 +136,33 @@ class ListLead extends React.Component {
                                                             backgroundColor: "#" + lead.campaign.color
                                                         }}>
                                                         {lead.campaign.name}
-                                                        <div className="ripple-container" />
+                                                        <div className="ripple-container"/>
                                                     </button>
-                                                ):(
+                                                ) : (
                                                     <button className="btn btn-xs btn-main no-data width-100">
-                                                    No Campaign
-                                                    <div className="ripple-container" />
+                                                        No Campaign
+                                                        <div className="ripple-container"/>
                                                     </button>
-                                                    )}
+                                                )}
+                                                {/*<MarketingCampaignOverlay*/}
+                                                {/*    student={lead}*/}
+                                                {/*    className="btn btn-xs source-value  btn-main width-100"*/}
+                                                {/*/>*/}
                                                 {/*{lead.campaign && <div className="btn btn-xs btn-main width-100">*/}
                                                 {/*    {lead.campaign}</div>}*/}
-                                                {
+                                                {/*{*/}
 
-                                                    !this.props.showSelectedLead &&
-                                                    lead.carer &&
-                                                    <div className="btn btn-xs btn-main width-100"
-                                                         style={{backgroundColor: '#' + lead.carer.color}}
-                                                    >
-                                                        {getShortName(lead.carer.name)}
-                                                        <div className="ripple-container"/>
-                                                    </div>
+                                                {/*    !this.props.showSelectedLead &&*/}
+                                                {/*    lead.carer &&*/}
+                                                {/*    <div className="btn btn-xs btn-main width-100"*/}
+                                                {/*         style={{backgroundColor: '#' + lead.carer.color}}*/}
+                                                {/*    >*/}
+                                                {/*        {getShortName(lead.carer.name)}*/}
+                                                {/*        <div className="ripple-container"/>*/}
+                                                {/*    </div>*/}
 
 
-                                                }
+                                                {/*}*/}
                                                 <SourceOverlay
                                                     style={{padding: '4px 15px'}}
                                                     className="btn-xs width-100 source-value margin-bottom-10"

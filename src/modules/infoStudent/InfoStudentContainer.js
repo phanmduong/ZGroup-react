@@ -63,7 +63,7 @@ class InfoStudentContainer extends React.Component {
             },
             {
                 path: `/sales/info-student/${this.studentId}/logs`,
-                text: 'Lịch sử web',
+                text: 'Lịch sử chăm sóc',
                 component: <LogsContainer studentId={this.studentId}/>
             },
         ];
@@ -317,6 +317,7 @@ class InfoStudentContainer extends React.Component {
                                             {/*<div className="source-value">N/A</div>*/}
                                             <MarketingCampaignOverlay
                                                 student={student}
+                                                className="source-value"
                                                 updateInfoStudent={studentActions.updateInfoStudent}
                                             />
                                         </div>
