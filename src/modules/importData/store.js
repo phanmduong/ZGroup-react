@@ -1,5 +1,11 @@
 import {observable, computed, action} from "mobx";
-import {getAllMarketingCampaigns, getAllSources, uploadImportData} from "./importApi";
+import {
+    getAllMarketingCampaigns,
+    getAllSources,
+    getAllStatusesLead,
+    getAllStatusesRegister,
+    uploadImportData
+} from "./importApi";
 import {sweetAlertError, sweetAlertSuccess, sweetAlertWaring} from "../../helpers/helper";
 
 class Store {
@@ -28,6 +34,14 @@ class Store {
 
         getAllMarketingCampaigns().then((res) => {
             this.dataCheck['marketing_campaigns'] = res.data.data.marketing_campaigns;
+        });
+
+        getAllStatusesRegister().then((res) => {
+            this.dataCheck['statuses_register'] = res.data.statuses;
+        });
+
+        getAllStatusesLead().then((res) => {
+            this.dataCheck['statuses_user'] = res.data.statuses;
         });
     }
 
