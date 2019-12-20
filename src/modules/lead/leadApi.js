@@ -49,6 +49,7 @@ export function editInfoLead(lead) {
     }
 
     return axios.put(url, {
+        ...lead,
         'id': lead.id,
         'name': lead.name,
         'email': lead.email,

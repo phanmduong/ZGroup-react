@@ -20,6 +20,7 @@ import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
 import Pagination from "../../components/common/Pagination";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
+import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -967,16 +968,20 @@ class RegisterListContainer extends React.Component {
                                                         name="gens"
                                                     />
                                                 }
-                                                <button
-                                                    className="btn btn-white btn-round btn-icon"
-                                                    type="button"
-                                                    onClick={this.openCreateRegisterModal}
-                                                >
-                                                    Thêm đăng kí&nbsp;&nbsp;<i className="material-icons">
-                                                    add
-                                                </i>
+                                                {/*<button*/}
+                                                {/*    className="btn btn-white btn-round btn-icon"*/}
+                                                {/*    type="button"*/}
+                                                {/*    onClick={this.openCreateRegisterModal}*/}
+                                                {/*>*/}
+                                                {/*    Thêm đăng kí&nbsp;&nbsp;<i className="material-icons">*/}
+                                                {/*    add*/}
+                                                {/*</i>*/}
 
-                                                </button>
+                                                {/*</button>*/}
+                                                <CreateRegisterOverlay
+                                                    className="btn btn-white btn-round btn-icon"
+
+                                                />
 
                                             </div>
 
@@ -986,7 +991,7 @@ class RegisterListContainer extends React.Component {
                                 </div>
                             </div>
                             <Panel collapsible expanded={
-                                !this.state.openFilterPanel
+                                this.state.openFilterPanel
                                 &&
                                 !(this.props.isLoadingGens ||
                                     this.props.isLoadingClassFilter ||

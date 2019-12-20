@@ -220,6 +220,7 @@ class CreateRegisterModalContainer extends React.Component {
                             onChange={this.updateSaler}
                             value={register.saler_id}
                             placeholder="Chọn saler"
+                            label="Saler"
                             name="saler_id"
                         /> <br/>
                         <ReactSelect

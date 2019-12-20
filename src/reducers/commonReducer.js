@@ -7,6 +7,7 @@ import studentReducer from "../modules/infoStudent/studentReducer";
 import createRegister from "../modules/registerStudents/createRegisterReducer";
 import leadReducer from "../modules/lead/leadReducer";
 import registerReducer from "../modules/registerStudents/registerReducer";
+import staffsReducer from "../modules/manageStaff/staffsReducer";
 
 export default {
     globalLoading: globalLoadingReducer,
@@ -18,4 +19,6 @@ export default {
     lead: leadReducer,
     registerStudents: registerReducer,
     createRegister: createRegister,
+    staffs: staffsReducer,
+
 };

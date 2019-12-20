@@ -226,15 +226,13 @@ class InfoStudentContainer extends React.Component {
             <div className={this.props.location ? "card" : ''}>
                 <div className={this.props.location ? "card-content" : ''}>
                     <div className="row">
-
+                        {this.props.isLoadingStudent && <Loading/>}
                         <div className="col-md-4">
-                            {this.props.isLoadingStudent && <Loading/>}
+
                             {!this.props.isLoadingStudent &&
                             <div>
                                 <div className="card" mask="blue">
                                     <div className="card-content flex flex-col">
-
-
                                         <div className="flex flex-justify-content-center">
                                             <TooltipButton text="Thay ảnh đại diện" placement="top">
                                                 <div className="img father"
@@ -389,6 +387,7 @@ class InfoStudentContainer extends React.Component {
                                                         <CreateRegisterOverlay
                                                             student={student}
                                                             studentId={student.id}
+                                                            className="btn btn-register-action"
                                                         />
 
                                                         {/*<div className="col-md-3">*/}

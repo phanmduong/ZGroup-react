@@ -98,7 +98,7 @@ class CallRegisterOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-call-register" style={{
+                    <div className="kt-overlay overlay-container" style={{
                         width: 300,
                         top:'unset',
                         marginTop: 10

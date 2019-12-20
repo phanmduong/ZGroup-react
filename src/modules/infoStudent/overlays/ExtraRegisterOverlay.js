@@ -99,7 +99,7 @@ class ExtraRegisterOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-call-register" mask="extra" style={{
+                    <div className="kt-overlay overlay-container" mask="extra" style={{
                         width: 150,
                         marginTop: 10,
                         left: 0,

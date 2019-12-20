@@ -139,7 +139,7 @@ class RegistersContainer extends React.Component {
                                                     <i className="material-icons">access_time</i>
                                                     &nbsp; &nbsp; {register.class.study_time}
                                                 </div>}
-                                                {register.class.room &&<div className="flex-row-center">
+                                                {register.class.base &&<div className="flex-row-center">
                                                     <i className="material-icons">home</i>&nbsp; &nbsp;
                                                     {register.class.room && register.class.room + ' - '}
                                                     {register.class.base}

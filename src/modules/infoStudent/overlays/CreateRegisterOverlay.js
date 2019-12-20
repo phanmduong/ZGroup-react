@@ -45,23 +45,24 @@ function getSelectCampaign(items) {
         };
     });
 }
+
 function getSelectBase(items, studyClasses) {
     return items && items.map(item => {
-        const count  = studyClasses.filter(sc=>sc.base.id == item.id).length;
+        const count = studyClasses.filter(sc => sc.base.id == item.id).length;
         return {
             value: item.id,
-            label:   `${item.province} - ${item.name} - (${count} lớp) - ${item.address}`,
+            label: `${item.province} - ${item.name} - (${count} lớp) - ${item.address}`,
         };
     });
 }
 
 function getSelectClass(items) {
     return items && items.map(item => {
-        let label = item.name ;
-        if(item.date_start){
-            label += " - " + item.date_start ;
+        let label = item.name;
+        if (item.date_start) {
+            label += " - " + item.date_start;
         }
-        if(item.study_time){
+        if (item.study_time) {
             label += " - " + item.study_time;
         }
         return {value: item.id, label};
@@ -89,8 +90,8 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     loadStatuses = (singleLoad) => {
-        let {studentActions,isLoadedStatuses} = this.props;
-        if(!isLoadedStatuses || singleLoad)
+        let {studentActions, isLoadedStatuses} = this.props;
+        if (!isLoadedStatuses || singleLoad)
             studentActions.loadStatuses('registers');
     };
     updateFormData = (event) => {
@@ -180,7 +181,7 @@ class CreateRegisterOverlay extends React.Component {
             helper.showTypeNotification("Vui lòng nhập email", 'warning');
             return;
         }
-        if(!register.base_id && !register.class_id){
+        if (!register.base_id && !register.class_id) {
             helper.showTypeNotification("Vui lòng chọn lớp hoặc cơ sở", 'warning');
             return;
         }
@@ -202,19 +203,21 @@ class CreateRegisterOverlay extends React.Component {
 
     render() {
         let {register} = this.state;
-        let {isSavingRegister, salers, sources,bases} = this.props;
-        let classes = (this.props.classes || []).filter(c=>register.base_id ? c.base.id == register.base_id : true);
+        let {isSavingRegister, salers, sources, bases, className, studentId} = this.props;
+        let classes = (this.props.classes || []).filter(c => register.base_id ? c.base.id == register.base_id : true);
 
         let statuses = this.props.statuses.registers;
 
         return (
 
-            <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action" mask="create"
+            <div style={{position: "relative"}}>
+                <div  className={className}  mask="create"
                         ref="target" onClick={this.toggle}
                         disabled={isSavingRegister}>
-                    Tạo đăng kí mới
-                </button>
+                    Tạo đăng kí mới {!studentId && <i className="material-icons">
+                    add
+                </i>}
+                </div>
                 <Overlay
                     rootClose={true}
                     show={this.state.show}
@@ -222,7 +225,7 @@ class CreateRegisterOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-call-register" style={{width: 300, marginTop: 10}}>
+                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 10}}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
                             <div><b>Tạo đăng kí mới</b></div>
                             <button
@@ -233,11 +236,38 @@ class CreateRegisterOverlay extends React.Component {
                                 <span className="sr-only">Close</span>
                             </button>
                         </div>
-                        {(this.props.isLoadingCourses ||
-                            this.props.isLoadingCampaigns) && <Loading/>}
-                        {!this.props.isSavingRegister && !(this.props.isLoadingCourses ||
-                            this.props.isLoadingCampaigns) &&
+                        {(this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}
+                        {!this.props.isSavingRegister && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
                         <form role="form" id="form-info-student">
+                            {!studentId && <div>
+                                <div>
+                                    <label>Tên học viên</label>
+                                    <FormInputText
+                                        name="name"
+                                        placeholder="Tên học viên"
+                                        required
+                                        value={register.name}
+                                        updateFormData={this.updateFormData}
+                                    /></div>
+                                <div>
+                                    <label>Email</label>
+                                    <FormInputText
+                                        name="email"
+                                        placeholder="Email học viên"
+                                        required
+                                        value={register.email}
+                                        updateFormData={this.updateFormData}
+                                    /></div>
+                                <div>
+                                    <label>Số điện thoại</label>
+                                    <FormInputText
+                                        name="phone"
+                                        placeholder="Số điện thoại học viên"
+                                        required
+                                        value={register.phone}
+                                        updateFormData={this.updateFormData}
+                                    /></div>
+                            </div>}
                             <div>
                                 <label>Môn học</label>
                                 <ReactSelect
@@ -252,7 +282,7 @@ class CreateRegisterOverlay extends React.Component {
                                 <label>Cơ sở</label>
                                 <ReactSelect
                                     value={register.base_id}
-                                    options={getSelectBase(bases,(this.props.classes || []))}
+                                    options={getSelectBase(bases, (this.props.classes || []))}
                                     onChange={this.updateBase}
                                     placeholder="Chọn cơ sở"
                                 /></div>
@@ -454,11 +484,10 @@ CreateRegisterOverlay.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {bases,isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {bases, isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         salers: state.registerStudents.salerFilter,
         bases,
-        bases2:state,
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
         isLoadedStatuses: state.infoStudent.isLoadedStatuses,

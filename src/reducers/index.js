@@ -2,7 +2,6 @@ import {combineReducers} from 'redux';
 import loginReducer from '../modules/login/loginReducer';
 import tabsReducer from '../modules/tab/tabsReducer';
 import financeReducer from '../modules/finance/financeReducer';
-import staffsReducer from '../modules/manageStaff/staffsReducer';
 import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
@@ -90,14 +89,13 @@ import seatTypeReducer from "../modules/ZgroupFilm/seatType/seatTypeReducer";
 import targetSaleReducer from "../modules/sales/targetSaleReducer";
 
 const appReducer = combineReducers({
-    blogType:blogTypeReducer,
+    blogType: blogTypeReducer,
     smsCampaign: smsCampaignReducer,
     labelManage: labelManageReducer,
     weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,
-    staffs: staffsReducer,
     roles: rolesReducer,
     baseList: baseListReducer,
     task: taskReducer,
@@ -177,7 +175,7 @@ const appReducer = combineReducers({
     film: filmReducer,
     code: codeReducer,
     bookingHistory: bookingHistoryReducer,
-    seatType : seatTypeReducer,
+    seatType: seatTypeReducer,
     targetSale: targetSaleReducer
 });
 

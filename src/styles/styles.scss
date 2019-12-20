@@ -1577,6 +1577,7 @@ table tr td .avatar-honor {
 
   .btn {
     box-shadow: none !important;
+    will-change: unset;
   }
 
   &[mask=transparent] {
@@ -1700,7 +1701,8 @@ table tr td .avatar-honor {
 
 
   .btn-icon {
-    margin-top: 6px;
+    line-height: 22px;
+    margin-top: 10px;
     box-shadow: none !important;
   }
 
@@ -2000,11 +2002,15 @@ ul.nav.nav-pills.nav-pills-dark {
   }
 }
 
-.overlay-call-register {
+.overlay-container {
   padding-left: 15px;
   padding-right: 15px;
   border: none;
 
+  &[mask=lead] {
+    left: unset!important;
+    right: 0;
+  }
   &[mask=extra] {
     left: 0;
     right: 0;

@@ -69,7 +69,7 @@ class PurchaseRegisterOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-call-register" mask="money" style={{
+                    <div className="kt-overlay overlay-container" mask="money" style={{
                         width: 300,
                         marginTop: 20
                     }}>

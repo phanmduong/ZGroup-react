@@ -1,10 +1,13 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
-import {assignLeadStaff, getAllStaffs} from "../../manageStaff/staffApi";
+import {assignLeadStaff} from "../../manageStaff/staffApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import Search from "../../../components/common/Search";
+import * as staffActions from "../../manageStaff/staffActions";
 
 class PicOverlay extends React.Component {
     constructor(props, context) {
@@ -23,17 +26,18 @@ class PicOverlay extends React.Component {
     }
 
     componentWillMount() {
-        this.getAllStaffs();
+       this.getAllStaffs();
     }
 
     getAllStaffs = () => {
-        getAllStaffs().then((res) => {
-            if (this.refs.PicOverlay)
-                this.setState({
-                    staffs: res.data.data.staffs,
-                    isLoading: false
-                });
-        });
+        this.props.staffActions.getAllStaffs();
+        // .then((res) => {
+        //     if (this.refs.PicOverlay)
+        //         this.setState({
+        //             staffs: res.data.data.staffs,
+        //             isLoading: false
+        //         });
+        // });
     };
 
 
@@ -75,7 +79,7 @@ class PicOverlay extends React.Component {
         let {className} = this.props;
         let showLoading = isLoading || isProcessing;
         const current = (student && staffs && staffs.filter(s => s.id == student.staff_id)[0]) || {color:999999};
-
+        console.log(this.props);
         return (
             <div style={{position: "relative", backgroundColor: `#${current.color}`}} className={className}
                  ref="PicOverlay">
@@ -250,4 +254,19 @@ class PicOverlay extends React.Component {
     }
 }
 
-export default PicOverlay;
+function mapStateToProps(state) {
+    return {
+        isLoadingStaffs: state.staffs.isLoading,
+        staffListData: state.staffs.staffListData,
+
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        staffActions: bindActionCreators(staffActions, dispatch),
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PicOverlay);

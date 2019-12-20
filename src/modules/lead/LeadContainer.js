@@ -20,6 +20,7 @@ import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModa
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../constants/constants";
+import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -268,6 +269,8 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime, this.state.staff, value, this.state.top);
     };
 
+
+
     handleFile = event => {
         let leads = [];
         let fileCorrect = true;
@@ -487,8 +490,19 @@ class LeadContainer extends React.Component {
                             {this.props.route.type !== "my-leads" && !this.state.isDistribution &&
                             <a href="/import/data" className="btn btn-white btn-round margin-right-10 ">
                                 Upload
-                            </a>
-                            }
+                            </a>}
+                            {/*<button*/}
+                            {/*    className="btn btn-white btn-round btn-icon"*/}
+                            {/*    type="button"*/}
+                            {/*    onClick={this.openCreateRegisterModal}*/}
+                            {/*>*/}
+                            {/*    Thêm lead&nbsp;&nbsp;<i className="material-icons">*/}
+                            {/*    add*/}
+                            {/*</i>*/}
+                            {/*</button>*/}
+                            <CreateLeadOverlay
+                                className="btn btn-white btn-round btn-icon"
+                            />
                             {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
                             {/*<div className="btn btn-white btn-round margin-right-10 "*/}
                             {/*     onClick={() => $('#btn-add-leads').removeClass('open')}>*/}

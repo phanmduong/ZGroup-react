@@ -39,7 +39,7 @@ export function uploadLeads(leads) {
                     dispatch({
                         type: types.UPLOAD_LIST_LEAD_SUCCESS,
                     });
-                    showNotification("Upload thành công");
+                    showNotification("Lưu thành công");
                 } else {
                     showErrorNotification(res.data.message);
                     dispatch({type: types.UPLOAD_LIST_LEAD_ERROR});
@@ -58,13 +58,15 @@ export function editInfoLead(lead, closeModal) {
         leadApi.editInfoLead(lead)
             .then(res => {
                 if (res.data.status == 1) {
-                    closeModal();
+                    if(closeModal)closeModal(true);
                     dispatch({
                         type: types.EDIT_INFO_LEAD_SUCCESS,
                         lead: res.data.data.lead
                     });
                     showNotification("Sửa thành công");
                 } else {
+                    if(closeModal)closeModal(false);
+
                     showErrorNotification(res.data.message);
                     dispatch({type: types.EDIT_INFO_LEAD_ERROR});
                 }
