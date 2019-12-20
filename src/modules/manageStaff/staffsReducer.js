@@ -10,15 +10,17 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    isLoadingExcel: true,
+                    isLoading: true,
+                    staffListData: action.staffListData,
+                    isLoadedStaffs: true,
                 }
             };
         case types.LOAD_ALL_STAFFS_DATA_SUCCESSFUL:{
-            
             return {
                 ...state,
                 ...{
-                    isLoadingExcel: false,
+                    isLoading: false,
+                    staffListData: action.staffListData,
                 }
             };
         }
@@ -26,7 +28,9 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    isLoadingExcel: false,
+
+                    isLoading: false,
+                    error: action.error
                 }
             };
         case types.BEGIN_LOAD_STAFFS_DATA:

@@ -30,7 +30,8 @@ class PicOverlay extends React.Component {
     }
 
     getAllStaffs = () => {
-        this.props.staffActions.getAllStaffs();
+        if(!this.props.isLoadedStaffs)
+            this.props.staffActions.getAllStaffs();
         // .then((res) => {
         //     if (this.refs.PicOverlay)
         //         this.setState({
@@ -70,13 +71,14 @@ class PicOverlay extends React.Component {
 
 
     staffName = () => {
-        let s = this.state.staffs && this.state.staffs.filter(i => i.id == this.state.student.staff_id)[0];
+        let{staffs } = this.props;
+        let s = staffs && staffs.filter(i => i.id == this.state.student.staff_id)[0];
         return s ? s.name : "No P.I.C";
     };
 
     render() {
-        let {isDeleting, isLoading, isProcessing, student, staffs} = this.state;
-        let {className} = this.props;
+        let {isDeleting,  isProcessing, student} = this.state;
+        let {className,isLoading,staffs} = this.props;
         let showLoading = isLoading || isProcessing;
         const current = (student && staffs && staffs.filter(s => s.id == student.staff_id)[0]) || {color:999999};
         console.log(this.props);
@@ -256,8 +258,9 @@ class PicOverlay extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        isLoadingStaffs: state.staffs.isLoading,
-        staffListData: state.staffs.staffListData,
+        isLoading: state.staffs.isLoading,
+        isLoadedStaffs: state.staffs.isLoadedStaffs,
+        staffs: state.staffs.staffListData,
 
     };
 }

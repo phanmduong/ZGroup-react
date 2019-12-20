@@ -168,11 +168,11 @@ class ListLead extends React.Component {
                                                     className="btn-xs width-100 source-value margin-bottom-10"
                                                     student={lead}
                                                 />
-                                                {/*<PicOverlay*/}
-                                                {/*    student={lead}*/}
-                                                {/*    className="btn-xs width-100 source-value margin-bottom-10"*/}
+                                                <PicOverlay
+                                                    student={lead}
+                                                    className="btn-xs width-100 source-value margin-bottom-10"
 
-                                                {/*/>*/}
+                                                />
                                             </td>
 
                                             <td>

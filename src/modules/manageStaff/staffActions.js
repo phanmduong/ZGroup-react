@@ -34,7 +34,8 @@ export function getAllStaffs( search , success) {
             .then(function (res) {
                 dispatch({
                     type: types.LOAD_ALL_STAFFS_DATA_SUCCESSFUL,
-                    
+                    staffListData: res.data.data.staffs,
+
                 });
                 success(res.data.data.staffs);
             }).catch(() => {

@@ -36,18 +36,6 @@ function getSelectCampaign(items) {
 }
 
 
-function getSelectClass(items) {
-    return items && items.map(item => {
-        let label = item.name;
-        if (item.date_start) {
-            label += " - " + item.date_start;
-        }
-        if (item.study_time) {
-            label += " - " + item.study_time;
-        }
-        return {value: item.id, label};
-    });
-}
 
 class CreateLeadOverlay extends React.Component {
     constructor(props, context) {
@@ -55,7 +43,7 @@ class CreateLeadOverlay extends React.Component {
         this.statusRef = 'leads';
         this.initState = {
             show: false,
-            lead: {carer_id: this.props.user && this.props.user.id, rate:1},
+            lead: {carer_id: this.props.user && this.props.user.id, rate: 1},
         };
         this.state = this.initState;
     }
@@ -173,7 +161,7 @@ class CreateLeadOverlay extends React.Component {
 
             <div style={{position: "relative"}} ref="target">
                 <div className={className} mask="create"
-                      onClick={this.toggle}>
+                     onClick={this.toggle}>
                     Tạo lead <i className="material-icons">add</i>
                 </div>
                 <Overlay
