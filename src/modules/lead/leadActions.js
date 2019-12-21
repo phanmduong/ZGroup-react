@@ -63,7 +63,7 @@ export function editInfoLead(lead, closeModal) {
                         type: types.EDIT_INFO_LEAD_SUCCESS,
                         lead: res.data.data.lead
                     });
-                    showNotification("Sửa thành công");
+                    showNotification("Lưu thành công");
                 } else {
                     if(closeModal)closeModal(false);
 

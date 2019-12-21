@@ -43,7 +43,7 @@ class CreateLeadOverlay extends React.Component {
         this.statusRef = 'leads';
         this.initState = {
             show: false,
-            lead: {carer_id: this.props.user && this.props.user.id, rate: 1},
+            lead: {carer_id: this.props.user && this.props.user.id, rate: 5},
         };
         this.state = this.initState;
     }
@@ -137,7 +137,7 @@ class CreateLeadOverlay extends React.Component {
         }
         this.props.leadActions.editInfoLead(
             lead,
-            this.close()
+            this.close
         );
 
         e.preventDefault();
@@ -149,7 +149,7 @@ class CreateLeadOverlay extends React.Component {
 
 
     close = (shouldClose) => {
-        if (!this.props.isEditing && shouldClose) this.setState(this.initState);
+        if ( shouldClose) this.setState(this.initState);
     };
 
     render() {
@@ -183,7 +183,7 @@ class CreateLeadOverlay extends React.Component {
                                 <span className="sr-only">Close</span>
                             </button>
                         </div>
-                        {/*{(isEditing || this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}*/}
+                        {( this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}
                         {!isEditing && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
                         <form role="form" id="form-info-student">
 
