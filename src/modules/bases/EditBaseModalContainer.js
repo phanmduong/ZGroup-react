@@ -120,7 +120,7 @@ class EditBaseModalContainer extends React.Component {
                 <a onClick={() => this.props.baseListActions.showBaseEditModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title>{base.id ? "Sửa phòng" : "Tạo phòng"}</Modal.Title>
+                    <Modal.Title>{base.id ? "Sửa" : "Tạo mới"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">

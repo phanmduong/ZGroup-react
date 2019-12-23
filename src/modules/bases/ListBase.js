@@ -13,50 +13,80 @@ class ListBase extends React.Component {
 
     render() {
         return (
-            <div className="row" id="list-base">
-                {this.props.bases && this.props.bases.map((base) => {
-                    let address_description = base.address + " " + (base.district && base.district.name) + " " + (base.province && base.province.name);
-                    address_description = address_description < 51 ? address_description : (address_description.substring(0, 50) + " ...");
-                    let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
-                    return (
-                        <div className="col-sm-4" key={base.id} id="card-email-template">
-                            <div className="card card-chart">
-                                <div className="card-header" data-background-color="white" style={{
-                                    borderRadius: '10px'
-                                }}>
-                                    <a onClick={() => this.props.openEditBaseModal(base)}>
-                                        <div id="simpleBarChart" className="ct-chart"
-                                             style={{
-                                                 width: '100%',
-                                                 background: 'url(' + imageUrl + ')',
-                                                 backgroundSize: 'cover',
-                                                 backgroundPosition: 'center',
-                                                 height: '200px',
-                                                 borderRadius: '10px'
-                                             }}
-                                        />
-                                    </a>
+            <div className="table-responsive table-split">
+                <table id="datatables"
+                       className="table table-no-bordered table-hover"
+                       cellSpacing="0" width="100%" style={{width: "100%"}}>
+                    <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Địa chỉ</th>
+                        <th>Phòng</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                                </div>
-                                <div className="card-content" style={{minHeight: '140px'}}>
-                                    <div className="card-action" style={{height: 50}}>
-                                        <h4 className="card-title">
-                                            <a onClick={() => this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>
-                                        </h4>
-                                        <ButtonGroupAction
-                                            disabledDelete
-                                            object={base}
-                                            edit={() => this.props.openEditBaseModal(base)}
-                                        />
-                                    </div>
-                                    <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
-                                        <p className="category">{address_description}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })}
+                    {this.props.bases && this.props.bases.map((base, key) => {
+                        let address_description = base.address + " " + (base.district && base.district.name) + " " + (base.province && base.province.name);
+                        // address_description = address_description < 51 ? address_description : (address_description.substring(0, 50) + " ...");
+                        // let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
+                        return (
+                            <tr key={key}>
+                                <td><b>{base.name}</b></td>
+                                <td style={{
+                                    width:'20%'
+                                }}><div >{address_description}
+                                </div></td>
+                                <td></td>
+                                <td>
+                                    <ButtonGroupAction
+                                        disabledDelete
+                                        object={base}
+                                        edit={() => this.props.openEditBaseModal(base)}
+                                    />
+                                </td>
+                                {/*<div className="col-sm-4" key={base.id} id="card-email-template">*/}
+                                {/*    <div className="card card-chart">*/}
+                                {/*        <div className="card-header" data-background-color="white" style={{*/}
+                                {/*            borderRadius: '10px'*/}
+                                {/*        }}>*/}
+                                {/*            <a onClick={() => this.props.openEditBaseModal(base)}>*/}
+                                {/*                <div id="simpleBarChart" className="ct-chart"*/}
+                                {/*                     style={{*/}
+                                {/*                         width: '100%',*/}
+                                {/*                         background: 'url(' + imageUrl + ')',*/}
+                                {/*                         backgroundSize: 'cover',*/}
+                                {/*                         backgroundPosition: 'center',*/}
+                                {/*                         height: '200px',*/}
+                                {/*                         borderRadius: '10px'*/}
+                                {/*                     }}*/}
+                                {/*                />*/}
+                                {/*            </a>*/}
+
+                                {/*        </div>*/}
+                                {/*        <div className="card-content" style={{minHeight: '140px'}}>*/}
+                                {/*            <div className="card-action" style={{height: 50}}>*/}
+                                {/*                <h4 className="card-title">*/}
+                                {/*                    <a onClick={() => this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>*/}
+                                {/*                </h4>*/}
+                                {/*                <ButtonGroupAction*/}
+                                {/*                    disabledDelete*/}
+                                {/*                    object={base}*/}
+                                {/*                    edit={() => this.props.openEditBaseModal(base)}*/}
+                                {/*                />*/}
+                                {/*            </div>*/}
+                                {/*            <div style={{display: "flex", justifyContent: "space-between", height: 60}}>*/}
+                                {/*                <p className="category">{address_description}</p>*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                </table>
             </div>
         );
     }

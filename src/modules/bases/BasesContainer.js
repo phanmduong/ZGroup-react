@@ -89,7 +89,8 @@ class BasesContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-                    <div className="card">
+                    <div className="card" mask="purple">
+                        <img className="img-absolute"/>
                         <div className="card-content">
                             <div className="tab-content">
                                 <div className="flex-row flex">
@@ -104,31 +105,46 @@ class BasesContainer extends React.Component {
                                         </button>
                                     </div>
                                 </div>
-                                <Search
-                                    onChange={this.basesSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
-                                />
-                                {this.props.isLoadingBases ? <Loading/> :
-                                    <ListBase
-                                        deleteBase={this.deleteBase}
-                                        handleSwitch={this.handleSwitch}
-                                        bases={this.props.bases}
-                                        openEditBaseModal={this.openModal}/>
-                                }
-                            </div>    
+                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+
+                                    <Search
+                                        onChange={this.basesSearchChange}
+                                        value={this.state.query}
+                                        className="round-white-seacrh"
+                                        placeholder="Tìm kiếm (tên, địa chỉ)"
+                                    />
+                                    <button
+                                        className="btn btn-white btn-round btn-icon"
+                                        type="button"
+                                        onClick={() => this.openModal({})}
+                                    >
+                                        Thêm cơ sở&nbsp;&nbsp;<i className="material-icons">
+                                        add
+                                    </i>
+
+                                    </button>
+                                </div>
+
+                            </div>
                         </div>
 
-                        <div className="card-content">
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={this.props.totalPages}
-                                loadDataPage={this.loadBases}
-                            />
-                        </div>
+
                     </div>
 
-
+                    {this.props.isLoadingBases ? <Loading/> :
+                        <ListBase
+                            deleteBase={this.deleteBase}
+                            handleSwitch={this.handleSwitch}
+                            bases={this.props.bases}
+                            openEditBaseModal={this.openModal}/>
+                    }
+                    <div className="card-content">
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={this.props.totalPages}
+                            loadDataPage={this.loadBases}
+                        />
+                    </div>
                 </div>
                 <EditBaseModalContainer/>
             </div>
