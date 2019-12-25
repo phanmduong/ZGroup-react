@@ -43,9 +43,31 @@ export function getAllRegisterStudent(data) {
     return axios.get(url);
 }
 
-export function getRegisterStudent(page = 1, limit, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
-                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '', query_coupon, tele_call_status, bookmark = '') {
-    let urlType = env.API_URL;
+export function getRegisterStudent(filter) {
+
+    let {
+        page = 1,
+        limit = 16,
+        selectGenId = '',
+        query = '',
+        selectedSalerId = '',
+        campaignId = '',
+        selectedClassId = '',
+        selectedMoneyFilter = '',
+        selectedClassStatus = '',
+        startTime = '',
+        endTime = '',
+        selectedBaseId = '',
+        appointmentPayment = '',
+        query_coupon = '',
+        selectedTeleCallStatus = '',
+        selectedBookmarkStatus = '',
+        registerStatusId = '',
+        registerSourceId = '',
+    } = filter;
+
+
+    let urlType;
     switch (env.TYPE_API) {
         case "alibaba":
             urlType = (env.MANAGE_API_URL + "/alibaba");
@@ -59,18 +81,20 @@ export function getRegisterStudent(page = 1, limit, genId, search = '', salerId 
         "/register-list?" +
         "page=" + page +
         "&limit=" + limit +
-        "&gen_id=" + genId +
-        "&search=" + search +
-        "&saler_id=" + salerId +
+        "&gen_id=" + selectGenId +
+        "&search=" + query +
+        "&saler_id=" + selectedSalerId +
         '&campaign_id=' + campaignId +
-        "&class_id=" + classId +
-        "&status=" + paid_status +
-        "&base_id=" + base_id +
-        "&appointment_payment=" + appointment_payment +
-        "&type=" + class_status +
+        "&class_id=" + selectedClassId +
+        "&status=" + selectedMoneyFilter +
+        "&base_id=" + selectedBaseId +
+        "&appointment_payment=" + appointmentPayment +
+        "&type=" + selectedClassStatus +
         "&search_coupon=" + query_coupon +
-        "&bookmark=" + bookmark +
-        "&tele_call_status=" + tele_call_status
+        "&bookmark=" + selectedBookmarkStatus +
+        "&registerStatusId=" + registerStatusId +
+        "&registerSourceId=" + registerSourceId +
+        "&tele_call_status=" + selectedTeleCallStatus
     ;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
@@ -260,6 +284,7 @@ export function saveRegisterApi(register) {
         url += "?token=" + token;
     }
     return axios.post(url, {
+        father_name: register.father_name,
         saler_id: register.saler_id,
         base_id: register.base_id,
         course_id: register.course_id,

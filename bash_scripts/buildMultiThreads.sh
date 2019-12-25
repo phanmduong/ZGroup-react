@@ -16,9 +16,9 @@ file_name=$(basename $file)
 module_name="${file_name%.*}"
 echo "${i} : ${file_name%.*}"
 i=$((i+1))
-if ! (( i % 10 ));
+if ! (( i % 6 ));
 then
-  sleep 70
+  sleep 60
 fi
 
 

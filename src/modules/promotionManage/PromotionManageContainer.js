@@ -189,7 +189,7 @@
 //                                         <div>
 //                                             <OverlayTrigger
 //                                                 placement="top"
-//                                                 overlay={Add}
+//                                                 overlays={Add}
 //                                             >
 //                                                 <Link
 //                                                     className="btn btn-primary btn-round btn-xs button-add none-margin "

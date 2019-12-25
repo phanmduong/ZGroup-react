@@ -71,7 +71,7 @@ class DetailGroupCustomerContainer extends React.Component {
 
     updateFormData(groupCustomerForm) {
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
-    }                   // tách ra để dùng cho overlay
+    }                   // tách ra để dùng cho overlays
 
     assignCustomer(id) {
         this.props.groupCustomerActions.assignGroupCustomerFormData(id);

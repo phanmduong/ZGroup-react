@@ -155,44 +155,30 @@ export function loadCampaignFilter() {
             });
     };
 }
-
-export function loadRegisterStudent(page,
-                                    limit,
-                                    genId,
-                                    search,
-                                    salerId,
-                                    campaignId,
-                                    classId,
-                                    paid_status,
-                                    class_status,
-                                    startTime,
-                                    endTime,
-                                    baseId,
-                                    appointment_payment,
-                                    query_coupon, tele_call_status, bookmark) {
+// {...this.state,page:1,},
+// page,
+//     limit,
+//     selectGenId,
+//     query,
+//     selectedSalerId,
+//     campaignId,
+//     selectedClassId,
+//     selectedMoneyFilter,
+//     selectedClassStatus,
+//     startTime,
+//     endTime,
+//     selectedBaseId,
+//     appointmentPayment,
+//     query_coupon,
+//     selectedTeleCallStatus,
+//     selectedBookmarkStatus
+export function loadRegisterStudent(filters) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
         registerStudentsApi
-            .getRegisterStudent(
-                page,
-                limit,
-                genId,
-                search,
-                salerId,
-                campaignId,
-                classId,
-                paid_status,
-                class_status,
-                startTime,
-                endTime,
-                baseId,
-                appointment_payment,
-                query_coupon,
-                tele_call_status,
-                bookmark
-            )
+            .getRegisterStudent(filters)
             .then(function (res) {
                 dispatch(loadDataSuccessful(res));
             })

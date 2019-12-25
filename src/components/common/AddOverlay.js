@@ -157,13 +157,13 @@ class AddOverlay extends React.Component {
 
 AddOverlay.propTypes = {
     formData: PropTypes.object,
-    name: PropTypes.string, //  ten overlay
+    name: PropTypes.string, //  ten overlays
     icon: PropTypes.string,
     fieldName: PropTypes.string.isRequired,    // ten truong can update
     fieldName2: PropTypes.string.isRequired,    // ten truong can update
-    loadFunction: PropTypes.func,    // load list tren overlay
-    updateFormData: PropTypes.func,   // de update overlay
-    assignCustomer: PropTypes.func,   // de update overlay
+    loadFunction: PropTypes.func,    // load list tren overlays
+    updateFormData: PropTypes.func,   // de update overlays
+    assignCustomer: PropTypes.func,   // de update overlays
     isLoadingOverlay: PropTypes.bool,
     isPagination: PropTypes.bool,
     isSearch: PropTypes.bool,

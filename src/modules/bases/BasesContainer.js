@@ -11,6 +11,7 @@ import toastr from 'toastr';
 import {confirm} from "../../helpers/helper";
 import Pagination from "../../components/common/Pagination";
 import EditBaseModalContainer from "./EditBaseModalContainer";
+import CreateBaseOverlay from "./overlays/CreateBaseOverlay";
 
 
 class BasesContainer extends React.Component {
@@ -97,13 +98,6 @@ class BasesContainer extends React.Component {
                                     <h4 className="card-title">
                                         <strong>Danh sách cơ sở</strong>
                                     </h4>
-                                    <div>
-                                        <button
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button" onClick={() => this.openModal({})}>
-                                            <strong>+</strong>
-                                        </button>
-                                    </div>
                                 </div>
                                 <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
 
@@ -113,16 +107,20 @@ class BasesContainer extends React.Component {
                                         className="round-white-seacrh"
                                         placeholder="Tìm kiếm (tên, địa chỉ)"
                                     />
-                                    <button
-                                        className="btn btn-white btn-round btn-icon"
-                                        type="button"
-                                        onClick={() => this.openModal({})}
-                                    >
-                                        Thêm cơ sở&nbsp;&nbsp;<i className="material-icons">
-                                        add
-                                    </i>
+                                    {/*<button*/}
+                                    {/*    className="btn btn-white btn-round btn-icon"*/}
+                                    {/*    type="button"*/}
+                                    {/*    onClick={() => this.openModal({})}*/}
+                                    {/*>*/}
+                                    {/*    Thêm cơ sở&nbsp;&nbsp;<i className="material-icons">*/}
+                                    {/*    add*/}
+                                    {/*</i>*/}
 
-                                    </button>
+                                    {/*</button>*/}
+                                    <CreateBaseOverlay
+                                        className="btn btn-white btn-round btn-icon"
+
+                                    />
                                 </div>
 
                             </div>

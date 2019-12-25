@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
-import {avatarEmpty, shortString} from "../../helpers/helper";
+// import {avatarEmpty, shortString} from "../../helpers/helper";
 
 //import {Link} from "react-router";
 

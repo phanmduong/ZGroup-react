@@ -761,12 +761,21 @@ export default {
             base:
                 {
                     name: "",
+                    longitude: 1,
+                    latitude:1,
                     address:
                         "",
                     images: []
                 }
         },
-        base: {},
+        base:  {
+            name: "",
+            longitude: 1,
+            latitude:1,
+            address:
+                "",
+            images: []
+        },
         percent: 0,
         isSavingBase: false,
         districts: []
@@ -1983,8 +1992,8 @@ export default {
         isLoading: false,
         isLoadingCoupon: false,
         isLoadingCustomer: false,
-        isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         // (chứa trong overlay)    +  customersShowInTable  = full = customers
+        isLoadingOverlay: false,     // load trong overlays
+        customersList: [],         // (chứa trong overlays)    +  customersShowInTable  = full = customers
         totalCustomerInOverlayPages: 1,
         totalCustomerPages: 1,
         totalCustomerCount: 1,

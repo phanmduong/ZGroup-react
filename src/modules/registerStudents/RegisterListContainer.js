@@ -21,6 +21,7 @@ import CreateRegisterModalContainer from './CreateRegisterModalContainer';
 import Pagination from "../../components/common/Pagination";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
+import * as studentActions from "../infoStudent/studentActions";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -43,6 +44,8 @@ class RegisterListContainer extends React.Component {
             selectedClassId: '',
             selectedSalerId: '',
             selectedBaseId: '',
+            registerSourceId: '',
+            registerStatusId: '',
             selectedMoneyFilter: '',
             selectedClassStatus: '',
             selectedBookmarkStatus: '',
@@ -80,6 +83,8 @@ class RegisterListContainer extends React.Component {
                 appointmentPayment: ''
             },
             allClassFilter: [],
+            sourceFilter: [],
+            statusFilter: [],
             selectedStudent: {},
             query_coupon: "",
             dateTest: ""
@@ -94,6 +99,9 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadSalerFilter();
         this.props.registerActions.loadCampaignFilter();
         this.props.registerActions.loadBaseFilter();
+        this.props.createRegisterActions.loadSources();
+        this.props.studentActions.loadStatuses('registers');
+
 
         if (this.props.location.query && this.props.location.query.call_status) {
             this.setState({selectedTeleCallStatus: this.props.location.query.call_status});
@@ -103,7 +111,13 @@ class RegisterListContainer extends React.Component {
             this.setState({selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: ''});
         }
         if (this.props.params.salerId) {
-            this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
+            this.props.registerActions.loadRegisterStudent({
+                page: 1,
+                query: '',
+                campaignId: '',
+                selectGenId: '',
+                selectedSalerId: Number(this.props.params.salerId),
+            });
             this.setState({
                 page: 1,
                 query: '',
@@ -114,7 +128,12 @@ class RegisterListContainer extends React.Component {
 
         } else {
             if (this.props.params.genId && this.props.params.campaignId) {
-                this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
+                this.props.registerActions.loadRegisterStudent({
+                    page: 1,
+                    query: '',
+                    campaignId: Number(this.props.params.campaignId),
+                    selectGenId: Number(this.props.params.genId),
+                });
                 this.setState({
                     page: 1,
                     query: '',
@@ -132,7 +151,6 @@ class RegisterListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        //console.log(nextProps);
         if (!nextProps.isLoadingClassFilter && this.props.isLoadingClassFilter) {
             this.setState({
                 classFilter: this.getFilter(nextProps.classFilter),
@@ -158,6 +176,16 @@ class RegisterListContainer extends React.Component {
                 baseFilter: this.getBaseFilter(nextProps.baseFilter),
             });
         }
+        if (!nextProps.isLoadingSources && this.props.isLoadingSources) {
+            this.setState({
+                sourceFilter: this.getSourceFilter(nextProps.sources),
+            });
+        }
+        if (!nextProps.isLoadingStatuses && this.props.isLoadingStatuses) {
+            this.setState({
+                statusFilter: this.getStatusFilter(nextProps.statuses.registers),
+            });
+        }
         if (!nextProps.isLoadingGens && this.props.isLoadingGens) {
 
             let gens = _.sortBy(nextProps.gens, [function (o) {
@@ -181,6 +209,7 @@ class RegisterListContainer extends React.Component {
 
         if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(
+                {...this.state, page: 1, selectedSalerId: Number(nextProps.params.salerId),},
                 1,//page
                 this.state.limit,
                 this.state.selectGenId,
@@ -220,11 +249,10 @@ class RegisterListContainer extends React.Component {
             });
             if (nextProps.route.path == '/sales/waitlist') {
                 this.isWaitListPage = true;
-                this.props.registerActions.loadRegisterStudent(
-                    1,//page
-                    this.state.selectGenId, '', '', '', '', '',
-                    'waiting',
-                );
+                this.props.registerActions.loadRegisterStudent({
+                    page: 1,
+                    selectedClassStatus: 'waiting',
+                });
                 this.changeClassStatusFilter({value: 'waiting'});
                 this.setState({
                     page: 1,
@@ -240,7 +268,13 @@ class RegisterListContainer extends React.Component {
                     cardTitle: 'Danh sách đăng kí học'
                 });
                 if (nextProps.params.salerId) {//1
-                    this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
+                    this.props.registerActions.loadRegisterStudent({
+                        page: 1,
+                        campaignId: '',
+                        selectGenId: '',
+                        selectedClassStatus: '',
+                        selectedSalerId: nextProps.params.salerId,
+                    });
                     this.setState({
                         page: 1,
                         campaignId: '',
@@ -250,14 +284,20 @@ class RegisterListContainer extends React.Component {
                     });
                 } else {//2
                     if (nextProps.params.genId && nextProps.params.campaignId) {
-                        this.props.registerActions.loadRegisterStudent(1, nextProps.params.genId, '', '', nextProps.params.campaignId);
+                        this.props.registerActions.loadRegisterStudent({
+                            page: 1,
+                            campaignId: Number(nextProps.params.campaignId),
+                            selectGenId: Number(nextProps.params.genId)
+                        });
                         this.setState({
                             page: 1,
                             campaignId: Number(nextProps.params.campaignId),
                             selectGenId: Number(nextProps.params.genId)
                         });
                     } else {//3
-                        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId);
+                        this.props.registerActions.loadRegisterStudent({
+                            page: 1,
+                        });
                         this.setState({
                             page: 1,
                         });
@@ -274,22 +314,7 @@ class RegisterListContainer extends React.Component {
         }
         if (res != this.state.selectedClassId)
             this.props.registerActions.loadRegisterStudent(
-                1,//page
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                obj ? obj.value : '',
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {...this.state, page: 1, selectedClassId: obj ? obj.value : ''},
             );
         this.setState({selectedClassId: res, page: 1});
     };
@@ -313,22 +338,7 @@ class RegisterListContainer extends React.Component {
         }
         if (res != this.state.selectedBaseId)
             this.props.registerActions.loadRegisterStudent(
-                1,//page
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                '',
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                obj ? obj.value : '',
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {...this.state, page: 1, selectedClassId: '', selectedBaseId: obj ? obj.value : ''},
             );
         this.setState({
             selectedBaseId: res,
@@ -345,22 +355,7 @@ class RegisterListContainer extends React.Component {
         }
         if (res != this.state.selectedSalerId)
             this.props.registerActions.loadRegisterStudent(
-                1,//page
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                obj ? obj.value : '',
-                this.state.campaignId,
-                this.state.selectedClassId,
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {...this.state, page: 1, selectedSalerId: res,},
             );
         this.setState({selectedSalerId: res, page: 1});
     };
@@ -374,22 +369,7 @@ class RegisterListContainer extends React.Component {
         }
         if (res != this.state.campaignId)
             this.props.registerActions.loadRegisterStudent(
-                1,//page
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                this.state.selectedSalerId,
-                obj ? obj.value : '',
-                this.state.selectedClassId,
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {...this.state, campaignId: res, page: 1},
             );
         this.setState({campaignId: res, page: 1});
     };
@@ -398,22 +378,7 @@ class RegisterListContainer extends React.Component {
         let res = obj ? obj.value : '';
         if (this.state.selectedMoneyFilter != res)
             this.props.registerActions.loadRegisterStudent(
-                1,//page
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                this.state.selectedClassId,
-                res,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {...this.state, page: 1, selectedMoneyFilter: res,},
             );
         this.setState({selectedMoneyFilter: res, page: 1});
     };
@@ -427,22 +392,11 @@ class RegisterListContainer extends React.Component {
             newfilter = newfilter.filter(item => (item.type === 'active'));
         }
         this.props.registerActions.loadRegisterStudent(
-            1,//page
-            this.state.limit,
-            this.state.selectGenId,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            '',
-            this.state.selectedMoneyFilter,
-            res,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            this.state.selectedTeleCallStatus,
-            this.state.selectedBookmarkStatus
+            {
+                ...this.state, page: 1,
+                selectedClassId: '',
+                selectedClassStatus: res,
+            },
         );
 
         this.setState({
@@ -456,22 +410,7 @@ class RegisterListContainer extends React.Component {
     onTeleCallStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
         this.props.registerActions.loadRegisterStudent(
-            1,//page
-            this.state.limit,
-            this.state.selectGenId,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            this.state.selectedClassId,
-            this.state.selectedMoneyFilter,
-            this.state.selectedClassStatus,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            res,
-            this.state.selectedBookmarkStatus
+            {...this.state, page: 1, selectedTeleCallStatus: res,},
         );
 
         this.setState({
@@ -501,22 +440,12 @@ class RegisterListContainer extends React.Component {
         if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
             this.setState({time: time, page: 1});
             this.props.registerActions.loadRegisterStudent(
-                1,
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                this.state.selectedClassId,
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                time.startTime,
-                time.endTime,
-                this.state.selectedBaseId,
-                time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {
+                    ...this.state, page: 1,
+                    startTime: time.startTime,
+                    endTime: time.endTime,
+                    appointmentPayment: time.appointmentPayment,
+                },
             );
         } else {
             this.setState({time: time});
@@ -560,6 +489,35 @@ class RegisterListContainer extends React.Component {
     };
 
     getBaseFilter = (arr) => {
+        let data = arr.map(function (obj) {
+            return {
+                ...obj,
+                value: obj.id,
+                label: obj.name
+            };
+        });
+
+        return [{
+            value: '',
+            label: 'Tất cả'
+        }, ...data];
+    };
+
+    getSourceFilter = (arr) => {
+        let data = arr.map(function (obj) {
+            return {
+                ...obj,
+                value: obj.id,
+                label: obj.name
+            };
+        });
+
+        return [{
+            value: '',
+            label: 'Tất cả'
+        }, ...data];
+    };
+    getStatusFilter = (arr) => {
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -624,22 +582,8 @@ class RegisterListContainer extends React.Component {
         this.setState({
             page,
         });
-        this.props.registerActions.loadRegisterStudent(page,
-            this.state.limit,
-            this.state.selectGenId,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            this.state.selectedClassId,
-            this.state.selectedMoneyFilter,
-            this.state.selectedClassStatus,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            this.state.selectedTeleCallStatus,
-            this.state.selectedBookmarkStatus
+        this.props.registerActions.loadRegisterStudent(
+            {...this.state, page,},
         );
     };
 
@@ -653,21 +597,7 @@ class RegisterListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.registerActions.loadRegisterStudent(1,
-                this.state.limit,
-                this.state.selectGenId,
-                value,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                this.state.selectedClassId,
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+                {...this.state, page: 1, query: value,},
             );
         }.bind(this), 500);
     };
@@ -675,22 +605,7 @@ class RegisterListContainer extends React.Component {
     onBookmarkStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
         this.props.registerActions.loadRegisterStudent(
-            1,//page
-            this.state.limit,
-            this.state.selectGenId,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            this.state.selectedClassId,
-            this.state.selectedMoneyFilter,
-            this.state.selectedClassStatus,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            this.state.selectedTeleCallStatus,
-            res
+            {...this.state, page: 1, selectedBookmarkStatus: res,},
         );
 
         this.setState({
@@ -708,22 +623,8 @@ class RegisterListContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.registerActions.loadRegisterStudent(1,
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                this.state.selectedClassId,
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.selectedBaseId,
-                this.state.time.appointmentPayment,
-                value,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
+            this.props.registerActions.loadRegisterStudent(
+                {...this.state, page: 1, query_coupon: value,},
             );
         }.bind(this), 500);
     };
@@ -733,22 +634,8 @@ class RegisterListContainer extends React.Component {
             page: 1,
             selectGenId: value
         });
-        this.props.registerActions.loadRegisterStudent(1,
-            this.state.limit,
-            value,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            '',
-            this.state.selectedMoneyFilter,
-            this.state.selectedClassStatus,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            this.state.selectedTeleCallStatus,
-            this.state.selectedBookmarkStatus
+        this.props.registerActions.loadRegisterStudent(
+            {...this.state, page: 1, selectGenId: value, selectedClassId: ''},
         );
         this.props.registerActions.loadClassFilter(value);
     };
@@ -872,24 +759,7 @@ class RegisterListContainer extends React.Component {
     };
 
     addLeadSuccess = () => {
-        this.props.registerActions.loadRegisterStudent(
-            this.state.page,//page
-            this.state.limit,
-            this.state.selectGenId,
-            this.state.query,
-            this.state.selectedSalerId,
-            this.state.campaignId,
-            this.state.selectedClassId,
-            this.state.selectedMoneyFilter,
-            this.state.selectedClassStatus,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.selectedBaseId,
-            this.state.time.appointmentPayment,
-            this.state.query_coupon,
-            this.state.selectedTeleCallStatus,
-            this.state.selectedBookmarkStatus
-        );
+        this.props.registerActions.loadRegisterStudent({...this.state,},);
     };
 
     addMyLead = (userID) => {
@@ -898,6 +768,11 @@ class RegisterListContainer extends React.Component {
 
     openModalRegisterDetail = (selectedStudentId) => {
         openModalRegisterDetail(`/sales/info-student/${selectedStudentId}`);
+    };
+
+    onFilterChange = (obj, field) => {
+        this.setState({[field]: obj ? obj.id : ''});
+        this.props.registerActions.loadRegisterStudent({...this.state, page: 1, [field]: obj ? obj.id : ''});
     };
 
     render() {
@@ -910,358 +785,385 @@ class RegisterListContainer extends React.Component {
 
 
                     {!this.props.isLoadingGens &&
-                        <div>
+                    <div>
 
-                            <div className="card" mask="purple">
-                                <img className="img-absolute"/>
-                                <div className="card-content">
-                                    <div className="row">
-                                        <div className="col-sm-12">
-                                            <div className="flex-row flex">
-                                                <h2 className="card-title">
-                                                    <strong>Danh sách đăng kí</strong>
-                                                </h2>
-                                            </div>
-                                            <div>
-                                                <a
-                                                    onClick={this.showLoadingModal}
-                                                    className="text-white"
-                                                    disabled={
-                                                        this.props.isLoadingGens ||
-                                                        this.props.isLoadingClassFilter ||
-                                                        this.props.isLoading ||
-                                                        this.props.isLoadingRegisters ||
-                                                        this.props.isLoadingBaseFilter ||
-                                                        this.props.isLoadingExcel
-                                                    }
-                                                >
-                                                    Tải xuống
-                                                </a>
-                                            </div>
-                                            <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-                                                <Search
-                                                    onChange={this.registersSearchChange}
-                                                    value={this.state.query}
-                                                    placeholder="Tìm kiếm học viên"
-                                                    className="round-white-seacrh"
-                                                />
-                                                <button
-                                                    onClick={this.openFilterPanel}
-                                                    className="btn btn-white btn-round btn-icon"
-                                                    disabled={
-                                                        this.props.isLoadingGens ||
-                                                        this.props.isLoadingClassFilter ||
-                                                        this.props.isLoadingBaseFilter ||
-                                                        this.props.isLoading ||
-                                                        this.props.isLoadingRegisters
-                                                    }
-                                                >
-                                                    Lọc
-                                                </button>
-                                                {
-                                                    (this.state.selectGenId && this.state.selectGenId >= 0) &&
-                                                    <Select
-                                                        options={this.state.gens}
-                                                        onChange={this.changeGens}
-                                                        value={this.state.selectGenId}
-                                                        defaultMessage="Chọn khóa học"
-                                                        name="gens"
-                                                    />
+                        <div className="card" mask="purple">
+                            <img className="img-absolute"/>
+                            <div className="card-content">
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="flex-row flex">
+                                            <h2 className="card-title">
+                                                <strong>Danh sách đăng kí</strong>
+                                            </h2>
+                                        </div>
+                                        <div>
+                                            <a
+                                                onClick={this.showLoadingModal}
+                                                className="text-white"
+                                                disabled={
+                                                    this.props.isLoadingGens ||
+                                                    this.props.isLoadingClassFilter ||
+                                                    this.props.isLoading ||
+                                                    this.props.isLoadingRegisters ||
+                                                    this.props.isLoadingBaseFilter ||
+                                                    this.props.isLoadingExcel
                                                 }
-                                                {/*<button*/}
-                                                {/*    className="btn btn-white btn-round btn-icon"*/}
-                                                {/*    type="button"*/}
-                                                {/*    onClick={this.openCreateRegisterModal}*/}
-                                                {/*>*/}
-                                                {/*    Thêm đăng kí&nbsp;&nbsp;<i className="material-icons">*/}
-                                                {/*    add*/}
-                                                {/*</i>*/}
-
-                                                {/*</button>*/}
-                                                <CreateRegisterOverlay
-                                                    className="btn btn-white btn-round btn-icon"
-
-                                                />
-
-                                            </div>
-
+                                            >
+                                                Tải xuống
+                                            </a>
                                         </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <Panel collapsible expanded={
-                                this.state.openFilterPanel
-                                &&
-                                !(this.props.isLoadingGens ||
-                                    this.props.isLoadingClassFilter ||
-                                    this.props.isLoadingBaseFilter ||
-                                    this.props.isLoadingRegisters)
-                            }>
-                                <div className="white-light-round card-filter">
-
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo cơ sở
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
-                                                className=""
-                                                options={this.state.baseFilter}
-                                                onChange={this.onBaseFilterChange}
-                                                value={this.state.selectedBaseId}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_base"
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo lớp học
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoadingClassFilter || this.props.isLoading}
-                                                className=""
-                                                options={this.state.classFilter}
-                                                onChange={this.onClassFilterChange}
-                                                value={this.state.selectedClassId}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_class"
-                                            />
-                                        </div>
-
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo Saler
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
-                                                options={this.state.salerFilter}
-                                                onChange={this.onSalerFilterChange}
-                                                value={this.state.selectedSalerId}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_saler"
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo Chiến dịch
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
-                                                options={this.state.campaignFilter}
-                                                onChange={this.onCampaignFilterChange}
-                                                value={this.state.campaignId}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_campaign"
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo học phí
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoading}
-                                                options={this.state.moneyFilter}
-                                                onChange={this.onMoneyFilterChange}
-                                                value={this.state.selectedMoneyFilter}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_money"
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label>Từ ngày</label>
-                                            <FormInputDate
-                                                label=""
-                                                name="startTime"
-                                                updateFormData={this.updateFormDate}
-
-                                                id="form-start-time"
-                                                value={this.state.time.startTime}
-                                                maxDate={this.state.time.endTime}
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label>Đến ngày</label>
-                                            <FormInputDate
-                                                label=""
-                                                name="endTime"
-                                                updateFormData={this.updateFormDate}
-                                                id="form-end-time"
-                                                value={this.state.time.endTime}
-                                                minDate={this.state.time.startTime}
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo trạng thái lớp
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoading || this.isWaitListPage}
-                                                options={this.state.classStatusFilter}
-                                                onChange={this.onClassStatusFilterChange}
-                                                value={this.state.selectedClassStatus}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_class_status"
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label className="">
-                                                Theo trạng thái cuộc gọi
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoading || this.isWaitListPage}
-                                                options={this.state.teleCallStatus}
-                                                onChange={this.onTeleCallStatusFilterChange}
-                                                value={this.state.selectedTeleCallStatus}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_class_status"
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <FormInputDate
-                                                label="Hẹn ngày nộp tiền"
-                                                name="appointmentPayment"
-                                                updateFormData={this.updateFormDate}
-                                                id="form-appointment-payment"
-                                                value={this.state.time.appointmentPayment}
-                                            />
-                                        </div>
-                                        <div className="col-md-3">
+                                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                             <Search
-                                                onChange={this.searchByCoupon}
-                                                value={this.state.query_coupon}
-                                                label="Tìm kiếm theo coupon"
-                                                placeholder="Nhập coupon"
+                                                onChange={this.registersSearchChange}
+                                                value={this.state.query}
+                                                placeholder="Tìm kiếm học viên"
+                                                className="round-white-seacrh"
                                             />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label>
-                                                Theo đánh dấu
-                                            </label>
-                                            <ReactSelect
-                                                disabled={this.props.isLoading}
-                                                options={this.state.bookmarkFilter}
-                                                onChange={this.onBookmarkStatusFilterChange}
-                                                value={this.state.selectedBookmarkStatus}
-                                                defaultMessage="Tuỳ chọn"
-                                                name="filter_bookmark_status"
+                                            <button
+                                                onClick={this.openFilterPanel}
+                                                className="btn btn-white btn-round btn-icon"
+                                                disabled={
+                                                    this.props.isLoadingGens ||
+                                                    this.props.isLoadingClassFilter ||
+                                                    this.props.isLoadingBaseFilter ||
+                                                    this.props.isLoading ||
+                                                    this.props.isLoadingRegisters
+                                                }
+                                            >
+                                                Lọc
+                                            </button>
+                                            {
+                                                (this.state.selectGenId && this.state.selectGenId >= 0) &&
+                                                <Select
+                                                    options={this.state.gens}
+                                                    onChange={this.changeGens}
+                                                    value={this.state.selectGenId}
+                                                    defaultMessage="Chọn khóa học"
+                                                    name="gens"
+                                                />
+                                            }
+                                            {/*<button*/}
+                                            {/*    className="btn btn-white btn-round btn-icon"*/}
+                                            {/*    type="button"*/}
+                                            {/*    onClick={this.openCreateRegisterModal}*/}
+                                            {/*>*/}
+                                            {/*    Thêm đăng kí&nbsp;&nbsp;<i className="material-icons">*/}
+                                            {/*    add*/}
+                                            {/*</i>*/}
+
+                                            {/*</button>*/}
+                                            <CreateRegisterOverlay
+                                                className="btn btn-white btn-round btn-icon"
+
                                             />
+
                                         </div>
+
                                     </div>
 
-                                    <div className="row hidden">
-                                        <div className="col-sm-2">
-                                            <div className={"flex"}>
-                                                <div
-                                                    style={{
-                                                        background: '#ffffff',
-                                                        border: 'solid 1px',
-                                                        height: '15px',
-                                                        width: '30px',
-                                                        margin: '3px 10px'
-                                                    }}/>
-                                                < p> Chưa đóng tiền</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <div className={"flex"}>
-                                                <div style={{
-                                                    background: '#dff0d8',
-                                                    height: '15px',
-                                                    width: '30px',
-                                                    margin: '3px 10px'
-                                                }}/>
-                                                <p>Đã nộp tiền</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <div className={"flex"}>
-                                                <div
-                                                    style={{
-                                                        background: '#fcf8e3',
-                                                        height: '15px',
-                                                        width: '30px',
-                                                        margin: '3px 10px'
-                                                    }}/>
-                                                <p>Danh sách chờ</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <div className={"flex"}>
-                                                <div style={{
-                                                    background: '#f2dede',
-                                                    height: '15px',
-                                                    width: '30px',
-                                                    margin: '3px 10px'
-                                                }}/>
-                                                <p> Đang bảo lưu</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <div className={"flex"}>
-                                                <div style={{
-                                                    background: '#daedf7',
-                                                    height: '15px',
-                                                    width: '30px',
-                                                    margin: '3px 10px'
-                                                }}/>
-                                                <p>Đang học lại</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <div className={"flex"}>
-                                                <div style={{
-                                                    background: '#8c8c8c',
-                                                    height: '15px',
-                                                    width: '30px',
-                                                    margin: '3px 10px'
-                                                }}/>
-                                                <p>Đã học xong</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Panel>
-
-                            {
-                                this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
-                                this.props.isLoading ?
-                                    <Loading/> :
-                                    <ListRegister
-                                        genId={this.state.selectGenId}
-                                        registers={this.props.registers}
-                                        isChangingBookmark={this.props.isChangingBookmark}
-                                        viewCall={this.viewCall}
-                                        deleteRegister={this.deleteRegister}
-                                        loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
-                                        loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
-                                        openModalChangeClass={this.openModalChangeClass}
-                                        openModalChangeInfoStudent={this.openModalChangeInfoStudent}
-                                        openModalRegisterDetail={this.openModalRegisterDetail}
-                                        changeStatusPause={this.changeStatusPause}
-                                        changeMarkRegister={this.changeMarkRegister}
-                                        addMyLead={this.addMyLead}
-                                    />
-                            }
-                            <div className="row float-right">
-                                <div
-                                    className="col-md-12"
-                                    style={{textAlign: "right"}}
-                                >
-                                    <Pagination
-                                        totalPages={
-                                            this.props.totalPages
-                                        }
-                                        currentPage={
-                                            this.state.page
-                                        }
-                                        loadDataPage={this.loadRegisterStudent}
-                                    />
                                 </div>
                             </div>
-
                         </div>
+                        <Panel collapsible expanded={
+                            this.state.openFilterPanel
+                            &&
+                            !(this.props.isLoadingGens ||
+                                this.props.isLoadingClassFilter ||
+                                this.props.isLoadingBaseFilter ||
+                                this.props.isLoadingRegisters)
+                        }>
+                            <div className="white-light-round card-filter">
+
+                                <div className="row">
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo cơ sở
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
+                                            className=""
+                                            options={this.state.baseFilter}
+                                            onChange={this.onBaseFilterChange}
+                                            value={this.state.selectedBaseId}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_base"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo lớp học
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoadingClassFilter || this.props.isLoading}
+                                            className=""
+                                            options={this.state.classFilter}
+                                            onChange={this.onClassFilterChange}
+                                            value={this.state.selectedClassId}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_class"
+                                        />
+                                    </div>
+
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo Saler
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
+                                            options={this.state.salerFilter}
+                                            onChange={this.onSalerFilterChange}
+                                            value={this.state.selectedSalerId}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_saler"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo Chiến dịch
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
+                                            options={this.state.campaignFilter}
+                                            onChange={this.onCampaignFilterChange}
+                                            value={this.state.campaignId}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_campaign"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo học phí
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading}
+                                            options={this.state.moneyFilter}
+                                            onChange={this.onMoneyFilterChange}
+                                            value={this.state.selectedMoneyFilter}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_money"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label>Từ ngày</label>
+                                        <FormInputDate
+                                            label=""
+                                            name="startTime"
+                                            updateFormData={this.updateFormDate}
+
+                                            id="form-start-time"
+                                            value={this.state.time.startTime}
+                                            maxDate={this.state.time.endTime}
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label>Đến ngày</label>
+                                        <FormInputDate
+                                            label=""
+                                            name="endTime"
+                                            updateFormData={this.updateFormDate}
+                                            id="form-end-time"
+                                            value={this.state.time.endTime}
+                                            minDate={this.state.time.startTime}
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo trạng thái lớp
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.isWaitListPage}
+                                            options={this.state.classStatusFilter}
+                                            onChange={this.onClassStatusFilterChange}
+                                            value={this.state.selectedClassStatus}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_class_status"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo trạng thái cuộc gọi
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.isWaitListPage}
+                                            options={this.state.teleCallStatus}
+                                            onChange={this.onTeleCallStatusFilterChange}
+                                            value={this.state.selectedTeleCallStatus}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_class_status"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <FormInputDate
+                                            label="Hẹn ngày nộp tiền"
+                                            name="appointmentPayment"
+                                            updateFormData={this.updateFormDate}
+                                            id="form-appointment-payment"
+                                            value={this.state.time.appointmentPayment}
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <Search
+                                            onChange={this.searchByCoupon}
+                                            value={this.state.query_coupon}
+                                            label="Tìm kiếm theo coupon"
+                                            placeholder="Nhập coupon"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label>
+                                            Theo đánh dấu
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading}
+                                            options={this.state.bookmarkFilter}
+                                            onChange={this.onBookmarkStatusFilterChange}
+                                            value={this.state.selectedBookmarkStatus}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="filter_bookmark_status"
+                                        />
+                                    </div>
+
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo trạng thái
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.props.isLoadingStatuses}
+                                            options={this.state.statusFilter}
+                                            onChange={e=>this.onFilterChange(e, 'registerStatusId')}
+                                            value={this.state.registerStatusId}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="registerStatusId"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo nguồn
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.props.isLoadingSources}
+                                            options={this.state.sourceFilter}
+                                            onChange={e=>this.onFilterChange(e, 'registerSourceId')}
+                                            value={this.state.registerSourceId}
+                                            defaultMessage="Tuỳ chọn"
+                                            name="registerSourceId"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="row hidden">
+                                    <div className="col-sm-2">
+                                        <div className={"flex"}>
+                                            <div
+                                                style={{
+                                                    background: '#ffffff',
+                                                    border: 'solid 1px',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                            < p> Chưa đóng tiền</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className={"flex"}>
+                                            <div style={{
+                                                background: '#dff0d8',
+                                                height: '15px',
+                                                width: '30px',
+                                                margin: '3px 10px'
+                                            }}/>
+                                            <p>Đã nộp tiền</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className={"flex"}>
+                                            <div
+                                                style={{
+                                                    background: '#fcf8e3',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                            <p>Danh sách chờ</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className={"flex"}>
+                                            <div style={{
+                                                background: '#f2dede',
+                                                height: '15px',
+                                                width: '30px',
+                                                margin: '3px 10px'
+                                            }}/>
+                                            <p> Đang bảo lưu</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className={"flex"}>
+                                            <div style={{
+                                                background: '#daedf7',
+                                                height: '15px',
+                                                width: '30px',
+                                                margin: '3px 10px'
+                                            }}/>
+                                            <p>Đang học lại</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className={"flex"}>
+                                            <div style={{
+                                                background: '#8c8c8c',
+                                                height: '15px',
+                                                width: '30px',
+                                                margin: '3px 10px'
+                                            }}/>
+                                            <p>Đã học xong</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Panel>
+
+                        {
+                            this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
+                            this.props.isLoading ?
+                                <Loading/> :
+                                <ListRegister
+                                    genId={this.state.selectGenId}
+                                    registers={this.props.registers}
+                                    isChangingBookmark={this.props.isChangingBookmark}
+                                    viewCall={this.viewCall}
+                                    deleteRegister={this.deleteRegister}
+                                    loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
+                                    loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
+                                    openModalChangeClass={this.openModalChangeClass}
+                                    openModalChangeInfoStudent={this.openModalChangeInfoStudent}
+                                    openModalRegisterDetail={this.openModalRegisterDetail}
+                                    changeStatusPause={this.changeStatusPause}
+                                    changeMarkRegister={this.changeMarkRegister}
+                                    addMyLead={this.addMyLead}
+                                />
+                        }
+                        <div className="row float-right">
+                            <div
+                                className="col-md-12"
+                                style={{textAlign: "right"}}
+                            >
+                                <Pagination
+                                    totalPages={
+                                        this.props.totalPages
+                                    }
+                                    currentPage={
+                                        this.state.page
+                                    }
+                                    loadDataPage={this.loadRegisterStudent}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
                     }
 
                 </div>
@@ -1658,6 +1560,7 @@ class RegisterListContainer extends React.Component {
             </div>
         );
     }
+
 }
 
 RegisterListContainer.propTypes = {
@@ -1736,13 +1639,18 @@ function mapStateToProps(state) {
         isLoadingExcel: state.registerStudents.isLoadingExcel,
         isCommittingInfoStudent: state.registerStudents.isCommittingInfoStudent,
         isLoadingBaseFilter: state.registerStudents.isLoadingBaseFilter,
+        sources: state.createRegister.sources,
+        isLoadingSources: state.createRegister.isLoadingSources,
+        statuses: state.infoStudent.statuses,
+        isLoadingStatuses: state.infoStudent.isLoadingStatuses,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         registerActions: bindActionCreators(registerActions, dispatch),
-        createRegisterActions: bindActionCreators(createRegisterActions, dispatch)
+        createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
+        studentActions: bindActionCreators(studentActions, dispatch),
     };
 }
 

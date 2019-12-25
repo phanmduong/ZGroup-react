@@ -34,9 +34,10 @@ class RegistersContainer extends React.Component {
     openModalChangePassword = () => {
         this.setState({showModalChangePassword: true});
     };
-    reload = ()=>{
+    reload = () => {
         this.props.studentActions.loadRegisters(this.studentId);
-    }
+    };
+
     render() {
         return (
             <div className="tab-pane active">
@@ -54,21 +55,22 @@ class RegistersContainer extends React.Component {
                                         <div className="timeline-panel">
                                             <div className="">
                                                 <h4>
-                                                    <b>{register.class.name}</b>
+                                                    <a className="color-black" target="_blank"
+                                                       href={`/teaching/class/${register.class.id}`}><b>{register.class.name}</b></a>
                                                 </h4>
                                                 <div className="timeline-heading">
                                                     <div className="flex-row-center">
                                                         {
                                                             register.saler ?
-                                                            <button className="btn btn-xs"
-                                                                    data-toggle="tooltip"
-                                                                    rel="tooltip"
-                                                                    data-original-title="Nhân viên sale"
-                                                                    style={{backgroundColor: '#' + register.saler.color}}
-                                                            >
-                                                                {helper.getShortName(register.saler.name)}
-                                                                <div className="ripple-container"/>
-                                                            </button>
+                                                                <button className="btn btn-xs"
+                                                                        data-toggle="tooltip"
+                                                                        rel="tooltip"
+                                                                        data-original-title="Nhân viên sale"
+                                                                        style={{backgroundColor: '#' + register.saler.color}}
+                                                                >
+                                                                    {helper.getShortName(register.saler.name)}
+                                                                    <div className="ripple-container"/>
+                                                                </button>
                                                                 :
                                                                 (
                                                                     <div className="btn btn-xs"
@@ -80,21 +82,21 @@ class RegistersContainer extends React.Component {
                                                         }
                                                         {
                                                             register.campaign ?
-                                                            <button className="btn btn-xs"
-                                                                    data-toggle="tooltip"
-                                                                    rel="tooltip"
-                                                                    data-original-title="Chiến dịch"
-                                                                    style={{backgroundColor: '#' + register.campaign.color}}
-                                                            >
-                                                                {helper.getShortName(register.campaign.name)}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                            : (
-                                                            <button className="btn btn-xs">
-                                                            No campaign
-                                                            <div className="ripple-container" />
-                                                            </button>
-                                                            )
+                                                                <button className="btn btn-xs"
+                                                                        data-toggle="tooltip"
+                                                                        rel="tooltip"
+                                                                        data-original-title="Chiến dịch"
+                                                                        style={{backgroundColor: '#' + register.campaign.color}}
+                                                                >
+                                                                    {helper.getShortName(register.campaign.name)}
+                                                                    <div className="ripple-container"/>
+                                                                </button>
+                                                                : (
+                                                                    <button className="btn btn-xs">
+                                                                        No campaign
+                                                                        <div className="ripple-container"/>
+                                                                    </button>
+                                                                )
                                                         }
                                                         <SourceOverlay
                                                             className="btn status-overlay btn-xs"
@@ -139,7 +141,7 @@ class RegistersContainer extends React.Component {
                                                     <i className="material-icons">access_time</i>
                                                     &nbsp; &nbsp; {register.class.study_time}
                                                 </div>}
-                                                {register.class.base &&<div className="flex-row-center">
+                                                {register.class.base && <div className="flex-row-center">
                                                     <i className="material-icons">home</i>&nbsp; &nbsp;
                                                     {register.class.room && register.class.room + ' - '}
                                                     {register.class.base}

@@ -229,7 +229,7 @@ export default function customerReducer(state = initialState.groupCustomers, act
             };
 
 
-        //          đánh dấu đã thêm vào để loại bỏ trong overlay
+        //          đánh dấu đã thêm vào để loại bỏ trong overlays
 
         case types.ASSIGN_GROUP_CUSTOMER_FORM_DATA:
             customersList = changeCustomer(action.id, state.customersList);
@@ -237,7 +237,7 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 ...state,
                 customersList: customersList,
             };
-        //           đánh dấu đã xóa để thêm vào overlay
+        //           đánh dấu đã xóa để thêm vào overlays
 
         case types.REMOVE_GROUP_CUSTOMER_FORM_DATA:  // xóa customer trong customers đồng thời thêm vào customersList
             customersShowInTable = changeCustomer(action.customer.id, state.groupCustomerForm.customersShowInTable);

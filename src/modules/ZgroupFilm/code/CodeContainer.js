@@ -145,7 +145,7 @@ class CodeContainer extends React.Component {
                                 {/*<div>*/}
                                 {/*<OverlayTrigger*/}
                                 {/*placement="top"*/}
-                                {/*overlay={Filter}*/}
+                                {/*overlays={Filter}*/}
                                 {/*>*/}
                                 {/*<button*/}
                                 {/*//onClick={this.openFilterPanel}*/}

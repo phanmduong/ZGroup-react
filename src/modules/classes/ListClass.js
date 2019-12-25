@@ -2,7 +2,6 @@ import React from 'react';
 import Switch from 'react-bootstrap-switch';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-// import TooltipButton from '../../components/common/TooltipButton';
 import {Link} from 'react-router';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 

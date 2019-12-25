@@ -76,7 +76,7 @@ export function updateCreateBaseFormData(base) {
     };
 }
 
-export function createBase(base) {
+export function createBase(base, callback) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_BASE_MODAL
@@ -89,6 +89,7 @@ export function createBase(base) {
                     type: types.CREATE_BASE_SUCCESS_MODAL
                 });
                 browserHistory.push('/base/bases');
+                if(callback) callback();
             });
         //     .catch(() => {
         //     helper.showErrorNotification('Có lỗi xảy ra');

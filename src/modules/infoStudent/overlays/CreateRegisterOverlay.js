@@ -250,6 +250,15 @@ class CreateRegisterOverlay extends React.Component {
                                         updateFormData={this.updateFormData}
                                     /></div>
                                 <div>
+                                    <label>Tên phụ huynh</label>
+                                    <FormInputText
+                                        name="father_name"
+                                        placeholder="Tên phụ huynh"
+                                        required
+                                        value={register.father_name}
+                                        updateFormData={this.updateFormData}
+                                    /></div>
+                                <div>
                                     <label>Email</label>
                                     <FormInputText
                                         name="email"

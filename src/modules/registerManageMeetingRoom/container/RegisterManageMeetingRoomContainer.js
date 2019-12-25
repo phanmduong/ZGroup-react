@@ -342,7 +342,7 @@ class RegisterManageRoomContainer extends React.Component {
                                         {/*<div>*/}
                                         {/*<OverlayTrigger*/}
                                         {/*placement="top"*/}
-                                        {/*overlay={Export}*/}
+                                        {/*overlays={Export}*/}
                                         {/*>*/}
                                         {/*<button*/}
                                         {/*className="btn btn-primary btn-round btn-xs button-add none-margin "*/}

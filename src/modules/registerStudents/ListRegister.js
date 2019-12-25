@@ -175,14 +175,10 @@ class ListRegister extends React.Component {
                                         }
 
 
-
-                                                   <SourceOverlay
-                                                       className="btn-xs width-100 padding-vertical-10px source-value"
-                                                       student={register}
-                                                   />
-
-
-
+                                        <SourceOverlay
+                                            className="btn-xs width-100 padding-vertical-10px source-value  margin-bottom-10"
+                                            student={register}
+                                        />
 
 
                                     </div>
@@ -199,7 +195,7 @@ class ListRegister extends React.Component {
                                             :
                                             <TooltipButton text={`Hẹn nộp ${register.appointment_payment_date}`}
                                                            placement="top">
-                                                <div>
+                                                <div className="margin-bottom-10">
                                                     {
                                                         register.appointment_payment ?
                                                             register.appointment_payment :
@@ -214,7 +210,7 @@ class ListRegister extends React.Component {
                                         data={register.register_status}
                                         refId={register.id}
                                         statusRef="registers"
-                                        className="status-overlay"
+                                        className="status-overlay margin-bottom-10"
                                     />
                                 </td>
                                 <td>{register.coupon}</td>
@@ -295,7 +291,6 @@ ListRegister.propTypes = {
     openModalChangeClass: PropTypes.func.isRequired,
     deleteRegister: PropTypes.func.isRequired,
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
-    loadRegisterStudentBySaler: PropTypes.func,
     openModalChangeInfoStudent: PropTypes.func,
     changeStatusPause: PropTypes.func,
     genId: PropTypes.number,

@@ -26,7 +26,7 @@ class AddOverlay extends React.Component {
 
     loadFunction(page) {
         this.setState({page: page});
-        this.props.loadFunction(page, this.state.limit, this.state.query, this.props.formData.stringId);  // co the truyen duoc tu action --> container --> overlay ko ???
+        this.props.loadFunction(page, this.state.limit, this.state.query, this.props.formData.stringId);  // co the truyen duoc tu action --> container --> overlays ko ???
     }
 
 
@@ -157,13 +157,13 @@ class AddOverlay extends React.Component {
 
 AddOverlay.propTypes = {
     formData: PropTypes.object,
-    name: PropTypes.string, //  ten overlay
+    name: PropTypes.string, //  ten overlays
     icon: PropTypes.string,
     fieldName: PropTypes.string.isRequired,    // ten truong can update
     fieldName2: PropTypes.string.isRequired,    // ten truong can update
-    loadFunction: PropTypes.func,    // load list tren overlay
-    updateFormData: PropTypes.func,   // de update overlay
-    assignGroupCustomer: PropTypes.func,   // de update overlay
+    loadFunction: PropTypes.func,    // load list tren overlays
+    updateFormData: PropTypes.func,   // de update overlays
+    assignGroupCustomer: PropTypes.func,   // de update overlays
     isLoadingInOverlay: PropTypes.bool,
     isPagination: PropTypes.bool,
     isSearch: PropTypes.bool,
