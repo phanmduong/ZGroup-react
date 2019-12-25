@@ -596,7 +596,7 @@ class RegisterListContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.registerActions.loadRegisterStudent(1,
+            this.props.registerActions.loadRegisterStudent(
                 {...this.state, page: 1, query: value,},
             );
         }.bind(this), 500);
