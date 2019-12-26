@@ -115,7 +115,7 @@ class CallRegisterOverlay extends React.Component {
                         </div>
                         {isChangingStatusCall ? <Loading/> :
                             <div>
-                                <div className="input-note-register">
+                                <div className="input-note-overlay">
                                 <textarea type="text" className="form-control"
                                           placeholder="Ghi chú"
                                           value={this.state.note}

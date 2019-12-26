@@ -569,7 +569,7 @@ class LeadContainer extends React.Component {
 
                                     />
                                 </div>
-                                <div className="col-md-6"/>
+                                {/*<div className="col-md-6"/>*/}
                                 {
                                     (this.state.isDistribution || this.props.route.type === "my-leads") ?
                                         <div/>

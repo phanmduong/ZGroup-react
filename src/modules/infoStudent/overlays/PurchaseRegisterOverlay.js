@@ -103,7 +103,7 @@ class PurchaseRegisterOverlay extends React.Component {
                                     Thất bại
                                     <i className="material-icons">call_end</i>
                                 </button>
-                                <div className="input-note-register">
+                                <div className="input-note-overlay">
                                 <textarea type="text" className="form-control"
                                           placeholder="Ghi chú"
                                           value={this.state.note}

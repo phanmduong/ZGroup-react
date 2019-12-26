@@ -9,6 +9,7 @@ import CheckBoxMaterial from "../../../components/common/CheckBoxMaterial";
 import * as baseListActions from "../baseListActions";
 import * as helper from "../../../helpers/helper";
 import Select from 'react-select';
+
 // import TooltipButton from "../../../components/common/TooltipButton";
 
 
@@ -89,7 +90,10 @@ class CreateBaseOverlay extends React.Component {
         } else {
             if (base.id) {
                 this.props.baseListActions.editBase(base);
-            } else this.props.baseListActions.createBase(this.props.base, this.close);
+            } else {
+                this.props.baseListActions.createBase(this.props.base, this.close);
+                console.log(base);
+            }
         }
     };
 
@@ -120,9 +124,11 @@ class CreateBaseOverlay extends React.Component {
     };
 
     render() {
-        let {base, className,provinces,
+        let {
+            base, className, provinces,
             // isUploadingAvatar,isUploadingImage, percent,
-            isLoading,isSavingBase} = this.props;
+            isLoading, isSavingBase
+        } = this.props;
         console.log(base);
         return (
 
@@ -408,26 +414,26 @@ class CreateBaseOverlay extends React.Component {
                                                 value={base.latitude || ''}
                                             />
                                         </div>
-                                        <div>
-                                            <label>Thông tin cơ bản</label>
-                                            <div className="input-note-register">
-                                <textarea
-                                    type="text"
-                                    placeholder="Thông tin cơ bản"
-                                    rows={5}
-                                    className="form-control"
-                                    value={
-                                        base.basic_info ? base.basic_info : ""
-                                    }
-                                    name="basic_info"
-                                    onChange={this.updateFormData}
-                                />
-                                            </div>
-                                        </div>
+                                        {/*<div>*/}
+                                        {/*    <label>Thông tin cơ bản</label>*/}
+                                        {/*    <div className="input-note-overlay">*/}
+                                        {/*            <textarea*/}
+                                        {/*                type="text"*/}
+                                        {/*                placeholder="Thông tin cơ bản"*/}
+                                        {/*                rows={5}*/}
+                                        {/*                className="form-control"*/}
+                                        {/*                value={*/}
+                                        {/*                    base.basic_info ? base.basic_info : ""*/}
+                                        {/*                }*/}
+                                        {/*                name="basic_info"*/}
+                                        {/*                onChange={this.updateFormData}*/}
+                                        {/*            />*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
 
                                         <div>
                                             <label>Mô tả</label>
-                                            <div className="input-note-register">
+                                            <div className="input-note-overlay">
 
                                 <textarea type="text" className="form-control"
                                           placeholder="Mô tả"

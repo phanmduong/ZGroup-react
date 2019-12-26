@@ -342,7 +342,7 @@ class CreateLeadOverlay extends React.Component {
                                         <div>
                                             <label>Ghi chú</label>
                                             <div className="form-group">
-                                                <div className="input-note-register">
+                                                <div className="input-note-overlay">
                                                          <textarea type="text" className="form-control"
                                                                    rows={5}
                                                                    name="note"

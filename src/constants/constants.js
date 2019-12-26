@@ -696,6 +696,11 @@ export const FILTER_STUDY_PACK_REGISTER = [
     },
 ];
 
+export const PAYMENT_METHODS_OBJECT = {
+    internet_banking: "Chuyển khoản",
+    cash: "Tiền mặt",
+};
+
 export const PAYMENT_METHODS = [
     {
         value: "internet_banking",

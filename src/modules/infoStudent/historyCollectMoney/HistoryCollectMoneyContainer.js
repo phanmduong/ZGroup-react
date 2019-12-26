@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import * as studentActions from "../studentActions";
 import Loading from "../../../components/common/Loading";
 import {dotNumber} from "../../../helpers/helper";
+import {PAYMENT_METHODS_OBJECT} from "../../../constants/constants";
 
 class HistoryCollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -62,6 +63,12 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                             style={{width: '70px'}}
                                                     >
                                                         {dotNumber(register.money)}
+                                                        <div className="ripple-container"/>
+                                                    </button>
+                                                    <button className="btn btn-xs btn-success"
+                                                            // style={{width: '70px'}}
+                                                    >
+                                                        {PAYMENT_METHODS_OBJECT[register.payment_method]}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                 </div>
