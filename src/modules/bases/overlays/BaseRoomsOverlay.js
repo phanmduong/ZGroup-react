@@ -35,7 +35,7 @@ class BaseRoomOverlay extends React.Component {
     }
 
     toggle = (key) => {
-        console.log('toggle',key);
+        // console.log('toggle',key);
 
         let show = [...this.props.base.rooms, {}].map(() => false);
         show[key] = true;
@@ -51,7 +51,7 @@ class BaseRoomOverlay extends React.Component {
 
 
     close = (key) => {
-        console.log('close',key);
+        // console.log('close',key);
         // this.setState(this.initState);
 
         let show = this.state.show;

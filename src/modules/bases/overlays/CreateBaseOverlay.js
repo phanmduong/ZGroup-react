@@ -92,7 +92,7 @@ class CreateBaseOverlay extends React.Component {
                 this.props.baseListActions.editBase(base);
             } else {
                 this.props.baseListActions.createBase(this.props.base, this.close);
-                console.log(base);
+
             }
         }
     };
@@ -129,7 +129,6 @@ class CreateBaseOverlay extends React.Component {
             // isUploadingAvatar,isUploadingImage, percent,
             isLoading, isSavingBase
         } = this.props;
-        console.log(base);
         return (
 
             <div style={{position: "relative"}}>
