@@ -1396,15 +1396,16 @@ table tr td .avatar-honor {
     will-change: unset !important;
 
   }
+  .btn .material-icons{
+    font-size: 16px!important;
 
+  }
   .btn.btn-xs.btn-main {
     color: white !important;
     margin: 0 0 10px 0;
     width: unset;
     font-weight: 600;
-    i{
-      font-size: 16px!important;
-    }
+
   }
 
   tr > th, td > a:not(.btn-main, .text-name-student-register) {

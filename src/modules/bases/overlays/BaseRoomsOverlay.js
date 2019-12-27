@@ -8,6 +8,7 @@ import * as baseListActions from "../baseListActions";
 import Select from "react-select";
 import * as roomActions from "../../rooms/roomActions";
 import FormInputText from "../../../components/common/FormInputText";
+import * as helper from "../../../helpers/helper";
 
 
 class BaseRoomOverlay extends React.Component {
@@ -20,50 +21,106 @@ class BaseRoomOverlay extends React.Component {
         this.state = this.initState;
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if(this.props.isLoadingBases && !nextProps.isLoadingBases){
-    //         this.setState({show:[...nextProps.base.map(()=>false),false]});
-    //     }
-    // }
+
+    componentWillMount() {
+        // this.props.roomActions.getTypes();
+
+    }
+
+    updateFormData = (e)=>{
+        let {name,value} = e.target;
+        let {newRoom} = this.state;
+        newRoom[name] = value;
+        this.setState({newRoom});
+    }
 
     toggle = (key) => {
+        console.log('toggle',key);
+
         let show = [...this.props.base.rooms, {}].map(() => false);
         show[key] = true;
-        console.log(show);
-        this.setState({show});
+        let newRoom = this.props.base.rooms[key];
+        if(!newRoom){
+            newRoom = {base_id: this.props.base.id,seats_count:10};
+        }else {
+            newRoom = {...this.props.base.rooms[key]};
+        }
+
+        this.setState({show,newRoom});
     };
 
 
     close = (key) => {
+        console.log('close',key);
         // this.setState(this.initState);
 
         let show = this.state.show;
         show[key] = false;
-        console.log(show);
         this.setState({show});
     };
 
+    storeRoom(e) {
+        e.preventDefault();
+        let room = this.state.newRoom;
+        if (
+            helper.isEmptyInput(room.name) ||
+            helper.isEmptyInput(room.room_type_id) ||
+            helper.isEmptyInput(room.base_id)
+        ) {
+            if (helper.isEmptyInput(room.name))
+                helper.showErrorNotification("Bạn cần nhập Tên phòng");
+            if (helper.isEmptyInput(room.room_type_id))
+                helper.showErrorNotification("Bạn cần chọn Loại phòng");
+            if (helper.isEmptyInput(room.base_id))
+                helper.showErrorNotification("Bạn cần chọn Cơ sở");
+        } else {
+            let callback = ()=>        this.props.baseListActions.loadBases();
+
+            if (room.id) {
+                this.props.roomActions.editRoom({...room},callback);
+            } else {
+                this.props.roomActions.storeRoom({...room},callback);
+            }
+        }
+    }
+
+    propsRooms = ()=>{
+        let {base} = this.props;
+        let rooms = [...base.rooms,{}];
+        // rooms.map()
+        return rooms;
+    }
+
     render() {
-        let {isLoadingBases, isStoringRoom, base} = this.props;
-        let {newRoom} = this.state;
-        console.log(base);
-        return (<div className="flex flex-wrap">
-            {[...base.rooms, newRoom].map((room, key) => {
+        let {isLoadingBases, isStoringRoom} = this.props;
+        let {newRoom,show} = this.state;
+        let rooms = this.propsRooms();
+
+        return (
+            <div className="flex flex-wrap">
+            {rooms.map((room, key) => {
+                let className = "btn btn-sm will-not-change"
+                    + (!room.id ?  ' btn-white' : '')
+                    + (show[key] ?  ' btn-success' : '')
+                ;
+
                 return (
                     <div style={{position: "relative"}} key={key}>
-                        <div className="btn btn-sm will-not-change"
+                        <div className={className}
                              ref={"target" + key} onClick={() => this.toggle(key)}>
                             {room.id ? room.name : 'Thêm phòng'}
                             {!room.id && <i className="material-icons">add</i>}
                         </div>
                         <Overlay
                             rootClose={true}
-                            show={this.state.show[key]}
+                            show={show[key]}
                             onHide={() => this.close(key)}
                             placement="bottom"
                             container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
                             target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
-                            <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 10}}>
+                            <div className="kt-overlay overlay-container"
+                                 ref={(e) => {if(e)e.style.setProperty('left', 'unset', "important")}}
+                                         style={{width: 300,  right:"-100%"}}>
                                 <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
                                     <div><b>{room.id ? 'Sửa phòng' : 'Tạo mới'}</b></div>
                                     <button
@@ -85,7 +142,7 @@ class BaseRoomOverlay extends React.Component {
                                         required
                                         name="name"
                                         updateFormData={this.updateFormData}
-                                        value={room.name || ""}
+                                        value={newRoom.name || ""}
                                     />
                                     <label>
                                         Số chỗ ngồi
@@ -96,15 +153,14 @@ class BaseRoomOverlay extends React.Component {
                                         type="number"
                                         name="seats_count"
                                         updateFormData={this.updateFormData}
-                                        value={room.seats_count || ""}
+                                        value={newRoom.seats_count}
                                     />
                                     <div>
                                         <label>
                                             Chọn cơ sở
                                         </label>
                                         <Select
-                                            name="categories"
-                                            value={room.base_id ? room.base_id : ""}
+                                            value={newRoom.base_id ? newRoom.base_id : ""}
                                             options={this.props.bases.map(base => {
                                                 return {
                                                     ...base,
@@ -112,7 +168,7 @@ class BaseRoomOverlay extends React.Component {
                                                     label: base.name,
                                                 };
                                             })}
-                                            onChange={this.onChangeBaseForm}
+                                            onChange={e=>this.updateFormData({target:{name:'base_id',value:e.id}})}
                                             clearable={false}
                                         />
                                     </div>
@@ -122,7 +178,7 @@ class BaseRoomOverlay extends React.Component {
                                         <Select
                                             name="type"
                                             value={
-                                                room.room_type ? room.room_type.id : ""
+                                                newRoom.room_type_id
                                             }
                                             options={this.props.types.map(type => {
                                                 return {
@@ -131,7 +187,7 @@ class BaseRoomOverlay extends React.Component {
                                                     label: type.name,
                                                 };
                                             })}
-                                            onChange={this.onChangeTypeForm}
+                                            onChange={e=>this.updateFormData({target:{name:'room_type_id',value:e.id}})}
                                             clearable={false}
                                         />
 
@@ -158,7 +214,18 @@ class BaseRoomOverlay extends React.Component {
                                              aria-expanded="false"
                                              style={{height: '0px'}}>
                                             <div className="panel-body">
+                                                <div>
+                                                    <label>Mô tả</label>
+                                                    <div className="input-note-overlay">
 
+                                                <textarea type="text" className="form-control"
+                                                          placeholder="Mô tả"
+                                                          rows={5}
+                                                          value={newRoom.description ? newRoom.description : ''}
+                                                          name="description"
+                                                          onChange={this.updateFormData}/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +245,7 @@ class BaseRoomOverlay extends React.Component {
                                                 className="btn btn-success width-50-percent text-center"
 
                                                 style={{backgroundColor: '#2acc4c'}}
-                                                onClick={(e) => this.submit(e)}>
+                                                onClick={(e) => this.storeRoom(e)}>
                                             Hoàn tất
                                         </button>
                                     </div>}
@@ -206,7 +273,7 @@ function mapStateToProps(state) {
         isLoadingBases: state.baseList.isLoadingBases,
         showEditBaseModal: state.baseList.showEditBaseModal,
         isEditRoom: state.rooms.isEditRoom,
-        bases: state.rooms.bases,
+        // bases: state.rooms.bases,
         provinces: state.baseList.provinces,
         districts: state.baseList.districts
     };

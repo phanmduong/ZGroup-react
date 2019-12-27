@@ -435,12 +435,12 @@ class CreateBaseOverlay extends React.Component {
                                             <label>Mô tả</label>
                                             <div className="input-note-overlay">
 
-                                <textarea type="text" className="form-control"
-                                          placeholder="Mô tả"
-                                          rows={5}
-                                          value={base.description ? base.description : ''}
-                                          name="description"
-                                          onChange={this.updateFormData}/>
+                                                <textarea type="text" className="form-control"
+                                                          placeholder="Mô tả"
+                                                          rows={5}
+                                                          value={base.description ? base.description : ''}
+                                                          name="description"
+                                                          onChange={this.updateFormData}/>
                                             </div>
                                         </div>
                                         <div className="row margin-vertical-15">

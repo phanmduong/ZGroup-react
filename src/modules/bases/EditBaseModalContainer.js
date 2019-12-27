@@ -230,8 +230,8 @@ class EditBaseModalContainer extends React.Component {
                                                  position: "relative",
                                                  borderRadius: '5px',
                                                  cursor: "pointer",
-                                                 marginTop: '10px',
-                                                 marginBottom: '10px'
+                                                 // marginTop: '10px',
+                                                 // marginBottom: '10px'
                                              }}>
                                             <TooltipButton text="Tải ảnh" placement="top">
                                                 <label>

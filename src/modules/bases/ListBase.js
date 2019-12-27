@@ -42,6 +42,7 @@ class ListBase extends React.Component {
 
                                 <BaseRoomOverlay
                                         base={base}
+                                        bases={this.props.bases}
                                     />
                                 </td>
                                 <td>

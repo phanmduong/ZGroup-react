@@ -185,7 +185,7 @@ export function deleteImage(image) {
     };
 }
 
-export function storeRoom(room) {
+export function storeRoom(room,callback) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_STORE_ROOM_DATA});
         helper.showTypeNotification("Đang tạo phòng học", "info");
@@ -204,11 +204,13 @@ export function storeRoom(room) {
                     "warning",
                 );
             }
+        }).finally(()=>{
+            if(callback) callback();
         });
     };
 }
 
-export function editRoom(room) {
+export function editRoom(room,callback) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_STORE_ROOM_DATA});
         helper.showTypeNotification("Đang sửa phòng học", "info");
@@ -227,6 +229,8 @@ export function editRoom(room) {
                     "warning",
                 );
             }
+        }).finally(()=>{
+            if(callback) callback();
         });
     };
 }

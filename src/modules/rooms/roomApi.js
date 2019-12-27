@@ -88,9 +88,9 @@ export function storeRoom(room) {
     }
     return axios.post(url, {
         name: room.name ? room.name : "",
-        type: room.room_type.id,
+        type: room.room_type ? room.room_type.id : room.room_type_id,
         seats_count: room.seats_count,
-        room_type_id: room.room_type ? room.room_type.id : "",
+        room_type_id: room.room_type ? room.room_type.id : room.room_type_id,
         images_url: room.images_url ? room.images_url : "[]",
         avatar_url: room.avatar_url ? room.avatar_url : "",
         cover_url: room.cover_url ? room.cover_url : "",
@@ -114,7 +114,7 @@ export function editRoom(room) {
         name: room.name ? room.name : "",
         images_url: room.images_url ? room.images_url : "[]",
         avatar_url: room.avatar_url ? room.avatar_url : "",
-        room_type_id: room.room_type ? room.room_type.id : "",
+        room_type_id: room.room_type ? room.room_type.id : room.room_type_id,
         cover_url: room.cover_url ? room.cover_url : "",
         cover_type: room.cover_type ? room.cover_type : "",
         description: room.description ? room.description : "",

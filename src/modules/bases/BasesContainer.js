@@ -12,6 +12,7 @@ import {confirm} from "../../helpers/helper";
 import Pagination from "../../components/common/Pagination";
 import EditBaseModalContainer from "./EditBaseModalContainer";
 import CreateBaseOverlay from "./overlays/CreateBaseOverlay";
+import * as roomActions from "../rooms/roomActions";
 
 
 class BasesContainer extends React.Component {
@@ -30,6 +31,7 @@ class BasesContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.roomActions.getTypes();
         this.loadBases();
     }
 
@@ -174,6 +176,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        roomActions: bindActionCreators(roomActions, dispatch),
         baseListActions: bindActionCreators(baseListActions, dispatch)
     };
 }
