@@ -1484,3 +1484,27 @@ export function setStorage(key, value, expires) {
     }
     return true;
 }
+
+export function stringToASCII(str) {
+    try {
+        return str.replace(/[àáảãạâầấẩẫậăằắẳẵặ]/g, 'a')
+            .replace(/[èéẻẽẹêềếểễệ]/g, 'e')
+            .replace(/[đ]/g, 'd')
+            .replace(/[ìíỉĩị]/g, 'i')
+            .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, 'o')
+            .replace(/[ùúủũụưừứửữự]/g, 'u')
+            .replace(/[ỳýỷỹỵ]/g, 'y')
+    } catch (e) {
+        console.log(e);
+    }
+
+    return '';
+}
+
+export function searchASCII(strOriginal, strSearch) {
+    var strOriginalToASCII = stringToASCII(strOriginal.toLowerCase())
+    var strSearchToASCII = stringToASCII(strSearch.toLowerCase())
+
+    return strOriginalToASCII.includes(strSearchToASCII);
+}
+

@@ -36,27 +36,28 @@ class Detail extends React.Component {
         currentStep.data.checkProperties = checkProperties;
 
 
-
         currentStep.data.checkProperties = currentStep.data.checkProperties.map((property) => {
 
-            const typeData = formatDataStep.data.formatters.filter((formatter) => property.key == formatter.typeData.key)[0];
+                const typeData = formatDataStep.data.formatters.filter((formatter) => property.key == formatter.typeData.key)[0];
 
-            const unionData = _.union(typeData.data);
+                const unionData = _.union(typeData.data);
 
-            const distinctData = unionData.filter((data) => dataCheck[property.check_key_data].indexOf(data) < 0);
-            const words = distinctData.map((data) => {
+                const distinctData = unionData.filter((data) => dataCheck[property.check_key_data].indexOf(data) < 0);
+                const words = distinctData.filter((data) => !isEmpty(data)).map((data) => {
+                    return {
+                        raw: data,
+                        replace_by: "",
+                        total: typeData.data.filter((item) => item == data).length
+                    };
+                });
                 return {
-                    raw: data,
-                    replace_by: "",
-                    total: typeData.data.filter((item) => item == data).length
+                    ...property,
+                    check_words: words,
+                    union_words: unionData
                 };
-            });
-            return {
-                ...property,
-                check_words: words,
-                union_words: unionData
-            };
-        });
+            }
+        )
+        ;
 
     }
 

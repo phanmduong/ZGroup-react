@@ -438,5 +438,14 @@ export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, 
     };
 }
 
+export function addSchedule(schedule) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ADD_SCHDULE_CLASS_DATA,
+            schedule: schedule
+        })
+    }
+}
+
 
 

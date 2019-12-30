@@ -12,6 +12,7 @@ import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
 import GlobalModalContainer from "../modules/globalModal/GlobalModalContainer";
 import MyTaskContainer from "../modules/myTasks/MyTaskContainer";
 import Sidebar from "react-sidebar";
+import {isEmptyInput} from "../helpers/helper";
 
 
 class AppContainer extends React.Component {
@@ -104,13 +105,16 @@ class AppContainer extends React.Component {
     render() {
         return (
             <div>
+                {this.props.user && !isEmptyInput(this.props.user.id) &&
                 <Sidebar
-                    sidebar={<MyTaskContainer updateTotalTask={this.updateTotalTask}/>}
+                    sidebar={<MyTaskContainer updateTotalTask={this.updateTotalTask} user={this.props.user}/>}
                     open={this.state.sidebarOpen}
                     onSetOpen={this.onSetSidebarOpen}
                     styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
                     pullRight
-                 />
+                />
+                }
+
                 <GlobalLoadingContainer/>
 
                 <FirstLoginContainer/>

@@ -29,6 +29,7 @@ export default new class salaryTeachingStore {
         note: ''
     };
     @observable detailSalaryBonus = [];
+    @observable searchName = '';
 
 
     @action

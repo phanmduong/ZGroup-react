@@ -177,6 +177,21 @@ const types = [
                 name: "Số tiền",
                 checkFormat: (data) => {
                     return validation.isNumber(data);
+                },
+                reformat: (data) => {
+                    if (data) {
+                        data = data.match(/\d/g);
+                    }
+                    if (data) {
+                        data = data.join("");
+                    }
+
+                    if (isEmptyInput(data)) {
+                        data = "";
+                    }
+
+                    return data;
+
                 }
             },
             {
@@ -188,7 +203,12 @@ const types = [
                 },
                 check_key_data: "statuses_register",
             },
-
+            {
+                key: "course.name",
+                name: "Tên môn học",
+                text_error: 'Tên môn học là bắt buộc',
+                required: true,
+            }
         ]
     },
     {

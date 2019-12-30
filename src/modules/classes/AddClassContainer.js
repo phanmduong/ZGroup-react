@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
 import {TYPE_CLASSES} from "../../constants/constants";
 import SelectTeacher from "./SelectTeacher";
+import TooltipButton from "../../components/common/TooltipButton";
+import CreateScheduleModal from "./schedule/CreateScheduleModal";
 
 
 class AddClassContainer extends React.Component {
@@ -26,7 +28,8 @@ class AddClassContainer extends React.Component {
             optionsSelectStaff: [],
             optionsSelectSchedule: [],
             optionsSelectRoom: [],
-            teachers: []
+            teachers: [],
+            showScheduleModal: false
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGen = this.changeGen.bind(this);
@@ -272,7 +275,27 @@ class AddClassContainer extends React.Component {
         }
     }
 
+    onCloseScheduleModal = (schedule = null) => {
+        this.setState({showScheduleModal: false});
+        if (schedule) {
+            console.log(schedule);
+            this.props.classActions.addSchedule(schedule);
+            this.setState({
+                optionsSelectSchedule: [...this.state.optionsSelectSchedule, {
+                    value: schedule.id,
+                    label: schedule.name
+                }],
+            });
+            this.changeSchedule(schedule);
+        }
+    }
+
+    onOpenScheduleModal = () => {
+        this.setState({showScheduleModal: true});
+    }
+
     render() {
+        console.log(this.props.infoCreateClass)
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {
@@ -349,13 +372,24 @@ class AddClassContainer extends React.Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label className="label-control">Lịch học</label>
-                                    <Select
-                                        name="form-field-name"
-                                        value={schedule_id}
-                                        options={this.state.optionsSelectSchedule}
-                                        onChange={this.changeSchedule}
-                                        placeholder="Chọn lịch học"
-                                    />
+                                    <div style={{display: "flex", alignItems: "center"}}>
+                                        <div style={{width: "100%"}}
+                                        >
+                                            <Select
+                                                name="form-field-name"
+                                                value={schedule_id}
+                                                options={this.state.optionsSelectSchedule}
+                                                onChange={this.changeSchedule}
+                                                placeholder="Chọn lịch học"
+                                            />
+                                        </div>
+                                        <TooltipButton text="Thêm lịch học" placement="top">
+                                            <div onClick={this.onOpenScheduleModal}
+                                                 className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                                <strong>+</strong>
+                                            </div>
+                                        </TooltipButton>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-md-6">
@@ -485,6 +519,10 @@ class AddClassContainer extends React.Component {
                             )
                         }
                     </form>
+                    {this.state.showScheduleModal &&
+                    <CreateScheduleModal showScheduleModal={this.state.showScheduleModal}
+                                         onCloseScheduleModal={this.onCloseScheduleModal}/>}
+
                 </div>
             );
         }

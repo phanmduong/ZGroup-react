@@ -39,6 +39,7 @@ export default new class salarySalesStore {
         type: 'normal' //'gd'
     };
     @observable detailSalaryBonus = [];
+    @observable searchName = '';
 
 
     @action

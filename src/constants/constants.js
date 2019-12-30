@@ -730,3 +730,4 @@ export const allowedDateFormats = ['DD/MM/YYYY', 'D/M/YYYY', 'DD.MM.YYYY', 'D.M.
     "HH:mm DD/MM/YYYY", "HH:mm:ss DD/MM/YYYY", "HH:mm DD-MM-YYYY", "HH:mm:ss DD-MM-YYYY",
     "DD/MM/YYYY HH:mm", "DD/MM/YYYY HH:mm:ss", "DD-MM-YYYY HH:mm", "DD-MM-YYYY HH:mm:ss",
 ];
+

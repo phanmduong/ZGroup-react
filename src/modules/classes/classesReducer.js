@@ -445,6 +445,14 @@ export default function classesReducer(state = initialState.classes, action) {
                     isAddingCheckinCheckout: false,
                 }
             };
+        case types.ADD_SCHDULE_CLASS_DATA:
+            return {
+                ...state,
+                infoCreateClass: {
+                    ...state.infoCreateClass,
+                    schedules: [...state.infoCreateClass.schedules, action.schedule]
+                }
+            }
         default:
             return state;
     }

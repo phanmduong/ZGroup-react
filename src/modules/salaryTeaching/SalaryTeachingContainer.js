@@ -147,6 +147,13 @@ class SalaryTeachingContainer extends React.Component {
                                     }
 
                                 </div>
+                                <div className="col-sm-3 col-xs-3">
+                                    <input className="custom-search" type="text"
+                                           placeholder="Tìm kiếm" onChange={(e) => {
+                                        store.searchName = e.target.value;
+                                        console.log(this.store.searchName);
+                                    }}/>
+                                </div>
                             </div>
                             <SalaryTeaching store={store}
                                             openModalAddSalaryBonus={this.openModalAddSalaryBonus}

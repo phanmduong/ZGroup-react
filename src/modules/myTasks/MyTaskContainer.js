@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Week from "./Week";
 import Store from './store';
@@ -30,6 +29,7 @@ class MyTaskContainer extends React.Component {
         this.store.getTasks(this.updateTotalTask);
         this.store.getAnalyticsTasks();
         this.store.selectedEmployee = this.props.user;
+        console.log(this.props.user);
         this.store.getEmployees();
         const channel = CHANNEL + ":task";
         socket.on(channel, (data) => {
@@ -136,14 +136,4 @@ MyTaskContainer.propTypes = {
     user: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-    return {
-        user: state.login.user
-    };
-}
-
-function mapDispatchToProps() {
-    return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyTaskContainer);
+export default MyTaskContainer;

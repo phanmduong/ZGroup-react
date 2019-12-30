@@ -2,7 +2,7 @@
 import React from "react";
 import Loading from "../../components/common/Loading";
 import {observer} from "mobx-react";
-import {dotNumber, formatPhone, validateLinkImage} from "../../helpers/helper";
+import {dotNumber, formatPhone, isEmptyInput, searchASCII, validateLinkImage} from "../../helpers/helper";
 import TooltipButton from "../../components/common/TooltipButton";
 
 @observer
@@ -196,7 +196,13 @@ class SalarySales extends React.Component {
                     this.props.store.isLoading ? <Loading/> :
                         <div>
                             {
-                                this.props.store.getData.map((item) => {
+                                this.props.store.getData.filter((item) => {
+                                    if (isEmptyInput(this.props.store.searchName)) {
+                                        return true;
+                                    } else {
+                                        return searchASCII(item.user.name, this.props.store.searchName)
+                                    }
+                                }).map((item) => {
                                         return this.renderItem(item);
                                     }
                                 )}
