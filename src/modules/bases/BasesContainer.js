@@ -31,7 +31,7 @@ class BasesContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.roomActions.getTypes();
+        // this.props.roomActions.getTypes();
         this.loadBases();
     }
 
@@ -107,7 +107,7 @@ class BasesContainer extends React.Component {
                                         onChange={this.basesSearchChange}
                                         value={this.state.query}
                                         className="round-white-seacrh"
-                                        placeholder="Tìm kiếm (tên, địa chỉ)"
+                                        placeholder="Tìm kiếm"
                                     />
                                     {/*<button*/}
                                     {/*    className="btn btn-white btn-round btn-icon"*/}

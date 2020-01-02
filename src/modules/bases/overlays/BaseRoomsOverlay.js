@@ -64,13 +64,13 @@ class BaseRoomOverlay extends React.Component {
         let room = this.state.newRoom;
         if (
             helper.isEmptyInput(room.name) ||
-            helper.isEmptyInput(room.room_type_id) ||
+            // helper.isEmptyInput(room.room_type_id) ||
             helper.isEmptyInput(room.base_id)
         ) {
             if (helper.isEmptyInput(room.name))
                 helper.showErrorNotification("Bạn cần nhập Tên phòng");
-            if (helper.isEmptyInput(room.room_type_id))
-                helper.showErrorNotification("Bạn cần chọn Loại phòng");
+            // if (helper.isEmptyInput(room.room_type_id))
+            //     helper.showErrorNotification("Bạn cần chọn Loại phòng");
             if (helper.isEmptyInput(room.base_id))
                 helper.showErrorNotification("Bạn cần chọn Cơ sở");
         } else {
@@ -173,50 +173,8 @@ class BaseRoomOverlay extends React.Component {
                                         />
                                     </div>
                                     <div>
-                                        <label>Chọn loại phòng</label>
-
-                                        <Select
-                                            name="type"
-                                            value={
-                                                newRoom.room_type_id
-                                            }
-                                            options={this.props.types.map(type => {
-                                                return {
-                                                    ...type,
-                                                    value: type.id,
-                                                    label: type.name,
-                                                };
-                                            })}
-                                            onChange={e=>this.updateFormData({target:{name:'room_type_id',value:e.id}})}
-                                            clearable={false}
-                                        />
-
-
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading" role="tab"
-                                             id="headingTwo">
-                                            <a className="collapsed" role="button"
-                                               data-toggle="collapse"
-                                               data-parent="#accordion"
-                                               href="#collapseTwo" aria-expanded="false"
-                                               aria-controls="collapseTwo">
-                                                <h4 className="panel-title">
-                                                    Mở rộng
-                                                    <i className="material-icons">arrow_drop_down</i>
-                                                </h4>
-                                            </a>
-                                        </div>
-                                        <div id="collapseTwo"
-                                             className="panel-collapse collapse"
-                                             role="tabpanel"
-                                             aria-labelledby="headingTwo"
-                                             aria-expanded="false"
-                                             style={{height: '0px'}}>
-                                            <div className="panel-body">
-                                                <div>
-                                                    <label>Mô tả</label>
-                                                    <div className="input-note-overlay">
+                                        <label>Mô tả</label>
+                                        <div className="input-note-overlay">
 
                                                 <textarea type="text" className="form-control"
                                                           placeholder="Mô tả"
@@ -224,11 +182,54 @@ class BaseRoomOverlay extends React.Component {
                                                           value={newRoom.description ? newRoom.description : ''}
                                                           name="description"
                                                           onChange={this.updateFormData}/>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
+                                    {/*<div>*/}
+                                    {/*    <label>Chọn loại phòng</label>*/}
+
+                                    {/*    <Select*/}
+                                    {/*        name="type"*/}
+                                    {/*        value={*/}
+                                    {/*            newRoom.room_type_id*/}
+                                    {/*        }*/}
+                                    {/*        options={this.props.types.map(type => {*/}
+                                    {/*            return {*/}
+                                    {/*                ...type,*/}
+                                    {/*                value: type.id,*/}
+                                    {/*                label: type.name,*/}
+                                    {/*            };*/}
+                                    {/*        })}*/}
+                                    {/*        onChange={e=>this.updateFormData({target:{name:'room_type_id',value:e.id}})}*/}
+                                    {/*        clearable={false}*/}
+                                    {/*    />*/}
+
+
+                                    {/*</div>*/}
+                                    {/*<div className="panel panel-default">*/}
+                                    {/*    <div className="panel-heading" role="tab"*/}
+                                    {/*         id="headingTwo">*/}
+                                    {/*        <a className="collapsed" role="button"*/}
+                                    {/*           data-toggle="collapse"*/}
+                                    {/*           data-parent="#accordion"*/}
+                                    {/*           href="#collapseTwo" aria-expanded="false"*/}
+                                    {/*           aria-controls="collapseTwo">*/}
+                                    {/*            <h4 className="panel-title">*/}
+                                    {/*                Mở rộng*/}
+                                    {/*                <i className="material-icons">arrow_drop_down</i>*/}
+                                    {/*            </h4>*/}
+                                    {/*        </a>*/}
+                                    {/*    </div>*/}
+                                    {/*    <div id="collapseTwo"*/}
+                                    {/*         className="panel-collapse collapse"*/}
+                                    {/*         role="tabpanel"*/}
+                                    {/*         aria-labelledby="headingTwo"*/}
+                                    {/*         aria-expanded="false"*/}
+                                    {/*         style={{height: '0px'}}>*/}
+                                    {/*        <div className="panel-body">*/}
+                                    {/*            */}
+                                    {/*        </div>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
                                 </form>
 
                                 }

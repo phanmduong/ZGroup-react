@@ -13,6 +13,7 @@ class ListBase extends React.Component {
     }
 
     render() {
+        console.log(this.props.bases);
         return (
             <div className="table-responsive table-split">
                 <table id="datatables"
@@ -21,9 +22,10 @@ class ListBase extends React.Component {
                     <thead>
                     <tr>
                         <th>Tên</th>
-                        <th>Địa chỉ</th>
-                        <th>Phòng</th>
-                        <th/>
+                        <th>Thành phố</th>
+                        <th style={{width:'20%'}}>Địa chỉ</th>
+                        <th style={{width:'40%'}}>Phòng</th>
+                        <th style={{width:'5%'}}/>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,11 +36,12 @@ class ListBase extends React.Component {
                         // let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                         return (
                             <tr key={key}>
-                                <td><b>{base.name}</b></td>
-                                <td style={{width:'20%'}}>
+                                <td><b className="cursor-pointer" onClick={() => this.props.openEditBaseModal(base)}>{base.name}</b></td>
+                                <td>{base.province ?  base.province.name : 'Không có'}</td>
+                                <td>
                                     <div >{address_description}
                                 </div></td>
-                                <td style={{width:'40%'}}>
+                                <td>
 
                                 <BaseRoomOverlay
                                         base={base}
