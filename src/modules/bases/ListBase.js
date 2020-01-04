@@ -13,7 +13,6 @@ class ListBase extends React.Component {
     }
 
     render() {
-        console.log(this.props.bases);
         return (
             <div className="table-responsive table-split">
                 <table id="datatables"
