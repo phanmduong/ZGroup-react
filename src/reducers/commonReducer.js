@@ -8,6 +8,7 @@ import createRegister from "../modules/registerStudents/createRegisterReducer";
 import leadReducer from "../modules/lead/leadReducer";
 import registerReducer from "../modules/registerStudents/registerReducer";
 import staffsReducer from "../modules/manageStaff/staffsReducer";
+import discountReducer from "../modules/discount/discountReducer";
 
 export default {
     globalLoading: globalLoadingReducer,
@@ -20,5 +21,6 @@ export default {
     registerStudents: registerReducer,
     createRegister: createRegister,
     staffs: staffsReducer,
+    discounts: discountReducer,
 
 };

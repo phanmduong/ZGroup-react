@@ -29,6 +29,7 @@ import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
+import CreateCouponOverlay from "./overlays/CreateCouponOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -396,11 +397,18 @@ class InfoStudentContainer extends React.Component {
                                                         {/*    />*/}
                                                         {/*</div>*/}
 
+                                                        <CreateCouponOverlay
+                                                            className="btn btn-register-action"
+
+                                                        />
+
                                                         <ExtraRegisterOverlay
                                                             openModalChangePassword={this.openModalChangePassword}
 
                                                             studentId={student.id}
                                                         />
+
+
 
                                                     </div>
                                                 </div>

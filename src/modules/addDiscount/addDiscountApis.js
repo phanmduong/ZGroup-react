@@ -20,11 +20,13 @@ export function addDiscountApi(discount) {
         url += "token=" + token;
     }
     return axios.post(url,{
+        'id' :  discount.id,
         'name' :  discount.name,
         'description' : discount.description,
         'discount_type' : discount.discount_type,
         'discount_value' : discount.discount_value,
         'type' : discount.type,
+        'color' : discount.color,
         'start_time' : discount.start_time,
         'end_time' : discount.end_time,
         'used_for' : discount.used_for,
@@ -34,7 +36,7 @@ export function addDiscountApi(discount) {
         'good_id' : discount.good ? discount.good.id : '',
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
         'quantity' : discount.quantity? discount.quantity : '',
-        'shared' : discount.shared? discount.shared : '',
+        'shared' : discount.shared ? discount.shared : '',
         'cover_url' : discount.cover_url? discount.cover_url:'',
     });
 }

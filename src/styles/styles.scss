@@ -1949,7 +1949,9 @@ table tr td .avatar-honor {
       margin-top: 0;
       flex-wrap: wrap;
       background-color: #F7F5F7;
+      will-change: unset !important;
     }
+
 
     &[mask=call] {
       //color: white;
@@ -1966,11 +1968,12 @@ table tr td .avatar-honor {
     &[mask=extra] {
       padding: 7px 5px !important;
       width: unset;
+
+      i {
+        font-size: 25px;
+      }
     }
 
-    i {
-      font-size: 25px;
-    }
   }
 }
 
@@ -2016,6 +2019,53 @@ ul.nav.nav-pills.nav-pills-dark {
   }
 }
 
+.input-no-arrows{
+
+  input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    -moz-appearance:textfield !important;
+
+  }
+}
+
+.input-radio-flex {
+
+  div {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 8px;
+    cursor: pointer;
+    color: black;
+    font-size: 13px;
+    font-weight: 500;
+
+
+    &[value=active]:before {
+      background-color: #00b836;
+
+      border: 1px solid #FFf;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      //outline: 5px solid #F7F5F7;
+      box-shadow: 0 0 0 2.5pt #e8e9e8 !important;
+
+      background-color: #e8e9e8;
+      margin-right: 8px;
+
+
+    }
+  }
+
+
+}
+
 .overlay-container {
   padding-left: 15px;
   padding-right: 15px;
@@ -2024,6 +2074,34 @@ ul.nav.nav-pills.nav-pills-dark {
   &[mask=lead] {
     left: unset !important;
     right: 0;
+  }
+
+  &[mask=coupon] {
+    left: unset !important;
+    right: 0;
+    .checkbox .checkbox-material .check{
+      border: solid 3px #f3f4f3;
+      background-color: #f3f4f3;
+    }
+    .checkbox input[type=checkbox]:checked + .checkbox-material .check:before{
+      border: none;
+      background-color: #f3f4f3;
+      color: #f3f4f3;
+      box-shadow: none;
+    }
+    .checkbox input[type=checkbox]:checked + .checkbox-material .check{
+      background: #00b836;
+      border-radius: 5px;
+    }
+    .checkbox .checkbox-material:before{
+      width: 0px;
+      height: 0px;
+    }
+    .checkbox .checkbox-material .check:before{
+
+      margin-top: -5px;
+      margin-left: 5px;
+    }
   }
 
   &[mask=extra] {
@@ -2111,6 +2189,34 @@ ul.nav.nav-pills.nav-pills-dark {
         }
       }
     }
+
+    input {
+      &, &::placeholder {
+        font-size: 12px;
+      }
+    }
+
+    .btn-add {
+      width: 100%;
+      margin: 10px 0px 10px 0px;
+
+      display: flex;
+      background-color: #f3f4f3;
+      color: #a9a9a9;
+      justify-content: space-between;
+      padding: 12px 10px 12px 15px;
+      border-radius: 5px;
+    }
+    .board-action a i{
+      border-radius: 5px;
+      padding: 5px 10px;
+      width: 35px;
+      line-height: 45px;
+      height: 100%;
+      background-color: #f3f4f3;
+      color: black;
+      font-size: 16px;
+    }
   }
 
   button.btn {
@@ -2142,6 +2248,7 @@ ul.nav.nav-pills.nav-pills-dark {
     background-color: #f3f4f3 !important;
     border-radius: 5px !important;
     background-image: none !important;
+    font-size: 12px;
   }
 
   //.input-note-overlay {

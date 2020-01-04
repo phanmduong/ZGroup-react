@@ -712,6 +712,18 @@ export const PAYMENT_METHODS = [
     }
 ];
 
+export const  DISCOUNTYPE = [
+
+    {suffix:'đ',
+        name: 'Số tiền',
+        id: 'fix',
+    },{suffix:'%',
+        name: 'Phần trăm',
+        id: 'percentage',
+    },
+
+];
+
 export const GAPI_CLIENT_ID = '975308952047-i1mdqsc9ovn5iq4mnhjuv88g09g7lu93.apps.googleusercontent.com';
 
 

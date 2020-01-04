@@ -1855,6 +1855,7 @@ export default {
     discounts: {
         discountsList: [],
         isLoading: false,
+        isLoaded: false,
         totalPages: 10,
         totalCount: 10,
     },

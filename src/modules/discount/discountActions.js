@@ -10,11 +10,12 @@ export function loadDiscounts( page , limit, query) {
         });
         discountApis.loadDiscountsApi(page, limit ,query )
             .then( (res) =>  {
+                let paginated = limit !== -1;
                 dispatch({
                     type : types.LOADED_DISCOUNT_SUCCESS,
                     discountsList : res.data.coupons,
-                    total_pages : res.data.paginator.total_pages,
-                    total_count : res.data.paginator.total_count,
+                    total_pages : paginated ? res.data.paginator.total_pages : 1,
+                    total_count : paginated ? res.data.paginator.total_count : 1,
                 });
             })
             .catch(() => {

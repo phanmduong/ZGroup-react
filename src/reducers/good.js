@@ -3,7 +3,6 @@ import {LOG_OUT} from "../constants/actionTypes";
 import commonReducer from "./commonReducer";
 import createProductReducer from "../modules/createProduct/createProductReducer";
 import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
-import discountReducer from "../modules/discount/discountReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 import customerReducer from "../modules/customer/customerReducer";
 import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
@@ -19,7 +18,6 @@ const appReducer = combineReducers({
     ...commonReducer,
     createProduct: createProductReducer,
     addDiscount: addDiscountReducer,
-    discounts: discountReducer,
     groupCustomers: groupCustomerReducer,
     customers: customerReducer,
     wareHouses: wareHouseReducer,
