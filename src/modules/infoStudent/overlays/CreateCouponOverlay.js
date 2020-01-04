@@ -115,7 +115,7 @@ class CreateCouponOverlay extends React.Component {
     };
 
     render() {
-        let {isLoading, data, isProcessing, coupon} = this.state;
+        let {isLoading, isProcessing, coupon} = this.state;
         let {isLoadingCoupons, className} = this.props;
         let coupons = this.props.coupons || [];
         let showLoading = isLoading || isLoadingCoupons || isProcessing;
