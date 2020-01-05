@@ -36,8 +36,7 @@ class CreateCouponOverlay extends React.Component {
     }
 
     loadDiscounts = (singleLoad) => {
-        let {discountActions} = this.props;
-        let isLoadedCoupons = this.props.isLoadedCoupons;
+        let {discountActions,isLoadedCoupons} = this.props;
         if (!isLoadedCoupons || singleLoad)
             discountActions.loadDiscounts(1, -1, '');
     };
@@ -73,15 +72,23 @@ class CreateCouponOverlay extends React.Component {
 
     saveCoupons = () => {
         let {coupon} = this.state;
+        let errs = [];
         if (isEmptyInput(coupon.name)) {
-            showErrorNotification("Bạn cần nhập tên mã giảm giá");
-        } else if (coupon.name.length > 20) {
-            showErrorNotification("Độ dài mã giảm giá không quá 20 kí tự");
-        } else if (isEmptyInput(coupon.color)) {
-            showErrorNotification("Bạn cần chọn màu");
-        } else if (coupon.discount_type == 'percentage' && coupon.discount_value) {
-            showErrorNotification("Giá trị giảm từ 1% -> 100%");
-        } else {
+            errs.push("Bạn cần nhập tên mã giảm giá");
+        }
+        if (coupon.name && coupon.name.length > 20) {
+            errs.push("Độ dài mã giảm giá không quá 20 kí tự");
+        }
+        if (isEmptyInput(coupon.color)) {
+            errs.push("Bạn cần chọn màu");
+        }
+        if (isEmptyInput(coupon.discount_value)) {
+            errs.push("Bạn cần nhập giá trị giảm");
+        }
+        if (coupon.discount_type == 'percentage' && (coupon.discount_value < 1 || 100 < coupon.discount_value)) {
+            errs.push("Giá trị giảm từ 1% -> 100%");
+        }
+        if(errs.length == 0){
             this.setState({
                 isLoading: true,
                 create: false
@@ -95,13 +102,13 @@ class CreateCouponOverlay extends React.Component {
                     });
                     this.loadDiscounts(true);
                 });
-
-
+        }else {
+            errs.forEach(e=>showErrorNotification(e));
         }
     };
 
     close = () => {
-        // this.setState(this.initState);
+        this.setState(this.initState);
     };
 
     changeColor = (color) => {
@@ -207,9 +214,9 @@ class CreateCouponOverlay extends React.Component {
                                         </div>
                                     </div>
                                     <div className="flex flex-wrap input-radio-flex margin-vertical-15">
-                                        {DISCOUNTYPE.map((type) => {
+                                        {DISCOUNTYPE.map((type,key) => {
                                             return (
-                                                <div
+                                                <div key={key}
                                                     onClick={() => this.updateFormData({
                                                         target: {
                                                             name: 'discount_type',
@@ -222,10 +229,10 @@ class CreateCouponOverlay extends React.Component {
                                             );
                                         })}
                                     </div>
-                                    {DISCOUNTYPE.map((type) => {
+                                    {DISCOUNTYPE.map((type,key) => {
                                         if (coupon.discount_type === type.id)
                                             return (
-                                                <div className="position-relative">
+                                                <div key={key} className="position-relative">
                                                     <FormInputText
                                                         name="discount_value"
                                                         placeholder="0"
@@ -327,11 +334,11 @@ class CreateCouponOverlay extends React.Component {
                                                             const s2 = this.state.search.trim().toLowerCase();
                                                             return s1.includes(s2) || s2.includes(s1);
                                                         })
-                                                        .map((coupon) => {
+                                                        .map((coupon,key) => {
                                                             let type = DISCOUNTYPE.filter(t => t.id == coupon.discount_type)[0] || {};
                                                             let text = `${coupon.name} (-${coupon.discount_value}${type.suffix})`;
                                                             return (
-                                                                <div key={coupon.id} style={{
+                                                                <div key={key} style={{
                                                                     marginBottom: 10,
                                                                     display: "flex",
                                                                     justifyContent: 'space-between'

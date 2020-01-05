@@ -2019,11 +2019,11 @@ ul.nav.nav-pills.nav-pills-dark {
   }
 }
 
-.input-no-arrows{
+.input-no-arrows {
 
-  input::-webkit-inner-spin-button{
+  input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
-    -moz-appearance:textfield !important;
+    -moz-appearance: textfield !important;
 
   }
 }
@@ -2079,25 +2079,30 @@ ul.nav.nav-pills.nav-pills-dark {
   &[mask=coupon] {
     left: unset !important;
     right: 0;
-    .checkbox .checkbox-material .check{
+
+    .checkbox .checkbox-material .check {
       border: solid 3px #f3f4f3;
       background-color: #f3f4f3;
     }
-    .checkbox input[type=checkbox]:checked + .checkbox-material .check:before{
+
+    .checkbox input[type=checkbox]:checked + .checkbox-material .check:before {
       border: none;
       background-color: #f3f4f3;
       color: #f3f4f3;
       box-shadow: none;
     }
-    .checkbox input[type=checkbox]:checked + .checkbox-material .check{
+
+    .checkbox input[type=checkbox]:checked + .checkbox-material .check {
       background: #00b836;
       border-radius: 5px;
     }
-    .checkbox .checkbox-material:before{
+
+    .checkbox .checkbox-material:before {
       width: 0px;
       height: 0px;
     }
-    .checkbox .checkbox-material .check:before{
+
+    .checkbox .checkbox-material .check:before {
 
       margin-top: -5px;
       margin-left: 5px;
@@ -2207,7 +2212,8 @@ ul.nav.nav-pills.nav-pills-dark {
       padding: 12px 10px 12px 15px;
       border-radius: 5px;
     }
-    .board-action a i{
+
+    .board-action a i {
       border-radius: 5px;
       padding: 5px 10px;
       width: 35px;
@@ -3257,4 +3263,59 @@ $min-height-step-content: 500px;
   border: none;
   border-radius: 37px;
   padding: 10px 20px;
+}
+
+.select-light-scroll {
+  .Select-value{
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 2px 8px 2px 3px;
+
+  }
+  .Select-value-icon,.Select-value-icon:hover{
+    border: none;
+    background-color: white;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 16px;
+    padding: 0px 3px;
+  }
+  .Select--multi .Select-value-label{
+    padding: 5px 10px;
+  }
+  .Select-menu-outer{
+    max-height: 350px;
+
+  }
+  .Select--multi .Select-multi-value-wrapper, .Select-control{
+    padding-bottom: 5px;
+
+  }
+  .Select-menu {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    max-height: 350px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 100px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background: #adadad;
+      border-radius: 100px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #9e9e9e;
+    }
+  }
 }

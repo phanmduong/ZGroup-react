@@ -23,7 +23,7 @@ import * as types from "../../constants/actionTypes";
 const createRegister = {
     showCreateRegisterModal: false,
     isLoading: false,
-    register: {},
+    register: {coupons:[]},
     isLoadingCourses: false,
     isLoadingSources: false,
     isLoadingClasses: false,

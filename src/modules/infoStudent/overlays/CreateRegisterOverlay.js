@@ -13,8 +13,12 @@ import {GENDER} from "../../../constants/constants";
 import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import * as helper from "../../../helpers/helper";
+import {dotNumber} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
+import * as discountActions from "../../discount/discountActions";
+import SelectOption from "./SelectOption";
+import SelectValue from "./SelectValue";
 
 
 function getSelectSaler(items) {
@@ -74,7 +78,8 @@ class CreateRegisterOverlay extends React.Component {
         super(props, context);
         this.initState = {
             show: false,
-            register: {...this.props.student, saler_id: this.props.user && this.props.user.id},
+            coursePrice: 0,
+            register: {...this.props.student, coupons: [], saler_id: this.props.user && this.props.user.id},
         };
         this.state = this.initState;
     }
@@ -82,11 +87,14 @@ class CreateRegisterOverlay extends React.Component {
     componentWillMount() {
         this.props.createRegisterActions.loadCourses();
         this.props.createRegisterActions.loadCampaigns();
+        this.props.registerActions.loadSalerFilter();
+        this.loadStatuses(false);
         this.props.createRegisterActions.loadAllProvinces();
         if (!this.props.isLoadingSources)
             this.props.createRegisterActions.loadSources();
-        this.props.registerActions.loadSalerFilter();
-        this.loadStatuses(false);
+        let {discountActions, isLoadedCoupons} = this.props;
+        if (!isLoadedCoupons)
+            discountActions.loadDiscounts(1, -1, '');
     }
 
     loadStatuses = (singleLoad) => {
@@ -108,10 +116,14 @@ class CreateRegisterOverlay extends React.Component {
     };
 
     updateCourse = (e) => {
+        if (!e.value) return;
         let register = {...this.state.register};
+        let {courses, createRegisterActions} = this.props;
+        let coursePrice = courses.filter(c => c.id == e.value)[0].price;
         register["course_id"] = e.value;
-        this.setState({register});
-        this.props.createRegisterActions.loadClassesByCourse(e.value);
+        this.setState({register, coursePrice});
+
+        createRegisterActions.loadClassesByCourse(e.value);
     };
 
     updateGender = (e) => {
@@ -201,19 +213,67 @@ class CreateRegisterOverlay extends React.Component {
         this.setState(this.initState);
     };
 
+    getCouponSelectOptions(arr, register) {
+        let multiCoupons = register.coupons && register.coupons.length > 0 && register.coupons.filter(c => c.shared != 1).length > 0;
+        console.log(multiCoupons);
+        return arr.filter(c => {
+            if (multiCoupons) {
+                return false;
+            } else if (register.coupons && register.coupons.length > 0) {
+                return c.shared == 1;
+            }
+            return true;
+        }).map((label) => {
+
+            return {
+                ...label,
+                value: label.id,
+                label: label.name
+            };
+        });
+    }
+
+    getFinalPrice = () => {
+        let {register, coursePrice} = this.state;
+        let finalPrice = coursePrice;
+        let coupons = register.coupons.sort((a, b) => {
+            if ((a.discount_type != 'percentage' && b.discount_type == 'percentage')
+                || (a.discount_type == b.discount_type && a.discount_value < b.discount_value)) {
+                return 1;
+            }
+            return -1;
+        });
+        let discountPercent = 0, discountFix = 0;
+        coupons.forEach(c => {
+            if (c.discount_type == 'percentage') {
+                discountPercent += c.discount_value;
+            }
+            if (c.discount_type == 'fix') {
+                discountFix += c.discount_value;
+            }
+        });
+        discountPercent = Math.min(discountPercent, 100);
+        finalPrice = finalPrice / 100 * (100 - discountPercent);
+        finalPrice -= discountFix;
+
+        return finalPrice;
+    };
+
     render() {
-        let {register} = this.state;
-        let {isSavingRegister, salers, sources, bases, className, studentId} = this.props;
+        let {register, coursePrice} = this.state;
+        let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, studentId} = this.props;
         let classes = (this.props.classes || []).filter(c => register.base_id ? c.base.id == register.base_id : true);
-
         let statuses = this.props.statuses.registers;
+        coupons = this.getCouponSelectOptions([...coupons], register);
+        let finalPrice = this.getFinalPrice();
 
+        // console.log(this.props);
         return (
 
             <div style={{position: "relative"}}>
-                <div  className={className}  mask="create"
-                        ref="target" onClick={this.toggle}
-                        disabled={isSavingRegister}>
+                <div className={className} mask="create"
+                     ref="target" onClick={this.toggle}
+                     disabled={isSavingRegister}>
                     Tạo đăng kí mới {!studentId && <i className="material-icons">
                     add
                 </i>}
@@ -236,7 +296,8 @@ class CreateRegisterOverlay extends React.Component {
                                 <span className="sr-only">Close</span>
                             </button>
                         </div>
-                        {(this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}
+                        {(this.props.isLoadingCourses || this.props.isLoadingCampaigns || isLoadingCoupons) &&
+                        <Loading/>}
                         {!this.props.isSavingRegister && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
                         <form role="form" id="form-info-student">
                             {!studentId && <div>
@@ -329,8 +390,6 @@ class CreateRegisterOverlay extends React.Component {
                                     onChange={this.updateCampaign}
                                     placeholder="Chọn chiến dịch"
                                 /></div>
-
-
                             <div>
                                 <label>Nhân viên sale</label>
                                 <ReactSelect
@@ -342,16 +401,51 @@ class CreateRegisterOverlay extends React.Component {
                                     placeholder="Chọn saler"
                                     name="saler_id"
                                 /></div>
-
                             <div>
                                 <label>Mã khuyến mãi</label>
                                 <FormInputText
                                     name="coupon"
-
                                     placeholder="Mã khuyến mãi"
                                     value={register.coupon}
                                     updateFormData={this.updateFormData}
                                 />
+                            </div>
+                            <div>
+                                <label>Mã khuyến mãi</label>
+                                <ReactSelect
+                                    placeholder="Nhập mã khuyến mãi"
+                                    value={register.coupons}
+                                    // style={{minWidth: 200, maxWidth: 400}}
+                                    className="select-light-scroll"
+                                    name="cardLabels"
+                                    optionComponent={SelectOption}
+                                    multi={true}
+                                    options={coupons}
+                                    valueComponent={SelectValue}
+                                    onChange={value => this.updateFormData({target: {name: 'coupons', value}})}
+                                />
+                                {register.course_id && register.coupons.length > 0 &&
+                                <div>
+                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Giá khóa học: </b></div>
+                                        <div>{` ${dotNumber(coursePrice)}đ`}</div>
+                                    </div>
+
+                                    {coursePrice - finalPrice > 0 &&
+                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Đã giảm: </b></div>
+                                        <div>{` ${dotNumber(coursePrice - finalPrice)}đ`}</div>
+                                    </div>}
+                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Tổng: </b></div>
+                                        <div>{` ${dotNumber(finalPrice)}đ`}</div>
+                                    </div>
+                                </div>
+                                }
+
                             </div>
 
                             <div className="panel panel-default">
@@ -450,7 +544,7 @@ class CreateRegisterOverlay extends React.Component {
                         </form>
 
                         }
-                        {this.props.isSavingRegister ? <Loading/> :
+                        {isSavingRegister ? <Loading/> :
                             <div className="flex">
                                 <button type="button"
                                         disabled={isSavingRegister}
@@ -512,6 +606,9 @@ function mapStateToProps(state) {
         campaigns,
         provinces,
         isSavingRegister,
+        coupons: state.discounts.discountsList,
+        isLoadingCoupons: state.discounts.isLoading,
+        isLoadedCoupons: state.discounts.isLoading,
 
     };
 }
@@ -520,7 +617,8 @@ function mapDispatchToProps(dispatch) {
     return {
         createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
         registerActions: bindActionCreators(registerActions, dispatch),
-        studentActions: bindActionCreators(studentActions, dispatch)
+        discountActions: bindActionCreators(discountActions, dispatch),
+        studentActions: bindActionCreators(studentActions, dispatch),
 
     };
 }
