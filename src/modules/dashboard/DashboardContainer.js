@@ -34,7 +34,6 @@ class DashboardContainer extends React.Component {
             }
         };
         this.onChangeGen = this.onChangeGen.bind(this);
-        this.onChangeBase = this.onChangeBase.bind(this);
         this.loadInitDashboard = this.loadInitDashboard.bind(this);
         this.changeClassStatus = this.changeClassStatus.bind(this);
         this.closeModalClass = this.closeModalClass.bind(this);
@@ -46,7 +45,6 @@ class DashboardContainer extends React.Component {
 
     componentWillMount() {
         this.props.dashboardActions.loadGensData();
-        this.props.dashboardActions.loadBasesData();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -56,10 +54,8 @@ class DashboardContainer extends React.Component {
                 selectGenId: nextProps.currentGen.id
             });
         }
-        if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
-            this.setState({
-                bases: this.getBases(nextProps.bases),
-            });
+        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            this.loadDashboard(this.state.selectGenId, nextProps.selectedBaseId);
         }
     }
 
@@ -72,22 +68,8 @@ class DashboardContainer extends React.Component {
         });
     }
 
-    getBases(bases) {
-        let baseData = bases.map(function (base) {
-            return {
-                key: base.id,
-                value: base.name
-            };
-        });
-        this.setState({selectBaseId: 0});
-        return [{
-            key: 0,
-            value: 'Tất cả'
-        }, ...baseData];
-    }
-
     loadInitDashboard() {
-        this.loadDashboard(this.state.selectGenId, this.state.selectBaseId);
+        this.loadDashboard(this.state.selectGenId, this.props.selectedBaseId);
     }
 
     loadDashboard(genId, baseId, startTime, endTime) {
@@ -102,12 +84,7 @@ class DashboardContainer extends React.Component {
 
     onChangeGen(value) {
         this.setState({selectGenId: value});
-        this.loadDashboard(value, this.state.selectBaseId);
-    }
-
-    onChangeBase(value) {
-        this.setState({selectBaseId: value});
-        this.loadDashboard(this.state.selectGenId, value);
+        this.loadDashboard(value, this.props.selectedBaseId);
     }
 
     changeClassStatus(classId) {
@@ -129,21 +106,21 @@ class DashboardContainer extends React.Component {
     }
 
     loadAttendanceShift(time) {
-        if (this.state.selectBaseId === 0) {
+        if (this.props.selectedBaseId === 0) {
             this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, '', this.props.timeShifts + time);
         }
         else {
-            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, this.state.selectBaseId, this.props.timeShifts + time);
+            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, this.props.selectedBaseId, this.props.timeShifts + time);
         }
 
     }
 
     loadAttendanceClass(time) {
-        if (this.state.selectBaseId === 0) {
+        if (this.props.selectedBaseId === 0) {
             this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, '', this.props.timeClasses + time);
         }
         else {
-            this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, this.state.selectBaseId, this.props.timeClasses + time);
+            this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, this.props.selectedBaseId, this.props.timeClasses + time);
         }
 
     }
@@ -154,7 +131,7 @@ class DashboardContainer extends React.Component {
         filter[field] = event.target.value;
 
         if (!helper.isEmptyInput(filter.startTime) && !helper.isEmptyInput(filter.endTime)) {
-            this.loadDashboard(this.state.selectGenId, this.state.selectBaseId, filter.startTime, filter.endTime);
+            this.loadDashboard(this.state.selectGenId, this.props.selectedBaseId, filter.startTime, filter.endTime);
         }
         this.setState({filter: filter});
     }
@@ -163,7 +140,7 @@ class DashboardContainer extends React.Component {
         return (
             <div>
 
-                {this.props.isLoadingGens || this.props.isLoadingBases ? <Loading/> :
+                {this.props.isLoadingGens ? <Loading/> :
                     (
                         <div>
                             <div className="row">
@@ -173,14 +150,6 @@ class DashboardContainer extends React.Component {
                                         options={this.state.gens}
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
-                                    />
-                                </div>
-                                <div className="col-sm-3 col-xs-5">
-                                    <Select
-                                        defaultMessage={'Chọn cơ sở'}
-                                        options={this.state.bases}
-                                        value={this.state.selectBaseId}
-                                        onChange={this.onChangeBase}
                                     />
                                 </div>
                                 <div className="col-sm-2">
@@ -233,7 +202,7 @@ class DashboardContainer extends React.Component {
                             </Panel>
                             <DashboardComponent
                                 {...this.props}
-                                baseId={this.state.selectBaseId}
+                                baseId={this.props.selectedBaseId}
                                 loadDashboard={this.loadInitDashboard}
                                 changeClassStatus={this.changeClassStatus}
                                 openModalClass={this.openModalClass}
@@ -325,6 +294,7 @@ function mapStateToProps(state) {
         dateShifts: state.dashboard.dateShifts,
         timeClasses: state.dashboard.timeClasses,
         dateClasses: state.dashboard.dateClasses,
+        selectedBaseId: state.global.selectedBaseId,
     };
 }
 

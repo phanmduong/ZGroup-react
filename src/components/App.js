@@ -6,6 +6,7 @@ import TabContainer from "../modules/tab/TabContainer";
 import {Link} from "react-router";
 import * as helper from "../helpers/helper";
 import NotificationContainer from "../modules/notification/NotificationContainer";
+import Select from "./common/Select";
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -15,6 +16,23 @@ class App extends React.Component {
         let avatar = helper.avatarEmpty(this.props.user ? this.props.user.avatar_url : "")
             ? NO_AVATAR
             : this.props.user.avatar_url;
+        let provinces = this.props.provinces ? this.props.provinces.map((province) => {
+            return {key: province.id, value: province.name};
+        }) : [];
+        provinces = [{key: 0, value: "Tất cả"}, ...provinces];
+
+        let bases = this.props.bases ? this.props.bases.filter((base) => {
+            if (this.props.user && this.props.user.choice_province_id > 0) {
+                return base.district.province.id == this.props.user.choice_province_id;
+            } else {
+                return true;
+            }
+        }).map((base) => {
+            return {key: base.id, value: base.name};
+        }) : [];
+        bases = [{key: 0, value: "Tất cả"}, ...bases];
+
+
         return (
             <div className="wrapper">
                 <div
@@ -80,16 +98,35 @@ class App extends React.Component {
                                 </button>
                             </div>
                             <div className="navbar-header">
-                                <button type="button" className="navbar-toggle" data-toggle="collapse">
-                                    <span className="sr-only">Toggle navigation</span>
-                                    <span className="icon-bar"/>
-                                    <span className="icon-bar"/>
-                                    <span className="icon-bar"/>
-                                </button>
-                                <Link className="navbar-brand" to="/">
-                                    {" "}
-                                    {NAME_COMPANY}{" "}
-                                </Link>
+                                {/*<button type="button" className="navbar-toggle" data-toggle="collapse">*/}
+                                {/*    <span className="sr-only">Toggle navigation</span>*/}
+                                {/*    <span className="icon-bar"/>*/}
+                                {/*    <span className="icon-bar"/>*/}
+                                {/*    <span className="icon-bar"/>*/}
+                                {/*</button>*/}
+                                {/*<Link className="navbar-brand" to="/">*/}
+                                {/*    {" "}*/}
+                                {/*    {NAME_COMPANY}{" "}*/}
+                                {/*</Link>*/}
+                                <div className="flex flex-row flex-align-items-center">
+                                    <div style={{width: 200}}>
+                                        <Select
+                                            defaultMessage={'Chọn thành phố'}
+                                            options={provinces}
+                                            value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}
+                                            onChange={this.props.onChangeProvince}
+                                        />
+                                    </div>
+                                    <div style={{width: 200}}>
+                                        <Select
+                                            defaultMessage={'Chọn cơ sở'}
+                                            options={bases}
+                                            value={this.props.selectedBaseId}
+                                            onChange={this.props.onChangeBase}
+                                            // onChange={this.onChangeGen}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">

@@ -43,7 +43,6 @@ class RegisterListContainer extends React.Component {
             openFilterPanel: false,
             selectedClassId: '',
             selectedSalerId: '',
-            selectedBaseId: '',
             registerSourceId: '',
             registerStatusId: '',
             selectedMoneyFilter: '',
@@ -207,6 +206,19 @@ class RegisterListContainer extends React.Component {
             });
         }
 
+        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            this.props.registerActions.loadRegisterStudent(
+                {...this.state, page: 1, selectedClassId: '', selectedBaseId: nextProps.selectedBaseId},
+            );
+            this.setState({
+                page: 1,
+                selectedClassId: '',
+                selectedBaseId: nextProps.selectedBaseId,
+                classFilter: this.getFilter(this.props.classFilter, nextProps.selectedBaseId)
+            });
+            // this.loadDashboard(this.state.selectGenId, nextProps.selectedBaseId);
+        }
+
         if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(
                 {...this.state, page: 1, selectedSalerId: Number(nextProps.params.salerId),},
@@ -221,7 +233,7 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
-                this.state.selectedBaseId,
+                this.props.selectedBaseId,
                 this.state.time.appointmentPayment,
                 this.state.query_coupon,
                 this.state.selectedTeleCallStatus,
@@ -329,23 +341,6 @@ class RegisterListContainer extends React.Component {
 
         this.props.registerActions.changeMarkRegister(register_id, bookmark);
 
-    };
-
-    onBaseFilterChange = (obj) => {
-        let res = '';
-        if (obj) {
-            res = obj.value;
-        }
-        if (res != this.state.selectedBaseId)
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, selectedClassId: '', selectedBaseId: obj ? obj.value : ''},
-            );
-        this.setState({
-            selectedBaseId: res,
-            page: 1,
-            selectedClassId: '',
-            classFilter: this.getFilter(this.props.classFilter, res)
-        });
     };
 
     onSalerFilterChange = (obj) => {
@@ -666,7 +661,7 @@ class RegisterListContainer extends React.Component {
             selectedClassStatus: this.state.selectedClassStatus,
             startTime: this.state.time.startTime,
             endTime: this.state.time.endTime,
-            selectedBaseId: this.state.selectedBaseId,
+            selectedBaseId: this.props.selectedBaseId,
             appointmentPayment: this.state.time.appointmentPayment,
             query_coupon: this.state.query_coupon,
             bookmark: this.state.selectedBookmarkStatus,
@@ -878,20 +873,6 @@ class RegisterListContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-3">
                                         <label className="">
-                                            Theo cơ sở
-                                        </label>
-                                        <ReactSelect
-                                            disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
-                                            className=""
-                                            options={this.state.baseFilter}
-                                            onChange={this.onBaseFilterChange}
-                                            value={this.state.selectedBaseId}
-                                            defaultMessage="Tuỳ chọn"
-                                            name="filter_base"
-                                        />
-                                    </div>
-                                    <div className="col-md-3">
-                                        <label className="">
                                             Theo lớp học
                                         </label>
                                         <ReactSelect
@@ -1031,7 +1012,7 @@ class RegisterListContainer extends React.Component {
                                         <ReactSelect
                                             disabled={this.props.isLoading || this.props.isLoadingStatuses}
                                             options={this.state.statusFilter}
-                                            onChange={e=>this.onFilterChange(e, 'registerStatusId')}
+                                            onChange={e => this.onFilterChange(e, 'registerStatusId')}
                                             value={this.state.registerStatusId}
                                             defaultMessage="Tuỳ chọn"
                                             name="registerStatusId"
@@ -1044,7 +1025,7 @@ class RegisterListContainer extends React.Component {
                                         <ReactSelect
                                             disabled={this.props.isLoading || this.props.isLoadingSources}
                                             options={this.state.sourceFilter}
-                                            onChange={e=>this.onFilterChange(e, 'registerSourceId')}
+                                            onChange={e => this.onFilterChange(e, 'registerSourceId')}
                                             value={this.state.registerSourceId}
                                             defaultMessage="Tuỳ chọn"
                                             name="registerSourceId"
@@ -1643,6 +1624,7 @@ function mapStateToProps(state) {
         isLoadingSources: state.createRegister.isLoadingSources,
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
+        selectedBaseId: state.global.selectedBaseId,
     };
 }
 

@@ -762,16 +762,16 @@ export default {
                 {
                     name: "",
                     longitude: 1,
-                    latitude:1,
+                    latitude: 1,
                     address:
                         "",
                     images: []
                 }
         },
-        base:  {
+        base: {
             name: "",
             longitude: 1,
-            latitude:1,
+            latitude: 1,
             address:
                 "",
             images: []
@@ -1166,10 +1166,10 @@ export default {
         error: false,
         gen: {},
         overview: {
-            years:[],
-            universities:[],
-            addresses:[],
-            genders:[],
+            years: [],
+            universities: [],
+            addresses: [],
+            genders: [],
         },
         bases: [],
         isSaving: false,
@@ -2665,10 +2665,15 @@ export default {
             limit: 20,
         },
     },
-    globalModal:{
-        registerDetail:{
-            showModalRegisterDetail:false
+    globalModal: {
+        registerDetail: {
+            showModalRegisterDetail: false
         }
+    },
+    global: {
+        provinces: [],
+        bases: [],
+        selectedBaseId: 0
     }
 
 };
