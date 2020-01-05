@@ -4,6 +4,9 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import App from "../components/App";
 import * as loginActions from "../modules/login/loginActions";
+import * as provinceActions from "../actions/provinceActions";
+import * as baseActions from "../actions/baseActions";
+import * as userActions from "../actions/userActions";
 import * as helper from "../helpers/helper";
 import {Modal} from "react-bootstrap";
 import RuleContainer from "../modules/rule/RuleContainer";
@@ -37,6 +40,8 @@ class AppContainer extends React.Component {
     componentWillMount() {
         this.checkToken();
         this.props.loginActions.getUserLocal();
+        this.props.provinceActions.loadAllProvinces();
+        this.props.baseActions.loadAllBases();
     }
 
     componentDidUpdate() {
@@ -102,6 +107,17 @@ class AppContainer extends React.Component {
         this.setState({totalTaskNotComplete: number});
     }
 
+    onChangeProvince = (provinceId) => {
+        let user = {...this.props.user};
+        user.choice_province_id = provinceId;
+        localStorage.setItem("user", JSON.stringify(user));
+        userActions.choiceProvince(provinceId)
+    }
+
+    onChangeBase = (baseID) => {
+        this.props.baseActions.selectedBase(baseID);
+    }
+
     render() {
         return (
             <div>
@@ -126,6 +142,9 @@ class AppContainer extends React.Component {
                     openModalRule={this.openModalRule}
                     onSetSidebarOpen={this.onSetSidebarOpen}
                     totalTaskNotComplete={this.state.totalTaskNotComplete}
+                    onChangeProvince={this.onChangeProvince}
+                    onChangeBase={this.onChangeBase}
+
                 />
 
                 <Modal show={this.state.showModalRule} onHide={this.closeModalRule} bsSize="large">
@@ -151,18 +170,28 @@ AppContainer.contextTypes = {
 
 AppContainer.propTypes = {
     loginActions: PropTypes.object.isRequired,
+    provinceActions: PropTypes.object.isRequired,
+    baseActions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    provinces: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
+    selectedBaseId: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         user: state.login.user,
+        provinces: state.global.provinces,
+        bases: state.global.bases,
+        selectedBaseId: state.global.selectedBaseId,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         loginActions: bindActionCreators(loginActions, dispatch),
+        provinceActions: bindActionCreators(provinceActions, dispatch),
+        baseActions: bindActionCreators(baseActions, dispatch),
     };
 }
 

@@ -23,7 +23,7 @@ export function loadGens() {
 }
 
 
-export function loadClasses(search, page = 1, teacherId = '', genId = '') {
+export function loadClasses(search, page = 1, teacherId = '', genId = '', baseId = '') {
     let url = env.MANAGE_API_URL;
     switch (env.TYPE_API) {
         case 'alibaba':
@@ -33,7 +33,7 @@ export function loadClasses(search, page = 1, teacherId = '', genId = '') {
             url += "/class/all";
             break;
     }
-    url += "?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId === 0 ? '' : genId);
+    url += "?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId === 0 ? '' : genId) + "&base_id=" + (baseId === 0 ? '' : baseId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

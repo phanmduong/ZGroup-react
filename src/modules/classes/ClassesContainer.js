@@ -89,6 +89,9 @@ class ClassesContainer extends React.Component {
             });
             this.loadClasses(1, '');
         }
+        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            this.props.classActions.loadClasses(this.state.query, this.state.page, this.search.teacherId, this.state.selectGenId, this.props.selectedBaseId);
+        }
     }
 
     classesSearchChange(value) {
@@ -106,7 +109,7 @@ class ClassesContainer extends React.Component {
 
     loadClasses(page = 1, query = this.state.query) {
         this.setState({page});
-        this.props.classActions.loadClasses(query, page, this.search.teacherId, this.state.selectGenId);
+        this.props.classActions.loadClasses(query, page, this.search.teacherId, this.state.selectGenId, this.props.selectedBaseId);
     }
 
     deleteClass(classData) {
@@ -301,6 +304,7 @@ ClassesContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
+    selectedBaseId: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
     classes: PropTypes.array.isRequired,
     excel: PropTypes.array.isRequired,
@@ -328,7 +332,7 @@ function mapStateToProps(state) {
         isCreateClass: state.classes.isCreateClass,
         gens: state.classes.gens,
         isLoadingGens: state.classes.isLoadingGens,
-
+        selectedBaseId: state.global.selectedBaseId,
     };
 }
 
