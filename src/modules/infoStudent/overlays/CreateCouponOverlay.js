@@ -4,7 +4,7 @@ import Loading from "../../../components/common/Loading";
 import {addDiscountApi as createCoupons} from "../../addDiscount/addDiscountApis";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
-import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
+import {isEmptyInput, showErrorNotification, sortCoupon} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import Search from "../../../components/common/Search";
 import * as discountActions from "../../discount/discountActions";
@@ -36,9 +36,9 @@ class CreateCouponOverlay extends React.Component {
     }
 
     loadDiscounts = (singleLoad) => {
-        let {discountActions,isLoadedCoupons} = this.props;
+        let {discountActions, isLoadedCoupons} = this.props;
         if (!isLoadedCoupons || singleLoad)
-            discountActions.loadDiscounts(1, -1, '');
+            discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
     };
 
 
@@ -88,7 +88,7 @@ class CreateCouponOverlay extends React.Component {
         if (coupon.discount_type == 'percentage' && (coupon.discount_value < 1 || 100 < coupon.discount_value)) {
             errs.push("Giá trị giảm từ 1% -> 100%");
         }
-        if(errs.length == 0){
+        if (errs.length == 0) {
             this.setState({
                 isLoading: true,
                 create: false
@@ -102,8 +102,8 @@ class CreateCouponOverlay extends React.Component {
                     });
                     this.loadDiscounts(true);
                 });
-        }else {
-            errs.forEach(e=>showErrorNotification(e));
+        } else {
+            errs.forEach(e => showErrorNotification(e));
         }
     };
 
@@ -214,22 +214,22 @@ class CreateCouponOverlay extends React.Component {
                                         </div>
                                     </div>
                                     <div className="flex flex-wrap input-radio-flex margin-vertical-15">
-                                        {DISCOUNTYPE.map((type,key) => {
+                                        {DISCOUNTYPE.map((type, key) => {
                                             return (
                                                 <div key={key}
-                                                    onClick={() => this.updateFormData({
-                                                        target: {
-                                                            name: 'discount_type',
-                                                            value: type.id
-                                                        }
-                                                    })}
-                                                    value={coupon.discount_type === type.id ? 'active' : ''}>
+                                                     onClick={() => this.updateFormData({
+                                                         target: {
+                                                             name: 'discount_type',
+                                                             value: type.id
+                                                         }
+                                                     })}
+                                                     value={coupon.discount_type === type.id ? 'active' : ''}>
                                                     {type.name}
                                                 </div>
                                             );
                                         })}
                                     </div>
-                                    {DISCOUNTYPE.map((type,key) => {
+                                    {DISCOUNTYPE.map((type, key) => {
                                         if (coupon.discount_type === type.id)
                                             return (
                                                 <div key={key} className="position-relative">
@@ -328,15 +328,20 @@ class CreateCouponOverlay extends React.Component {
 
 
                                                 <div className="kt-scroll">
-                                                    {coupons && coupons
+                                                    {coupons && sortCoupon([...coupons])
                                                         .filter(coupon => {
                                                             const s1 = coupon.name.trim().toLowerCase();
                                                             const s2 = this.state.search.trim().toLowerCase();
                                                             return s1.includes(s2) || s2.includes(s1);
                                                         })
-                                                        .map((coupon,key) => {
+                                                        .map((coupon, key) => {
                                                             let type = DISCOUNTYPE.filter(t => t.id == coupon.discount_type)[0] || {};
                                                             let text = `${coupon.name} (-${coupon.discount_value}${type.suffix})`;
+                                                            let statusText = coupon.quantity == -1 ?
+                                                                `Không giới hạn - ${coupon.expired_in}`
+                                                                :
+                                                                `Đã dùng ${coupon.used_quantity}/${coupon.quantity} - ${coupon.expired_in}`
+                                                            ;
                                                             return (
                                                                 <div key={key} style={{
                                                                     marginBottom: 10,
@@ -347,6 +352,7 @@ class CreateCouponOverlay extends React.Component {
                                                                         onClick={() => this.editCoupons(coupon)}
                                                                         className="btn"
                                                                         style={{
+                                                                            filter: `opacity(${coupon.expired ? 0.5 : 1})`,
                                                                             backgroundColor: coupon.color,
                                                                             width: "calc(100% - 30px)",
                                                                             margin: "0",
@@ -356,7 +362,7 @@ class CreateCouponOverlay extends React.Component {
                                                                         }}>
 
                                                                         <div><b>{text}</b></div>
-                                                                        <div>{`Đã dùng ${coupon.used_quantity}/${coupon.quantity} - ${coupon.expired_in}`}</div>
+                                                                        <div>{statusText}</div>
                                                                     </div>
                                                                     <div className="board-action">
                                                                         <a onClick={() => this.editCoupons(coupon)}>

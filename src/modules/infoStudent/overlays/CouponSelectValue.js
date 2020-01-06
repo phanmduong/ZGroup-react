@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {DISCOUNTYPE} from "../../../constants/constants";
 
-class SelectValue extends React.Component {
+class CouponSelectValue extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.renderRemoveIcon = this.renderRemoveIcon.bind(this);
@@ -68,15 +68,13 @@ class SelectValue extends React.Component {
     }
 
     render() {
+        let {value} = this.props;
         let cardLabelStyle = {
                 backgroundColor: this.props.value.color,
-                // color: "white",
-                // borderRadius: 5,
-                // border: 'none',
-                // padding: '2px 8px 2px 3px',
+                filter: `opacity(${value.expired ? 0.5 : 1})`,
+
             }
         ;
-        let {value} = this.props;
         let type = DISCOUNTYPE.filter(t => t.id == value.discount_type)[0] || {};
 
         let text = `${value.name} (-${value.discount_value}${type.suffix})`;
@@ -96,7 +94,7 @@ class SelectValue extends React.Component {
     }
 }
 
-SelectValue.propTypes = {
+CouponSelectValue.propTypes = {
     children: PropTypes.node,
     disabled: PropTypes.bool,               // disabled prop passed to ReactSelect
     id: PropTypes.string,                   // Unique id for the value - used for aria
@@ -105,4 +103,4 @@ SelectValue.propTypes = {
     value: PropTypes.object.isRequired,     // the option object for this value
 };
 
-export default SelectValue;
+export default CouponSelectValue;

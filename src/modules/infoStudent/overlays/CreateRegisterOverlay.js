@@ -13,12 +13,12 @@ import {GENDER} from "../../../constants/constants";
 import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import * as helper from "../../../helpers/helper";
-import {dotNumber} from "../../../helpers/helper";
+import {dotNumber, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as discountActions from "../../discount/discountActions";
-import SelectOption from "./SelectOption";
-import SelectValue from "./SelectValue";
+import CouponSelectOption from "./CouponSelectOption";
+import CouponSelectValue from "./CouponSelectValue";
 
 
 function getSelectSaler(items) {
@@ -93,8 +93,7 @@ class CreateRegisterOverlay extends React.Component {
         if (!this.props.isLoadingSources)
             this.props.createRegisterActions.loadSources();
         let {discountActions, isLoadedCoupons} = this.props;
-        if (!isLoadedCoupons)
-            discountActions.loadDiscounts(1, -1, '');
+        if (!isLoadedCoupons) discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
     }
 
     loadStatuses = (singleLoad) => {
@@ -199,6 +198,7 @@ class CreateRegisterOverlay extends React.Component {
         }
         this.props.createRegisterActions.createRegister(register, () => {
             this.props.studentActions.loadRegisters(this.props.studentId);
+            this.props.discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
             this.close();
         });
         e.preventDefault();
@@ -215,7 +215,6 @@ class CreateRegisterOverlay extends React.Component {
 
     getCouponSelectOptions(arr, register) {
         let multiCoupons = register.coupons && register.coupons.length > 0 && register.coupons.filter(c => c.shared != 1).length > 0;
-        console.log(multiCoupons);
         return arr.filter(c => {
             if (multiCoupons) {
                 return false;
@@ -236,13 +235,7 @@ class CreateRegisterOverlay extends React.Component {
     getFinalPrice = () => {
         let {register, coursePrice} = this.state;
         let finalPrice = coursePrice;
-        let coupons = register.coupons.sort((a, b) => {
-            if ((a.discount_type != 'percentage' && b.discount_type == 'percentage')
-                || (a.discount_type == b.discount_type && a.discount_value < b.discount_value)) {
-                return 1;
-            }
-            return -1;
-        });
+        let coupons = sortCoupon(register.coupons);
         let discountPercent = 0, discountFix = 0;
         coupons.forEach(c => {
             if (c.discount_type == 'percentage') {
@@ -266,8 +259,6 @@ class CreateRegisterOverlay extends React.Component {
         let statuses = this.props.statuses.registers;
         coupons = this.getCouponSelectOptions([...coupons], register);
         let finalPrice = this.getFinalPrice();
-
-        // console.log(this.props);
         return (
 
             <div style={{position: "relative"}}>
@@ -401,15 +392,15 @@ class CreateRegisterOverlay extends React.Component {
                                     placeholder="Chọn saler"
                                     name="saler_id"
                                 /></div>
-                            <div>
-                                <label>Mã khuyến mãi</label>
-                                <FormInputText
-                                    name="coupon"
-                                    placeholder="Mã khuyến mãi"
-                                    value={register.coupon}
-                                    updateFormData={this.updateFormData}
-                                />
-                            </div>
+                            {/*<div>*/}
+                            {/*    <label>Mã khuyến mãi</label>*/}
+                            {/*    <FormInputText*/}
+                            {/*        name="coupon"*/}
+                            {/*        placeholder="Mã khuyến mãi"*/}
+                            {/*        value={register.coupon}*/}
+                            {/*        updateFormData={this.updateFormData}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
                             <div>
                                 <label>Mã khuyến mãi</label>
                                 <ReactSelect
@@ -418,10 +409,10 @@ class CreateRegisterOverlay extends React.Component {
                                     // style={{minWidth: 200, maxWidth: 400}}
                                     className="select-light-scroll"
                                     name="cardLabels"
-                                    optionComponent={SelectOption}
+                                    optionComponent={CouponSelectOption}
                                     multi={true}
-                                    options={coupons}
-                                    valueComponent={SelectValue}
+                                    options={sortCoupon([...coupons])}
+                                    valueComponent={CouponSelectValue}
                                     onChange={value => this.updateFormData({target: {name: 'coupons', value}})}
                                 />
                                 {register.course_id && register.coupons.length > 0 &&

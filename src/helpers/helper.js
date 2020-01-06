@@ -1493,7 +1493,7 @@ export function stringToASCII(str) {
             .replace(/[ìíỉĩị]/g, 'i')
             .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, 'o')
             .replace(/[ùúủũụưừứửữự]/g, 'u')
-            .replace(/[ỳýỷỹỵ]/g, 'y')
+            .replace(/[ỳýỷỹỵ]/g, 'y');
     } catch (e) {
         console.log(e);
     }
@@ -1502,9 +1502,22 @@ export function stringToASCII(str) {
 }
 
 export function searchASCII(strOriginal, strSearch) {
-    var strOriginalToASCII = stringToASCII(strOriginal.toLowerCase())
-    var strSearchToASCII = stringToASCII(strSearch.toLowerCase())
+    var strOriginalToASCII = stringToASCII(strOriginal.toLowerCase());
+    var strSearchToASCII = stringToASCII(strSearch.toLowerCase());
 
     return strOriginalToASCII.includes(strSearchToASCII);
 }
 
+
+export function sortCoupon(coupons) {
+    coupons = coupons.sort((a, b) => {
+        if ((a.expired && !b.expired)
+            || (a.discount_type != 'percentage' && b.discount_type == 'percentage' && a.expired == b.expired)
+            || (a.discount_type == b.discount_type && a.expired == b.expired && a.discount_value < b.discount_value)
+        ) {
+            return 1;
+        }
+        return -1;
+    });
+    return coupons;
+}
