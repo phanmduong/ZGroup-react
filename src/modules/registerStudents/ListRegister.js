@@ -30,17 +30,13 @@ class ListRegister extends React.Component {
                         <th>Lớp</th>
                         <th>Gọi</th>
                         <th>Họ tên</th>
-                        {/*<th>Email</th>*/}
-                        {/*<th>Phone</th>*/}
                         {this.props.genId == 0 && <th>Khóa</th>}
                         <th>Mã đăng kí</th>
                         <th>Saler</th>
-                        {/*<th>Chiến dịch</th>*/}
                         <th>Học phí</th>
                         <th>Trạng thái</th>
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
-                        {/*<th>Hẹn test</th>*/}
                         <th/>
                     </tr>
                     </thead>
@@ -213,7 +209,19 @@ class ListRegister extends React.Component {
                                         className="status-overlay margin-bottom-10"
                                     />
                                 </td>
-                                <td>{register.coupon}</td>
+                                <td>
+                                    {register.coupon && <div className="btn btn-xs btn-main">
+                                        {register.coupon}
+                                    </div>}
+
+                                    {register.coupons && register.coupons.map((coupon, key) => {
+                                        return (<div key={key} className="btn btn-xs btn-main"
+                                                     style={{background: coupon.color}}>
+                                            {coupon.name}
+                                        </div>);
+                                    })}
+
+                                </td>
                                 <td>
                                     <div data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"

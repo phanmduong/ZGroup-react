@@ -11,7 +11,8 @@ import {
     isEmptyInput,
     showErrorNotification,
     showNotification,
-    showTypeNotification
+    showTypeNotification,
+    sortCoupon
 } from "../../../helpers/helper";
 
 class MoneyRegisterOverlay extends React.Component {
@@ -107,10 +108,32 @@ class MoneyRegisterOverlay extends React.Component {
 
     };
 
+    getFinalPrice = () => {
+        let {register} = this.props;
+        let coursePrice = register.course_money;
+        let finalPrice = coursePrice;
+        let coupons = sortCoupon(register.coupons);
+        let discountPercent = 0, discountFix = 0;
+        coupons.forEach(c => {
+            if (c.discount_type == 'percentage') {
+                discountPercent += c.discount_value;
+            }
+            if (c.discount_type == 'fix') {
+                discountFix += c.discount_value;
+            }
+        });
+        discountPercent = Math.min(discountPercent, 100);
+        finalPrice = finalPrice / 100 * (100 - discountPercent);
+        finalPrice -= discountFix;
+        return finalPrice;
+    };
+
     render() {
         let {isLoading} = this.state;
         let {register} = this.props;
         let text = '', style;
+        let coursePrice = register.course_money;
+        let finalPrice = this.getFinalPrice();
         if (register) {
             if (!register.paid_status && register.appointment_payment) {
                 text = `Hẹn nộp: ${register.appointment_payment}`;
@@ -165,6 +188,39 @@ class MoneyRegisterOverlay extends React.Component {
                                         type="text"
                                         updateFormData={this.updateFormData}
                                     /></div>
+                                {register.coupons && register.coupons.length > 0 &&
+                                <div>
+                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Giá khóa học: </b></div>
+                                        <div>{` ${dotNumber(coursePrice)}đ`}</div>
+                                    </div>
+                                    {register.coupons.map((coupon, key) => {
+                                        let discountText = coupon.discount_type == 'percentage' ?
+                                            coupon.discount_value + '%' :
+                                            dotNumber(coupon.discount_value) + 'đ';
+                                        return (
+                                            <div key={key}
+                                                className="flex flex-space-between flex-align-items-center margintop-10"
+                                                style={{fontSize: 12}}>
+                                                <div><b>{coupon.name}: </b></div>
+                                                <div>{` ${discountText}`}</div>
+                                            </div>
+                                        );
+                                    })}
+                                    {coursePrice - finalPrice > 0 &&
+                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Đã giảm: </b></div>
+                                        <div>{` ${dotNumber(coursePrice - finalPrice)}đ`}</div>
+                                    </div>}
+                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Tổng: </b></div>
+                                        <div>{` ${dotNumber(finalPrice)}đ`}</div>
+                                    </div>
+                                </div>
+                                }
                                 <div><label>Ghi chú</label>
                                     <FormInputText
                                         name="note"

@@ -3,14 +3,14 @@ import * as discountApis from './dicountApis';
 import * as helper from '../../helpers/helper';
 
 
-export function loadDiscounts( page , limit, query) {
+export function loadDiscounts( filter ) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DISCOUNT
         });
-        discountApis.loadDiscountsApi(page, limit ,query )
+        discountApis.loadDiscountsApi(filter )
             .then( (res) =>  {
-                let paginated = limit !== -1;
+                let paginated = filter.limit !== -1;
                 dispatch({
                     type : types.LOADED_DISCOUNT_SUCCESS,
                     discountsList : res.data.coupons,

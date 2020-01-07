@@ -295,6 +295,7 @@ export function saveRegisterApi(register) {
         email: register.email,
         class_id: register.class_id,
         coupon: register.coupon,
+        coupons: register.coupons,
         dob: register.dob,
         address: register.address,
         facebook: register.facebook,
