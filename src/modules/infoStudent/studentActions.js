@@ -210,6 +210,30 @@ export function changePassword(studentId, newPassword, closeModal) {
             });
     };
 }
+export function refundStudent(data, closeModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_REFUND_STUDENT});
+        helper.showWarningNotification('Đang thực hiện');
+        studentApi.refundStudent(data)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.data);
+                    closeModal();
+
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+
+            })
+            .catch((e) => {
+                console.log(e);
+                helper.showErrorNotification("Hoàn tiền thất bại");
+            }).finally(()=>{
+            dispatch({type: types.REFUND_STUDENT_SUCCESS});
+
+        });
+    };
+}
 
 export function uploadImage(file, studentId, imageField) {
     return function (dispatch) {

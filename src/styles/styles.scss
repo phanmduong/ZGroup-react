@@ -574,6 +574,11 @@ $starInactive: #c4c5c6;
 
 //fix scrolling issue in board
 
+@media screen and (max-width: 768px) {
+  .keetool-content{
+    //margin-top: 180px!important;
+  }
+}
 .keetool-content {
   margin-top: 60px;
   min-height: calc(100vh - 70px);
@@ -3337,4 +3342,8 @@ $min-height-step-content: 500px;
       background: #9e9e9e;
     }
   }
+}
+
+.radius-8{
+  border-radius: 8px;
 }

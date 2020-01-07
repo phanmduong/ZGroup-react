@@ -442,7 +442,11 @@ export const TYPE_TRANSACTION = [
     {
         label: "Chi",
         value: "2"
-    }
+    },
+    {
+        label: "Hoàn tiền học viên",
+        value: "3"
+    },
 ];
 
 export const TYPE_MONEY_TRANSFER = [
