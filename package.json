@@ -121,7 +121,7 @@
     "is-hotkey": "^0.1.2",
     "jquery": "3.2.1",
     "jsonwebtoken": "^7.4.2",
-    "jspdf": "^1.4.1",
+    "jspdf": "^1.5.3",
     "lodash": "^4.17.4",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",

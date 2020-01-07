@@ -3265,3 +3265,15 @@ $min-height-step-content: 500px;
   border-radius: 37px;
   padding: 10px 20px;
 }
+
+.custom-dropdown{
+  button{
+    cursor: pointer!important;
+    background-color: #fff!important;
+    color: #000!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    font-weight: 400!important;
+    padding: 12px 20px;
+  }
+}

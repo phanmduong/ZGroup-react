@@ -22,7 +22,7 @@ class MoneyRegisterOverlay extends React.Component {
             isLoading: false,
             register: {
                 ...this.props.register,
-                code:this.props.register.class.type == 'active' ? this.props.register.next_code : this.props.register.next_waiting_code,
+                code: this.props.register.class.type == 'active' ? this.props.register.next_code : this.props.register.next_waiting_code,
                 money: 0,
                 note: '',
                 payment_method: ''
@@ -94,10 +94,10 @@ class MoneyRegisterOverlay extends React.Component {
                 if (res.data.status == 1) {
                     showNotification('Nộp tiền thành công!');
                     this.props.reload();
+                    window.open("/invoice/" + register.id, '_blank');
                 } else {
                     showErrorNotification(res.data.message);
                 }
-
             }).catch(() => {
                 showErrorNotification("Có lỗi xảy ra!");
             }).finally(() => {
