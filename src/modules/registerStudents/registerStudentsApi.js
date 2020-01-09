@@ -60,6 +60,7 @@ export function getRegisterStudent(filter) {
         selectedBaseId = '',
         appointmentPayment = '',
         query_coupon = '',
+        query_note = '',
         selectedTeleCallStatus = '',
         selectedBookmarkStatus = '',
         registerStatusId = '',
@@ -91,6 +92,7 @@ export function getRegisterStudent(filter) {
         "&appointment_payment=" + appointmentPayment +
         "&type=" + selectedClassStatus +
         "&search_coupon=" + query_coupon +
+        "&query_note=" + query_note +
         "&bookmark=" + selectedBookmarkStatus +
         "&registerStatusId=" + registerStatusId +
         "&registerSourceId=" + registerSourceId +

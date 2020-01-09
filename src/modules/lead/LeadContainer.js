@@ -21,6 +21,7 @@ import * as createRegisterActions from '../registerStudents/createRegisterAction
 import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
+import * as studentActions from "../infoStudent/studentActions";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -32,7 +33,10 @@ class LeadContainer extends React.Component {
             filter: {
                 startTime: '',
                 endTime: '',
+                status: '',
             },
+            leadStatusId: '',
+            statusFilter: [],
             staffs: [],
             staff: "",
             isDistribution: false,
@@ -48,20 +52,32 @@ class LeadContainer extends React.Component {
     }
 
     componentWillMount() {
+
+        this.props.studentActions.loadStatuses('leads');
+
         if (this.props.route.type === "distribution") {
             this.setState({isDistribution: true, staff: "-2", page: 1});
-            this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime,
-                -2, this.state.rate, this.state.top);
+            this.props.leadActions.getLeads({
+                ...this.state,
+                page: 1,
+                staffId: -2
+            });
         } else {
 
             if (this.props.route.type === "my-leads") {
                 this.setState({staff: this.props.user.id, page: 1});
-                this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime,
-                    this.props.user.id, this.state.rate, this.state.top);
+                this.props.leadActions.getLeads(
+                    {
+                        ...this.state,
+                        page: 1,
+
+                    }
+                );
             } else {
                 this.loadData();
             }
         }
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -82,7 +98,7 @@ class LeadContainer extends React.Component {
                 staff: "",
                 rate: 0
             });
-            this.props.leadActions.getLeads(1);
+            this.props.leadActions.getLeads({page: 1});
         }
         if (nextProps.isDistributing != this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
             this.setState({
@@ -91,9 +107,13 @@ class LeadContainer extends React.Component {
                 isAll: false,
                 selectedLeads: []
             });
-            this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime,
-                -2, this.state.rate, this.state.top);
+            this.props.leadActions.getLeads({
+                ...this.state,
+                page: 1,
+                staffId: -2
+            });
         }
+
         if (nextProps.route.type != this.props.route.type) {
             if (nextProps.route.type === "my-leads") {
                 this.setState({
@@ -112,7 +132,9 @@ class LeadContainer extends React.Component {
                     selectedLeads: [],
                     isOpenModalSelectedLeads: false,
                 });
-                this.props.leadActions.getLeads(1, "", "", "", nextProps.user.id, "", "");
+                this.props.leadActions.getLeads({
+                    page: 1, search: "", startTime: "", endTime: "", staffId: nextProps.user.id, rate: "", top: ""
+                });
             } else {
                 if (nextProps.route.type === "distribution") {
                     this.setState({
@@ -131,7 +153,9 @@ class LeadContainer extends React.Component {
                         selectedLeads: [],
                         isOpenModalSelectedLeads: false,
                     });
-                    this.props.leadActions.getLeads(1, "", "", "", -2, "", "");
+                    this.props.leadActions.getLeads({
+                        page: 1, search: "", startTime: "", endTime: "", staffId: -2, rate: "", top: ""
+                    });
                 } else {
                     this.setState({
                         page: 1,
@@ -151,11 +175,32 @@ class LeadContainer extends React.Component {
                         isOpenModalSelectedLeads: false,
 
                     });
-                    this.props.leadActions.getLeads(1);
+                    this.props.leadActions.getLeads({page: 1});
                 }
             }
         }
+
+        if (!nextProps.isLoadingStatuses && this.props.isLoadingStatuses) {
+            this.setState({
+                statusFilter: this.getStatusFilter(nextProps.statuses.leads),
+            });
+        }
     }
+
+    getStatusFilter = (arr) => {
+        if (!arr) return [];
+        let data = arr.map(function (obj) {
+            return {
+                ...obj,
+                value: obj.id,
+                label: obj.name
+            };
+        });
+        return [{
+            value: '',
+            label: 'Tất cả'
+        }, ...data];
+    };
 
     openModalSelectedLeadsModal = () => {
         if (isEmptyInput(this.state.carer)) {
@@ -179,13 +224,21 @@ class LeadContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.leadActions.getLeads(1, value, this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top);
+            this.props.leadActions.getLeads({
+                ...this.state,
+                page:1,
+                search:value,
+            }
+            );
         }.bind(this), 500);
     };
 
     loadData = (page = 1) => {
         this.setState({page: page});
-        this.props.leadActions.getLeads(page, this.state.query, this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top);
+        this.props.leadActions.getLeads({
+            ...this.state,
+            page,
+        });
     };
 
     updateFormFilter = event => {
@@ -194,7 +247,12 @@ class LeadContainer extends React.Component {
         filter[field] = event.target.value;
 
         if (!isEmptyInput(filter.startTime) && !isEmptyInput(filter.endTime)) {
-            this.props.leadActions.getLeads(1, this.state.query, filter.startTime, filter.endTime, this.state.staff, this.state.rate, this.state.top);
+            this.props.leadActions.getLeads({
+                ...this.state,
+                page:1,
+                startTime:filter.startTime,
+                endTime:filter.endTime,
+            });
         }
         this.setState({filter: filter, page: 1, isAll: false});
     };
@@ -206,9 +264,28 @@ class LeadContainer extends React.Component {
             this.setState({carer: staff});
         } else {
             staff = value && value.value ? value.value : "";
-            this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime, staff, this.state.rate, this.state.top);
+            this.props.leadActions.getLeads({
+                ...this.state,
+                page:1,
+                staffId:staff,
+            });
             this.setState({staff: staff, page: 1});
         }
+    };
+    onFilterChange = (value, name) => {
+
+        this.setState({[name]: value});
+
+        if(name == 'leadStatusId'){
+            value = value.id;
+        }
+        this.props.leadActions.getLeads({
+            ...this.state,
+            page:1,
+            [name]:value
+        });
+
+
     };
 
     changeAddress = (address) => {
@@ -219,7 +296,11 @@ class LeadContainer extends React.Component {
         this.timeOut = setTimeout(
             () => {
                 if (!this.state.isDistribution) {
-                    this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime, this.state.carer, this.state.rate, this.state.top, address);
+                    this.props.leadActions.getLeads({
+                        ...this.state,
+                        page:1,
+                        address
+                    });
                 }
             }, 1500);
 
@@ -266,9 +347,12 @@ class LeadContainer extends React.Component {
 
     changeRate = value => {
         this.setState({page: 1, rate: value, isAll: false});
-        this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime, this.state.staff, value, this.state.top);
+        this.props.leadActions.getLeads({
+            ...this.state,
+            page:1,
+            rate:value,
+        });
     };
-
 
 
     handleFile = event => {
@@ -303,7 +387,6 @@ class LeadContainer extends React.Component {
                     leads.push(dataUser);
 
                 });
-                console.log(leads);
                 if (fileCorrectDob) {
                     this.props.leadActions.uploadLeads(leads);
                 } else {
@@ -319,7 +402,6 @@ class LeadContainer extends React.Component {
                 showErrorMessage("Kiểm tra lại file");
             }
         }).catch((e) => {
-            console.log(e);
             showErrorMessage("Kiểm tra lại file");
         });
 
@@ -333,8 +415,11 @@ class LeadContainer extends React.Component {
             clearTimeout(this.timeOutTop);
         }
         this.timeOutTop = setTimeout(function () {
-            this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime,
-                this.state.filter.endTime, this.state.staff, this.state.rate, value);
+            this.props.leadActions.getLeads({
+                    ...this.state,
+                    page:1,
+                top:value,
+                });
         }.bind(this), 500);
     };
 
@@ -394,8 +479,7 @@ class LeadContainer extends React.Component {
     };
 
     removeLeadSuccess = () => {
-        this.props.leadActions.getLeads(this.state.page, this.state.query, this.state.filter.startTime,
-            this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top);
+        this.props.leadActions.getLeads(this.state);
     };
 
     removeLead = (lead) => {
@@ -666,6 +750,20 @@ class LeadContainer extends React.Component {
                                         />
                                     </div>
                                 </div>
+
+                                <div className="col-md-3">
+                                    <label className="">
+                                        Theo trạng thái
+                                    </label>
+                                    <ReactSelect
+                                        disabled={this.props.isLoading || this.props.isLoadingStatuses}
+                                        options={this.state.statusFilter}
+                                        onChange={e => this.onFilterChange(e, 'leadStatusId')}
+                                        value={this.state.leadStatusId}
+                                        defaultMessage="Tuỳ chọn"
+                                        name="leadStatusId"
+                                    />
+                                </div>
                                 {this.state.isDistribution &&
                                 <div className="col-md-3">
                                     <label>Top</label>
@@ -769,12 +867,16 @@ function mapStateToProps(state) {
         isDistributing: state.lead.isDistributing,
         errorDistribution: state.lead.errorDistribution,
         user: state.login.user,
+        statuses: state.infoStudent.statuses,
+        isLoadingStatuses: state.infoStudent.isLoadingStatuses,
+
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         leadActions: bindActionCreators(leadActions, dispatch),
+        studentActions: bindActionCreators(studentActions, dispatch),
         createRegisterActions: bindActionCreators(createRegisterActions, dispatch)
     };
 }

@@ -15,14 +15,15 @@ do
 file_name=$(basename $file)  
 module_name="${file_name%.*}"
 echo "${i} : ${file_name%.*}"
+gnome-terminal --tab --command="./build.sh $module_name $branch_name"
 i=$((i+1))
-if ! (( i % 6 ));
+if ! (( i % 2 ));
 then
-  sleep 60
+  sleep 70
 fi
 
 
 
-gnome-terminal --tab --command="./build.sh $module_name $branch_name"
+
 
 done
