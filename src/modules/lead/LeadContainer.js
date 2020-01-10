@@ -402,6 +402,7 @@ class LeadContainer extends React.Component {
                 showErrorMessage("Kiểm tra lại file");
             }
         }).catch((e) => {
+            console.log(e);
             showErrorMessage("Kiểm tra lại file");
         });
 
