@@ -1,3 +1,4 @@
+import moment from "moment";
 /**
  * Created by phanmduong on 9/1/17.
  */
@@ -7,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import * as helper from '../../../helpers/helper';
+import {dotNumber} from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
 import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
@@ -19,7 +21,9 @@ import SourceOverlay from "../overlays/SourceOverlay";
 class RegistersContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            register: {}
+        };
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
     }
 
@@ -31,6 +35,14 @@ class RegistersContainer extends React.Component {
         this.setState({showModalChangePassword: false});
     };
 
+    closeModalRefund = () => {
+        this.setState({showModalRefund: false});
+    };
+
+    showModalRefund = (register) => {
+        this.setState({showModalRefund: true, register});
+    };
+
     openModalChangePassword = () => {
         this.setState({showModalChangePassword: true});
     };
@@ -38,7 +50,29 @@ class RegistersContainer extends React.Component {
         this.props.studentActions.loadRegisters(this.studentId);
     };
 
+    refundStudent = (value) => {
+        let {register} = this.state;
+        let now = new moment().format('D/M/YYYY');
+        let data = {
+            value,
+            student_id: register.student_id,
+            register_id: register.id,
+            note: ` - Hoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
+        };
+        console.log(data);
+        this.props.studentActions.refundStudent(data, () => {
+            this.closeModalRefund();
+            this.reload();
+        });
+    };
+
     render() {
+        let currentRegister = this.state.register;
+        let {total_lesson, total_lesson_done} = currentRegister, refundValue = 0;
+        if (total_lesson && total_lesson_done) {
+            refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
+        }
+        let {isRefunding} = this.props;
         return (
             <div className="tab-pane active">
 
@@ -47,6 +81,7 @@ class RegistersContainer extends React.Component {
                     <ul className="timeline timeline-simple time-line-register">
                         {
                             this.props.registers.map((register, index) => {
+
                                 return (
                                     <li className="timeline-inverted" key={index}>
                                         <div className="timeline-badge">
@@ -149,6 +184,13 @@ class RegistersContainer extends React.Component {
                                                 {register.class.description && <div className="flex-row-center">
                                                     <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
                                                 </div>}
+                                                {register.note &&
+                                                <div>
+                                                    <div className="flex-row-center">
+                                                        <i className="material-icons">create</i>&nbsp; &nbsp;{register.note}
+                                                    </div>
+                                                </div>
+                                                }
 
                                                 {
                                                     register.class.teach &&
@@ -176,8 +218,8 @@ class RegistersContainer extends React.Component {
                                                         reload={this.reload}
                                                     />
                                                     <ExtraRegisterOverlay
+                                                        openModalRefund={() => this.showModalRefund(register)}
                                                         register={register}
-                                                        // openModalChangePassword={this.openModalChangePassword}
                                                         studentId={this.studentId}
                                                         reload={this.reload}
                                                     />
@@ -195,7 +237,9 @@ class RegistersContainer extends React.Component {
                     <Modal.Header closeButton={!this.props.isChangingPassword}
                                   onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}
                                   closeLabel="Đóng">
-                        <Modal.Title>Thay đổi mật khẩu</Modal.Title>
+                        <Modal.Title>
+                            <div className="text-center">Thay đổi mật khẩu</div>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <ChangePassword
@@ -204,6 +248,56 @@ class RegistersContainer extends React.Component {
                         />
                     </Modal.Body>
                 </Modal>
+                {currentRegister.class && <Modal show={this.state.showModalRefund}>
+                    <Modal.Header closeButton={!this.props.isRefunding}
+                                  onHide={this.props.isRefunding ? '' : this.closeModalRefund}
+                                  closeLabel="Đóng">
+                        <Modal.Title>
+                            <h5 className="text-center" style={{marginTop: -10}}><b>Hoàn lại học phí</b></h5>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {isRefunding ? <Loading/>
+                            : <div style={{paddingLeft: 20}}>
+                                <div className="flex flex-space-between">
+                                    <div>Học viên:</div>
+                                    <div><b>{currentRegister.name}</b></div>
+                                </div>
+                                <div className="flex flex-space-between">
+                                    <div>Môn học:</div>
+                                    <div><b>{currentRegister.class.name}</b></div>
+                                </div>
+                                <div className="flex flex-space-between">
+                                    <div>Lớp:</div>
+                                    <div><b>{currentRegister.class.name}</b></div>
+                                </div>
+                                <div className="flex flex-space-between">
+                                    <div>Học phí đã đóng:</div>
+                                    <div><b>{dotNumber(currentRegister.money)}đ</b></div>
+                                </div>
+                                <div className="flex flex-space-between">
+                                    <div>Tiến trình lớp:</div>
+                                    <div><b>{currentRegister.name}</b></div>
+                                </div>
+                                <hr/>
+                                <div className="flex flex-space-between">
+                                    <div>Học phí hoàn lại:</div>
+                                    <div><b>{dotNumber(refundValue)}đ</b></div>
+                                </div>
+                                <div className="flex flex-end flex-align-items-center">
+                                    <div className="margin-right-20 cursor-pointer"
+                                         onClick={this.props.isRefunding ? '' : this.closeModalRefund}>
+                                        <b>Hủy</b>
+                                    </div>
+                                    <div className="btn btn-success radius-8"
+                                         onClick={() => this.refundStudent(refundValue)}>
+                                        Hoàn lại {dotNumber(refundValue)}đ
+                                    </div>
+
+                                </div>
+                            </div>}
+                    </Modal.Body>
+                </Modal>}
             </div>
         );
     }
@@ -213,13 +307,15 @@ RegistersContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     studentActions: PropTypes.object.isRequired,
     isLoadingRegisters: PropTypes.bool.isRequired,
+    isRefunding: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         registers: state.infoStudent.registers,
         isChangingPassword: state.infoStudent.isChangingPassword,
-        isLoadingRegisters: state.infoStudent.isLoadingRegisters
+        isLoadingRegisters: state.infoStudent.isLoadingRegisters,
+        isRefunding: state.infoStudent.isRefunding,
     };
 }
 

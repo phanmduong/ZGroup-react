@@ -245,6 +245,21 @@ export default function studentReducer(state = initialState.infoStudent, action)
                     errorChangePassword: true,
                 }
             };
+
+        case types.BEGIN_REFUND_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isRefunding: true,
+                }
+            };
+        case types.REFUND_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isRefunding: false,
+                }
+            };
         case types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT:
             return {
                 ...state,

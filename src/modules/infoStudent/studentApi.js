@@ -167,6 +167,14 @@ export function changePassword(studentId, newPassword) {
         new_password: newPassword,
     });
 }
+export function refundStudent(data) {
+    let url = env.MANAGE_API_URL + `/student/${data.student_id}/refund`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, data);
+}
 
 export function uploadImage(file, completeHandler, id, imageField) {
     let url = env.MANAGE_API_URL + "/upload-image-user";

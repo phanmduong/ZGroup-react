@@ -97,19 +97,21 @@ class App extends React.Component {
                                     <i className="material-icons visible-on-sidebar-mini">view_list</i>
                                 </button>
                             </div>
-                            <div className="navbar-header">
-                                {/*<button type="button" className="navbar-toggle" data-toggle="collapse">*/}
-                                {/*    <span className="sr-only">Toggle navigation</span>*/}
-                                {/*    <span className="icon-bar"/>*/}
-                                {/*    <span className="icon-bar"/>*/}
-                                {/*    <span className="icon-bar"/>*/}
-                                {/*</button>*/}
+                            <div className="navbar-header flex-wrap">
+                                <button type="button" className="navbar-toggle" data-toggle="collapse">
+                                    <span className="sr-only">Toggle navigation</span>
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                </button>
                                 {/*<Link className="navbar-brand" to="/">*/}
                                 {/*    {" "}*/}
                                 {/*    {NAME_COMPANY}{" "}*/}
                                 {/*</Link>*/}
-                                <div className="flex flex-row flex-align-items-center custom-dropdown">
-                                    <div style={{width: 200}}>
+                                <div className="flex flex-row flex-align-items-center">
+                                    <div
+                                        style={{width: 130}}
+                                    >
                                         <Select
                                             defaultMessage={'Chọn thành phố'}
                                             options={provinces}
@@ -117,7 +119,9 @@ class App extends React.Component {
                                             onChange={this.props.onChangeProvince}
                                         />
                                     </div>
-                                    <div style={{width: 200}}>
+                                    <div
+                                        style={{width: 130}}
+                                    >
                                         <Select
                                             defaultMessage={'Chọn cơ sở'}
                                             options={bases}

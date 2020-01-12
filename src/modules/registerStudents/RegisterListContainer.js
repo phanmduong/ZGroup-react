@@ -86,6 +86,7 @@ class RegisterListContainer extends React.Component {
             statusFilter: [],
             selectedStudent: {},
             query_coupon: "",
+            query_note: "",
             dateTest: ""
         };
 
@@ -448,6 +449,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getFilter = (arr, base_id) => {
+        if(!arr) return [];
         if (!helper.isEmptyInput(base_id)) {
             arr = arr.filter((classItem) => classItem.base_id == base_id);
         }
@@ -466,6 +468,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getSalerFilter = (arr) => {
+        if(!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 value: obj.id,
@@ -484,6 +487,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getBaseFilter = (arr) => {
+        if(!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -499,6 +503,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getSourceFilter = (arr) => {
+        if(!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -513,6 +518,7 @@ class RegisterListContainer extends React.Component {
         }, ...data];
     };
     getStatusFilter = (arr) => {
+        if(!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -609,17 +615,17 @@ class RegisterListContainer extends React.Component {
         });
     };
 
-    searchByCoupon = (value) => {
+    searchByText = (value,name) => {
         this.setState({
             page: 1,
-            query_coupon: value,
+            [name]: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
             this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, query_coupon: value,},
+                {...this.state, page: 1, [name]: value,},
             );
         }.bind(this), 500);
     };
@@ -985,10 +991,18 @@ class RegisterListContainer extends React.Component {
                                     </div>
                                     <div className="col-md-3">
                                         <Search
-                                            onChange={this.searchByCoupon}
+                                            onChange={e=>this.searchByText(e,'query_coupon')}
                                             value={this.state.query_coupon}
                                             label="Tìm kiếm theo coupon"
                                             placeholder="Nhập coupon"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <Search
+                                            onChange={e=>this.searchByText(e,'query_note')}
+                                            value={this.state.query_note}
+                                            label="Tìm kiếm theo note"
+                                            placeholder="Nhập note"
                                         />
                                     </div>
                                     <div className="col-md-3">
