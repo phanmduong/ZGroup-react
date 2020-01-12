@@ -3281,6 +3281,9 @@ $min-height-step-content: 500px;
     box-shadow: none!important;
     font-weight: 400!important;
     padding: 12px 20px;
+    &:hover{
+      box-shadow: none!important;
+    }
   }
 }
 
