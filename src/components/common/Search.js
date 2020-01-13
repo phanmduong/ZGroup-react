@@ -10,7 +10,7 @@ class Search extends React.Component {
 		return (
 			<div className={this.props.className}>
 				<div className="form-group">
-					{this.props.label && <label>Tìm kiếm theo coupon</label>}
+					{this.props.label && <label>{this.props.label}</label>}
 					<input
 						className="form-control"
 						placeholder={this.props.placeholder}

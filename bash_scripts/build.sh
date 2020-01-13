@@ -46,9 +46,11 @@ for file in $(find "../dist/$module_name" -type f)
 do
     echo "========================="
     file_name=$(basename $file)    
-    dest_file=$dest_folder/$module_name/$file_name 
+    dest_file=$dest_folder/$module_name/$file_name
+    module_folder=$dest_folder/$module_name
     echo "From $file"
     echo "To $dest_file"
+    mkdir -p $module_folder
     cp $file $dest_file
 
     if [ ${file_name: -3} == ".js" ]; then
