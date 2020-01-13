@@ -128,7 +128,7 @@ class EditCoursesContainer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="margintop-10">
                 <div className="row">
                     <form role="form" id="form-course-create-edit" onSubmit={e=>e.preventDefault()}>
                         <div className="col-md-12">

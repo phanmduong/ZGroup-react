@@ -352,8 +352,10 @@ export function deleteCourse(id, success) {
     };
 }
 
-export function commitCourseData(data) {
+export function commitCourseData(data, callback) {
     return function (dispatch) {
+        helper.showWarningNotification("Đang lưu...");
+
         dispatch({ type: types.BEGIN_CREATE_EDIT_COURSES, data: data });
         courseApi.createEditCourse(data)
             .then(res => {
@@ -362,6 +364,7 @@ export function commitCourseData(data) {
                     type: types.CREATE_EDIT_COURSES_SUCCESS,
                     data: res
                 });
+                if(callback) callback();
                 browserHistory.push("/teaching/courses");
             })
             .catch(() => {

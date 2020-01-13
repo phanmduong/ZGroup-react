@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /laradock
 /vendor
 /storage
@@ -28,8 +28,6 @@ socketEnv.js
 !/public/landingpage-libs/elements/images/uploads/tablet-new.png
 /docker/php/sync.sh
 
-
-=======
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
@@ -100,3 +98,4 @@ src/config.css
 
 /share/man/
 /bin/
+/jest_0/

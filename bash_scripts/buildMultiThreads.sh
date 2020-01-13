@@ -17,16 +17,12 @@ module_name="${file_name%.*}"
 echo "${i} : ${file_name%.*}"
 gnome-terminal --tab --command="./build.sh $module_name $branch_name"
 i=$((i+1))
-#if ! (( i % 5 ));
-#then
-#  sleep 70
-#fi
 if ! (( i % 5 ));
 then
   secs=$((90))
   while [ $secs -gt 0 ]; do
      echo -ne "Count down: $secs\033[0K\r"
-     grep 'cpu ' /proc/stat | awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }'
+#     grep 'cpu ' /proc/stat | awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }'
      sleep 1
      : $((secs--))
 done

@@ -59,11 +59,15 @@ a {
 
 .btn-group-action {
   display: flex;
+  a{
+    margin-left: 3px;
+  }
 }
 
 .btn-group-action a i {
   color: #878787;
   font-size: 20px;
+
 }
 
 .btn-group-action a i:hover {
