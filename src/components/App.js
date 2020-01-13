@@ -108,7 +108,7 @@ class App extends React.Component {
                                 {/*    {" "}*/}
                                 {/*    {NAME_COMPANY}{" "}*/}
                                 {/*</Link>*/}
-                                <div className="flex flex-row flex-align-items-center">
+                                <div className="flex flex-row flex-align-items-center custom-dropdown">
                                     <div
                                         style={{width: 130}}
                                     >
