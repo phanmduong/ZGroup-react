@@ -24,12 +24,12 @@ class MyTaskContainer extends React.Component {
 
     componentDidMount() {
         moment.locale('vi');
+        this.store.selectedEmployee = this.props.user;
         this.store.selectedDate = new Date();
         // this.store.selectedDate = this.store.selectedDate.setDate(this.store.selectedDate.getDate() - 1);
         this.store.getTasks(this.updateTotalTask);
         this.store.getAnalyticsTasks();
-        this.store.selectedEmployee = this.props.user;
-        console.log(this.props.user);
+
         this.store.getEmployees();
         const channel = CHANNEL + ":task";
         socket.on(channel, (data) => {

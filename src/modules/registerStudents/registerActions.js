@@ -144,7 +144,7 @@ export function loadCampaignFilter() {
             .then(res => {
                 dispatch({
                     type: types.LOAD_CAMPAIGN_FILTER_SUCCESS,
-                    filter: res.data.marketing_campaigns,
+                    filter: res.data.data.marketing_campaigns,
                 });
             })
             .catch(error => {
@@ -155,6 +155,7 @@ export function loadCampaignFilter() {
             });
     };
 }
+
 // {...this.state,page:1,},
 // page,
 //     limit,
