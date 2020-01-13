@@ -172,6 +172,10 @@ class RegistersContainer extends React.Component {
                                                     <i className="material-icons">access_time</i>
                                                     &nbsp; &nbsp;Đăng kí {register.created_at_cal}
                                                 </div>
+                                                {register.paid_status && <div className="flex-row-center">
+                                                    <i className="material-icons">access_time</i>
+                                                    &nbsp; &nbsp;Đã nộp tiền {register.paid_time}
+                                                </div>}
                                                 {register.class.study_time && <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
                                                     &nbsp; &nbsp; {register.class.study_time}
