@@ -83,7 +83,7 @@ class CallRegisterOverlay extends React.Component {
 
         return (
             <div style={{position: "relative"}} className="">
-                <button className={"btn btn-register-action"}
+                <button className={"btn btn-actions"}
                         style={style}
                         onClick={this.toggle}  mask="call"
                         data-toggle="tooltip" title="" type="button" rel="tooltip"

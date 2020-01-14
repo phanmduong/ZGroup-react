@@ -41,130 +41,132 @@ class InfoClassContainer extends React.Component {
             let classData = this.props.class;
             return (
                 <div>
-                    <h3>
-                        <strong>Thông tin lớp học {classData.name}</strong>
-                    </h3>
-                    <p>Lớp được tạo lúc <strong>
-                        <small>{classData.created_at}</small>
-                    </strong></p>
-                    <div className="flex flex-wrap">
-                        {
-                            classData.teacher &&
-                            <TooltipButton text="Giảng viên"
-                                           placement="top"
-                            >
-                                <button className="btn btn-sm"
-                                        style={{background: '#' + classData.teacher.color}}>
-                                    {classData.teacher.name}
-                                    <div className="ripple-container"/>
-                                </button>
-                            </TooltipButton>
-                        }
-                        {
-                            classData.teacher_assistant &&
-                            <TooltipButton text="Trơ giảng"
-                                           placement="top"
-                            >
-                                <button className="btn btn-sm"
-                                        style={{background: '#' + classData.teacher_assistant.color}}>
-                                    {classData.teacher_assistant.name}
-                                    <div className="ripple-container"/>
-                                </button>
-                            </TooltipButton>
-                        }
-                        <button
-                            onClick={this.openModalTeachers}
-                            className="btn btn-xs btn-rose btn-simple">
-                            Xem thêm
-                        </button>
-                    </div>
-                    <div className="col-md-12">
-                        <h4><strong>Danh sách học viên </strong></h4>
-                        <div className="row">
-                            <div className="col-sm-4">
-                                <div className={"flex"}>
-                                    <div
-                                        style={{
-                                            background: '#ffffff',
-                                            border: 'solid 1px',
-                                            height: '15px',
-                                            width: '30px',
-                                            margin: '3px 10px'
-                                        }}/>
-                                    < p> Chưa đóng tiền</p>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={"flex"}>
-                                    <div style={{
-                                        background: '#dff0d8',
-                                        height: '15px',
-                                        width: '30px',
-                                        margin: '3px 10px'
-                                    }}/>
-                                    <p>Đã nộp tiền</p>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={"flex"}>
-                                    <div
-                                        style={{
-                                            background: '#fcf8e3',
-                                            height: '15px',
-                                            width: '30px',
-                                            margin: '3px 10px'
-                                        }}/>
-                                    <p>Danh sách chờ</p>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={"flex"}>
-                                    <div style={{
-                                        background: '#f2dede',
-                                        height: '15px',
-                                        width: '30px',
-                                        margin: '3px 10px'
-                                    }}/>
-                                    <p> Đang bảo lưu</p>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={"flex"}>
-                                    <div style={{
-                                        background: '#daedf7',
-                                        height: '15px',
-                                        width: '30px',
-                                        margin: '3px 10px'
-                                    }}/>
-                                    <p>Đang học lại</p>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={"flex"}>
-                                    <div style={{
-                                        background: '#8c8c8c',
-                                        height: '15px',
-                                        width: '30px',
-                                        margin: '3px 10px'
-                                    }}/>
-                                    <p>Đã học xong</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="table-responsive">
-                            <table className="table" id="list_register">
-                                <thead className="text-rose">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Họ tên</th>
-                                    <th>Tình trạng học</th>
-                                    <th>Bài tập</th>
-                                    <th>Mã học viên</th>
-                                    <th>Học phí</th>
-                                    <th>Bằng</th>
-                                    <th>Thiết bị</th>
-                                </tr>
-                                </thead>
+                    {/*<h3>*/}
+                    {/*    <strong>Thông tin lớp học {classData.name}</strong>*/}
+                    {/*</h3>*/}
+                    {/*<p>Lớp được tạo lúc <strong>*/}
+                    {/*    <small>{classData.created_at}</small>*/}
+                    {/*</strong></p>*/}
+                    {/*<div className="flex flex-wrap">*/}
+                    {/*    {*/}
+                    {/*        classData.teacher &&*/}
+                    {/*        <TooltipButton text="Giảng viên"*/}
+                    {/*                       placement="top"*/}
+                    {/*        >*/}
+                    {/*            <button className="btn btn-sm"*/}
+                    {/*                    style={{background: '#' + classData.teacher.color}}>*/}
+                    {/*                {classData.teacher.name}*/}
+                    {/*                <div className="ripple-container"/>*/}
+                    {/*            </button>*/}
+                    {/*        </TooltipButton>*/}
+                    {/*    }*/}
+                    {/*    {*/}
+                    {/*        classData.teacher_assistant &&*/}
+                    {/*        <TooltipButton text="Trơ giảng"*/}
+                    {/*                       placement="top"*/}
+                    {/*        >*/}
+                    {/*            <button className="btn btn-sm"*/}
+                    {/*                    style={{background: '#' + classData.teacher_assistant.color}}>*/}
+                    {/*                {classData.teacher_assistant.name}*/}
+                    {/*                <div className="ripple-container"/>*/}
+                    {/*            </button>*/}
+                    {/*        </TooltipButton>*/}
+                    {/*    }*/}
+                    {/*    <button*/}
+                    {/*        onClick={this.openModalTeachers}*/}
+                    {/*        className="btn btn-xs btn-rose btn-simple">*/}
+                    {/*        Xem thêm*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
+                    <div>
+                        {/*<h4><strong>Danh sách học viên </strong></h4>*/}
+                        {/*<div className="row">*/}
+                        {/*    <div className="col-sm-4">*/}
+                        {/*        <div className={"flex"}>*/}
+                        {/*            <div*/}
+                        {/*                style={{*/}
+                        {/*                    background: '#ffffff',*/}
+                        {/*                    border: 'solid 1px',*/}
+                        {/*                    height: '15px',*/}
+                        {/*                    width: '30px',*/}
+                        {/*                    margin: '3px 10px'*/}
+                        {/*                }}/>*/}
+                        {/*            < p> Chưa đóng tiền</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-sm-4">*/}
+                        {/*        <div className={"flex"}>*/}
+                        {/*            <div style={{*/}
+                        {/*                background: '#dff0d8',*/}
+                        {/*                height: '15px',*/}
+                        {/*                width: '30px',*/}
+                        {/*                margin: '3px 10px'*/}
+                        {/*            }}/>*/}
+                        {/*            <p>Đã nộp tiền</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-sm-4">*/}
+                        {/*        <div className={"flex"}>*/}
+                        {/*            <div*/}
+                        {/*                style={{*/}
+                        {/*                    background: '#fcf8e3',*/}
+                        {/*                    height: '15px',*/}
+                        {/*                    width: '30px',*/}
+                        {/*                    margin: '3px 10px'*/}
+                        {/*                }}/>*/}
+                        {/*            <p>Danh sách chờ</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-sm-4">*/}
+                        {/*        <div className={"flex"}>*/}
+                        {/*            <div style={{*/}
+                        {/*                background: '#f2dede',*/}
+                        {/*                height: '15px',*/}
+                        {/*                width: '30px',*/}
+                        {/*                margin: '3px 10px'*/}
+                        {/*            }}/>*/}
+                        {/*            <p> Đang bảo lưu</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-sm-4">*/}
+                        {/*        <div className={"flex"}>*/}
+                        {/*            <div style={{*/}
+                        {/*                background: '#daedf7',*/}
+                        {/*                height: '15px',*/}
+                        {/*                width: '30px',*/}
+                        {/*                margin: '3px 10px'*/}
+                        {/*            }}/>*/}
+                        {/*            <p>Đang học lại</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-sm-4">*/}
+                        {/*        <div className={"flex"}>*/}
+                        {/*            <div style={{*/}
+                        {/*                background: '#8c8c8c',*/}
+                        {/*                height: '15px',*/}
+                        {/*                width: '30px',*/}
+                        {/*                margin: '3px 10px'*/}
+                        {/*            }}/>*/}
+                        {/*            <p>Đã học xong</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+
+
+                        <div className="table-responsive table-split">
+                            <table className="table" cellSpacing="0" id="list_register">
+                                {/*<thead className="text-rose">*/}
+                                {/*<tr>*/}
+                                {/*    <th>ID</th>*/}
+                                {/*    <th>Họ tên</th>*/}
+                                {/*    <th>Tình trạng học</th>*/}
+                                {/*    <th>Bài tập</th>*/}
+                                {/*    <th>Mã học viên</th>*/}
+                                {/*    <th>Học phí</th>*/}
+                                {/*    <th>Bằng</th>*/}
+                                {/*    <th>Thiết bị</th>*/}
+                                {/*</tr>*/}
+                                {/*</thead>*/}
                                 <tbody>
                                 {_.reverse(_.sortBy(classData.registers, 'total_attendances')).map((register) => {
                                     let avatar = helper.avatarEmpty(register.student.avatar_url) ?
@@ -218,7 +220,8 @@ class InfoClassContainer extends React.Component {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><h6>{register.total_weigh_topic_register}/{register.total_weigh_topic}</h6>
+                                            <td>
+                                                <h6>{register.total_weigh_topic_register}/{register.total_weigh_topic}</h6>
                                                 <div
                                                     className="progress progress-line-success progress-bar-table width-100">
                                                     <div className="progress-bar progress-bar-success"

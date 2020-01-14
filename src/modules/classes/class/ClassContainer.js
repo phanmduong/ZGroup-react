@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Link, IndexLink} from 'react-router';
+import {IndexLink, Link} from 'react-router';
 import * as classActions from '../classActions';
 import Loading from "../../../components/common/Loading";
 import AttendanceTeacher from './AttendanceTeacher';
@@ -17,21 +17,42 @@ import PropTypes from 'prop-types';
 import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
 import moment from "moment";
-import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
 import {NO_AVATAR} from "../../../constants/env";
 import TimePicker from "../../../components/common/TimePicker";
+import AddClassContainer from "../AddClassContainer";
+import ExportClassOverlay from "../overlays/ExportClassOverlay";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.classId = this.props.params.classId;
         this.path = '';
+        this.routes = [
+            {
+                path: `/teaching/class/${this.classId}`, text: 'Tổng quan',
+            },
+            {
+                path: `/teaching/class/${this.classId}/history-teaching`, text: 'Chương trình học',
+            },
+            {
+                path: `/teaching/class/${this.classId}/progress`, text: 'Điểm danh',
+            },
+            {
+                path: `/teaching/class/${this.classId}/registers`, text: 'Đăng kí',
+            },
+            {
+                path: `/teaching/class/${this.classId}/care`, text: 'Quan tâm',
+            },
+        ];
         this.state = {
             showModalClassLesson: false,
             showModalChangeTeacher: false,
             showModalChangeTeachAssis: false,
             showModalTeachingLesson: false,
             showModalChangeTeachingLesson: false,
+            showModalClass: false,
+            classSelected: {...this.props.class},
             classLessonSelected: {},
             teacherSelected: {},
             teachAssisSelected: {},
@@ -85,9 +106,6 @@ class ClassContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.isLoadingClass && !nextProps.isLoadingClass) {
-            this.setState({linkDriver: nextProps.class.link_drive});
-        }
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
             let dataStaffs = [];
             nextProps.staffs.forEach(staff => {
@@ -101,6 +119,41 @@ class ClassContainer extends React.Component {
             this.setState({staffs: dataStaffs});
         }
     }
+
+    openModalEditClass = () => {
+        let classData = {...this.props.class};
+        let data = {
+            id: classData.id,
+            name: classData.name,
+            description: classData.description,
+            target: classData.target,
+            regis_target: classData.regis_target,
+            study_time: classData.study_time,
+            gen_id: classData.gen ? classData.gen.id : '',
+            course_id: classData.course ? classData.course.id : '',
+            teacher_assis_id: classData.teacher_assistant ? classData.teacher_assistant.id : '',
+            teacher_id: classData.teacher ? classData.teacher.id : '',
+            schedule_id: classData.schedule_id,
+            link_drive: classData.link_drive,
+            type: classData.type,
+            status: classData.status,
+            datestart: classData.datestart_en,
+            room_id: classData.room ? classData.room.id : '',
+            teachers: classData.teachers,
+            teaching_assistants: classData.teaching_assistants,
+        };
+        this.setState({
+            classSelected: data,
+            showModalClass: true
+        });
+    };
+    closeModalEditClass = () => {
+        this.props.classActions.loadClass(this.classId);
+        this.setState({
+            classSelected: {...this.props.class},
+            showModalClass: false
+        });
+    };
 
     exportExcel() {
 
@@ -135,7 +188,7 @@ class ClassContainer extends React.Component {
 
     exportAttendanceExcel() {
         let wb = helper.newWorkBook();
-        let data = this.props.class.registers;
+        let data;
         let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10}, {"wch": 10}, {"wch": 20}, {"wch": 12}, {"wch": 30}, {"wch": 16}, {"wch": 30}, {"wch": 25},];//độ rộng cột
         let colname = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];//danh sách cột cmt
         let cmts = [];// danh sách cmts
@@ -339,7 +392,7 @@ class ClassContainer extends React.Component {
             attendance: attendance,
             showModalAddCheckinCheckout: true
         });
-    }
+    };
 
     updateModalAddCheckinCheckout = (event) => {
         const field = event.target.name;
@@ -348,7 +401,7 @@ class ClassContainer extends React.Component {
         this.setState({
             attendance: attendance
         });
-    }
+    };
 
     componentDidMount() {
         helper.setFormValidation('#add-checkin-checkout');
@@ -358,8 +411,312 @@ class ClassContainer extends React.Component {
     render() {
         this.path = this.props.location.pathname;
         let classData = this.props.class;
+        let {isLoadingClass} = this.props;
+        console.log(this.props);
         return (
             <div>
+                <div className="card">
+                    <div className="card-content">
+                        {isLoadingClass && <Loading/>}
+                        {!isLoadingClass && classData && <div className="row">
+                            <div className="col-md-4">
+                                <div className="card" mask="blue">
+                                    <div className="card-content flex flex-col">
+                                        <div className="flex flex-justify-content-center">
+
+                                            {classData.course &&
+                                            <div className="img"
+                                                 style={{
+                                                     backgroundImage: `url(${helper.validateLinkImage(classData.course.icon_url)})`
+                                                 }}>
+                                            </div>}
+
+                                        </div>
+
+                                        <div className="flex flex-row-center flex-justify-content-center margintop-10">
+
+                                        </div>
+
+                                        <h4 className="card-title">{classData.name}</h4>
+
+                                        <div
+                                            className="text-white flex flex-col flex-justify-content-center text-center">
+                                            <div>{classData.room && classData.room.address}</div>
+                                            <div>{classData.room && classData.room.name}</div>
+                                        </div>
+                                        <h6 className="category text-gray text-email">
+                                            <span>
+
+                                            </span>
+
+                                        </h6>
+                                    </div>
+
+                                </div>
+                                <div className="card detail-wrap">
+                                    <div className="card-content">
+                                        <div className="detail-wrap">
+                                            {classData.teacher &&
+                                            <p>Giảng viên<strong>{classData.teacher.name || "Chưa có"}</strong></p>}
+                                            {classData.teacher_assistant &&
+                                            <p>Trợ giảng<strong>{classData.teacher_assistant.name || "Chưa có"}</strong>
+                                            </p>}
+                                            <p>Lịch học<strong>{classData.study_time || "Chưa có"}</strong></p>
+                                            <p>Mô tả<strong>{classData.description || "Chưa có"}</strong></p>
+                                            <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
+                                            </p>
+                                            <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>
+                                            <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>
+                                            <p>Trạng thái<strong>{{
+                                                '': 'Chưa có',
+                                                null: 'Chưa có',
+                                                'waiting': 'Lớp chờ',
+                                                'active': 'Đang hoạt động'
+                                            }[classData.type]}</strong></p>
+                                            {classData.course &&
+                                            <p>Môn học<strong>{classData.course.name || "Chưa có"}</strong></p>}
+                                            {classData.gen &&
+                                            <p>Khóa<strong>{classData.gen.name || "Chưa có"}</strong></p>}
+                                            <p>Link Driver
+                                                <strong
+
+                                                ><a data-toggle="tooltip" title="Nhấp để mở link"
+                                                    href={classData.link_drive} target="_blank">
+                                                    {classData.link_drive || "Chưa có"}
+                                                </a></strong>
+
+                                            </p>
+
+                                        </div>
+                                        {this.props.isStoringClass ?
+                                            (
+                                                <button
+                                                    className="btn width-100 disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang sửa
+                                                </button>
+                                            )
+                                            :
+                                            <button className="btn width-100"
+                                                    onClick={this.openModalEditClass}
+                                            >Sửa thông tin
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div className="padding-horizontal-30px">
+
+                                    {classData.attendances &&
+                                    <div><h4><strong>Tình trạng điểm danh</strong></h4>
+                                        {classData.attendances.map(attendance => {
+                                            return (
+                                                <div key={attendance.order}>
+                                                    <div
+                                                        className="flex flex-row-center flex-space-between">
+                                                        <h6>
+                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
+                                                        </h6>
+                                                        {
+                                                            (attendance.is_change || this.props.user.role == 2) &&
+                                                            <TooltipButton placement="top"
+                                                                           text="Đổi buổi"
+                                                            >
+                                                                <button
+                                                                    className="btn btn-xs btn-round"
+                                                                    onClick={() => this.openModalClassLesson(attendance)}
+                                                                >
+                                                                    <i className="material-icons">compare_arrows</i>
+                                                                    <div
+                                                                        className="ripple-container"/>
+                                                                </button>
+                                                            </TooltipButton>
+                                                        }
+                                                    </div>
+
+                                                    <div
+                                                        className="progress progress-line-success progress-bar-table width-100">
+                                                        <div
+                                                            className="progress-bar progress-bar-success"
+                                                            role="progressbar"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                            style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
+                                                        >
+                                                        <span
+                                                            className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                    </div>
+                                    }
+                                    {classData.teacher &&
+                                    <div><h4><strong>Điểm danh giảng viên</strong></h4>
+                                        {classData.teacher.attendances.map((attendance, index) => {
+                                                return (
+                                                    <div key={index}>
+                                                        <div
+                                                            className="flex flex-row-center flex-space-between">
+                                                            <div>
+                                                                <strong>Buổi {attendance.order} </strong>
+                                                                {
+                                                                    attendance.staff &&
+                                                                    attendance.staff.name
+
+                                                                }
+                                                            </div>
+                                                            {
+                                                                (attendance.is_change || this.props.user.role == 2) &&
+                                                                <div>
+                                                                    <TooltipButton placement="top"
+                                                                                   text="Đổi giảng viên"
+                                                                    >
+                                                                        <button
+                                                                            className="btn btn-xs btn-round"
+                                                                            onClick={() => this.openModalChangeTeacher(attendance)}
+                                                                        >
+                                                                            <i className="material-icons">compare_arrows</i>
+                                                                            <div
+                                                                                className="ripple-container"/>
+                                                                        </button>
+                                                                    </TooltipButton>
+                                                                    <TooltipButton placement="top"
+                                                                                   text="Xem thêm"
+                                                                    >
+                                                                        <button
+                                                                            className="btn btn-xs btn-round btn-rose"
+                                                                            onClick={() => this.openModalTeachingLesson(attendance, 1)}
+                                                                        >
+                                                                            <i className="material-icons">more_horiz</i>
+                                                                            <div
+                                                                                className="ripple-container"/>
+                                                                        </button>
+                                                                    </TooltipButton>
+                                                                </div>
+
+                                                            }
+                                                        </div>
+                                                        <AttendanceTeacher
+                                                            attendance={attendance}
+                                                            addCheckinCheckout={this.addCheckinCheckout}
+                                                            type={"teacher"}
+                                                        />
+                                                    </div>
+                                                )
+                                                    ;
+                                            }
+                                        )}
+
+                                    </div>
+                                    }
+                                    {classData.teacher_assistant &&
+                                    <div><h4><strong>Điểm danh trợ giảng</strong></h4>
+                                        {classData.teacher_assistant.attendances.map((attendance, index) => {
+                                                return (
+                                                    <div key={index}>
+                                                        <div
+                                                            className="flex flex-row-center flex-space-between">
+                                                            <div>
+                                                                <strong>Buổi {attendance.order} </strong>
+                                                                {
+                                                                    attendance.staff &&
+                                                                    attendance.staff.name
+
+                                                                }
+                                                            </div>
+                                                            {
+                                                                (attendance.is_change || this.props.user.role == 2) &&
+                                                                <div>
+                                                                    <TooltipButton placement="top"
+                                                                                   text="Đổi trợ giảng"
+                                                                    >
+                                                                        <button
+                                                                            className="btn btn-xs btn-round"
+                                                                            onClick={() => this.openModalTeachAssis(attendance)}
+                                                                        >
+                                                                            <i className="material-icons">compare_arrows</i>
+                                                                            <div
+                                                                                className="ripple-container"/>
+                                                                        </button>
+                                                                    </TooltipButton>
+                                                                    <TooltipButton placement="top"
+                                                                                   text="Xem thêm"
+                                                                    >
+                                                                        <button
+                                                                            className="btn btn-xs btn-round btn-rose"
+                                                                            onClick={() => this.openModalTeachingLesson(attendance, 2)}
+                                                                        >
+                                                                            <i className="material-icons">more_horiz</i>
+                                                                            <div
+                                                                                className="ripple-container"/>
+                                                                        </button>
+                                                                    </TooltipButton>
+                                                                </div>
+
+                                                            }
+
+                                                        </div>
+                                                        <AttendanceTeacher
+                                                            attendance={attendance}
+                                                            addCheckinCheckout={this.addCheckinCheckout}
+                                                            type={"teaching_assistant"}
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+                                        )}
+
+                                    </div>
+                                    }
+
+
+                                </div>
+
+                            </div>
+                            <div className="col-md-8">
+                                <div className="flex flex-wrap margintop-10">
+                                    <div onClick={this.genCerti} className="btn btn-actions">
+                                        Xếp bằng
+                                    </div>
+                                    <ExportClassOverlay
+                                        isLoading={isLoadingClass}
+                                        exportExcel={this.exportExcel}
+                                        exportAttendanceExcel={this.exportAttendanceExcel}
+                                    />
+                                </div>
+                                <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                                    {this.routes.map((route, index) => {
+                                        return (
+                                            index ?
+                                                <li className={this.path === route.path ? 'active' : ''}>
+                                                    <Link to={route.path}>
+                                                        {route.text}
+                                                    </Link>
+                                                </li>
+                                                :
+                                                <li className={this.path === route.path ? 'active' : ''}>
+                                                    <IndexLink to={route.path}>
+                                                        {route.text}
+                                                    </IndexLink>
+                                                </li>
+                                        );
+                                    })}
+                                </ul>
+                                {!isLoadingClass && classData &&
+
+
+                                this.props.children
+
+
+                                }
+                            </div>
+                        </div>}
+
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-md-8">
                         <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
@@ -480,7 +837,7 @@ class ClassContainer extends React.Component {
                                                                                 <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
                                                                             </h6>
                                                                             {
-                                                                                (attendance.is_change || this.props.user.role ==2) &&
+                                                                                (attendance.is_change || this.props.user.role == 2) &&
                                                                                 <TooltipButton placement="top"
                                                                                                text="Đổi buổi"
                                                                                 >
@@ -531,7 +888,7 @@ class ClassContainer extends React.Component {
                                                                                     }
                                                                                 </div>
                                                                                 {
-                                                                                    (attendance.is_change || this.props.user.role ==2) &&
+                                                                                    (attendance.is_change || this.props.user.role == 2) &&
                                                                                     <div>
                                                                                         <TooltipButton placement="top"
                                                                                                        text="Đổi giảng viên"
@@ -590,7 +947,7 @@ class ClassContainer extends React.Component {
                                                                                     }
                                                                                 </div>
                                                                                 {
-                                                                                    (attendance.is_change || this.props.user.role ==2) &&
+                                                                                    (attendance.is_change || this.props.user.role == 2) &&
                                                                                     <div>
                                                                                         <TooltipButton placement="top"
                                                                                                        text="Đổi trợ giảng"
@@ -865,8 +1222,8 @@ class ClassContainer extends React.Component {
                 onHide={this.closeModalTeachingLesson}
             >
                 <Modal.Header closeButton={!this.props.isChangingTeachingAssis}>
-                    <h4 className="modal-title">Danh
-                        sách {this.state.typeTeachingLesson === 1 ? "giảng viên" : "trợ giảng"} buổi {this.state.attendanceSelected.order}</h4>
+                    <h4 className="modal-title">Danh sách
+                        {this.state.typeTeachingLesson === 1 ? "giảng viên" : "trợ giảng"} buổi {this.state.attendanceSelected.order}</h4>
                 </Modal.Header>
                 <Modal.Body>
                     {
@@ -1028,6 +1385,24 @@ class ClassContainer extends React.Component {
                         </form>
                     </Modal.Body>
                 </Modal>
+                <Modal
+                    show={this.state.showModalClass}
+                    onHide={() => this.setState({showModalClass: false})}
+                    bsSize="lg"
+                >
+                    <Modal.Header closeButton>
+                        Chỉnh sửa lớp
+                    </Modal.Header>
+                    <Modal.Body>
+                        {(isLoadingClass || !this.state.showModalClass) && <Loading/>}
+                        {!isLoadingClass && this.state.showModalClass &&
+                        <AddClassContainer
+                            edit
+                            classData={this.state.classSelected}
+                            closeModal={this.closeModalEditClass}
+                        />}
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -1038,12 +1413,12 @@ class ClassContainer extends React.Component {
                 this.state.attendance.userId, this.state.attendance.classLessonId, this.state.attendance.time,
                 this.state.attendance.comment, this.addCheckinCheckoutSuccess);
         }
-    }
+    };
 
     addCheckinCheckoutSuccess = () => {
         this.setState({showModalAddCheckinCheckout: false});
         this.props.classActions.loadClass(this.classId);
-    }
+    };
 }
 
 ClassContainer.propTypes = {
@@ -1076,6 +1451,7 @@ function mapStateToProps(state) {
         isChangingTeacher: state.classes.isChangingTeacher,
         isLoadingStaffs: state.classes.isLoadingStaffs,
         isLoadingTeachingLesson: state.classes.isLoadingTeachingLesson,
+        isStoringClass: state.classes.isStoringClass,
         teachingLessons: state.classes.teachingLessons,
         staffs: state.classes.staffs,
         user: state.login.user,

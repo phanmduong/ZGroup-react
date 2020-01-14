@@ -86,7 +86,7 @@ class ExtraRegisterOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action" mask="extra"
+                <button className="btn btn-actions" mask="extra"
                         ref="target" onClick={this.toggle}
                         disabled={isChangingStatusCall}>
 

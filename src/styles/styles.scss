@@ -1,6 +1,6 @@
-.navbar-header{
-  .btn-group{
-    margin: 0!important;
+.navbar-header {
+  .btn-group {
+    margin: 0 !important;
     padding: 3px 10px;
   }
 }
@@ -59,7 +59,8 @@ a {
 
 .btn-group-action {
   display: flex;
-  a{
+
+  a {
     margin-left: 3px;
   }
 }
@@ -579,10 +580,11 @@ $starInactive: #c4c5c6;
 //fix scrolling issue in board
 
 @media screen and (max-width: 768px) {
-  .keetool-content{
+  .keetool-content {
     //margin-top: 180px!important;
   }
 }
+
 .keetool-content {
   margin-top: 60px;
   min-height: calc(100vh - 70px);
@@ -1917,6 +1919,11 @@ table tr td .avatar-honor {
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: right;
+
+    }
+    a{
+      color: black;
+      font-weight: bold!important;
     }
 
   }
@@ -1951,48 +1958,58 @@ table tr td .avatar-honor {
   }
 
 
-  .btn-register-action {
-    & {
-      padding: 10px 20px !important;
-      font-size: 14px;
-      color: black;
-      cursor: pointer;
-      margin-right: 10px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-top: 0;
-      flex-wrap: wrap;
-      background-color: #F7F5F7;
-      will-change: unset !important;
-    }
-
-
-    &[mask=call] {
-      //color: white;
-    }
-
-    //&[mask=create]{
-    //  background-color:#f06a46 !important;
-    //}
-    &[mask=money] {
-      //background-color: #c50000 !important;
-      //color: white;
-    }
-
-    &[mask=extra] {
-      padding: 7px 5px !important;
-      width: unset;
-
-      i {
-        font-size: 25px;
-      }
-    }
-
-  }
 }
 
+.btn-actions {
+  padding: 10px 20px !important;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 0;
+  flex-wrap: wrap;
+  will-change: unset !important;
+  &:hover, & {
+    background-color: #F7F5F7!important;
+    color: black!important;
+
+  }
+
+
+  &[mask=call] {
+    //color: white;
+  }
+
+  //&[mask=create]{
+  //  background-color:#f06a46 !important;
+  //}
+  &[mask=money] {
+    //background-color: #c50000 !important;
+    //color: white;
+  }
+
+  &[mask=extra] {
+    padding: 7px 5px !important;
+    width: unset;
+
+    i {
+      font-size: 25px;
+    }
+  }
+  &[mask=extra-table] {
+    padding: 7px 5px !important;
+
+    background-color: transparent!important;
+    float: right;
+    .material-icons {
+      font-size: 25px!important;
+    }
+  }
+
+}
 
 ul.nav.nav-pills.nav-pills-dark {
   margin-bottom: 20px;
@@ -2128,6 +2145,19 @@ ul.nav.nav-pills.nav-pills-dark {
   &[mask=extra] {
     left: 0;
     right: 0;
+    padding: 15px 5px;
+
+    button.btn.btn-white {
+      padding: 10px 10px !important;
+      text-align: left;
+    }
+  }
+
+  &[mask=extra-table] {
+    width: 150px;
+    left: unset!important;
+    right: 0;
+    margin-top: 30px;
     padding: 15px 5px;
 
     button.btn.btn-white {
@@ -3281,30 +3311,32 @@ $min-height-step-content: 500px;
   padding: 10px 20px;
 }
 
-.custom-dropdown{
-  button{
-    cursor: pointer!important;
-    background-color: #fff!important;
-    color: #000!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-    font-weight: 400!important;
+.custom-dropdown {
+  button {
+    cursor: pointer !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    font-weight: 400 !important;
     padding: 12px 20px;
-    &:hover{
-      box-shadow: none!important;
+
+    &:hover {
+      box-shadow: none !important;
     }
   }
 }
 
 .select-light-scroll {
-  .Select-value{
+  .Select-value {
     color: white;
     border-radius: 5px;
     border: none;
     padding: 2px 8px 2px 3px;
 
   }
-  .Select-value-icon,.Select-value-icon:hover{
+
+  .Select-value-icon, .Select-value-icon:hover {
     border: none;
     background-color: white;
     border-radius: 50%;
@@ -3312,17 +3344,21 @@ $min-height-step-content: 500px;
     line-height: 16px;
     padding: 0px 3px;
   }
-  .Select--multi .Select-value-label{
+
+  .Select--multi .Select-value-label {
     padding: 5px 10px;
   }
-  .Select-menu-outer{
+
+  .Select-menu-outer {
     max-height: 350px;
 
   }
-  .Select--multi .Select-multi-value-wrapper, .Select-control{
+
+  .Select--multi .Select-multi-value-wrapper, .Select-control {
     padding-bottom: 5px;
 
   }
+
   .Select-menu {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -3351,6 +3387,6 @@ $min-height-step-content: 500px;
   }
 }
 
-.radius-8{
+.radius-8 {
   border-radius: 8px;
 }
