@@ -7,12 +7,17 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 
 import * as coursesActions from '../coursesActions';
-// import {NO_IMAGE}                       from '../../../constants/env';
 import Loading from "../../../components/common/Loading";
 import * as helper from '../../../helpers/helper';
 
-// import {CirclePicker}                   from 'react-color';
 import {Link, IndexLink} from 'react-router';
+import {dotNumber} from "../../../helpers/helper";
+import {CirclePicker} from "react-color";
+import {Modal} from "react-bootstrap";
+import CoursesCreateEditGeneral from "./CoursesCreateEditGeneral";
+import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
+import CreateTermOverlay from "../overlays/CreateTermOverlay";
+import CreateDocumentOverlay from "../overlays/CreateDocumentOverlay";
 
 // const btn ={
 //     width: "100%",
@@ -21,174 +26,160 @@ import {Link, IndexLink} from 'react-router';
 class EditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.urlType = "/create";
+        this.urlType = "/teaching/courses/edit/" + props.params.courseId;
         this.state = {
-            openModal: false
+            openModalEdit: false
         };
-        this.updateFormData = this.updateFormData.bind(this);
-        this.uploadAvatar = this.uploadAvatar.bind(this);
-        this.uploadLogo = this.uploadLogo.bind(this);
-        this.uploadCover = this.uploadCover.bind(this);
-        this.changeColor = this.changeColor.bind(this);
-        this.commitCourseData = this.commitCourseData.bind(this);
-        this.updateEditor = this.updateEditor.bind(this);
-        this.checkValidate = this.checkValidate.bind(this);
-        this.backToList = this.backToList.bind(this);
-
     }
 
 
     componentWillMount() {
-        helper.setFormValidation('#form-course-create-edit');
         let id = this.props.params.courseId;
-        this.urlType = "/teaching/courses/" + (id ? "edit/" + id : "create");
-        if (id) this.props.coursesActions.loadOneCourse(id);
-        else this.props.coursesActions.deleteData();
+        this.props.coursesActions.loadOneCourse(id);
         this.props.coursesActions.loadAllTypes();
         this.props.coursesActions.loadAllCategories();
     }
 
-    componentDidMount() {
-        helper.setFormValidation('#form-course-create-edit');
-    }
-
-    //
-    // componentWillReceiveProps(nextProps){
-    //     console.log("nextProps", nextProps);
-    // }
-
-    backToList() {
-        this.props.coursesActions.backToList();
-    }
-
-
-    updateFormData(e) {
-        const feild = e.target.name;
-        const value = e.target.value;
-        this.props.coursesActions.updateData(feild, value);
-    }
-
-    updateEditor(content) {
-        let data = {...this.props.data};
-        data.detail = content;
-        this.props.coursesActions.updateData(data);
-    }
-
-    uploadAvatar(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2))
-            this.props.coursesActions.uploadAvatar(file);
-    }
-
-    uploadLogo(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2))
-            this.props.coursesActions.uploadLogo(file);
-
-    }
-
-    uploadCover(event) {
-        let file = event.target.files[0];
-        if (helper.checkFileSize(file, 2))
-            this.props.coursesActions.uploadCover(file);
-    }
-
-    changeColor(color) {
-        let data = {...this.props.data};
-        data.color = color.hex;
-        this.props.coursesActions.updateData(data);
-    }
-
-    commitCourseData() {
-        if (this.checkValidate())
-            this.props.coursesActions.commitCourseData(this.props.data);
-
-    }
-
-    checkValidate() {
-
-        if ($('#form-course-create-edit').valid()) {
-
-            if (helper.isEmptyInput(this.props.data.icon_url)) {
-                helper.showTypeNotification('Vui lòng chọn ảnh icon', 'warning');
-                return false;
-            }
-            if (helper.isEmptyInput(this.props.data.image_url)) {
-                helper.showTypeNotification('Vui lòng chọn ảnh đại điện', 'warning');
-                return false;
-            }
-            if (helper.isEmptyInput(this.props.data.cover_url)) {
-                helper.showTypeNotification('Vui lòng chọn cover', 'warning');
-                return false;
-            }
-            return true;
-        }
-        return false;
+    closeModalEdit = () => {
+        this.setState({openModalEdit: false});
     }
 
     render() {
+        const {data: course} = this.props
         return (
             <div className="margintop-10">
-                <div className="row">
-                    <form role="form" id="form-course-create-edit" onSubmit={e=>e.preventDefault()}>
-                        <div className="col-md-12">
+                <div className={"card"}>
+                    <div className={"card-content"}>
+                        {this.props.isLoading ? <Loading/> :
                             <div className="row">
-                                {this.props.isLoading ? <Loading/> :
-                                    <div className="content">
-                                        <div className="col-md-12">
-                                            <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
-                                                <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
-                                                    <IndexLink to={`${this.urlType}`}>
-                                                         TỔNG QUAN &#160;
+                                <div className="col-md-4">
+                                    <div className="card" mask="blue">
+                                        <div className="card-content flex flex-col">
+                                            <div className="flex flex-justify-content-center">
+                                                <div className="img father"
+                                                     style={{
+                                                         backgroundImage: `url(${helper.validateLinkImage(course.icon_url)})`
+                                                     }}>
+                                                </div>
+                                            </div>
 
-                                                        <div className="ripple-container"/>
-                                                    </IndexLink>
-                                                </li>
-                                                <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
-                                                    <Link to={`${this.urlType}/curriculum`}>
-                                                         GIÁO TRÌNH &#160;
-                                                        <div className="ripple-container"/>
-                                                    </Link>
-                                                </li>
-                                                <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
-                                                    <Link to={`${this.urlType}/documents`}>
-                                                         TÀI LIỆU NGOÀI &#160;
-                                                        <div className="ripple-container"/>
-                                                    </Link>
-                                                </li>
-                                                <li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>
-                                                    <Link to={`${this.urlType}/pixel`}>
-                                                         PIXEL &#160;
-                                                        <div className="ripple-container"/>
-                                                    </Link>
-                                                </li>
-                                                {/*<li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>*/}
-                                                    {/*<Link to={`${this.urlType}/term`}>*/}
-                                                        {/*<i className="material-icons">create</i> HỌC PHẦN &#160;*/}
-                                                        {/*<div className="ripple-container"/>*/}
-                                                    {/*</Link>*/}
-                                                {/*</li>*/}
-                                                {/*<li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>*/}
-                                                {/*<Link>*/}
-                                                {/*<i className="material-icons">flag</i> QUAN TÂM &#160;*/}
-                                                {/*<div className="ripple-container"/>*/}
-                                                {/*</Link>*/}
-                                                {/*</li>*/}
-                                            </ul>
+                                            <h4 className="card-title  margintop-10">{course.name}</h4>
+
+                                            <h6 className="category text-gray text-email">
+                                                {course.description}
+
+                                            </h6>
+                                            <h6 className="category text-gray text-email">
+                                                <span>{dotNumber(course.price)}đ</span>
+                                            </h6>
                                         </div>
-                                        <div>{this.props.children}</div>
-
-
-
-
                                     </div>
-                                }
+                                    <div className="card detail-wrap">
+                                        <div className="card-content">
+                                            <div className="detail-wrap">
+                                                <p>Loại khóa
+                                                    học<strong>{course.type ? course.type.name : "Chưa có"}</strong></p>
+                                                <p>URL p/mềm (MAC) <strong><a href={course.linkmac}
+                                                                              target="_blank">{course.linkmac || "Chưa có"}</a></strong>
+                                                </p>
+                                                <p>URL p/mềm (WINDOWS) <strong><a href={course.linkwindow}
 
+                                                                                  target="_blank">{course.linkwindow || "Chưa có"}</a></strong>
+                                                </p>
+                                                <p>H/dẫn cài p/mềm
+                                                    MAC <strong><a href={course.mac_how_install}
+                                                                   target="_blank">{course.mac_how_install || "Chưa có"}</a></strong>
+                                                </p>
+                                                <p>H/dẫn cài p/mềm
+                                                    WINDOWS <strong><a href={course.window_how_install}
+                                                                       target="_blank">{course.window_how_install || "Chưa có"}</a></strong>
+                                                </p>
+                                                <p>URL Back image <strong><a href={course.back_image}
+                                                                             target="_blank">{course.back_image || "Chưa có"}</a></strong>
+                                                </p>
+                                                <p>URL Front image <strong><a href={course.front_image}
+                                                                              target="_blank">{course.front_image || "Chưa có"}</a></strong>
+                                                </p>
+                                                <p>Category<strong>{course.categories && course.categories.length > 0 ? course.categories[0].name : "Chưa có"}</strong>
+                                                </p>
+                                                <p>Landing Page URL<strong>{course.work || "Chưa có"}</strong></p>
+                                            </div>
+                                            <button className="btn width-100"
+                                                    onClick={() => {
+                                                        this.setState({openModalEdit: true})
+                                                    }}
+                                            >Sửa thông tin
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="card-content">
+                                        <div className="tab-content"><h4 className="card-title"><strong>Chọn
+                                            màu</strong>
+                                        </h4></div>
+                                        <br/>
+                                        <CirclePicker width="100%"
+                                                      color={course.color}
+                                                      disabled
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-8">
+                                    <div className="flex flex-wrap">
+                                        <CreateCurriculumOverlay className="btn btn-silver"/>
+                                        <CreateTermOverlay className="btn btn-silver"/>
+                                        <CreateDocumentOverlay className="btn btn-silver"/>
+                                        <div className="btn btn-silver"
+                                             ref="target"
+                                        >
+                                            Thêm buổi Topic/Test
+                                        </div>
+                                    </div>
+                                    <div className="margintop-10">
+                                        <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                                            <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
+                                                <IndexLink to={`${this.urlType}`}>
+                                                    Chương trình học &#160;
+                                                    <div className="ripple-container"/>
+                                                </IndexLink>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/curriculum`}>
+                                                    Bài kiểm tra &#160;
+                                                    <div className="ripple-container"/>
+                                                </Link>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/documents`}>
+                                                    Tài liệu &#160;
+                                                    <div className="ripple-container"/>
+                                                </Link>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/pixel`}>
+                                                    Nhận xét &#160;
+                                                    <div className="ripple-container"/>
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                        <div>{this.props.children}</div>
+                                    </div>
+                                </div>
+                                <Modal show={this.state.openModalEdit} bsSize="large">
+                                    <Modal.Header closeButton
+                                                  onHide={this.closeModalEdit}
+                                                  closeLabel="Đóng">
+                                        <Modal.Title>Sửa môn học</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body style={{padding: 0}}>
+                                        {this.state.openModalEdit &&
+                                        <CoursesCreateEditGeneral closeModalEdit={this.closeModalEdit}/>}
+                                    </Modal.Body>
+                                </Modal>
                             </div>
-                        </div>
-                    </form>
-                </div>
+                        }
 
+                    </div>
+                </div>
             </div>
         );
     }

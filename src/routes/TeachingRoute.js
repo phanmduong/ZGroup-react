@@ -3,7 +3,7 @@ import ScheduleTeachingContainer from "../modules/scheduleTeaching/ScheduleTeach
 import GensContainer from "../modules/gens/GensContainer";
 import CoursesContainer from "../modules/courses/CoursesContainer";
 import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
-import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
+import coursesCreateEditGeneral from "../modules/courses/coursesForm/CoursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "../modules/courses/coursesForm/coursesCreateEditCurriculum";
 import coursesCreateEditDocuments from "../modules/courses/coursesForm/coursesCreateEditDocuments";
 import coursesCreateEditTerm from "../modules/courses/coursesForm/coursesCreateEditTerm";
@@ -101,7 +101,7 @@ export default [
         children: [
             {
                 path: "/",
-                component: coursesCreateEditGeneral
+                component: coursesCreateEditCurriculum
             },
             {
                 path: "documents",

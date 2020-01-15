@@ -1,5 +1,5 @@
-import * as helper      from '../../helpers/helper';
-import * as types   from '../../constants/actionTypes';
+import * as helper from '../../helpers/helper';
+import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 let data;
@@ -128,7 +128,7 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.LOAD_COURSE_SUCCESS: {
-            let categories = action.data.categories.map((obj)=>{
+            let categories = action.data.categories.map((obj) => {
                 return {
                     ...obj,
                     value: obj.id,
@@ -184,7 +184,7 @@ export default function courseReducer(state = initialState.courses, action) {
 
                 }
             };
-        case types.BEGIN_UPLOAD_LOGO_COURSE:{
+        case types.BEGIN_UPLOAD_LOGO_COURSE: {
 
             return {
                 ...state,
@@ -297,7 +297,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     data: action.data
                 }
             };
-        case types.CREATE_EDIT_COURSES_SUCCESS:{
+        case types.CREATE_EDIT_COURSES_SUCCESS: {
 
             return {
                 ...state,
@@ -321,17 +321,17 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isUploadingLink: true,
-                    data: state.data,
-                    link: state.link,
                 }
             };
-        case types.CREATE_LINK_SUCCESS:{
+        case types.CREATE_LINK_SUCCESS: {
             return {
                 ...state,
                 ...{
                     isUploadingLink: false,
-                    data: state.data,
-                    link: action.link,
+                    data: {
+                        ...state.data,
+                        links: [...state.data.links, action.link]
+                    }
                 }
             };
         }
@@ -349,7 +349,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingPixel: true,
                 }
             };
-        case types.CREATE_PIXEL_SUCCESS:{
+        case types.CREATE_PIXEL_SUCCESS: {
             return {
                 ...state,
                 ...{
@@ -371,7 +371,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingPixel: true,
                 }
             };
-        case types.EDIT_PIXEL_SUCCESS:{
+        case types.EDIT_PIXEL_SUCCESS: {
             return {
                 ...state,
                 ...{
@@ -395,7 +395,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     link: state.link,
                 }
             };
-        case types.EDIT_LINK_SUCCESS:{
+        case types.EDIT_LINK_SUCCESS: {
             return {
                 ...state,
                 ...{
@@ -444,7 +444,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    data:defaultData,
+                    data: defaultData,
                 }
             };
         }
@@ -455,11 +455,15 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingTerm: true,
                 }
             };
-        case types.CREATE_TERM_SUCCESS:{
+        case types.CREATE_TERM_SUCCESS: {
             return {
                 ...state,
                 ...{
                     isUploadingTerm: false,
+                    data: {
+                        ...state.data,
+                        terms: [...state.data.terms, action.data]
+                    }
                 }
             };
         }
@@ -504,7 +508,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingTerm: true,
                 }
             };
-        case types.EDIT_TERM_SUCCESS:{
+        case types.EDIT_TERM_SUCCESS: {
             return {
                 ...state,
                 ...{
@@ -548,7 +552,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
             };
-        case types.CHANGE_STATUS_COURSES_ERROR:{
+        case types.CHANGE_STATUS_COURSES_ERROR: {
             let newdata = [...state.coursesList];
             let newcourse = {...state.coursesList[action.index]};
             newcourse.status = !newdata[action.index].status;
@@ -565,14 +569,16 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.LOAD_ALL_TYPES_SUCCESS: {
-            let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,};});
+            let data = action.types.map((obj) => {
+                return {...obj, value: obj.id, label: obj.name,};
+            });
             return {
                 ...state,
                 // isLoading: false,
                 types: data,
             };
         }
-        case types.LOAD_ALL_TYPES_ERROR:{
+        case types.LOAD_ALL_TYPES_ERROR: {
             return {
                 ...state,
                 // isLoading: false,
@@ -585,7 +591,7 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.LOAD_ALL_CATEGORIES_SUCCESS: {
-            let data = action.categories.map((obj)=>{
+            let data = action.categories.map((obj) => {
                 return {
                     ...obj,
                     value: obj.id,
@@ -599,25 +605,25 @@ export default function courseReducer(state = initialState.courses, action) {
                 categories: data,
             };
         }
-        case types.LOAD_ALL_CATEGORIES_ERROR:{
+        case types.LOAD_ALL_CATEGORIES_ERROR: {
             return {
                 ...state,
                 // isLoading: false,
             };
         }
-        case types.BEGIN_SAVE_CATEGORY:{
+        case types.BEGIN_SAVE_CATEGORY: {
             return {
                 ...state,
                 isSavingCategory: true,
             };
         }
-        case types.SAVE_CATEGORY_ERROR:{
+        case types.SAVE_CATEGORY_ERROR: {
             return {
                 ...state,
                 isSavingCategory: false,
             };
         }
-        case types.SAVE_CATEGORY_SUCCESS:{
+        case types.SAVE_CATEGORY_SUCCESS: {
             return {
                 ...state,
                 isSavingCategory: false,
@@ -628,7 +634,7 @@ export default function courseReducer(state = initialState.courses, action) {
                 isDuplicating: true,
                 ...state,
             };
-        case types.DUPLICATE_COURSES_SUCCESS:{
+        case types.DUPLICATE_COURSES_SUCCESS: {
             return {
                 isDuplicating: false,
                 ...state,
@@ -645,7 +651,7 @@ export default function courseReducer(state = initialState.courses, action) {
                 isDuplicating: true,
                 ...state,
             };
-        case types.DUPLICATE_LESSON_SUCCESS:{
+        case types.DUPLICATE_LESSON_SUCCESS: {
             return {
                 isDuplicating: false,
                 ...state,
@@ -662,7 +668,7 @@ export default function courseReducer(state = initialState.courses, action) {
                 isDuplicating: true,
                 ...state,
             };
-        case types.DUPLICATE_TERM_SUCCESS:{
+        case types.DUPLICATE_TERM_SUCCESS: {
             return {
                 isDuplicating: false,
                 ...state,
@@ -679,7 +685,37 @@ export default function courseReducer(state = initialState.courses, action) {
             newdata.categories = action.data;
             return {
                 ...state,
-                data : newdata,
+                data: newdata,
+            };
+        }
+        case types.BEGIN_CREATE_LESSON_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isCommittingLesson: true
+                }
+            };
+        }
+        case types.CREATE_LESSON_COURSE_SUCCESS: {
+            console.log(action.data)
+            console.log(state.data.lessons)
+            return {
+                ...state,
+                ...{
+                    isCommittingLesson: false,
+                    data: {
+                        ...state.data,
+                        lessons: [...state.data.lessons, action.data]
+                    }
+                }
+            };
+        }
+        case types.CREATE_LESSON_COURSE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isCommittingLesson: false
+                }
             };
         }
         default:

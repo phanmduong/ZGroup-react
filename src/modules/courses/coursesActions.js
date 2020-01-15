@@ -1,12 +1,12 @@
 import * as types from '../../constants/actionTypes';
 import * as courseApi from './courseApi';
 import * as helper from '../../helpers/helper';
-import { browserHistory } from 'react-router';
+import * as lessonsApi from "../lessons/lessonsApi";
 
 /*eslint no-console: 0 */
 export function createLink(link, func) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_CREATE_LINK });
+        dispatch({type: types.BEGIN_CREATE_LINK});
         courseApi.createLink(link)
             .then(res => {
                 helper.showNotification("Lưu Thành Công!");
@@ -18,14 +18,14 @@ export function createLink(link, func) {
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.CREATE_LINK_ERROR });
+                dispatch({type: types.CREATE_LINK_ERROR});
             });
     };
 }
 
 export function createPixel(courseId, pixel, func) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_CREATE_PIXEL });
+        dispatch({type: types.BEGIN_CREATE_PIXEL});
         courseApi.createPixel(courseId, pixel)
             .then(() => {
                 helper.showNotification("Lưu Thành Công!");
@@ -36,32 +36,33 @@ export function createPixel(courseId, pixel, func) {
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.CREATE_LINK_ERROR });
+                dispatch({type: types.CREATE_LINK_ERROR});
             });
     };
 }
 
 export function createTerm(pixel, func) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_CREATE_TERM });
+        dispatch({type: types.BEGIN_CREATE_TERM});
         courseApi.createTerm(pixel)
-            .then(() => {
+            .then((res) => {
                 helper.showNotification("Lưu Thành Công!");
                 dispatch({
                     type: types.CREATE_TERM_SUCCESS,
+                    data: res.data.data.term
                 });
                 func();
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.CREATE_TERM_ERROR });
+                dispatch({type: types.CREATE_TERM_ERROR});
             });
     };
 }
 
 export function commitEditLink(link, func) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_EDIT_LINK });
+        dispatch({type: types.BEGIN_EDIT_LINK});
         courseApi.editLink(link)
             .then(() => {
                 helper.sweetAlertSuccess("Sửa Thành Công!");
@@ -72,14 +73,14 @@ export function commitEditLink(link, func) {
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
-                dispatch({ type: types.EDIT_LINK_ERROR });
+                dispatch({type: types.EDIT_LINK_ERROR});
             });
     };
 }
 
 export function commitEditPixel(pixelId, pixel, func) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_EDIT_PIXEL });
+        dispatch({type: types.BEGIN_EDIT_PIXEL});
         courseApi.editPixel(pixelId, pixel)
             .then(() => {
                 helper.sweetAlertSuccess("Sửa Thành Công!");
@@ -90,14 +91,14 @@ export function commitEditPixel(pixelId, pixel, func) {
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
-                dispatch({ type: types.EDIT_PIXEL_ERROR });
+                dispatch({type: types.EDIT_PIXEL_ERROR});
             });
     };
 }
 
 export function commitEditTerm(term, func) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_EDIT_TERM });
+        dispatch({type: types.BEGIN_EDIT_TERM});
         courseApi.editTerm(term)
             .then(() => {
                 helper.sweetAlertSuccess("Sửa Thành Công!");
@@ -108,14 +109,14 @@ export function commitEditTerm(term, func) {
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
-                dispatch({ type: types.EDIT_TERM_ERROR });
+                dispatch({type: types.EDIT_TERM_ERROR});
             });
     };
 }
 
 export function deleteLink(id) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DELETE_LINK });
+        dispatch({type: types.BEGIN_DELETE_LINK});
         helper.showWarningNotification("Đang xoá Link!");
         courseApi.deleteLink(id)
             .then(() => {
@@ -128,14 +129,14 @@ export function deleteLink(id) {
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.DELETE_LINK_ERROR });
+                dispatch({type: types.DELETE_LINK_ERROR});
             });
     };
 }
 
 export function deletePixel(id, success) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DELETE_PIXEL });
+        dispatch({type: types.BEGIN_DELETE_PIXEL});
         helper.showWarningNotification("Đang xoá Pixel!");
         courseApi.deletePixel(id)
             .then(() => {
@@ -147,14 +148,14 @@ export function deletePixel(id, success) {
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.DELETE_PIXEL_ERROR });
+                dispatch({type: types.DELETE_PIXEL_ERROR});
             });
     };
 }
 
 export function deleteTerm(id, success) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DELETE_TERM });
+        dispatch({type: types.BEGIN_DELETE_TERM});
         helper.showWarningNotification("Đang xoá học phần!");
         courseApi.deleteTerm(id)
             .then(() => {
@@ -166,14 +167,14 @@ export function deleteTerm(id, success) {
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.DELETE_TERM_ERROR });
+                dispatch({type: types.DELETE_TERM_ERROR});
             });
     };
 }
 
 export function deleteLesson(id) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DELETE_LESSON });
+        dispatch({type: types.BEGIN_DELETE_LESSON});
         helper.showWarningNotification("Đang xoá buổi học!");
         courseApi.deleteLesson(id)
             .then(() => {
@@ -186,14 +187,14 @@ export function deleteLesson(id) {
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
-                dispatch({ type: types.DELETE_LESSON_ERROR });
+                dispatch({type: types.DELETE_LESSON_ERROR});
             });
     };
 }
 
 export function loadOneCourse(id) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_COURSE });
+        dispatch({type: types.BEGIN_LOAD_COURSE});
         courseApi.loadCourse(id)
             .then((res) => {
                 dispatch({
@@ -202,7 +203,7 @@ export function loadOneCourse(id) {
                 });
             })
             .catch(() => {
-                dispatch({ type: types.LOAD_COURSE_ERROR });
+                dispatch({type: types.LOAD_COURSE_ERROR});
             });
     };
 }
@@ -224,6 +225,7 @@ export function updateLinkData(link) {
 
     };
 }
+
 export function updatePixelData(pixel) {
     return function (dispatch) {
         dispatch({
@@ -242,6 +244,7 @@ export function editLink(pixel) {
         });
     };
 }
+
 export function editPixel(pixel) {
     return function (dispatch) {
         dispatch({
@@ -253,11 +256,11 @@ export function editPixel(pixel) {
 
 export function uploadLinkIcon(link, file) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_UPLOAD_ICON_LINK });
+        dispatch({type: types.BEGIN_UPLOAD_ICON_LINK});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            let newdata = { ...link };
+            let newdata = {...link};
             newdata.link_icon_url = data.link;
             dispatch({
                 type: types.UPLOAD_ICON_LINK_SUCCESS,
@@ -265,17 +268,18 @@ export function uploadLinkIcon(link, file) {
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
-            dispatch({ type: types.UPLOAD_ICON_LINK_FAILED });
+            dispatch({type: types.UPLOAD_ICON_LINK_FAILED});
         });
     };
 }
+
 export function uploadTermIcon(term, file) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_UPLOAD_ICON_TERM });
+        dispatch({type: types.BEGIN_UPLOAD_ICON_TERM});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            let newdata = { ...term };
+            let newdata = {...term};
             newdata.image_url = data.link;
             dispatch({
                 type: types.UPLOAD_ICON_TERM_SUCCESS,
@@ -283,7 +287,7 @@ export function uploadTermIcon(term, file) {
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
-            dispatch({ type: types.UPLOAD_ICON_TERM_FAILED });
+            dispatch({type: types.UPLOAD_ICON_TERM_FAILED});
         });
     };
 }
@@ -299,7 +303,6 @@ export function updateData(data) {
 }
 
 
-
 export function deleteData() {
     return function (dispatch) {
         dispatch({
@@ -311,7 +314,7 @@ export function deleteData() {
 
 export function loadCourses(page = 1, query = '') {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_COURSES_DATA });
+        dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
         courseApi.loadCoursesData(page, query)
             .then(res => {
                 dispatch({
@@ -321,7 +324,7 @@ export function loadCourses(page = 1, query = '') {
                 });
             })
             .catch(() => {
-                dispatch({ type: types.LOADED_COURSES_DATA_ERROR });
+                dispatch({type: types.LOADED_COURSES_DATA_ERROR});
             });
     };
 }
@@ -356,7 +359,7 @@ export function commitCourseData(data, callback) {
     return function (dispatch) {
         helper.showWarningNotification("Đang lưu...");
 
-        dispatch({ type: types.BEGIN_CREATE_EDIT_COURSES, data: data });
+        dispatch({type: types.BEGIN_CREATE_EDIT_COURSES, data: data});
         courseApi.createEditCourse(data)
             .then(res => {
                 helper.showNotification("Lưu Thành Công!");
@@ -364,12 +367,11 @@ export function commitCourseData(data, callback) {
                     type: types.CREATE_EDIT_COURSES_SUCCESS,
                     data: res
                 });
-                if(callback) callback();
-                browserHistory.push("/teaching/courses");
+                if (callback) callback();
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.CREATE_EDIT_COURSES_ERROR });
+                dispatch({type: types.CREATE_EDIT_COURSES_ERROR});
             });
     };
 }
@@ -408,7 +410,6 @@ export function uploadCover(link) {
 }
 
 
-
 export function changeStatusCourse(index, course) {
     return function (dispatch) {
         helper.showWarningNotification('Đang thay đổi');
@@ -439,7 +440,7 @@ export function changeStatusCourse(index, course) {
 
 export function loadAllTypes() {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_ALL_TYPES });
+        dispatch({type: types.BEGIN_LOAD_ALL_TYPES});
         courseApi.loadAllTypes()
             .then(res => {
                 if (res.data.status === 1) {
@@ -457,14 +458,14 @@ export function loadAllTypes() {
             })
             .catch(() => {
                 helper.showNotification('Có lỗi xảy ra!');
-                dispatch({ type: types.LOAD_ALL_TYPES_ERROR });
+                dispatch({type: types.LOAD_ALL_TYPES_ERROR});
             });
     };
 }
 
 export function loadAllCategories() {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_ALL_CATEGORIES });
+        dispatch({type: types.BEGIN_LOAD_ALL_CATEGORIES});
         courseApi.loadAllCategories()
             .then(res => {
                 if (res.data.status === 1) {
@@ -482,7 +483,7 @@ export function loadAllCategories() {
             })
             .catch(() => {
                 helper.showErrorNotification('Có lỗi xảy ra!');
-                dispatch({ type: types.LOAD_ALL_CATEGORIES_ERROR });
+                dispatch({type: types.LOAD_ALL_CATEGORIES_ERROR});
             });
     };
 }
@@ -490,12 +491,12 @@ export function loadAllCategories() {
 
 export function createCategory(data, callback) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_SAVE_CATEGORY });
+        dispatch({type: types.BEGIN_SAVE_CATEGORY});
         courseApi.createCategory(data)
             .then(res => {
                 if (res.data.status === 1) {
                     callback();
-                    dispatch({ type: types.SAVE_CATEGORY_SUCCESS });
+                    dispatch({type: types.SAVE_CATEGORY_SUCCESS});
 
                 } else {
                     helper.showErrorNotification('Có lỗi xảy ra!');
@@ -507,20 +508,20 @@ export function createCategory(data, callback) {
             })
             .catch(() => {
                 helper.showErrorNotification('Có lỗi xảy ra!');
-                dispatch({ type: types.SAVE_CATEGORY_ERROR });
+                dispatch({type: types.SAVE_CATEGORY_ERROR});
             });
     };
 }
 
 
-export function editCategory(data,callback) {
+export function editCategory(data, callback) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_SAVE_CATEGORY });
+        dispatch({type: types.BEGIN_SAVE_CATEGORY});
         courseApi.editCategory(data)
             .then(res => {
                 if (res.data.status === 1) {
                     callback();
-                    dispatch({ type: types.SAVE_CATEGORY_SUCCESS });
+                    dispatch({type: types.SAVE_CATEGORY_SUCCESS});
 
                 } else {
                     helper.showErrorNotification('Có lỗi xảy ra!');
@@ -532,7 +533,7 @@ export function editCategory(data,callback) {
             })
             .catch(() => {
                 helper.showErrorNotification('Có lỗi xảy ra!');
-                dispatch({ type: types.SAVE_CATEGORY_ERROR });
+                dispatch({type: types.SAVE_CATEGORY_ERROR});
             });
     };
 }
@@ -541,7 +542,7 @@ export function editCategory(data,callback) {
 export function duplicateCourse(data, reload) {
     helper.showWarningNotification("Đang Tạo...");
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DUPLICATE_COURSES });
+        dispatch({type: types.BEGIN_DUPLICATE_COURSES});
         courseApi.duplicateCourse(data.id)
             .then(res => {
                 if (res.data.status === 1) {
@@ -553,14 +554,14 @@ export function duplicateCourse(data, reload) {
                     reload();
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra! ");
-                    dispatch({ type: types.DUPLICATE_COURSES_ERROR });
+                    dispatch({type: types.DUPLICATE_COURSES_ERROR});
                 }
 
             })
             .catch((err) => {
                 console.log(err);
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.DUPLICATE_COURSES_ERROR });
+                dispatch({type: types.DUPLICATE_COURSES_ERROR});
             });
     };
 }
@@ -568,7 +569,7 @@ export function duplicateCourse(data, reload) {
 export function duplicateLesson(data, reload) {
     helper.showWarningNotification("Đang Tạo...");
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DUPLICATE_LESSON });
+        dispatch({type: types.BEGIN_DUPLICATE_LESSON});
         courseApi.duplicateLesson(data.id)
             .then(res => {
                 if (res.data.status === 1) {
@@ -579,14 +580,14 @@ export function duplicateLesson(data, reload) {
                     reload();
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra! ");
-                    dispatch({ type: types.DUPLICATE_LESSON_ERROR });
+                    dispatch({type: types.DUPLICATE_LESSON_ERROR});
                 }
 
             })
             .catch((err) => {
                 console.log(err);
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.DUPLICATE_LESSON_ERROR });
+                dispatch({type: types.DUPLICATE_LESSON_ERROR});
             });
     };
 }
@@ -594,7 +595,7 @@ export function duplicateLesson(data, reload) {
 export function duplicateTerm(data, reload) {
     helper.showWarningNotification("Đang Tạo...");
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_DUPLICATE_TERM });
+        dispatch({type: types.BEGIN_DUPLICATE_TERM});
         courseApi.duplicateTerm(data.id)
             .then(res => {
                 if (res.data.status === 1) {
@@ -605,14 +606,14 @@ export function duplicateTerm(data, reload) {
                     reload();
                 } else {
                     helper.showErrorNotification("Có lỗi xảy ra! ");
-                    dispatch({ type: types.DUPLICATE_TERM_ERROR });
+                    dispatch({type: types.DUPLICATE_TERM_ERROR});
                 }
 
             })
             .catch((err) => {
                 console.log(err);
                 helper.showErrorNotification("Có lỗi xảy ra! ");
-                dispatch({ type: types.DUPLICATE_TERM_ERROR });
+                dispatch({type: types.DUPLICATE_TERM_ERROR});
             });
     };
 }
@@ -627,7 +628,6 @@ export function onCategoryChange(data) {
 
     };
 }
-
 
 
 export function changeOrderCourse(course, order, callback) {
@@ -656,7 +656,27 @@ export function changeTermLesson(lessonId, termId) {
             .then(() => {
                 helper.showNotification("Thay đổi học phần thành công");
             }).catch(() => {
-                helper.showErrorNotification("Thay đổi học phần thất bại");
+            helper.showErrorNotification("Thay đổi học phần thất bại");
+        });
+    };
+}
+
+export function createLesson(data, courseid, callback) {
+    return function (dispatch) {
+        data.course_id = courseid;
+        dispatch({type: types.BEGIN_CREATE_LESSON_COURSE, data: data});
+        lessonsApi.createLesson(data)
+            .then(res => {
+                helper.showNotification("Tạo Thành Công!");
+                dispatch({
+                    type: types.CREATE_LESSON_COURSE_SUCCESS,
+                    data: res.data.data.lesson
+                });
+                if (callback) callback();
+            })
+            .catch(() => {
+                helper.sweetAlertError("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_LESSON_COURSE_ERROR});
             });
     };
 }

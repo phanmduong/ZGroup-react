@@ -88,6 +88,7 @@ class coursesCreateEditDocuments extends React.Component {
         data.color = color.hex;
         this.props.coursesActions.updateData(data);
     }
+
     openModal() {
         this.isCreate = true;
         this.setState({openModal: true});
@@ -168,94 +169,48 @@ class coursesCreateEditDocuments extends React.Component {
 
         return (
             <div>
-                <div className="col-md-12">
-                    <div className="card">
-                        <div className="card-content">
-
-                            <div className="flex-row flex">
-                                <h5 className="card-title">
-                                    <strong>Tài liệu</strong>
-                                </h5>
-                                <div className="dropdown">
-                                    <button
-                                        className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
-                                        type="button"
-                                        data-toggle="tooltip"
-                                        data-original-title="Thêm tài liệu"
-                                        onClick={this.openModal}
-                                    >
-                                        <strong>+</strong>
-                                    </button>
-                                </div>
-
-                            </div>
-                            {/*<Link className="btn btn-rose" onClick={this.openModal}>*/}
-                                {/*Thêm Tài Liệu*/}
-                            {/*</Link>*/}
 
 
-                            <div className="table-responsive">
+                <div className="table-responsive">
 
-                                <table id="datatables"
-                                       className="table table-striped table-no-bordered table-hover"
-                                       cellSpacing="0" width="100%" style={{width: "100%"}}>
-                                    <thead className="text-rose">
-                                    <tr>
-                                        <th/>
-                                        <th>Tên Link</th>
-                                        <th>Link</th>
-                                        <th>Mô tả</th>
-                                        <th/>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {this.props.data.links.map((link) => {
-                                        return (
-                                            <tr key={link.id}>
-                                                <td>
-                                                    <button className="btn btn-round btn-fab btn-fab-mini text-white"
-                                                            data-toggle="tooltip"
-                                                            title=""
-                                                            type="button"
-                                                            rel="tooltip"
-                                                            data-placement="right"
-                                                            data-original-title={link.link_name}>
-                                                        <img src={validateLink(link.link_icon_url)} alt=""/>
-                                                    </button>
-                                                </td>
-                                                <td>{link.link_name}</td>
-                                                <td>
-                                                    <a href={validateLink(link.link_url)} target="_blank">
-                                                        <p style={{
-                                                            maxWidth: "100px",
-                                                            wordWrap: 'break-word',
-                                                            whiteSpace: 'initial'
-                                                        }}>
-                                                            {link.link_url}
-                                                        </p>
-                                                    </a>
-                                                </td>
-                                                <td>{link.link_description}</td>
-                                                <td>
-                                                    <ButtonGroupAction
-                                                        edit={() => {
-                                                            return this.openModalEditLink(link);
-                                                        }}
-                                                        delete={() => {
-                                                            return this.deleteLink(link.id);
-                                                        }}
-                                                        object={link}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        );
+                    <table id="datatables"
+                           className="table white-table table-striped table-no-bordered table-hover"
+                           cellSpacing="0" width="100%" style={{width: "100%"}}>
+                        <tbody>
+                        {this.props.data.links.map((link) => {
+                            return (
+                                <tr key={link.id}>
+                                    <td><strong>{link.link_name}</strong></td>
+                                    <td>
+                                        <a href={validateLink(link.link_url)} target="_blank">
+                                            <p style={{
+                                                maxWidth: "100px",
+                                                wordWrap: 'break-word',
+                                                whiteSpace: 'initial',
+                                                color: '#47B0E1'
+                                            }}>
+                                                {link.link_url}
+                                            </p>
+                                        </a>
+                                    </td>
+                                    <td>{link.link_description}</td>
+                                    <td style={{width: 50}}>
+                                        <ButtonGroupAction
+                                            edit={() => {
+                                                return this.openModalEditLink(link);
+                                            }}
+                                            delete={() => {
+                                                return this.deleteLink(link.id);
+                                            }}
+                                            object={link}
+                                        />
+                                    </td>
+                                </tr>
+                            );
 
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                        })}
+                        </tbody>
+                    </table>
                 </div>
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>

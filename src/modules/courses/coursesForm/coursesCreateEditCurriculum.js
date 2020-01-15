@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
-import {Link} from 'react-router';
 import * as helper from '../../../helpers/helper';
 import {NO_IMAGE} from "../../../constants/env";
 import {Modal} from 'react-bootstrap';
@@ -48,6 +47,7 @@ class coursesCreateEditCurriculum extends React.Component {
         id = this.props.params.courseId;
         helper.setFormValidation('#form-edit-term');
     }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.isUploadingTermIcon && !nextProps.isUploadingTermIcon) {
             let term = this.state.term;
@@ -138,6 +138,7 @@ class coursesCreateEditCurriculum extends React.Component {
             });
         });
     }
+
     deleteLesson(id) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa buổi học này không?", () => {
             this.props.coursesActions.deleteLesson(id);
@@ -287,189 +288,173 @@ class coursesCreateEditCurriculum extends React.Component {
                         </form>
                     </Modal.Body>
                 </Modal>
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-content">
 
-                            {/*<Link className="btn btn-rose" to={`/teaching/courses/lessons/create/` + id}>*/}
-                            {/*Thêm Buổi Học*/}
-                            {/*</Link>*/}
-                            <div className="flex-row flex">
-                                <h5 className="card-title">
-                                    <strong>Giáo trình</strong>
-                                </h5>
-                                <div className="dropdown">
-                                    <button
-                                        className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
-                                        type="button"
-                                        data-toggle="dropdown">
-                                        <strong>+</strong>
-                                    </button>
-                                    <ul className="dropdown-menu dropdown-primary">
-                                        <li>
-                                            <Link to={`/teaching/courses/lessons/create/` + id}>Thêm buổi học</Link>
-                                        </li>
-                                        <li>
-                                            <Link onClick={this.openModal}>Thêm học phần</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="table-responsive">
+                {/*<Link className="btn btn-rose" to={`/teaching/courses/lessons/create/` + id}>*/}
+                {/*Thêm Buổi Học*/}
+                {/*</Link>*/}
+                {/*<div className="flex-row flex">*/}
+                {/*    <h5 className="card-title">*/}
+                {/*        <strong>Giáo trình</strong>*/}
+                {/*    </h5>*/}
+                {/*    <div className="dropdown">*/}
+                {/*        <button*/}
+                {/*            className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"*/}
+                {/*            type="button"*/}
+                {/*            data-toggle="dropdown">*/}
+                {/*            <strong>+</strong>*/}
+                {/*        </button>*/}
+                {/*        <ul className="dropdown-menu dropdown-primary">*/}
+                {/*            <li>*/}
+                {/*                <Link to={`/teaching/courses/lessons/create/` + id}>Thêm buổi học</Link>*/}
+                {/*            </li>*/}
+                {/*            <li>*/}
+                {/*                <Link onClick={this.openModal}>Thêm học phần</Link>*/}
+                {/*            </li>*/}
+                {/*        </ul>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                <div className="table-responsive">
 
-                                <table id="datatables"
-                                       className="table table-striped table-no-bordered table-hover"
-                                       cellSpacing="0" width="100%" style={{width: "100%"}}>
-                                    <thead className="text-rose">
-                                    <tr>
-                                        <th>Buổi</th>
-                                        <th>Mô tả ngắn</th>
-                                        <th> Học phần </th>
-                                        <th/>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {this.props.data.lessons.map((lesson) => {
-                                        return (
-                                            <tr key={lesson.id}>
-                                                <td>{lesson.order}</td>
-                                                {/*<td data-toggle="tooltip"*/}
-                                                    {/*data-original-title={lesson.description}*/}
-                                                {/*>{helper.shortenStr(lesson.description,25)}</td>*/}
-                                                <td style={{
-                                                    wordWrap: "break-word",
-                                                    whiteSpace: "initial",
-                                                }}>{lesson.description}
-                                                </td>
-                                                <td>
-                                                    {(
-                                                        (<select className="form-control" value={lesson.term_id}
-                                                                  onChange={(event) => {
-                                                                        this.props.coursesActions.changeTermLesson(lesson.id,event.target.value);
-                                                                 }}
-                                                            >
-                                                            <option
-                                                                value={null}
-                                                            />
+                    <table id="datatables"
+                           className="table white-table table-striped table-no-bordered table-hover"
+                           cellSpacing="0" width="100%" style={{width: "100%"}}>
+                        <tbody>
+                        {this.props.data.lessons.map((lesson) => {
+                            return (
+                                <tr key={lesson.id}>
+                                    <td><strong>Buổi {lesson.order}</strong></td>
+                                    {/*<td data-toggle="tooltip"*/}
+                                    {/*data-original-title={lesson.description}*/}
+                                    {/*>{helper.shortenStr(lesson.description,25)}</td>*/}
+                                    <td style={{
+                                        wordWrap: "break-word",
+                                        whiteSpace: "initial",
+                                    }}>{lesson.description}
+                                    </td>
+                                    <td>
+                                        {(
+                                            (<select className="form-control" value={lesson.term_id}
+                                                     onChange={(event) => {
+                                                         this.props.coursesActions.changeTermLesson(lesson.id, event.target.value);
+                                                     }}
+                                            >
+                                                <option
+                                                    value={null}
+                                                />
 
 
-                                                            {this.props.data.terms.map((term, key) => {
-                                                                return (
-                                                                    <option
-                                                                        key={key}
-                                                                        value={term.id}
-                                                                    >
-                                                                        {term.name}
-                                                                    </option>);
-                                                            })}
-                                                        </select>))
-                                                    }
-                                                </td>
-                                                <td><ButtonGroupAction
-                                                    editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}
-                                                    delete={() => {
-                                                        return this.deleteLesson(lesson.id);
-                                                    }}
-                                                    object={lesson}
-                                                >
-                                                    {
-                                                        !this.props.isDuplicating &&
-                                                        <a data-toggle="tooltip" title="Duplicate"
-                                                           type="button"
-                                                           onClick={() => {
-                                                               return this.duplicateLesson(lesson);
-                                                           }}
-                                                           rel="tooltip"
+                                                {this.props.data.terms.map((term, key) => {
+                                                    return (
+                                                        <option
+                                                            key={key}
+                                                            value={term.id}
                                                         >
-                                                            <i className="material-icons">control_point_duplicate</i>
-                                                        </a>
-                                                    }
+                                                            {term.name}
+                                                        </option>);
+                                                })}
+                                            </select>))
+                                        }
+                                    </td>
+                                    <td style={{width: 85}}><ButtonGroupAction
+                                        editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}
+                                        delete={() => {
+                                            return this.deleteLesson(lesson.id);
+                                        }}
+                                        object={lesson}
+                                    >
+                                        {
+                                            !this.props.isDuplicating &&
+                                            <a data-toggle="tooltip" title="Duplicate"
+                                               type="button"
+                                               onClick={() => {
+                                                   return this.duplicateLesson(lesson);
+                                               }}
+                                               rel="tooltip"
+                                            >
+                                                <i className="material-icons">control_point_duplicate</i>
+                                            </a>
+                                        }
 
-                                                </ButtonGroupAction>
-                                                </td>
-                                            </tr>
-                                        );
+                                    </ButtonGroupAction>
+                                    </td>
+                                </tr>
+                            );
 
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                        })}
+                        </tbody>
+                    </table>
                 </div>
-                <div className="col-md-4">
-                    <div className="card">
-                        <div className="card-content">
+                {/*<div className="col-md-4">*/}
+                {/*    <div className="card">*/}
+                {/*        <div className="card-content">*/}
 
 
+                {/*            <div className="table-responsive">*/}
 
+                {/*                <table id="datatables"*/}
+                {/*                       className="table table-striped table-no-bordered table-hover"*/}
+                {/*                       cellSpacing="0" width="100%" style={{width: "100%"}}>*/}
+                {/*                    <thead className="text-rose">*/}
+                {/*                    <tr style={{fontSize: '12px'}}>*/}
 
-                            <div className="table-responsive">
+                {/*                        <th colSpan={2}>Tên học phần</th>*/}
+                {/*                        <th>Mô tả</th>*/}
+                {/*                        <th/>*/}
+                {/*                    </tr>*/}
+                {/*                    </thead>*/}
+                {/*                    <tbody>*/}
+                {/*                    {(this.props.data.terms && this.props.data.terms.length > 0) &&*/}
+                {/*                    this.props.data.terms.map((term) => {*/}
+                {/*                        return (*/}
+                {/*                            <tr key={term.id}>*/}
+                {/*                                <td>*/}
+                {/*                                    <button className="btn btn-round btn-fab btn-fab-mini text-white"*/}
+                {/*                                            data-toggle="tooltip"*/}
+                {/*                                            title=""*/}
+                {/*                                            type="button"*/}
+                {/*                                            rel="tooltip"*/}
+                {/*                                            data-placement="right"*/}
+                {/*                                            data-original-title={term.name}>*/}
+                {/*                                        <img src={helper.validateLinkImage(term.image_url)} alt=""/>*/}
+                {/*                                    </button>*/}
+                {/*                                </td>*/}
+                {/*                                <td>{term.name}</td>*/}
+                {/*                                <td>{term.short_description}</td>*/}
+                {/*                                <td>*/}
+                {/*                                    <ButtonGroupAction*/}
+                {/*                                        edit={() => {*/}
+                {/*                                            return this.openModalEditTerm(term);*/}
+                {/*                                        }}*/}
+                {/*                                        delete={() => {*/}
+                {/*                                            return this.deleteTerm(term.id);*/}
+                {/*                                        }}*/}
+                {/*                                        object={term}*/}
+                {/*                                    >*/}
+                {/*                                        {*/}
+                {/*                                            !this.props.isDuplicating &&*/}
+                {/*                                            <a data-toggle="tooltip" title="Duplicate"*/}
+                {/*                                               type="button"*/}
+                {/*                                               onClick={() => {*/}
+                {/*                                                   return this.duplicateTerm(term);*/}
+                {/*                                               }}*/}
+                {/*                                               rel="tooltip"*/}
+                {/*                                            >*/}
+                {/*                                                <i className="material-icons">control_point_duplicate</i>*/}
+                {/*                                            </a>*/}
+                {/*                                        }*/}
 
-                                <table id="datatables"
-                                       className="table table-striped table-no-bordered table-hover"
-                                       cellSpacing="0" width="100%" style={{width: "100%"}}>
-                                    <thead className="text-rose">
-                                    <tr style={{fontSize: '12px'}}>
+                {/*                                    </ButtonGroupAction>*/}
+                {/*                                </td>*/}
+                {/*                            </tr>*/}
+                {/*                        );*/}
 
-                                        <th colSpan={2}>Tên học phần</th>
-                                        <th>Mô tả</th>
-                                        <th/>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {(this.props.data.terms && this.props.data.terms.length > 0) &&
-                                    this.props.data.terms.map((term) => {
-                                        return (
-                                            <tr key={term.id}>
-                                                <td>
-                                                    <button className="btn btn-round btn-fab btn-fab-mini text-white"
-                                                            data-toggle="tooltip"
-                                                            title=""
-                                                            type="button"
-                                                            rel="tooltip"
-                                                            data-placement="right"
-                                                            data-original-title={term.name}>
-                                                        <img src={helper.validateLinkImage(term.image_url)} alt=""/>
-                                                    </button>
-                                                </td>
-                                                <td>{term.name}</td>
-                                                <td>{term.short_description}</td>
-                                                <td>
-                                                    <ButtonGroupAction
-                                                        edit={() => {
-                                                            return this.openModalEditTerm(term);
-                                                        }}
-                                                        delete={() => {
-                                                            return this.deleteTerm(term.id);
-                                                        }}
-                                                        object={term}
-                                                    >
-                                                        {
-                                                            !this.props.isDuplicating &&
-                                                            <a data-toggle="tooltip" title="Duplicate"
-                                                               type="button"
-                                                               onClick={() => {
-                                                                   return this.duplicateTerm(term);
-                                                               }}
-                                                               rel="tooltip"
-                                                            >
-                                                                <i className="material-icons">control_point_duplicate</i>
-                                                            </a>
-                                                        }
-
-                                                    </ButtonGroupAction>
-                                                </td>
-                                            </tr>
-                                        );
-
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {/*                    })}*/}
+                {/*                    </tbody>*/}
+                {/*                </table>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         );
     }

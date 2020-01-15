@@ -1729,6 +1729,7 @@ export default {
         isUpdatingCover: false,
         updateCoverError: false,
         isCommitting: false,
+        isCommittingLesson: false,
         commitSuccess: false,
         data: {
             id: null,

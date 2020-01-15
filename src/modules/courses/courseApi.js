@@ -253,3 +253,26 @@ export function changeTermLesson(lessonId,termId){
         "term_id": termId,
     });
 }
+
+export function createLesson(data) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.MANAGE_API_URL + "/v2/lesson/create-lesson/";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += data.course_id + "?token=" + token;
+    }
+    return axios.post(url, {
+        name : data.name,
+        description: data.description,
+        course_id: data.course_id,
+        detail: data.detail,
+        order: data.order,
+        term_id: data.term_id,
+        detail_content: data.detail_content,
+        detail_teacher: data.detail_teacher,
+        image_url: data.image_url,
+        audio_url:data.audio_url,
+        video_url:data.video_url,
+
+    });
+}

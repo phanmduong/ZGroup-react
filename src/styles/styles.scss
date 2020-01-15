@@ -1,6 +1,6 @@
-.navbar-header{
-  .btn-group{
-    margin: 0!important;
+.navbar-header {
+  .btn-group {
+    margin: 0 !important;
     padding: 3px 10px;
   }
 }
@@ -59,7 +59,8 @@ a {
 
 .btn-group-action {
   display: flex;
-  a{
+
+  a {
     margin-left: 3px;
   }
 }
@@ -579,10 +580,11 @@ $starInactive: #c4c5c6;
 //fix scrolling issue in board
 
 @media screen and (max-width: 768px) {
-  .keetool-content{
+  .keetool-content {
     //margin-top: 180px!important;
   }
 }
+
 .keetool-content {
   margin-top: 60px;
   min-height: calc(100vh - 70px);
@@ -2156,6 +2158,10 @@ ul.nav.nav-pills.nav-pills-dark {
       font-weight: 500;
       margin-bottom: -5px;
       margin-top: 10px;
+      &.error{
+        font-weight: 300;
+        color: #c50000;
+      }
     }
 
     .Select-control {
@@ -3281,30 +3287,32 @@ $min-height-step-content: 500px;
   padding: 10px 20px;
 }
 
-.custom-dropdown{
-  button{
-    cursor: pointer!important;
-    background-color: #fff!important;
-    color: #000!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-    font-weight: 400!important;
+.custom-dropdown {
+  button {
+    cursor: pointer !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    font-weight: 400 !important;
     padding: 12px 20px;
-    &:hover{
-      box-shadow: none!important;
+
+    &:hover {
+      box-shadow: none !important;
     }
   }
 }
 
 .select-light-scroll {
-  .Select-value{
+  .Select-value {
     color: white;
     border-radius: 5px;
     border: none;
     padding: 2px 8px 2px 3px;
 
   }
-  .Select-value-icon,.Select-value-icon:hover{
+
+  .Select-value-icon, .Select-value-icon:hover {
     border: none;
     background-color: white;
     border-radius: 50%;
@@ -3312,17 +3320,21 @@ $min-height-step-content: 500px;
     line-height: 16px;
     padding: 0px 3px;
   }
-  .Select--multi .Select-value-label{
+
+  .Select--multi .Select-value-label {
     padding: 5px 10px;
   }
-  .Select-menu-outer{
+
+  .Select-menu-outer {
     max-height: 350px;
 
   }
-  .Select--multi .Select-multi-value-wrapper, .Select-control{
+
+  .Select--multi .Select-multi-value-wrapper, .Select-control {
     padding-bottom: 5px;
 
   }
+
   .Select-menu {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -3351,6 +3363,66 @@ $min-height-step-content: 500px;
   }
 }
 
-.radius-8{
+.radius-8 {
   border-radius: 8px;
+}
+
+.detail-wrap {
+  a {
+    color: black;
+
+    &:hover {
+      color: #c50000;
+    }
+  }
+}
+
+.btn-silver {
+  padding: 10px 20px !important;
+  font-size: 14px;
+  color: #000;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 0;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  background-color: #f7f5f7;
+  will-change: unset !important;
+}
+
+.custom-expand {
+  h4.panel-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #000;
+  }
+
+  .panel-heading {
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 0;
+  }
+}
+
+.white-table {
+  &.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: white;
+  }
+
+  tbody > tr > td, tbody > tr > th, tfoot > tr > td, tfoot > tr > th, thead > tr > td, thead > tr > th {
+    border-top: none !important;
+  }
 }
