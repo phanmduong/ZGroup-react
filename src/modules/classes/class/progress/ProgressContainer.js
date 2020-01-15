@@ -26,15 +26,15 @@ class ProgressClassContainer extends React.Component {
             selectedLessonId: id
         });
         this.props.attendanceActions.loadLessonDetailModal(this.props.classData.id, id);
-    }
+    };
 
     closeModalDetailLesson = () => {
-        this.setState({ showModalDetailLesson: false });
-    }
+        this.setState({showModalDetailLesson: false});
+    };
 
     render() {
-        let {classData, isLoading, user} = this.props;
-        let {show,} = this.state;
+        let {classData, isLoading} = this.props;
+        // let {} = this.state;
         return (
             <div className="table-responsive table-split">
                 <table className="table" cellSpacing="0" id="list_register">
@@ -63,8 +63,9 @@ class ProgressClassContainer extends React.Component {
                                         </div>
                                     </td>
                                     <td>
-                                        <div >
-                                            <div className="flex flex-align-items-center flex-space-between flex-row" style={{width: "calc(100%)", minWidth}}>
+                                        <div>
+                                            <div className="flex flex-align-items-center flex-space-between flex-row"
+                                                 style={{width: "calc(100%)", minWidth}}>
                                                 <div className="progress progress-bar-table width-100" style={{
                                                     "marginBottom": "0",
                                                     "height": "7px",
@@ -84,13 +85,14 @@ class ProgressClassContainer extends React.Component {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div style={{fontSize:12}}>{lesson.total_attendance}/{classData.total_paid}</div>
+                                                <div
+                                                    style={{fontSize: 12}}>{lesson.total_attendance}/{classData.total_paid}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <button className="btn btn-white float-right"
-                                                onClick={() =>   this.openModalDetailLesson(lesson.id)}>
+                                                onClick={() => this.openModalDetailLesson(lesson.id)}>
 
                                             Điểm danh
                                         </button>

@@ -5,7 +5,7 @@ import React from 'react';
 import * as classActions from "../../classActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {default as helper, getShortName} from "../../../../helpers/helper";
+import {avatarEmpty, getShortName} from "../../../../helpers/helper";
 import TooltipButton from "../../../../components/common/TooltipButton";
 import {Modal, Overlay} from 'react-bootstrap';
 import * as ReactDOM from "react-dom";
@@ -564,7 +564,7 @@ class HistoryTeachingContainer extends React.Component {
                                         <tbody>
                                         {
                                             this.props.teachingLessons.map((teacher, index) => {
-                                                let avatar = helper.avatarEmpty(teacher.avatar_url) ?
+                                                let avatar = avatarEmpty(teacher.avatar_url) ?
                                                     NO_AVATAR : teacher.avatar_url;
                                                 return (
                                                     <tr key={index}>

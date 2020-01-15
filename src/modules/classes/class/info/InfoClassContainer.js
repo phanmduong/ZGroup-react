@@ -235,7 +235,7 @@ class InfoClassContainer extends React.Component {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td className="text-center">
                                                 {
                                                     register.code &&
                                                     <TooltipButton
@@ -244,7 +244,7 @@ class InfoClassContainer extends React.Component {
                                                     >
 
                                                         <button
-                                                            className={register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs"}>
+                                                            className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
                                                             {register.code}
                                                             <div className="ripple-container"/>
                                                         </button>
@@ -257,17 +257,22 @@ class InfoClassContainer extends React.Component {
                                                 {
                                                     register.paid_status ?
                                                         <TooltipButton
-                                                            text={register.note}
+                                                            text={register.note || 'Không có note'}
                                                             placement="top"
                                                         >
                                                             <button
-                                                                className="btn btn-xs btn-main main-background-color"
+                                                                className="btn btn-xs btn-rose min-width-100-px"
                                                             >
                                                                 {helper.dotNumber(register.money)} vnd
                                                                 <div className="ripple-container"/>
                                                             </button>
                                                         </TooltipButton>
-                                                        : 'Chưa nộp'
+                                                        :
+                                                        <button className="btn btn-xs min-width-100-px">
+                                                            Chưa nộp
+                                                        </button>
+
+
                                                 }
                                             </td>
                                             <td>

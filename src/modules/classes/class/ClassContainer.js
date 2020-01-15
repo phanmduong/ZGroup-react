@@ -38,12 +38,12 @@ class ClassContainer extends React.Component {
             {
                 path: `/teaching/class/${this.classId}/progress`, text: 'Điểm danh',
             },
-            {
-                path: `/teaching/class/${this.classId}/registers`, text: 'Đăng kí',
-            },
-            {
-                path: `/teaching/class/${this.classId}/care`, text: 'Quan tâm',
-            },
+            // {
+            //     path: `/teaching/class/${this.classId}/registers`, text: 'Đăng kí',
+            // },
+            // {
+            //     path: `/teaching/class/${this.classId}/care`, text: 'Quan tâm',
+            // },
         ];
         this.state = {
             showModalClassLesson: false,
@@ -412,7 +412,7 @@ class ClassContainer extends React.Component {
         this.path = this.props.location.pathname;
         let classData = this.props.class;
         let {isLoadingClass} = this.props;
-        console.log(this.props);
+
         return (
             <div>
                 <div className="card">
@@ -717,7 +717,7 @@ class ClassContainer extends React.Component {
 
                     </div>
                 </div>
-                <div className="row">
+                {false && <div className="row">
                     <div className="col-md-8">
                         <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
                             <li className={this.path === `/teaching/class/${this.classId}` ? 'active' : ''}>
@@ -1001,7 +1001,7 @@ class ClassContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>}
                 <Modal
                     show={this.state.showModalClassLesson}
                     onHide={this.props.isChangingClassLesson ? null : this.closeModalClassLesson}
