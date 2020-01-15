@@ -222,10 +222,10 @@ class InfoStudentContainer extends React.Component {
 
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == student.gender)[0];
-        let {student, studentActions} = this.props;
+        let {student, studentActions,location} = this.props;
         return (
-            <div className={this.props.location ? "card" : ''}>
-                <div className={this.props.location ? "card-content" : ''}>
+            <div className={location ? "card" : ''}>
+                <div className={location ? "card-content" : ''}>
                     <div className="row">
                         {this.props.isLoadingStudent && <Loading/>}
                         <div className="col-md-4">
@@ -388,7 +388,7 @@ class InfoStudentContainer extends React.Component {
                                                         <CreateRegisterOverlay
                                                             student={student}
                                                             studentId={student.id}
-                                                            className="btn btn-register-action"
+                                                            className="btn btn-actions"
                                                         />
 
                                                         {/*<div className="col-md-3">*/}
@@ -398,7 +398,7 @@ class InfoStudentContainer extends React.Component {
                                                         {/*</div>*/}
 
                                                         <CreateCouponOverlay
-                                                            className="btn btn-register-action"
+                                                            className="btn btn-actions"
 
                                                         />
 

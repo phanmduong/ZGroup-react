@@ -148,7 +148,7 @@ class MoneyRegisterOverlay extends React.Component {
         }
         return (
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action" mask="money"
+                <button className="btn btn-actions" mask="money"
                         onClick={this.toggle} disabled={isLoading} ref="target"
                         data-toggle="tooltip" title=""
                         type="button" rel="tooltip"

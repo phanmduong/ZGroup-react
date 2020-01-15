@@ -43,7 +43,8 @@ class AddClassContainer extends React.Component {
         this.editClass = this.editClass.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        console.log(this.props);
         if (this.props.edit) {
             this.props.classActions.updateFormCreateClass({...this.props.classData});
         } else {
@@ -56,7 +57,7 @@ class AddClassContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
 
-        if (nextProps.isLoadingInfoCreateClass !== this.props.isLoadingInfoCreateClass && !nextProps.isLoadingInfoCreateClass) {
+        if (this.props.isLoadingInfoCreateClass && !nextProps.isLoadingInfoCreateClass) {
             let dataGens = [];
             nextProps.infoCreateClass.gens.forEach(gen => {
                 dataGens.push({
@@ -295,11 +296,11 @@ class AddClassContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.infoCreateClass)
+        console.log(this.props)
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {
-            let {name, description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
+            let {name, link_drive,description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
             return (
                 <div>
                     <form id="form-add-class" onSubmit={(e) => {
@@ -342,6 +343,13 @@ class AddClassContainer extends React.Component {
                             }}
                             value={regis_target}
                             required={true}
+                            type="text"
+                        />
+                        <FormInputText
+                            label="Link Driver"
+                            name="link_drive"
+                            updateFormData={this.updateFormData}
+                            value={link_drive}
                             type="text"
                         />
                         <FormInputText

@@ -106,6 +106,7 @@ export function addClass(classData) {
         'schedule_id': classData.schedule_id,
         'room_id': classData.room_id,
         'description': classData.description,
+        'link_drive': classData.link_drive,
         'gen_id': classData.gen_id,
         'target': classData.target,
         'regis_target': classData.regis_target,

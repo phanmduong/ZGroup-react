@@ -55,7 +55,7 @@ class PurchaseRegisterOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-register-action" mask="money"
+                <button className="btn btn-actions" mask="money"
                         ref="target" onClick={this.toggle}
                         disabled={isChangingStatusCall || true}>
                     Học phí
