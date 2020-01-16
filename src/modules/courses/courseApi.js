@@ -1,15 +1,15 @@
-import axios    from 'axios';
+import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadCoursesData(page=1,query='') {
+export function loadCoursesData(page = 1, query = '') {
 
-    let url     = env.MANAGE_API_URL + "/v2/course/get-all";
-    let token   = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/v2/course/get-all";
+    let token = localStorage.getItem('token');
     if (token) {
-        url +=  "?token="   + token +
-                "&page="    + page  +
-                '&search='  + query +
-                '&limit=10';
+        url += "?token=" + token +
+            "&page=" + page +
+            '&search=' + query +
+            '&limit=10';
     }
     return axios.get(url);
 }
@@ -49,16 +49,17 @@ export function deleteLesson(id) {
     let url = env.MANAGE_API_URL + "/v2/lesson/delete-lesson/";
     let token = localStorage.getItem('token');
     if (token) {
-        url += id+"?token=" + token;
+        url += id + "?token=" + token;
     }
     return axios.delete(url);
     //manageapi.keetool.tk/v2/lesson/delete-lesson/{lessonId}?token=
 }
+
 export function deleteLink(id) {
     let url = env.MANAGE_API_URL + "/v2/course/delete-link/";
     let token = localStorage.getItem('token');
     if (token) {
-        url += id+"?token=" + token;
+        url += id + "?token=" + token;
     }
     return axios.delete(url);
     //http://manageapi.keetool.tk/v2/course/delete-link/{link_id}?token=
@@ -71,7 +72,7 @@ export function createEditCourse(data) {
         url += "?token=" + token;
     }
     // let categories = JSON.stringify(data.categories.map(obj => { return ({id: obj.id});}));
-    let categories = JSON.stringify(data.categories? [{id:data.categories.id}] : []);
+    let categories = JSON.stringify(data.categories ? [{id: data.categories.id}] : []);
     data = {
         ...data,
         categories,
@@ -128,9 +129,10 @@ export function editPixel(pixelId, data) {
     }
     return axios.put(url, data);
 }
-export function editTerm( data) {
+
+export function editTerm(data) {
     //http://manageapi.keetool.xyz/v2/lesson/term/1/edit?token=
-    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + data.id +"/edit";
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + data.id + "/edit";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -146,6 +148,7 @@ export function deletePixel(pixelId) {
     }
     return axios.delete(url);
 }
+
 export function deleteTerm(termId) {
     let url = env.MANAGE_API_URL + "/v2/lesson/term/" + termId + "/delete";
     let token = localStorage.getItem('token');
@@ -157,13 +160,14 @@ export function deleteTerm(termId) {
 
 export function changeStatusCourse(course) {
     //http://manageapi.keetool.xyz/v2/course/1/change-status?token=
-    let url = env.MANAGE_API_URL + "/v2/course/"+ course.id +"/change-status";
+    let url = env.MANAGE_API_URL + "/v2/course/" + course.id + "/change-status";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.put(url, {status: !course.status});
 }
+
 export function loadAllTypes() {
     //manageapi.keetool.xyz/course/type?token=
     let url = env.MANAGE_API_URL + "/course/type";
@@ -190,9 +194,9 @@ export function createCategory(data) {
     let url = env.MANAGE_API_URL + "/course/category";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token ;
+        url += "?token=" + token;
     }
-    return axios.post(url,data);
+    return axios.post(url, data);
 }
 
 export function editCategory(data) {
@@ -200,11 +204,10 @@ export function editCategory(data) {
     let url = env.MANAGE_API_URL + "/course/category/" + data.id;
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token ;
+        url += "?token=" + token;
     }
-    return axios.put(url,data);
+    return axios.put(url, data);
 }
-
 
 
 export function duplicateCourse(id) {
@@ -234,8 +237,8 @@ export function duplicateTerm(id) {
     return axios.post(url);
 }
 
-export function changeOrderCourse(course,order_number) {
-    let url = env.MANAGE_API_URL + "/v2/course/"+ course.id +"/change-order";
+export function changeOrderCourse(course, order_number) {
+    let url = env.MANAGE_API_URL + "/v2/course/" + course.id + "/change-order";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -243,8 +246,8 @@ export function changeOrderCourse(course,order_number) {
     return axios.put(url, {order_number});
 }
 
-export function changeTermLesson(lessonId,termId){
-    let url = env.MANAGE_API_URL + "/v2/course/lesson/edit-term/"+lessonId;
+export function changeTermLesson(lessonId, termId) {
+    let url = env.MANAGE_API_URL + "/v2/course/lesson/edit-term/" + lessonId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -262,7 +265,7 @@ export function createLesson(data) {
         url += data.course_id + "?token=" + token;
     }
     return axios.post(url, {
-        name : data.name,
+        name: data.name,
         description: data.description,
         course_id: data.course_id,
         detail: data.detail,
@@ -271,8 +274,30 @@ export function createLesson(data) {
         detail_content: data.detail_content,
         detail_teacher: data.detail_teacher,
         image_url: data.image_url,
-        audio_url:data.audio_url,
-        video_url:data.video_url,
+        audio_url: data.audio_url,
+        video_url: data.video_url,
+
+    });
+}
+
+export function createExamTemplate(data) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.NEW_MANAGE_API_URL + "/exam/template/create";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        name: data.name,
+        title: data.title,
+        description: data.description,
+        avatar_url: data.avatar_url,
+        course_id: data.course_id,
+        lesson_id: data.lesson_id,
+        deadline: data.deadline,
+        order: data.order,
+        weight: data.weight,
+        group_exam_id: data.group_exam_id
 
     });
 }

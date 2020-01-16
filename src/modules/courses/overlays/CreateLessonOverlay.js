@@ -42,27 +42,6 @@ class CreateLessonOverlay extends React.Component {
         this.setState({lesson});
     }
 
-    // checkValidate = () => {
-    //     let errors = [];
-    //     const {course} = this.props;
-    //     if (helper.isEmptyInput(course.name)) {
-    //         errors.push('Bạn cần nhập tên!');
-    //     }
-    //     if (helper.isEmptyInput(course.description)) {
-    //         errors.push('Bạn cần nhập mô tả ngắn!');
-    //     }
-    //     if (helper.isEmptyInput(course.price)) {
-    //         errors.push('Bạn cần nhập giá!');
-    //     }
-    //     if (helper.isEmptyInput(course.duration)) {
-    //         errors.push('Bạn cần nhập số buổi!');
-    //     }
-    //
-    //     errors.forEach((e) => helper.showErrorNotification(e));
-    //
-    //     return !errors.length;
-    // };
-
     componentDidMount() {
         helper.setFormValidation('#form-lesson');
     }

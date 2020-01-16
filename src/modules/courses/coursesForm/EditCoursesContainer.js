@@ -44,6 +44,10 @@ class EditCoursesContainer extends React.Component {
         this.setState({openModalEdit: false});
     }
 
+    openModalCreateExam = () => {
+        this.props.coursesActions.toggleModalExam();
+    }
+
     render() {
         const {data: course} = this.props
         return (
@@ -130,8 +134,9 @@ class EditCoursesContainer extends React.Component {
                                         <CreateDocumentOverlay className="btn btn-silver"/>
                                         <div className="btn btn-silver"
                                              ref="target"
+                                             onClick={this.openModalCreateExam}
                                         >
-                                            Thêm buổi Topic/Test
+                                            Thêm buổi Test
                                         </div>
                                     </div>
                                     <div className="margintop-10">
@@ -143,7 +148,7 @@ class EditCoursesContainer extends React.Component {
                                                 </IndexLink>
                                             </li>
                                             <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
-                                                <Link to={`${this.urlType}/curriculum`}>
+                                                <Link to={`${this.urlType}/exam-template`}>
                                                     Bài kiểm tra &#160;
                                                     <div className="ripple-container"/>
                                                 </Link>

@@ -31,6 +31,7 @@ import EditCoursesContainer from "../modules/courses/coursesForm/EditCoursesCont
 import EvaluateTeachingContainer from "../modules/evaluateTeaching/EvaluateTeachingContainer";
 import EvaluatePersonTeachingContainer from "../modules/evaluateTeaching/Personal/EvaluatePersonTeachingContainer";
 import EvaluateClassesContainer from "../modules/evaluateClasses/EvaluateClassesContainer";
+import coursesCreateEditExamTemplate from "../modules/courses/coursesForm/coursesCreateEditExamTemplate";
 
 /**
  * Tab Teaching
@@ -106,6 +107,10 @@ export default [
             {
                 path: "documents",
                 component: coursesCreateEditDocuments
+            },
+            {
+                path: "exam-template",
+                component: coursesCreateEditExamTemplate
             },
             {
                 path: "term",

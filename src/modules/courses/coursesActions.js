@@ -665,7 +665,7 @@ export function createLesson(data, courseid, callback) {
     return function (dispatch) {
         data.course_id = courseid;
         dispatch({type: types.BEGIN_CREATE_LESSON_COURSE, data: data});
-        lessonsApi.createLesson(data)
+        courseApi.createLesson(data)
             .then(res => {
                 helper.showNotification("Tạo Thành Công!");
                 dispatch({
@@ -678,5 +678,32 @@ export function createLesson(data, courseid, callback) {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
                 dispatch({type: types.CREATE_LESSON_COURSE_ERROR});
             });
+    };
+}
+
+export function createExamTemplate(data, callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_EXAM_TEMPLATE_COURSE});
+        courseApi.createExamTemplate(data)
+            .then(res => {
+                helper.showNotification("Tạo Thành Công!");
+                dispatch({
+                    type: types.CREATE_EXAM_TEMPLATE_COURSE_SUCCESS,
+                    exam_template: res.data.exam_template
+                });
+                if (callback) callback();
+            })
+            .catch(() => {
+                helper.sweetAlertError("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_EXAM_TEMPLATE_COURSE_ERROR});
+            });
+    };
+}
+
+export function toggleModalExam() {
+    return function (dispatch) {
+        dispatch({
+            type: types.TOGGLE_MODAL_EXAM_COURSE
+        });
     };
 }

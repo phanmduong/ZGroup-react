@@ -697,8 +697,6 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.CREATE_LESSON_COURSE_SUCCESS: {
-            console.log(action.data)
-            console.log(state.data.lessons)
             return {
                 ...state,
                 ...{
@@ -715,6 +713,42 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isCommittingLesson: false
+                }
+            };
+        }
+        case types.TOGGLE_MODAL_EXAM_COURSE: {
+            return {
+                ...state,
+                ...{
+                    modalExam: !state.modalExam
+                }
+            };
+        }
+        case types.BEGIN_CREATE_EXAM_TEMPLATE_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: true
+                }
+            };
+        }
+        case types.CREATE_EXAM_TEMPLATE_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: false,
+                    data: {
+                        ...state.data,
+                        exam_templates: [...state.data.exam_templates, action.exam_template]
+                    }
+                }
+            };
+        }
+        case types.CREATE_EXAM_TEMPLATE_COURSE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: false
                 }
             };
         }

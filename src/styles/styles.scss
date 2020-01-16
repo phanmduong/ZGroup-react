@@ -1921,9 +1921,10 @@ table tr td .avatar-honor {
       text-align: right;
 
     }
-    a{
+
+    a {
       color: black;
-      font-weight: bold!important;
+      font-weight: bold !important;
     }
 
   }
@@ -1972,9 +1973,10 @@ table tr td .avatar-honor {
   margin-top: 0;
   flex-wrap: wrap;
   will-change: unset !important;
+
   &:hover, & {
-    background-color: #F7F5F7!important;
-    color: black!important;
+    background-color: #F7F5F7 !important;
+    color: black !important;
 
   }
 
@@ -1999,13 +2001,15 @@ table tr td .avatar-honor {
       font-size: 25px;
     }
   }
+
   &[mask=extra-table] {
     padding: 7px 5px !important;
 
-    background-color: transparent!important;
+    background-color: transparent !important;
     float: right;
+
     .material-icons {
-      font-size: 25px!important;
+      font-size: 25px !important;
     }
   }
 
@@ -2103,6 +2107,10 @@ ul.nav.nav-pills.nav-pills-dark {
   padding-left: 15px;
   padding-right: 15px;
   border: none;
+}
+
+.overlay-container, .form-modal {
+
 
   &[mask=lead] {
     left: unset !important;
@@ -2155,7 +2163,7 @@ ul.nav.nav-pills.nav-pills-dark {
 
   &[mask=extra-table] {
     width: 150px;
-    left: unset!important;
+    left: unset !important;
     right: 0;
     margin-top: 30px;
     padding: 15px 5px;
@@ -2176,6 +2184,26 @@ ul.nav.nav-pills.nav-pills-dark {
     padding-bottom: 0;
   }
 
+  .Select-control {
+    border: none;
+    background-color: #f3f4f3;
+    cursor: pointer;
+    box-shadow: none !important;
+  }
+
+  .Select-value {
+    max-width: 230px;
+  }
+
+  .Select-input input {
+    padding: 10px 0px !important;
+  }
+
+  .Select-placeholder {
+    display: flex;
+    align-items: center;
+  }
+
   &.kt-overlay {
     z-index: 101 !important;
     top: unset !important;
@@ -2186,31 +2214,14 @@ ul.nav.nav-pills.nav-pills-dark {
       font-weight: 500;
       margin-bottom: -5px;
       margin-top: 10px;
-      &.error{
+
+      &.error {
         font-weight: 300;
         color: #c50000;
       }
     }
 
-    .Select-control {
-      border: none;
-      background-color: #f3f4f3;
-      cursor: pointer;
-      box-shadow: none !important;
-    }
 
-    .Select-value {
-      max-width: 230px;
-    }
-
-    .Select-input input {
-      padding: 10px 0px !important;
-    }
-
-    .Select-placeholder {
-      display: flex;
-      align-items: center;
-    }
 
     .panel-body {
       padding: 0;
@@ -2323,6 +2334,15 @@ ul.nav.nav-pills.nav-pills-dark {
   //    }
   //  }
   //}
+}
+
+.form-modal{
+  label{
+    margin-top: 10px;
+  }
+  label.error{
+    color: #c50000;
+  }
 }
 
 .import-data-container {

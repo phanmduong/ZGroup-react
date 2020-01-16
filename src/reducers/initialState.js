@@ -1707,6 +1707,7 @@ export default {
         isLoading: false,
         isDuplicating: false,
         isUploadingLinkIcon: false,
+        isStoringExam: false,
         isUploadingLink: false,
         isUploadingPixel: false,
         isUploadingTermIcon: false,
@@ -1715,6 +1716,7 @@ export default {
         error: false,
         coursesList: [],
         isDeleting: false,
+        modalExam: false,
         paginator: {
             total_count: 1,
             total_pages: 1,
