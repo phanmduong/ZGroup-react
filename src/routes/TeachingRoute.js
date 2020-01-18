@@ -18,9 +18,9 @@ import StudySessionContainer from "../modules/studySession/StudySessionContainer
 import ClassContainer from "../modules/classes/class/ClassContainer";
 import InfoClassContainer from "../modules/classes/class/info/InfoClassContainer";
 import HistoryTeachingContainer from "../modules/classes/class/historyTeaching/HistoryTeachingContainer";
-import RegistersClassContainer from "../modules/classes/class/registers/RegistersContainer";
+import ClassCheckinCheckoutContainer from "../modules/classes/class/registers/ClassCheckinCheckoutContainer";
 import ProgressClassContainer from "../modules/classes/class/progress/ProgressContainer";
-import CareClassContainer from "../modules/classes/class/care/CareContainer";
+import ScoreClassContainer from "../modules/classes/class/care/ScoreClassContainer";
 import InfoStudentContainer from "../modules/infoStudent/InfoStudentContainer";
 import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
@@ -178,16 +178,16 @@ export default [
                 component: HistoryTeachingContainer
             },
             {
-                path: "registers",
-                component: RegistersClassContainer
+                path: "checkin-checkout",
+                component: ClassCheckinCheckoutContainer
             },
             {
                 path: "progress",
                 component: ProgressClassContainer
             },
             {
-                path: "historyCollectMoney",
-                component: CareClassContainer
+                path: "score",
+                component: ScoreClassContainer
             }
         ]
     },

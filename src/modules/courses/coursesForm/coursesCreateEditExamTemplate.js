@@ -7,9 +7,8 @@ import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
-import {NO_IMAGE} from '../../../constants/env';
 import * as helper from '../../../helpers/helper';
-import {isEmptyInput} from "../../../helpers/helper";
+import {isEmptyInput} from '../../../helpers/helper';
 import ImageUploader from "../../../components/common/ImageUploader";
 import ReactSelect from "react-select";
 
@@ -17,7 +16,7 @@ const DEADLINE = Array.from(Array(45).keys()).map((item) => {
     return {
         value: item + 1,
         label: item + 1 + " ngày",
-    }
+    };
 });
 
 class coursesCreateEditExamTemplate extends React.Component {
@@ -61,23 +60,23 @@ class coursesCreateEditExamTemplate extends React.Component {
         let {name, value} = event.target;
         let data = {...this.state.data};
         data[name] = value;
-        this.setState({data: data})
+        this.setState({data: data});
     };
 
     uploadAvatar = (url) => {
         let data = {...this.state.data};
         data["avatar_url"] = url;
         this.setState({data});
-    }
+    };
 
     getSelectLesson = (course) => {
         return course.lessons.map((item) => {
             return {
                 value: item.id,
                 label: item.name,
-            }
+            };
         });
-    }
+    };
 
     onSelected = (e, key) => {
         let data = {...this.state.data};
@@ -89,9 +88,9 @@ class coursesCreateEditExamTemplate extends React.Component {
         if (this.checkValidate()) {
             this.props.coursesActions.createExamTemplate({...this.state.data, course_id: this.props.course.id}, () => {
                 this.closeModal();
-            })
+            });
         }
-    }
+    };
 
     render() {
         const {data} = this.state;

@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as courseApi from './courseApi';
 import * as helper from '../../helpers/helper';
-import * as lessonsApi from "../lessons/lessonsApi";
 
 /*eslint no-console: 0 */
 export function createLink(link, func) {

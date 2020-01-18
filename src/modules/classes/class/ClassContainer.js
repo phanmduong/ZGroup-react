@@ -28,22 +28,23 @@ class ClassContainer extends React.Component {
         super(props, context);
         this.classId = this.props.params.classId;
         this.path = '';
+        this.routePrefix = `/teaching/class/${this.classId}`;
         this.routes = [
             {
-                path: `/teaching/class/${this.classId}`, text: 'Tổng quan',
+                path: `${this.routePrefix}`, text: 'Tổng quan',
             },
             {
-                path: `/teaching/class/${this.classId}/history-teaching`, text: 'Chương trình học',
+                path: `${this.routePrefix}/history-teaching`, text: 'Chương trình học',
             },
             {
-                path: `/teaching/class/${this.classId}/progress`, text: 'Điểm danh',
+                path: `${this.routePrefix}/progress`, text: 'Điểm danh',
             },
-            // {
-            //     path: `/teaching/class/${this.classId}/registers`, text: 'Đăng kí',
-            // },
-            // {
-            //     path: `/teaching/class/${this.classId}/care`, text: 'Quan tâm',
-            // },
+            {
+                path: `${this.routePrefix}/checkin-checkout`, text: 'Checkin',
+            },
+            {
+                path: `${this.routePrefix}/score`, text: 'Điểm học viên',
+            },
         ];
         this.state = {
             showModalClassLesson: false,
