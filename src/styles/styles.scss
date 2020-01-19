@@ -2222,7 +2222,6 @@ ul.nav.nav-pills.nav-pills-dark {
     }
 
 
-
     .panel-body {
       padding: 0;
     }
@@ -2336,11 +2335,12 @@ ul.nav.nav-pills.nav-pills-dark {
   //}
 }
 
-.form-modal{
-  label{
+.form-modal {
+  label {
     margin-top: 10px;
   }
-  label.error{
+
+  label.error {
     color: #c50000;
   }
 }
@@ -3466,6 +3466,9 @@ $min-height-step-content: 500px;
 }
 
 .white-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+
   &.table-striped > tbody > tr:nth-of-type(odd) {
     background-color: white;
   }
@@ -3473,4 +3476,128 @@ $min-height-step-content: 500px;
   tbody > tr > td, tbody > tr > th, tfoot > tr > td, tfoot > tr > th, thead > tr > td, thead > tr > th {
     border-top: none !important;
   }
+
+  tbody > tr {
+    cursor: pointer;
+    margin-bottom: 5px;
+  }
+
+
+  tr > td:first-child, tr > th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-left: 10px !important;
+  }
+
+  tr > td:last-child, tr > th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  tbody > tr:hover {
+    background-color: #f5f5f5 !important;
+  }
+
+  .Select-control {
+    border: none;
+    background-color: #f3f4f3;
+    cursor: pointer;
+    box-shadow: none !important;
+  }
+
+  .Select-value {
+    max-width: 230px;
+  }
+
+  .Select-input input {
+    padding: 10px 0px !important;
+  }
+
+  .Select-placeholder {
+    display: flex;
+    align-items: center;
+  }
 }
+
+.overlay-select-create {
+  .btn-overlay-select {
+    padding: 10px 10px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  .item-select {
+    .btn-action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 5px;
+
+      a i {
+        border-radius: 5px;
+        padding: 12px 10px;
+        width: 35px;
+        height: 100%;
+        background-color: #f3f4f3;
+        color: black;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.div-table {
+  .tr {
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+
+  .tr > .td {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    .Select {
+      width: 100%;
+    }
+  }
+
+  .tr > .td:first-child, .tr > .td:first-child {
+    padding-left: 10px !important;
+  }
+
+  .tr:hover {
+    background-color: #f5f5f5 !important;
+  }
+
+  .Select-control {
+    border: none;
+    background-color: #f3f4f3;
+    cursor: pointer;
+    box-shadow: none !important;
+  }
+
+  .Select-value {
+    max-width: 230px;
+  }
+
+  .Select-input input {
+    padding: 10px 0px !important;
+  }
+
+  .Select-placeholder {
+    display: flex;
+    align-items: center;
+  }
+}
+
+

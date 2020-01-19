@@ -7,11 +7,13 @@ import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
-import {NO_IMAGE} from '../../../constants/env';
 import * as helper from '../../../helpers/helper';
 import {isEmptyInput} from "../../../helpers/helper";
 import ImageUploader from "../../../components/common/ImageUploader";
 import ReactSelect from "react-select";
+import SelectGroupExamOverlay from "../overlays/SelectGroupExamOverlay";
+import {confirm} from "../../../helpers/helper";
+import TooltipButton from "../../../components/common/TooltipButton";
 
 const DEADLINE = Array.from(Array(45).keys()).map((item) => {
     return {
@@ -46,7 +48,7 @@ class coursesCreateEditExamTemplate extends React.Component {
 
     closeModal() {
         this.props.coursesActions.toggleModalExam();
-        //this.props.coursesActions.loadOneCourse(this.props.data.id);
+        this.setState({data: {}});
     }
 
     checkValidate() {
@@ -85,12 +87,101 @@ class coursesCreateEditExamTemplate extends React.Component {
         this.setState({data});
     };
 
+    onChangeDeadline = (e, template) => {
+        const value = e ? e.value : null;
+        template.deadline = value;
+        this.props.coursesActions.editExamTemplate(template);
+    };
+
+    duplicate = (template) => {
+        this.props.coursesActions.duplicateExamTemplate(template);
+    };
+
+    onChangeLesson = (e, template) => {
+        const value = e ? e.value : null;
+        template.lesson_id = value;
+        this.props.coursesActions.editExamTemplate(template);
+    };
+
+    onSelectedGroup = (group_id) => {
+        let data = {...this.state.data};
+        data["group_exam_id"] = group_id;
+        this.setState({data});
+    };
+
     onSave = () => {
         if (this.checkValidate()) {
-            this.props.coursesActions.createExamTemplate({...this.state.data, course_id: this.props.course.id}, () => {
-                this.closeModal();
-            })
+            if (isEmptyInput(this.state.data.id)) {
+                this.props.coursesActions.createExamTemplate({
+                    ...this.state.data,
+                    course_id: this.props.course.id
+                }, () => {
+                    this.closeModal();
+                })
+            } else {
+                this.props.coursesActions.editExamTemplate(this.state.data, () => {
+                    this.closeModal();
+                })
+            }
         }
+    }
+
+    onDelete = (template) => {
+        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá", () => {
+            this.props.coursesActions.deleteExamTemplate(template.id);
+        });
+    }
+
+    renderItem = (template) => {
+        return (
+            <div className="flex flex-row tr" key={template.id}>
+                <div className="td" style={{width: '20%'}}><strong>{template.title}</strong></div>
+                <div className="td" style={{width: '10%'}}>{template.description}</div>
+                <div className="td" style={{width: '10%'}}>Hệ số {template.weight}</div>
+                <div className="td" style={{width: '30%'}}>
+                    <TooltipButton text={"Chọn buổi diễn ra"} placement="top">
+                        <ReactSelect
+                            options={this.getSelectLesson(this.props.course)}
+                            onChange={(e) => this.onChangeLesson(e, {...template})}
+                            value={template.lesson_id}
+                            placeholder="Buổi diễn ra"
+                        />
+                    </TooltipButton>
+                </div>
+                <div className="td" style={{width: '20%'}}>
+                    <TooltipButton text={"Chọn hạn chót"} placement="top">
+                        <ReactSelect
+                            options={DEADLINE}
+                            onChange={(e) => this.onChangeDeadline(e, {...template})}
+                            value={template.deadline}
+                            placeholder="Hạn chót"
+                        />
+                    </TooltipButton>
+                </div>
+                <div className="td" style={{width: '10%'}}>
+                    <ButtonGroupAction
+                        edit={() => {
+                            return this.openModal(template);
+                        }}
+                        delete={() => {
+                            return this.onDelete(template)
+                        }}
+                        object={template}
+                    >
+                        <a data-toggle="tooltip" title="Duplicate"
+                           type="button"
+                           onClick={() => {
+                               return this.duplicate(template);
+                           }}
+                           rel="tooltip"
+                        >
+                            <i className="material-icons">control_point_duplicate</i>
+                        </a>
+                    </ButtonGroupAction>
+                </div>
+            </div>
+
+        );
     }
 
     render() {
@@ -98,40 +189,36 @@ class coursesCreateEditExamTemplate extends React.Component {
         const {isStoringExam} = this.props;
         return (
             <div>
-
-
-                <div className="table-responsive">
-
-                    <table id="datatables"
-                           className="table white-table table-striped table-no-bordered table-hover"
-                           cellSpacing="0" width="100%" style={{width: "100%"}}>
-                        <tbody>
-                        {this.props.course.exam_templates.map((template) => {
-                            return (
-                                <tr key={template.id}>
-                                    <td><strong>{template.title}</strong></td>
-                                    <td>{template.description}</td>
-                                    <td>Hệ số {template.weight}</td>
-                                    <td style={{width: 50}}>
-                                        <ButtonGroupAction
-                                            edit={() => {
-                                                return this.openModal(template);
-                                            }}
-                                            delete={() => {
-                                                // return this.deleteLink(template.id);
-                                            }}
-                                            object={template}
-                                        />
-                                    </td>
-                                </tr>
-                            );
-
-                        })}
-                        </tbody>
-                    </table>
+                <div className="div-table">
+                    {
+                        this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
+                            .map((template) => {
+                                    return this.renderItem(template)
+                                }
+                            )
+                    }
                 </div>
-                <Modal show={this.props.modalExam} onHide={this.closeModal} bsSize="large">
-                    <Modal.Header closeButton>
+                {this.props.course.group_exams.map((group) => {
+                    return (
+                        <div>
+                            <div style={{
+                                fontWeight: 'bold',
+                                fontSize: 18,
+                                marginTop: 30,
+                                marginBottom: 10
+                            }}>{group.name}</div>
+                            <div className="div-table">
+                                {this.props.course.exam_templates.filter((template) => template.group_exam_id == group.id)
+                                    .map((template) => {
+                                        return this.renderItem(template)
+                                    })}
+                            </div>
+                        </div>
+                    );
+                })}
+
+                <Modal show={this.props.modalExam} bsSize="large">
+                    <Modal.Header>
                         <div className="title">{isEmptyInput(data.id) ? "Tạo mẫu bài test" : "Sửa mẫu bài test"}</div>
                         <div style={{textAlign: 'center'}}>Môn {this.props.course.name}</div>
                     </Modal.Header>
@@ -143,12 +230,10 @@ class coursesCreateEditExamTemplate extends React.Component {
                                 <div className="col-md-8">
                                     <div>
                                         <label>Nhóm bài test</label>
-                                        <ReactSelect
-                                            // options={this.getSelectTerm(course)}
-                                            // onChange={this.selectedTerm}
-                                            // value={lesson.term_id}
-                                            placeholder="Chọn nhóm bài test"
-                                        /></div>
+                                        <SelectGroupExamOverlay className="btn-overlay-select"
+                                                                value={data.group_exam_id}
+                                                                onChange={this.onSelectedGroup}/>
+                                    </div>
                                     <div>
                                         <label>Tên bài test</label>
                                         <FormInputText

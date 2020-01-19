@@ -8,6 +8,7 @@ import * as helper from '../../../helpers/helper';
 import {NO_IMAGE} from "../../../constants/env";
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
+import ReactSelect from "react-select";
 
 let id;
 
@@ -152,6 +153,19 @@ class coursesCreateEditCurriculum extends React.Component {
             });
         });
     }
+
+    getSelectTerm = (course) => {
+        return course.terms.map((item) => {
+            return {
+                value: item.id,
+                label: item.name,
+            }
+        });
+    }
+
+    selectedTerm = (lesson, e) => {
+        this.props.coursesActions.changeTermLesson(lesson.id, e ? e.value : null);
+    };
 
 
     render() {
@@ -332,28 +346,34 @@ class coursesCreateEditCurriculum extends React.Component {
                                     }}>{lesson.description}
                                     </td>
                                     <td>
-                                        {(
-                                            (<select className="form-control" value={lesson.term_id}
-                                                     onChange={(event) => {
-                                                         this.props.coursesActions.changeTermLesson(lesson.id, event.target.value);
-                                                     }}
-                                            >
-                                                <option
-                                                    value={null}
-                                                />
+                                        <ReactSelect
+                                            options={this.getSelectTerm(this.props.data)}
+                                            onChange={(e) => this.selectedTerm(lesson, e)}
+                                            value={lesson.term_id}
+                                            placeholder="Chọn học phần"
+                                        />
+                                        {/*{(*/}
+                                        {/*    (<select className="form-control" value={lesson.term_id}*/}
+                                        {/*             onChange={(event) => {*/}
+                                        {/*                 this.props.coursesActions.changeTermLesson(lesson.id, event.target.value);*/}
+                                        {/*             }}*/}
+                                        {/*    >*/}
+                                        {/*        <option*/}
+                                        {/*            value={null}*/}
+                                        {/*        />*/}
 
 
-                                                {this.props.data.terms.map((term, key) => {
-                                                    return (
-                                                        <option
-                                                            key={key}
-                                                            value={term.id}
-                                                        >
-                                                            {term.name}
-                                                        </option>);
-                                                })}
-                                            </select>))
-                                        }
+                                        {/*        {this.props.data.terms.map((term, key) => {*/}
+                                        {/*            return (*/}
+                                        {/*                <option*/}
+                                        {/*                    key={key}*/}
+                                        {/*                    value={term.id}*/}
+                                        {/*                >*/}
+                                        {/*                    {term.name}*/}
+                                        {/*                </option>);*/}
+                                        {/*        })}*/}
+                                        {/*    </select>))*/}
+                                        {/*}*/}
                                     </td>
                                     <td style={{width: 85}}><ButtonGroupAction
                                         editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}

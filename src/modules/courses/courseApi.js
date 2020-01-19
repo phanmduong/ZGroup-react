@@ -301,3 +301,73 @@ export function createExamTemplate(data) {
 
     });
 }
+
+export function editExamTemplate(data) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.NEW_MANAGE_API_URL + "/exam/template/" + data.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        name: data.name,
+        title: data.title,
+        description: data.description,
+        avatar_url: data.avatar_url,
+        lesson_id: data.lesson_id,
+        deadline: data.deadline,
+        order: data.order,
+        weight: data.weight,
+        group_exam_id: data.group_exam_id
+
+    });
+}
+
+export function deleteExamTemplate(template_id) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.NEW_MANAGE_API_URL + "/exam/template/" + template_id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
+export function createGroupExam(data) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.NEW_MANAGE_API_URL + "/exam/group/create";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        name: data.name,
+        description: data.description,
+        course_id: data.course_id,
+        order: data.order,
+    });
+}
+
+export function editGroupExam(data) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.NEW_MANAGE_API_URL + "/exam/group/" + data.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        name: data.name,
+        description: data.description,
+        order: data.order,
+    });
+}
+
+export function duplicateExamTemplate(data) {
+    //manageapi.homestead.app/v2/lesson/create-lesson/{courseId}?token=
+    let url = env.NEW_MANAGE_API_URL + "/exam/template/" + data.id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}

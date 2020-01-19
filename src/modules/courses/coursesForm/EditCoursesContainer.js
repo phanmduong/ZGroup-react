@@ -10,7 +10,7 @@ import * as coursesActions from '../coursesActions';
 import Loading from "../../../components/common/Loading";
 import * as helper from '../../../helpers/helper';
 
-import {Link, IndexLink} from 'react-router';
+import {Link, IndexLink, browserHistory} from 'react-router';
 import {dotNumber} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import {Modal} from "react-bootstrap";
@@ -46,6 +46,8 @@ class EditCoursesContainer extends React.Component {
 
     openModalCreateExam = () => {
         this.props.coursesActions.toggleModalExam();
+        console.log(`${this.urlType}/exam-template`);
+        browserHistory.push(`${this.urlType}/exam-template`);
     }
 
     render() {
@@ -69,7 +71,7 @@ class EditCoursesContainer extends React.Component {
 
                                             <h4 className="card-title  margintop-10">{course.name}</h4>
 
-                                            <h6 className="category text-gray text-email">
+                                            <h6 className="category text-gray text-email" style={{textTransform: "none!important"}}>
                                                 {course.description}
 
                                             </h6>
@@ -128,7 +130,7 @@ class EditCoursesContainer extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-8">
-                                    <div className="flex flex-wrap">
+                                    <div className="flex flex-wrap" style={{marginTop: 5}}>
                                         <CreateCurriculumOverlay className="btn btn-silver"/>
                                         <CreateTermOverlay className="btn btn-silver"/>
                                         <CreateDocumentOverlay className="btn btn-silver"/>
@@ -136,7 +138,7 @@ class EditCoursesContainer extends React.Component {
                                              ref="target"
                                              onClick={this.openModalCreateExam}
                                         >
-                                            Thêm buổi Test
+                                            Thêm bài kiểm tra
                                         </div>
                                     </div>
                                     <div className="margintop-10">
@@ -147,7 +149,7 @@ class EditCoursesContainer extends React.Component {
                                                     <div className="ripple-container"/>
                                                 </IndexLink>
                                             </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
+                                            <li className={this.props.location.pathname === `${this.urlType}/exam-template` ? 'active' : ''}>
                                                 <Link to={`${this.urlType}/exam-template`}>
                                                     Bài kiểm tra &#160;
                                                     <div className="ripple-container"/>
@@ -159,12 +161,12 @@ class EditCoursesContainer extends React.Component {
                                                     <div className="ripple-container"/>
                                                 </Link>
                                             </li>
-                                            <li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>
-                                                <Link to={`${this.urlType}/pixel`}>
-                                                    Nhận xét &#160;
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
+                                            {/*<li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>*/}
+                                            {/*    <Link to={`${this.urlType}/pixel`}>*/}
+                                            {/*        Nhận xét &#160;*/}
+                                            {/*        <div className="ripple-container"/>*/}
+                                            {/*    </Link>*/}
+                                            {/*</li>*/}
                                         </ul>
                                         <div>{this.props.children}</div>
                                     </div>

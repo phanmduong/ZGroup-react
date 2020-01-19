@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as courseApi from './courseApi';
 import * as helper from '../../helpers/helper';
-import * as lessonsApi from "../lessons/lessonsApi";
 
 /*eslint no-console: 0 */
 export function createLink(link, func) {
@@ -650,11 +649,16 @@ export function changeOrderCourse(course, order, callback) {
 }
 
 export function changeTermLesson(lessonId, termId) {
-    return function () {
-        helper.showNotification("Đang thay đổi học phần");
+    return function (dispatch) {
+        helper.showNotification("Đang thay đổi học phần", "info");
         courseApi.changeTermLesson(lessonId, termId)
             .then(() => {
                 helper.showNotification("Thay đổi học phần thành công");
+                dispatch({
+                    type: types.CHANGE_TERM_LESSON_COURSE_SUCCESS,
+                    lesson_id: lessonId,
+                    term_id: termId
+                });
             }).catch(() => {
             helper.showErrorNotification("Thay đổi học phần thất bại");
         });
@@ -675,7 +679,7 @@ export function createLesson(data, courseid, callback) {
                 if (callback) callback();
             })
             .catch(() => {
-                helper.sweetAlertError("Có lỗi xảy ra! ");
+                helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.CREATE_LESSON_COURSE_ERROR});
             });
     };
@@ -694,8 +698,101 @@ export function createExamTemplate(data, callback) {
                 if (callback) callback();
             })
             .catch(() => {
-                helper.sweetAlertError("Có lỗi xảy ra! ");
+                helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.CREATE_EXAM_TEMPLATE_COURSE_ERROR});
+            });
+    };
+}
+
+export function duplicateExamTemplate(data, callback) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang tạo bản sao", "info")
+        courseApi.duplicateExamTemplate(data)
+            .then(res => {
+                helper.showNotification("Tạo Thành Công!");
+                dispatch({
+                    type: types.CREATE_EXAM_TEMPLATE_COURSE_SUCCESS,
+                    exam_template: res.data.exam_template
+                });
+                if (callback) callback();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+            });
+    };
+}
+
+export function editExamTemplate(data, callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_EXAM_TEMPLATE_COURSE});
+        helper.showTypeNotification("Đang sửa", "info")
+        courseApi.editExamTemplate(data)
+            .then(res => {
+                helper.showNotification("Sửa Thành Công!");
+                dispatch({
+                    type: types.EDIT_EXAM_TEMPLATE_COURSE_SUCCESS,
+                    exam_template: res.data.exam_template
+                });
+                if (callback) callback();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.EDIT_EXAM_TEMPLATE_COURSE_ERROR});
+            });
+    };
+}
+
+export function deleteExamTemplate(template_id) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang xóa", "info")
+        courseApi.deleteExamTemplate(template_id)
+            .then(() => {
+                helper.showNotification("Xóa Thành Công!");
+                dispatch({
+                    type: types.DELETE_EXAM_TEMPLATE_COURSE_SUCCESS,
+                    exam_template: {id: template_id}
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+            });
+    };
+}
+
+export function createGroupExam(data, callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_GROUP_EXAM_COURSE});
+        courseApi.createGroupExam(data)
+            .then(res => {
+                helper.showNotification("Tạo Thành Công!");
+                dispatch({
+                    type: types.CREATE_GROUP_EXAM_COURSE_SUCCESS,
+                    group_exam: res.data.group_exam
+                });
+                if (callback) callback();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_GROUP_EXAM_COURSE_ERROR});
+            });
+    };
+}
+
+export function editGroupExam(data, callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_GROUP_EXAM_COURSE});
+        courseApi.editGroupExam(data)
+            .then(res => {
+                helper.showNotification("Sửa Thành Công!");
+                dispatch({
+                    type: types.EDIT_GROUP_EXAM_COURSE_SUCCESS,
+                    group_exam: res.data.group_exam
+                });
+                if (callback) callback();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.EDIT_GROUP_EXAM_COURSE_ERROR});
             });
     };
 }

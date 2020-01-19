@@ -752,6 +752,138 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         }
+        case types.BEGIN_EDIT_EXAM_TEMPLATE_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: true
+                }
+            };
+        }
+        case types.EDIT_EXAM_TEMPLATE_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: false,
+                    data: {
+                        ...state.data,
+                        exam_templates:
+                            state.data.exam_templates.map((item) => {
+                                if (item.id == action.exam_template.id) {
+                                    return {...action.exam_template}
+                                } else {
+                                    return item
+                                }
+                            })
+                    }
+                }
+            };
+        }
+        case types.EDIT_EXAM_TEMPLATE_COURSE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: false
+                }
+            };
+        }
+        case types.DELETE_EXAM_TEMPLATE_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isStoringExam: false,
+                    data: {
+                        ...state.data,
+                        exam_templates:
+                            state.data.exam_templates.filter((item) =>
+                                item.id != action.exam_template.id
+                            )
+                    }
+                }
+            };
+        }
+        case types.BEGIN_CREATE_GROUP_EXAM_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isStoringGroupExam: true
+                }
+            };
+        }
+        case types.CREATE_GROUP_EXAM_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isStoringGroupExam: false,
+                    data: {
+                        ...state.data,
+                        group_exams: [...state.data.group_exams, action.group_exam]
+                    }
+                }
+            };
+        }
+        case types.CREATE_GROUP_EXAM_COURSE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isStoringGroupExam: false
+                }
+            };
+        }
+        case types.BEGIN_EDIT_GROUP_EXAM_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isStoringGroupExam: true
+                }
+            };
+        }
+        case types.EDIT_GROUP_EXAM_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isStoringGroupExam: false,
+                    data: {
+                        ...state.data,
+                        group_exams: state.data.group_exams.map((item) => {
+                            if (item.id == action.group_exam.id) {
+                                return {...action.group_exam}
+                            } else {
+                                return item
+                            }
+                        })
+                    }
+                }
+            };
+        }
+        case types.EDIT_GROUP_EXAM_COURSE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isStoringGroupExam: false
+                }
+            };
+        }
+        case types.CHANGE_TERM_LESSON_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    data: {
+                        ...state.data,
+                        lessons: state.data.lessons.map((item) => {
+                            if (item.id == action.lesson_id) {
+                                return {
+                                    ...item,
+                                    term_id: action.term_id
+                                }
+                            } else {
+                                return item
+                            }
+                        })
+                    }
+                }
+            };
+        }
         default:
             return state;
     }

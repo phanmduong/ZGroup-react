@@ -1707,6 +1707,7 @@ export default {
         isLoading: false,
         isDuplicating: false,
         isUploadingLinkIcon: false,
+        isStoringGroupExam: false,
         isStoringExam: false,
         isUploadingLink: false,
         isUploadingPixel: false,
