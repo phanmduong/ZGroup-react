@@ -8,7 +8,7 @@ import React from 'react';
 // import ProjectListContainer from "../modules/tasks/project/ProjectListContainer";
 // import MarketingCampaignContainer from "../modules/marketingCampaign/MarketingCampaignContainer";
 // import ClassesContainer from "../modules/classes/ClassesContainer";
-// import RegistersClassContainer from "../modules/classes/class/registers/RegistersContainer";
+// import RegistersClassContainer from "../modules/classes/class/registers/ClassCheckinCheckoutContainer";
 // import ProfileContainer from "../modules/profile/ProfileContainer";
 // import ProcessListContainer from "../modules/book/ProcessListContainer";
 // import InfoCustomerContainer from "../modules/customer/InfoCustomerContainer";
@@ -68,7 +68,7 @@ import AppContainer from "../containers/AppContainer";
 // import StatisticSales from "../modules/summarySales/StatisticSales";
 // import StudySessionContainer from "../modules/studySession/StudySessionContainer";
 // import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
-// import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
+// import ClassCheckinCheckoutContainer from "../modules/infoStudent/registers/ClassCheckinCheckoutContainer";
 // import coursesCreateEditCurriculum from "../modules/courses/coursesForm/coursesCreateEditCurriculum";
 // import StoreImportContainer from "../modules/importGoods/importGood/StoreImportContainer";
 // import EditRoleContainer from "../modules/role/EditRoleContainer";
@@ -167,7 +167,7 @@ export default (
 
         {/*Begin info student routes*/}
         {/*<Route path="/info-student/:studentId" component={InfoStudentContainer}>*/}
-        {/*<IndexRoute component={RegistersContainer}/>*/}
+        {/*<IndexRoute component={ClassCheckinCheckoutContainer}/>*/}
         {/*<Route path="history-calls" component={HistoryCallContainer}/>*/}
         {/*<Route path="progress" component={ProgressContainer}/>*/}
         {/*<Route path="historyCollectMoney" component={CareContainer}/>*/}

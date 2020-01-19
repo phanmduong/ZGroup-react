@@ -263,6 +263,7 @@ table tr td .avatar-list-staff {
 .container-dot-bottom-right {
   position: relative;
   z-index: 10;
+  width: 40px;
 }
 
 .dot-bottom-right {
@@ -1475,6 +1476,26 @@ table tr td .avatar-honor {
 
 }
 
+.table-narrow{
+  tr > td, tr > th {
+    padding: 0px 10px !important;
+  }
+
+}
+
+.table-no-border{
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    border: none;
+  }
+}
+
+@media (min-width: 1080px){
+  .modal-lg {
+    width: 1120px;
+  }
+}
+
+
 .card {
   box-shadow: none !important;
 }
@@ -2222,6 +2243,7 @@ ul.nav.nav-pills.nav-pills-dark {
     }
 
 
+
     .panel-body {
       padding: 0;
     }
@@ -2335,12 +2357,11 @@ ul.nav.nav-pills.nav-pills-dark {
   //}
 }
 
-.form-modal {
-  label {
+.form-modal{
+  label{
     margin-top: 10px;
   }
-
-  label.error {
+  label.error{
     color: #c50000;
   }
 }
@@ -2873,6 +2894,12 @@ $min-height-step-content: 500px;
 
 .btn-white {
   color: black !important;
+}
+.btn-grey {
+  &,&:hover{
+    background-color: #f7f5f7 !important;
+    color: black;
+  }
 }
 
 
@@ -3601,3 +3628,15 @@ $min-height-step-content: 500px;
 }
 
 
+
+.exam-input{
+  //width: 42px;
+  //height: 42px;
+  input{
+    padding: 20px 10px!important;
+    background-color: #f3f4f3!important;
+    border-radius: 5px!important;
+    background-image: none!important;
+    border: none;
+  }
+}

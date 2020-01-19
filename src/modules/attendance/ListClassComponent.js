@@ -48,8 +48,7 @@ class ListClassComponent extends React.Component {
                                                 </button>
                                             </td>
                                             <td>
-                                                <a onClick={() => {
-                                                }}>{classItem.name}</a>
+                                                <a onClick={() => {}}>{classItem.name}</a>
                                             </td>
                                             <td>
                                                 {
