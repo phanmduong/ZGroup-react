@@ -231,7 +231,7 @@ class ScoreClassContainer extends React.Component {
                                 </tr>
                                 <tr>
                                     <td/>
-                                    {classData.group_exams.map((group, index) => {
+                                    {classData.group_exams.map((group) => {
                                         let exams = classData.exams.filter(e => e.group_exam_id == group.id);
 
                                         return exams.map((exam, i2) => {
