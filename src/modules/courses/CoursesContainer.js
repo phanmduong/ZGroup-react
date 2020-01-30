@@ -45,6 +45,7 @@ class CoursesContainer extends React.Component {
     loadCourses(page = 1) {
         this.setState({page});
         this.props.coursesActions.loadCourses(page);
+        console.log("khai code đầu năm");
     }
 
     deleteCourse(course) {
