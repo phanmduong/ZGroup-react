@@ -45,8 +45,10 @@ class ListClass extends React.Component {
                         <tbody>
                         {
                             this.props.classes.map((classItem) => {
+                                let color = classItem.total_register  >= classItem.regis_target ? 'success' : '';
+
                                 return (
-                                    <tr key={classItem.id}>
+                                    <tr key={classItem.id} className={color}>
                                         <td>
                                             <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                                     data-toggle="tooltip" title="" type="button" rel="tooltip"

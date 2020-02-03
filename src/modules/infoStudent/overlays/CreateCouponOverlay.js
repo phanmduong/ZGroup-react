@@ -195,7 +195,7 @@ class CreateCouponOverlay extends React.Component {
                                                 placeholder="yyyy/mm/dd"
                                                 updateFormData={this.updateFormData}
                                                 required
-                                                id="form-start-time"
+                                                id="form-coupon-start-time"
                                                 maxDate={coupon.end_time !== '' ? coupon.end_time : ''}
                                             />
                                         </div>
@@ -208,7 +208,7 @@ class CreateCouponOverlay extends React.Component {
                                                 placeholder="yyyy/mm/dd"
                                                 updateFormData={this.updateFormData}
                                                 required
-                                                id="form-end-time"
+                                                id="form-coupon-end-time"
                                                 minDate={coupon.start_time !== '' ? coupon.start_time : ''}
                                             />
                                         </div>
