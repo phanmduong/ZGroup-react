@@ -212,11 +212,11 @@ export function changeStatusPause(registerId) {
     );
 }
 
-export function loadClasses(registerId, isGenNow) {
+export function loadClasses(registerId, query) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes_without_waiting?token=` + token;
-    if (isGenNow) {
-        url += '&is_gen_now=1';
+    if (query) {
+        url += '&search='+query;
     }
     return axios.get(url);
 }

@@ -556,12 +556,12 @@ class RegisterListContainer extends React.Component {
         this.setState({showModalChangeClass: false});
     };
 
-    openModalChangeClass = (registerId, isGenNow) => {
+    openModalChangeClass = (registerId) => {
         this.setState({
             showModalChangeClass: true,
             selectRegisterId: registerId
         });
-        this.props.registerActions.loadClasses(registerId, isGenNow);
+        this.props.registerActions.loadClasses(registerId);
     };
 
     viewCall = (register) => {
@@ -1520,16 +1520,15 @@ class RegisterListContainer extends React.Component {
                         <Modal.Title>Thay đổi lớp đăng kí</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {this.props.isLoadingClasses ?
-                            <Loading/>
-                            :
+
                             <ListClass
                                 classes={this.props.classes}
+                                registerId={this.state.selectRegisterId}
                                 confirmChangeClass={this.confirmChangeClass}
                                 isChangingClass={this.props.isChangingClass}
                             />
 
-                        }
+
                     </Modal.Body>
                 </Modal>
 

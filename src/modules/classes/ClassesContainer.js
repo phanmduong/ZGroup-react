@@ -191,13 +191,13 @@ class ClassesContainer extends React.Component {
                 </Modal>
 
 
-                <div className="container">
+                <div>
                     {
                         this.props.isLoadingGens
                             ?
                             <Loading/>
                             :
-                            <div>
+                            <div className="">
 
 
                                     <div className="card" mask="purple">

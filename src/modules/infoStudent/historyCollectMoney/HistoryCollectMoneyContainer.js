@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import * as studentActions from "../studentActions";
 import Loading from "../../../components/common/Loading";
 import {dotNumber} from "../../../helpers/helper";
-import {PAYMENT_METHODS_OBJECT} from "../../../constants/constants";
+import {DISCOUNTYPE, PAYMENT_METHODS_OBJECT} from "../../../constants/constants";
 
 class HistoryCollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -56,6 +56,21 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                         </i>&nbsp; &nbsp; Người thu: {register.collector.name}
                                                     </div>
                                                 }
+                                                {register.coupons && register.coupons.map((coupon,i)=>{
+                                                    let type = DISCOUNTYPE.filter(t => t.id == coupon.discount_type)[0] || {};
+                                                    let text = `${coupon.name}  (-${coupon.discount_value}${type.suffix})`;
+                                                    return (
+                                                        <div className="flex-row-center flex-align-items-center" key={i}>
+                                                            <i className="material-icons">monetization_on
+                                                            </i>&nbsp; &nbsp;
+                                                            <button className="btn btn-xs"
+                                                                style={{margin:'5px 0',background:coupon.color}}
+                                                            >
+                                                                {text}
+                                                            </button>
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                             <div className="timeline-heading margintop-10">
                                                 <div className="flex-row-center">

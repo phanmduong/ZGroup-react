@@ -367,13 +367,13 @@ export function deleteRegisterStudent(registerId) {
     };
 }
 
-export function loadClasses(registerId, isGenNow) {
+export function loadClasses(registerId, query) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT,
         });
         registerStudentsApi
-            .loadClasses(registerId, isGenNow)
+            .loadClasses(registerId, query)
             .then(res => {
                 dispatch({
                     type: types.LOAD_CLASSES_REGISTER_STUDENT_SUCCESS,

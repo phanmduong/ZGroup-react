@@ -250,7 +250,9 @@ class ListRegister extends React.Component {
                                                 register.status <= 4 &&
                                                 <TooltipButton text={register.status == 3 ? "Học lại" : "Đổi lớp"}
                                                                placement={"top"}>
-                                                    <a onClick={() => this.props.openModalChangeClass(register.id, (register.status == 3 || register.status == 2))}
+                                                    <a onClick={() => this.props.openModalChangeClass(register.id
+                                                        // , (register.status == 3 || register.status == 2)
+                                                    )}
                                                        type="button"
                                                     >
                                                         <i className="material-icons">{register.status == 3 ? "restore" : "swap_vertical_circle"}</i>

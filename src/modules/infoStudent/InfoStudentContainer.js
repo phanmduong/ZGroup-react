@@ -273,6 +273,7 @@ class InfoStudentContainer extends React.Component {
                                     <div className="card-content">
                                         <div className="detail-wrap">
                                             <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>
+                                            <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>
                                             <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>
                                             <p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>
                                             <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>

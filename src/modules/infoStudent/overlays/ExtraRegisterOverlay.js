@@ -6,7 +6,6 @@ import * as studentActions from "../studentActions";
 import {bindActionCreators} from "redux";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as helper from "../../../helpers/helper";
-import Loading from "../../../components/common/Loading";
 import ListClass from "../../registerStudents/ListClass";
 import {Modal, Overlay} from 'react-bootstrap';
 
@@ -64,12 +63,12 @@ class ExtraRegisterOverlay extends React.Component {
         });
     };
 
-    openModalChangeClass = (registerId, isGenNow) => {
+    openModalChangeClass = (registerId) => {
         this.setState({
             showModalChangeClass: true,
             selectRegisterId: registerId
         });
-        this.props.registerActions.loadClasses(registerId, isGenNow);
+        this.props.registerActions.loadClasses(registerId);
     };
     closeModalChangeClass = () => {
         if (this.props.isChangingClass) return;
@@ -123,7 +122,9 @@ class ExtraRegisterOverlay extends React.Component {
                         {register && register.status <= 4 &&
                         <button type="button"
                                 className="btn btn-white width-100"
-                                onClick={() => this.openModalChangeClass(register.id, (register.status == 3 || register.status == 2))}>
+                                onClick={() => this.openModalChangeClass(register.id
+                                    // , (register.status == 3 || register.status == 2)
+                                )}>
                             {register.status == 3 ? "Học lại" : "Đổi lớp"}
                         </button>
                         }
@@ -155,16 +156,14 @@ class ExtraRegisterOverlay extends React.Component {
                         <Modal.Title>Thay đổi lớp đăng kí</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {this.props.isLoadingClasses ?
-                            <Loading/>
-                            :
-                            <ListClass
-                                classes={this.props.classes}
-                                confirmChangeClass={this.confirmChangeClass}
-                                isChangingClass={this.props.isChangingClass}
-                            />
 
-                        }
+                        <ListClass
+                            classes={this.props.classes}
+                            registerId={this.state.selectRegisterId}
+                            confirmChangeClass={this.confirmChangeClass}
+                            isChangingClass={this.props.isChangingClass}
+                        />
+
                     </Modal.Body>
                 </Modal>
             </div>
@@ -186,6 +185,7 @@ function mapStateToProps(state) {
         classes: state.registerStudents.classes,
         historyCalls: state.infoStudent.historyCalls,
         isLoadingHistoryCalls: state.infoStudent.isLoadingHistoryCalls,
+        isLoadingClasses: state.registerStudents.isLoadingClasses,
         isChangingClass: state.registerStudents.isChangingClass,
         isChangingStatusCall: state.infoStudent.isChangingStatusCall,
     };
