@@ -191,7 +191,7 @@ class ClassesContainer extends React.Component {
                 </Modal>
 
 
-                <div className="container-fluid">
+                <div className="container">
                     {
                         this.props.isLoadingGens
                             ?

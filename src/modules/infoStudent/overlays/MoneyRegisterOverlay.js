@@ -188,14 +188,14 @@ class MoneyRegisterOverlay extends React.Component {
                                         type="text"
                                         updateFormData={this.updateFormData}
                                     /></div>
-                                {register.coupons && register.coupons.length > 0 &&
+
                                 <div>
                                     <div className="flex flex-space-between flex-align-items-center margintop-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Giá khóa học: </b></div>
                                         <div>{` ${dotNumber(coursePrice)}đ`}</div>
                                     </div>
-                                    {register.coupons.map((coupon, key) => {
+                                    {register.coupons && register.coupons.length > 0 && register.coupons.map((coupon, key) => {
                                         let discountText = coupon.discount_type == 'percentage' ?
                                             coupon.discount_value + '%' :
                                             dotNumber(coupon.discount_value) + 'đ';
@@ -220,7 +220,7 @@ class MoneyRegisterOverlay extends React.Component {
                                         <div>{` ${dotNumber(finalPrice)}đ`}</div>
                                     </div>
                                 </div>
-                                }
+
                                 <div><label>Ghi chú</label>
                                     <FormInputText
                                         name="note"

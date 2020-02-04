@@ -1510,6 +1510,7 @@ export function searchASCII(strOriginal, strSearch) {
 
 
 export function sortCoupon(coupons) {
+    if(!coupons) return [];
     coupons = coupons.sort((a, b) => {
         if ((a.expired && !b.expired)
             || (a.discount_type != 'percentage' && b.discount_type == 'percentage' && a.expired == b.expired)

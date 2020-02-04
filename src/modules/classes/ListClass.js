@@ -4,10 +4,12 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
+import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 
 class ListClass extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.statusRef = 'classes';
     }
 
     typeClass(type) {
@@ -23,7 +25,7 @@ class ListClass extends React.Component {
 
     render() {
         return (
-            <div className="col-xs-12">
+            <div className="col-md-12">
                 <div className="table-responsive table-split">
                     <table className="table"  cellSpacing="0">
                         <thead className="text-rose">
@@ -35,6 +37,7 @@ class ListClass extends React.Component {
                             <th>Khóa</th>
                             <th>Giảng viên</th>
                             <th>Trợ giảng</th>
+                            <th>Trạng thái</th>
                             <th>Trạng thái</th>
                             <th>Loại</th>
                             <th>Nộp tiền</th>
@@ -122,6 +125,14 @@ class ListClass extends React.Component {
                                                     classItem.status === 1 ? 'Mở' : 'Đóng'
                                                 )
                                             }
+                                        </td>
+                                        <td>
+                                            <StatusesOverlay
+                                                data={classItem.classStatus}
+                                                refId={classItem.id}
+                                                statusRef={this.statusRef}
+                                                className="btn status-overlay btn-xs"
+                                            />
                                         </td>
                                         <td>
                                             {this.typeClass(classItem.type)}
