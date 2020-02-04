@@ -82,12 +82,12 @@ class ScoreClassContainer extends React.Component {
                                 {
                                     classData.exams.map((exam, key2) => {
                                         let className = exam.is_taken ? 'success' : '';
-                                        let classNameBtn = 'btn radius-8 margin-right-10' + (exam.is_taken ? ' btn-white' : ' btn-grey');
+                                        let classNameBtn = 'btn radius-8 margin-right-20' + (exam.is_taken ? ' btn-white' : ' btn-grey');
                                         return (exam.group_exam_id == group.id) ? (
 
                                             <tr key={key2} className={className}>
                                                 <td style={{width: '10%'}}>
-                                                    <b className="cursor-pointer" data-toggle="tooltip"
+                                                    <b className="cursor-pointer" data-toggle="tooltip" onClick={() => this.openModalScore(group)}
                                                        title="Xem điểm">{exam.title}</b>
                                                 </td>
                                                 <td style={{width: '15%'}}>
@@ -132,13 +132,14 @@ class ScoreClassContainer extends React.Component {
                         {
                             classData.exams.map((exam, key2) => {
                                 let className = exam.is_taken ? 'success' : '';
-                                let classNameBtn = 'btn radius-8  float-right' + (exam.is_taken ? ' btn-white' : ' btn-grey');
+                                let classNameBtn = 'btn radius-8  margin-right-20' + (exam.is_taken ? ' btn-white' : ' btn-grey');
 
                                 return (exam.group_exam_id == null) ? (
 
                                     <tr key={key2} className={className}>
                                         <td style={{width: '10%'}}>
-                                            <b>{exam.title}</b>
+                                            <b className="cursor-pointer" data-toggle="tooltip" onClick={() => this.openModalScore(this.noGroup)}
+                                               title="Xem điểm">{exam.title}</b>
                                         </td>
                                         <td style={{width: '15%'}}>
 
@@ -151,10 +152,19 @@ class ScoreClassContainer extends React.Component {
                                             Hệ số {exam.weight}
                                         </td>
                                         <td style={{width: '15%'}}>
-                                            <button className={classNameBtn}
-                                                    onClick={() => this.openModalInputScore(exam)}>
-                                                Nhập điểm
-                                            </button>
+                                            <div className="flex flex-align-items-center  float-right">
+                                                <button className={classNameBtn}
+                                                        onClick={() => this.openModalInputScore(exam)}>
+                                                    Nhập điểm
+                                                </button>
+                                                <div onClick={() => this.openModalScore(this.noGroup)}
+                                                     className="cursor-pointer" data-toggle="tooltip"
+                                                     title="Xem điểm">
+                                                    <i className="material-icons">
+                                                        remove_red_eye
+                                                    </i>
+                                                </div>
+                                            </div>
 
                                         </td>
 
@@ -473,6 +483,7 @@ class ScoreClassContainer extends React.Component {
                     console.log(res);
                     showNotification('Lưu thành công!');
                     this.setState({isSavingScore: false, showModalInputScore: false});
+                    this.props.classActions.loadClass(this.classId);
                 }).catch(e => {
                 console.log(e);
                 this.setState({isSavingScore: false});
