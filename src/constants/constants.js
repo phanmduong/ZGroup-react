@@ -716,12 +716,14 @@ export const PAYMENT_METHODS = [
     }
 ];
 
-export const  DISCOUNTYPE = [
+export const DISCOUNTYPE = [
 
-    {suffix:'đ',
+    {
+        suffix: 'đ',
         name: 'Số tiền',
         id: 'fix',
-    },{suffix:'%',
+    }, {
+        suffix: '%',
         name: 'Phần trăm',
         id: 'percentage',
     },
@@ -747,3 +749,19 @@ export const allowedDateFormats = ['DD/MM/YYYY', 'D/M/YYYY', 'DD.MM.YYYY', 'D.M.
     "DD/MM/YYYY HH:mm", "DD/MM/YYYY HH:mm:ss", "DD-MM-YYYY HH:mm", "DD-MM-YYYY HH:mm:ss",
 ];
 
+
+export const HISTORY_CARE_TYPES = {
+    SELECT_OPTIONS: [
+        {value: 'entrance_exam', label: 'Thi đầu vào',},
+        {value: 'study_history', label: 'Lịch sử học tập',},
+        {value: 'note', label: 'Ghi chú',},
+        {value: 'appointment', label: 'Hẹn gặp mặt',},
+    ],
+    OBJECT_OPTIONS: {
+        entrance_exam: {name: 'Thi đầu vào', icon: 'description', color: '#4fa2f7'},
+        study_history: {name: 'Học tập trước đó', icon: 'hourglass_empty', color: '#fe874e'},
+        note: {name: 'Ghi chú', icon: 'notes', color: '#4855d1'},
+        appointment: {name: 'Hẹn gặp mặt', icon: 'face', color: '#4e9fb4'},
+        null: {name: 'Thông tin', icon: 'info', color: 'grey'}
+    }
+};

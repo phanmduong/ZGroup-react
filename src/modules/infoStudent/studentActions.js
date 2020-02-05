@@ -140,6 +140,21 @@ export function loadLogs(studentId, page) {
             });
     };
 }
+export function loadStudentCareHistory(studentId ) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_STUDENT_CARE_HISTORY});
+        studentApi.loadStudentCareHistory(studentId)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_STUDENT_CARE_HISTORY_SUCCESS,
+                    historyCares: res.data.data,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_STUDENT_CARE_HISTORY_ERROR});
+            });
+    };
+}
 
 export function loadProgress(studentId) {
     return function (dispatch) {

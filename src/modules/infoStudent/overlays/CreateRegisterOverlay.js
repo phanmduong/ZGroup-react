@@ -289,46 +289,46 @@ class CreateRegisterOverlay extends React.Component {
                         </div>
                         {(this.props.isLoadingCourses || this.props.isLoadingCampaigns || isLoadingCoupons) &&
                         <Loading/>}
-                        {!this.props.isSavingRegister && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
+                        {!this.props.isSavingRegister && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns || isLoadingCoupons) &&
                         <form role="form" id="form-info-student">
+                            <div>
+                                <label>Email</label>
+                                <FormInputText
+                                    name="email"
+                                    placeholder="Email học viên"
+                                    required
+                                    disabled={studentId}
+                                    value={register.email}
+                                    updateFormData={this.updateFormData}
+                                /></div>
                             {!studentId && <div>
-                                <div>
-                                    <label>Tên học viên</label>
-                                    <FormInputText
-                                        name="name"
-                                        placeholder="Tên học viên"
-                                        required
-                                        value={register.name}
-                                        updateFormData={this.updateFormData}
-                                    /></div>
-                                <div>
-                                    <label>Tên phụ huynh</label>
-                                    <FormInputText
-                                        name="father_name"
-                                        placeholder="Tên phụ huynh"
-                                        required
-                                        value={register.father_name}
-                                        updateFormData={this.updateFormData}
-                                    /></div>
-                                <div>
-                                    <label>Email</label>
-                                    <FormInputText
-                                        name="email"
-                                        placeholder="Email học viên"
-                                        required
-                                        value={register.email}
-                                        updateFormData={this.updateFormData}
-                                    /></div>
-                                <div>
-                                    <label>Số điện thoại</label>
-                                    <FormInputText
-                                        name="phone"
-                                        placeholder="Số điện thoại học viên"
-                                        required
-                                        value={register.phone}
-                                        updateFormData={this.updateFormData}
-                                    /></div>
-                            </div>}
+                                <label>Tên học viên</label>
+                                <FormInputText
+                                    name="name"
+                                    placeholder="Tên học viên"
+                                    required
+                                    value={register.name}
+                                    updateFormData={this.updateFormData}
+                                /></div>}
+                            <div>
+                                <label>Tên phụ huynh</label>
+                                <FormInputText
+                                    name="father_name"
+                                    placeholder="Tên phụ huynh"
+                                    required
+                                    value={register.father_name}
+                                    updateFormData={this.updateFormData}
+                                /></div>
+                            <div>
+                                <label>Số điện thoại</label>
+                                <FormInputText
+                                    name="phone"
+                                    placeholder="Số điện thoại học viên"
+                                    required
+                                    value={register.phone}
+                                    updateFormData={this.updateFormData}
+                                /></div>
+
                             <div>
                                 <label>Môn học</label>
                                 <ReactSelect
@@ -461,6 +461,14 @@ class CreateRegisterOverlay extends React.Component {
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
                                         <div>
+                                            <label>Email</label>
+                                            <FormInputText
+                                                name="email"
+                                                placeholder="Email"
+                                                value={register.email}
+                                                updateFormData={this.updateFormData}
+                                            /></div>
+                                        <div>
                                             <label>Giới tính</label>
                                             <ReactSelect
                                                 value={register.gender}
@@ -478,33 +486,37 @@ class CreateRegisterOverlay extends React.Component {
                                                 name="dob"
                                             /></div>
                                         <div>
-                                            <label>Địa chỉ</label><ReactSelect
-                                            value={register.address}
-                                            options={this.getDataAddress()}
-                                            onChange={this.updateAddress}
-                                            placeholder="Địa chỉ"
-                                        /></div>
+                                            <label>Địa chỉ</label>
+                                            <ReactSelect
+                                                value={register.address}
+                                                options={this.getDataAddress()}
+                                                onChange={this.updateAddress}
+                                                placeholder="Địa chỉ"
+                                            /></div>
                                         <div>
-                                            <label>Trường học</label><FormInputText
-                                            name="university"
-                                            placeholder="Trường học"
-                                            value={register.university}
-                                            updateFormData={this.updateFormData}
-                                        /></div>
+                                            <label>Trường học</label>
+                                            <FormInputText
+                                                name="university"
+                                                placeholder="Trường học"
+                                                value={register.university}
+                                                updateFormData={this.updateFormData}
+                                            /></div>
                                         <div>
-                                            <label>Nơi làm việc</label><FormInputText
-                                            name="work"
-                                            placeholder="Nơi làm việc"
-                                            value={register.work}
-                                            updateFormData={this.updateFormData}
-                                        /></div>
+                                            <label>Nơi làm việc</label>
+                                            <FormInputText
+                                                name="work"
+                                                placeholder="Nơi làm việc"
+                                                value={register.work}
+                                                updateFormData={this.updateFormData}
+                                            /></div>
                                         <div>
-                                            <label>Lý do biết đến</label><FormInputText
-                                            name="how_know"
-                                            placeholder="Lý do biết đến"
-                                            value={register.how_know}
-                                            updateFormData={this.updateFormData}
-                                        /></div>
+                                            <label>Lý do biết đến</label>
+                                            <FormInputText
+                                                name="how_know"
+                                                placeholder="Lý do biết đến"
+                                                value={register.how_know}
+                                                updateFormData={this.updateFormData}
+                                            /></div>
                                         <div>
                                             <label>Facebook</label>
                                             <FormInputText

@@ -16,7 +16,7 @@ import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer
 import TargetListContainer from '../modules/sales/TargetListContainer';
 // import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
 import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
-import LogsContainer from "../modules/infoStudent/logsStudent/LogsContainer";
+import LogsContainer from "../modules/infoStudent/logsStudent/HistoryCareContainer";
 
 
 /**

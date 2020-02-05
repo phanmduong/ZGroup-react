@@ -146,6 +146,40 @@ export default function studentReducer(state = initialState.infoStudent, action)
                 }
 
             };
+        case types.BEGIN_LOAD_STUDENT_CARE_HISTORY:
+            return {
+                ...state,
+                historyCare: {
+                    ...state.historyCare,
+                    ...{
+                        isLoading: true,
+                        error: false,
+                    }
+                }
+            };
+        case types.LOAD_STUDENT_CARE_HISTORY_SUCCESS:
+            return {
+                ...state,
+                historyCare: {
+                    ...state.historyCare,
+                    ...{
+                        isLoading: false,
+                        historyCares: action.historyCares,
+                    }
+                }
+            };
+        case types.LOAD_STUDENT_CARE_HISTORY_ERROR:
+            return {
+                ...state,
+                historyCare: {
+                    ...state.historyCare,
+                    ...{
+                        isLoading: false,
+                        error: true,
+                    }
+                }
+
+            };
         case types.BEGIN_LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT:
             return {
                 ...state,

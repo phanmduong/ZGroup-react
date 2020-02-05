@@ -125,6 +125,15 @@ export function loadLogs(studentId, page = 1) {
 
     return axios.get(url);
 }
+export function loadStudentCareHistory(studentId) {
+    let url = env.MANAGE_API_URL + `/student/${studentId}/history-cares`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
 
 export function loadProgress(studentId) {
     let url = env.MANAGE_API_URL + `/student/${studentId}/progress`;
@@ -169,6 +178,14 @@ export function changePassword(studentId, newPassword) {
 }
 export function refundStudent(data) {
     let url = env.MANAGE_API_URL + `/student/${data.student_id}/refund`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, data);
+}
+export function createHistoryCareRegister(data) {
+    let url = env.MANAGE_API_URL + `/student/${data.student_id}/create-history-care`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

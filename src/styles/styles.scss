@@ -1476,20 +1476,20 @@ table tr td .avatar-honor {
 
 }
 
-.table-narrow{
+.table-narrow {
   tr > td, tr > th {
     padding: 0px 10px !important;
   }
 
 }
 
-.table-no-border{
-  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+.table-no-border {
+  .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     border: none;
   }
 }
 
-@media (min-width: 1080px){
+@media (min-width: 1080px) {
   .modal-lg {
     width: 1120px;
   }
@@ -2243,7 +2243,6 @@ ul.nav.nav-pills.nav-pills-dark {
     }
 
 
-
     .panel-body {
       padding: 0;
     }
@@ -2338,6 +2337,15 @@ ul.nav.nav-pills.nav-pills-dark {
     background-image: none !important;
     font-size: 12px;
   }
+  .form-control-static {
+    padding: 10px 10px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
+    font-size: 12px;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 
   //.input-note-overlay {
   //  border-radius: 5px;
@@ -2357,11 +2365,12 @@ ul.nav.nav-pills.nav-pills-dark {
   //}
 }
 
-.form-modal{
-  label{
+.form-modal {
+  label {
     margin-top: 10px;
   }
-  label.error{
+
+  label.error {
     color: #c50000;
   }
 }
@@ -2895,8 +2904,9 @@ $min-height-step-content: 500px;
 .btn-white {
   color: black !important;
 }
+
 .btn-grey {
-  &,&:hover{
+  &, &:hover {
     background-color: #f7f5f7 !important;
     color: black;
   }
@@ -3628,21 +3638,20 @@ $min-height-step-content: 500px;
 }
 
 
-
-.exam-input{
+.exam-input {
   //width: 42px;
   //height: 42px;
-  input{
-    padding: 20px 10px!important;
-    background-color: #f3f4f3!important;
-    border-radius: 5px!important;
-    background-image: none!important;
+  input {
+    padding: 20px 10px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
     border: none;
   }
 }
 
-.gray-search{
-  input{
+.gray-search {
+  input {
     padding: 20px 10px !important;
     background-color: #f3f4f3 !important;
     border-radius: 5px !important;

@@ -18,7 +18,7 @@ import RegistersContainer from "./registers/RegistersContainer";
 import HistoryCallContainer from "./historyCalls/HistoryCallContainer";
 import ProgressContainer from "./progress/ProgressContainer";
 import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMoneyContainer";
-import LogsContainer from "./logsStudent/LogsContainer";
+import HistoryCareContainer from "./logsStudent/HistoryCareContainer";
 import CallRegisterOverlay from "./overlays/CallRegisterOverlay";
 import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
 // import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
@@ -30,6 +30,7 @@ import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
 import CreateCouponOverlay from "./overlays/CreateCouponOverlay";
+import CreateRegisterHistoryCareOverlay from "./overlays/CreateRegisterHistoryCareOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -65,7 +66,7 @@ class InfoStudentContainer extends React.Component {
             {
                 path: `/sales/info-student/${this.studentId}/logs`,
                 text: 'Lịch sử chăm sóc',
-                component: <LogsContainer studentId={this.studentId}/>
+                component: <HistoryCareContainer studentId={this.studentId}/>
             },
         ];
         this.state = {
@@ -222,7 +223,7 @@ class InfoStudentContainer extends React.Component {
 
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == student.gender)[0];
-        let {student, studentActions,location} = this.props;
+        let {student, studentActions, location} = this.props;
         return (
             <div className={location ? "card" : ''}>
                 <div className={location ? "card-content" : ''}>
@@ -380,37 +381,26 @@ class InfoStudentContainer extends React.Component {
                                             <div className="timeline-panel">
                                                 <div className="timeline-heading">
                                                     <div className="flex flex-wrap">
-
                                                         <CallRegisterOverlay
                                                             studentId={student.id}
                                                         />
-
-
                                                         <CreateRegisterOverlay
                                                             student={student}
                                                             studentId={student.id}
                                                             className="btn btn-actions"
                                                         />
-
-                                                        {/*<div className="col-md-3">*/}
-                                                        {/*    <PurchaseRegisterOverlay*/}
-                                                        {/*        studentId={student.id}*/}
-                                                        {/*    />*/}
-                                                        {/*</div>*/}
-
                                                         <CreateCouponOverlay
                                                             className="btn btn-actions"
-
                                                         />
-
+                                                        <CreateRegisterHistoryCareOverlay
+                                                            className="btn btn-actions"
+                                                            studentId={student.id}
+                                                            student={student}
+                                                        />
                                                         <ExtraRegisterOverlay
                                                             openModalChangePassword={this.openModalChangePassword}
-
                                                             studentId={student.id}
                                                         />
-
-
-
                                                     </div>
                                                 </div>
                                                 <div className="timeline-body">

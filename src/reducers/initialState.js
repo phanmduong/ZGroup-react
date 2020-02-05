@@ -1226,7 +1226,11 @@ export default {
             error: false,
             logs: [],
             totalPage: 1
-        }
+        },
+        historyCare: {
+            isLoading: false,
+            historyCares: [],
+        },
     },
 
     dashboard: {
