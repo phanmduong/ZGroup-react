@@ -1,6 +1,3 @@
-/**
- * Created by phanmduong on 9/1/17.
- */
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -9,6 +6,7 @@ import * as studentActions from "../studentActions";
 import Loading from "../../../components/common/Loading";
 import {dotNumber} from "../../../helpers/helper";
 import {DISCOUNTYPE, PAYMENT_METHODS_OBJECT} from "../../../constants/constants";
+import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
 
 class HistoryCollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -29,6 +27,22 @@ class HistoryCollectMoneyContainer extends React.Component {
                 {this.props.isLoadingHistoryCollectMoney ? <Loading/>
                     :
                     <ul className="timeline timeline-simple">
+                        <li className="timeline-inverted">
+                            <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
+                                <i className="material-icons">add</i>
+                            </div>
+                            <div className="timeline-panel">
+                                <div className="timeline-heading">
+                                    <div className="flex flex-align-items-center margin-top-5">
+                                        <CreateCouponOverlay
+                                            className="btn btn-actions"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="timeline-body margin-vertical-30"/>
+
+                            </div>
+                        </li>
                         {
                             this.props.historyCollectMoney.map(function (register, index) {
                                 return (
@@ -56,15 +70,16 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                         </i>&nbsp; &nbsp; Người thu: {register.collector.name}
                                                     </div>
                                                 }
-                                                {register.coupons && register.coupons.map((coupon,i)=>{
+                                                {register.coupons && register.coupons.map((coupon, i) => {
                                                     let type = DISCOUNTYPE.filter(t => t.id == coupon.discount_type)[0] || {};
                                                     let text = `${coupon.name}  (-${coupon.discount_value}${type.suffix})`;
                                                     return (
-                                                        <div className="flex-row-center flex-align-items-center" key={i}>
+                                                        <div className="flex-row-center flex-align-items-center"
+                                                             key={i}>
                                                             <i className="material-icons">monetization_on
                                                             </i>&nbsp; &nbsp;
                                                             <button className="btn btn-xs"
-                                                                style={{margin:'5px 0',background:coupon.color}}
+                                                                    style={{margin: '5px 0', background: coupon.color}}
                                                             >
                                                                 {text}
                                                             </button>
@@ -81,7 +96,7 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button className="btn btn-xs btn-success"
-                                                            // style={{width: '70px'}}
+                                                        // style={{width: '70px'}}
                                                     >
                                                         {PAYMENT_METHODS_OBJECT[register.payment_method]}
                                                         <div className="ripple-container"/>

@@ -1,13 +1,11 @@
-/**
- * Created by phanmduong on 9/1/17.
- */
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import PropTypes from 'prop-types';
-// import FormInputDate from "../../../components/common/FormInputDate";
+import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
+
 
 class HistoryCallContainer extends React.Component {
     constructor(props, context) {
@@ -25,9 +23,10 @@ class HistoryCallContainer extends React.Component {
     componentWillMount() {
         this.props.studentActions.loadHistoryCalls(this.studentId);
     }
+
     changeCallStatusStudent = (callStatus, studentId) => {
         this.props.studentActions.changeCallStatusStudent(callStatus, studentId, this.state.note, this.state.appointmentPayment, this.state.dateTest);
-    }
+    };
 
     render() {
         return (
@@ -35,13 +34,28 @@ class HistoryCallContainer extends React.Component {
                 {
                     this.props.isLoadingHistoryCalls ? <Loading/> :
                         <ul className="timeline timeline-simple">
+                            <li className="timeline-inverted">
+                                <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
+                                    <i className="material-icons">add</i>
+                                </div>
+                                <div className="timeline-panel">
+                                    <div className="timeline-heading">
+                                        <div className="flex flex-align-items-center margin-top-5">
+                                            <CallRegisterOverlay
+                                                className="btn btn-actions"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="timeline-body margin-vertical-30"/>
+
+                                </div>
+                            </li>
                             {
                                 this.props.historyCalls.map(function (history, index) {
                                     let btn = '';
                                     if (history.call_status === 'success') {
                                         btn = ' success';
-                                    }
-                                    else if (history.call_status === 'failed') {
+                                    } else if (history.call_status === 'failed') {
                                         btn = ' danger';
                                     } else if (history.call_status === 'calling') {
                                         btn = ' info';

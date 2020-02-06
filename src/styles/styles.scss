@@ -344,6 +344,10 @@ svg:not(:root) {
   margin-top: 10px !important;
 }
 
+.margin-top-5 {
+  margin-top: 5px !important;
+}
+
 .margin-right-10 {
   margin-right: 10px !important;
 }
@@ -1992,6 +1996,7 @@ table tr td .avatar-honor {
   justify-content: space-around;
   align-items: center;
   margin-top: 0;
+  margin-bottom: 5px !important;
   flex-wrap: wrap;
   will-change: unset !important;
 
@@ -2037,7 +2042,8 @@ table tr td .avatar-honor {
 }
 
 ul.nav.nav-pills.nav-pills-dark {
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
+  margin-top: 0px;
 
   li a {
     margin-bottom: 3px;
@@ -2337,6 +2343,7 @@ ul.nav.nav-pills.nav-pills-dark {
     background-image: none !important;
     font-size: 12px;
   }
+
   .form-control-static {
     padding: 10px 10px !important;
     background-color: #f3f4f3 !important;

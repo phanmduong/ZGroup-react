@@ -42,11 +42,11 @@ class CallRegisterOverlay extends React.Component {
     };
 
     changeCallStatusStudent = (callStatus) => {
-        let {studentId} = this.props;
-        let { note, appointmentPayment, dateTest} = this.state;
+        let {student} = this.props;
+        let {note, appointmentPayment, dateTest} = this.state;
         this.props.studentActions.changeCallStatusStudent(
             callStatus,
-            studentId,
+            student.id,
             note,
             appointmentPayment,
             dateTest,
@@ -55,11 +55,11 @@ class CallRegisterOverlay extends React.Component {
     };
 
     render() {
-        let {isChangingStatusCall,register} = this.props;
+        let {isChangingStatusCall, register,} = this.props;
         let style = {};
         let titleCall = 'Cuộc gọi mới';
         let textCall = 'Gọi điện';
-        if(register)
+        if (register)
             if (register.call_status === 'success') {
                 style.backgroundColor = '#4caf50';
                 style.color = 'white';
@@ -85,7 +85,7 @@ class CallRegisterOverlay extends React.Component {
             <div style={{position: "relative"}} className="">
                 <button className={"btn btn-actions"}
                         style={style}
-                        onClick={this.toggle}  mask="call"
+                        onClick={this.toggle} mask="call"
                         data-toggle="tooltip" title="" type="button" rel="tooltip"
                         data-original-title={titleCall}
                         disabled={isChangingStatusCall}>
@@ -100,7 +100,7 @@ class CallRegisterOverlay extends React.Component {
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <div className="kt-overlay overlay-container" style={{
                         width: 300,
-                        top:'unset',
+                        top: 'unset',
                         marginTop: 10
                     }}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
@@ -152,7 +152,7 @@ class CallRegisterOverlay extends React.Component {
                                 </button>
                                 <button type="button"
                                         className="btn btn-success flex flex-space-between width-50-percent"
-                                        style={{backgroundColor:'#2acc4c'}}
+                                        style={{backgroundColor: '#2acc4c'}}
                                         onClick={() => this.changeCallStatusStudent(1)}>
                                     Thành công
                                     <i className="material-icons">phone</i>
@@ -191,6 +191,7 @@ CallRegisterOverlay.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        student: state.infoStudent.student,
         historyCalls: state.infoStudent.historyCalls,
         isLoadingHistoryCalls: state.infoStudent.isLoadingHistoryCalls,
         isChangingStatusCall: state.infoStudent.isChangingStatusCall,

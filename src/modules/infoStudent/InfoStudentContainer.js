@@ -19,18 +19,12 @@ import HistoryCallContainer from "./historyCalls/HistoryCallContainer";
 import ProgressContainer from "./progress/ProgressContainer";
 import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMoneyContainer";
 import HistoryCareContainer from "./logsStudent/HistoryCareContainer";
-import CallRegisterOverlay from "./overlays/CallRegisterOverlay";
-import ExtraRegisterOverlay from "./overlays/ExtraRegisterOverlay";
-// import PurchaseRegisterOverlay from "./overlays/PurchaseRegisterOverlay";
-import CreateRegisterOverlay from "./overlays/CreateRegisterOverlay";
 import SourceOverlay from "./overlays/SourceOverlay";
 import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
 import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
-import CreateCouponOverlay from "./overlays/CreateCouponOverlay";
-import CreateRegisterHistoryCareOverlay from "./overlays/CreateRegisterHistoryCareOverlay";
 
 
 class InfoStudentContainer extends React.Component {
@@ -379,39 +373,35 @@ class InfoStudentContainer extends React.Component {
                                                 <i className="material-icons">star</i>
                                             </div>
                                             <div className="timeline-panel">
-                                                <div className="timeline-heading">
-                                                    <div className="flex flex-wrap">
-                                                        <CallRegisterOverlay
-                                                            studentId={student.id}
-                                                        />
-                                                        <CreateRegisterOverlay
-                                                            student={student}
-                                                            studentId={student.id}
-                                                            className="btn btn-actions"
-                                                        />
-                                                        <CreateCouponOverlay
-                                                            className="btn btn-actions"
-                                                        />
-                                                        <CreateRegisterHistoryCareOverlay
-                                                            className="btn btn-actions"
-                                                            studentId={student.id}
-                                                            student={student}
-                                                        />
-                                                        <ExtraRegisterOverlay
-                                                            openModalChangePassword={this.openModalChangePassword}
-                                                            studentId={student.id}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="timeline-body">
+                                                <div
+                                                    // className="timeline-heading"
+                                                >
                                                     <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                                                         {this.routes.map((route, index) => {
                                                             return this.getRouteItem(route, index);
                                                         })}
                                                     </ul>
-
-
                                                 </div>
+                                                {/*<div className="timeline-body">*/}
+                                                {/*    <div className="flex flex-wrap">*/}
+                                                        {/*<CallRegisterOverlay*/}
+                                                        {/*    studentId={student.id}*/}
+                                                        {/*/>*/}
+                                                        {/*<CreateRegisterOverlay*/}
+                                                        {/*    className="btn btn-actions"*/}
+                                                        {/*/>*/}
+                                                        {/*<CreateCouponOverlay*/}
+                                                        {/*    className="btn btn-actions"*/}
+                                                        {/*/>*/}
+                                                        {/*<CreateRegisterHistoryCareOverlay*/}
+                                                        {/*    className="btn btn-actions"*/}
+                                                        {/*/>*/}
+                                                        {/*<ExtraRegisterOverlay*/}
+                                                        {/*    openModalChangePassword={this.openModalChangePassword}*/}
+                                                        {/*    studentId={student.id}*/}
+                                                        {/*/>*/}
+                                                {/*    </div>*/}
+                                                {/*</div>*/}
 
                                             </div>
 

@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import {HISTORY_CARE_TYPES} from "../../../constants/constants";
+import CreateRegisterHistoryCareOverlay from "../overlays/CreateRegisterHistoryCareOverlay";
 
 class HistoryCareContainer extends React.Component {
     constructor(props, context) {
@@ -27,7 +28,21 @@ class HistoryCareContainer extends React.Component {
             <div className="tab-pane active">
                 {this.props.isLoading ? <Loading/> :
                     <ul className="timeline timeline-simple">
-
+                        <li className="timeline-inverted">
+                            <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
+                                <i className="material-icons">add</i>
+                            </div>
+                            <div className="timeline-panel">
+                                <div className="timeline-heading">
+                                    <div className="flex flex-align-items-center margin-top-5">
+                                        <CreateRegisterHistoryCareOverlay
+                                            className="btn btn-actions"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="timeline-body margin-vertical-30"/>
+                            </div>
+                        </li>
 
                         {this.props.historyCares.map((log, index) => {
                             let type = HISTORY_CARE_TYPES.OBJECT_OPTIONS[log.type];
@@ -43,7 +58,8 @@ class HistoryCareContainer extends React.Component {
                                             <div className="timeline-body">
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
-                                                    &nbsp; &nbsp;{log.date} - Người nhập:<b>&nbsp;&nbsp;{log.creator ? log.creator.name : 'Không có'}</b>
+                                                    &nbsp; &nbsp;{log.date} - Người
+                                                    nhập:<b>&nbsp;&nbsp;{log.creator ? log.creator.name : 'Không có'}</b>
                                                 </div>
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">description</i>

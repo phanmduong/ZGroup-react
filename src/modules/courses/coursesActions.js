@@ -455,10 +455,12 @@ export function loadAllTypes() {
                     });
                 }
             })
-            .catch(() => {
-                helper.showNotification('Có lỗi xảy ra!');
-                dispatch({type: types.LOAD_ALL_TYPES_ERROR});
-            });
+            // .catch((e) => {
+            //     console.log(e);
+            //     helper.showNotification('Có lỗi xảy ra!');
+            //     dispatch({type: types.LOAD_ALL_TYPES_ERROR});
+            // })
+        ;
     };
 }
 

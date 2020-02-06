@@ -17,6 +17,8 @@ import {Modal} from 'react-bootstrap';
 import MoneyRegisterOverlay from "../overlays/MoneyRegisterOverlay";
 import StatusesOverlay from "../overlays/StatusesOverlay";
 import SourceOverlay from "../overlays/SourceOverlay";
+import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
+import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -59,7 +61,6 @@ class RegistersContainer extends React.Component {
             register_id: register.id,
             note: ` - Hoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
         };
-        console.log(data);
         this.props.studentActions.refundStudent(data, () => {
             this.closeModalRefund();
             this.reload();
@@ -72,13 +73,37 @@ class RegistersContainer extends React.Component {
         if (total_lesson && total_lesson_done) {
             refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
         }
-        let {isRefunding} = this.props;
+        let {isRefunding, student} = this.props;
         return (
             <div className="tab-pane active">
+
 
                 {this.props.isLoadingRegisters ? <Loading/>
                     :
                     <ul className="timeline timeline-simple time-line-register">
+                        <li className="timeline-inverted">
+                            <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
+                                <i className="material-icons">add</i>
+                            </div>
+                            <div className="timeline-panel">
+                                <div className="timeline-heading">
+                                    <div className="flex flex-align-items-center margin-top-5">
+                                        <CreateRegisterOverlay
+                                            className="btn btn-actions"
+                                        />
+                                        <CreateCouponOverlay
+                                            className="btn btn-actions"
+                                        />
+                                        <ExtraRegisterOverlay
+                                            openModalChangePassword={this.openModalChangePassword}
+                                            studentId={student.id}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="timeline-body margin-vertical-30"/>
+
+                            </div>
+                        </li>
                         {
                             this.props.registers.map((register, index) => {
 
@@ -94,7 +119,7 @@ class RegistersContainer extends React.Component {
                                                        href={`/teaching/class/${register.class.id}`}><b>{register.class.name}</b></a>
                                                 </h4>
                                                 <div className="timeline-heading">
-                                                    <div className="flex-row-center">
+                                                    <div className="flex-row-center flex-wrap">
                                                         {
                                                             register.saler ?
                                                                 <button className="btn btn-xs"
@@ -164,7 +189,6 @@ class RegistersContainer extends React.Component {
                                                         {/*}*/}
 
                                                     </div>
-
                                                 </div>
                                             </div>
                                             <div className="timeline-body">
@@ -316,6 +340,7 @@ RegistersContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        student: state.infoStudent.student,
         registers: state.infoStudent.registers,
         isChangingPassword: state.infoStudent.isChangingPassword,
         isLoadingRegisters: state.infoStudent.isLoadingRegisters,

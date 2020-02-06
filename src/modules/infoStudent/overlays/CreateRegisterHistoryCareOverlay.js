@@ -19,7 +19,6 @@ class CreateRegisterHistoryCareOverlay extends React.Component {
             show: false,
             isLoading: false,
             log: {
-                student_id: this.props.studentId,
             }
         };
         this.state = this.initState;
@@ -54,12 +53,13 @@ class CreateRegisterHistoryCareOverlay extends React.Component {
         errs.forEach((e) => showErrorNotification(e));
 
         if (!errs.length) {
+            log.student_id = this.props.student.id;
             this.setState({isSaving: true});
             createHistoryCareRegister(log).then((res) => {
                 if (res.data.status != 1) {
                     showErrorNotification('Có lỗi xảy ra!');
                 } else {
-                    this.props.studentActions.loadStudentCareHistory(this.props.studentId);
+                    this.props.studentActions.loadStudentCareHistory(this.props.student.id);
                     this.setState({show: false});
                     showNotification('Lưu thành công!');
                 }
@@ -175,6 +175,7 @@ class CreateRegisterHistoryCareOverlay extends React.Component {
 function mapStateToProps(state) {
     return {
         isLoading: state.infoStudent.historyCare.isLoading,
+        student: state.infoStudent.student,
 
     };
 }

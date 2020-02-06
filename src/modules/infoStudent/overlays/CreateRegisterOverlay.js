@@ -197,7 +197,7 @@ class CreateRegisterOverlay extends React.Component {
             return;
         }
         this.props.createRegisterActions.createRegister(register, () => {
-            this.props.studentActions.loadRegisters(this.props.studentId);
+            this.props.studentActions.loadRegisters(this.props.student.id);
             this.props.discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
             this.close();
         });
@@ -254,8 +254,8 @@ class CreateRegisterOverlay extends React.Component {
 
     render() {
         let {register, coursePrice} = this.state;
-        let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, studentId} = this.props;
-        let classes = (this.props.classes || []).filter(c => register.base_id ? c.base.id == register.base_id : true);
+        let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, student} = this.props;
+        let classes = (this.props.classes || []).filter(c => register.base_id * 1 ? c.base.id == register.base_id : true);
         let statuses = this.props.statuses.registers;
         coupons = this.getCouponSelectOptions([...coupons], register);
         let finalPrice = this.getFinalPrice();
@@ -265,7 +265,7 @@ class CreateRegisterOverlay extends React.Component {
                 <div className={className} mask="create"
                      ref="target" onClick={this.toggle}
                      disabled={isSavingRegister}>
-                    Tạo đăng kí mới {!studentId && <i className="material-icons">
+                    Tạo đăng kí mới {!student.id && <i className="material-icons">
                     add
                 </i>}
                 </div>
@@ -297,11 +297,11 @@ class CreateRegisterOverlay extends React.Component {
                                     name="email"
                                     placeholder="Email học viên"
                                     required
-                                    disabled={studentId}
+                                    disabled={student.id}
                                     value={register.email}
                                     updateFormData={this.updateFormData}
                                 /></div>
-                            {!studentId && <div>
+                            {!student.id && <div>
                                 <label>Tên học viên</label>
                                 <FormInputText
                                     name="name"
@@ -592,6 +592,7 @@ CreateRegisterOverlay.propTypes = {
 function mapStateToProps(state) {
     const {bases, isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
+        student: state.infoStudent.student,
         salers: state.registerStudents.salerFilter,
         bases,
         statuses: state.infoStudent.statuses,
