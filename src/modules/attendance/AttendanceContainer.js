@@ -83,7 +83,7 @@ class AttendanceContainer extends React.Component {
         // }
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
             this.loadClasses(1, this.state.query, '', nextProps.selectedBaseId, this.state.selectGenId);
-            this.setState({selectedBaseId: nextProps.selectedBaseId})
+            this.setState({selectedBaseId: nextProps.selectedBaseId});
         }
     }
 

@@ -19,13 +19,13 @@ class Store {
                     weekday: day.value,
                     start_time: day.start_time,
                     end_time: day.end_time,
-                }
+                };
             });
         createScheduleApi(this.name, studySessions).then((res) => {
-            callback(res.data.schedule)
+            callback(res.data.schedule);
         }).finally(() => {
-            this.isLoading = false
-        })
+            this.isLoading = false;
+        });
     }
 }
 

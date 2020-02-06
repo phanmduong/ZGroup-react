@@ -51,7 +51,7 @@ class EditCoursesContainer extends React.Component {
     }
 
     render() {
-        const {data: course} = this.props
+        const {data: course} = this.props;
         return (
             <div className="margintop-10">
                 <div className={"card"}>
@@ -65,8 +65,7 @@ class EditCoursesContainer extends React.Component {
                                                 <div className="img father"
                                                      style={{
                                                          backgroundImage: `url(${helper.validateLinkImage(course.icon_url)})`
-                                                     }}>
-                                                </div>
+                                                     }} />
                                             </div>
 
                                             <h4 className="card-title  margintop-10">{course.name}</h4>
@@ -113,7 +112,7 @@ class EditCoursesContainer extends React.Component {
                                             </div>
                                             <button className="btn width-100"
                                                     onClick={() => {
-                                                        this.setState({openModalEdit: true})
+                                                        this.setState({openModalEdit: true});
                                                     }}
                                             >Sửa thông tin
                                             </button>
@@ -169,7 +168,7 @@ class EditCoursesContainer extends React.Component {
                                             {/*    </Link>*/}
                                             {/*</li>*/}
                                         </ul>
-                                        {/*<div>{this.props.children}</div>*/}
+                                        <div>{this.props.children}</div>
                                     </div>
                                 </div>
                                 <Modal show={this.state.openModalEdit} bsSize="large">

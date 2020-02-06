@@ -11,7 +11,7 @@ class DateRangePicker extends React.Component {
             start = props.start;
             end = props.end;
         } else {
-            end = moment()
+            end = moment();
             start = moment().subtract(30, "days");
         }
 
@@ -91,7 +91,7 @@ class DateRangePicker extends React.Component {
             apply: 'Áp dụng',
             cancel: 'Đóng',
 
-        }
+        };
         let maxDate = moment(end).add(24, "hour");
         let value = `${this.state.start.format(
             "DD-MM-YYYY"

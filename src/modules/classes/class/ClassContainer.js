@@ -429,14 +429,11 @@ class ClassContainer extends React.Component {
                                             <div className="img"
                                                  style={{
                                                      backgroundImage: `url(${helper.validateLinkImage(classData.course.icon_url)})`
-                                                 }}>
-                                            </div>}
+                                                 }} />}
 
                                         </div>
 
-                                        <div className="flex flex-row-center flex-justify-content-center margintop-10">
-
-                                        </div>
+                                        <div className="flex flex-row-center flex-justify-content-center margintop-10" />
 
                                         <h4 className="card-title">{classData.name}</h4>
 
@@ -446,9 +443,7 @@ class ClassContainer extends React.Component {
                                             <div>{classData.room && classData.room.name}</div>
                                         </div>
                                         <h6 className="category text-gray text-email">
-                                            <span>
-
-                                            </span>
+                                            <span />
 
                                         </h6>
                                     </div>

@@ -5,16 +5,16 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
-import {Modal} from 'react-bootstrap';
-import FormInputText from '../../../components/common/FormInputText';
+// import {Modal} from 'react-bootstrap';
+// import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
 import {isEmptyInput} from '../../../helpers/helper';
-import ImageUploader from "../../../components/common/ImageUploader";
+// import ImageUploader from "../../../components/common/ImageUploader";
 import ReactSelect from "react-select";
-import SelectGroupExamOverlay from "../overlays/SelectGroupExamOverlay";
+// import SelectGroupExamOverlay from "../overlays/SelectGroupExamOverlay";
 import {confirm} from "../../../helpers/helper";
 import TooltipButton from "../../../components/common/TooltipButton";
-import AnalyticExamModal from "./AnalyticExamModal";
+// import AnalyticExamModal from "./AnalyticExamModal";
 
 const DEADLINE = Array.from(Array(45).keys()).map((item) => {
     return {
@@ -121,11 +121,11 @@ class coursesCreateEditExamTemplate extends React.Component {
                     course_id: this.props.course.id
                 }, () => {
                     this.closeModal();
-                })
+                });
             } else {
                 this.props.coursesActions.editExamTemplate(this.state.data, () => {
                     this.closeModal();
-                })
+                });
             }
         }
     }
@@ -168,7 +168,7 @@ class coursesCreateEditExamTemplate extends React.Component {
                             return this.openModal(template);
                         }}
                         delete={() => {
-                            return this.onDelete(template)
+                            return this.onDelete(template);
                         }}
                         object={template}
                     >
@@ -194,8 +194,8 @@ class coursesCreateEditExamTemplate extends React.Component {
     }
 
     render() {
-        const {data} = this.state;
-        const {isStoringExam} = this.props;
+        // const {data} = this.state;
+        // const {isStoringExam} = this.props;
         return (
             <div>
                 <div>
@@ -208,9 +208,9 @@ class coursesCreateEditExamTemplate extends React.Component {
                     </div>
                     <div className="div-table">
                         {
-                            this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
+                            this.props.course.exam_templates && this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
                                 .map((template) => {
-                                        return this.renderItem(template)
+                                        return this.renderItem(template);
                                     }
                                 )
                         }
@@ -228,113 +228,113 @@ class coursesCreateEditExamTemplate extends React.Component {
                                 <div onClick={() => this.analyticExam(group)}>Phân tích</div>
                             </div>
                             <div className="div-table">
-                                {this.props.course.exam_templates.filter((template) => template.group_exam_id == group.id)
+                                {this.props.course.exam_templates && this.props.course.exam_templates.filter((template) => template.group_exam_id == group.id)
                                     .map((template) => {
-                                        return this.renderItem(template)
+                                        return this.renderItem(template);
                                     })}
                             </div>
                         </div>
                     );
                 })}
 
-                <Modal show={this.props.modalExam} bsSize="large">
-                    <Modal.Header>
-                        <div className="title">{isEmptyInput(data.id) ? "Tạo mẫu bài test" : "Sửa mẫu bài test"}</div>
-                        <div style={{textAlign: 'center'}}>Môn {this.props.course.name}</div>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form id="form-exam-template" className="form-modal" onSubmit={(e) => {
-                            e.preventDefault();
-                        }}>
-                            <div className="row">
-                                <div className="col-md-8">
-                                    <div>
-                                        <label>Nhóm bài test</label>
-                                        <SelectGroupExamOverlay className="btn-overlay-select"
-                                                                value={data.group_exam_id}
-                                                                onChange={this.onSelectedGroup}/>
-                                    </div>
-                                    <div>
-                                        <label>Tên bài test</label>
-                                        <FormInputText
-                                            placeholder="Tên bài test"
-                                            name="title"
-                                            required
-                                            updateFormData={this.updateFormData}
-                                            value={data.title}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Trọng số</label>
-                                        <FormInputText
-                                            placeholder="Trọng số"
-                                            required
-                                            type="number"
-                                            name="weight"
-                                            updateFormData={this.updateFormData}
-                                            value={data.weight}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Mô tả</label>
-                                        <FormInputText
-                                            placeholder="Mô tả"
-                                            name="description"
-                                            updateFormData={this.updateFormData}
-                                            value={data.description}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Hạn chót</label>
-                                        <ReactSelect
-                                            options={DEADLINE}
-                                            onChange={(e) => this.onSelected(e, "deadline")}
-                                            value={data.deadline}
-                                            placeholder="Chọn hạn chót"
-                                        /></div>
-                                    <div>
-                                        <label>Diễn ra vào buổi</label>
-                                        <ReactSelect
-                                            options={this.getSelectLesson(this.props.course)}
-                                            onChange={(e) => this.onSelected(e, "lesson_id")}
-                                            value={data.lesson_id}
-                                            placeholder="Chọn buổi diễn ra"
-                                        /></div>
+                {/*<Modal show={this.props.modalExam} bsSize="large">*/}
+                {/*    <Modal.Header>*/}
+                {/*        <div className="title">{isEmptyInput(data.id) ? "Tạo mẫu bài test" : "Sửa mẫu bài test"}</div>*/}
+                {/*        <div style={{textAlign: 'center'}}>Môn {this.props.course.name}</div>*/}
+                {/*    </Modal.Header>*/}
+                {/*    <Modal.Body>*/}
+                {/*        <form id="form-exam-template" className="form-modal" onSubmit={(e) => {*/}
+                {/*            e.preventDefault();*/}
+                {/*        }}>*/}
+                {/*            <div className="row">*/}
+                {/*                <div className="col-md-8">*/}
+                {/*                    <div>*/}
+                {/*                        <label>Nhóm bài test</label>*/}
+                {/*                        <SelectGroupExamOverlay className="btn-overlay-select"*/}
+                {/*                                                value={data.group_exam_id}*/}
+                {/*                                                onChange={this.onSelectedGroup}/>*/}
+                {/*                    </div>*/}
+                {/*                    <div>*/}
+                {/*                        <label>Tên bài test</label>*/}
+                {/*                        <FormInputText*/}
+                {/*                            placeholder="Tên bài test"*/}
+                {/*                            name="title"*/}
+                {/*                            required*/}
+                {/*                            updateFormData={this.updateFormData}*/}
+                {/*                            value={data.title}*/}
+                {/*                        />*/}
+                {/*                    </div>*/}
+                {/*                    <div>*/}
+                {/*                        <label>Trọng số</label>*/}
+                {/*                        <FormInputText*/}
+                {/*                            placeholder="Trọng số"*/}
+                {/*                            required*/}
+                {/*                            type="number"*/}
+                {/*                            name="weight"*/}
+                {/*                            updateFormData={this.updateFormData}*/}
+                {/*                            value={data.weight}*/}
+                {/*                        />*/}
+                {/*                    </div>*/}
+                {/*                    <div>*/}
+                {/*                        <label>Mô tả</label>*/}
+                {/*                        <FormInputText*/}
+                {/*                            placeholder="Mô tả"*/}
+                {/*                            name="description"*/}
+                {/*                            updateFormData={this.updateFormData}*/}
+                {/*                            value={data.description}*/}
+                {/*                        />*/}
+                {/*                    </div>*/}
+                {/*                    <div>*/}
+                {/*                        <label>Hạn chót</label>*/}
+                {/*                        <ReactSelect*/}
+                {/*                            options={DEADLINE}*/}
+                {/*                            onChange={(e) => this.onSelected(e, "deadline")}*/}
+                {/*                            value={data.deadline}*/}
+                {/*                            placeholder="Chọn hạn chót"*/}
+                {/*                        /></div>*/}
+                {/*                    <div>*/}
+                {/*                        <label>Diễn ra vào buổi</label>*/}
+                {/*                        <ReactSelect*/}
+                {/*                            options={this.getSelectLesson(this.props.course)}*/}
+                {/*                            onChange={(e) => this.onSelected(e, "lesson_id")}*/}
+                {/*                            value={data.lesson_id}*/}
+                {/*                            placeholder="Chọn buổi diễn ra"*/}
+                {/*                        /></div>*/}
 
-                                </div>
-                                <div className="col-md-4">
-                                    <div>
-                                        <label>Ảnh đại diện</label>
-                                        <ImageUploader
-                                            handleFileUpload={this.uploadAvatar}
-                                            tooltipText="Chọn ảnh đại diện"
-                                            image_url={data.avatar_url}
-                                            image_size={2}
-                                        />
-                                    </div>
-                                </div>
+                {/*                </div>*/}
+                {/*                <div className="col-md-4">*/}
+                {/*                    <div>*/}
+                {/*                        <label>Ảnh đại diện</label>*/}
+                {/*                        <ImageUploader*/}
+                {/*                            handleFileUpload={this.uploadAvatar}*/}
+                {/*                            tooltipText="Chọn ảnh đại diện"*/}
+                {/*                            image_url={data.avatar_url}*/}
+                {/*                            image_size={2}*/}
+                {/*                        />*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
 
-                            </div>
-                        </form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <div className="footer">
-                            <div className={"button-default min-width-100-px" + (isStoringExam ? " disabled " : "")}
-                                 onClick={() => !isStoringExam && this.closeModal()}>
-                                Hủy
-                            </div>
-                            <div className={"button-green min-width-100-px" + (isStoringExam ? " disabled " : "")}
-                                 onClick={() => !isStoringExam && this.onSave()}>
-                                {isStoringExam &&
-                                <i className="fa fa-spinner fa-spin" style={{fontSize: 16, marginRight: 5}}></i>}
-                                {isStoringExam ? "Đang lưu" : "Lưu"}
-                            </div>
-                        </div>
-                    </Modal.Footer>
-                </Modal>
+                {/*            </div>*/}
+                {/*        </form>*/}
+                {/*    </Modal.Body>*/}
+                {/*    <Modal.Footer>*/}
+                {/*        <div className="footer">*/}
+                {/*            <div className={"button-default min-width-100-px" + (isStoringExam ? " disabled " : "")}*/}
+                {/*                 onClick={() => !isStoringExam && this.closeModal()}>*/}
+                {/*                Hủy*/}
+                {/*            </div>*/}
+                {/*            <div className={"button-green min-width-100-px" + (isStoringExam ? " disabled " : "")}*/}
+                {/*                 onClick={() => !isStoringExam && this.onSave()}>*/}
+                {/*                {isStoringExam &&*/}
+                {/*                <i className="fa fa-spinner fa-spin" style={{fontSize: 16, marginRight: 5}} />}*/}
+                {/*                {isStoringExam ? "Đang lưu" : "Lưu"}*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </Modal.Footer>*/}
+                {/*</Modal>*/}
 
-                <AnalyticExamModal groupExam={this.state.selectedGroupExam}
-                                   courseId={this.props.course.id}/>
+                {/*<AnalyticExamModal groupExam={this.state.selectedGroupExam}*/}
+                {/*                   courseId={this.props.course.id}/>*/}
             </div>
         );
     }

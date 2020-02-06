@@ -159,7 +159,7 @@ class coursesCreateEditCurriculum extends React.Component {
             return {
                 value: item.id,
                 label: item.name,
-            }
+            };
         });
     }
 

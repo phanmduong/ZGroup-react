@@ -778,9 +778,9 @@ export default function courseReducer(state = initialState.courses, action) {
                         exam_templates:
                             state.data.exam_templates.map((item) => {
                                 if (item.id == action.exam_template.id) {
-                                    return {...action.exam_template}
+                                    return {...action.exam_template};
                                 } else {
-                                    return item
+                                    return item;
                                 }
                             })
                     }
@@ -872,9 +872,9 @@ export default function courseReducer(state = initialState.courses, action) {
                         ...state.data,
                         group_exams: state.data.group_exams.map((item) => {
                             if (item.id == action.group_exam.id) {
-                                return {...action.group_exam}
+                                return {...action.group_exam};
                             } else {
-                                return item
+                                return item;
                             }
                         })
                     }
@@ -900,9 +900,9 @@ export default function courseReducer(state = initialState.courses, action) {
                                 return {
                                     ...item,
                                     term_id: action.term_id
-                                }
+                                };
                             } else {
-                                return item
+                                return item;
                             }
                         })
                     }

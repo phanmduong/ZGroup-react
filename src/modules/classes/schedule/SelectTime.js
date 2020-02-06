@@ -2,7 +2,7 @@
  * Created by phanmduong on 9/6/17.
  */
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import {Overlay} from 'react-bootstrap';
 import {observer} from "mobx-react";
 import * as ReactDOM from "react-dom";
@@ -16,7 +16,7 @@ class SelectTime extends React.Component {
         this.state = {
             start_time: "",
             end_time: "",
-        }
+        };
     }
 
     onSave = () => {
@@ -70,7 +70,7 @@ class SelectTime extends React.Component {
                 <Overlay rootClose={true}
                          show={day.selected}
                          onHide={() => {
-                             day.selected = false
+                             day.selected = false;
                          }}
                          placement="bottom"
                          container={this}
@@ -82,7 +82,7 @@ class SelectTime extends React.Component {
                                     <div>Bắt đầu</div>
                                     <InputTime nextInput={() => ReactDOM.findDOMNode(this.refs["endTime"])}
                                                onChange={(value) => {
-                                                   this.setState({start_time: value})
+                                                   this.setState({start_time: value});
                                                }}
                                                defaultValue={day.start_time}
                                     />
@@ -93,7 +93,7 @@ class SelectTime extends React.Component {
                                     <InputTime ref="endTime"
                                                defaultValue={day.end_time}
                                                onChange={(value) => {
-                                                   this.setState({end_time: value})
+                                                   this.setState({end_time: value});
                                                }}/>
                                 </div>
                             </div>

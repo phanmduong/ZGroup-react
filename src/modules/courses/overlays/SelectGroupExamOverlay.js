@@ -28,7 +28,7 @@ class CreateLessonOverlay extends React.Component {
         let {name, value} = event.target;
         let res = {...this.state.data};
         res[name] = value;
-        this.setState({data: res})
+        this.setState({data: res});
     };
 
 
@@ -65,7 +65,7 @@ class CreateLessonOverlay extends React.Component {
     };
 
     back = () => {
-        this.setState({screen: this.state.screen - 1})
+        this.setState({screen: this.state.screen - 1});
     }
 
     edit = (group) => {
@@ -102,7 +102,7 @@ class CreateLessonOverlay extends React.Component {
                 <div className={className}
                      ref="target" onClick={this.toggle}>
                     {group_exam ? group_exam.name : "Không có"}
-                    <span className="Select-arrow"></span>
+                    <span className="Select-arrow" />
                 </div>
 
                 <Overlay
@@ -142,7 +142,7 @@ class CreateLessonOverlay extends React.Component {
                                             }}>
                                                 <div
                                                     onClick={() => {
-                                                        this.onSelectGroup(item)
+                                                        this.onSelectGroup(item);
                                                     }}
                                                     className="btn"
                                                     style={{
@@ -167,7 +167,7 @@ class CreateLessonOverlay extends React.Component {
                                                            className="material-icons">edit</i></a>
                                                 </div>
                                             </div>
-                                        )
+                                        );
                                     })}
                                 </div>
                                 }

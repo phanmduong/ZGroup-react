@@ -1502,8 +1502,8 @@ export function stringToASCII(str) {
 }
 
 export function searchASCII(strOriginal, strSearch) {
-    var strOriginalToASCII = stringToASCII(strOriginal.toLowerCase());
-    var strSearchToASCII = stringToASCII(strSearch.toLowerCase());
+    let strOriginalToASCII = stringToASCII(strOriginal.toLowerCase());
+    let strSearchToASCII = stringToASCII(strSearch.toLowerCase());
 
     return strOriginalToASCII.includes(strSearchToASCII);
 }

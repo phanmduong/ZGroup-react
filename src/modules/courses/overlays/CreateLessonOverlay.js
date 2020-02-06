@@ -27,7 +27,7 @@ class CreateLessonOverlay extends React.Component {
         let {name, value} = event.target;
         let res = {...this.state.lesson};
         res[name] = value;
-        this.setState({lesson: res})
+        this.setState({lesson: res});
     };
 
     selectedTerm = (e) => {
@@ -54,7 +54,7 @@ class CreateLessonOverlay extends React.Component {
         if ($('#form-lesson').valid()) {
             this.props.coursesActions.createLesson(this.state.lesson, course.id, () => {
                 this.close();
-            })
+            });
         }
         // if (this.checkValidate()) {
         //     this.props.coursesActions.commitCourseData(this.props.course, () => {
@@ -79,7 +79,7 @@ class CreateLessonOverlay extends React.Component {
             return {
                 value: item.id,
                 label: item.name,
-            }
+            };
         });
     }
 

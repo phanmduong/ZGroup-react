@@ -26,7 +26,7 @@ class CreateLessonOverlay extends React.Component {
         let {name, value} = event.target;
         let res = {...this.state.term};
         res[name] = value;
-        this.setState({term: res})
+        this.setState({term: res});
     };
 
     uploadIcon(url) {
