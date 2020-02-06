@@ -442,25 +442,25 @@ export function loadAllTypes() {
         dispatch({type: types.BEGIN_LOAD_ALL_TYPES});
         courseApi.loadAllTypes()
             .then(res => {
+                console.log(res.data.data.types);
                 if (res.data.status === 1) {
                     dispatch({
                         type: types.LOAD_ALL_TYPES_SUCCESS,
                         types: res.data.data.types,
                     });
                 } else {
-                    helper.showNotification('Có lỗi xảy ra!');
-                    dispatch({
-                        type: types.LOAD_ALL_TYPES_ERROR,
-                        res: res,
-                    });
+                    // helper.showErrorNotification('Có lỗi xảy ra!');
+                    // dispatch({
+                    //     type: types.LOAD_ALL_TYPES_ERROR,
+                    //     res: res,
+                    // });
                 }
             })
-            // .catch((e) => {
-            //     console.log(e);
-            //     helper.showNotification('Có lỗi xảy ra!');
-            //     dispatch({type: types.LOAD_ALL_TYPES_ERROR});
-            // })
-        ;
+            .catch((e) => {
+                console.log(e);
+                helper.showErrorNotification('Có lỗi xảy ra!');
+                dispatch({type: types.LOAD_ALL_TYPES_ERROR});
+            });
     };
 }
 
@@ -799,10 +799,34 @@ export function editGroupExam(data, callback) {
     };
 }
 
+export function getAnalyticExam(course_id) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_ANALYTICS_EXAM_COURSE});
+        courseApi.getAnalyticExam(course_id)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_ANALYTICS_EXAM_COURSE_SUCCESS,
+                    analytic_exam: res.data.analytic_exam
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+            });
+    };
+}
+
 export function toggleModalExam() {
     return function (dispatch) {
         dispatch({
             type: types.TOGGLE_MODAL_EXAM_COURSE
+        });
+    };
+}
+
+export function toggleModalAnalyticExam() {
+    return function (dispatch) {
+        dispatch({
+            type: types.TOGGLE_MODAL_ANALYTIC_EXAM_COURSE
         });
     };
 }

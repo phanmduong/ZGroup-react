@@ -371,3 +371,13 @@ export function duplicateExamTemplate(data) {
     }
     return axios.post(url);
 }
+
+export function getAnalyticExam(course_id) {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.NEW_MANAGE_API_URL + `/exam/analytic?course_id=${course_id}&include=group_exam,class,user_exams.user`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}

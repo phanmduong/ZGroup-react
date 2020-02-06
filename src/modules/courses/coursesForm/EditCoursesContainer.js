@@ -71,7 +71,8 @@ class EditCoursesContainer extends React.Component {
 
                                             <h4 className="card-title  margintop-10">{course.name}</h4>
 
-                                            <h6 className="category text-gray text-email" style={{textTransform: "none!important"}}>
+                                            <h6 className="category text-gray text-email"
+                                                style={{textTransform: "none!important"}}>
                                                 {course.description}
 
                                             </h6>
@@ -124,7 +125,7 @@ class EditCoursesContainer extends React.Component {
                                         </h4></div>
                                         <br/>
                                         <CirclePicker width="100%"
-                                                      color={course.color}
+                                                      color={course.color ? course.color : ""}
                                                       disabled
                                         />
                                     </div>
@@ -168,7 +169,7 @@ class EditCoursesContainer extends React.Component {
                                             {/*    </Link>*/}
                                             {/*</li>*/}
                                         </ul>
-                                        <div>{this.props.children}</div>
+                                        {/*<div>{this.props.children}</div>*/}
                                     </div>
                                 </div>
                                 <Modal show={this.state.openModalEdit} bsSize="large">
@@ -189,6 +190,7 @@ class EditCoursesContainer extends React.Component {
                 </div>
             </div>
         );
+        // return (<div>12</div>)
     }
 }
 
