@@ -1722,6 +1722,7 @@ export default {
         coursesList: [],
         isDeleting: false,
         modalExam: false,
+        modalAnalyticExam: false,
         paginator: {
             total_count: 1,
             total_pages: 1,
@@ -1787,6 +1788,8 @@ export default {
         },
         categories: [],
         types: [],
+        isLoadingAnalyticExam: false,
+        analyticExam: []
 
 
     },

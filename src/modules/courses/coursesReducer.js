@@ -569,7 +569,7 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.LOAD_ALL_TYPES_SUCCESS: {
-            let data = action.types.map((obj) => {
+            action.types.map((obj) => {
                 return {...obj, value: obj.id, label: obj.name,};
             });
             return {
@@ -724,6 +724,14 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         }
+        case types.TOGGLE_MODAL_ANALYTIC_EXAM_COURSE: {
+            return {
+                ...state,
+                ...{
+                    modalAnalyticExam: !state.modalAnalyticExam
+                }
+            };
+        }
         case types.BEGIN_CREATE_EXAM_TEMPLATE_COURSE: {
             return {
                 ...state,
@@ -835,6 +843,23 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isStoringGroupExam: true
+                }
+            };
+        }
+        case types.BEGIN_ANALYTICS_EXAM_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isLoadingAnalyticExam: false
+                }
+            };
+        }
+        case types.LOAD_ANALYTICS_EXAM_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoadingAnalyticExam: true,
+                    analyticExam: action.analytic_exam
                 }
             };
         }

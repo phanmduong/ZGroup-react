@@ -14,6 +14,7 @@ import ReactSelect from "react-select";
 import SelectGroupExamOverlay from "../overlays/SelectGroupExamOverlay";
 import {confirm} from "../../../helpers/helper";
 import TooltipButton from "../../../components/common/TooltipButton";
+import AnalyticExamModal from "./AnalyticExamModal";
 
 const DEADLINE = Array.from(Array(45).keys()).map((item) => {
     return {
@@ -30,7 +31,9 @@ class coursesCreateEditExamTemplate extends React.Component {
             openModal: false,
             currentLink: 0,
             data: {},
-        };
+            selectedGroupExam: null
+        }
+        ;
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.checkValidate = this.checkValidate.bind(this);
@@ -38,6 +41,7 @@ class coursesCreateEditExamTemplate extends React.Component {
 
     componentDidMount() {
         helper.setFormValidation('#form-exam-template');
+        this.props.coursesActions.getAnalyticExam(this.props.course.id);
     }
 
 
@@ -184,29 +188,45 @@ class coursesCreateEditExamTemplate extends React.Component {
         );
     }
 
+    analyticExam = (group_exam) => {
+        this.props.coursesActions.toggleModalAnalyticExam();
+        this.setState({selectedGroupExam: group_exam});
+    }
+
     render() {
         const {data} = this.state;
         const {isStoringExam} = this.props;
         return (
             <div>
-                <div className="div-table">
-                    {
-                        this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
-                            .map((template) => {
-                                    return this.renderItem(template)
-                                }
-                            )
-                    }
+                <div>
+                    <div className="flex flex-row flex-space-between" style={{
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        marginTop: 30,
+                        marginBottom: 10
+                    }}>Không có nhóm <div onClick={() => this.analyticExam()}>Phân tích</div>
+                    </div>
+                    <div className="div-table">
+                        {
+                            this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
+                                .map((template) => {
+                                        return this.renderItem(template)
+                                    }
+                                )
+                        }
+                    </div>
                 </div>
                 {this.props.course.group_exams.map((group) => {
                     return (
                         <div>
-                            <div style={{
+                            <div className="flex flex-row flex-space-between" style={{
                                 fontWeight: 'bold',
                                 fontSize: 18,
                                 marginTop: 30,
-                                marginBottom: 10
-                            }}>{group.name}</div>
+                                marginBottom: 10,
+                            }}>{group.name}
+                                <div onClick={() => this.analyticExam(group)}>Phân tích</div>
+                            </div>
                             <div className="div-table">
                                 {this.props.course.exam_templates.filter((template) => template.group_exam_id == group.id)
                                     .map((template) => {
@@ -312,6 +332,9 @@ class coursesCreateEditExamTemplate extends React.Component {
                         </div>
                     </Modal.Footer>
                 </Modal>
+
+                <AnalyticExamModal groupExam={this.state.selectedGroupExam}
+                                   courseId={this.props.course.id}/>
             </div>
         );
     }

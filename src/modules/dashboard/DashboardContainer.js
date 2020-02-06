@@ -12,8 +12,9 @@ import {Modal, Panel} from 'react-bootstrap';
 import ClassContainer from './ClassContainer';
 import PropTypes from 'prop-types';
 import TooltipButton from '../../components/common/TooltipButton';
-import FormInputDate from "../../components/common/FormInputDate";
+// import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from '../../helpers/helper';
+import DateRangePicker from "../../components/common/DateTimePicker";
 
 class DashboardContainer extends React.Component {
     constructor(props, context) {
@@ -173,27 +174,30 @@ class DashboardContainer extends React.Component {
                                                     <br/>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-3">
-                                                        <FormInputDate
-                                                            label="Từ ngày"
-                                                            name="startTime"
-                                                            updateFormData={this.updateFormFilter}
-                                                            id="form-start-time"
-                                                            value={this.state.filter.startTime}
-                                                            maxDate={this.state.filter.endTime}
-                                                        />
+                                                    <div className="col-md-6">
+                                                        <DateRangePicker/>
                                                     </div>
-                                                    <div className="col-md-3">
-                                                        <FormInputDate
-                                                            label="Đến ngày"
-                                                            name="endTime"
-                                                            updateFormData={this.updateFormFilter}
-                                                            id="form-end-time"
-                                                            value={this.state.filter.endTime}
-                                                            minDate={this.state.filter.startTime}
+                                                    {/*<div className="col-md-3">*/}
+                                                    {/*    <FormInputDate*/}
+                                                    {/*        label="Từ ngày"*/}
+                                                    {/*        name="startTime"*/}
+                                                    {/*        updateFormData={this.updateFormFilter}*/}
+                                                    {/*        id="form-start-time"*/}
+                                                    {/*        value={this.state.filter.startTime}*/}
+                                                    {/*        maxDate={this.state.filter.endTime}*/}
+                                                    {/*    />*/}
+                                                    {/*</div>*/}
+                                                    {/*<div className="col-md-3">*/}
+                                                    {/*    <FormInputDate*/}
+                                                    {/*        label="Đến ngày"*/}
+                                                    {/*        name="endTime"*/}
+                                                    {/*        updateFormData={this.updateFormFilter}*/}
+                                                    {/*        id="form-end-time"*/}
+                                                    {/*        value={this.state.filter.endTime}*/}
+                                                    {/*        minDate={this.state.filter.startTime}*/}
 
-                                                        />
-                                                    </div>
+                                                    {/*    />*/}
+                                                    {/*</div>*/}
                                                 </div>
                                             </div>
                                         </div>
