@@ -452,7 +452,7 @@ export default function classesReducer(state = initialState.classes, action) {
                     ...state.infoCreateClass,
                     schedules: [...state.infoCreateClass.schedules, action.schedule]
                 }
-            }
+            };
         default:
             return state;
     }

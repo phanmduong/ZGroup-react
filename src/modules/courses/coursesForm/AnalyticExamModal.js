@@ -27,8 +27,8 @@ class AnalyticExamModal extends React.Component {
         analyticTemplate.forEach((item) => {
             item.user_exams.forEach((user_exam) => {
                 scores = [...scores, {...user_exam, 'class': item.class}];
-            })
-        })
+            });
+        });
 
         return scores.sort((a, b) => b.score - a.score);
 
@@ -38,14 +38,13 @@ class AnalyticExamModal extends React.Component {
         return labels.map((item, index) => {
             return scores.filter(score => {
                 if (index == 0) {
-                    return score.score >= index && score.score <= index + 1
+                    return score.score >= index && score.score <= index + 1;
                 } else {
-                    return score.score > index && score.score <= index + 1
+                    return score.score > index && score.score <= index + 1;
                 }
             }).length;
         })
             ;
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     };
 
     render() {
@@ -56,7 +55,7 @@ class AnalyticExamModal extends React.Component {
             } else {
                 return item.group_exam_id == null;
             }
-        })
+        });
         return (
             <Modal show={modalAnalyticExam} bsSize="large" onHide={this.toggle}>
                 <Modal.Header>
@@ -67,7 +66,7 @@ class AnalyticExamModal extends React.Component {
                 <Modal.Body>
                     {course.exam_templates.filter((template) => {
                         if (groupExam) {
-                            return template.group_exam_id == groupExam.id
+                            return template.group_exam_id == groupExam.id;
                         } else {
                             return template.group_exam_id == null;
                         }
@@ -113,7 +112,7 @@ class AnalyticExamModal extends React.Component {
                                                             <td>{item.score}</td>
                                                             <td>#{index + 1}</td>
                                                         </tr>
-                                                    )
+                                                    );
                                                 })}
                                                 </tbody>
                                             </table>

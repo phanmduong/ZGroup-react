@@ -119,7 +119,7 @@ class BaseRoomOverlay extends React.Component {
                             container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
                             target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
                             <div className="kt-overlay overlay-container"
-                                 ref={(e) => {if(e)e.style.setProperty('left', 'unset', "important")}}
+                                 ref={(e) => {if(e)e.style.setProperty('left', 'unset', "important");}}
                                          style={{width: 300,  right:"-100%"}}>
                                 <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
                                     <div><b>{room.id ? 'Sửa phòng' : 'Tạo mới'}</b></div>

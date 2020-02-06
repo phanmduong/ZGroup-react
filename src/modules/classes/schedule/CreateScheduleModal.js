@@ -2,7 +2,7 @@
  * Created by phanmduong on 9/6/17.
  */
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Modal} from 'react-bootstrap';
 import Store from "./store";
@@ -47,17 +47,17 @@ class CreateScheduleModal extends React.Component {
                             <div className="title-select-day">Chọn ngày trong tuần</div>
                             <div className="select-day flex flex-row flex-space-around flex-align-items-center">
                                 {days.map((day) => {
-                                    const isActive = !isEmptyInput(day.start_time) && !isEmptyInput(day.end_time)
+                                    const isActive = !isEmptyInput(day.start_time) && !isEmptyInput(day.end_time);
                                     return (
                                         <SelectTime day={day} active={isActive}/>
-                                    )
+                                    );
                                 })}
                             </div>
                             <div>
                                 <div className="title-select-day">Chọn ngày trong tuần</div>
                                 <input className="custom-input" type="text"
                                        placeholder="Thứ 2 - Thứ 4 - Thứ 6 (19h-21h)" onChange={(e) => {
-                                    this.store.name = e.target.value
+                                    this.store.name = e.target.value;
                                 }}/>
                             </div>
                         </div>
@@ -71,7 +71,7 @@ class CreateScheduleModal extends React.Component {
                             <div className={"button-green min-width-100-px" + (isLoading ? " disabled " : "")}
                                  onClick={() => !isLoading && this.onSave()}>
                                 {isLoading &&
-                                <i className="fa fa-spinner fa-spin" style={{fontSize: 16, marginRight: 5}}></i>}
+                                <i className="fa fa-spinner fa-spin" style={{fontSize: 16, marginRight: 5}} />}
                                 {isLoading ? "Đang lưu" : "Lưu"}
                             </div>
                         </div>

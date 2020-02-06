@@ -449,11 +449,11 @@ export function loadAllTypes() {
                         types: res.data.data.types,
                     });
                 } else {
-                    // helper.showErrorNotification('Có lỗi xảy ra!');
-                    // dispatch({
-                    //     type: types.LOAD_ALL_TYPES_ERROR,
-                    //     res: res,
-                    // });
+                    helper.showErrorNotification('Có lỗi xảy ra!');
+                    dispatch({
+                        type: types.LOAD_ALL_TYPES_ERROR,
+                        res: res,
+                    });
                 }
             })
             .catch((e) => {
@@ -708,7 +708,7 @@ export function createExamTemplate(data, callback) {
 
 export function duplicateExamTemplate(data, callback) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang tạo bản sao", "info")
+        helper.showTypeNotification("Đang tạo bản sao", "info");
         courseApi.duplicateExamTemplate(data)
             .then(res => {
                 helper.showNotification("Tạo Thành Công!");
@@ -727,7 +727,7 @@ export function duplicateExamTemplate(data, callback) {
 export function editExamTemplate(data, callback) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_EXAM_TEMPLATE_COURSE});
-        helper.showTypeNotification("Đang sửa", "info")
+        helper.showTypeNotification("Đang sửa", "info");
         courseApi.editExamTemplate(data)
             .then(res => {
                 helper.showNotification("Sửa Thành Công!");
@@ -746,7 +746,7 @@ export function editExamTemplate(data, callback) {
 
 export function deleteExamTemplate(template_id) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang xóa", "info")
+        helper.showTypeNotification("Đang xóa", "info");
         courseApi.deleteExamTemplate(template_id)
             .then(() => {
                 helper.showNotification("Xóa Thành Công!");

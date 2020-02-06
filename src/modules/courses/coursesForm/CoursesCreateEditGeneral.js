@@ -55,37 +55,37 @@ class coursesCreateEditGeneral extends React.Component {
     updateEditor(content) {
         let data = {...this.state.data};
         data.detail = content;
-        this.setState({data})
+        this.setState({data});
     }
 
     updateEditorShortDetail = (content) => {
         let data = {...this.state.data};
         data.short_detail = content;
-        this.setState({data})
+        this.setState({data});
     }
 
     uploadAvatar(url) {
         let data = {...this.state.data};
         data.image_url = url;
-        this.setState({data})
+        this.setState({data});
     }
 
     uploadLogo(url) {
         let data = {...this.state.data};
         data.icon_url = url;
-        this.setState({data})
+        this.setState({data});
     }
 
     uploadCover(url) {
         let data = {...this.state.data};
         data.cover_url = url;
-        this.setState({data})
+        this.setState({data});
     }
 
     changeColor(color) {
         let data = {...this.state.data};
         data.color = color.hex;
-        this.setState({data})
+        this.setState({data});
     }
 
     updateFormData(e) {
@@ -99,7 +99,7 @@ class coursesCreateEditGeneral extends React.Component {
         }
         let data = {...this.state.data};
         data[feild] = value;
-        this.setState({data})
+        this.setState({data});
     }
 
     checkValidate() {
@@ -116,7 +116,7 @@ class coursesCreateEditGeneral extends React.Component {
 
         let data = {...this.state.data};
         data[feild] = value;
-        this.setState({data})
+        this.setState({data});
         // this.props.coursesActions.onCategoryChange(obj);
     }
 

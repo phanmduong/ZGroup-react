@@ -111,7 +111,7 @@ class AppContainer extends React.Component {
         let user = {...this.props.user};
         user.choice_province_id = provinceId;
         localStorage.setItem("user", JSON.stringify(user));
-        userActions.choiceProvince(provinceId)
+        userActions.choiceProvince(provinceId);
     }
 
     onChangeBase = (baseID) => {

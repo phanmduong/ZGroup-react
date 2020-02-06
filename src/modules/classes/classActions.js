@@ -443,8 +443,8 @@ export function addSchedule(schedule) {
         dispatch({
             type: types.ADD_SCHDULE_CLASS_DATA,
             schedule: schedule
-        })
-    }
+        });
+    };
 }
 
 

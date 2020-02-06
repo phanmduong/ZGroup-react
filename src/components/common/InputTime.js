@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export default class InputTime extends Component {
     constructor(props) {
@@ -8,7 +8,7 @@ export default class InputTime extends Component {
         this.state = {
             hh: time[0],
             mm: time[1]
-        }
+        };
     }
 
     isTextSelected(input) {
@@ -81,7 +81,7 @@ export default class InputTime extends Component {
         $(this.refs.hour).change((e) => {
             this.setState({hh: e.target.value});
             this.onChange();
-        })
+        });
     }
 
     render() {

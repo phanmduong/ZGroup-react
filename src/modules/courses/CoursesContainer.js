@@ -101,8 +101,7 @@ class CoursesContainer extends React.Component {
                                                     <strong>Quản lý môn học</strong>
                                                 </h2>
                                             </div>
-                                            <div>
-                                            </div>
+                                            <div />
                                             <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                                 <Search
                                                     onChange={this.courseSearchChange}
