@@ -7,12 +7,10 @@ import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 // import {Modal} from 'react-bootstrap';
 // import FormInputText from '../../../components/common/FormInputText';
-import * as helper from '../../../helpers/helper';
-import {isEmptyInput} from '../../../helpers/helper';
 // import ImageUploader from "../../../components/common/ImageUploader";
 import ReactSelect from "react-select";
 // import SelectGroupExamOverlay from "../overlays/SelectGroupExamOverlay";
-import {confirm} from "../../../helpers/helper";
+import {confirm,setFormValidation,isEmptyInput} from "../../../helpers/helper";
 import TooltipButton from "../../../components/common/TooltipButton";
 // import AnalyticExamModal from "./AnalyticExamModal";
 
@@ -40,7 +38,7 @@ class coursesCreateEditExamTemplate extends React.Component {
     }
 
     componentDidMount() {
-        helper.setFormValidation('#form-exam-template');
+        setFormValidation('#form-exam-template');
         this.props.coursesActions.getAnalyticExam(this.props.course.id);
     }
 
@@ -204,7 +202,7 @@ class coursesCreateEditExamTemplate extends React.Component {
                         fontSize: 18,
                         marginTop: 30,
                         marginBottom: 10
-                    }}>Không có nhóm <div onClick={() => this.analyticExam()}>Phân tích</div>
+                    }}>Không có nhóm <div onClick={() => this.analyticExam}>Phân tích</div>
                     </div>
                     <div className="div-table">
                         {
