@@ -37,6 +37,7 @@ class ListClass extends React.Component {
                     <tbody>
                     {
                         classes.map((classItem) => {
+                            let course = classItem.course || {};
                             return (
                                 <tr key={classItem.id}>
                                     <td>
@@ -44,7 +45,7 @@ class ListClass extends React.Component {
                                                 data-toggle="tooltip" title="" type="button" rel="tooltip"
                                                 data-placement="right"
                                                 data-original-title={classItem.name}>
-                                            <img src={classItem.course.icon_url} alt=""/>
+                                            <img src={course.icon_url} alt=""/>
                                         </button>
                                     </td>
                                     <td>

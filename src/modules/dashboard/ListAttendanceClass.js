@@ -25,12 +25,13 @@ class ListAttendanceClass extends React.Component {
                                     <h5><strong>{classGroup.base}</strong></h5>
                                     {
                                         classGroup.classes.map((classData, index) => {
+                                            let course = classData.course || {};
                                             return (
                                                 <div key={index}>
                                                     <div className="flex-row-center">
                                                         <img
                                                             className="image-class-attendance-class-dashboard"
-                                                            src={classData.course.icon_url}/>
+                                                            src={course.icon_url}/>
                                                         <div className="text-h5">
                                                             <strong>{classData.name}
                                                             </strong> - {classData.room.name} - {classData.start_time}-
@@ -58,12 +59,13 @@ class ListAttendanceClass extends React.Component {
                 <div>
                     {
                         classes.map((classData, index) => {
+                            let course = classData.course || {};
                             return (
                                 <div key={index}>
                                     <div className="flex-row-center">
                                         <img
                                             className="image-class-attendance-class-dashboard"
-                                            src={classData.course.icon_url}/>
+                                            src={course.icon_url}/>
                                         <div className="text-h5">
                                             <strong>{classData.name}
                                             </strong> - {classData.room.name} - {classData.start_time}-
