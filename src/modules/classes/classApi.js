@@ -251,8 +251,8 @@ export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, 
 }
 
 
-export function inputExamScore(classId,examId,data) {
-    let url = env.MANAGE_API_URL + `/class/${classId}/score-input-exam/${examId}`;
+export function inputExamScore(classId,data) {
+    let url = env.MANAGE_API_URL + `/class/${classId}/score-input-exam`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

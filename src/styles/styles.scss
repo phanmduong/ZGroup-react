@@ -1501,7 +1501,7 @@ table tr td .avatar-honor {
 
 
 .card {
-  box-shadow: none !important;
+  //box-shadow: none !important;
 }
 
 .sidebar {
@@ -3880,5 +3880,5 @@ $min-height-step-content: 500px;
 }
 
 input[type=search], .form-control {
-  background-color: transparent !important;
+  background-color: transparent;
 }

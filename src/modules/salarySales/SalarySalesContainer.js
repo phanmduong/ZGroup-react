@@ -10,12 +10,12 @@ import {
     newWorkBook,
     renderExcelColumnArray,
     saveWorkBookToExcel,
+    confirm,
     xoa_dau
 } from "../../helpers/helper";
 import AddSalaryBonus from "./AddSalaryBonus";
 import DetailSalaryBonus from "./DetailSalaryBonus";
 import AddSalary from "./AddSalary";
-import * as helper from "../../helpers/helper";
 import SendMail from "./SendMail";
 
 @observer
@@ -189,7 +189,7 @@ class SalarySalesContainer extends React.Component {
 
     approvalSalary = () => {
         if (store.isApproval) return;
-        helper.confirm('success', 'Duyệt chi', `Bạn có chắc chắn duyệt chi lương sale khóa này không?`, () => {
+        confirm('success', 'Duyệt chi', `Bạn có chắc chắn duyệt chi lương sale khóa này không?`, () => {
             store.approvalSalary();
         });
 

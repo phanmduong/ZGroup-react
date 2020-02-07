@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
-import {isEmptyInput} from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
@@ -193,7 +192,7 @@ class InfoStudentContainer extends React.Component {
 
         });
 
-        if (!isEmptyInput(this.state.student.address)) {
+        if (!helper.isEmptyInput(this.state.student.address)) {
             address = [...address, {
                 value: this.state.student.address,
                 label: this.state.student.address,

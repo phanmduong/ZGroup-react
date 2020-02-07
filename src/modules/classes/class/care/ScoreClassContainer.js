@@ -17,7 +17,7 @@ class ScoreClassContainer extends React.Component {
             show: [],
             dataScores: [],
             currentGroup: {},
-            currentExam: {},
+            currentExams: [],
             currentRegisters: [],
             showModalInputScore: false,
             showModalScore: false,
@@ -35,39 +35,48 @@ class ScoreClassContainer extends React.Component {
 
     openModalScore = (currentGroup) => {
         let dataScores = [];
-        this.setState({showModalScore: true, currentGroup, dataScores});
+        this.setState({showModalScore: true, currentGroup, isTotalScore: false, dataScores});
 
     };
     closeModalScore = () => {
         this.setState({showModalScore: false});
     };
 
-    openModalInputScore = (currentExam) => {
+    openModalInputScore = (currentExams) => {
         let currentRegisters = [...this.props.classData.registers].map(register => {
             let res = {...register};
-            let examRegister = register.exam_register.filter(e => e && e.exam_id == currentExam.id)[0];
-            if (examRegister) {
-                res.score = examRegister.score;
-                res.comment = examRegister.comment;
-            } else {
-                res.score = 0;
-                res.comment = '';
-            }
+            res.score = {};
+            res.comment = {};
+            currentExams.forEach(currentExam => {
+                let examRegister = register.exam_register.filter(e => e && e.exam_id == currentExam.id)[0];
+                if (examRegister) {
+                    res.score[currentExam.id] = examRegister.score;
+                    res.comment[currentExam.id] = examRegister.comment;
+                } else {
+                    res.score[currentExam.id] = 0;
+                    res.comment[currentExam.id] = '';
+                }
+            });
             return res;
+
         });
 
-        this.setState({showModalInputScore: true, currentExam, currentRegisters});
+        this.setState({showModalInputScore: true, currentExams, currentRegisters});
     };
     closeModalInputScore = () => {
         this.setState({showModalInputScore: false});
 
     };
 
+    openInputGroupScore = (group) => {
+        let {classData} = this.props;
+        let currentExams = classData.exams.filter(e => e.group_exam_id == group.id);
+        this.openModalInputScore(currentExams);
+    };
 
     render() {
         let {classData, isLoading} = this.props;
-        let {currentExam, currentRegisters, isSavingScore, currentGroup, isTotalScore} = this.state;
-        console.log(currentGroup);
+        let {currentExams, currentRegisters, isSavingScore, currentGroup, isTotalScore} = this.state;
         let noGroup = classData.exams.filter(e => !e.group_exam_id);
 
         return (
@@ -76,9 +85,34 @@ class ScoreClassContainer extends React.Component {
                 {(!isLoading) && classData.group_exams.map((group, key1) => {
                     return (
                         <div key={key1} className="table-responsive table-split margin-bottom-20">
-                            <div className="margintop-10 margin-bottom-10"><strong>{group.name}</strong></div>
+
                             <table className="table" cellSpacing="0" id="list_register">
                                 <tbody>
+                                <tr>
+                                    <td style={{width: '20%'}}>
+                                        <strong>{group.name}</strong>
+                                    </td>
+                                    <td/>
+                                    <td style={{width: '15%'}}/>
+                                    <td style={{width: '15%'}}/>
+
+                                    <td style={{width: '15%'}}>
+                                        <div className="flex flex-align-items-center  float-right">
+
+                                            <button className="btn radius-8 margin-right-20 btn-grey"
+                                                    onClick={() => this.openInputGroupScore(group)}>
+                                                Nhập điểm
+                                            </button>
+                                            <div onClick={() => this.openModalScore(group)}
+                                                 className="cursor-pointer" data-toggle="tooltip"
+                                                 title="Xem điểm">
+                                                <i className="material-icons">
+                                                    remove_red_eye
+                                                </i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 {
                                     classData.exams.map((exam, key2) => {
                                         let className = exam.is_taken ? 'success' : '';
@@ -86,8 +120,9 @@ class ScoreClassContainer extends React.Component {
                                         return (exam.group_exam_id == group.id) ? (
 
                                             <tr key={key2} className={className}>
-                                                <td style={{width: '10%'}}>
-                                                    <b className="cursor-pointer" data-toggle="tooltip" onClick={() => this.openModalScore(group)}
+                                                <td>
+                                                    <b className="cursor-pointer" data-toggle="tooltip"
+                                                       onClick={() => this.openModalScore(group)}
                                                        title="Xem điểm">{exam.title}</b>
                                                 </td>
                                                 <td style={{width: '15%'}}>
@@ -104,7 +139,7 @@ class ScoreClassContainer extends React.Component {
                                                     <div className="flex flex-align-items-center  float-right">
 
                                                         <button className={classNameBtn}
-                                                                onClick={() => this.openModalInputScore(exam)}>
+                                                                onClick={() => this.openModalInputScore([exam])}>
                                                             Nhập điểm
                                                         </button>
                                                         <div onClick={() => this.openModalScore(group)}
@@ -125,10 +160,33 @@ class ScoreClassContainer extends React.Component {
                         </div>
                     );
                 })}
-                {!isLoading && <div className="table-responsive table-split margin-bottom-20">
-                    <div className="margintop-10 margin-bottom-10"><strong>Không có nhóm</strong></div>
+                {!isLoading && noGroup && noGroup.length > 0 &&
+                <div className="table-responsive table-split margin-bottom-20">
                     <table className="table" cellSpacing="0" id="list_register">
                         <tbody>
+                        <tr>
+                            <td style={{width: '20%'}}>
+                                <strong>Không có nhóm</strong>
+                            </td>
+                            <td/>
+                            <td style={{width: '15%'}}/>
+                            <td style={{width: '15%'}}/>
+                            <td style={{width: '15%'}}>
+                                <div className="flex flex-align-items-center float-right">
+                                    <button className="btn radius-8 margin-right-20 btn-grey"
+                                            onClick={() => this.openInputGroupScore(this.noGroup)}>
+                                        Nhập điểm
+                                    </button>
+                                    <div onClick={() => this.openModalScore(this.noGroup)}
+                                         className="cursor-pointer" data-toggle="tooltip"
+                                         title="Xem điểm">
+                                        <i className="material-icons">
+                                            remove_red_eye
+                                        </i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                         {
                             classData.exams.map((exam, key2) => {
                                 let className = exam.is_taken ? 'success' : '';
@@ -138,11 +196,11 @@ class ScoreClassContainer extends React.Component {
 
                                     <tr key={key2} className={className}>
                                         <td style={{width: '10%'}}>
-                                            <b className="cursor-pointer" data-toggle="tooltip" onClick={() => this.openModalScore(this.noGroup)}
+                                            <b className="cursor-pointer" data-toggle="tooltip"
+                                               onClick={() => this.openModalScore(this.noGroup)}
                                                title="Xem điểm">{exam.title}</b>
                                         </td>
                                         <td style={{width: '15%'}}>
-
                                             {exam.lesson && exam.lesson.name}
                                         </td>
                                         <td style={{width: '15%'}}>
@@ -154,7 +212,7 @@ class ScoreClassContainer extends React.Component {
                                         <td style={{width: '15%'}}>
                                             <div className="flex flex-align-items-center  float-right">
                                                 <button className={classNameBtn}
-                                                        onClick={() => this.openModalInputScore(exam)}>
+                                                        onClick={() => this.openModalInputScore([exam])}>
                                                     Nhập điểm
                                                 </button>
                                                 <div onClick={() => this.openModalScore(this.noGroup)}
@@ -188,7 +246,7 @@ class ScoreClassContainer extends React.Component {
                         {isLoading && <Loading/>}
 
                         {!isLoading &&
-                        <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                        <ul className="nav nav-pills nav-pills-dark margin-bottom-20" data-tabs="tabs">
                             <li className={isTotalScore ? 'active' : ''}>
                                 <a onClick={() => this.setState({currentGroup: {}, isTotalScore: true})}>Tất cả</a>
                             </li>
@@ -352,8 +410,10 @@ class ScoreClassContainer extends React.Component {
                                                 return (
                                                     <td key={i2} className="">
                                                         <div className="flex flex-align-items-center">
-                                                            <div className="min-width-40-px margin-right-10"><b>{score.score}</b></div>
-                                                            <div className="text-dark">{score.comment || 'Không có nhận xét'}</div>
+                                                            <div className="min-width-40-px margin-right-10">
+                                                                <b>{score.score}</b></div>
+                                                            <div
+                                                                className="text-dark">{score.comment || 'Không có nhận xét'}</div>
                                                         </div>
                                                     </td>
                                                 );
@@ -377,20 +437,34 @@ class ScoreClassContainer extends React.Component {
                 >
                     <Modal.Header closeButton>
                         <h4 className="modal-title text-center">NHẬP ĐIỂM</h4>
-                        <div
-                            className="text-center">{`${currentExam.title}${currentExam.description ? (' - ' + currentExam.description) : ''} - Hệ số ${currentExam.weight}`}</div>
+                        {/*<div className="text-center">{`${currentExam.title}${currentExam.description ? (' - ' + currentExam.description) : ''} - Hệ số ${currentExam.weight}`}</div>*/}
                     </Modal.Header>
                     <Modal.Body>
+                        <div className="container-fluid">
                         {isSavingScore && <Loading/>}
                         {!isSavingScore &&
-                        <div className="table-responsive table-split table-narrow ">
-                            <table className="table" cellSpacing="0" id="list_register">
+                        <div className="table-responsive table-split table-narrow">
+                            <table id="datatables-score" className="table table-no-bordered table-hover"
+                                   cellSpacing="0" width="100%" style={{width: "100%"}}>
                                 <tbody>
+                                <tr>
+                                    <td/>
+                                    {currentExams.map((exam) => {
+                                        return ([
+                                            <td style={{minWidth: 200}} colSpan={2}>
+                                                <b>{`${exam.title}${exam.description ? (' - ' + exam.description) : ''} - Hệ số ${exam.weight}`}</b>
+                                            </td>
+                                        ]);
+                                    })}
+
+                                </tr>
+
                                 {currentRegisters.map((register, key) => {
                                     let {student} = register;
+
                                     return (
                                         <tr key={key}>
-                                            <td>
+                                            <td style={{minWidth: 200}}>
                                                 <div className="flex flex-align-items-center">
                                                     <div className="avatar-list-staff"
                                                          style={{
@@ -402,28 +476,35 @@ class ScoreClassContainer extends React.Component {
 
                                                 </div>
                                             </td>
-                                            <td style={{width: 120}}>
+                                            {currentExams.map((exam) => {
 
-                                                <FormInputText name="score"
-                                                               value={register.score || 0}
-                                                               placeholder="Điểm"
-                                                               type="number"
-                                                               minValue={0}
-                                                               maxValue={10}
-                                                               className="exam-input"
-                                                               isNotValid={register.score < 0 || register.score > 10}
-                                                               updateFormData={(e) => this.updateFormInputScore(e, key)}
-                                                />
-                                            </td>
-                                            <td>
-                                                <FormInputText name="comment"
-                                                               value={register.comment || ''}
-                                                               placeholder="Nhận xét"
-                                                               type="text"
-                                                               className="exam-input"
-                                                               updateFormData={(e) => this.updateFormInputScore(e, key)}
-                                                />
-                                            </td>
+                                                let score = register.score ? register.score[exam.id] : 0;
+                                                let comment = register.comment ? register.comment[exam.id] : '';
+                                                return ([
+                                                    <td style={{width: 90,minWidth: 90}}>
+                                                        <FormInputText name="score"
+                                                                       value={score}
+                                                                       placeholder="Điểm"
+                                                                       type="number"
+                                                                       minValue={0}
+                                                                       maxValue={10}
+                                                                       className="exam-input"
+                                                                       isNotValid={score < 0 || score > 10}
+                                                                       updateFormData={(e) => this.updateFormInputScore(e, key,exam.id)}
+                                                        />
+                                                    </td>,
+                                                    <td style={{minWidth: 100}}>
+                                                        <FormInputText name="comment"
+                                                                       value={comment || ''}
+                                                                       placeholder="Nhận xét"
+                                                                       type="text"
+                                                                       className="exam-input"
+                                                                       updateFormData={(e) => this.updateFormInputScore(e, key,exam.id)}
+                                                        />
+                                                    </td>
+                                                ]);
+                                            })}
+
                                         </tr>
                                     );
                                 })}
@@ -439,46 +520,51 @@ class ScoreClassContainer extends React.Component {
                                 Hoàn tất
                             </div>
                         </div>}
+                        </div>
                     </Modal.Body>
                 </Modal>
             </div>
         );
     }
 
-    updateFormInputScore = (e, key) => {
+    updateFormInputScore = (e, key,examId) => {
         let {name, value} = e.target;
         let {currentRegisters} = this.state;
-        console.log(name, value, currentRegisters[key]);
-        currentRegisters[key][name] = value;
+        currentRegisters[key][name][examId] = value;
 
         this.setState({currentRegisters});
 
     };
     submitScoreExam = () => {
         let {classData} = this.props;
-        let {currentExam, currentRegisters} = this.state;
-        let scores = currentRegisters.map((obj) => {
-            return {
-                user_id: obj.student.id,
-                comment: obj.comment || '',
-                score: obj.score || 0,
-                // score: obj.score || Math.floor(Math.random() * 10) + 1,
-                // comment: obj.comment || ('Day la comment: ' + Math.floor(Math.random() * 10) + 1),
-            };
+        let {currentExams, currentRegisters} = this.state;
+        let scores = [];
+        currentRegisters.forEach((obj) => {
+            currentExams.forEach(exam=>{
+                let res = {
+                    user_id: obj.student.id,
+                    exam_id: exam.id,
+                    comment: obj.comment[exam.id] || '',
+                    score: obj.score[exam.id] || 0,
+                    // score: obj.score || Math.floor(Math.random() * 10) + 1,
+                    // comment: obj.comment || ('Day la comment: ' + Math.floor(Math.random() * 10) + 1),
+                }
+                scores.push(res);
+            });
         });
         let errs = [];
         scores.every(obj => {
             let {score} = obj;
             if (!score || score < 0 || score > 10) {
                 errs.push('Thang điểm từ 0->10!');
-                return;
-            }
+                return false;
+            }else return true;
         });
         errs.forEach(e => showErrorNotification(e));
         if (!errs.length) {
             showWarningNotification('Đang lưu điểm...');
             this.setState({isSavingScore: true});
-            inputExamScore(classData.id, currentExam.id, {scores})
+            inputExamScore(classData.id,  {scores})
                 .then((res) => {
                     console.log(res);
                     showNotification('Lưu thành công!');

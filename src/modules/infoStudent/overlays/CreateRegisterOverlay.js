@@ -12,8 +12,7 @@ import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValu
 import {GENDER} from "../../../constants/constants";
 import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
-import * as helper from "../../../helpers/helper";
-import {dotNumber, sortCoupon} from "../../../helpers/helper";
+import {dotNumber, sortCoupon, showTypeNotification} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as discountActions from "../../discount/discountActions";
@@ -181,19 +180,19 @@ class CreateRegisterOverlay extends React.Component {
     createRegister = (e) => {
         let {register} = this.state;
         if (register.name === null || register.name === undefined || register.name === "") {
-            helper.showTypeNotification("Vui lòng nhập tên", 'warning');
+            showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
         }
         if (register.phone === null || register.phone === undefined || register.phone === "") {
-            helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
+            showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             return;
         }
         if (register.email === null || register.email === undefined || register.email === "") {
-            helper.showTypeNotification("Vui lòng nhập email", 'warning');
+            showTypeNotification("Vui lòng nhập email", 'warning');
             return;
         }
         if (!register.base_id && !register.class_id) {
-            helper.showTypeNotification("Vui lòng chọn lớp hoặc cơ sở", 'warning');
+            showTypeNotification("Vui lòng chọn lớp hoặc cơ sở", 'warning');
             return;
         }
         this.props.createRegisterActions.createRegister(register, () => {

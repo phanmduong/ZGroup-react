@@ -297,7 +297,7 @@
     },
     "rules": {
       "quotes": 0,
-      "no-console": 1,
+      "no-console": 0,
       "no-debugger": 1,
       "no-var": 1,
       "semi": [
@@ -341,7 +341,7 @@
       "react/jsx-uses-vars": 1,
       "react/jsx-wrap-multilines": 1,
       "react/no-danger": 1,
-      "react/no-did-mount-set-state": 1,
+      "react/no-did-mount-set-state": 0,
       "react/no-did-update-set-state": 1,
       "react/no-direct-mutation-state": 1,
       "react/no-multi-comp": 1,

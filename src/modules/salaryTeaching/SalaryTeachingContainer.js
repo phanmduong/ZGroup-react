@@ -13,7 +13,6 @@ import {
 } from "../../helpers/helper";
 import AddSalaryBonus from "./AddSalaryBonus";
 import DetailSalaryBonus from "./DetailSalaryBonus";
-import * as helper from "../../helpers/helper";
 import SendMail from "./SendMail";
 
 @observer
@@ -174,7 +173,7 @@ class SalaryTeachingContainer extends React.Component {
 
     approvalSalary = () => {
         if (store.selectedBaseId != 0 || store.isApproval) return;
-        helper.confirm('success', 'Duyệt chi', `Bạn có chắc chắn duyệt chi lương giảng viên khóa này không?`, () => {
+        confirm('success', 'Duyệt chi', `Bạn có chắc chắn duyệt chi lương giảng viên khóa này không?`, () => {
             store.approvalSalary();
         });
 
