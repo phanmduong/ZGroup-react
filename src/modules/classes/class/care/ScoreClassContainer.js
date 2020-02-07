@@ -440,7 +440,7 @@ class ScoreClassContainer extends React.Component {
                         {/*<div className="text-center">{`${currentExam.title}${currentExam.description ? (' - ' + currentExam.description) : ''} - Hệ số ${currentExam.weight}`}</div>*/}
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="container-fluid">
+
                         {isSavingScore && <Loading/>}
                         {!isSavingScore &&
                         <div className="table-responsive table-split table-narrow">
@@ -520,7 +520,6 @@ class ScoreClassContainer extends React.Component {
                                 Hoàn tất
                             </div>
                         </div>}
-                        </div>
                     </Modal.Body>
                 </Modal>
             </div>

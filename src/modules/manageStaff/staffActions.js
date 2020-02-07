@@ -545,7 +545,7 @@ export function loadDepartments() {
             .then((res) => {
                     dispatch({
                         type: types.LOAD_DEPARTMENT_STAFF_SUCCESS,
-                        data: res.data.departments,
+                        data: res.data.departments ? res.data.departments : res.data.data.departments,
                     });
             }).catch(() => {
             dispatch({

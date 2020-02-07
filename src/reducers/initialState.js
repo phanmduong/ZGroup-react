@@ -1319,7 +1319,11 @@ export default {
         infoCreateClass: {},
         isStoringClass: false,
         errorStoreClass: false,
-        class: {},
+        class: {
+            exams:[],
+            registers:[],
+            group_exams:[],
+        },
         isLoadingClass: false,
         errorClass: false,
         isChangingClassLesson: false,

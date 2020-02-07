@@ -32,6 +32,7 @@ const createRegister = {
     bases: [],
     isLoadingCampaigns: false,
     campaigns: [],
+    classes: [],
     provinces: [],
     isLoadingProvinces: false,
     isSavingRegister: false

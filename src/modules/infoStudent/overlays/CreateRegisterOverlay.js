@@ -254,7 +254,7 @@ class CreateRegisterOverlay extends React.Component {
     render() {
         let {register, coursePrice} = this.state;
         let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, student} = this.props;
-        let classes = (this.props.classes || []).filter(c => register.base_id * 1 ? c.base.id == register.base_id : true);
+        let classes = ([...this.props.classes] || []).filter(c => ((register.base_id * 1) && c.base) ? c.base.id == register.base_id : true);
         let statuses = this.props.statuses.registers;
         coupons = this.getCouponSelectOptions([...coupons], register);
         let finalPrice = this.getFinalPrice();

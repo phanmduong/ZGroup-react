@@ -203,7 +203,6 @@ export function loadBaseApi() {
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.get(url);
 }
 
@@ -226,7 +225,7 @@ export function loadDepartments() {
     let url = env.MANAGE_API_URL + "/department/get-all-departments";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "?token=" + token + "&limit=-1";
     }
     return axios.get(url);
 }
