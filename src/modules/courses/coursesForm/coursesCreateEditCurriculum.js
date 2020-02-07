@@ -9,6 +9,8 @@ import {NO_IMAGE} from "../../../constants/env";
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import ReactSelect from "react-select";
+import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
+import CreateTermOverlay from "../overlays/CreateTermOverlay";
 
 let id;
 
@@ -171,6 +173,10 @@ class coursesCreateEditCurriculum extends React.Component {
     render() {
         return (
             <div>
+                <div className="flex flex-wrap" style={{marginTop: 15}}>
+                    <CreateCurriculumOverlay className="btn btn-silver"/>
+                    <CreateTermOverlay className="btn btn-silver"/>
+                </div>
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.isCreate ? "Thêm" : "Chỉnh sửa"} học phần</Modal.Title>

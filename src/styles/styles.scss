@@ -3882,3 +3882,42 @@ $min-height-step-content: 500px;
 input[type=search], .form-control {
   background-color: transparent;
 }
+
+.date-range-picker {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #f3f4f3;
+  width: 100%;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 35px;
+  cursor: pointer;
+
+  .date-picker {
+    border: none;
+  }
+}
+
+.select-silver {
+  .Select-control {
+    border: none;
+    background-color: #f3f4f3;
+    cursor: pointer;
+    box-shadow: none !important;
+  }
+
+  .Select-value {
+    max-width: 230px;
+  }
+
+  .Select-input input {
+    padding: 10px 0px !important;
+  }
+
+  .Select-placeholder {
+    display: flex;
+    align-items: center;
+  }
+}

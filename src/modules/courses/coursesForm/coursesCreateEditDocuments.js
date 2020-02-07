@@ -9,6 +9,7 @@ import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import {NO_IMAGE} from '../../../constants/env';
 import * as helper from '../../../helpers/helper';
+import CreateDocumentOverlay from "../overlays/CreateDocumentOverlay";
 
 function validateLink(link) {
     if (helper.isEmptyInput(link)) return NO_IMAGE;
@@ -169,7 +170,9 @@ class coursesCreateEditDocuments extends React.Component {
 
         return (
             <div>
-
+                <div className="flex flex-wrap" style={{marginTop: 15}}>
+                    <CreateDocumentOverlay className="btn btn-silver"/>
+                </div>
 
                 <div className="table-responsive">
 

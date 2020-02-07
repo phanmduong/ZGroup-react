@@ -850,7 +850,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoadingAnalyticExam: false
+                    isLoadingAnalyticExam: true
                 }
             };
         }
@@ -858,8 +858,16 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoadingAnalyticExam: true,
+                    isLoadingAnalyticExam: false,
                     analyticExam: action.analytic_exam
+                }
+            };
+        }
+        case types.LOAD_CLASSES_BY_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    classes: action.classes
                 }
             };
         }

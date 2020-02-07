@@ -1789,7 +1789,8 @@ export default {
         categories: [],
         types: [],
         isLoadingAnalyticExam: false,
-        analyticExam: []
+        analyticExam: [],
+        classes: []
 
 
     },

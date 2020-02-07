@@ -15,9 +15,6 @@ import {dotNumber} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import {Modal} from "react-bootstrap";
 import CoursesCreateEditGeneral from "./CoursesCreateEditGeneral";
-import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
-import CreateTermOverlay from "../overlays/CreateTermOverlay";
-import CreateDocumentOverlay from "../overlays/CreateDocumentOverlay";
 
 // const btn ={
 //     width: "100%",
@@ -130,17 +127,6 @@ class EditCoursesContainer extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-8">
-                                    <div className="flex flex-wrap" style={{marginTop: 5}}>
-                                        <CreateCurriculumOverlay className="btn btn-silver"/>
-                                        <CreateTermOverlay className="btn btn-silver"/>
-                                        <CreateDocumentOverlay className="btn btn-silver"/>
-                                        <div className="btn btn-silver"
-                                             ref="target"
-                                             onClick={this.openModalCreateExam}
-                                        >
-                                            Thêm bài kiểm tra
-                                        </div>
-                                    </div>
                                     <div className="margintop-10">
                                         <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                                             <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>

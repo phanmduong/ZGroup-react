@@ -799,14 +799,29 @@ export function editGroupExam(data, callback) {
     };
 }
 
-export function getAnalyticExam(course_id) {
+export function getAnalyticExam(course_id, classId, startDate, endDate) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_ANALYTICS_EXAM_COURSE});
-        courseApi.getAnalyticExam(course_id)
+        courseApi.getAnalyticExam(course_id, classId, startDate, endDate)
             .then(res => {
                 dispatch({
                     type: types.LOAD_ANALYTICS_EXAM_COURSE_SUCCESS,
                     analytic_exam: res.data.analytic_exam
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+            });
+    };
+}
+
+export function getClassesByCourse(course_id) {
+    return function (dispatch) {
+        courseApi.getClassesByCourse(course_id)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_CLASSES_BY_COURSE_SUCCESS,
+                    classes: res.data.classes
                 });
             })
             .catch(() => {

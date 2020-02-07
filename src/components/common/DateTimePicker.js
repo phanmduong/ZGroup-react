@@ -1,5 +1,4 @@
 import React from "react";
-import {FormControl} from "react-bootstrap";
 import moment from "moment";
 import DateTimeRangeContainer from "./datePicker/index";
 
@@ -29,6 +28,7 @@ class DateRangePicker extends React.Component {
             start: startDate,
             end: endDate
         });
+        this.props.onChange(startDate, endDate);
     }
 
     rangeCallback(index, value) {
@@ -94,11 +94,10 @@ class DateRangePicker extends React.Component {
         };
         let maxDate = moment(end).add(24, "hour");
         let value = `${this.state.start.format(
-            "DD-MM-YYYY"
-        )} - ${this.state.end.format("DD-MM-YYYY")}`;
+            "DD/MM/YYYY"
+        )} - ${this.state.end.format("DD/MM/YYYY")}`;
         return (
             <div>
-                <br/>
                 <DateTimeRangeContainer
                     ranges={ranges}
                     start={this.state.start}
@@ -111,14 +110,10 @@ class DateRangePicker extends React.Component {
                     years={[2015, 2025]}
                     pastSearchFriendly
                 >
-                    <FormControl
-                        id="formControlsTextB"
-                        type="text"
-                        label="Text"
-                        placeholder="Enter text"
-                        style={{cursor: "pointer"}}
-                        value={value}
-                    />
+                    <div className="date-range-picker">
+                        <span className="date-picker">{value}</span>
+                        <span className="Select-arrow-zone"><span className="Select-arrow"></span></span>
+                    </div>
                 </DateTimeRangeContainer>
                 <br/>
             </div>
