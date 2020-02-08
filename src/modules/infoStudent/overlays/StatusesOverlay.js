@@ -148,13 +148,13 @@ class StatusesOverlay extends React.Component {
 
     render() {
         let {isDeleting, isLoading,data, isProcessing} = this.state;
-        let { isLoadingStatuses, className} = this.props;
+        let { isLoadingStatuses, className,style} = this.props;
         let statuses =  this.props.statuses[this.props.statusRef] || [];
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer'}} className={className} ref="StatusesOverlay">
+            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer', ...style}} className={className} ref="StatusesOverlay">
                 <div
                      data-toggle="tooltip"
                      rel="tooltip"

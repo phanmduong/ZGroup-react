@@ -78,12 +78,12 @@ class PicOverlay extends React.Component {
 
     render() {
         let {isDeleting,  isProcessing, student} = this.state;
-        let {className,isLoading,staffs} = this.props;
+        let {className,isLoading,staffs,style} = this.props;
         let showLoading = isLoading || isProcessing;
         const current = (student && staffs && staffs.filter(s => s.id == student.staff_id)[0]) || {color:999999};
 
         return (
-            <div style={{position: "relative", backgroundColor: `#${current.color}`}} className={className}
+            <div style={{position: "relative", backgroundColor: `#${current.color}`, ...style}} className={className}
                  ref="PicOverlay">
                 <div onClick={() => this.setState({show: true})}>
                     {this.staffName()}

@@ -1501,7 +1501,7 @@ table tr td .avatar-honor {
 
 
 .card {
-  //box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .sidebar {
@@ -2249,7 +2249,6 @@ ul.nav.nav-pills.nav-pills-dark {
     }
 
 
-
     .panel-body {
       padding: 0;
     }
@@ -2914,7 +2913,7 @@ $min-height-step-content: 500px;
 }
 
 .btn-grey {
-  &,&:hover{
+  &, &:hover {
     background-color: #f7f5f7 !important;
     color: black;
   }
@@ -3646,15 +3645,14 @@ $min-height-step-content: 500px;
 }
 
 
-
-.exam-input{
+.exam-input {
   //width: 42px;
   //height: 42px;
-  input{
-    padding: 20px 10px!important;
-    background-color: #f3f4f3!important;
-    border-radius: 5px!important;
-    background-image: none!important;
+  input {
+    padding: 20px 10px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
     border: none;
   }
 }
@@ -3920,4 +3918,8 @@ input[type=search], .form-control {
     display: flex;
     align-items: center;
   }
+}
+
+.box-shadow {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14) !important;
 }

@@ -310,7 +310,7 @@ class JobAssignmentContainer extends React.Component {
 
                     <div className="board-container">
                         {/*pending*/}
-                        <div data-order="0" className="card card-container keetool-board">
+                        <div data-order="0" className="card card-container box-shadow keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{ fontWeight: 600 }}>Đợi chấp nhận</span>
                             </div>
@@ -336,7 +336,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                         {/*pending*/}
                         {/*pay*/}
-                        <div data-order="1" className="card card-container keetool-board">
+                        <div data-order="1" className="card card-container box-shadow keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{ fontWeight: 600 }}>Chi tiền</span>
                             </div>
@@ -361,7 +361,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                         {/*pay*/}
                         {/*doing*/}
-                        <div data-order="2" className="card card-container keetool-board">
+                        <div data-order="2" className="card card-container box-shadow keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{ fontWeight: 600 }}>Đang làm</span>
                             </div>
@@ -388,7 +388,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                         {/*doing*/}
                         {/*done*/}
-                        <div data-order="3" className="card card-container keetool-board">
+                        <div data-order="3" className="card card-container box-shadow keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{ fontWeight: 600 }}>Hoàn thành</span>
                             </div>
@@ -416,7 +416,7 @@ class JobAssignmentContainer extends React.Component {
                         {/*done*/}
                         {/*cancel*/}
 
-                        <div data-order="4" className="card card-container keetool-board">
+                        <div data-order="4" className="card card-container box-shadow keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{ fontWeight: 600 }}>Hủy</span>
                             </div>

@@ -169,6 +169,7 @@ class ListLead extends React.Component {
                                                     student={lead}
                                                 />
                                                 <PicOverlay
+                                                    style={{padding: '4px 15px'}}
                                                     student={lead}
                                                     className="btn-xs width-100 source-value margin-bottom-10"
 
@@ -177,10 +178,11 @@ class ListLead extends React.Component {
 
                                             <td>
                                                 <StatusesOverlay
+                                                    style={{padding: '4px 15px'}}
                                                     data={lead.lead_status}
                                                     refId={lead.id}
                                                     statusRef="leads"
-                                                    className="status-overlay  margin-bottom-10"
+                                                    className="btn-xs status-overlay  margin-bottom-10"
                                                 />
                                             </td>
                                             <td>

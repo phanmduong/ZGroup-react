@@ -109,7 +109,7 @@ class BoardList extends React.Component {
                     {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
                         return (
                             <div key={board.id} data-order={board.order} id={board.id}
-                                 className="card card-container keetool-board">
+                                 className="card card-container box-shadow keetool-board">
                                 <div className="board-title undraggable">
                                     <span style={{fontWeight: 600}}>{board.title}</span>
                                     <div className="board-action">

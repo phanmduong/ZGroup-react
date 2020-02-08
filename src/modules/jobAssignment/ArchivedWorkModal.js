@@ -30,7 +30,7 @@ class ArchivedWorkModal extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     {this.props.isLoadingArchivedWork ? <Loading/> :
-                        <div  data-order="0" className="card card-container keetool-board" style={{width: "100%"}}>
+                        <div  data-order="0" className="card card-container box-shadow keetool-board" style={{width: "100%"}}>
                             <div className="board">
                                 {
                                     archivedWorks.length <= 0 &&

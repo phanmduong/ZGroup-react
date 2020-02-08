@@ -66,7 +66,7 @@ class CardItem extends React.Component {
                 className="card-content keetool-card">
 
                 <div className="card keetool-card keetool-card-wrapper">
-                    <div className="card-content keetool-card" style={{ position: "relative" }}>
+                    <div className="card-content keetool-card box-shadow" style={{ position: "relative" }}>
                         <div style={{ position: "absolute", top: 10, right: 10 }}>
                             <div className="board-action keetool-card">
                                 <div className="dropdown">
