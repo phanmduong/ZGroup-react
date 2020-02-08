@@ -196,9 +196,9 @@ class CreateRegisterOverlay extends React.Component {
             return;
         }
         this.props.createRegisterActions.createRegister(register, () => {
+            this.setState(this.initState);
             this.props.studentActions.loadRegisters(this.props.student.id);
             this.props.discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
-            this.close();
         });
         e.preventDefault();
     };
@@ -209,7 +209,7 @@ class CreateRegisterOverlay extends React.Component {
 
 
     close = () => {
-        this.setState(this.initState);
+        this.setState({show: false});
     };
 
     getCouponSelectOptions(arr, register) {

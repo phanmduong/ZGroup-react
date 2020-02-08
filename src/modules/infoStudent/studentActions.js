@@ -75,6 +75,16 @@ export function loadInfoStudent(studentId) {
             });
     };
 }
+export function removeInfoStudent() {
+    return function (dispatch) {
+
+                dispatch({
+                    type: types.REMOVE_INFO_STUDENT,
+
+                });
+
+    };
+}
 
 export function loadRegisters(studentId) {
     return function (dispatch) {

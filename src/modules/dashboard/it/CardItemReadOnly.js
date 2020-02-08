@@ -48,7 +48,7 @@ class CardItemReadOnly extends React.Component {
                 key={card.id} id={card.id} data-order={card.order}
                 className="card-content keetool-card">
 
-                <div className="card keetool-card keetool-card-wrapper">
+                <div className="card keetool-card keetool-card-wrapper box-shadow">
                     <div className="card-content keetool-card" style={{position: "relative"}}>
                         {card.cardLabels && card.cardLabels.length > 0 && (
                             <div className="keetool-card"

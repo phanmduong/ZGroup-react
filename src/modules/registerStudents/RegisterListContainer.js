@@ -856,7 +856,6 @@ class RegisterListContainer extends React.Component {
                                             {/*</button>*/}
                                             <CreateRegisterOverlay
                                                 className="btn btn-white btn-round btn-icon"
-
                                             />
 
                                         </div>
@@ -1636,6 +1635,7 @@ function mapStateToProps(state) {
         sources: state.createRegister.sources,
         isLoadingSources: state.createRegister.isLoadingSources,
         statuses: state.infoStudent.statuses,
+        isLoadingStudent: state.infoStudent.isLoadingStudent,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
         selectedBaseId: state.global.selectedBaseId,
     };

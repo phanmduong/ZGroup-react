@@ -32,7 +32,7 @@ class CardWork extends React.Component {
                 }}
                 // key={key} id={key} data-order={key}
                 className="card-content keetool-idcard">
-                <div className="card keetool-card keetool-card-wrapper">
+                <div className="card keetool-card keetool-card-wrapper box-shadow">
                     <div className="card-content keetool-card" style={{ position: "relative" }}>
                         <div style={{ position: "absolute", top: 10, right: 10 }} hidden={(user.role !== 2) && checkId}>
                             <div className="board-action keetool-card">

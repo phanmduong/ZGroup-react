@@ -2,6 +2,9 @@ import React from 'react';
 import InfoStudentContainer from "../infoStudent/InfoStudentContainer";
 import {Modal} from 'react-bootstrap';
 
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as studentActions from "../infoStudent/studentActions";
 
 
 class GlobalModalContainer extends React.Component {
@@ -35,6 +38,7 @@ class GlobalModalContainer extends React.Component {
     closeModalRegisterDetail = () => {
         let {state} = window.history;
         this.setState({registerDetail: {showModalRegisterDetail: false}});
+        this.props.studentActions.removeInfoStudent();
         history.pushState({}, "modal", state.prevUrl);
 
     };
@@ -59,5 +63,17 @@ class GlobalModalContainer extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        student: state.infoStudent.student,
 
-export default (GlobalModalContainer);
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        studentActions: bindActionCreators(studentActions, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GlobalModalContainer);
