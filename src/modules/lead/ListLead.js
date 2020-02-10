@@ -278,7 +278,7 @@ class ListLead extends React.Component {
                         loadDataPage={this.props.loadData}
                     />
                 }
-
+                {this.props.isDistribution &&<div style={{height:125}}/>}
                 <Modal
                     show={this.state.isOpenModalEdit}
                     onHide={this.closeEditModal}

@@ -765,3 +765,9 @@ export const HISTORY_CARE_TYPES = {
         null: {name: 'Thông tin', icon: 'info', color: 'grey'}
     }
 };
+
+export const STATUS_REFS = {
+    leads:'leads',
+    classes:'classes',
+    registers:'registers',
+};

@@ -12,16 +12,16 @@ import {searchStaffs} from "./leadApi";
 import Star from "../../components/common/Star";
 import {NO_AVATAR} from "../../constants/env";
 import FormInputText from "../../components/common/FormInputText";
-import Checkbox from "../../components/common/Checkbox";
 import {Modal, Panel} from "react-bootstrap";
 
 import {confirm, isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
-import {DATE_FORMAT_SQL} from "../../constants/constants";
+import {DATE_FORMAT_SQL, STATUS_REFS} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
+import Checkbox from "../../components/common/Checkbox";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -48,46 +48,47 @@ class LeadContainer extends React.Component {
             isOpenModalSelectedLeads: false,
 
         };
-
+        this.isAdmin = (this.props.user.role === 2);
+        this.statusRef = STATUS_REFS.leads;
     }
 
     componentWillMount() {
 
-        this.props.studentActions.loadStatuses('leads');
+        this.props.studentActions.loadStatuses(this.statusRef);
 
-        if (this.props.route.type === "distribution") {
-            this.setState({isDistribution: true, staff: "-2", page: 1});
+        // if (this.props.route.type === "distribution") {
+        if (this.isAdmin) {
+            this.setState({staff: "-2", page: 1});
             this.props.leadActions.getLeads({
                 ...this.state,
                 page: 1,
                 staffId: -2
             });
         } else {
-
-            if (this.props.route.type === "my-leads") {
-                this.setState({staff: this.props.user.id, page: 1});
-                this.props.leadActions.getLeads(
-                    {
-                        ...this.state,
-                        page: 1,
-
-                    }
-                );
-            } else {
-                this.loadData();
-            }
+            // if (this.props.route.type === "my-leads") {
+            this.setState({staff: this.props.user.id, page: 1});
+            this.props.leadActions.getLeads(
+                {
+                    ...this.state,
+                    staffId: this.props.user.id,
+                    page: 1,
+                }
+            );
+            // } else {
+            //     this.loadData();
+            // }
         }
 
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoading != this.props.isLoading && !nextProps.isLoading) {
+        if (!nextProps.isLoading && this.props.isLoading) {
             if (this.state.isAll) {
                 this.changeStatusAll(true, nextProps);
             }
             this.setState({page: nextProps.currentPage});
         }
-        if (nextProps.isUploading != this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
+        if (this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
             this.setState({
                 page: 1,
                 query: "",
@@ -98,87 +99,87 @@ class LeadContainer extends React.Component {
                 staff: "",
                 rate: 0
             });
-            this.props.leadActions.getLeads({page: 1});
+            this.props.leadActions.getLeads({page: 1, staffId: this.isAdmin ? -2 : this.props.user.id,});
         }
-        if (nextProps.isDistributing != this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
+        if (this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
             this.setState({
                 page: 1,
-                staff: "-2",
+                staffId: this.isAdmin ? -2 : this.props.user.id,
                 isAll: false,
                 selectedLeads: []
             });
             this.props.leadActions.getLeads({
                 ...this.state,
                 page: 1,
-                staffId: -2
+                staffId: this.isAdmin ? -2 : this.props.user.id,
             });
         }
 
-        if (nextProps.route.type != this.props.route.type) {
-            if (nextProps.route.type === "my-leads") {
-                this.setState({
-                    page: 1,
-                    query: "",
-                    filter: {
-                        startTime: '',
-                        endTime: '',
-                    },
-                    staff: nextProps.user.id,
-                    isDistribution: false,
-                    top: "",
-                    rate: "",
-                    carer: "",
-                    isAll: false,
-                    selectedLeads: [],
-                    isOpenModalSelectedLeads: false,
-                });
-                this.props.leadActions.getLeads({
-                    page: 1, search: "", startTime: "", endTime: "", staffId: nextProps.user.id, rate: "", top: ""
-                });
-            } else {
-                if (nextProps.route.type === "distribution") {
-                    this.setState({
-                        page: 1,
-                        query: "",
-                        filter: {
-                            startTime: '',
-                            endTime: '',
-                        },
-                        staff: -2,
-                        isDistribution: nextProps.route.type === "distribution",
-                        top: "",
-                        rate: "",
-                        carer: "",
-                        isAll: false,
-                        selectedLeads: [],
-                        isOpenModalSelectedLeads: false,
-                    });
-                    this.props.leadActions.getLeads({
-                        page: 1, search: "", startTime: "", endTime: "", staffId: -2, rate: "", top: ""
-                    });
-                } else {
-                    this.setState({
-                        page: 1,
-                        query: "",
-                        filter: {
-                            startTime: '',
-                            endTime: '',
-                        },
-                        staffs: [],
-                        staff: "",
-                        isDistribution: false,
-                        top: "",
-                        rate: "",
-                        carer: "",
-                        isAll: false,
-                        selectedLeads: [],
-                        isOpenModalSelectedLeads: false,
-
-                    });
-                    this.props.leadActions.getLeads({page: 1});
-                }
-            }
-        }
+        // if (nextProps.route.type != this.props.route.type) {
+        //     if (nextProps.route.type === "my-leads") {
+        //         this.setState({
+        //             page: 1,
+        //             query: "",
+        //             filter: {
+        //                 startTime: '',
+        //                 endTime: '',
+        //             },
+        //             staff: nextProps.user.id,
+        //             isDistribution: false,
+        //             top: "",
+        //             rate: "",
+        //             carer: "",
+        //             isAll: false,
+        //             selectedLeads: [],
+        //             isOpenModalSelectedLeads: false,
+        //         });
+        //         this.props.leadActions.getLeads({
+        //             page: 1, search: "", startTime: "", endTime: "", staffId: nextProps.user.id, rate: "", top: ""
+        //         });
+        //     } else {
+        //         if (nextProps.route.type === "distribution") {
+        //             this.setState({
+        //                 page: 1,
+        //                 query: "",
+        //                 filter: {
+        //                     startTime: '',
+        //                     endTime: '',
+        //                 },
+        //                 staff: -2,
+        //                 isDistribution: nextProps.route.type === "distribution",
+        //                 top: "",
+        //                 rate: "",
+        //                 carer: "",
+        //                 isAll: false,
+        //                 selectedLeads: [],
+        //                 isOpenModalSelectedLeads: false,
+        //             });
+        //             this.props.leadActions.getLeads({
+        //                 page: 1, search: "", startTime: "", endTime: "", staffId: -2, rate: "", top: ""
+        //             });
+        //         } else {
+        //             this.setState({
+        //                 page: 1,
+        //                 query: "",
+        //                 filter: {
+        //                     startTime: '',
+        //                     endTime: '',
+        //                 },
+        //                 staffs: [],
+        //                 staff: "",
+        //                 isDistribution: false,
+        //                 top: "",
+        //                 rate: "",
+        //                 carer: "",
+        //                 isAll: false,
+        //                 selectedLeads: [],
+        //                 isOpenModalSelectedLeads: false,
+        //
+        //             });
+        //             this.props.leadActions.getLeads({page: 1});
+        //         }
+        //     }
+        // }
 
         if (!nextProps.isLoadingStatuses && this.props.isLoadingStatuses) {
             this.setState({
@@ -225,10 +226,11 @@ class LeadContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.leadActions.getLeads({
-                ...this.state,
-                page:1,
-                search:value,
-            }
+                    ...this.state,
+                    page: 1,
+                    staffId: this.isAdmin ? -2 : this.props.user.id,
+                    search: value,
+                }
             );
         }.bind(this), 500);
     };
@@ -249,9 +251,9 @@ class LeadContainer extends React.Component {
         if (!isEmptyInput(filter.startTime) && !isEmptyInput(filter.endTime)) {
             this.props.leadActions.getLeads({
                 ...this.state,
-                page:1,
-                startTime:filter.startTime,
-                endTime:filter.endTime,
+                page: 1,
+                startTime: filter.startTime,
+                endTime: filter.endTime,
             });
         }
         this.setState({filter: filter, page: 1, isAll: false});
@@ -259,30 +261,34 @@ class LeadContainer extends React.Component {
 
     changeStaff = value => {
         let staff;
-        if (this.state.isDistribution) {
-            staff = value ? value : "";
-            this.setState({carer: staff});
-        } else {
-            staff = value && value.value ? value.value : "";
-            this.props.leadActions.getLeads({
-                ...this.state,
-                page:1,
-                staffId:staff,
-            });
-            this.setState({staff: staff, page: 1});
-        }
+        staff = value && value.value ? value.value : "";
+        this.props.leadActions.getLeads({
+            ...this.state,
+            page: 1,
+            staffId: staff,
+        });
+        this.setState({staff: staff, page: 1});
+
+    };
+
+    changeCarer = value => {
+        let staff;
+        staff = value ? value : "";
+        this.setState({carer: staff,});
+
     };
     onFilterChange = (value, name) => {
 
         this.setState({[name]: value});
 
-        if(name == 'leadStatusId'){
+        if (name == 'leadStatusId') {
             value = value.id;
         }
         this.props.leadActions.getLeads({
             ...this.state,
-            page:1,
-            [name]:value
+            page: 1,
+            staffId: this.isAdmin ? -2 : this.props.user.id,
+            [name]: value
         });
 
 
@@ -295,18 +301,19 @@ class LeadContainer extends React.Component {
         }
         this.timeOut = setTimeout(
             () => {
-                if (!this.state.isDistribution) {
-                    this.props.leadActions.getLeads({
-                        ...this.state,
-                        page:1,
-                        address
-                    });
-                }
+                // if (!this.state.isDistribution) {
+                this.props.leadActions.getLeads({
+                    ...this.state,
+                    page: 1,
+                    staffId: this.isAdmin ? -2 : this.props.user.id,
+                    address,
+                });
+                // }
             }, 1500);
 
     };
 
-    loadStaffs = (input, callback) => {
+    loadStaffs = (input, callback, isCarer) => {
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -315,7 +322,7 @@ class LeadContainer extends React.Component {
 
                 let staffs = [];
 
-                if (!this.state.isDistribution) {
+                if (isCarer) {
                     staffs = [{
                         avatar_url: NO_AVATAR,
                         value: "",
@@ -349,8 +356,9 @@ class LeadContainer extends React.Component {
         this.setState({page: 1, rate: value, isAll: false});
         this.props.leadActions.getLeads({
             ...this.state,
-            page:1,
-            rate:value,
+            staffId: this.isAdmin ? -2 : this.props.user.id,
+            page: 1,
+            rate: value,
         });
     };
 
@@ -417,10 +425,12 @@ class LeadContainer extends React.Component {
         }
         this.timeOutTop = setTimeout(function () {
             this.props.leadActions.getLeads({
-                    ...this.state,
-                    page:1,
-                top:value,
-                });
+                ...this.state,
+                page: 1,
+                top: value,
+                staffId: this.isAdmin ? -2 : this.props.user.id,
+
+            });
         }.bind(this), 500);
     };
 
@@ -557,7 +567,8 @@ class LeadContainer extends React.Component {
                         <div style={{marginTop: '10%'}}/>
 
                         <div className="flex-align-items-center flex flex-wrap">
-                            {this.props.route.type !== "my-leads" && !this.state.isDistribution &&
+                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
+                            {this.isAdmin &&
                             <Search
                                 onChange={this.searchChange}
                                 placeholder="Tim kiếm leads"
@@ -588,6 +599,11 @@ class LeadContainer extends React.Component {
                             <CreateLeadOverlay
                                 className="btn btn-white btn-round btn-icon"
                             />
+                            {this.isAdmin && !this.state.isDistribution &&
+                            <div className="btn btn-white btn-round btn-icon"
+                                 onClick={() => this.setState({isDistribution: true})}>
+                                Phân lead
+                            </div>}
                             {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
                             {/*<div className="btn btn-white btn-round margin-right-10 "*/}
                             {/*     onClick={() => $('#btn-add-leads').removeClass('open')}>*/}
@@ -656,14 +672,16 @@ class LeadContainer extends React.Component {
                                 </div>
                                 {/*<div className="col-md-6"/>*/}
                                 {
-                                    (this.state.isDistribution || this.props.route.type === "my-leads") ?
+                                    (this.state.isAdmin) ?
                                         <div/>
                                         :
-                                        <div className="col-md-3" style={{zIndex: 10}}>
+                                        <div className="col-md-3"
+                                            // style={{zIndex: 10}}
+                                        >
                                             <div className="form-group none-padding">
                                                 <label>Nhân viên</label>
                                                 <ReactSelect.Async
-                                                    loadOptions={this.loadStaffs}
+                                                    loadOptions={(p1,p2)=>this.loadStaffs(p1,p2,false)}
                                                     loadingPlaceholder="Đang tải..."
                                                     placeholder="Chọn nhân viên"
                                                     searchPromptText="Không có dữ liệu nhân viên"
@@ -685,30 +703,17 @@ class LeadContainer extends React.Component {
                                             </div>
                                         </div>
                                 }
-                                <div className="col-md-3">
-                                    <div className="form-group margin-bottom-20">
-                                        <label>Chọn đánh giá</label>
-                                        <div className="flex flex-row-center">
-                                            <Star
-                                                value={0}
-                                                maxStar={5}
-                                                onChange={(value) => {
-                                                    this.changeRate(value);
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+
                                 {this.state.isDistribution &&
                                 <div className="col-md-3">
                                     <div className="form-group margin-bottom-20">
                                         <label>Nhân viên</label>
                                         <ReactSelect.Async
-                                            loadOptions={this.loadStaffs}
+                                            loadOptions={(p1,p2)=>this.loadStaffs(p1,p2,true)}
                                             loadingPlaceholder="Đang tải..."
                                             placeholder="Chọn nhân viên"
                                             searchPromptText="Không có dữ liệu nhân viên"
-                                            onChange={this.changeStaff}
+                                            onChange={this.changeCarer}
                                             value={this.state.carer}
                                             className="react-select-white"
                                             optionRenderer={(option) => {
@@ -727,19 +732,33 @@ class LeadContainer extends React.Component {
                                     </div>
                                 </div>
                                 }
-                                {this.state.isDistribution &&
                                 <div className="col-md-3">
-                                    <div className="form-group">
-                                        <label>Chọn tất cả</label>
-                                        <Checkbox
-                                            label={`${this.props.totalCount} lead`}
-                                            checkBoxLeft
-                                            onChange={this.onChangeAll}
-                                            name="isAll"
-                                            checked={this.state.isAll}
+                                    <div className="form-group margin-bottom-20">
+                                        <label>Chọn đánh giá</label>
+                                        <div className="flex flex-row-center">
+                                            <Star
+                                                value={0}
+                                                maxStar={5}
+                                                onChange={(value) => {
+                                                    this.changeRate(value);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                {/*{this.state.isDistribution &&*/}
+                                {/*<div className="col-md-3">*/}
+                                {/*    <div className="form-group">*/}
+                                {/*        <label>Chọn tất cả</label>*/}
+                                {/*        <Checkbox*/}
+                                {/*            label={`${this.props.totalCount} lead`}*/}
+                                {/*            checkBoxLeft*/}
+                                {/*            onChange={this.onChangeAll}*/}
+                                {/*            name="isAll"*/}
+                                {/*            checked={this.state.isAll}*/}
 
-                                        /></div>
-                                </div>}
+                                {/*        /></div>*/}
+                                {/*</div>}*/}
                                 <div className="col-md-3">
                                     <div className="form-group margin-bottom-20">
                                         <label>Tỉnh/thành phố</label>
@@ -809,7 +828,88 @@ class LeadContainer extends React.Component {
                     openCreateRegisterModal={this.openCreateRegisterModal}
                     removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
                 />
+                {this.state.isDistribution &&
+                <div className="import-data-container" mask="white">
+                    <div className="import-footer">
+                        <div className="table-responsive">
+                            <table className="table">
+                                <tbody>
+                                <tr>
 
+                                    <td style={{width: 20}}>
+                                        <Checkbox
+                                            checked={this.state.selectedLeads ? this.state.selectedLeads.length > 0 : false}
+                                        />
+                                    </td>
+
+
+                                    <td style={{minWidth: 200}} className="text-align-left"><b>
+                                        Đã chọn: {this.state.selectedLeads ? this.state.selectedLeads.length : 0} lead
+                                    </b></td>
+
+
+                                    <td style={{width: 'calc(100%-625px)', minWidth: 150}} className="text-align-right">
+                                        <b>Phân các Lead này cho </b></td>
+                                    <td style={{width: 200}}>
+                                        <ReactSelect.Async
+                                            loadOptions={this.loadStaffs}
+                                            loadingPlaceholder="Đang tải..."
+                                            placeholder="Chọn nhân viên"
+                                            searchPromptText="Không có dữ liệu nhân viên"
+                                            onChange={this.changeCarer}
+                                            value={this.state.carer}
+                                            className="react-select-white"
+                                            optionRenderer={(option) => {
+                                                return (
+                                                    <ItemReactSelect label={option.label}
+                                                                     url={option.avatar_url}/>
+                                                );
+                                            }}
+                                            valueRenderer={(option) => {
+                                                return (
+                                                    <ItemReactSelect label={option.label}
+                                                                     url={option.avatar_url}/>
+                                                );
+                                            }}
+                                        />
+
+                                    </td>
+                                    <td style={{width: 135}}>
+
+                                        <div onClick={() => {
+                                        }} className="btn button-green">
+                                            Phân lead
+                                        </div>
+
+                                    </td>
+                                    <td style={{width: 70}}>
+                                        <div className="btn btn-white" style={{borderRadius:5}}
+                                             onClick={() => this.setState({isDistribution: false})}>
+                                            Hủy
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        {/*<div className="flex flex-align-items-center flex-space-between padding-horizontal-20px">*/}
+                        {/*    <Checkbox*/}
+                        {/*        checked={this.state.selectedLeads ? this.state.selectedLeads.length > 0 : false}*/}
+                        {/*    />*/}
+                        {/*    <b>*/}
+                        {/*        Đã chọn: {this.state.selectedLeads ? this.state.selectedLeads.length : 0} lead*/}
+                        {/*    </b>*/}
+                        {/*    <div className="flex flex-row flex-space-between flex-justify-content-center">*/}
+                        {/*        <div onClick={() => {*/}
+                        {/*        }} className="button-green">*/}
+                        {/*            Hoàn tất*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+
+                    </div>
+                </div>}
 
                 <Modal
                     bsSize="lg"

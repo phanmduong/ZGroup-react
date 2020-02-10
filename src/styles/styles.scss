@@ -565,6 +565,10 @@ $starInactive: #c4c5c6;
   padding-left: 30px;
   padding-right: 30px;
 }
+.padding-horizontal-20px {
+  padding-left: 20px;
+  padding-right: 20px;
+}
 
 .image-class-attendance-class-dashboard {
   margin-right: 10px !important;
@@ -2382,6 +2386,7 @@ ul.nav.nav-pills.nav-pills-dark {
   }
 }
 
+
 .import-data-container {
   background-color: white;
   border-radius: 10px;
@@ -2399,13 +2404,20 @@ ul.nav.nav-pills.nav-pills-dark {
   .import-footer {
     background-color: #e5e5e5;
     width: 100%;
-    padding: 20px;
     position: fixed;
     bottom: 0;
     left: 0;
-    padding-left: 280px;
+    padding: 20px 20px 20px 280px;
     @media (max-width: 991px) {
       padding-left: 20px;
+    }
+  }
+  &[mask=white] .import-footer{
+    //background-color: white;
+    //background-color: transparent;
+    padding: 20px 20px 0px 285px;
+    .table>tbody>tr>td{
+      border: none;
     }
   }
 

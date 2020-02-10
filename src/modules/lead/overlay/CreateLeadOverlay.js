@@ -13,7 +13,7 @@ import * as helper from "../../../helpers/helper";
 import * as studentActions from "../../infoStudent/studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as leadActions from "../leadActions";
-import {GENDER} from "../../../constants/constants";
+import {GENDER, STATUS_REFS} from "../../../constants/constants";
 
 
 function getSelectSaler(items) {
@@ -40,7 +40,7 @@ function getSelectCampaign(items) {
 class CreateLeadOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.statusRef = 'leads';
+        this.statusRef = STATUS_REFS.leads;
         this.initState = {
             show: false,
             lead: {carer_id: this.props.user && this.props.user.id, rate: 5},

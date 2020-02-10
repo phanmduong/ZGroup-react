@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
+import {STATUS_REFS} from "../../constants/constants";
 
 class ListClass extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.statusRef = 'classes';
+        this.statusRef = STATUS_REFS.classes;
     }
 
     typeClass(type) {

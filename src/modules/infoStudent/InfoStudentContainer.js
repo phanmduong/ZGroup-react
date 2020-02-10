@@ -7,7 +7,7 @@ import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
-import {GENDER} from "../../constants/constants";
+import {GENDER, STATUS_REFS} from "../../constants/constants";
 import FormInputDate from "../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
@@ -70,6 +70,7 @@ class InfoStudentContainer extends React.Component {
             imageUrl: '',
             currentRoute: this.routes.filter(r => r.path == this.path)[0] || {},
         };
+        this.statusRef = STATUS_REFS.leads;
 
     }
 
@@ -332,7 +333,7 @@ class InfoStudentContainer extends React.Component {
                                             <StatusesOverlay
                                                 data={student.lead_status}
                                                 refId={student.id}
-                                                statusRef="leads"
+                                                statusRef={this.statusRef}
                                                 className="source-value"
                                             />
                                         </div>
