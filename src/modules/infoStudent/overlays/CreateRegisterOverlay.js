@@ -85,15 +85,34 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     componentWillMount() {
-        this.props.createRegisterActions.loadCourses();
-        this.props.createRegisterActions.loadCampaigns();
-        this.props.registerActions.loadSalerFilter();
+        let {
+            discountActions,
+            registerActions,
+            createRegisterActions,
+            isLoadedCoupons,
+            isLoadingSources,
+            isLoadedCourses,
+            isLoadedCampaigns,
+            isLoadedSalerFilter,
+            isLoadedProvinces,
+            isLoadedSources,
+        } = this.props;
+
+        if(!isLoadedCourses) createRegisterActions.loadCourses();
+        if(!isLoadedCampaigns) createRegisterActions.loadCampaigns();
+        if(!isLoadedSalerFilter) registerActions.loadSalerFilter();
+        if(!isLoadedProvinces) createRegisterActions.loadAllProvinces();
         this.loadStatuses(false);
-        this.props.createRegisterActions.loadAllProvinces();
-        if (!this.props.isLoadingSources)
-            this.props.createRegisterActions.loadSources();
-        let {discountActions, isLoadedCoupons} = this.props;
+        if (!isLoadingSources && !isLoadedSources) createRegisterActions.loadSources();
         if (!isLoadedCoupons) discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.student && nextProps.student && (this.props.student.id != nextProps.student.id)) {
+            this.setState({
+                register: {...this.state.register, ...nextProps.student},
+            });
+        }
     }
 
     loadStatuses = (singleLoad) => {
@@ -200,13 +219,16 @@ class CreateRegisterOverlay extends React.Component {
             this.setState(this.initState);
             this.props.studentActions.loadRegisters(this.props.student.id);
             this.props.discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
+            if (this.props.onSuccess) {
+                this.props.onSuccess(register);
+            }
         });
         e.preventDefault();
     };
 
     toggle = () => {
         this.setState({show: !this.state.show});
-        if(this.props.onShow && !this.state.show){
+        if (this.props.onShow && !this.state.show) {
 
             this.props.onShow();
         }
@@ -258,7 +280,7 @@ class CreateRegisterOverlay extends React.Component {
 
     render() {
         let {register, coursePrice} = this.state;
-        let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, student} = this.props;
+        let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, student, direction} = this.props;
         let classes = ([...this.props.classes] || []).filter(c => ((register.base_id * 1) && c.base) ? c.base.id == register.base_id : true);
         let statuses = this.props.statuses.registers;
         coupons = this.getCouponSelectOptions([...coupons], register);
@@ -286,7 +308,8 @@ class CreateRegisterOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 10}}>
+                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 10}}
+                         direction={direction}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
                             <div><b>Tạo đăng kí mới</b></div>
                             <button
@@ -600,10 +623,18 @@ CreateRegisterOverlay.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {bases, isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {
+        bases, isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces,
+        isLoadedCourses,
+        isLoadedCampaigns,
+        isLoadedSources,
+        isLoadedProvinces,
+    } = state.createRegister;
+
     return {
         student: state.infoStudent.student,
         salers: state.registerStudents.salerFilter,
+        isLoadedSalerFilter: state.registerStudents.isLoadedSalerFilter,
         bases,
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
@@ -620,6 +651,10 @@ function mapStateToProps(state) {
         campaigns,
         provinces,
         isSavingRegister,
+        isLoadedCourses,
+        isLoadedCampaigns,
+        isLoadedProvinces,
+        isLoadedSources,
         coupons: state.discounts.discountsList,
         isLoadingCoupons: state.discounts.isLoading,
         isLoadedCoupons: state.discounts.isLoading,

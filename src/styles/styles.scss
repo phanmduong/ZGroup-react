@@ -2020,8 +2020,8 @@ table tr td .avatar-honor {
   will-change: unset !important;
 
   &:hover, & {
-    background-color: #F7F5F7 !important;
-    color: black !important;
+    background-color: #F7F5F7 ;
+    color: black ;
 
   }
 
@@ -2156,7 +2156,10 @@ ul.nav.nav-pills.nav-pills-dark {
 }
 
 .overlay-container, .form-modal {
-
+  &[direction=right]{
+    left: unset!important;
+    right: 0;
+  }
 
   &[mask=lead] {
     left: unset !important;
@@ -3965,4 +3968,8 @@ input[type=search], .form-control {
     color: #878787;
     //font-size: 20px;
   }
+}
+
+.margin-left-auto{
+  margin-left: auto;
 }

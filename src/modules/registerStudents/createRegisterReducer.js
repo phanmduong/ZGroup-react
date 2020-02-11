@@ -55,6 +55,7 @@ export default function registerReducer(state = createRegister, action) {
             return {
                 ...state,
                 isLoadingCourses: true,
+                isLoadedCourses: true,
             };
         case  LOADED_COURSES_SUCCESS:
             return {
@@ -88,6 +89,7 @@ export default function registerReducer(state = createRegister, action) {
         case BEGIN_LOAD_CAMPAIGNS:
             return {
                 ...state,
+                isLoadedCampaigns: true,
                 isLoadingCampaigns: true,
             };
         case  LOADED_CAMPAIGNS_SUCCESS:
@@ -106,6 +108,7 @@ export default function registerReducer(state = createRegister, action) {
             return {
                 ...state,
                 isLoadingProvinces: true,
+                isLoadedProvinces: true,
             };
         case types.LOAD_ALL_PROVINCES_SUCCESS:
             return {
@@ -116,12 +119,14 @@ export default function registerReducer(state = createRegister, action) {
         case types.BEGIN_LOAD_ALL_SOURCES:
             return {
                 ...state,
+                isLoadedSources: true,
                 isLoadingSources: true,
             };
         case types.LOAD_ALL_SOURCES_SUCCESS:
             return {
                 ...state,
                 isLoadingSources: false,
+
                 sources: action.sources
             };
         case BEGIN_SAVE_REGISTER2:

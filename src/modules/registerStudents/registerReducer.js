@@ -85,6 +85,7 @@ export default function registerReducer(state = initialState.registerStudents, a
                 ...state,
                 ...{
                     isLoadingSalerFilter: true,
+                    isLoadedSalerFilter: true,
                 }
             };
         case types.LOAD_SALER_FILTER_SUCCESS:

@@ -36,6 +36,14 @@ class LeadContainer extends React.Component {
                 status: '',
             },
             leadStatusId: '',
+            orderBy: '',
+            orderByOptions: [
+                {value:'carer',label:'Lead chưa có P.I.C'},
+                {value:'newest',label:'Lead từ mới đến cũ'},
+                // {value:'oldest',label:'Lead từ cũ đến mới'},
+                {value:'upstar',label:'Sao tăng dần'},
+                {value:'donwstar',label:'Sao giảm dần'},
+            ],
             statusFilter: [],
             staffs: [],
             staff: "",
@@ -54,7 +62,7 @@ class LeadContainer extends React.Component {
 
     componentWillMount() {
 
-        this.props.studentActions.loadStatuses(this.statusRef);
+        if (!this.props.isLoadedStatuses) this.props.studentActions.loadStatuses(this.statusRef);
 
         // if (this.props.route.type === "distribution") {
         if (this.isAdmin) {
@@ -490,7 +498,7 @@ class LeadContainer extends React.Component {
     };
 
     deleteAllSelected = () => {
-        this.setState({selectedLeads: [],isOpenModalSelectedLeads:false, isAll: false});
+        this.setState({selectedLeads: [], isOpenModalSelectedLeads: false, isAll: false});
     };
 
     removeLeadSuccess = () => {
@@ -578,8 +586,8 @@ class LeadContainer extends React.Component {
                                 placeholder="Tim kiếm leads"
                                 value={this.state.query}
                                 className="round-white-seacrh"
-
                             />}
+
                             <button
                                 onClick={this.openFilterPanel}
                                 className="btn btn-white btn-round margin-right-10"
@@ -633,6 +641,17 @@ class LeadContainer extends React.Component {
                             {/*   href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/lead-data-sample.xlsx">*/}
                             {/*    Tải file mẫu*/}
                             {/*</a>*/}
+
+                            <ReactSelect
+                                disabled={this.props.isLoading}
+                                options={this.state.orderByOptions}
+                                onChange={e => this.onFilterChange(e.value, 'orderBy')}
+                                value={this.state.orderBy}
+                                placeholder="Sắp xếp theo"
+                                searchable={false}
+                                name="orderBy"
+                                className="react-select-white margin-left-auto min-width-150-px"
+                            />
                         </div>
 
 
@@ -674,38 +693,35 @@ class LeadContainer extends React.Component {
 
                                     />
                                 </div>
-                                {/*<div className="col-md-6"/>*/}
                                 {
-                                    (this.state.isAdmin) ?
-                                        <div/>
-                                        :
-                                        <div className="col-md-3"
-                                            // style={{zIndex: 10}}
-                                        >
-                                            <div className="form-group none-padding">
-                                                <label>Nhân viên</label>
-                                                <ReactSelect.Async
-                                                    loadOptions={(p1, p2) => this.loadStaffs(p1, p2, false)}
-                                                    loadingPlaceholder="Đang tải..."
-                                                    placeholder="Chọn nhân viên"
-                                                    searchPromptText="Không có dữ liệu nhân viên"
-                                                    onChange={this.changeStaff}
-                                                    value={this.state.staff}
-                                                    optionRenderer={(option) => {
-                                                        return (
-                                                            <ItemReactSelect label={option.label}
-                                                                             url={option.avatar_url}/>
-                                                        );
-                                                    }}
-                                                    valueRenderer={(option) => {
-                                                        return (
-                                                            <ItemReactSelect label={option.label}
-                                                                             url={option.avatar_url}/>
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
+                                    (this.isAdmin) &&
+                                    <div className="col-md-3"
+                                        // style={{zIndex: 10}}
+                                    >
+                                        <div className="form-group none-padding">
+                                            <label>Nhân viên</label>
+                                            <ReactSelect.Async
+                                                loadOptions={(p1, p2) => this.loadStaffs(p1, p2, true)}
+                                                loadingPlaceholder="Đang tải..."
+                                                placeholder="Chọn nhân viên"
+                                                searchPromptText="Không có dữ liệu nhân viên"
+                                                onChange={this.changeStaff}
+                                                value={this.state.staff}
+                                                optionRenderer={(option) => {
+                                                    return (
+                                                        <ItemReactSelect label={option.label}
+                                                                         url={option.avatar_url}/>
+                                                    );
+                                                }}
+                                                valueRenderer={(option) => {
+                                                    return (
+                                                        <ItemReactSelect label={option.label}
+                                                                         url={option.avatar_url}/>
+                                                    );
+                                                }}
+                                            />
                                         </div>
+                                    </div>
                                 }
 
                                 {/*{this.state.isDistribution &&*/}
@@ -844,7 +860,7 @@ class LeadContainer extends React.Component {
                                     <td style={{width: 20}}>
                                         <Checkbox
                                             checked={this.state.selectedLeads ? this.state.selectedLeads.length > 0 : false}
-                                            onChange={()=>this.deleteAllSelected()}
+                                            onChange={() => this.deleteAllSelected()}
 
                                         />
                                     </td>
@@ -963,6 +979,7 @@ LeadContainer.propTypes = {
     errorDistribution: PropTypes.bool.isRequired,
     errorUpload: PropTypes.bool.isRequired,
     isDistributing: PropTypes.bool.isRequired,
+    isLoadedStatuses: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
@@ -981,6 +998,7 @@ function mapStateToProps(state) {
         errorDistribution: state.lead.errorDistribution,
         user: state.login.user,
         statuses: state.infoStudent.statuses,
+        isLoadedStatuses: state.infoStudent.isLoadedStatuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
 
     };
