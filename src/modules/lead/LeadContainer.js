@@ -205,7 +205,11 @@ class LeadContainer extends React.Component {
 
     openModalSelectedLeadsModal = () => {
         if (isEmptyInput(this.state.carer)) {
-            showTypeNotification("Vui lòng chọn nhân viên", "warning");
+            showTypeNotification("Vui lòng chọn nhân viên!", "warning");
+            return;
+        }
+        if (!this.state.selectedLeads || !this.state.selectedLeads.length) {
+            showTypeNotification("Bạn chưa chọn lead nào!", "warning");
             return;
         }
         this.setState({isOpenModalSelectedLeads: true});
@@ -486,7 +490,7 @@ class LeadContainer extends React.Component {
     };
 
     deleteAllSelected = () => {
-        this.setState({selectedLeads: [], isAll: false});
+        this.setState({selectedLeads: [],isOpenModalSelectedLeads:false, isAll: false});
     };
 
     removeLeadSuccess = () => {
@@ -681,7 +685,7 @@ class LeadContainer extends React.Component {
                                             <div className="form-group none-padding">
                                                 <label>Nhân viên</label>
                                                 <ReactSelect.Async
-                                                    loadOptions={(p1,p2)=>this.loadStaffs(p1,p2,false)}
+                                                    loadOptions={(p1, p2) => this.loadStaffs(p1, p2, false)}
                                                     loadingPlaceholder="Đang tải..."
                                                     placeholder="Chọn nhân viên"
                                                     searchPromptText="Không có dữ liệu nhân viên"
@@ -704,34 +708,34 @@ class LeadContainer extends React.Component {
                                         </div>
                                 }
 
-                                {this.state.isDistribution &&
-                                <div className="col-md-3">
-                                    <div className="form-group margin-bottom-20">
-                                        <label>Nhân viên</label>
-                                        <ReactSelect.Async
-                                            loadOptions={(p1,p2)=>this.loadStaffs(p1,p2,true)}
-                                            loadingPlaceholder="Đang tải..."
-                                            placeholder="Chọn nhân viên"
-                                            searchPromptText="Không có dữ liệu nhân viên"
-                                            onChange={this.changeCarer}
-                                            value={this.state.carer}
-                                            className="react-select-white"
-                                            optionRenderer={(option) => {
-                                                return (
-                                                    <ItemReactSelect label={option.label}
-                                                                     url={option.avatar_url}/>
-                                                );
-                                            }}
-                                            valueRenderer={(option) => {
-                                                return (
-                                                    <ItemReactSelect label={option.label}
-                                                                     url={option.avatar_url}/>
-                                                );
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                                }
+                                {/*{this.state.isDistribution &&*/}
+                                {/*<div className="col-md-3">*/}
+                                {/*    <div className="form-group margin-bottom-20">*/}
+                                {/*        <label>Nhân viên</label>*/}
+                                {/*        <ReactSelect.Async*/}
+                                {/*            loadOptions={(p1, p2) => this.loadStaffs(p1, p2, true)}*/}
+                                {/*            loadingPlaceholder="Đang tải..."*/}
+                                {/*            placeholder="Chọn nhân viên"*/}
+                                {/*            searchPromptText="Không có dữ liệu nhân viên"*/}
+                                {/*            onChange={this.changeCarer}*/}
+                                {/*            value={this.state.carer}*/}
+                                {/*            className="react-select-white"*/}
+                                {/*            optionRenderer={(option) => {*/}
+                                {/*                return (*/}
+                                {/*                    <ItemReactSelect label={option.label}*/}
+                                {/*                                     url={option.avatar_url}/>*/}
+                                {/*                );*/}
+                                {/*            }}*/}
+                                {/*            valueRenderer={(option) => {*/}
+                                {/*                return (*/}
+                                {/*                    <ItemReactSelect label={option.label}*/}
+                                {/*                                     url={option.avatar_url}/>*/}
+                                {/*                );*/}
+                                {/*            }}*/}
+                                {/*        />*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                {/*}*/}
                                 <div className="col-md-3">
                                     <div className="form-group margin-bottom-20">
                                         <label>Chọn đánh giá</label>
@@ -826,12 +830,13 @@ class LeadContainer extends React.Component {
                     selectedLeads={this.state.selectedLeads}
                     changeStatusLead={this.changeStatusLead}
                     openCreateRegisterModal={this.openCreateRegisterModal}
-                    removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
+                    // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
+                    removeLead={this.isAdmin ? null : this.removeLead}
                 />
                 {this.state.isDistribution &&
                 <div className="import-data-container" mask="white">
                     <div className="import-footer">
-                        <div className="table-responsive">
+                        <div>
                             <table className="table">
                                 <tbody>
                                 <tr>
@@ -839,6 +844,8 @@ class LeadContainer extends React.Component {
                                     <td style={{width: 20}}>
                                         <Checkbox
                                             checked={this.state.selectedLeads ? this.state.selectedLeads.length > 0 : false}
+                                            onChange={()=>this.deleteAllSelected()}
+
                                         />
                                     </td>
 
@@ -859,6 +866,9 @@ class LeadContainer extends React.Component {
                                             onChange={this.changeCarer}
                                             value={this.state.carer}
                                             className="react-select-white"
+                                            // menuPosition="top"
+                                            // menuPlacement="top"
+                                            menuContainerStyle={{top: 'auto', bottom: '100%'}}
                                             optionRenderer={(option) => {
                                                 return (
                                                     <ItemReactSelect label={option.label}
@@ -876,14 +886,14 @@ class LeadContainer extends React.Component {
                                     </td>
                                     <td style={{width: 135}}>
 
-                                        <div onClick={() => {
-                                        }} className="btn button-green">
+                                        <div onClick={this.openModalSelectedLeadsModal}
+                                             className="btn button-green">
                                             Phân lead
                                         </div>
 
                                     </td>
                                     <td style={{width: 70}}>
-                                        <div className="btn btn-white" style={{borderRadius:5}}
+                                        <div className="btn btn-white" style={{borderRadius: 5}}
                                              onClick={() => this.setState({isDistribution: false})}>
                                             Hủy
                                         </div>
@@ -931,6 +941,8 @@ class LeadContainer extends React.Component {
                             leads={this.state.selectedLeads}
                             deleteLeadSelected={this.deleteLeadSelected}
                             deleteAllSelected={this.deleteAllSelected}
+                            openCreateRegisterModal={this.openCreateRegisterModal}
+
                         />
                         {this.renderButtonDistribution()}
                     </Modal.Body>

@@ -35,13 +35,13 @@ export default function studentReducer(state = initialState.infoStudent, action)
                     isLoadingStatuses: false,
                 }
             };
-        case types.REMOVE_INFO_STUDENT:
+        case types.SET_INFO_STUDENT:
             return {
                 ...state,
                 ...{
                     isLoadingStudent: false,
                     errorStudent: false,
-                    student: {}
+                    student: action.student
                 }
             };
         case types.BEGIN_LOAD_INFO_STUDENT:

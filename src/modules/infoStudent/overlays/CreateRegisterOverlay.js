@@ -12,7 +12,7 @@ import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValu
 import {GENDER} from "../../../constants/constants";
 import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
-import {dotNumber, sortCoupon, showTypeNotification} from "../../../helpers/helper";
+import {dotNumber, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as discountActions from "../../discount/discountActions";
@@ -81,6 +81,7 @@ class CreateRegisterOverlay extends React.Component {
             register: {...this.props.student, coupons: [], saler_id: this.props.user && this.props.user.id},
         };
         this.state = this.initState;
+
     }
 
     componentWillMount() {
@@ -205,6 +206,10 @@ class CreateRegisterOverlay extends React.Component {
 
     toggle = () => {
         this.setState({show: !this.state.show});
+        if(this.props.onShow && !this.state.show){
+
+            this.props.onShow();
+        }
     };
 
 
@@ -261,13 +266,19 @@ class CreateRegisterOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}}>
+                {!this.props.children &&
                 <div className={className} mask="create"
                      ref="target" onClick={this.toggle}
                      disabled={isSavingRegister}>
                     Tạo đăng kí mới {!student.id && <i className="material-icons">
                     add
                 </i>}
-                </div>
+                </div>}
+                {this.props.children && <div className={className} mask="create"
+                                             ref="target" onClick={this.toggle}
+                                             disabled={isSavingRegister}>
+                    {this.props.children}
+                </div>}
                 <Overlay
                     rootClose={true}
                     show={this.state.show}
