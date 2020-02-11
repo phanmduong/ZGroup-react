@@ -716,6 +716,34 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         }
+        case types.BEGIN_CREATE_MULTI_LESSON_COURSE: {
+            return {
+                ...state,
+                ...{
+                    isCommittingMultiLesson: true
+                }
+            };
+        }
+        case types.CREATE_MULTI_LESSON_COURSE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isCommittingMultiLesson: false,
+                    data: {
+                        ...state.data,
+                        lessons: [...state.data.lessons, ...action.lessons]
+                    }
+                }
+            };
+        }
+        case types.CREATE_MULTI_LESSON_COURSE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isCommittingMultiLesson: false
+                }
+            };
+        }
         case types.TOGGLE_MODAL_EXAM_COURSE: {
             return {
                 ...state,

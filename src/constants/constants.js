@@ -703,6 +703,7 @@ export const FILTER_STUDY_PACK_REGISTER = [
 export const PAYMENT_METHODS_OBJECT = {
     internet_banking: "Chuyển khoản",
     cash: "Tiền mặt",
+    swipe: "Quẹt thẻ"
 };
 
 export const PAYMENT_METHODS = [
@@ -713,6 +714,10 @@ export const PAYMENT_METHODS = [
     {
         value: "cash",
         label: "Tiền mặt"
+    },
+    {
+        value: "swipe",
+        label: "Quẹt thẻ"
     }
 ];
 

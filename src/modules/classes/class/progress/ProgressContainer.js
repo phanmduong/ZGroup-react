@@ -36,7 +36,7 @@ class ProgressClassContainer extends React.Component {
         let {classData, isLoading} = this.props;
         // let {} = this.state;
         return (
-            <div className="table-responsive table-split">
+            <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">
                     {/*<thead className="text-rose">*/}
                     {/*<tr>*/}

@@ -565,6 +565,7 @@ $starInactive: #c4c5c6;
   padding-left: 30px;
   padding-right: 30px;
 }
+
 .padding-horizontal-20px {
   padding-left: 20px;
   padding-right: 20px;
@@ -1468,6 +1469,8 @@ table tr td .avatar-honor {
     background-color: white;
     padding: 15px 10px !important;
     font-weight: 400 !important;
+
+
   }
 
   th, td {
@@ -1489,6 +1492,14 @@ table tr td .avatar-honor {
     padding: 0px 10px !important;
   }
 
+}
+
+.table-hover {
+  tbody > tr:hover {
+    td {
+      background-color: #f7f7f7 !important;
+    }
+  }
 }
 
 .table-no-border {
@@ -2412,11 +2423,13 @@ ul.nav.nav-pills.nav-pills-dark {
       padding-left: 20px;
     }
   }
-  &[mask=white] .import-footer{
+
+  &[mask=white] .import-footer {
     //background-color: white;
     //background-color: transparent;
     padding: 20px 20px 0px 285px;
-    .table>tbody>tr>td{
+
+    .table > tbody > tr > td {
       border: none;
     }
   }
@@ -3878,7 +3891,7 @@ $min-height-step-content: 500px;
 
 .activeNotifier {
   text-align: center;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
 }
 
 .dot {

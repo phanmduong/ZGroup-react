@@ -11,6 +11,7 @@ import FormInputText from '../../../components/common/FormInputText';
 import ReactSelect from "react-select";
 import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
 import CreateTermOverlay from "../overlays/CreateTermOverlay";
+import CreateMultiLessonOverlay from "../overlays/CreateMultiLessonOverlay";
 
 let id;
 
@@ -174,6 +175,7 @@ class coursesCreateEditCurriculum extends React.Component {
         return (
             <div>
                 <div className="flex flex-wrap" style={{marginTop: 15}}>
+                    <CreateMultiLessonOverlay className="btn btn-silver"/>
                     <CreateCurriculumOverlay className="btn btn-silver"/>
                     <CreateTermOverlay className="btn btn-silver"/>
                 </div>

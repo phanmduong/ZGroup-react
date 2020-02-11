@@ -453,6 +453,64 @@ export default function classesReducer(state = initialState.classes, action) {
                     schedules: [...state.infoCreateClass.schedules, action.schedule]
                 }
             };
+        case types.DELETE_REGISTER_STUDENT_CLASS_SUCCESS:
+            return {
+                ...state,
+                class: {
+                    ...state.class,
+                    registers: state.class.registers.filter((register) => register.id != action.registerId)
+                }
+            }
+                ;
+        case types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT_CLASS:
+            return {
+                ...state,
+                ...{
+                    isLoadingChangeClasses: true,
+                    errorChangeClasses: false,
+                }
+            };
+        case types.LOAD_CLASSES_REGISTER_STUDENT_CLASS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingChangeClasses: false,
+                    errorChangeClasses: false,
+                    changeClasses: action.classes,
+                }
+            };
+        case types.LOAD_CLASSES_REGISTER_STUDENT_CLASS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingChangeClasses: false,
+                    errorChangeClasses: true,
+                }
+            };
+        case types.BEGIN_CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_CLASS:
+            return {
+                ...state,
+                ...{
+                    isChangingClass: true,
+                    errorChangeClass: false,
+                }
+            };
+        case types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_CLASS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isChangingClass: false,
+                    errorChangeClass: false,
+                }
+            };
+        case types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_CLASS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingClass: false,
+                    errorChangeClass: true,
+                }
+            };
         default:
             return state;
     }

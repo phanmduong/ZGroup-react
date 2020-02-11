@@ -84,7 +84,7 @@ class ScoreClassContainer extends React.Component {
 
                 {(!isLoading) && classData.group_exams.map((group, key1) => {
                     return (
-                        <div key={key1} className="table-responsive table-split margin-bottom-20">
+                        <div key={key1} className="table-responsive table-split margin-bottom-20 table-hover">
 
                             <table className="table" cellSpacing="0" id="list_register">
                                 <tbody>
@@ -481,7 +481,7 @@ class ScoreClassContainer extends React.Component {
                                                 let score = register.score ? register.score[exam.id] : 0;
                                                 let comment = register.comment ? register.comment[exam.id] : '';
                                                 return ([
-                                                    <td style={{width: 90,minWidth: 90}}>
+                                                    <td style={{width: 90, minWidth: 90}}>
                                                         <FormInputText name="score"
                                                                        value={score}
                                                                        placeholder="Điểm"
@@ -490,7 +490,7 @@ class ScoreClassContainer extends React.Component {
                                                                        maxValue={10}
                                                                        className="exam-input"
                                                                        isNotValid={score < 0 || score > 10}
-                                                                       updateFormData={(e) => this.updateFormInputScore(e, key,exam.id)}
+                                                                       updateFormData={(e) => this.updateFormInputScore(e, key, exam.id)}
                                                         />
                                                     </td>,
                                                     <td style={{minWidth: 100}}>
@@ -499,7 +499,7 @@ class ScoreClassContainer extends React.Component {
                                                                        placeholder="Nhận xét"
                                                                        type="text"
                                                                        className="exam-input"
-                                                                       updateFormData={(e) => this.updateFormInputScore(e, key,exam.id)}
+                                                                       updateFormData={(e) => this.updateFormInputScore(e, key, exam.id)}
                                                         />
                                                     </td>
                                                 ]);
@@ -526,7 +526,7 @@ class ScoreClassContainer extends React.Component {
         );
     }
 
-    updateFormInputScore = (e, key,examId) => {
+    updateFormInputScore = (e, key, examId) => {
         let {name, value} = e.target;
         let {currentRegisters} = this.state;
         currentRegisters[key][name][examId] = value;
@@ -539,7 +539,7 @@ class ScoreClassContainer extends React.Component {
         let {currentExams, currentRegisters} = this.state;
         let scores = [];
         currentRegisters.forEach((obj) => {
-            currentExams.forEach(exam=>{
+            currentExams.forEach(exam => {
                 let res = {
                     user_id: obj.student.id,
                     exam_id: exam.id,
@@ -557,13 +557,13 @@ class ScoreClassContainer extends React.Component {
             if (!score || score < 0 || score > 10) {
                 errs.push('Thang điểm từ 0->10!');
                 return false;
-            }else return true;
+            } else return true;
         });
         errs.forEach(e => showErrorNotification(e));
         if (!errs.length) {
             showWarningNotification('Đang lưu điểm...');
             this.setState({isSavingScore: true});
-            inputExamScore(classData.id,  {scores})
+            inputExamScore(classData.id, {scores})
                 .then((res) => {
                     console.log(res);
                     showNotification('Lưu thành công!');

@@ -18,7 +18,9 @@ class CreateLessonOverlay extends React.Component {
         super(props, context);
         this.initState = {
             show: false,
-            lesson: {}
+            lesson: {
+                order: props.course.lessons.length + 1
+            }
         };
         this.state = {...this.initState};
     }
@@ -146,7 +148,6 @@ class CreateLessonOverlay extends React.Component {
                                 <label>Mô tả ngắn</label>
                                 <FormInputText
                                     placeholder="Mô tả ngắn"
-                                    required
                                     name="description"
                                     updateFormData={this.updateFormData}
                                     value={lesson.description}

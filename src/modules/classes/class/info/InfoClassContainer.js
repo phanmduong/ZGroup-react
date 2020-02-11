@@ -12,12 +12,18 @@ import * as helper from '../../../../helpers/helper';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
+import ButtonGroupAction from "../../../../components/common/ButtonGroupAction";
+import ListChangeClass from "./ListChangeClass";
+import * as globalModalActions from "../../../globalModal/globalModalActions";
 
 class InfoClassContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            openModal: false
+            openModal: false,
+            showModalChangeClass: false,
+            selectRegisterId: 0,
+
         };
         this.openModalTeachers = this.openModalTeachers.bind(this);
         this.closeModalTeachers = this.closeModalTeachers.bind(this);
@@ -32,6 +38,33 @@ class InfoClassContainer extends React.Component {
         this.setState({openModal: false});
     }
 
+    deleteRegister = (register) => {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
+            this.props.classActions.deleteRegisterStudent(register.id);
+        });
+    };
+
+    closeModalChangeClass = () => {
+        this.setState({showModalChangeClass: false});
+    };
+
+    openModalChangeClass = (registerId) => {
+        this.setState({
+            showModalChangeClass: true,
+            selectRegisterId: registerId
+        });
+        this.props.classActions.loadChangeClasses(registerId);
+    };
+
+    confirmChangeClass = (classData) => {
+        this.props.classActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.props.params.classId, this.closeModalChangeClass);
+    };
+
+    onClickStudent = (student) => {
+        let link = '/sales/info-student/' + student.id;
+        globalModalActions.openModalRegisterDetail(link);
+    }
+
     render() {
         if (this.props.isLoadingClass) {
             return (
@@ -41,6 +74,25 @@ class InfoClassContainer extends React.Component {
             let classData = this.props.class;
             return (
                 <div>
+                    <Modal show={this.state.showModalChangeClass}
+                           onHide={() => {
+                               if (!this.props.isChangingClass)
+                                   this.closeModalChangeClass();
+                           }}
+                           bsSize="large"
+                    >
+                        <Modal.Header closeButton={!this.props.isChangingClass}>
+                            <Modal.Title>Thay đổi lớp đăng kí</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <ListChangeClass
+                                classes={this.props.changeClasses}
+                                registerId={this.state.selectRegisterId}
+                                confirmChangeClass={this.confirmChangeClass}
+                                isChangingClass={this.props.isChangingClass}
+                            />
+                        </Modal.Body>
+                    </Modal>
                     {/*<h3>*/}
                     {/*    <strong>Thông tin lớp học {classData.name}</strong>*/}
                     {/*</h3>*/}
@@ -153,7 +205,7 @@ class InfoClassContainer extends React.Component {
                         {/*</div>*/}
 
 
-                        <div className="table-responsive table-split">
+                        <div className="table-responsive table-split table-hover">
                             <table className="table" cellSpacing="0" id="list_register">
                                 {/*<thead className="text-rose">*/}
                                 {/*<tr>*/}
@@ -202,7 +254,7 @@ class InfoClassContainer extends React.Component {
                                                 }}
                                                 />
                                             </td>
-                                            <td><a href={`/sales/info-student/${register.student.id}`}
+                                            <td><a onClick={() => this.onClickStudent(register.student)}
                                                    className="text-name-student-register">
                                                 {register.student.name}
                                             </a></td>
@@ -317,6 +369,34 @@ class InfoClassContainer extends React.Component {
                                                 </div>
 
                                             </td>
+                                            <td>
+                                                <ButtonGroupAction
+                                                    disabledEdit={true}
+                                                    edit={() => {
+                                                        // return this.props.openModalChangeInfoStudent(obj);
+                                                    }}
+                                                    delete={this.deleteRegister}
+                                                    object={register}
+                                                    disabledDelete={!register.is_delete}>
+                                                    <div className={"flex"}>
+                                                        {
+                                                            register.status <= 4 &&
+                                                            <TooltipButton
+                                                                text={register.status == 3 ? "Học lại" : "Đổi lớp"}
+                                                                placement={"top"}>
+                                                                <a onClick={() => this.openModalChangeClass(register.id
+                                                                    // , (register.status == 3 || register.status == 2)
+                                                                )}
+                                                                   type="button"
+                                                                >
+                                                                    <i className="material-icons">{register.status == 3 ? "restore" : "swap_vertical_circle"}</i>
+                                                                </a>
+                                                            </TooltipButton>
+
+                                                        }
+                                                    </div>
+                                                </ButtonGroupAction>
+                                            </td>
 
                                         </tr>
                                     );
@@ -419,6 +499,9 @@ function mapStateToProps(state) {
         isLoadingTeachers: state.classes.isLoadingTeachers,
         teachers: state.classes.teachers,
         teachingAssistants: state.classes.teachingAssistants,
+        isLoadingChangeClasses: state.classes.isLoadingChangeClasses,
+        changeClasses: state.classes.changeClasses,
+        isChangingClass: state.classes.isChangingClass,
     };
 }
 

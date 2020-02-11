@@ -2,6 +2,10 @@ import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
 import * as dashboardApi from "../dashboard/dashboardApi";
+import {showTypeNotification} from "../../helpers/helper";
+import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
+import {showNotification} from "../../helpers/helper";
+import {showErrorNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
@@ -444,6 +448,74 @@ export function addSchedule(schedule) {
             type: types.ADD_SCHDULE_CLASS_DATA,
             schedule: schedule
         });
+    };
+}
+
+export function deleteRegisterStudent(registerId) {
+    return function (dispatch) {
+        showTypeNotification("Đang xóa đăng kí", "info");
+        registerStudentsApi
+            .deleteRegisterStudent(registerId)
+            .then(res => {
+                if (res.data.status === 1) {
+                    showNotification(res.data.data.message);
+                    dispatch({
+                        type: types.DELETE_REGISTER_STUDENT_CLASS_SUCCESS,
+                        registerId,
+                    });
+                } else {
+                    showErrorNotification(res.data.data.message);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+                showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}
+
+export function loadChangeClasses(registerId, query) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT_CLASS,
+        });
+        registerStudentsApi
+            .loadClasses(registerId, query)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_CLASSES_REGISTER_STUDENT_CLASS_SUCCESS,
+                    classes: res.data.data.classes,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_CLASSES_REGISTER_STUDENT_CLASS_ERROR,
+                });
+            });
+    };
+}
+
+export function confirmChangeClass(register, classId, currentClassId, closeModalChangeClass) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_CLASS,
+        });
+        registerStudentsApi
+            .confirmChangeClass(register, classId)
+            .then(res => {
+                showNotification(res.data.data.message);
+                closeModalChangeClass();
+                dispatch(loadClass(currentClassId));
+                dispatch({
+                    type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_CLASS_SUCCESS,
+                });
+            })
+            .catch(() => {
+                showErrorNotification("Thay đổi lớp thất bại");
+                dispatch({
+                    type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_CLASS_ERROR,
+                });
+            });
     };
 }
 

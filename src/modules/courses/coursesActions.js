@@ -687,6 +687,27 @@ export function createLesson(data, courseid, callback) {
     };
 }
 
+export function createMultiLesson(data, courseid, callback) {
+    return function (dispatch) {
+        data.course_id = courseid;
+        dispatch({type: types.BEGIN_CREATE_MULTI_LESSON_COURSE});
+        courseApi.createMultiLesson(data)
+            .then(res => {
+                helper.showNotification("Tạo Thành Công!");
+                if (callback) callback();
+                dispatch({
+                    type: types.CREATE_MULTI_LESSON_COURSE_SUCCESS,
+                    lessons: res.data.data.lessons
+                });
+
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_MULTI_LESSON_COURSE_ERROR});
+            });
+    };
+}
+
 export function createExamTemplate(data, callback) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_EXAM_TEMPLATE_COURSE});

@@ -88,8 +88,7 @@ import bookingHistoryReducer from "../modules/ZgroupFilm/bookingHistory/bookingH
 import codeReducer from "../modules/ZgroupFilm/code/codeReducer";
 import seatTypeReducer from "../modules/ZgroupFilm/seatType/seatTypeReducer";
 import targetSaleReducer from "../modules/sales/targetSaleReducer";
-import globalReducer from "./globalReducer";
-import studentReducer from "../modules/infoStudent/studentReducer";
+import commonReducer from "./commonReducer";
 
 const appReducer = combineReducers({
     blogType: blogTypeReducer,
@@ -181,8 +180,8 @@ const appReducer = combineReducers({
     bookingHistory: bookingHistoryReducer,
     seatType: seatTypeReducer,
     targetSale: targetSaleReducer,
-    infoStudent: studentReducer,
-    global: globalReducer
+    ...commonReducer
+
 });
 
 const rootReducer = (state, action) => {

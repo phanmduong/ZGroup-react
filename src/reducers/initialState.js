@@ -1301,6 +1301,9 @@ export default {
         error: false
     },
     classes: {
+        isLoadingChangeClasses: false,
+        errorChangeClasses: false,
+        changeClasses: [],
         isChangingTeachingLesson: false,
         errorTeachingLesson: false,
         excel: [],

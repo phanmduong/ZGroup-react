@@ -67,11 +67,11 @@ class EditCoursesContainer extends React.Component {
 
                                             <h4 className="card-title  margintop-10">{course.name}</h4>
 
-                                            <h6 className="category text-gray text-email"
-                                                style={{textTransform: "none!important"}}>
-                                                {course.description}
+                                            <div
+                                                className="text-white flex flex-col flex-justify-content-center text-center">
+                                                <div>{course.description}</div>
+                                            </div>
 
-                                            </h6>
                                             <h6 className="category text-gray text-email">
                                                 <span>{dotNumber(course.price)}đ</span>
                                             </h6>
