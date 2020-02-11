@@ -38,7 +38,7 @@ class GlobalModalContainer extends React.Component {
     closeModalRegisterDetail = () => {
         let {state} = window.history;
         this.setState({registerDetail: {showModalRegisterDetail: false}});
-        this.props.studentActions.removeInfoStudent();
+        this.props.studentActions.setInfoStudent({});
         history.pushState({}, "modal", state.prevUrl);
 
     };

@@ -75,12 +75,12 @@ export function loadInfoStudent(studentId) {
             });
     };
 }
-export function removeInfoStudent() {
+export function setInfoStudent(student) {
     return function (dispatch) {
-
+        console.log(student);
                 dispatch({
-                    type: types.REMOVE_INFO_STUDENT,
-
+                    type: types.SET_INFO_STUDENT,
+                    student
                 });
 
     };
