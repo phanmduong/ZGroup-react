@@ -856,6 +856,7 @@ class RegisterListContainer extends React.Component {
                                             {/*</button>*/}
                                             <CreateRegisterOverlay
                                                 className="btn btn-white btn-round btn-icon"
+                                                onSuccess={()=>this.loadRegisterStudent(1)}
                                             />
 
                                         </div>

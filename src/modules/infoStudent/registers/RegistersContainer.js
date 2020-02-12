@@ -90,6 +90,7 @@ class RegistersContainer extends React.Component {
                                     <div className="flex flex-align-items-center margin-top-5">
                                         <CreateRegisterOverlay
                                             className="btn btn-actions"
+                                            onSuccess={()=>this.props.studentActions.loadRegisters(this.props.student.id)}
                                         />
                                         <CreateCouponOverlay
                                             className="btn btn-actions"

@@ -171,7 +171,7 @@ class CreateLeadOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 0, right: 0}}
+                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 0}}
                          mask="lead">
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
                             <div><b>Tạo lead mới</b></div>

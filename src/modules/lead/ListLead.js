@@ -18,6 +18,7 @@ import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay
 import * as studentActions from "../infoStudent/studentActions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import * as leadActions from "./leadActions";
 
 
 //import TooltipButton from "../../components/common/TooltipButton";
@@ -39,6 +40,7 @@ class ListLead extends React.Component {
             lead: lead
         });
     }
+
 
     closeEditModal() {
         this.setState({
@@ -94,7 +96,7 @@ class ListLead extends React.Component {
                                                     type="button"
                                                     rel="tooltip"
                                                 >
-                                                    <i className="material-icons">delete</i>
+                                                    <i className="material-icons">highlight_off</i>
                                                 </a>}
                                             </ButtonGroupAction>
 
@@ -138,14 +140,14 @@ class ListLead extends React.Component {
                                             <td>
                                                 <div>
                                                     <div className="flex flex-align-items-center">
-                                                        <a onClick={() => openModalRegisterDetail(`/sales/info-student/${lead.id}`)}
-                                                           className="text-name-student-register">
+                                                        <a className="text-name-student-register"
+                                                           onClick={() => openModalRegisterDetail(`/sales/info-student/${lead.id}`)}>
                                                             {lead.name}
+                                                            {!lead.staff_id &&
+                                                            <span className="btn-danger btn-xs margin-left-5"
+                                                                  style={{fontSize: 10, padding: '3px'}}>MỚI</span>}
                                                         </a>
-                                                        {!lead.staff_id &&
-                                                        <div className="btn btn-danger btn-xs margin-left-5">
-                                                            MỚI
-                                                        </div>}
+
                                                         {/*<div>{lead.email}</div>*/}
                                                     </div>
                                                     <div>{lead.phone}</div>
@@ -154,11 +156,10 @@ class ListLead extends React.Component {
                                             <td>{lead.interest}</td>
                                             <td>
                                                 {lead.campaign ? (
-                                                    <button
-                                                        className="btn btn-xs btn-main width-100"
-                                                        style={{
-                                                            backgroundColor: "#" + lead.campaign.color
-                                                        }}>
+                                                    <button className="btn btn-xs btn-main width-100"
+                                                            style={{
+                                                                backgroundColor: "#" + lead.campaign.color
+                                                            }}>
                                                         {lead.campaign.name}
                                                         <div className="ripple-container"/>
                                                     </button>
@@ -249,27 +250,29 @@ class ListLead extends React.Component {
                                             }
                                             <td>
 
-                                                    <ButtonGroupAction
-                                                        disabledDelete={true}
-                                                        edit={() => this.openEditModal(lead)}
-                                                        disabledEdit={this.props.showSelectedLead}
+                                                <ButtonGroupAction
+                                                    disabledDelete
+                                                    edit={() => this.openEditModal(lead)}
+                                                    // delete={() => this.deleteLead(lead)}
+                                                    disabledEdit={this.props.showSelectedLead}
+                                                >
+                                                    {this.props.removeLead && <a
+                                                        data-toggle="tooltip"
+                                                        title="Xóa lead"
+                                                        onClick={() => this.props.removeLead(lead)}
+                                                        type="button"
+                                                        rel="tooltip"
                                                     >
-                                                        {this.props.removeLead &&<a
-                                                            data-toggle="tooltip"
-                                                            title="Xóa lead"
-                                                            onClick={() => this.props.removeLead(lead)}
-                                                            type="button"
-                                                            rel="tooltip"
-                                                        >
-                                                            <i className="material-icons">remove</i>
-                                                        </a> }
-                                                        {!this.props.showSelectedLead && <CreateRegisterOverlay
-                                                            onShow={() => this.props.studentActions.setInfoStudent(lead)}
-                                                            className="register-lead-overlay cursor-pointer"
-                                                            direction="right"
-                                                        ><i className="material-icons">add</i>
-                                                        </CreateRegisterOverlay>}
-                                                    </ButtonGroupAction>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>}
+                                                    {!this.props.showSelectedLead && <CreateRegisterOverlay
+                                                        onShow={() => this.props.studentActions.setInfoStudent(lead)}
+                                                        className="register-lead-overlay cursor-pointer"
+                                                        direction="right"
+                                                    ><i className="material-icons">add</i>
+                                                    </CreateRegisterOverlay>}
+
+                                                </ButtonGroupAction>
 
                                                 {this.props.showSelectedLead &&
                                                 <ButtonGroupAction
@@ -285,17 +288,8 @@ class ListLead extends React.Component {
                                                         type="button"
                                                         rel="tooltip"
                                                     >
-                                                        <i className="material-icons">delete</i>
+                                                        <i className="material-icons">highlight_off</i>
                                                     </a>}
-                                                    {/*<a*/}
-                                                    {/*    data-toggle="tooltip"*/}
-                                                    {/*    title="Tạo đăng kí"*/}
-                                                    {/*    onClick={() => this.props.openCreateRegisterModal(lead)}*/}
-                                                    {/*    type="button"*/}
-                                                    {/*    rel="tooltip"*/}
-                                                    {/*>*/}
-                                                    {/*    <i className="material-icons">add</i>*/}
-                                                    {/*</a>*/}
 
                                                 </ButtonGroupAction>
                                                 }
@@ -365,6 +359,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         studentActions: bindActionCreators(studentActions, dispatch),
+        leadActions: bindActionCreators(leadActions, dispatch),
     };
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadLeads(page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "",address='',leadStatusId='',orderBy='') {
+export function loadLeads(page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "",address='',leadStatusId='',orderBy='',orderByType='') {
 
     let url = env.MANAGE_API_URL + "/lead/all";
     let token = localStorage.getItem('token');
@@ -18,6 +18,7 @@ export function loadLeads(page = 1, search = "", startTime = "", endTime = "", s
     url += "&top=" + top;
     url += "&address=" + address;
     url += "&orderBy=" + orderBy;
+    url += "&orderByType=" + orderByType;
     return axios.get(url);
 }
 

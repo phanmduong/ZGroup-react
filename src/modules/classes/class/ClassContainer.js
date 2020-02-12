@@ -701,7 +701,14 @@ class ClassContainer extends React.Component {
                                     })}
                                 </ul>
                                 <div className="flex flex-wrap margintop-10">
-                                    <CreateRegisterOverlay className="btn btn-actions"/>
+                                    <CreateRegisterOverlay
+                                        onSuccess={() => this.props.classActions.loadClass(this.classId)}
+                                    >
+                                        <div className="btn btn-actions">
+                                            Tạo đăng kí mới
+                                        </div>
+
+                                    </CreateRegisterOverlay>
                                     <div onClick={this.genCerti} className="btn btn-actions">
                                         Xếp bằng
                                     </div>

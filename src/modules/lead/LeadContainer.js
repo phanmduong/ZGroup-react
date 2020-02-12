@@ -11,7 +11,6 @@ import ItemReactSelect from "../../components/common/ItemReactSelect";
 import {searchStaffs} from "./leadApi";
 import Star from "../../components/common/Star";
 import {NO_AVATAR} from "../../constants/env";
-import FormInputText from "../../components/common/FormInputText";
 import {Modal, Panel} from "react-bootstrap";
 
 import {confirm, isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
@@ -37,12 +36,13 @@ class LeadContainer extends React.Component {
             },
             leadStatusId: '',
             orderBy: '',
+            orderByType: '',
             orderByOptions: [
-                {value:'carer',label:'Lead chưa có P.I.C'},
-                {value:'newest',label:'Lead từ mới đến cũ'},
+                {value: 'staff_id', label: 'Lead chưa có P.I.C', type: 'asc'},
+                {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'asc'},
                 // {value:'oldest',label:'Lead từ cũ đến mới'},
-                {value:'upstar',label:'Sao tăng dần'},
-                {value:'donwstar',label:'Sao giảm dần'},
+                {value: 'rate', label: 'Số sao', type: 'asc'},
+                // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],
             staffs: [],
@@ -66,7 +66,7 @@ class LeadContainer extends React.Component {
 
         // if (this.props.route.type === "distribution") {
         if (this.isAdmin) {
-            this.setState({staff: "-2", page: 1});
+            this.setState({staff: "", page: 1});
             this.props.leadActions.getLeads({
                 ...this.state,
                 page: 1,
@@ -90,12 +90,12 @@ class LeadContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.isLoading && this.props.isLoading) {
-            if (this.state.isAll) {
-                this.changeStatusAll(true, nextProps);
-            }
-            this.setState({page: nextProps.currentPage});
-        }
+        // if (!nextProps.isLoading && this.props.isLoading) {
+        //     if (this.state.isAll) {
+        //         this.changeStatusAll(true, nextProps);
+        //     }
+        //     this.setState({page: nextProps.currentPage});
+        // }
         if (this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
             this.setState({
                 page: 1,
@@ -109,19 +109,19 @@ class LeadContainer extends React.Component {
             });
             this.props.leadActions.getLeads({page: 1, staffId: this.isAdmin ? -2 : this.props.user.id,});
         }
-        if (this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
-            this.setState({
-                page: 1,
-                staffId: this.isAdmin ? -2 : this.props.user.id,
-                isAll: false,
-                selectedLeads: []
-            });
-            this.props.leadActions.getLeads({
-                ...this.state,
-                page: 1,
-                staffId: this.isAdmin ? -2 : this.props.user.id,
-            });
-        }
+        // if (this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
+        //     this.setState({
+        //         page: 1,
+        //         staffId: this.isAdmin ? -2 : this.props.user.id,
+        //         isAll: false,
+        //         selectedLeads: []
+        //     });
+        //     this.props.leadActions.getLeads({
+        //         ...this.state,
+        //         page: 1,
+        //         staffId: this.isAdmin ? -2 : this.props.user.id,
+        //     });
+        // }
 
         // if (nextProps.route.type != this.props.route.type) {
         //     if (nextProps.route.type === "my-leads") {
@@ -240,7 +240,7 @@ class LeadContainer extends React.Component {
             this.props.leadActions.getLeads({
                     ...this.state,
                     page: 1,
-                    staffId: this.isAdmin ? -2 : this.props.user.id,
+                    // staffId: this.isAdmin ? -2 : this.props.user.id,
                     search: value,
                 }
             );
@@ -260,26 +260,29 @@ class LeadContainer extends React.Component {
         let filter = {...this.state.filter};
         filter[field] = event.target.value;
 
-        if (!isEmptyInput(filter.startTime) && !isEmptyInput(filter.endTime)) {
-            this.props.leadActions.getLeads({
-                ...this.state,
-                page: 1,
-                startTime: filter.startTime,
-                endTime: filter.endTime,
-            });
-        }
-        this.setState({filter: filter, page: 1, isAll: false});
+        // if (!isEmptyInput(filter.startTime) && !isEmptyInput(filter.endTime)) {
+        //     this.props.leadActions.getLeads({
+        //         ...this.state,
+        //         page: 1,
+        //         startTime: filter.startTime,
+        //         endTime: filter.endTime,
+        //     });
+        // }
+        // this.setState({filter: filter, page: 1, isAll: false});
+        this.onFilterChange(filter, 'filter');
     };
 
     changeStaff = value => {
         let staff;
         staff = value && value.value ? value.value : "";
-        this.props.leadActions.getLeads({
-            ...this.state,
-            page: 1,
-            staffId: staff,
-        });
-        this.setState({staff: staff, page: 1});
+        // this.props.leadActions.getLeads({
+        //     ...this.state,
+        //     page: 1,
+        //     staffId: staff,
+        // });
+        this.onFilterChange(staff, 'staffId');
+        this.onFilterChange(staff, 'staff');
+        // this.setState({staff: staff, page: 1});
 
     };
 
@@ -289,39 +292,72 @@ class LeadContainer extends React.Component {
         this.setState({carer: staff,});
 
     };
-    onFilterChange = (value, name) => {
 
-        this.setState({[name]: value});
-
-        if (name == 'leadStatusId') {
-            value = value.id;
+    getNewState = (value, name) => {
+        let newState = {...this.state};
+        switch (name) {
+            case 'orderBy': {
+                newState.orderByType = value.type;
+                newState.orderBy = value.value;
+                break;
+            }
+            case 'leadStatusId': {
+                newState.leadStatusId = value ? value.id : value;
+                break;
+            }
+            default: {
+                newState = {[name]: value};
+            }
         }
+        return newState;
+    };
+
+    onDirectFilterChange = (value, name) => {
+        let newState = this.onFilterChange(value, name);
+        this.props.leadActions.getLeads({
+            ...newState,
+            page: 1,
+            // staffId: this.isAdmin ? -2 : this.props.user.id,
+        });
+    };
+
+    onFilterChange = (value, name) => {
+        let newState = this.getNewState(value, name);
+        this.setState({...newState});
+        return newState;
+        // this.props.leadActions.getLeads({
+        //     ...this.state,
+        //     page: 1,
+        //     staffId: this.isAdmin ? -2 : this.props.user.id,
+        //     [name]: value
+        // });
+    };
+
+    applyFilter = () => {
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
-            staffId: this.isAdmin ? -2 : this.props.user.id,
-            [name]: value
+            // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
-
-
     };
 
     changeAddress = (address) => {
-        this.setState({address});
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(
-            () => {
-                // if (!this.state.isDistribution) {
-                this.props.leadActions.getLeads({
-                    ...this.state,
-                    page: 1,
-                    staffId: this.isAdmin ? -2 : this.props.user.id,
-                    address,
-                });
-                // }
-            }, 1500);
+
+        this.onFilterChange(address, 'address');
+        // if (this.timeOut !== null) {
+        //     clearTimeout(this.timeOut);
+        // }
+        // this.timeOut = setTimeout(
+        //     () => {
+        //         // if (!this.state.isDistribution) {
+        //         this.props.leadActions.getLeads({
+        //             ...this.state,
+        //             page: 1,
+        //             staffId: this.isAdmin ? -2 : this.props.user.id,
+        //             address,
+        //         });
+        //         // }
+        //     }, 1500);
 
     };
 
@@ -365,13 +401,14 @@ class LeadContainer extends React.Component {
     };
 
     changeRate = value => {
-        this.setState({page: 1, rate: value, isAll: false});
-        this.props.leadActions.getLeads({
-            ...this.state,
-            staffId: this.isAdmin ? -2 : this.props.user.id,
-            page: 1,
-            rate: value,
-        });
+        // this.setState({page: 1, rate: value, isAll: false});
+        this.onFilterChange(value, 'rate');
+        // this.props.leadActions.getLeads({
+        //     ...this.state,
+        //     staffId: this.isAdmin ? -2 : this.props.user.id,
+        //     page: 1,
+        //     rate: value,
+        // });
     };
 
 
@@ -440,7 +477,7 @@ class LeadContainer extends React.Component {
                 ...this.state,
                 page: 1,
                 top: value,
-                staffId: this.isAdmin ? -2 : this.props.user.id,
+                // staffId: this.isAdmin ? -2 : this.props.user.id,
 
             });
         }.bind(this), 500);
@@ -525,7 +562,7 @@ class LeadContainer extends React.Component {
         <div>
             {this.props.isDistributing ? (
                 <button
-                    className="btn btn-fill btn-rose disabled"
+                    className="btn button-green margin-left-auto disabled"
                     type="button"
                     disabled={true}
                 >
@@ -534,7 +571,7 @@ class LeadContainer extends React.Component {
                 </button>
             ) : (
                 <button
-                    className="btn btn-fill btn-rose"
+                    className="btn button-green margin-left-auto"
                     type="button"
 
                     onClick={this.distributionLeads}
@@ -572,7 +609,8 @@ class LeadContainer extends React.Component {
                             :
                             <div className="">
                                 <h5 className="card-title">
-                                    <strong>{this.props.route.type === "my-leads" ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>
+                                    {/*<strong>{this.props.route.type === "my-leads" ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>*/}
+                                    <strong>{this.isAdmin ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>
                                 </h5>
                             </div>
                         }
@@ -595,7 +633,8 @@ class LeadContainer extends React.Component {
                             >
                                 Lọc
                             </button>
-                            {this.props.route.type !== "my-leads" && !this.state.isDistribution &&
+                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
+                            {this.isAdmin && !this.state.isDistribution &&
                             <a href="/import/data" className="btn btn-white btn-round margin-right-10 ">
                                 Upload
                             </a>}
@@ -645,7 +684,7 @@ class LeadContainer extends React.Component {
                             <ReactSelect
                                 disabled={this.props.isLoading}
                                 options={this.state.orderByOptions}
-                                onChange={e => this.onFilterChange(e.value, 'orderBy')}
+                                onChange={e => this.onDirectFilterChange(e, 'orderBy')}
                                 value={this.state.orderBy}
                                 placeholder="Sắp xếp theo"
                                 searchable={false}
@@ -757,7 +796,7 @@ class LeadContainer extends React.Component {
                                         <label>Chọn đánh giá</label>
                                         <div className="flex flex-row-center">
                                             <Star
-                                                value={0}
+                                                value={this.state.rate}
                                                 maxStar={5}
                                                 onChange={(value) => {
                                                     this.changeRate(value);
@@ -800,36 +839,37 @@ class LeadContainer extends React.Component {
                                         options={this.state.statusFilter}
                                         onChange={e => this.onFilterChange(e, 'leadStatusId')}
                                         value={this.state.leadStatusId}
-                                        defaultMessage="Tuỳ chọn"
+                                        placeholer="Tất cả"
                                         name="leadStatusId"
                                     />
                                 </div>
-                                {this.state.isDistribution &&
-                                <div className="col-md-3">
-                                    <label>Top</label>
-                                    <FormInputText
-                                        required
-                                        type="number"
-                                        placeholder="Nhập top"
-                                        updateFormData={this.changeTop}
-                                        value={this.state.top}
-                                        // className="none-padding none-margin"
-                                    />
-                                </div>}
+                                {/*{this.state.isDistribution &&*/}
+                                {/*<div className="col-md-3">*/}
+                                {/*    <label>Top</label>*/}
+                                {/*    <FormInputText*/}
+                                {/*        required*/}
+                                {/*        type="number"*/}
+                                {/*        placeholder="Nhập top"*/}
+                                {/*        updateFormData={this.changeTop}*/}
+                                {/*        value={this.state.top}*/}
+                                {/*    />*/}
+                                {/*</div>}*/}
 
-                                {this.state.isDistribution &&
-                                <div className="col-md-3">
+                                {/*{this.state.isDistribution &&*/}
+                                {/*<div className="col-md-3">*/}
+                                {/*    <button className="btn btn-success btn-default"*/}
+                                {/*            onClick={this.openModalSelectedLeadsModal}*/}
+                                {/*    >*/}
+                                {/*        Phân leads*/}
+                                {/*    </button>*/}
+                                {/*</div>*/}
 
-                                    <button className="btn btn-success btn-default"
-                                            onClick={this.openModalSelectedLeadsModal}
-                                    >
-                                        Phân leads
-                                    </button>
-                                </div>
-
-                                }
+                                {/*}*/}
 
 
+                            </div>
+                            <div className="flex-end">
+                                <div className="btn button-green" onClick={this.applyFilter}>Áp dụng</div>
                             </div>
                         </div>
 
@@ -847,7 +887,7 @@ class LeadContainer extends React.Component {
                     changeStatusLead={this.changeStatusLead}
                     openCreateRegisterModal={this.openCreateRegisterModal}
                     // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
-                    removeLead={this.isAdmin ? null : this.removeLead}
+                    removeLead={!this.isAdmin ? null : this.removeLead}
                 />
                 {this.state.isDistribution &&
                 <div className="import-data-container" mask="white">
@@ -947,11 +987,16 @@ class LeadContainer extends React.Component {
                             <h4 className="card-title">Danh sách leads đã chọn phân
                                 cho {this.state.carer ? this.state.carer.name : ""}
                             </h4>
-                            <div>Tổng số leads: {this.state.selectedLeads ? this.state.selectedLeads.length : 0}</div>
+
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {this.state.selectedLeads && this.state.selectedLeads.length > 0 && this.renderButtonDistribution()}
+                        <div className="flex flex-align-items-center flex-space-between">
+                            <h5><b>Tổng số leads: {this.state.selectedLeads ? this.state.selectedLeads.length : 0}</b>
+                            </h5>
+                            {this.state.selectedLeads && this.state.selectedLeads.length > 0 && this.renderButtonDistribution()}
+                        </div>
+
                         <ListLead
                             showSelectedLead
                             leads={this.state.selectedLeads}

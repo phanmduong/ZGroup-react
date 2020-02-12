@@ -77,7 +77,6 @@ export function loadInfoStudent(studentId) {
 }
 export function setInfoStudent(student) {
     return function (dispatch) {
-        console.log(student);
                 dispatch({
                     type: types.SET_INFO_STUDENT,
                     student
