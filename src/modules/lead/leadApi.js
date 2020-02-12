@@ -104,6 +104,17 @@ export function uploadDistributionLead(leadIds, carerId) {
     });
 }
 
+export function removeLead(lead_id) {
+
+    let url = env.MANAGE_API_URL + "/lead/remove-lead";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        lead_id
+    });
+}
 export function removeDistributionLead(leadIds, carerId = '') {
 
     let url = env.MANAGE_API_URL + "/lead/remove-distribution-leads";

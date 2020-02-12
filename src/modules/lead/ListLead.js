@@ -211,7 +211,7 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>
-                                                <div className="flex flex-row">
+                                                <div className="flex flex-row margin-bottom-10">
                                                     {
                                                         lead.courses && lead.courses.map((course, index) => {
                                                             return (

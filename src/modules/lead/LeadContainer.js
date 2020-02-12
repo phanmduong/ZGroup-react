@@ -39,7 +39,7 @@ class LeadContainer extends React.Component {
             orderByType: '',
             orderByOptions: [
                 {value: 'staff_id', label: 'Lead chưa có P.I.C', type: 'asc'},
-                {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'asc'},
+                {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'desc'},
                 // {value:'oldest',label:'Lead từ cũ đến mới'},
                 {value: 'rate', label: 'Số sao', type: 'asc'},
                 // {value: 'donwstar', label: 'Sao giảm dần'},
@@ -602,9 +602,9 @@ class LeadContainer extends React.Component {
                         {this.state.isDistribution ?
                             <div className="">
                                 <h5 className="card-title"><strong>Phân chia leads</strong></h5>
-                                {!this.props.isLoading &&
-                                <div className="lead-count margin-vertical-30">Tổng số
-                                    lead {this.props.totalCount}</div>}
+                                {/*{!this.props.isLoading &&*/}
+                                {/*<div className="lead-count margin-vertical-30">Tổng số*/}
+                                {/*    lead {this.props.totalCount}</div>}*/}
                             </div>
                             :
                             <div className="">
@@ -689,7 +689,7 @@ class LeadContainer extends React.Component {
                                 placeholder="Sắp xếp theo"
                                 searchable={false}
                                 name="orderBy"
-                                className="react-select-white margin-left-auto min-width-150-px"
+                                className="react-select-white margin-left-auto min-width-200-px"
                             />
                         </div>
 
@@ -890,7 +890,7 @@ class LeadContainer extends React.Component {
                     removeLead={!this.isAdmin ? null : this.removeLead}
                 />
                 {this.state.isDistribution &&
-                <div className="import-data-container" mask="white">
+                <div className="import-data-container" mask="leadContainer">
                     <div className="import-footer">
                         <div>
                             <table className="table">

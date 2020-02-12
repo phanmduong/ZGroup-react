@@ -107,13 +107,28 @@ export function changeLeadRate(lead) {
 
 export function removeLead(leadId, removeLeadSuccess) {
     showTypeNotification("Đang xóa lead", "info");
+    leadApi.removeLead(leadId)
+        .then(res => {
+            if (res.data.status == 1) {
+                removeLeadSuccess();
+                showTypeNotification("Xóa lead thành công");
+            } else {
+                showErrorNotification(res.data.message);
+            }
+        })
+        .catch(() => {
+            showErrorNotification("Xóa lead thất bại");
+        });
+}
+export function removeDistributionLead(leadId, removeLeadSuccess) {
+    showTypeNotification("Đang xóa lead", "info");
     leadApi.removeDistributionLead([leadId])
         .then(res => {
             if (res.data.status == 1) {
                 removeLeadSuccess();
                 showTypeNotification("Xóa lead thành công");
             } else {
-                showErrorNotification("Xóa lead thất bại");
+                showErrorNotification(res.data.message);
             }
         })
         .catch(() => {
