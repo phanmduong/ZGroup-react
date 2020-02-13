@@ -21,9 +21,17 @@ export function loadGens() {
     let url = env.API_URL + "/gens?token=" + token;
     return axios.get(url);
 }
+export function loadCoursesApi() {
+    let url = env.MANAGE_API_URL + "/course/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
 
+    return axios.get(url);
+}
 
-export function loadClasses(search, page = 1, teacherId = '', genId = '', baseId = '') {
+export function loadClasses(search='', page = 1, teacherId = '', genId = '', baseId = '',courseId='') {
     let url = env.MANAGE_API_URL;
     switch (env.TYPE_API) {
         case 'alibaba':
@@ -33,7 +41,7 @@ export function loadClasses(search, page = 1, teacherId = '', genId = '', baseId
             url += "/class/all";
             break;
     }
-    url += "?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId === 0 ? '' : genId) + "&base_id=" + (baseId === 0 ? '' : baseId);
+    url += "?search=" + search + "&teacher_id=" + teacherId +"&course_id=" + courseId + "&page=" + page + "&gen_id=" + (genId === 0 ? '' : genId) + "&base_id=" + (baseId === 0 ? '' : baseId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

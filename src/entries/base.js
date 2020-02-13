@@ -9,6 +9,7 @@ import renderRoutes from "../routes/renderer/RouteRenderer";
 import configureStore from "../store/configureStore";
 import BaseRoute from "../routes/BaseRoute";
 import baseRootReducer from "../reducers/base";
+import TeachingRoute from "../routes/TeachingRoute";
 
 import "../../node_modules/toastr/build/toastr.min.css";
 import "../styles/react-bootstrap-switch.min.css";
@@ -21,12 +22,16 @@ import "../styles/styles.scss";
 
 const store = configureStore({}, baseRootReducer);
 
+const Route = [
+    ...TeachingRoute,
+    ...BaseRoute,
+]
 // Create an enhanced history that syncs navigation events with the store
 // const history = syncHistoryWithStore(browserHistory, store);
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory} routes={renderRoutes(BaseRoute)} />
+        <Router history={browserHistory} routes={renderRoutes(Route)} />
     </Provider>,
     document.getElementById("app"),
 );

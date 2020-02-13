@@ -9,7 +9,7 @@ export function loadCoursesData(page = 1, query = '') {
         url += "?token=" + token +
             "&page=" + page +
             '&search=' + query +
-            '&limit=10';
+            '&limit=20';
     }
     return axios.get(url);
 }

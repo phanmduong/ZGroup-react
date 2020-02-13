@@ -61,12 +61,13 @@ export function loadGensData(loadClass) {
 }
 
 
-export function loadClasses(search, page, teacherId, genId, baseId) {
+export function loadClasses(filter) {
+    let {search, page, teacherId, genId, baseId,courseId} = filter;
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_DATA,
         });
-        classApi.loadClasses(search, page, teacherId, genId, baseId)
+        classApi.loadClasses(search, page, teacherId, genId, baseId,courseId)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_CLASSES_DATA_SUCCESS,
@@ -351,6 +352,25 @@ export function loadStaffs() {
             }).catch(() => {
             dispatch({
                 type: types.LOAD_STAFFS_CLASS_DATA_ERROR
+            });
+        });
+    };
+}
+
+export function loadCourses() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_COURSES_CLASS_DATA
+        });
+        classApi.loadCoursesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_COURSES_CLASS_DATA_SUCCESS,
+                    courses: res.data.data.courses
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_COURSES_CLASS_DATA_ERROR
             });
         });
     };

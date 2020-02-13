@@ -35,7 +35,6 @@ class MarketingCampaignOverlay extends React.Component {
     loadMarketingEmail = () => {
         loadMarketingEmail(1, -1).then((res) => {
             if (this.refs.MarketingCampaignOverlay)
-
                 this.setState({
                     campaigns: res.data.data.marketing_campaigns,
                     isLoading: false

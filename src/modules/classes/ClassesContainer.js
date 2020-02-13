@@ -26,7 +26,9 @@ class ClassesContainer extends React.Component {
             classSelected: {},
             editClass: false,
             gens: [],
+            courses: [],
             selectGenId: '',
+            courseId: '',
             openLoadingModal: false,
         };
         this.search = {
@@ -48,13 +50,16 @@ class ClassesContainer extends React.Component {
         if (this.props.params.teacherId) {
             this.search.teacherId = this.props.params.teacherId;
         }
+        this.props.classActions.loadCourses();
         this.props.classActions.loadGensData(() => {
-            return this.props.classActions.loadClasses('', 1, this.search.teacherId, this.state.selectGenId);
+            this.props.classActions.loadClasses({
+                page: 1, teacherId: this.search.teacherId, selectGenId: this.state.selectGenId
+            });
         });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
+        if (!nextProps.isLoadingGens && this.props.isLoadingGens) {
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
             }]);
@@ -62,6 +67,16 @@ class ClassesContainer extends React.Component {
             this.setState({
                 gens: [{id: 0, name: 'Tất cả'}, ...gens],
                 selectGenId: 0,
+            });
+        }
+        if (!nextProps.isLoadingCourses && this.props.isLoadingCourses) {
+            let courses = _.sortBy(nextProps.courses, [function (o) {
+                return parseInt(o.name);
+            }]);
+            courses = _.reverse(courses);
+            this.setState({
+                courses: [{id: 0, name: 'Tất cả'}, ...courses],
+                courseId: '',
             });
         }
         /*if (!nextProps.isLoadingExcel && this.props.isLoadingExcel)
@@ -90,7 +105,14 @@ class ClassesContainer extends React.Component {
             this.loadClasses(1, '');
         }
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
-            this.props.classActions.loadClasses(this.state.query, this.state.page, this.search.teacherId, this.state.selectGenId, this.props.selectedBaseId);
+            this.props.classActions.loadClasses({
+                ...this.state,
+                search: this.state.query,
+                page: this.state.page,
+                teacherId: this.search.teacherId,
+                selectGenId: this.state.selectGenId,
+                selectedBaseId: this.props.selectedBaseId
+            });
         }
     }
 
@@ -103,13 +125,23 @@ class ClassesContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.loadClasses(1, value);
+            this.loadClasses({
+                page: 1,
+                query: value,
+            });
         }.bind(this), 500);
     }
 
     loadClasses(page = 1, query = this.state.query) {
         this.setState({page});
-        this.props.classActions.loadClasses(query, page, this.search.teacherId, this.state.selectGenId, this.props.selectedBaseId);
+        this.props.classActions.loadClasses({
+            ...this.state,
+            search: query,
+            page,
+            teacherId: this.search.teacherId,
+            selectGenId: this.state.selectGenId,
+            selectedBaseId: this.props.selectedBaseId
+        });
     }
 
     deleteClass(classData) {
@@ -166,8 +198,22 @@ class ClassesContainer extends React.Component {
             page: 1,
             selectGenId: value
         });
-        this.props.classActions.loadClasses(this.state.query, '', this.search.teacherId, value);
+        this.props.classActions.loadClasses({
+            ...this.state,
+            search: this.state.query, page: 1, teacherId: this.search.teacherId, genId: value
+        });
     }
+
+    changeCourses = (value) => {
+        this.setState({
+            page: 1,
+            courseId: value
+        });
+        this.props.classActions.loadClasses({
+            ...this.state,
+            search: this.state.query, page: 1, teacherId: this.search.teacherId, courseId: value
+        });
+    };
 
     beginExportExcel() {
         /*if(this.state.selectGenId == 11 || this.state.selectGenId == '')
@@ -200,55 +246,63 @@ class ClassesContainer extends React.Component {
                             <div className="">
 
 
-                                    <div className="card" mask="purple">
-                                        <img className="img-absolute"/>
+                                <div className="card" mask="purple">
+                                    <img className="img-absolute"/>
 
-                                        <div className="card-content">
-                                            <div className="row">
-                                                <div className="col-sm-12">
-                                                    <div className="flex-row flex">
-                                                        <h2 className="card-title">
-                                                            <strong>Danh sách lớp học</strong>
-                                                        </h2>
-                                                    </div>
-                                                    <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-                                                        <Search
-                                                            onChange={this.classesSearchChange}
-                                                            value={this.state.query}
-                                                            placeholder="Tìm kiếm lớp học"
-                                                            className="round-white-seacrh"
-                                                        />
-                                                        <Select
-                                                            options={this.state.gens}
-                                                            onChange={this.changeGens}
-                                                            value={this.state.selectGenId}
-                                                            defaultMessage="Chọn khóa học"
-                                                            name="gens"
-                                                        />
-                                                        <button
-                                                            className="btn btn-white btn-round btn-icon"
-                                                            type="button" onClick={() => {
-                                                            this.openModalClass();
-                                                        }}>
-                                                            Thêm lớp học&nbsp;&nbsp;<i className="material-icons">
-                                                            add
-                                                        </i>
-                                                        </button>
-                                                    </div>
-
-
+                                    <div className="card-content">
+                                        <div className="row">
+                                            <div className="col-sm-12">
+                                                <div className="flex-row flex">
+                                                    <h2 className="card-title">
+                                                        <strong>Danh sách lớp học</strong>
+                                                    </h2>
+                                                </div>
+                                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+                                                    <Search
+                                                        onChange={this.classesSearchChange}
+                                                        value={this.state.query}
+                                                        placeholder="Tìm kiếm lớp học"
+                                                        className="round-white-seacrh"
+                                                    />
+                                                    <Select
+                                                        options={this.state.gens}
+                                                        onChange={this.changeGens}
+                                                        value={this.state.selectGenId}
+                                                        defaultMessage="Chọn khóa học"
+                                                        name="gens"
+                                                    />
+                                                    <Select
+                                                        options={this.state.courses}
+                                                        onChange={this.changeCourses}
+                                                        value={this.state.courseId}
+                                                        defaultMessage="Chọn môn học"
+                                                        name="courses"
+                                                        style={{width:150}}
+                                                    />
+                                                    <button
+                                                        className="btn btn-white btn-round btn-icon"
+                                                        type="button" onClick={() => {
+                                                        this.openModalClass();
+                                                    }}>
+                                                        Thêm lớp học&nbsp;&nbsp;<i className="material-icons">
+                                                        add
+                                                    </i>
+                                                    </button>
                                                 </div>
 
+
                                             </div>
+
                                         </div>
                                     </div>
+                                </div>
 
 
                                 {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
                                     <div className="row">
 
 
-                                    <ListClass
+                                        <ListClass
                                             classes={this.props.classes}
                                             deleteClass={this.deleteClass}
                                             duplicateClass={this.duplicateClass}
@@ -258,20 +312,20 @@ class ClassesContainer extends React.Component {
 
                                         <br/>
 
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                                 style={{textAlign: 'right', paddingTop: 20}}>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                             style={{textAlign: 'right', paddingTop: 20}}>
 
-                                                <b style={{marginRight: '15px'}}>
-                                                    Hiển thị kêt quả
-                                                    từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
-                                                    - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
-                                                <Pagination
-                                                    totalPages={this.props.totalPages}
-                                                    currentPage={this.props.currentPage}
-                                                    loadDataPage={this.loadClasses || 0}
-                                                />
+                                            <b style={{marginRight: '15px'}}>
+                                                Hiển thị kêt quả
+                                                từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
+                                                - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
+                                            <Pagination
+                                                totalPages={this.props.totalPages}
+                                                currentPage={this.props.currentPage}
+                                                loadDataPage={this.loadClasses || 0}
+                                            />
 
-                                            </div>
+                                        </div>
 
                                     </div>
                                 }
@@ -326,7 +380,9 @@ function mapStateToProps(state) {
         totalCount: state.classes.totalCount,
         limit: state.classes.limit,
         classes: state.classes.classes,
+        courses: state.classes.courses,
         isLoading: state.classes.isLoading,
+        isLoadingCourses: state.classes.isLoadingCourses,
         isLoadingExcel: state.classes.isLoadingExcel,
         excel: state.classes.excel,
         isCreateClass: state.classes.isCreateClass,

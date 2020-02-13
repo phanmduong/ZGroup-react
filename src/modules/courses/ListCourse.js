@@ -126,6 +126,7 @@ class ListCourse extends React.Component {
                                                 <ButtonGroupAction
                                                     delete={() => this.deleteCourse(course.id)}
                                                     object={course}
+                                                    disabledDelete={this.props.user.role != 2}
                                                     edit={(e) => {
                                                         browserHistory.push("/teaching/courses/edit/" + course.id + "");
                                                         e.stopPropagation();
@@ -348,6 +349,7 @@ ListCourse.propTypes = {
 function mapStateToProps(state) {
     return {
         data: state.coursesCreateEdit.data,
+        user: state.login.user,
         paginator: state.courses.paginator,
     };
 }

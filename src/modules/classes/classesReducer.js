@@ -349,6 +349,28 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorStaff: true
                 }
             };
+        case types.BEGIN_LOAD_COURSES_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingCourses: true,
+                }
+            };
+        case types.LOAD_COURSES_CLASS_DATA_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingCourses: false,
+                    courses: action.courses
+                }
+            };
+        case types.LOAD_COURSES_CLASS_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingCourses: false,
+                }
+            };
         case types.BEGIN_LOAD_TEACHERS_CLASS_DATA:
             return {
                 ...state,

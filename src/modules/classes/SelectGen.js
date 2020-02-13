@@ -17,7 +17,7 @@ class Select extends React.Component {
 
     render() {
         return (
-            <div className="select-wrap" style={{marginBottom: -10}}>
+            <div className="select-wrap" style={{marginBottom: -10, ...this.props.style}}>
                 <select
                     name={this.props.name}
                     value={this.props.value}

@@ -38,9 +38,13 @@ class CreateLessonOverlay extends React.Component {
         } = this.props;
         e.stopPropagation();
         if ($('#form-multi-lesson').valid()) {
-            this.props.coursesActions.createMultiLesson(this.state.lesson, course.id, () => {
-                this.close();
-            });
+            helper.confirm("warning", "Tạo nhiều buổi", "Bạn có chắc chắn muốn tạo " + this.state.lesson.number_lesson +" buổi học?",
+                 ()=> {
+                    this.props.coursesActions.createMultiLesson(this.state.lesson, course.id, () => {
+                        this.close();
+                    });
+                });
+
         }
         // if (this.checkValidate()) {
         //     this.props.coursesActions.commitCourseData(this.props.course, () => {

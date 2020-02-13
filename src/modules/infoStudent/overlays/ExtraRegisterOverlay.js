@@ -6,8 +6,11 @@ import * as studentActions from "../studentActions";
 import {bindActionCreators} from "redux";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as helper from "../../../helpers/helper";
+import {showErrorNotification, showNotification, showWarningNotification} from "../../../helpers/helper";
 import ListClass from "../../registerStudents/ListClass";
 import {Modal, Overlay} from 'react-bootstrap';
+import {deleteRegisterStudent} from "../../registerStudents/registerStudentsApi";
+import Loading from "../../../components/common/Loading";
 
 // import {showNotification} from "../../../../helpers/helper";
 
@@ -78,13 +81,37 @@ class ExtraRegisterOverlay extends React.Component {
     confirmChangeClass = (classData) => {
         this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.closeModalChangeClass);
     };
+    deleteRegisterStudent = (register) => {
+
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
+            if(this.refs.extraRegisterOverlay) this.setState({isLoading: true});
+            showWarningNotification('Đang xóa');
+            deleteRegisterStudent(register.id).then(res => {
+                if (res.data.status === 1) {
+                    showNotification(res.data.data.message);
+                    this.props.studentActions.loadRegisters(this.studentId);
+                } else {
+                    showErrorNotification(res.data.data.message);
+                }
+            })
+                .catch(() => {
+                    showErrorNotification("Có lỗi xảy ra");
+                }).finally(()=>{
+                if(this.refs.extraRegisterOverlay) this.setState({isLoading: false});
+                this.props.reload();
+            });
+        });
+
+
+    };
 
     render() {
         let {isChangingStatusCall, register} = this.props;
+        let {isLoading} = this.state;
         let refundable = register && register.total_lesson_done < register.total_lesson;
         return (
 
-            <div style={{position: "relative"}} className="">
+            <div style={{position: "relative"}} className="" ref="extraRegisterOverlay">
                 <button className="btn btn-actions" mask="extra"
                         ref="target" onClick={this.toggle}
                         disabled={isChangingStatusCall}>
@@ -118,7 +145,6 @@ class ExtraRegisterOverlay extends React.Component {
                                 onClick={this.props.openModalChangePassword}>
                             Thay đổi mật khẩu
                         </button>}
-
                         {register && register.status <= 4 &&
                         <button type="button"
                                 className="btn btn-white width-100"
@@ -134,6 +160,13 @@ class ExtraRegisterOverlay extends React.Component {
                                 className="btn btn-white width-100"
                                 onClick={() => this.changeStatusPause(register)}>
                             Bảo lưu
+                        </button>
+                        }
+                        {register && register.is_delete &&
+                        <button type="button"
+                                className="btn btn-white width-100"
+                                onClick={() => this.deleteRegisterStudent(register)}>
+                            Xóa
                         </button>
                         }
 

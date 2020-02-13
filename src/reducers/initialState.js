@@ -1313,6 +1313,7 @@ export default {
         totalCount: 1,
         limit: 1,
         classes: [],
+        courses: [],
         gens: [],
         isLoading: false,
         isLoadingGens: false,

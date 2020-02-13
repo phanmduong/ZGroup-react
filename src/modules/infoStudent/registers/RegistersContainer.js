@@ -203,7 +203,7 @@ class RegistersContainer extends React.Component {
                                                 </div>}
                                                 {register.class.study_time && <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
-                                                    &nbsp; &nbsp; {register.class.study_time}
+                                                    &nbsp; &nbsp;{register.class.study_time}
                                                 </div>}
                                                 {register.class.base && <div className="flex-row-center">
                                                     <i className="material-icons">home</i>&nbsp; &nbsp;
@@ -211,7 +211,7 @@ class RegistersContainer extends React.Component {
                                                     {register.class.base}
                                                 </div>}
                                                 {register.class.description && <div className="flex-row-center">
-                                                    <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
+                                                    <i className="material-icons">date_range</i>&nbsp; &nbsp;{register.class.description}
                                                 </div>}
                                                 {register.note &&
                                                 <div>
