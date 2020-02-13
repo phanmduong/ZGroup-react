@@ -10,7 +10,6 @@ import {showErrorNotification, showNotification, showWarningNotification} from "
 import ListClass from "../../registerStudents/ListClass";
 import {Modal, Overlay} from 'react-bootstrap';
 import {deleteRegisterStudent} from "../../registerStudents/registerStudentsApi";
-import Loading from "../../../components/common/Loading";
 
 // import {showNotification} from "../../../../helpers/helper";
 
@@ -82,9 +81,8 @@ class ExtraRegisterOverlay extends React.Component {
         this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.closeModalChangeClass);
     };
     deleteRegisterStudent = (register) => {
-
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
-            if(this.refs.extraRegisterOverlay) this.setState({isLoading: true});
+            if (this.refs.extraRegisterOverlay) this.setState({isLoading: true});
             showWarningNotification('Đang xóa');
             deleteRegisterStudent(register.id).then(res => {
                 if (res.data.status === 1) {
@@ -96,18 +94,16 @@ class ExtraRegisterOverlay extends React.Component {
             })
                 .catch(() => {
                     showErrorNotification("Có lỗi xảy ra");
-                }).finally(()=>{
-                if(this.refs.extraRegisterOverlay) this.setState({isLoading: false});
+                }).finally(() => {
+                if (this.refs.extraRegisterOverlay) this.setState({isLoading: false});
                 this.props.reload();
             });
         });
-
-
     };
 
     render() {
         let {isChangingStatusCall, register} = this.props;
-        let {isLoading} = this.state;
+        // let {isLoading} = this.state;
         let refundable = register && register.total_lesson_done < register.total_lesson;
         return (
 
