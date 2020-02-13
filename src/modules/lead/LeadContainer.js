@@ -45,6 +45,7 @@ class LeadContainer extends React.Component {
                 // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],
+            
             staffs: [],
             staff: "",
             isDistribution: false,
