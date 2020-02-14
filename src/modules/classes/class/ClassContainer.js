@@ -409,6 +409,10 @@ class ClassContainer extends React.Component {
         helper.setFormValidation('#add-checkin-checkout');
     }
 
+    updateClassLesson = () => {
+        this.props.classActions.updateClassLesson(this.classId);
+    }
+
 
     render() {
         this.path = this.props.location.pathname;
@@ -701,14 +705,24 @@ class ClassContainer extends React.Component {
                                     })}
                                 </ul>
                                 <div className="flex flex-wrap margintop-10">
+                                    {
+                                        this.path == this.routePrefix + "/history-teaching" &&
+                                        <div onClick={this.updateClassLesson} className="btn btn-actions">
+                                            Cập nhật chương trình
+                                        </div>
+                                    }
+                                    {classData && classData.course &&
                                     <CreateRegisterOverlay
                                         onSuccess={() => this.props.classActions.loadClass(this.classId)}
+                                        studentData={{class_id: classData.id, course_id: classData.course.id}}
                                     >
                                         <div className="btn btn-actions">
-                                            Tạo đăng kí mới
+                                            Thêm học viên
                                         </div>
 
                                     </CreateRegisterOverlay>
+                                    }
+
                                     <div onClick={this.genCerti} className="btn btn-actions">
                                         Xếp bằng
                                     </div>
@@ -717,6 +731,8 @@ class ClassContainer extends React.Component {
                                         exportExcel={this.exportExcel}
                                         exportAttendanceExcel={this.exportAttendanceExcel}
                                     />
+
+
                                 </div>
                                 {!isLoadingClass && classData &&
 

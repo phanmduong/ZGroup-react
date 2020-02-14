@@ -3992,3 +3992,27 @@ input[type=search], .form-control {
 .margin-left-auto {
   margin-left: auto;
 }
+
+.form-overlay {
+  div {
+
+    text-align: left;
+
+    label {
+      margin-top: 0;
+
+    }
+
+    .panel-title {
+      text-align: center;
+    }
+
+    .form-group {
+      margin-top: 0;
+      .error{
+        color: #c50000;
+      }
+    }
+  }
+
+}

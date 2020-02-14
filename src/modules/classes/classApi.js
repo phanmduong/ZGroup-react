@@ -240,6 +240,16 @@ export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId
         });
 }
 
+export function updateClassLesson(classId) {
+    let url = env.MANAGE_API_URL + `/class/generate-class-lesson/` + classId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, comment) {
     let url = env.MANAGE_API_URL + `/checkincheckout/add-check-in-checkout`;
     let token = localStorage.getItem('token');
@@ -259,12 +269,12 @@ export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, 
 }
 
 
-export function inputExamScore(classId,data) {
+export function inputExamScore(classId, data) {
     let url = env.MANAGE_API_URL + `/class/${classId}/score-input-exam`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
 
-    return axios.post(url,data);
+    return axios.post(url, data);
 }

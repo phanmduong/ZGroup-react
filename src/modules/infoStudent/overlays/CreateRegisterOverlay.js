@@ -78,7 +78,11 @@ class CreateRegisterOverlay extends React.Component {
         this.initState = {
             show: false,
             coursePrice: 0,
-            register: {...this.props.student, coupons: [], saler_id: this.props.user && this.props.user.id},
+            register: {
+                ...this.props.student, ...this.props.studentData,
+                coupons: [],
+                saler_id: this.props.user && this.props.user.id
+            },
         };
         this.state = this.initState;
 
@@ -98,13 +102,21 @@ class CreateRegisterOverlay extends React.Component {
             isLoadedSources,
         } = this.props;
 
-        if(!isLoadedCourses) createRegisterActions.loadCourses();
-        if(!isLoadedCampaigns) createRegisterActions.loadCampaigns();
-        if(!isLoadedSalerFilter) registerActions.loadSalerFilter();
-        if(!isLoadedProvinces) createRegisterActions.loadAllProvinces();
+        if (!isLoadedCourses) createRegisterActions.loadCourses();
+        if (!isLoadedCampaigns) createRegisterActions.loadCampaigns();
+        if (!isLoadedSalerFilter) registerActions.loadSalerFilter();
+        if (!isLoadedProvinces) createRegisterActions.loadAllProvinces();
         this.loadStatuses(false);
         if (!isLoadingSources && !isLoadedSources) createRegisterActions.loadSources();
         if (!isLoadedCoupons) discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
+
+    }
+
+    componentDidMount() {
+        console.log(this.state.register)
+        if (this.state.register.class_id) {
+            this.props.createRegisterActions.loadClassesByCourse(this.state.register.course_id);
+        }
     }
 
     componentWillReceiveProps(nextProps) {

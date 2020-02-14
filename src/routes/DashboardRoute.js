@@ -4,6 +4,7 @@ import DashboardStaffContainer from "../modules/dashboardStaff/DashboardStaffCon
 import DashboardTrongDongContainer from "../modules/dashboardTrongDong/DashboardTrongDongContainer";
 import LogRegisterRoom from "../modules/logRegisterRoom/LogRegisterRoom";
 import DashboardStudyPackContainer from "../modules/dashboardStudyPack/DashboardContainer";
+import SettingContainer from "../modules/setting/SettingContainer";
 
 
 /**
@@ -37,5 +38,9 @@ export default [
     {
         path: "/dashboard/log-register-room",
         component: LogRegisterRoom
+    },
+    {
+        path: "/setting",
+        component: SettingContainer
     },
 ];

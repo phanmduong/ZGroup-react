@@ -46,10 +46,7 @@ export function createTerm(pixel, func) {
         courseApi.createTerm(pixel)
             .then((res) => {
                 helper.showNotification("Lưu Thành Công!");
-                dispatch({
-                    type: types.CREATE_TERM_SUCCESS,
-                    data: res.data.data.term
-                });
+                dispatch(addTermSuccess(res.data.data.term));
                 func();
             })
             .catch(() => {
@@ -57,6 +54,20 @@ export function createTerm(pixel, func) {
                 dispatch({type: types.CREATE_TERM_ERROR});
             });
     };
+}
+
+export function addTermSuccess(term) {
+    return {
+        type: types.CREATE_TERM_SUCCESS,
+        data: term
+    }
+}
+
+export function editTermSuccess(term) {
+    return {
+        type: types.EDIT_TERM_SUCCESS,
+        data: term
+    }
 }
 
 export function commitEditLink(link, func) {
@@ -652,7 +663,7 @@ export function changeOrderCourse(course, order, callback) {
 
 export function changeTermLesson(lessonId, termId) {
     return function (dispatch) {
-        helper.showNotification("Đang thay đổi học phần", "info");
+        helper.showTypeNotification("Đang thay đổi học phần", "info");
         courseApi.changeTermLesson(lessonId, termId)
             .then(() => {
                 helper.showNotification("Thay đổi học phần thành công");

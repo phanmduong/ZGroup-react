@@ -95,7 +95,6 @@ class MoneyRegisterOverlay extends React.Component {
                 if (res.data.status == 1) {
                     showNotification('Nộp tiền thành công!');
                     this.props.reload();
-                    window.open("/invoice/" + register.id, '_blank');
                 } else {
                     showErrorNotification(res.data.message);
                 }

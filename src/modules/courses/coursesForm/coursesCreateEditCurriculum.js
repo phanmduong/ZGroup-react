@@ -8,10 +8,9 @@ import * as helper from '../../../helpers/helper';
 import {NO_IMAGE} from "../../../constants/env";
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
-import ReactSelect from "react-select";
 import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
-import CreateTermOverlay from "../overlays/CreateTermOverlay";
 import CreateMultiLessonOverlay from "../overlays/CreateMultiLessonOverlay";
+import TermOverlay from "../overlays/TermOverlay";
 
 let id;
 
@@ -166,8 +165,17 @@ class coursesCreateEditCurriculum extends React.Component {
         });
     }
 
-    selectedTerm = (lesson, e) => {
-        this.props.coursesActions.changeTermLesson(lesson.id, e ? e.value : null);
+    selectedTerm = (lesson, term) => {
+        this.props.coursesActions.changeTermLesson(lesson.id, term ? term.id : null);
+    };
+
+    updateTerms = (term, isCreate) => {
+        if (isCreate) {
+            this.props.coursesActions.addTermSuccess(term);
+        } else {
+            this.props.coursesActions.editTermSuccess(term);
+        }
+
     };
 
 
@@ -177,7 +185,7 @@ class coursesCreateEditCurriculum extends React.Component {
                 <div className="flex flex-wrap" style={{marginTop: 15}}>
                     <CreateMultiLessonOverlay className="btn btn-silver"/>
                     <CreateCurriculumOverlay className="btn btn-silver"/>
-                    <CreateTermOverlay className="btn btn-silver"/>
+                    {/*<CreateTermOverlay className="btn btn-silver"/>*/}
                 </div>
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
@@ -341,7 +349,7 @@ class coursesCreateEditCurriculum extends React.Component {
                            className="table white-table table-striped table-no-bordered table-hover"
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
                         <tbody>
-                        {this.props.data.lessons.map((lesson) => {
+                        {this.props.data.lessons.map((lesson, index) => {
                             return (
                                 <tr key={lesson.id}>
                                     <td><strong>Buổi {lesson.order}</strong></td>
@@ -354,12 +362,21 @@ class coursesCreateEditCurriculum extends React.Component {
                                     }}>{lesson.description}
                                     </td>
                                     <td>
-                                        <ReactSelect
-                                            options={this.getSelectTerm(this.props.data)}
-                                            onChange={(e) => this.selectedTerm(lesson, e)}
-                                            value={lesson.term_id}
-                                            placeholder="Chọn học phần"
+                                        <TermOverlay
+                                            className="btn status-overlay btn-xs"
+                                            terms={this.props.data.terms}
+                                            selectedTermId={lesson.term_id}
+                                            updateTerm={this.updateTerms}
+                                            courseId={this.props.data.id}
+                                            onChange={(term) => this.selectedTerm(lesson, term)}
+                                            style={{minWidth: 200, zIndex: this.props.data.lessons.length - index}}
                                         />
+                                        {/*<ReactSelect*/}
+                                        {/*    options={this.getSelectTerm(this.props.data)}*/}
+                                        {/*    onChange={(e) => this.selectedTerm(lesson, e)}*/}
+                                        {/*    value={lesson.term_id}*/}
+                                        {/*    placeholder="Chọn học phần"*/}
+                                        {/*/>*/}
                                         {/*{(*/}
                                         {/*    (<select className="form-control" value={lesson.term_id}*/}
                                         {/*             onChange={(event) => {*/}

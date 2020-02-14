@@ -513,8 +513,19 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isUploadingTerm: false,
+                    data: {
+                        ...state.data,
+                        terms: state.data.terms.map((item) => {
+                            if (item.id == action.data.id) {
+                                return {...action.data}
+                            } else {
+                                return item
+                            }
+                        })
+                    }
                 }
-            };
+            }
+                ;
         }
         case types.EDIT_TERM_ERROR:
             return {

@@ -49,6 +49,10 @@ class CoursesContainer extends React.Component {
     }
 
     deleteCourse(course) {
+        if (this.props.user.role == 2) {
+            helper.showTypeNotification("Bạn không có quyền xóa khóa học này!", "info");
+            return;
+        }
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
             this.props.coursesActions.deleteCourse(course, () => {
                 return this.props.coursesActions.loadCourses(this.state.page);
@@ -101,7 +105,7 @@ class CoursesContainer extends React.Component {
                                                     <strong>Quản lý môn học</strong>
                                                 </h2>
                                             </div>
-                                            <div />
+                                            <div/>
                                             <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                                 <Search
                                                     onChange={this.courseSearchChange}
@@ -109,7 +113,7 @@ class CoursesContainer extends React.Component {
                                                     placeholder="Tìm kiếm môn học"
                                                     className="round-white-seacrh"
                                                 />
-                                                <CreateCourseOverlay  className="btn btn-white btn-round btn-icon"/>
+                                                <CreateCourseOverlay className="btn btn-white btn-round btn-icon"/>
                                             </div>
                                         </div>
                                     </div>
@@ -159,6 +163,7 @@ CoursesContainer.propTypes = {
     error: PropTypes.bool.isRequired,
     coursesList: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     isDeleting: PropTypes.bool,
     isDuplicating: PropTypes.bool,
 
@@ -172,6 +177,7 @@ function mapStateToProps(state) {
         paginator: state.courses.paginator,
         isDeleting: state.courses.isDeleting,
         isDuplicating: state.courses.isDuplicating,
+        user: state.login.user,
     };
 }
 
