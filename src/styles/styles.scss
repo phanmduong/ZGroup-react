@@ -1429,6 +1429,21 @@ table tr td .avatar-honor {
     border-spacing: 0 10px;
   }
 
+  .form-control{
+    background-image: none;
+    background-color: #f7f5f7;
+    border-radius: 5px;
+    padding: 2px 10px;
+    cursor: pointer;
+
+  }
+  select[class=form-control]{
+    appearance: none;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSdibGFjaycgaGVpZ2h0PScyNCcgdmlld0JveD0nMCAwIDI0IDI0JyB3aWR0aD0nMjQnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHBhdGggZD0nTTcgMTBsNSA1IDUtNXonLz48cGF0aCBkPSdNMCAwaDI0djI0SDB6JyBmaWxsPSdub25lJy8+PC9zdmc+);
+    background-position: right;
+    background-size: auto;
+  }
+
   .btn {
     will-change: unset !important;
 

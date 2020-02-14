@@ -178,9 +178,9 @@ class AttendanceContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-sm-12">
                                             <div className="flex-row flex">
-                                                <h2 className="card-title">
+                                                <h5 className="card-title">
                                                     <strong>Điểm danh</strong>
-                                                </h2>
+                                                </h5>
                                             </div>
                                             <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                                 <Search

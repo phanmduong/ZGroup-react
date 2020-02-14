@@ -4,40 +4,51 @@ import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import { NO_AVATAR } from '../../constants/env';
 import { Link } from 'react-router';
+import TooltipButton from "../../components/common/TooltipButton";
 
-let self;
 
 class ListStaff extends React.Component {
 	constructor(props, context) {
 		super(props, context);
-		self = this;
 	}
 
 	render() {
 		let { staffs, roles, bases, departments } = this.props;
 		return (
 			<div className="col-md-12">
-				<div className="table-responsive">
+				<div className="table-responsive table-split">
 					<table className="table">
-						<thead className="text-rose">
-							<tr>
-								<th />
-								<th>Họ tên</th>
-								<th>Email</th>
-								<th>Phone</th>
-								<th>Cơ sở</th>
-								<th>Chức vụ</th>
-								<th>Bộ phận</th>
-								{!this.props.disableActions && <th />}
-							</tr>
-						</thead>
+						{/*<thead className="text-rose">*/}
+						{/*	<tr>*/}
+						{/*		<th />*/}
+						{/*		<th>Họ tên</th>*/}
+						{/*		<th>Email</th>*/}
+						{/*		<th>Phone</th>*/}
+						{/*		<th>Cơ sở</th>*/}
+						{/*		<th>Chức vụ</th>*/}
+						{/*		<th>Bộ phận</th>*/}
+						{/*		{!this.props.disableActions && <th />}*/}
+						{/*	</tr>*/}
+						{/*</thead>*/}
 						<tbody>
 							{staffs.map((staff, index) => {
 								let avatar = helper.avatarEmpty(staff.avatar_url)
 									? NO_AVATAR
 									: staff.avatar_url;
+								let size = 20;
 								return (
 									<tr key={index}>
+										<td style={{width:50}}>
+											<TooltipButton text={staff.role == 2 ? "Admin" : "Nhân viên"} placement="top">
+												{staff.role == 2 ?
+													<img style={{width:size,height:size, cursor:"pointer"}} src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1581669178CMRmRKD3gJa9Tk6.png"/>
+													:
+													<img style={{width:size,height:size, cursor:"pointer"}} src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1581669131WNpAkjzN0ooaKgK.png"/>
+
+												}
+											</TooltipButton>
+
+										</td>
 										<td>
 											<div
 												className="avatar-list-staff"
@@ -60,14 +71,16 @@ class ListStaff extends React.Component {
 													className="form-control"
 													value={staff.base_id}
 													onChange={(event) => {
-														self.props.changeBaseStaff(
+														this.props.changeBaseStaff(
 															staff.id,
 															event.target.value
 														);
 													}}>
+													<option disabled value="0" selected hidden>Chọn cơ sở</option>
+
 													{bases.map((base, key) => {
 														return (
-															<option key={key} value={base.id}>
+															<option key={key} value={base.id} disabled={base.id == 0}>
 																{!helper.isEmptyInput(base.name) &&
 																	`${base.name}: ${base.address}`}
 															</option>
@@ -83,15 +96,17 @@ class ListStaff extends React.Component {
 													disabled={this.props.disableActions}
 													className="form-control"
 													value={staff.role_id}
+													placeholder="Chọn chức vụ"
 													onChange={(event) => {
-														self.props.changeRoleStaff(
+														this.props.changeRoleStaff(
 															staff.id,
 															event.target.value
 														);
 													}}>
+													<option disabled value="0" selected hidden>Chọn chức vụ</option>
 													{roles.map((role, key) => {
 														return (
-															<option key={key} value={role.id}>
+															<option key={key} value={role.id} disabled={role.id == 0}>
 																{role.role_title}
 															</option>
 														);
@@ -105,16 +120,19 @@ class ListStaff extends React.Component {
 												<select
 													disabled={this.props.disableActions}
 													className="form-control"
+													placeholder="Chọn bộ phận"
 													value={staff.department_id}
 													onChange={(event) => {
-														self.props.changeDepartmentStaff(
+														this.props.changeDepartmentStaff(
 															staff.id,
 															event.target.value
 														);
 													}}>
+													<option disabled value="0" selected hidden>Chọn bộ phận</option>
+
 													{departments.map((department, key) => {
 														return (
-															<option key={key} value={department.id}>
+															<option key={key} value={department.id} disabled={department.id == 0}>
 																{department.name}
 															</option>
 														);
@@ -126,7 +144,7 @@ class ListStaff extends React.Component {
 										{!this.props.disableActions && (
 											<td>
 												<ButtonGroupAction
-													delete={self.props.deleteStaff}
+													delete={this.props.deleteStaff}
 													editUrl={`/hr/staff/${staff.id}/edit`}
 													object={staff}
 												/>
