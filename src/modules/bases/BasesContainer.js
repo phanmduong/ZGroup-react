@@ -136,6 +136,7 @@ class BasesContainer extends React.Component {
                             deleteBase={this.deleteBase}
                             handleSwitch={this.handleSwitch}
                             bases={this.props.bases}
+                            reload={() => this.loadBases(currentPage)}
                             openEditBaseModal={this.openModal}/>
                     }
                     <div className="card-content">

@@ -8,7 +8,9 @@ import * as baseListActions from "../baseListActions";
 import Select from "react-select";
 import * as roomActions from "../../rooms/roomActions";
 import FormInputText from "../../../components/common/FormInputText";
-import * as helper from "../../../helpers/helper";
+
+import {confirm, showErrorNotification, showNotification, showWarningNotification, isEmptyInput} from "../../../helpers/helper";
+import {deleteRoom} from "../../rooms/roomApi";
 
 
 class BaseRoomOverlay extends React.Component {
@@ -27,12 +29,12 @@ class BaseRoomOverlay extends React.Component {
 
     }
 
-    updateFormData = (e)=>{
-        let {name,value} = e.target;
+    updateFormData = (e) => {
+        let {name, value} = e.target;
         let {newRoom} = this.state;
         newRoom[name] = value;
         this.setState({newRoom});
-    }
+    };
 
     toggle = (key) => {
         // console.log('toggle',key);
@@ -40,13 +42,13 @@ class BaseRoomOverlay extends React.Component {
         let show = [...this.props.base.rooms, {}].map(() => false);
         show[key] = true;
         let newRoom = this.props.base.rooms[key];
-        if(!newRoom){
-            newRoom = {base_id: this.props.base.id,seats_count:10};
-        }else {
+        if (!newRoom) {
+            newRoom = {base_id: this.props.base.id, seats_count: 10};
+        } else {
             newRoom = {...this.props.base.rooms[key]};
         }
 
-        this.setState({show,newRoom});
+        this.setState({show, newRoom});
     };
 
 
@@ -64,118 +66,159 @@ class BaseRoomOverlay extends React.Component {
         e.preventDefault();
         let room = this.state.newRoom;
         if (
-            helper.isEmptyInput(room.name) ||
+            isEmptyInput(room.name) ||
             // helper.isEmptyInput(room.room_type_id) ||
-            helper.isEmptyInput(room.base_id)
+            isEmptyInput(room.base_id)
         ) {
-            if (helper.isEmptyInput(room.name))
-                helper.showErrorNotification("Bạn cần nhập Tên phòng");
-            // if (helper.isEmptyInput(room.room_type_id))
-            //     helper.showErrorNotification("Bạn cần chọn Loại phòng");
-            if (helper.isEmptyInput(room.base_id))
-                helper.showErrorNotification("Bạn cần chọn Cơ sở");
+            if (isEmptyInput(room.name))
+                showErrorNotification("Bạn cần nhập Tên phòng");
+            // if (isEmptyInput(room.room_type_id))
+            //     showErrorNotification("Bạn cần chọn Loại phòng");
+            if (isEmptyInput(room.base_id))
+                showErrorNotification("Bạn cần chọn Cơ sở");
         } else {
-            let callback = ()=>        this.props.baseListActions.loadBases();
+            let callback = () => this.props.reload();
+            ;
 
             if (room.id) {
-                this.props.roomActions.editRoom({...room},callback);
+                this.props.roomActions.editRoom({...room}, callback);
             } else {
-                this.props.roomActions.storeRoom({...room},callback);
+                this.props.roomActions.storeRoom({...room}, callback);
             }
         }
     }
 
-    propsRooms = ()=>{
+    propsRooms = () => {
         let {base} = this.props;
-        let rooms = [...base.rooms,{}];
+        let rooms = [...base.rooms, {}];
         // rooms.map()
         return rooms;
-    }
+    };
+
+    deleteRoom = (room) => {
+        confirm("warning", "Xóa phòng", "Bạn có chắc muốn xóa phòng " + room.name + "?",
+            () => {
+                showWarningNotification('Đang xóa phòng...');
+                deleteRoom(room).then((res) => {
+                    if (res.data.status = 1) {
+                        this.props.reload();
+                        showNotification('Xóa thành công!');
+                    } else {
+                        showErrorNotification(res.data.message);
+
+                    }
+
+                }).catch((e) => {
+                    console.log(e);
+                    showErrorNotification('Có lỗi xảy ra!');
+                });
+            }
+        );
+
+    };
 
     render() {
-        let {isLoadingBases, isStoringRoom} = this.props;
-        let {newRoom,show} = this.state;
+        let {isLoadingBases, isStoringRoom, user} = this.props;
+        let {newRoom, show} = this.state;
         let rooms = this.propsRooms();
 
         return (
             <div className="flex flex-wrap">
-            {rooms.map((room, key) => {
-                let className = "btn btn-sm will-not-change"
-                    + (!room.id ?  ' btn-white' : '')
-                    + (show[key] ?  ' btn-success' : '')
-                ;
+                {rooms.map((room, key) => {
+                    let className = "btn btn-sm will-not-change"
+                        + (!room.id ? ' btn-white' : '')
+                        + (show[key] ? ' btn-success' : '')
+                    ;
 
-                return (
-                    <div style={{position: "relative"}} key={key}>
-                        <div className={className}
-                             ref={"target" + key} onClick={() => this.toggle(key)}>
-                            {room.id ? room.name : 'Thêm phòng'}
-                            {!room.id && <i className="material-icons">add</i>}
-                        </div>
-                        <Overlay
-                            rootClose={true}
-                            show={show[key]}
-                            onHide={() => this.close(key)}
-                            placement="bottom"
-                            container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
-                            target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
-                            <div className="kt-overlay overlay-container"
-                                 ref={(e) => {if(e)e.style.setProperty('left', 'unset', "important");}}
-                                         style={{width: 300,  right:"-100%"}}>
-                                <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
-                                    <div><b>{room.id ? 'Sửa phòng' : 'Tạo mới'}</b></div>
-                                    <button
-                                        onClick={this.close}
-                                        type="button" className="close"
-                                        style={{color: '#5a5a5a'}}>
-                                        <span aria-hidden="true">×</span>
-                                        <span className="sr-only">Close</span>
-                                    </button>
-                                </div>
-                                {isLoadingBases && <Loading/>}
-                                {!isStoringRoom &&
-                                <form role="form" id="form-info-student">
-                                    <label>
-                                        Tên phòng
-                                    </label>
-                                    <FormInputText
-                                        placeholder="Tên phòng"
-                                        required
-                                        name="name"
-                                        updateFormData={this.updateFormData}
-                                        value={newRoom.name || ""}
-                                    />
-                                    <label>
-                                        Số chỗ ngồi
-                                    </label>
-                                    <FormInputText
-                                        placeholder="Số chỗ ngồi"
-                                        required
-                                        type="number"
-                                        name="seats_count"
-                                        updateFormData={this.updateFormData}
-                                        value={newRoom.seats_count}
-                                    />
-                                    <div>
-                                        <label>
-                                            Chọn cơ sở
-                                        </label>
-                                        <Select
-                                            value={newRoom.base_id ? newRoom.base_id : ""}
-                                            options={this.props.bases.map(base => {
-                                                return {
-                                                    ...base,
-                                                    value: base.id,
-                                                    label: base.name,
-                                                };
-                                            })}
-                                            onChange={e=>this.updateFormData({target:{name:'base_id',value:e.id}})}
-                                            clearable={false}
-                                        />
+                    return (
+                        <div style={{position: "relative"}} key={key}>
+                            <div className={className}
+                                 ref={"target" + key} onClick={() => this.toggle(key)}>
+                                {room.id ? room.name : 'Thêm phòng'}
+                                {!room.id && <i className="material-icons">add</i>}
+                            </div>
+                            <Overlay
+                                rootClose={true}
+                                show={show[key]}
+                                onHide={() => this.close(key)}
+                                placement="bottom"
+                                container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
+                                target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
+                                <div className="kt-overlay overlay-container"
+                                     ref={(e) => {
+                                         if (e) e.style.setProperty('left', 'unset', "important");
+                                     }}
+                                     style={{width: 300, right: "-100%"}}>
+                                    <div style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: 'center'
+                                    }}>
+                                        <div className="flex flex-align-items-center">
+                                            <b>{room.id ? 'Sửa phòng' : 'Tạo mới'}</b>
+                                            {room.id && user.role == 2 && <div className="btn-group-action">
+                                                <a data-toggle="tooltip" title="Xoá" type="button" rel="tooltip"
+                                                   onClick={() => this.deleteRoom(room)}><i
+                                                    className="material-icons">delete</i>
+                                                </a></div>}
+                                        </div>
+                                        <button
+                                            onClick={this.close}
+                                            type="button" className="close"
+                                            style={{color: '#5a5a5a'}}>
+                                            <span aria-hidden="true">×</span>
+                                            <span className="sr-only">Close</span>
+                                        </button>
                                     </div>
-                                    <div>
-                                        <label>Mô tả</label>
-                                        <div className="input-note-overlay">
+                                    {isLoadingBases && <Loading/>}
+                                    {!isStoringRoom &&
+                                    <form role="form" id="form-info-student">
+                                        <label>
+                                            Tên phòng
+                                        </label>
+                                        <FormInputText
+                                            placeholder="Tên phòng"
+                                            required
+                                            name="name"
+                                            updateFormData={this.updateFormData}
+                                            value={newRoom.name || ""}
+                                        />
+                                        <label>
+                                            Số chỗ ngồi
+                                        </label>
+                                        <FormInputText
+                                            placeholder="Số chỗ ngồi"
+                                            required
+                                            type="number"
+                                            name="seats_count"
+                                            updateFormData={this.updateFormData}
+                                            value={newRoom.seats_count}
+                                        />
+                                        <div>
+                                            <label>
+                                                Chọn cơ sở
+                                            </label>
+                                            <Select
+                                                value={newRoom.base_id ? newRoom.base_id : ""}
+                                                options={this.props.bases.map(base => {
+                                                    return {
+                                                        ...base,
+                                                        value: base.id,
+                                                        label: base.name,
+                                                    };
+                                                })}
+                                                onChange={e => this.updateFormData({
+                                                    target: {
+                                                        name: 'base_id',
+                                                        value: e.id
+                                                    }
+                                                })}
+                                                clearable={false}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label>Mô tả</label>
+                                            <div className="input-note-overlay">
 
                                                 <textarea type="text" className="form-control"
                                                           placeholder="Mô tả"
@@ -183,81 +226,81 @@ class BaseRoomOverlay extends React.Component {
                                                           value={newRoom.description ? newRoom.description : ''}
                                                           name="description"
                                                           onChange={this.updateFormData}/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {/*<div>*/}
-                                    {/*    <label>Chọn loại phòng</label>*/}
+                                        {/*<div>*/}
+                                        {/*    <label>Chọn loại phòng</label>*/}
 
-                                    {/*    <Select*/}
-                                    {/*        name="type"*/}
-                                    {/*        value={*/}
-                                    {/*            newRoom.room_type_id*/}
-                                    {/*        }*/}
-                                    {/*        options={this.props.types.map(type => {*/}
-                                    {/*            return {*/}
-                                    {/*                ...type,*/}
-                                    {/*                value: type.id,*/}
-                                    {/*                label: type.name,*/}
-                                    {/*            };*/}
-                                    {/*        })}*/}
-                                    {/*        onChange={e=>this.updateFormData({target:{name:'room_type_id',value:e.id}})}*/}
-                                    {/*        clearable={false}*/}
-                                    {/*    />*/}
+                                        {/*    <Select*/}
+                                        {/*        name="type"*/}
+                                        {/*        value={*/}
+                                        {/*            newRoom.room_type_id*/}
+                                        {/*        }*/}
+                                        {/*        options={this.props.types.map(type => {*/}
+                                        {/*            return {*/}
+                                        {/*                ...type,*/}
+                                        {/*                value: type.id,*/}
+                                        {/*                label: type.name,*/}
+                                        {/*            };*/}
+                                        {/*        })}*/}
+                                        {/*        onChange={e=>this.updateFormData({target:{name:'room_type_id',value:e.id}})}*/}
+                                        {/*        clearable={false}*/}
+                                        {/*    />*/}
 
 
-                                    {/*</div>*/}
-                                    {/*<div className="panel panel-default">*/}
-                                    {/*    <div className="panel-heading" role="tab"*/}
-                                    {/*         id="headingTwo">*/}
-                                    {/*        <a className="collapsed" role="button"*/}
-                                    {/*           data-toggle="collapse"*/}
-                                    {/*           data-parent="#accordion"*/}
-                                    {/*           href="#collapseTwo" aria-expanded="false"*/}
-                                    {/*           aria-controls="collapseTwo">*/}
-                                    {/*            <h4 className="panel-title">*/}
-                                    {/*                Mở rộng*/}
-                                    {/*                <i className="material-icons">arrow_drop_down</i>*/}
-                                    {/*            </h4>*/}
-                                    {/*        </a>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div id="collapseTwo"*/}
-                                    {/*         className="panel-collapse collapse"*/}
-                                    {/*         role="tabpanel"*/}
-                                    {/*         aria-labelledby="headingTwo"*/}
-                                    {/*         aria-expanded="false"*/}
-                                    {/*         style={{height: '0px'}}>*/}
-                                    {/*        <div className="panel-body">*/}
-                                    {/*            */}
-                                    {/*        </div>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
-                                </form>
+                                        {/*</div>*/}
+                                        {/*<div className="panel panel-default">*/}
+                                        {/*    <div className="panel-heading" role="tab"*/}
+                                        {/*         id="headingTwo">*/}
+                                        {/*        <a className="collapsed" role="button"*/}
+                                        {/*           data-toggle="collapse"*/}
+                                        {/*           data-parent="#accordion"*/}
+                                        {/*           href="#collapseTwo" aria-expanded="false"*/}
+                                        {/*           aria-controls="collapseTwo">*/}
+                                        {/*            <h4 className="panel-title">*/}
+                                        {/*                Mở rộng*/}
+                                        {/*                <i className="material-icons">arrow_drop_down</i>*/}
+                                        {/*            </h4>*/}
+                                        {/*        </a>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div id="collapseTwo"*/}
+                                        {/*         className="panel-collapse collapse"*/}
+                                        {/*         role="tabpanel"*/}
+                                        {/*         aria-labelledby="headingTwo"*/}
+                                        {/*         aria-expanded="false"*/}
+                                        {/*         style={{height: '0px'}}>*/}
+                                        {/*        <div className="panel-body">*/}
+                                        {/*            */}
+                                        {/*        </div>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
+                                    </form>
 
-                                }
-                                {isStoringRoom ? <Loading/> :
-                                    <div className="flex">
-                                        <button type="button"
-                                                disabled={isStoringRoom}
-                                                className="btn btn-white width-50-percent text-center"
-                                                data-dismiss="modal"
-                                                onClick={this.close}>
-                                            Hủy
-                                        </button>
-                                        <button type="button"
-                                                className="btn btn-success width-50-percent text-center"
+                                    }
+                                    {isStoringRoom ? <Loading/> :
+                                        <div className="flex">
+                                            <button type="button"
+                                                    disabled={isStoringRoom}
+                                                    className="btn btn-white width-50-percent text-center"
+                                                    data-dismiss="modal"
+                                                    onClick={this.close}>
+                                                Hủy
+                                            </button>
+                                            <button type="button"
+                                                    className="btn btn-success width-50-percent text-center"
 
-                                                style={{backgroundColor: '#2acc4c'}}
-                                                onClick={(e) => this.storeRoom(e)}>
-                                            Hoàn tất
-                                        </button>
-                                    </div>}
+                                                    style={{backgroundColor: '#2acc4c'}}
+                                                    onClick={(e) => this.storeRoom(e)}>
+                                                Hoàn tất
+                                            </button>
+                                        </div>}
 
-                            </div>
-                        </Overlay>
-                    </div>
-                );
-            })}
-        </div>);
+                                </div>
+                            </Overlay>
+                        </div>
+                    );
+                })}
+            </div>);
     }
 }
 
@@ -277,7 +320,8 @@ function mapStateToProps(state) {
         isEditRoom: state.rooms.isEditRoom,
         // bases: state.rooms.bases,
         provinces: state.baseList.provinces,
-        districts: state.baseList.districts
+        districts: state.baseList.districts,
+        user: state.login.user,
     };
 }
 

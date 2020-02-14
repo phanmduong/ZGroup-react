@@ -9,6 +9,7 @@ import AddStaffComponent from './AddStaffComponent';
 import * as staffActions from './staffActions';
 import * as roleActions from '../role/roleActions';
 import * as helper from '../../helpers/helper';
+import {CIRCLE_PICKER_COLORS} from "../../constants/constants";
 
 class AddStaffContainer extends React.Component {
     constructor(props, context) {
@@ -75,14 +76,20 @@ class AddStaffContainer extends React.Component {
     }
 
     addStaff() {
+        let data = {...this.props.staffForm};
+        if (!CIRCLE_PICKER_COLORS.find(c=>this.props.staffForm.color == c)) {
+            let length = CIRCLE_PICKER_COLORS.length - 1;
+            let index = Math.floor(length* Math.random()) ;
+            data.color = CIRCLE_PICKER_COLORS[index].substr(1);
+        }
         if (this.props.staffForm.role_id == null || this.props.staffForm.role_id == undefined || this.props.staffForm.role_id <= 0) {
             helper.showTypeNotification("Vui lòng chọn chức vụ", 'warning');
             return;
         }
         if (this.props.route.type === 'edit') {
-            this.props.staffActions.editStaffData(this.props.staffForm);
+            this.props.staffActions.editStaffData(data);
         } else {
-            this.props.staffActions.addStaffData(this.props.staffForm);
+            this.props.staffActions.addStaffData(data);
         }
     }
 

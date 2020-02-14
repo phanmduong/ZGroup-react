@@ -123,6 +123,16 @@ export function editRoom(room) {
     });
 }
 
+export function deleteRoom(room) {
+    let url =
+        env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
+    let token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
 export function uploadRoomLayout({
     roomId,
     file,

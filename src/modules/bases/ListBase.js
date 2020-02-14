@@ -22,9 +22,9 @@ class ListBase extends React.Component {
                     <tr>
                         <th>Tên</th>
                         <th>Thành phố</th>
-                        <th style={{width:'20%'}}>Địa chỉ</th>
-                        <th style={{width:'40%'}}>Phòng</th>
-                        <th style={{width:'5%'}}/>
+                        <th style={{width: '20%'}}>Địa chỉ</th>
+                        <th style={{width: '40%'}}>Phòng</th>
+                        <th style={{width: '5%'}}/>
                     </tr>
                     </thead>
                     <tbody>
@@ -35,15 +35,18 @@ class ListBase extends React.Component {
                         // let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                         return (
                             <tr key={key}>
-                                <td><b className="cursor-pointer" onClick={() => this.props.openEditBaseModal(base)}>{base.name}</b></td>
-                                <td>{base.province ?  base.province.name : 'Không có'}</td>
+                                <td><b className="cursor-pointer"
+                                       onClick={() => this.props.openEditBaseModal(base)}>{base.name}</b></td>
+                                <td>{base.province ? base.province.name : 'Không có'}</td>
                                 <td>
-                                    <div >{address_description}
-                                </div></td>
+                                    <div>{address_description}
+                                    </div>
+                                </td>
                                 <td>
 
-                                <BaseRoomOverlay
+                                    <BaseRoomOverlay
                                         base={base}
+                                        reload={this.props.reload}
                                         bases={this.props.bases}
                                     />
                                 </td>
