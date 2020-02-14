@@ -78,7 +78,7 @@ class BaseRoomOverlay extends React.Component {
                 showErrorNotification("Bạn cần chọn Cơ sở");
         } else {
             let callback = () => this.props.reload();
-            ;
+
 
             if (room.id) {
                 this.props.roomActions.editRoom({...room}, callback);
@@ -100,7 +100,7 @@ class BaseRoomOverlay extends React.Component {
             () => {
                 showWarningNotification('Đang xóa phòng...');
                 deleteRoom(room).then((res) => {
-                    if (res.data.status = 1) {
+                    if (res.data.status == 1) {
                         this.props.reload();
                         showNotification('Xóa thành công!');
                     } else {
