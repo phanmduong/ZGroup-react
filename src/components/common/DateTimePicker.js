@@ -96,8 +96,9 @@ class DateRangePicker extends React.Component {
         let value = `${this.state.start.format(
             "DD/MM/YYYY"
         )} - ${this.state.end.format("DD/MM/YYYY")}`;
+        let {className,style} = this.props;
+        className = className ? (` ${className}`) : '';
         return (
-            <div>
                 <DateTimeRangeContainer
                     ranges={ranges}
                     start={this.state.start}
@@ -116,13 +117,11 @@ class DateRangePicker extends React.Component {
                         customRangeSelected: {backgroundColor: 'rgb(168,168,168)', color:'white'},
                     }}
                 >
-                    <div className="date-range-picker">
+                    <div className={"date-range-picker" + className} style={style}>
                         <span className="date-picker">{value}</span>
                         <span className="Select-arrow-zone"><span className="Select-arrow"></span></span>
                     </div>
                 </DateTimeRangeContainer>
-                <br/>
-            </div>
         );
     }
 }

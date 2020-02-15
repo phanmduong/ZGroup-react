@@ -502,6 +502,28 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     isLoading: false,
                 }
             };
+        case types.BEGIN_SET_ADMIN_STAFF:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.SET_ADMIN_STAFF_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    departments: action.data
+                }
+            };
+        case types.SET_ADMIN_STAFF_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
         case types.BEGIN_CHANGE_DEPARTMENT_STAFF:
             let newdata = changeDepartStaff(action.staffId,action.departId,state.staffListData);
             return {

@@ -5,6 +5,7 @@ import DashboardTrongDongContainer from "../modules/dashboardTrongDong/Dashboard
 import LogRegisterRoom from "../modules/logRegisterRoom/LogRegisterRoom";
 import DashboardStudyPackContainer from "../modules/dashboardStudyPack/DashboardContainer";
 import SettingContainer from "../modules/setting/SettingContainer";
+import DashboardMarketing from "../modules/dashboard/dashboardMarketing/DashboardMarketing";
 
 
 /**
@@ -42,5 +43,9 @@ export default [
     {
         path: "/setting",
         component: SettingContainer
+    },
+    {
+        path: "/dashboard/marketing",
+        component: DashboardMarketing
     },
 ];

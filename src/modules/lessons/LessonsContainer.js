@@ -108,7 +108,7 @@ class LessonsContainer extends React.Component {
         let {course} = data;
         return (
             <div>
-                <div className="margintop-10">
+                <div className="margin-top-10">
                     <div className={"card"}>
                         <div className={"card-content"}>
                             {this.props.isLoading ? <Loading/> :
@@ -123,7 +123,7 @@ class LessonsContainer extends React.Component {
                                                          }}/>
                                                 </div>
                                                 <div
-                                                    className="text-white flex flex-col flex-justify-content-center text-center margintop-10">
+                                                    className="text-white flex flex-col flex-justify-content-center text-center margin-top-10">
                                                     {course &&
                                                     <Link
                                                         className="text-white"
@@ -132,7 +132,7 @@ class LessonsContainer extends React.Component {
                                                     }
                                                 </div>
 
-                                                <h4 className="card-title  margintop-10">Buổi {data.order}</h4>
+                                                <h4 className="card-title  margin-top-10">Buổi {data.order}</h4>
 
                                                 <div
                                                     className="text-white flex flex-col flex-justify-content-center text-center">
@@ -146,7 +146,7 @@ class LessonsContainer extends React.Component {
                                         </div>
                                     </div>
                                     <div className="col-md-8">
-                                        <div className="margintop-10">
+                                        <div className="margin-top-10">
                                             {this.props.isLoading ? <Loading/> :
                                                 <form className="form-modal" id="form-lesson-create-edit">
                                                     <div>

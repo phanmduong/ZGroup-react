@@ -874,7 +874,7 @@ class RegisterListContainer extends React.Component {
                                 this.props.isLoadingBaseFilter ||
                                 this.props.isLoadingRegisters)
                         }>
-                            <div className="white-light-round card-filter">
+                            <div className="card-filter">
 
                                 <div className="row">
                                     <div className="col-md-3">

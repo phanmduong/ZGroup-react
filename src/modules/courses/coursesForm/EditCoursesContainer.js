@@ -50,7 +50,7 @@ class EditCoursesContainer extends React.Component {
     render() {
         const {data: course} = this.props;
         return (
-            <div className="margintop-10">
+            <div className="margin-top-10">
                 <div className={"card"}>
                     <div className={"card-content"}>
                         {this.props.isLoading ? <Loading/> :
@@ -65,7 +65,7 @@ class EditCoursesContainer extends React.Component {
                                                      }} />
                                             </div>
 
-                                            <h4 className="card-title  margintop-10">{course.name}</h4>
+                                            <h4 className="card-title  margin-top-10">{course.name}</h4>
 
                                             <div
                                                 className="text-white flex flex-col flex-justify-content-center text-center">
@@ -127,7 +127,7 @@ class EditCoursesContainer extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-8">
-                                    <div className="margintop-10">
+                                    <div className="margin-top-10">
                                         <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                                             <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
                                                 <IndexLink to={`${this.urlType}`}>

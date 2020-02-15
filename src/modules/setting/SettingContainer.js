@@ -59,7 +59,7 @@ class SettingContainer extends React.Component {
         const {isLoading, isSaving} = this.store;
         const {currentTab} = this.state;
         return (
-            <div className="margintop-10">
+            <div className="margin-top-10">
                 <div className={"card"}>
                     <div className={"card-content"}>
                         {isLoading ? <Loading/> :
@@ -74,7 +74,7 @@ class SettingContainer extends React.Component {
                                                      }}/>
                                             </div>
 
-                                            <h4 className="card-title  margintop-10">{this.getValue("name_company")}</h4>
+                                            <h4 className="card-title  margin-top-10">{this.getValue("name_company")}</h4>
 
                                             <div
                                                 className="text-white flex flex-col flex-justify-content-center text-center">
@@ -99,7 +99,7 @@ class SettingContainer extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-8">
-                                    <div className="margintop-10">
+                                    <div className="margin-top-10">
                                         <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                                             {this.tabs.map((tab) => {
                                                 return (

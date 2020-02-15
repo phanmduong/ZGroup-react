@@ -243,7 +243,7 @@ class InfoStudentContainer extends React.Component {
                                             </TooltipButton>
                                         </div>
 
-                                        <div className="flex flex-row-center flex-justify-content-center margintop-10">
+                                        <div className="flex flex-row-center flex-justify-content-center margin-top-10">
                                             <StarInput
                                                 value={student.rate}
                                                 maxStar={5}

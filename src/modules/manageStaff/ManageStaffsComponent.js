@@ -9,7 +9,13 @@ import {Modal} from 'react-bootstrap';
 import AddUserToStaff from './AddUserToStaff';
 import HRTab from "../manageDepartment/HRTab";
 import TooltipButton from '../../components/common/TooltipButton';
-import {appendJsonToWorkBook, newWorkBook, renderExcelColumnArray, saveWorkBookToExcel,} from "../../helpers/helper";
+import {
+    appendJsonToWorkBook,
+    confirm,
+    newWorkBook,
+    renderExcelColumnArray,
+    saveWorkBookToExcel, showErrorNotification,
+} from "../../helpers/helper";
 
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
@@ -65,7 +71,25 @@ class ManageStaffsComponent extends React.Component {
 
         this.setState({showLoadingModal: false});
     };
+    setAdmin = (staff)=>{
+        if(this.props.user.role != 2) {
+            showErrorNotification("Chỉ admin mới có thể phân quyền!");
+            return ;
+        }
+        if(staff.id == this.props.user.id){
+            showErrorNotification("Bạn không thể phân quyền cho bản thân!");
+            return;
+        }
+        let message = (staff && staff.role == 2 ? "Bạn có chắc chắn muốn xóa quyền admin của " : "Bạn có chắc chắn muốn phân quyền admin cho ") + `<br><b>${staff.name}</b>`;
+        confirm("warning", "Phân quyền admin", message,
+            () => {
+                this.props.staffActions.setAdmin(staff.id,()=>{
+                    this.props.loadStaffs(this.props.currentPage);
+                });
+            });
 
+
+    }
     render() {
         return (
             <div>
@@ -143,6 +167,7 @@ class ManageStaffsComponent extends React.Component {
                                 changeBaseStaff={this.props.changeBaseStaff}
                                 changeDepartmentStaff={this.props.changeDepartmentStaff}
                                 deleteStaff={this.props.deleteStaff}
+                                setAdmin={this.setAdmin}
                                 disableActions={this.props.user.role != 2}
                                 titleList="Danh sách nhân viên"
                             />

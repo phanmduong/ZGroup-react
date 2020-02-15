@@ -690,7 +690,7 @@ class LeadContainer extends React.Component {
                                 placeholder="Sắp xếp theo"
                                 searchable={false}
                                 name="orderBy"
-                                className="react-select-white margin-left-auto min-width-200-px"
+                                className="react-select-white-round margin-left-auto min-width-200-px"
                             />
                         </div>
 
@@ -775,7 +775,7 @@ class LeadContainer extends React.Component {
                                 {/*            searchPromptText="Không có dữ liệu nhân viên"*/}
                                 {/*            onChange={this.changeCarer}*/}
                                 {/*            value={this.state.carer}*/}
-                                {/*            className="react-select-white"*/}
+                                {/*            className="react-select-white-round"*/}
                                 {/*            optionRenderer={(option) => {*/}
                                 {/*                return (*/}
                                 {/*                    <ItemReactSelect label={option.label}*/}
@@ -922,7 +922,7 @@ class LeadContainer extends React.Component {
                                             searchPromptText="Không có dữ liệu nhân viên"
                                             onChange={this.changeCarer}
                                             value={this.state.carer}
-                                            className="react-select-white"
+                                            className="react-select-white-round"
                                             // menuPosition="top"
                                             // menuPlacement="top"
                                             menuContainerStyle={{top: 'auto', bottom: '100%'}}

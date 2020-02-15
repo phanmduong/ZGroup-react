@@ -27,7 +27,7 @@ class DetailSalaryBonus extends React.Component {
                             {
                                 this.store.detailSalaryBonus.map((bonus, index) => {
                                     return (
-                                        <div key={index} className="margintop-10 margin-bottom-20">
+                                        <div key={index} className="margin-top-10 margin-bottom-20">
                                             <div className="flex flex-row flex-space-between">
                                                 <div style={{color: 'black'}}>{bonus.note}</div>
                                                 <div className="bold">{dotNumber(bonus.amount)}đ</div>

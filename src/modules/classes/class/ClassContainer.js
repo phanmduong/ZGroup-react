@@ -438,7 +438,7 @@ class ClassContainer extends React.Component {
 
                                         </div>
                                         <div
-                                            className="text-white flex flex-col flex-justify-content-center text-center margintop-10">
+                                            className="text-white flex flex-col flex-justify-content-center text-center margin-top-10">
                                             {classData.course &&
                                             <Link
                                                 className="text-white"
@@ -446,7 +446,7 @@ class ClassContainer extends React.Component {
                                                 to={"/teaching/courses/edit/" + classData.course.id}>{classData.course.name}</Link>}
                                         </div>
                                         <div
-                                            className=" flex flex-row-center flex-justify-content-center margintop-10"/>
+                                            className=" flex flex-row-center flex-justify-content-center margin-top-10"/>
 
                                         <h4 className="card-title">{classData.name}</h4>
 
@@ -686,7 +686,7 @@ class ClassContainer extends React.Component {
 
                             </div>
                             <div className="col-md-8">
-                                <ul className="nav nav-pills nav-pills-dark margintop-10" data-tabs="tabs">
+                                <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
                                     {this.routes.map((route, index) => {
                                         return (
                                             index ?
@@ -704,7 +704,7 @@ class ClassContainer extends React.Component {
                                         );
                                     })}
                                 </ul>
-                                <div className="flex flex-wrap margintop-10">
+                                <div className="flex flex-wrap margin-top-10">
                                     {
                                         this.path == this.routePrefix + "/history-teaching" &&
                                         <div onClick={this.updateClassLesson} className="btn btn-actions">

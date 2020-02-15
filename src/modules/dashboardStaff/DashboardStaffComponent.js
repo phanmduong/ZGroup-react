@@ -46,10 +46,10 @@ class DashboardStaffComponent extends React.Component {
                                                 <div className="font-size-1_5em">
                                                     <strong>{store.user.name}</strong>
                                                 </div>
-                                                <div className="font-weight-400 margintop-10">
+                                                <div className="font-weight-400 margin-top-10">
                                                     {store.user.email}
                                                 </div>
-                                                <div className="font-weight-400 margintop-10 ">
+                                                <div className="font-weight-400 margin-top-10 ">
                                                     <a
                                                         className="text-primary"
                                                         href={"tel:" + store.user.phone}>
@@ -99,12 +99,12 @@ class DashboardStaffComponent extends React.Component {
                                                             <div className="font-size-1_5em">
                                                                 <strong>Bộ phận</strong>
                                                             </div>
-                                                            <div className="font-weight-400 margintop-10">
+                                                            <div className="font-weight-400 margin-top-10">
                                                                 {store.user.department
                                                                     ? store.user.department.name
                                                                     : "Không có"}
                                                             </div>
-                                                            <div className="font-weight-400 margintop-10">
+                                                            <div className="font-weight-400 margin-top-10">
                                                                 <div className="text-primary">
                                                                     {store.user.base
                                                                         ? store.user.base.name
@@ -120,12 +120,12 @@ class DashboardStaffComponent extends React.Component {
                                                             <div className="font-size-1_5em">
                                                                 <strong>Chức vụ</strong>
                                                             </div>
-                                                            <div className="font-weight-400 margintop-10">
+                                                            <div className="font-weight-400 margin-top-10">
                                                                 {store.user.current_role
                                                                     ? store.user.current_role.role_title
                                                                     : "Không có"}
                                                             </div>
-                                                            <div className="font-weight-400 margintop-10">
+                                                            <div className="font-weight-400 margin-top-10">
                                                                 <div className="text-primary">
                                                                     {store.user.base
                                                                         ? store.user.base.name

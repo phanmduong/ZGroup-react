@@ -189,7 +189,7 @@ class MoneyRegisterOverlay extends React.Component {
                                     /></div>
 
                                 <div>
-                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Giá khóa học: </b></div>
                                         <div>{` ${dotNumber(coursePrice)}đ`}</div>
@@ -200,7 +200,7 @@ class MoneyRegisterOverlay extends React.Component {
                                             dotNumber(coupon.discount_value) + 'đ';
                                         return (
                                             <div key={key}
-                                                className="flex flex-space-between flex-align-items-center margintop-10"
+                                                className="flex flex-space-between flex-align-items-center margin-top-10"
                                                 style={{fontSize: 12}}>
                                                 <div><b>{coupon.name}: </b></div>
                                                 <div>{` ${discountText}`}</div>
@@ -208,12 +208,12 @@ class MoneyRegisterOverlay extends React.Component {
                                         );
                                     })}
                                     {coursePrice - finalPrice > 0 &&
-                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Đã giảm: </b></div>
                                         <div>{` ${dotNumber(coursePrice - finalPrice)}đ`}</div>
                                     </div>}
-                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Tổng: </b></div>
                                         <div>{` ${dotNumber(finalPrice)}đ`}</div>

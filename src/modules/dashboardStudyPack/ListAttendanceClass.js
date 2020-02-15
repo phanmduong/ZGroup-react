@@ -11,11 +11,11 @@ class ListAttendanceClass extends React.Component {
 
     render() {
         let classes = _.sortBy(this.props.now_classes, [function (classData) {
-            return classData.room.base_id;
+            return classData.room ? classData.room.base_id: classData.room;
         }]);
 
         if (helper.isEmptyInput(this.props.baseId) || this.props.baseId == 0) {
-            let classesGroup = helper.groupBy(classes, classData => classData.room.base, ["base", "classes"]);
+            let classesGroup = helper.groupBy(classes, classData => classData.room ? classData.room.base :classData.room, ["base", "classes"]);
             return (
                 <div>
                     {
@@ -33,7 +33,7 @@ class ListAttendanceClass extends React.Component {
                                                             src={classData.course.icon_url}/>
                                                         <div className="text-h5">
                                                             <strong>{classData.name}
-                                                            </strong> - {classData.room.name} - {classData.start_time}-
+                                                            </strong> - {classData.room ? classData.room.name : ''} - {classData.start_time}-
                                                             {classData.end_time}</div>
                                                     </div>
                                                     <AttendanceClass
@@ -66,7 +66,7 @@ class ListAttendanceClass extends React.Component {
                                             src={classData.course.icon_url}/>
                                         <div className="text-h5">
                                             <strong>{classData.name}
-                                            </strong> - {classData.room.name} - {classData.start_time}-
+                                            </strong> - {classData.room ? classData.room.name : ''} - {classData.start_time}-
                                             {classData.end_time}</div>
                                     </div>
                                     <AttendanceClass

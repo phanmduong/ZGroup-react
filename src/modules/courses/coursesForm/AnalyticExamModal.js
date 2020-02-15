@@ -97,6 +97,7 @@ class AnalyticExamModal extends React.Component {
                         <div style={{width: 300, marginRight: 20}}>
                             <DateRangePicker start={moment().subtract(30, "days")} end={moment()}
                                              onChange={this.changeDateRangePicker}/>
+                                             <br/>
                         </div>
                         <div className="select-silver" style={{width: 300}}>
                             <ReactSelect

@@ -53,7 +53,7 @@ class StudyProgressTooltip extends React.Component {
             <div>{this.state.progress.map((progressClass, index) => {
                 return (
                     <div key={index}>
-                        <div className="flex-row-center flex-space-between margintop-10">
+                        <div className="flex-row-center flex-space-between margin-top-10">
                             <img className="circle" style={{width:30}} src={progressClass.icon_url} alt=""/>
                             <div className="margin-left-15">
                                 <b>{progressClass.name}</b>

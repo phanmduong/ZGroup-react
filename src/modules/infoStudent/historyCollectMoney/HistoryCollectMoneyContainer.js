@@ -87,7 +87,7 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                     );
                                                 })}
                                             </div>
-                                            <div className="timeline-heading margintop-10">
+                                            <div className="timeline-heading margin-top-10">
                                                 <div className="flex-row-center">
                                                     <button className="btn btn-xs btn-rose"
                                                             style={{width: '70px'}}

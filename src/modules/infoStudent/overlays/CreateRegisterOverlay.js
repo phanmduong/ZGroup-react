@@ -51,7 +51,7 @@ function getSelectCampaign(items) {
 
 function getSelectBase(items, studyClasses) {
     return items && items.map(item => {
-        const count = studyClasses.filter(sc => sc.base.id == item.id).length;
+        const count = studyClasses.filter(sc => sc.base && sc.base.id == item.id).length;
         return {
             value: item.id,
             label: `${item.province} - ${item.name} - (${count} lớp) - ${item.address}`,
@@ -463,19 +463,19 @@ class CreateRegisterOverlay extends React.Component {
                                 />
                                 {register.course_id && register.coupons.length > 0 &&
                                 <div>
-                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Giá khóa học: </b></div>
                                         <div>{` ${dotNumber(coursePrice)}đ`}</div>
                                     </div>
 
                                     {coursePrice - finalPrice > 0 &&
-                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Đã giảm: </b></div>
                                         <div>{` ${dotNumber(coursePrice - finalPrice)}đ`}</div>
                                     </div>}
-                                    <div className="flex flex-space-between flex-align-items-center margintop-10"
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Tổng: </b></div>
                                         <div>{` ${dotNumber(finalPrice)}đ`}</div>

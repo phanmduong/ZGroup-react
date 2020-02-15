@@ -253,9 +253,9 @@ class ClassesContainer extends React.Component {
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <div className="flex-row flex">
-                                                    <h2 className="card-title">
+                                                    <h4 className="card-title">
                                                         <strong>Danh sách lớp học</strong>
-                                                    </h2>
+                                                    </h4>
                                                 </div>
                                                 <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                                     <Search

@@ -74,7 +74,7 @@ class ClassCheckinCheckoutContainer extends React.Component {
             <div>
 
                 <div className="table-responsive table-split margin-bottom-20">
-                    <div className="margintop-10 margin-bottom-10"><b>Giảng viên</b></div>
+                    <div className="margin-top-10 margin-bottom-10"><b>Giảng viên</b></div>
                     <table className="table" cellSpacing="0" id="list_register">
                         <tbody>
                         {!isLoading && classData.teacher &&
@@ -108,7 +108,7 @@ class ClassCheckinCheckoutContainer extends React.Component {
                     </table>
                 </div>
                 <div className="table-responsive table-split">
-                    <div className="margintop-10 margin-bottom-10"><b>Trợ giảng</b></div>
+                    <div className="margin-top-10 margin-bottom-10"><b>Trợ giảng</b></div>
                     <table className="table" cellSpacing="0" id="list_register">
                         <tbody>
                         {!isLoading && classData.teacher_assistant &&

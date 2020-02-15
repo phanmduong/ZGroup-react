@@ -81,6 +81,14 @@ export function getUsers(page = 1, search = null) {
     return axios.get(url);
 }
 
+export function setAdmin(staffId) {
+    let url = env.MANAGE_API_URL + "/set-admin";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {staff_id: staffId});
+}
 export function changeRoleStaff(staffId, roleId) {
     let url = env.MANAGE_API_URL + "/change-role-staff";
     let token = localStorage.getItem('token');

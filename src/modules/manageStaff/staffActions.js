@@ -27,7 +27,7 @@ export function loadStaffsData(page, search) {
     };
 }
 
-export function getAllStaffs( search , success) {
+export function getAllStaffs(search, success) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_STAFFS_DATA});
         staffApi.getAllStaffs(search)
@@ -39,7 +39,7 @@ export function getAllStaffs( search , success) {
                 });
                 success(res.data.data.staffs);
             }).catch(() => {
-                dispatch({type: types.LOAD_ALL_STAFFS_DATA_ERROR});
+            dispatch({type: types.LOAD_ALL_STAFFS_DATA_ERROR});
         });
     };
 }
@@ -95,6 +95,30 @@ export function beginChangeRoleStaff(staffId, roleId) {
         messageChangeRoleStaff: null,
         staffId: staffId,
         roleId: roleId
+    };
+}
+
+export function setAdmin(staffId, callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_SET_ADMIN_STAFF});
+        helper.showWarningNotification('Đang thay đổi chức vụ');
+        staffApi.setAdmin(staffId)
+            .then((res) => {
+                console.log(res.data);
+                if(res.data.status == 1){
+                    helper.showNotificationMessage("Thay đổi thành công!");
+                    callback();
+                }else {
+                    helper.showErrorNotification('Thay đổi chức vụ thất bại');
+                }
+                dispatch({type: types.SET_ADMIN_STAFF_SUCCESS});
+            }).catch((error) => {
+            console.log(error);
+            dispatch({type: types.SET_ADMIN_STAFF_ERROR});
+
+            helper.showErrorNotification('Thay đổi chức vụ thất bại');
+        });
+
     };
 }
 
@@ -294,8 +318,8 @@ export function editStaffData(staff) {
             .then(function (res) {
                 dispatch(editStaffDataSucessful(res));
             }).catch((error) => {
-                window.error = error;
-               dispatch(editStaffDataError(error.response.data.message));
+            window.error = error;
+            dispatch(editStaffDataError(error.response.data.message));
         });
     };
 }
@@ -543,10 +567,10 @@ export function loadDepartments() {
         dispatch({type: types.BEGIN_LOAD_DEPARTMENT_STAFF});
         staffApi.loadDepartments()
             .then((res) => {
-                    dispatch({
-                        type: types.LOAD_DEPARTMENT_STAFF_SUCCESS,
-                        data: res.data.departments ? res.data.departments : res.data.data.departments,
-                    });
+                dispatch({
+                    type: types.LOAD_DEPARTMENT_STAFF_SUCCESS,
+                    data: res.data.departments ? res.data.departments : res.data.data.departments,
+                });
             }).catch(() => {
             dispatch({
                 type: types.LOAD_DEPARTMENT_STAFF_ERROR
@@ -554,6 +578,7 @@ export function loadDepartments() {
         });
     };
 }
+
 export function changeDepartmentStaff(staffId, departId) {
     return function (dispatch) {
         toastr.info("Đang thay đổi...");
