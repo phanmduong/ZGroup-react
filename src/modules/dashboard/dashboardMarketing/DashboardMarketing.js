@@ -106,8 +106,7 @@ export default class DashboardMarketing extends React.Component {
                         <ReactSelect
                             value={null}
                             options={HISTORY_CARE_TYPES.SELECT_OPTIONS}
-                            onChange={() => {
-                            }}
+                            onChange={() => {}}
                             className="react-select-white-light-round"
                             placeholder="Chọn loại"
                             clearable={false}
