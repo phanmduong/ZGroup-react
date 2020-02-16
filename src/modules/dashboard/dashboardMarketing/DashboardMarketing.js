@@ -43,7 +43,7 @@ export default class DashboardMarketing extends React.Component {
     }
 
     componentDidMount() {
-        store.load();
+        // store.load();
     }
 
     changeDateRangePicker = (start_time, end_time) => {

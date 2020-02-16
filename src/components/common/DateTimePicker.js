@@ -24,6 +24,7 @@ class DateRangePicker extends React.Component {
     }
 
     applyCallback(startDate, endDate) {
+        console.log("ok");
         this.setState({
             start: startDate,
             end: endDate
@@ -43,6 +44,7 @@ class DateRangePicker extends React.Component {
     }
 
     render() {
+        console.log("render");
         let now = new Date();
         let start = moment(
             new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
