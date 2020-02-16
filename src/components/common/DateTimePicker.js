@@ -99,29 +99,29 @@ class DateRangePicker extends React.Component {
         let {className,style} = this.props;
         className = className ? (` ${className}`) : '';
         return (
-                <DateTimeRangeContainer
-                    ranges={ranges}
-                    start={this.state.start}
-                    end={this.state.end}
-                    local={local}
-                    maxDate={maxDate}
-                    applyCallback={this.applyCallback}
-                    rangeCallback={this.rangeCallback}
-                    descendingYears={false}
-                    years={[2015, 2025]}
-                    pastSearchFriendly
-                    style={{betweenDates: {color: 'rgb(0,0,0)', backgroundColor: 'rgb(232,232,232)'},
-                        fromDate: {color: 'rgb(255,255,255)', backgroundColor: 'rgb(168,168,168)'},
-                        toDate: {color: 'rgb(255,255,255)', backgroundColor: 'rgb(168,168,168)'},
-                        customRangeButtons: {backgroundColor: 'rgb(241,241,241)', color:'black'},
-                        customRangeSelected: {backgroundColor: 'rgb(168,168,168)', color:'white'},
-                    }}
-                >
-                    <div className={"date-range-picker" + className} style={style}>
-                        <span className="date-picker">{value}</span>
-                        <span className="Select-arrow-zone"><span className="Select-arrow"></span></span>
-                    </div>
-                </DateTimeRangeContainer>
+            <DateTimeRangeContainer
+                ranges={ranges}
+                start={this.state.start}
+                end={this.state.end}
+                local={local}
+                maxDate={maxDate}
+                applyCallback={this.applyCallback}
+                rangeCallback={this.rangeCallback}
+                descendingYears={false}
+                years={[2015, 2025]}
+                pastSearchFriendly
+                style={{betweenDates: {color: 'rgb(0,0,0)', backgroundColor: 'rgb(232,232,232)'},
+                    fromDate: {color: 'rgb(255,255,255)', backgroundColor: 'rgb(168,168,168)'},
+                    toDate: {color: 'rgb(255,255,255)', backgroundColor: 'rgb(168,168,168)'},
+                    customRangeButtons: {backgroundColor: 'rgb(241,241,241)', color:'black'},
+                    customRangeSelected: {backgroundColor: 'rgb(168,168,168)', color:'white'},
+                }}
+            >
+                <div className={"date-range-picker" + className} style={style}>
+                    <span className="date-picker">{value}</span>
+                    <span className="Select-arrow-zone"><span className="Select-arrow"></span></span>
+                </div>
+            </DateTimeRangeContainer>
         );
     }
 }

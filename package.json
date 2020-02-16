@@ -131,6 +131,7 @@
     "prop-types": "^15.5.10",
     "randomcolor": "^0.5.4",
     "react": "^15.6.2",
+    "react-advanced-datetimerange-picker": "^1.0.10",
     "react-apollo": "^2.1.11",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-switch": "15.0.3",
