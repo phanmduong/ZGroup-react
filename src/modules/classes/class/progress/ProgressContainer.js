@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import LessonDetailModal from "../../../attendance/LessonDetailModal";
 import * as attendanceActions from "../../../attendance/attendanceActions";
+import * as helper from "../../../../helpers/helper";
 
 class ProgressClassContainer extends React.Component {
     constructor(props, context) {
@@ -31,6 +32,15 @@ class ProgressClassContainer extends React.Component {
     closeModalDetailLesson = () => {
         this.setState({showModalDetailLesson: false});
     };
+
+    commitModalData = (data, commitSuccess) => {
+        this.props.attendanceActions.takeAttendance(data, commitSuccess);
+    }
+    commitSuccess = () => {
+        helper.showNotification("Lưu thành công!");
+        this.setState({ showModalDetailLesson: false });
+        this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
+    }
 
     render() {
         let {classData, isLoading} = this.props;
