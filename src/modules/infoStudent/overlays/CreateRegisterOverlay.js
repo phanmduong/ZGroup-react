@@ -146,7 +146,7 @@ class CreateRegisterOverlay extends React.Component {
     };
 
     updateCourse = (e) => {
-        if (!e.value) return;
+        if (!e || !e.value) return;
         let register = {...this.state.register};
         let {courses, createRegisterActions} = this.props;
         let coursePrice = courses.filter(c => c.id == e.value)[0].price;

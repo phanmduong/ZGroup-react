@@ -5,7 +5,10 @@ import DashboardTrongDongContainer from "../modules/dashboardTrongDong/Dashboard
 import LogRegisterRoom from "../modules/logRegisterRoom/LogRegisterRoom";
 import DashboardStudyPackContainer from "../modules/dashboardStudyPack/DashboardContainer";
 import SettingContainer from "../modules/setting/SettingContainer";
-import DashboardMarketing from "../modules/dashboard/dashboardMarketing/DashboardMarketing";
+import DashboardMarketingContainer from "../modules/dashboard/dashboardMarketing/DashboardMarketingContainer";
+import DashboardLeadsComponent from "../modules/dashboard/dashboardMarketing/DashboardLeadsComponent";
+import DashboardSourceCampaignComponent from "../modules/dashboard/dashboardMarketing/DashboardSourceCampaignComponent";
+import DashboardPicComponent from "../modules/dashboard/dashboardMarketing/DashboardPicComponent";
 
 
 /**
@@ -46,6 +49,20 @@ export default [
     },
     {
         path: "/dashboard/marketing",
-        component: DashboardMarketing
+        component: DashboardMarketingContainer,
+        children: [
+            {
+                path: "/",
+                component: DashboardLeadsComponent,
+            },
+            {
+                path: "sources-campaigns",
+                component: DashboardSourceCampaignComponent,
+            },
+            {
+                path: "pic",
+                component: DashboardPicComponent,
+            },
+        ]
     },
 ];
