@@ -35,6 +35,7 @@ class LeadContainer extends React.Component {
                 status: '',
             },
             leadStatusId: '',
+            source_id: '',
             orderBy: '',
             orderByType: '',
             orderByOptions: [
@@ -45,7 +46,7 @@ class LeadContainer extends React.Component {
                 // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],
-            
+
             staffs: [],
             staff: "",
             isDistribution: false,
@@ -57,13 +58,15 @@ class LeadContainer extends React.Component {
             isOpenModalSelectedLeads: false,
 
         };
-        this.isAdmin = (this.props.user.role === 2 || this.props.user.role_id == 9);
+        this.isAdmin = (this.props.user.role === 2 || this.props.user.role_id == 9 || this.props.user.department_id == 9);
         this.statusRef = STATUS_REFS.leads;
         console.log(this.props);
     }
 
     componentWillMount() {
 
+        if (!this.props.isLoadedSources) this.props.createRegisterActions.loadSources();
+        if (!this.props.isLoadedCampaigns) this.props.createRegisterActions.loadCampaigns();
         if (!this.props.isLoadedStatuses) this.props.studentActions.loadStatuses(this.statusRef);
 
         // if (this.props.route.type === "distribution") {
@@ -92,6 +95,7 @@ class LeadContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         // if (!nextProps.isLoading && this.props.isLoading) {
         //     if (this.state.isAll) {
         //         this.changeStatusAll(true, nextProps);
@@ -319,8 +323,8 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...newState,
             page: 1,
-            startTime:newState.filter.startTime,
-            endTime:newState.filter.endTime,
+            startTime: newState.filter.startTime,
+            endTime: newState.filter.endTime,
             // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
     };
@@ -341,8 +345,8 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
-            startTime:this.state.filter.startTime,
-            endTime:this.state.filter.endTime,
+            startTime: this.state.filter.startTime,
+            endTime: this.state.filter.endTime,
             // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
     };
@@ -849,6 +853,19 @@ class LeadContainer extends React.Component {
                                         name="leadStatusId"
                                     />
                                 </div>
+                                <div className="col-md-3">
+                                    <label className="">
+                                        Theo nguồn
+                                    </label>
+                                    <ReactSelect
+                                        disabled={this.props.isLoading}
+                                        options={()=>this.getStatusFilter(this.props.sources || [])}
+                                        onChange={e => this.onFilterChange(e, 'source_id')}
+                                        value={this.state.source_id}
+                                        placeholer="Tất cả"
+                                        name="source_id"
+                                    />
+                                </div>
                                 {/*{this.state.isDistribution &&*/}
                                 {/*<div className="col-md-3">*/}
                                 {/*    <label>Top</label>*/}
@@ -1051,6 +1068,10 @@ function mapStateToProps(state) {
         statuses: state.infoStudent.statuses,
         isLoadedStatuses: state.infoStudent.isLoadedStatuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
+        isLoadedSources: state.createRegister.isLoadedSources,
+        isLoadedCampaigns: state.createRegister.isLoadedCampaigns,
+        sources: state.createRegister.sources,
+        campaigns: state.createRegister.campaigns,
 
     };
 }
