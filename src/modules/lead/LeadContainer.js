@@ -261,7 +261,7 @@ class LeadContainer extends React.Component {
         const field = event.target.name;
         let filter = {...this.state.filter};
         filter[field] = event.target.value;
-
+        console.log(event);
         // if (!isEmptyInput(filter.startTime) && !isEmptyInput(filter.endTime)) {
         //     this.props.leadActions.getLeads({
         //         ...this.state,
@@ -319,6 +319,8 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...newState,
             page: 1,
+            startTime:newState.filter.startTime,
+            endTime:newState.filter.endTime,
             // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
     };
@@ -339,6 +341,8 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
+            startTime:this.state.filter.startTime,
+            endTime:this.state.filter.endTime,
             // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
     };
