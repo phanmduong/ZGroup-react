@@ -12,11 +12,11 @@ import async from "async";
 
 /*eslint no-console: 0 */
 export function getLeads(filter) {
-    let{page, search, startTime, endTime, staffId, rate, top, address,leadStatusId, orderBy,orderByType } = filter;
+    let{page, search, startTime, endTime, staffId, rate, top, address,leadStatusId, orderBy,orderByType,source_id ,campaign_id } = filter;
     console.log(filter);
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_LIST_LEAD});
-        leadApi.loadLeads(page, search, startTime, endTime, staffId, rate, top,address,leadStatusId,orderBy,orderByType)
+        leadApi.loadLeads(page, search, startTime, endTime, staffId, rate, top,address,leadStatusId,orderBy,orderByType,source_id ,campaign_id)
             .then(res => {
                 dispatch({
                     type: types.LOAD_LIST_LEAD_SUCCESS,

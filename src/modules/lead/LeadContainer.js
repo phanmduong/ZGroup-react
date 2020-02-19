@@ -9,7 +9,6 @@ import FormInputDate from "../../components/common/FormInputDate";
 import ReactSelect from 'react-select';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import {searchStaffs} from "./leadApi";
-import Star from "../../components/common/Star";
 import {NO_AVATAR} from "../../constants/env";
 import {Modal, Panel} from "react-bootstrap";
 
@@ -46,6 +45,8 @@ class LeadContainer extends React.Component {
                 // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],
+            sourceFilter: [],
+            campaignFilter: [],
 
             staffs: [],
             staff: "",
@@ -58,9 +59,18 @@ class LeadContainer extends React.Component {
             isOpenModalSelectedLeads: false,
 
         };
+        this.starFilter = [
+            {value: '', label: 'Tất cả sao'},
+            {value: '0', label: '0 sao'},
+            {value: 1, label: '1 sao'},
+            {value: 2, label: '2 sao'},
+            {value: 3, label: '3 sao'},
+            {value: 4, label: '4 sao'},
+            {value: 5, label: '5 sao'},
+        ];
         this.isAdmin = (this.props.user.role === 2 || this.props.user.role_id == 9 || this.props.user.department_id == 9);
         this.statusRef = STATUS_REFS.leads;
-        console.log(this.props);
+
     }
 
     componentWillMount() {
@@ -95,7 +105,7 @@ class LeadContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
+
         // if (!nextProps.isLoading && this.props.isLoading) {
         //     if (this.state.isAll) {
         //         this.changeStatusAll(true, nextProps);
@@ -198,6 +208,16 @@ class LeadContainer extends React.Component {
         if (!nextProps.isLoadingStatuses && this.props.isLoadingStatuses) {
             this.setState({
                 statusFilter: this.getStatusFilter(nextProps.statuses.leads),
+            });
+        }
+        if (!nextProps.isLoadingSources && this.props.isLoadingSources) {
+            this.setState({
+                sourceFilter: this.getStatusFilter(nextProps.sources),
+            });
+        }
+        if (!nextProps.isLoadingCampaigns && this.props.isLoadingCampaigns) {
+            this.setState({
+                campaignFilter: this.getStatusFilter(nextProps.campaigns),
             });
         }
     }
@@ -311,6 +331,14 @@ class LeadContainer extends React.Component {
                 newState.leadStatusId = value ? value.id : value;
                 break;
             }
+            case 'source_id': {
+                newState.source_id = value ? value.id : value;
+                break;
+            }
+            case 'campaign_id': {
+                newState.campaign_id = value ? value.id : value;
+                break;
+            }
             default: {
                 newState = {[name]: value};
             }
@@ -330,6 +358,7 @@ class LeadContainer extends React.Component {
     };
 
     onFilterChange = (value, name) => {
+
         let newState = this.getNewState(value, name);
         this.setState({...newState});
         return newState;
@@ -602,6 +631,7 @@ class LeadContainer extends React.Component {
     };
 
     render() {
+        console.log(this.props);
         return (
             <div>
                 <CreateRegisterModalContainer/>
@@ -805,12 +835,21 @@ class LeadContainer extends React.Component {
                                     <div className="form-group margin-bottom-20">
                                         <label>Chọn đánh giá</label>
                                         <div className="flex flex-row-center">
-                                            <Star
+                                            {/*<Star*/}
+                                            {/*    value={this.state.rate}*/}
+                                            {/*    maxStar={5}*/}
+                                            {/*    onChange={(value) => {*/}
+                                            {/*        this.changeRate(value);*/}
+                                            {/*    }}*/}
+                                            {/*/>*/}
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={this.starFilter}
+                                                onChange={e => this.changeRate(e.value)}
                                                 value={this.state.rate}
-                                                maxStar={5}
-                                                onChange={(value) => {
-                                                    this.changeRate(value);
-                                                }}
+                                                placeholer="Tất cả"
+                                                className="width-100"
+                                                name="rate"
                                             />
                                         </div>
                                     </div>
@@ -858,12 +897,25 @@ class LeadContainer extends React.Component {
                                         Theo nguồn
                                     </label>
                                     <ReactSelect
-                                        disabled={this.props.isLoading}
-                                        options={()=>this.getStatusFilter(this.props.sources || [])}
+                                        disabled={this.props.isLoading || this.props.isLoadingSources}
+                                        options={this.state.sourceFilter}
                                         onChange={e => this.onFilterChange(e, 'source_id')}
                                         value={this.state.source_id}
                                         placeholer="Tất cả"
                                         name="source_id"
+                                    />
+                                </div>
+                                <div className="col-md-3">
+                                    <label className="">
+                                        Theo chiến dịch
+                                    </label>
+                                    <ReactSelect
+                                        disabled={this.props.isLoading || this.props.isLoadingCampaigns}
+                                        options={this.state.campaignFilter}
+                                        onChange={e => this.onFilterChange(e, 'campaign_id')}
+                                        value={this.state.campaign_id}
+                                        placeholer="Tất cả"
+                                        name="campaign_id"
                                     />
                                 </div>
                                 {/*{this.state.isDistribution &&*/}
@@ -1070,6 +1122,8 @@ function mapStateToProps(state) {
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
         isLoadedSources: state.createRegister.isLoadedSources,
         isLoadedCampaigns: state.createRegister.isLoadedCampaigns,
+        isLoadingSources: state.createRegister.isLoadingSources,
+        isLoadingCampaigns: state.createRegister.isLoadingCampaigns,
         sources: state.createRegister.sources,
         campaigns: state.createRegister.campaigns,
 

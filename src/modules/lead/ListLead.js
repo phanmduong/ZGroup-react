@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {avatarEmpty,} from "../../helpers/helper";
+import {avatarEmpty, isEmptyInput,} from "../../helpers/helper";
 import {NO_AVATAR} from "../../constants/env";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
@@ -149,6 +149,7 @@ class ListLead extends React.Component {
                                                         {/*<div>{lead.email}</div>*/}
                                                     </div>
                                                     <div>{lead.phone}</div>
+                                                    {!isEmptyInput(lead.city) && <div>TP. {lead.city}</div>}
                                                 </div>
                                             </td>
                                             <td>{lead.interest}</td>
