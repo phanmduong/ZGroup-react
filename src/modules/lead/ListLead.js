@@ -30,11 +30,9 @@ class ListLead extends React.Component {
             isOpenModalEdit: false,
             lead: {}
         };
-        this.openEditModal = this.openEditModal.bind(this);
-        this.closeEditModal = this.closeEditModal.bind(this);
     }
 
-    openEditModal(lead) {
+    openEditModal = (lead) =>{
         this.setState({
             isOpenModalEdit: true,
             lead: lead
@@ -42,13 +40,13 @@ class ListLead extends React.Component {
     }
 
 
-    closeEditModal() {
+    closeEditModal=()=> {
         this.setState({
             isOpenModalEdit: false
         });
     }
 
-    isCheckedLead(leadId) {
+    isCheckedLead = (leadId) => {
         if (this.props.selectedLeads) {
             const leads = this.props.selectedLeads.filter((lead) => lead.id == leadId && lead.checked);
             if (leads && leads.length > 0) {

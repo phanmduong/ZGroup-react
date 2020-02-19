@@ -57,8 +57,9 @@ class LeadContainer extends React.Component {
             isOpenModalSelectedLeads: false,
 
         };
-        this.isAdmin = (this.props.user.role === 2);
+        this.isAdmin = (this.props.user.role === 2 || this.props.user.role_id == 9);
         this.statusRef = STATUS_REFS.leads;
+        console.log(this.props);
     }
 
     componentWillMount() {
