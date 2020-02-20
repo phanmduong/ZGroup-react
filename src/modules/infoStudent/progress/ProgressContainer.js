@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Topics from "./Topics";
 import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
-import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
-import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
 
 class ProgressContainer extends React.Component {
     constructor(props, context) {
