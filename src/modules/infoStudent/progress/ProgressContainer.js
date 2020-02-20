@@ -11,6 +11,9 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Topics from "./Topics";
+import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
+import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
+import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
 
 class ProgressContainer extends React.Component {
     constructor(props, context) {
@@ -83,6 +86,23 @@ class ProgressContainer extends React.Component {
                 {this.props.isLoadingProgress ? <Loading/>
                     :
                     <ul className="timeline timeline-simple">
+                        <li className="timeline-inverted">
+                            <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
+                                <i className="material-icons">add</i>
+                            </div>
+                            <div className="timeline-panel">
+                                <div className="timeline-heading">
+                                    <div className="flex flex-align-items-center margin-top-5">
+                                        <CreateRegisterOverlay
+                                            className="btn btn-actions"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="timeline-body margin-vertical-30"/>
+
+                            </div>
+                        </li>
+
                         {
                             this.props.progress.map((progressClass, index) => {
                                 return (
@@ -184,6 +204,7 @@ ProgressContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        student: state.infoStudent.student,
         progress: state.infoStudent.progress,
         isLoadingProgress: state.infoStudent.isLoadingProgress
     };

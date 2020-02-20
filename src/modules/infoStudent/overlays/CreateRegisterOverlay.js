@@ -12,7 +12,7 @@ import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValu
 import {GENDER} from "../../../constants/constants";
 import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
-import {dotNumber, showNotificationMessage, showTypeNotification, sortCoupon} from "../../../helpers/helper";
+import {dotNumber, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as discountActions from "../../discount/discountActions";
@@ -113,7 +113,7 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.register)
+        console.log(this.state.register);
         if (this.state.register.class_id) {
             this.props.createRegisterActions.loadClassesByCourse(this.state.register.course_id);
         }
@@ -234,7 +234,6 @@ class CreateRegisterOverlay extends React.Component {
             if (this.props.onSuccess) {
                 this.props.onSuccess(register);
             }
-            showNotificationMessage('Lưu thành công!');
         });
         e.preventDefault();
     };

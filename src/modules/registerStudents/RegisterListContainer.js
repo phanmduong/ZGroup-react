@@ -441,7 +441,7 @@ class RegisterListContainer extends React.Component {
         time[field] = event.target.value;
 
         if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
-            this.setState({time: time, page: 1});
+            this.setState({time: time, page: 1,startTime:time.startTime,endTime:time.endTime});
             // this.props.registerActions.loadRegisterStudent(
             //     {
             //         ...this.state, page: 1,
@@ -451,7 +451,7 @@ class RegisterListContainer extends React.Component {
             //     },
             // );
         } else {
-            this.setState({time: time,startTime:time.startTime,endTime:time.endTime});
+            this.setState({time: time});
         }
     };
 
@@ -660,7 +660,6 @@ class RegisterListContainer extends React.Component {
     applyFilter = ()=>{
         this.props.registerActions.loadRegisterStudent({
             ...this.state,
-
         });
     }
 

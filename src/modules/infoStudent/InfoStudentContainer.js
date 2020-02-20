@@ -24,6 +24,7 @@ import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
+import {isEmptyInput} from "../../helpers/helper";
 
 
 class InfoStudentContainer extends React.Component {
@@ -262,22 +263,29 @@ class InfoStudentContainer extends React.Component {
                                             <span>{student.phone}</span>
 
                                         </h6>
+
+                                        {!isEmptyInput(student.city) &&
+                                        <h6 className="category text-gray text-center color-white none-margin font-weight-400">
+                                            <span>TP. {student.city}</span>
+
+                                        </h6>}
+
                                     </div>
                                 </div>
                                 <div className="card detail-wrap">
                                     <div className="card-content">
                                         <div className="detail-wrap">
-                                            <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>
-                                            <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>
-                                            <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>
-                                            <p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>
-                                            <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>
-                                            <p>Giới
+                                            {student.dob &&<p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>}
+                                            {student.age && <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>}
+                                            {student.address &&<p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>}
+                                            {student.father_name &&<p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>}
+                                            {student.work &&<p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>}
+                                            {GENDER[student.gender] &&<p>Giới
                                                 tính<strong>{GENDER[student.gender] == null ? "Khác" : GENDER[student.gender].name}</strong>
-                                            </p>
-                                            <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>
-                                            <p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>
-                                            <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>
+                                            </p>}
+                                            {student.university &&<p>Trường học<strong>{student.university || "Chưa có"}</strong></p>}
+                                            {student.description &&<p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>}
+                                            {student.facebook &&<p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>}
                                         </div>
                                         {this.props.isEditingStudent ?
                                             (

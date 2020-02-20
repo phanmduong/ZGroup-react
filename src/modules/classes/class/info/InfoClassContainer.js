@@ -15,6 +15,7 @@ import {Modal} from "react-bootstrap";
 import ButtonGroupAction from "../../../../components/common/ButtonGroupAction";
 import ListChangeClass from "./ListChangeClass";
 import * as globalModalActions from "../../../globalModal/globalModalActions";
+import {isEmptyInput} from "../../../../helpers/helper";
 
 class InfoClassContainer extends React.Component {
     constructor(props, context) {
@@ -257,6 +258,11 @@ class InfoClassContainer extends React.Component {
                                             <td><a onClick={() => this.onClickStudent(register.student)}
                                                    className="text-name-student-register">
                                                 {register.student.name}
+                                                {!isEmptyInput(register.student) &&
+                                                (!isEmptyInput(register.student.image1 || !isEmptyInput(register.student.image2))) &&
+                                                <span><i className="material-icons" style={{"color":"#32CA41","fontSize":"18px","marginBottom":"4px"}}>
+                                                    check_circle
+                                                </i></span>}
                                             </a></td>
                                             <td><h6>{register.total_attendances}/{register.attendances.length}</h6>
                                                 <div

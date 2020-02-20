@@ -52,7 +52,7 @@ class GlobalModalContainer extends React.Component {
                    bsSize="lg"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Thông tin học viên</Modal.Title>
+                    {/*<Modal.Title>Thông tin học viên</Modal.Title>*/}
                 </Modal.Header>
                 <Modal.Body>
                     <InfoStudentContainer
