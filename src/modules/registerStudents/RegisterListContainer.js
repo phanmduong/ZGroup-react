@@ -143,7 +143,7 @@ class RegisterListContainer extends React.Component {
 
             } else {
                 if (this.props.route.path === '/sales/waitlist') {
-                    this.onClassStatusFilterChange({value: 'waiting'});
+                    // this.onClassStatusFilterChange({value: 'waiting'});
                 }
             }
         }
@@ -157,6 +157,13 @@ class RegisterListContainer extends React.Component {
                 allClassFilter: this.getFilter(nextProps.classFilter),
             });
             this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
+            this.props.registerActions.loadRegisterStudent(
+                {
+                    ...this.state, page: 1,
+                    selectedClassId: '',
+                    selectedClassStatus: this.state.selectedClassStatus,
+                },
+            );
         }
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
             let filter = this.getSalerFilter(nextProps.salerFilter);
@@ -325,10 +332,10 @@ class RegisterListContainer extends React.Component {
         if (obj) {
             res = obj.value;
         }
-        if (res != this.state.selectedClassId)
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, selectedClassId: obj ? obj.value : ''},
-            );
+        // if (res != this.state.selectedClassId)
+        //     this.props.registerActions.loadRegisterStudent(
+        //         {...this.state, page: 1, selectedClassId: obj ? obj.value : ''},
+        //     );
         this.setState({selectedClassId: res, page: 1});
     };
 
@@ -349,10 +356,10 @@ class RegisterListContainer extends React.Component {
         if (obj) {
             res = obj.value;
         }
-        if (res != this.state.selectedSalerId)
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, selectedSalerId: res,},
-            );
+        // if (res != this.state.selectedSalerId)
+        //     this.props.registerActions.loadRegisterStudent(
+        //         {...this.state, page: 1, selectedSalerId: res,},
+        //     );
         this.setState({selectedSalerId: res, page: 1});
     };
 
@@ -363,19 +370,19 @@ class RegisterListContainer extends React.Component {
         } else {
             res = '';
         }
-        if (res != this.state.campaignId)
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, campaignId: res, page: 1},
-            );
+        // if (res != this.state.campaignId)
+        //     this.props.registerActions.loadRegisterStudent(
+        //         {...this.state, campaignId: res, page: 1},
+        //     );
         this.setState({campaignId: res, page: 1});
     };
 
     onMoneyFilterChange = (obj) => {
         let res = obj ? obj.value : '';
-        if (this.state.selectedMoneyFilter != res)
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, selectedMoneyFilter: res,},
-            );
+        // if (this.state.selectedMoneyFilter != res)
+        //     this.props.registerActions.loadRegisterStudent(
+        //         {...this.state, page: 1, selectedMoneyFilter: res,},
+        //     );
         this.setState({selectedMoneyFilter: res, page: 1});
     };
 
@@ -387,13 +394,13 @@ class RegisterListContainer extends React.Component {
         } else if (res === 'active') {
             newfilter = newfilter.filter(item => (item.type === 'active'));
         }
-        this.props.registerActions.loadRegisterStudent(
-            {
-                ...this.state, page: 1,
-                selectedClassId: '',
-                selectedClassStatus: res,
-            },
-        );
+        // this.props.registerActions.loadRegisterStudent(
+        //     {
+        //         ...this.state, page: 1,
+        //         selectedClassId: '',
+        //         selectedClassStatus: res,
+        //     },
+        // );
 
         this.setState({
             classFilter: this.getFilter(newfilter),
@@ -405,9 +412,9 @@ class RegisterListContainer extends React.Component {
 
     onTeleCallStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
-        this.props.registerActions.loadRegisterStudent(
-            {...this.state, page: 1, selectedTeleCallStatus: res,},
-        );
+        // this.props.registerActions.loadRegisterStudent(
+        //     {...this.state, page: 1, selectedTeleCallStatus: res,},
+        // );
 
         this.setState({
             selectedTeleCallStatus: res,
@@ -435,16 +442,16 @@ class RegisterListContainer extends React.Component {
 
         if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
             this.setState({time: time, page: 1});
-            this.props.registerActions.loadRegisterStudent(
-                {
-                    ...this.state, page: 1,
-                    startTime: time.startTime,
-                    endTime: time.endTime,
-                    appointmentPayment: time.appointmentPayment,
-                },
-            );
+            // this.props.registerActions.loadRegisterStudent(
+            //     {
+            //         ...this.state, page: 1,
+            //         startTime: time.startTime,
+            //         endTime: time.endTime,
+            //         appointmentPayment: time.appointmentPayment,
+            //     },
+            // );
         } else {
-            this.setState({time: time});
+            this.setState({time: time,startTime:time.startTime,endTime:time.endTime});
         }
     };
 
@@ -605,9 +612,9 @@ class RegisterListContainer extends React.Component {
 
     onBookmarkStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
-        this.props.registerActions.loadRegisterStudent(
-            {...this.state, page: 1, selectedBookmarkStatus: res,},
-        );
+        // this.props.registerActions.loadRegisterStudent(
+        //     {...this.state, page: 1, selectedBookmarkStatus: res,},
+        // );
 
         this.setState({
             selectedBookmarkStatus: res,
@@ -620,14 +627,14 @@ class RegisterListContainer extends React.Component {
             page: 1,
             [name]: value,
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, [name]: value,},
-            );
-        }.bind(this), 500);
+        // if (this.timeOut !== null) {
+        //     clearTimeout(this.timeOut);
+        // }
+        // this.timeOut = setTimeout(function () {
+        //     this.props.registerActions.loadRegisterStudent(
+        //         {...this.state, page: 1, [name]: value,},
+        //     );
+        // }.bind(this), 500);
     };
 
     changeGens = (value) => {
@@ -640,6 +647,23 @@ class RegisterListContainer extends React.Component {
         );
         this.props.registerActions.loadClassFilter(value);
     };
+
+    addLeadSuccess = () => {
+        this.props.registerActions.loadRegisterStudent({...this.state,},);
+    };
+
+    onFilterChange = (obj, field) => {
+        this.setState({[field]: obj ? obj.id : ''});
+        // this.props.registerActions.loadRegisterStudent({...this.state, page: 1, [field]: obj ? obj.id : ''});
+    };
+
+    applyFilter = ()=>{
+        this.props.registerActions.loadRegisterStudent({
+            ...this.state,
+
+        });
+    }
+
 
     changeCallStatusStudent = (callStatus, studentId) => {
         this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest);
@@ -759,10 +783,6 @@ class RegisterListContainer extends React.Component {
         this.props.createRegisterActions.showCreateRegisterModal(true);
     };
 
-    addLeadSuccess = () => {
-        this.props.registerActions.loadRegisterStudent({...this.state,},);
-    };
-
     addMyLead = (userID) => {
         this.props.registerActions.uploadDistributionLead(userID, this.addLeadSuccess);
     };
@@ -771,10 +791,6 @@ class RegisterListContainer extends React.Component {
         openModalRegisterDetail(`/sales/info-student/${selectedStudentId}`);
     };
 
-    onFilterChange = (obj, field) => {
-        this.setState({[field]: obj ? obj.id : ''});
-        this.props.registerActions.loadRegisterStudent({...this.state, page: 1, [field]: obj ? obj.id : ''});
-    };
 
     render() {
         return (
@@ -1045,6 +1061,14 @@ class RegisterListContainer extends React.Component {
                                             name="registerSourceId"
                                         />
                                     </div>
+
+                                    <div className="col-md-6">
+                                        <div className="float-right">
+                                            <div className="btn button-green" style={{marginTop:20}} onClick={this.applyFilter}>Áp dụng</div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
 
                                 <div className="row hidden">

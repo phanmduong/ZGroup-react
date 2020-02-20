@@ -374,6 +374,7 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
+            search: this.state.query,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
             // staffId: this.isAdmin ? -2 : this.props.user.id,
