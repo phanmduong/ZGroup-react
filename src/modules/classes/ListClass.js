@@ -69,7 +69,7 @@ class ListClass extends React.Component {
                                             {
                                                 classItem.teacher ?
                                                     (
-                                                        <Link className="btn btn-sm btn-main"
+                                                        <Link className="btn btn-sm btn-main text-center"
                                                               style={{backgroundColor: '#' + classItem.teacher.color}}
                                                               to={"/teaching/classes/" + classItem.teacher.id}
                                                         >

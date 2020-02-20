@@ -119,7 +119,7 @@ class LessonDetailModal extends React.Component {
                                 style={{float: 'right', width: "20%"}}
                                 className="btn btn-fill btn-rose "
                                 type="button"
-                                onClick={() => {return this.props.commitData(this.props.list, this.props.commitSuccess);}}
+                                onClick={() =>  this.props.commitData(this.props.list, this.props.commitSuccess)}
                             > Lưu </button>
 
                         }</div>

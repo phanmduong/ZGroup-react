@@ -39,7 +39,11 @@ class ProgressClassContainer extends React.Component {
     commitSuccess = () => {
         helper.showNotification("Lưu thành công!");
         this.setState({ showModalDetailLesson: false });
-        this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
+        // this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
+    }
+
+    updateModalData = (index, value, name) =>{
+        this.props.attendanceActions.updateModalData(index, value, name);
     }
 
     render() {
@@ -134,10 +138,19 @@ function mapStateToProps(state) {
     return {
         classData: state.classes.class,
         isLoading: state.classes.isLoading,
-        isLoadingLessonDetailModal: state.attendance.isLoadingLessonDetailModal,
-        isTakingAttendance: state.attendance.isTakingAttendance,
         user: state.login.user,
+        isLoadingGens: state.attendance.isLoadingGens,
+        isLoadingBases: state.attendance.isLoadingBases,
+        isTakingAttendance: state.attendance.isTakingAttendance,
+        isLoadingLessonClassModal: state.attendance.isLoadingLessonClassModal,
+        isLoadingLessonDetailModal: state.attendance.isLoadingLessonDetailModal,
+        data: state.attendance.data,
+        currentGen: state.attendance.currentGen,
+        class: state.attendance.class,
         lesson: state.attendance.lesson,
+        gens: state.attendance.gens,
+        bases: state.attendance.bases,
+        selectedClass: state.attendance.selectedClass,
     };
 }
 
