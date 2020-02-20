@@ -658,7 +658,7 @@ class RegisterListContainer extends React.Component {
     };
 
     applyFilter = ()=>{
-        this.props.registerActions.loadRegisterStudent({
+        if(!this.props.isLoading) this.props.registerActions.loadRegisterStudent({
             ...this.state,
         });
     }

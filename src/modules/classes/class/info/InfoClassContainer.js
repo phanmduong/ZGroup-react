@@ -260,7 +260,7 @@ class InfoClassContainer extends React.Component {
                                                 {register.student.name}
                                                 {!isEmptyInput(register.student) &&
                                                 (!isEmptyInput(register.student.image1 || !isEmptyInput(register.student.image2))) &&
-                                                <span><i className="material-icons" style={{"color":"#32CA41","fontSize":"18px","marginBottom":"4px"}}>
+                                                <span><i className="material-icons margin-left-5" style={{"color":"#32CA41","fontSize":"18px","marginBottom":"4px"}}>
                                                     check_circle
                                                 </i></span>}
                                             </a></td>
