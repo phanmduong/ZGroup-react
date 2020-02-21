@@ -61,7 +61,7 @@ export default function firstLoginReducer(state = initialState.firstLogin, actio
                 ...{
                     isSaving: true,
                     savingError: false,
-                    updateSuccess: false,
+                    updateSuccess: true,
                 }
             };
         case types.UPDATE_PROFILE_SUCCESS:

@@ -53,7 +53,7 @@ class FirstLoginComponent extends React.Component {
 
 
             <Modal
-                show={!this.props.first_login && !this.props.updateSuccess}
+                show={!this.props.first_login}
                 bsSize="large"
             >
                 <Modal.Header>

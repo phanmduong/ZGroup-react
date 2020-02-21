@@ -16,6 +16,7 @@ import {Link} from 'react-router';
 import {Modal} from "react-bootstrap";
 import ChangePassword from "./ChangePassword";
 import TooltipButton from "../../components/common/TooltipButton";
+import EditProfileContainer from "./EditProfileContainer";
 
 
 class ProfileContainer extends React.Component {
@@ -24,6 +25,7 @@ class ProfileContainer extends React.Component {
         this.state = {
             color: '',
             showModalChangePassword: false,
+            showModalEditProfile: false,
         };
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.changeColor = this.changeColor.bind(this);
@@ -59,6 +61,7 @@ class ProfileContainer extends React.Component {
         input.click();
 
     }
+
     changeColor() {
         this.setState({color: this.props.profile.color});
     }
@@ -71,6 +74,14 @@ class ProfileContainer extends React.Component {
         this.setState({showModalChangePassword: true});
     }
 
+    closeModalEditProfile = () => {
+        this.setState({showModalEditProfile: false});
+    };
+
+    openModalEditProfile = () => {
+        this.setState({showModalEditProfile: true});
+    };
+
 
     render() {
         const defaultUrl = "https://d1j8r0kxyu9tj8.cloudfront.net/images/1547828315z6g7GGcOkULNAc0.jpg";
@@ -80,7 +91,7 @@ class ProfileContainer extends React.Component {
         let literacyName = LITERACY.filter(item => item.id === literacy)[0];
         let maritalName = MARITAL.filter(item => item.id === marital)[0];
         return (
-            <div className="margin-top-20">
+            <div>
                 <div className={location ? "card" : ''}>
                     <div className={location ? "card-content" : ''}>
                         <div className="row">
@@ -122,7 +133,8 @@ class ProfileContainer extends React.Component {
                                     <div className="card detail-wrap">
                                         <div className="card-content">
                                             <div className="detail-wrap">
-                                                {current_role && current_role.role_title && <p>Chức vụ<strong>{current_role.role_title}</strong></p>}
+                                                {current_role && current_role.role_title &&
+                                                <p>Chức vụ<strong>{current_role.role_title}</strong></p>}
                                                 {department && <p>Bộ phận<strong>{department.name}</strong></p>}
                                                 {phone && <p>Phone<strong>{phone}</strong></p>}
                                                 {email && <p>Email<strong>{email}</strong></p>}
@@ -130,9 +142,9 @@ class ProfileContainer extends React.Component {
                                                 {age && <p>Tuổi<strong>{age || "Chưa có"}</strong></p>}
                                                 {address && <p>Địa chỉ<strong>{address || "Chưa có"}</strong></p>}
                                             </div>
-                                            <a className="btn width-100" href="/profile/edit-profile"
+                                            <div className="btn width-100" onClick={this.openModalEditProfile}
                                             >Sửa thông tin
-                                            </a>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -390,14 +402,22 @@ class ProfileContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.showModalChangePassword}>
-                    <Modal.Header closeButton onHide={this.closeModalChangePassword} closeLabel="Đóng">
+                <Modal show={this.state.showModalChangePassword} onHide={this.closeModalChangePassword}>
+                    <Modal.Header closeButton  closeLabel="Đóng">
                         <Modal.Title>Thay đổi mật khẩu</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <ChangePassword
                             closeModal={this.closeModalChangePassword}
                         />
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalEditProfile} bsSize="large" onHide={this.closeModalEditProfile}>
+                    <Modal.Header closeButton  closeLabel="Đóng">
+                        <Modal.Title><div>&nbsp;</div></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <EditProfileContainer/>
                     </Modal.Body>
                 </Modal>
             </div>

@@ -74,6 +74,7 @@ class firstLoginContainer extends React.Component {
 
 
     render() {
+        console.log('this.props.user.first_login',this.props.user.first_login);
         return (
             <FirstLoginComponent
                 {...this.props}
