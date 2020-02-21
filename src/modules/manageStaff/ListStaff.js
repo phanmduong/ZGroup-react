@@ -13,7 +13,6 @@ class ListStaff extends React.Component {
     }
 
 
-
     render() {
         let {staffs, roles, bases, departments} = this.props;
         return (
@@ -42,7 +41,7 @@ class ListStaff extends React.Component {
                                 <tr key={index}>
                                     <td style={{width: 50}}>
                                         <TooltipButton text={staff.role == 2 ? "Admin" : "Nhân viên"} placement="top">
-                                            <div onClick={()=>this.props.setAdmin(staff)}>
+                                            <div onClick={() => this.props.setAdmin(staff)}>
                                                 {staff.role == 2 ?
                                                     <img style={{width: size, height: size, cursor: "pointer"}}
                                                          src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1581669178CMRmRKD3gJa9Tk6.png"/>
@@ -74,7 +73,7 @@ class ListStaff extends React.Component {
                                         bases.length > 0 && (
                                             <select
                                                 disabled={this.props.disableActions}
-                                                className="form-control"
+                                                className="form-control padding-right-30 min-width-150-px"
                                                 value={staff.base_id}
                                                 onChange={(event) => {
                                                     this.props.changeBaseStaff(
@@ -94,6 +93,7 @@ class ListStaff extends React.Component {
                                                 })}
                                             </select>
                                         )}
+
                                     </td>
                                     <td>
                                         {roles !== null &&
@@ -119,6 +119,11 @@ class ListStaff extends React.Component {
                                                 })}
                                             </select>
                                         )}
+                                        {/*<StaffRoleOverlay*/}
+                                        {/*    className="btn-actions none-margin width-100  min-width-150-px"*/}
+                                        {/*    staff={staff}*/}
+
+                                        {/*/>*/}
                                     </td>
                                     <td>
                                         {departments !== null &&

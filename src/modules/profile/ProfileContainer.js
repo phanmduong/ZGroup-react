@@ -9,11 +9,13 @@ import TabProfile from '../../components/common/TabProfile';
 import * as profileActions from './profileActions';
 import Loading from '../../components/common/Loading';
 import {CirclePicker} from 'react-color';
-import {MARITAL, LITERACY} from '../../constants/constants';
+import {LITERACY, MARITAL} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
+import {isEmptyInput} from '../../helpers/helper';
 import {Link} from 'react-router';
 import {Modal} from "react-bootstrap";
 import ChangePassword from "./ChangePassword";
+import TooltipButton from "../../components/common/TooltipButton";
 
 
 class ProfileContainer extends React.Component {
@@ -39,11 +41,24 @@ class ProfileContainer extends React.Component {
         }
     }
 
-    handleFileUpload(event) {
-        let file = event.target.files[0];
-        this.props.profileActions.changeAvatar(file, this.props.profile.id);
-    }
+    // handleFileUpload(event) {
+    //     let file = event.target.files[0];
+    //     this.props.profileActions.changeAvatar(file, this.props.profile.id);
+    // }
+    handleFileUpload() {
+        const that = this;
+        let input = document.createElement("input");
+        input.type = "file";
+        input.value = "";
+        input.accept = ".jpg,.png,.gif";
+        input.onchange = (e) => {
+            let file = e.target.files[0];
+            this.props.profileActions.changeAvatar(file, that.props.profile.id);
 
+        };
+        input.click();
+
+    }
     changeColor() {
         this.setState({color: this.props.profile.color});
     }
@@ -59,12 +74,120 @@ class ProfileContainer extends React.Component {
 
     render() {
         const defaultUrl = "https://d1j8r0kxyu9tj8.cloudfront.net/images/1547828315z6g7GGcOkULNAc0.jpg";
-        let {name, email, phone, username, address, age, current_role, avatar_url, color, homeland, marital, literacy, start_company_vi} = this.props.profile;
+        let {name, email, phone, username, address, age, current_role, avatar_url, color, homeland, marital, literacy, start_company_vi, city, department} = this.props.profile;
+        let {location} = this.props;
         let avatar = helper.validateLinkImage(avatar_url, defaultUrl);
         let literacyName = LITERACY.filter(item => item.id === literacy)[0];
         let maritalName = MARITAL.filter(item => item.id === marital)[0];
         return (
             <div className="margin-top-20">
+                <div className={location ? "card" : ''}>
+                    <div className={location ? "card-content" : ''}>
+                        <div className="row">
+                            {this.props.isLoading && <Loading/>}
+                            <div className="col-md-4">
+
+                                {!this.props.isLoading &&
+                                <div>
+                                    <div className="card" mask="blue">
+                                        <div className="card-content flex flex-col">
+                                            <div className="flex flex-justify-content-center">
+                                                <TooltipButton text="Thay ảnh đại diện" placement="top">
+                                                    <div className="img father"
+                                                         onClick={() => this.handleFileUpload('avatar_url')}
+                                                         style={{
+                                                             backgroundImage: `url(${helper.validateLinkImage(avatar_url)})`
+                                                         }}>
+                                                        <div className="son"><i className="material-icons">
+                                                            photo_camera
+                                                        </i></div>
+                                                    </div>
+                                                </TooltipButton>
+                                            </div>
+
+                                            <h4 className="card-title">{name}</h4>
+                                            <h6 className="category text-gray text-email">{email}</h6>
+                                            <h6 className="category text-gray text-email">
+                                                <span>{phone}</span>
+                                            </h6>
+
+                                            {!isEmptyInput(city) &&
+                                            <h6 className="category text-gray text-center color-white none-margin font-weight-400">
+                                                <span>TP. {city}</span>
+
+                                            </h6>}
+
+                                        </div>
+                                    </div>
+                                    <div className="card detail-wrap">
+                                        <div className="card-content">
+                                            <div className="detail-wrap">
+                                                {current_role && current_role.role_title && <p>Chức vụ<strong>{current_role.role_title}</strong></p>}
+                                                {department && <p>Bộ phận<strong>{department.name}</strong></p>}
+                                                {phone && <p>Phone<strong>{phone}</strong></p>}
+                                                {email && <p>Email<strong>{email}</strong></p>}
+                                                {homeland && <p>Tỉnh thành <strong>{homeland}</strong></p>}
+                                                {age && <p>Tuổi<strong>{age || "Chưa có"}</strong></p>}
+                                                {address && <p>Địa chỉ<strong>{address || "Chưa có"}</strong></p>}
+                                            </div>
+                                            <a className="btn width-100" href="/profile/edit-profile"
+                                            >Sửa thông tin
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                }
+                            </div>
+                            <div className="col-md-8">
+                                <div className="row">
+
+                                    {!this.props.isLoading &&
+                                    <div className="col-md-12">
+                                        <ul className="timeline timeline-simple time-line-register">
+                                            <li className="timeline-inverted">
+                                                <div className={"timeline-badge warning"}>
+                                                    <i className="material-icons">star</i>
+                                                </div>
+                                                <div className="timeline-panel">
+                                                    <div
+                                                        // className="timeline-heading"
+                                                    >
+                                                        {/*<ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">*/}
+                                                        {/*    {this.routes.map((route, index) => {*/}
+                                                        {/*        return this.getRouteItem(route, index);*/}
+                                                        {/*    })}*/}
+                                                        {/*</ul>*/}
+                                                    </div>
+
+                                                </div>
+
+                                            </li>
+
+
+                                        </ul>
+
+
+                                    </div>}
+                                    {/*{!this.props.isLoading &&*/}
+                                    {/*<div className="col-md-12">*/}
+                                    {/*    <div className="card" mask="transparent">*/}
+
+                                    {/*        {this.routes.map((route) => {*/}
+                                    {/*            return route.path == this.state.currentRoute.path ?*/}
+                                    {/*                route.component : <div/>;*/}
+
+                                    {/*        })}*/}
+                                    {/*    </div>*/}
+                                    {/*</div>}*/}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-lg-12">
                     <TabProfile url="my-profile"/>
                     <div className="card-content">

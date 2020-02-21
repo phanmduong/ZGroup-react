@@ -324,7 +324,7 @@ class MarketingCampaignOverlay extends React.Component {
                                                                     <div className="board-action">
                                                                         <a onClick={() => this.edit(campaign)}><i
                                                                             style={{
-                                                                                backgroundColor: `#${campaign.color}`,
+                                                                                backgroundColor: `#${campaign.color|| '999999'}`,
                                                                                 color: 'white'
                                                                             }} className="material-icons">edit</i></a>
                                                                     </div>

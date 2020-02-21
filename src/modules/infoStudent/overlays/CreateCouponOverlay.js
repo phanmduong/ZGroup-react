@@ -367,7 +367,7 @@ class CreateCouponOverlay extends React.Component {
                                                                     <div className="board-action">
                                                                         <a onClick={() => this.editCoupons(coupon)}>
                                                                             <i style={{
-                                                                                backgroundColor: coupon.color,
+                                                                                backgroundColor: coupon.color|| '#999999',
                                                                                 color: 'white'
                                                                             }}
                                                                                className="material-icons">edit</i></a>

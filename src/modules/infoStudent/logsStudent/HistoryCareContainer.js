@@ -63,13 +63,15 @@ class HistoryCareContainer extends React.Component {
                                                     {log.creator && ' - Người nhập:'}
                                                     {log.creator && <b>&nbsp;&nbsp;{ log.creator.name }</b>}
                                                 </div>
-                                                {!isEmptyInput(log.title) && <div className="flex-row-center">
-                                                    <i className="material-icons">info</i>
+                                                {!isEmptyInput(log.title) && <div className="">
+                                                    <i className="material-icons font-size-14px">info</i>
                                                     &nbsp; &nbsp;Tiêu đề:&nbsp;{log.title}
                                                 </div>}
-                                                {!isEmptyInput(log.note) && <div className="flex-row-center">
-                                                    <i className="material-icons">description</i>
-                                                    &nbsp; &nbsp;Nội dung:&nbsp;{log.note}
+                                                {!isEmptyInput(log.note) && <div className="">
+                                                    <i className="material-icons font-size-14px">description</i>
+                                                    &nbsp; &nbsp;Nội dung:&nbsp;
+                                                    {//eslint-disable-next-line
+                                                    }<span dangerouslySetInnerHTML={{__html: log.note}}/>
 
                                                 </div>}
                                                 {type.status && <div className="flex-row-center">

@@ -359,7 +359,7 @@ class SourceOverlay extends React.Component {
                                                                         <a onClick={() => this.editSource(source)}
 
                                                                         ><i style={{
-                                                                            backgroundColor: source.color,
+                                                                            backgroundColor: source.color|| '#999999',
                                                                             color: 'white'
                                                                         }}
                                                                             className="material-icons">edit</i></a>

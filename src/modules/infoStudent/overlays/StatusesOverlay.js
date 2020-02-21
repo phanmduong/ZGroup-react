@@ -343,7 +343,7 @@ class StatusesOverlay extends React.Component {
                                                                     <a onClick={() => this.editStatuses(status)}
 
                                                                     ><i style={{
-                                                                        backgroundColor: status.color,
+                                                                        backgroundColor: status.color|| '#999999',
                                                                         color: 'white'
                                                                     }}
                                                                         className="material-icons">edit</i></a>
