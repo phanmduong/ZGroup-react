@@ -103,11 +103,11 @@ class ExtraRegisterOverlay extends React.Component {
 
     printNotiInvoice = (register) => {
         window.open("/noti-invoice/" + register.id, "_blank");
-    }
+    };
 
     printInvoice = (register) => {
         window.open("/invoice/" + register.id, "_blank");
-    }
+    };
 
     render() {
         let {isChangingStatusCall, register} = this.props;
@@ -149,23 +149,30 @@ class ExtraRegisterOverlay extends React.Component {
                                 onClick={this.props.openModalChangePassword}>
                             Thay đổi mật khẩu
                         </button>}
-                        {register && register.status <= 4 &&
+                        {register && register.status < 3 &&
                         <button type="button"
                                 className="btn btn-white width-100"
-                                onClick={() => this.openModalChangeClass(register.id
-                                    // , (register.status == 3 || register.status == 2)
-                                )}>
-                            {register.status == 3 ? "Học lại" : "Đổi lớp"}
+                                onClick={() => this.openModalChangeClass(register.id)}>
+                            Đổi lớp
                         </button>
                         }
+                        {/*{register && register.status <= 4 &&*/}
+                        {/*<button type="button"*/}
+                        {/*        className="btn btn-white width-100"*/}
+                        {/*        onClick={() => this.openModalChangeClass(register.id*/}
+                        {/*            // , (register.status == 3 || register.status == 2)*/}
+                        {/*        )}>*/}
+                        {/*    {register.status == 3 ? "Học lại" : "Đổi lớp"}*/}
+                        {/*</button>*/}
+                        {/*}*/}
 
-                        {register && register.status == 1 &&
-                        <button type="button"
-                                className="btn btn-white width-100"
-                                onClick={() => this.changeStatusPause(register)}>
-                            Bảo lưu
-                        </button>
-                        }
+                        {/*{register && register.status == 1 &&*/}
+                        {/*<button type="button"*/}
+                        {/*        className="btn btn-white width-100"*/}
+                        {/*        onClick={() => this.changeStatusPause(register)}>*/}
+                        {/*    Bảo lưu*/}
+                        {/*</button>*/}
+                        {/*}*/}
                         {register && register.is_delete &&
                         <button type="button"
                                 className="btn btn-white width-100"

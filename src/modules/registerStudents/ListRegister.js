@@ -247,40 +247,49 @@ class ListRegister extends React.Component {
                                         disabledDelete={!register.is_delete}>
                                         <div className={"flex"}>
                                             {
-                                                register.status <= 4 &&
-                                                <TooltipButton text={register.status == 3 ? "Học lại" : "Đổi lớp"}
-                                                               placement={"top"}>
-                                                    <a onClick={() => this.props.openModalChangeClass(register.id
-                                                        // , (register.status == 3 || register.status == 2)
-                                                    )}
-                                                       type="button"
-                                                    >
-                                                        <i className="material-icons">{register.status == 3 ? "restore" : "swap_vertical_circle"}</i>
+                                                register.status  < 3  &&
+                                                <TooltipButton text="Đổi lớp"
+                                                               placement="top">
+                                                    <a type="button"
+                                                        onClick={() => this.props.openModalChangeClass(register.id)}>
+                                                        <i className="material-icons">swap_vertical_circle</i>
                                                     </a>
                                                 </TooltipButton>
+                                            }
+                                            {/*{*/}
+                                            {/*    register.status <= 4 &&*/}
+                                            {/*    <TooltipButton text={register.status == 3 ? "Học lại" : "Đổi lớp"}*/}
+                                            {/*                   placement={"top"}>*/}
+                                            {/*        <a onClick={() => this.props.openModalChangeClass(register.id*/}
+                                            {/*            // , (register.status == 3 || register.status == 2)*/}
+                                            {/*        )}*/}
+                                            {/*           type="button"*/}
+                                            {/*        >*/}
+                                            {/*            <i className="material-icons">{register.status == 3 ? "restore" : "swap_vertical_circle"}</i>*/}
+                                            {/*        </a>*/}
+                                            {/*    </TooltipButton>*/}
+                                            {/*}*/}
+                                            {/*{*/}
+                                            {/*    register.status == 1 &&*/}
+                                            {/*    <a data-toggle="tooltip" title="Bảo lưu"*/}
+                                            {/*       onClick={() => this.props.changeStatusPause(register)}*/}
+                                            {/*       type="button"*/}
+                                            {/*       rel="tooltip">*/}
+                                            {/*        <i className="material-icons">highlight_off</i>*/}
+                                            {/*    </a>*/}
+                                            {/*}*/}
+                                            {/*{*/}
+                                            {/*    !register.has_in_lead &&*/}
+                                            {/*    <TooltipButton text={"Thêm vào lead"}*/}
+                                            {/*                   placement={"top"}>*/}
+                                            {/*        <a onClick={() => this.props.addMyLead(register.student_id)}*/}
+                                            {/*           type="button"*/}
+                                            {/*        >*/}
+                                            {/*            <i className="material-icons">add</i>*/}
+                                            {/*        </a>*/}
+                                            {/*    </TooltipButton>*/}
 
-                                            }
-                                            {
-                                                register.status == 1 &&
-                                                <a data-toggle="tooltip" title="Bảo lưu"
-                                                   onClick={() => this.props.changeStatusPause(register)}
-                                                   type="button"
-                                                   rel="tooltip">
-                                                    <i className="material-icons">highlight_off</i>
-                                                </a>
-                                            }
-                                            {
-                                                !register.has_in_lead &&
-                                                <TooltipButton text={"Thêm vào lead"}
-                                                               placement={"top"}>
-                                                    <a onClick={() => this.props.addMyLead(register.student_id)}
-                                                       type="button"
-                                                    >
-                                                        <i className="material-icons">add</i>
-                                                    </a>
-                                                </TooltipButton>
-
-                                            }
+                                            {/*}*/}
                                         </div>
                                     </ButtonGroupAction>
                                 </td>

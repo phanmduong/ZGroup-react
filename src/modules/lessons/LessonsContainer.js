@@ -9,7 +9,6 @@ import FormInputText from '../../components/common/FormInputText';
 import {Link} from 'react-router';
 import Loading from "../../components/common/Loading";
 import * as helper from '../../helpers/helper';
-import {NO_IMAGE} from "../../constants/env";
 import ReactSelect from 'react-select';
 
 let courseid;
@@ -80,10 +79,10 @@ class LessonsContainer extends React.Component {
 
     checkValidate() {
         if ($('#form-lesson-create-edit').valid()) {
-            if (helper.isEmptyInput(this.props.data.image_url) || this.props.data.image_url == NO_IMAGE) {
-                helper.showWarningNotification("Vui lòng chọn ảnh");
-                return false;
-            }
+            // if (helper.isEmptyInput(this.props.data.image_url) || this.props.data.image_url == NO_IMAGE) {
+            //     helper.showWarningNotification("Vui lòng chọn ảnh");
+            //     return false;
+            // }
 
             if (helper.isEmptyInput(this.props.data.term_id)) {
                 if (this.props.terms.length <= 0)
@@ -174,7 +173,7 @@ class LessonsContainer extends React.Component {
                                                     <div>
                                                         <label>Mô tả ngắn</label>
                                                         <FormInputText
-                                                            required
+                                                            // required
                                                             name="description"
                                                             updateFormData={this.updateFormData}
                                                             value={this.props.data.description}
@@ -219,9 +218,9 @@ class LessonsContainer extends React.Component {
                                                             name="detail_content"
                                                             updateEditor={this.updateDetailContent}
                                                             value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
-                                                             />
+                                                        />
 
-                                                             </div>
+                                                    </div>
                                                     <div className="flex flex-end">
                                                         {this.props.isCommitting ?
                                                             <button className="btn btn-success btn-fill disabled"
