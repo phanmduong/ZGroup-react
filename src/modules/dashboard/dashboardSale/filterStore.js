@@ -6,7 +6,7 @@ import {searchStaffs} from "../../lead/leadApi";
 import {NO_AVATAR} from "../../../constants/env";
 
 class FilterStore {
-    @observable isLoading = false;
+    @observable isLoading = true;
     @observable gens = [];
     @observable staffs = [];
 
@@ -16,7 +16,7 @@ class FilterStore {
         base_id: 0,
         staff_id: 0,
         gen_id: 0,
-        staff: {value: 0, label: "Tất cả nhân viên", avatar_url: NO_AVATAR}
+        staff: {value: 0, label: "Tất cả nhân viên", avatar_url: NO_AVATAR},
     };
 
     @computed
@@ -67,12 +67,13 @@ class FilterStore {
         this.isLoading = true;
         loadGens().then((res) => {
             this.gens = res.data.data.gens;
-            this.filter.gen_id = res.data.data.current_gen.id;
 
-            const currentGen = this.gens.filter((gen) => gen.id == this.filter.gen_id)[0];
+            const currentGen = this.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
 
             this.filter.start_time = moment(currentGen.start_time);
             this.filter.end_time = moment(currentGen.end_time);
+
+            this.filter.gen_id = res.data.data.current_gen.id;
 
         }).catch((e) => {
             showErrorNotification('Có lỗi xảy ra!');

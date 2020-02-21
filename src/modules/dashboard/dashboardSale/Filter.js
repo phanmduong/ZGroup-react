@@ -34,8 +34,6 @@ class Filter extends React.Component {
             filterStore.filter.end_time = moment(value.end_time);
         }
 
-        console.log(filterStore.filter);
-
         filterStore.filter = {...filterStore.filter, gen_id};
         this.load();
     }

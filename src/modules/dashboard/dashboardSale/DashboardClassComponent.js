@@ -15,7 +15,8 @@ const columns = [
         accessor: 'course.icon_url',
         Cell: props => <img className="circle"
                             src={props.value} alt="" style={{height: 40, width: 40}}/>, // Custom cell components!
-        minWidth: 65
+        minWidth: 65,
+        maxWidth: 65
     },
     {
         Header: 'Tên lớp',
@@ -38,15 +39,15 @@ const columns = [
         Cell: props => {
             const value = props.value;
             let percent = value.current_target * 100 / value.target;
-            percent = percent > 100 ? 100 : percent;
+            percent = percent >= 100 ? 100 : percent;
             return (
-                <div>
+                <div style={{width: '100%'}}>
                     <h6>{value.current_target + "/" + value.target}</h6>
-                    <div className="progress progress-line-success progress-bar-table">
+                    <div className="progress progress-line-success progress-bar-table" style={{}}>
                         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
                              aria-valuemin="0"
                              aria-valuemax="100"
-                             style={{width: (percent) + '%', maxWidth: '100%!important'}}>
+                             style={{width: (percent) + '%'}}>
                                                 <span
                                                     className="sr-only">{percent}%</span>
                         </div>
@@ -55,7 +56,8 @@ const columns = [
 
             )
         }
-    }, {
+    },
+    {
         Header: 'Đã đăng kí',
         accessor: 'register_target',
         Cell: props => {
@@ -69,7 +71,7 @@ const columns = [
                         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
                              aria-valuemin="0"
                              aria-valuemax="100"
-                             style={{width: (percent) + '%', maxWidth: '100%!important'}}>
+                             style={{width: (percent) + '%'}}>
                                                 <span
                                                     className="sr-only">{percent}%</span>
                         </div>
@@ -133,6 +135,8 @@ class DashboardClassComponent extends React.Component {
                                 noDataText={'Không có dữ liệu'}
                                 pageText={"Trang"}
                                 rowsText={"dòng"}
+                                showPagination={false}
+                                defaultPageSize={classes.length}
                             />
                         </div>
                     </div>
