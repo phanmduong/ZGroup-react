@@ -5,6 +5,7 @@ import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import {HISTORY_CARE_TYPES} from "../../../constants/constants";
 import CreateRegisterHistoryCareOverlay from "../overlays/CreateRegisterHistoryCareOverlay";
+import {isEmptyInput} from "../../../helpers/helper";
 
 class HistoryCareContainer extends React.Component {
     constructor(props, context) {
@@ -58,13 +59,24 @@ class HistoryCareContainer extends React.Component {
                                             <div className="timeline-body">
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
-                                                    &nbsp; &nbsp;{log.date} - Người
-                                                    nhập:<b>&nbsp;&nbsp;{log.creator ? log.creator.name : 'Không có'}</b>
+                                                    &nbsp; &nbsp;{log.date}
+                                                    {log.creator && ' - Người nhập:'}
+                                                    {log.creator && <b>&nbsp;&nbsp;{ log.creator.name }</b>}
                                                 </div>
-                                                <div className="flex-row-center">
+                                                {!isEmptyInput(log.title) && <div className="flex-row-center">
+                                                    <i className="material-icons">info</i>
+                                                    &nbsp; &nbsp;Tiêu đề:&nbsp;{log.title}
+                                                </div>}
+                                                {!isEmptyInput(log.note) && <div className="flex-row-center">
                                                     <i className="material-icons">description</i>
-                                                    &nbsp; &nbsp;{log.note}
-                                                </div>
+                                                    &nbsp; &nbsp;Nội dung:&nbsp;{log.note}
+
+                                                </div>}
+                                                {type.status && <div className="flex-row-center">
+                                                    <i className="material-icons">info</i>
+                                                    &nbsp; &nbsp;Trạng thái:&nbsp;Thành công
+
+                                                </div>}
                                             </div>
 
                                         </div>

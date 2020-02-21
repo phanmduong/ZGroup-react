@@ -278,18 +278,18 @@ class ListRegister extends React.Component {
                                             {/*        <i className="material-icons">highlight_off</i>*/}
                                             {/*    </a>*/}
                                             {/*}*/}
-                                            {
-                                                !register.has_in_lead &&
-                                                <TooltipButton text={"Thêm vào lead"}
-                                                               placement={"top"}>
-                                                    <a onClick={() => this.props.addMyLead(register.student_id)}
-                                                       type="button"
-                                                    >
-                                                        <i className="material-icons">add</i>
-                                                    </a>
-                                                </TooltipButton>
+                                            {/*{*/}
+                                            {/*    !register.has_in_lead &&*/}
+                                            {/*    <TooltipButton text={"Thêm vào lead"}*/}
+                                            {/*                   placement={"top"}>*/}
+                                            {/*        <a onClick={() => this.props.addMyLead(register.student_id)}*/}
+                                            {/*           type="button"*/}
+                                            {/*        >*/}
+                                            {/*            <i className="material-icons">add</i>*/}
+                                            {/*        </a>*/}
+                                            {/*    </TooltipButton>*/}
 
-                                            }
+                                            {/*}*/}
                                         </div>
                                     </ButtonGroupAction>
                                 </td>
