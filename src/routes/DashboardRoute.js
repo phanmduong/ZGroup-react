@@ -1,5 +1,4 @@
 import DashboardItContainer from "../modules/dashboard/it/DashboardItContainer";
-import TypeDashboard from "../modules/dashboard/TypeDashboard";
 import DashboardStaffContainer from "../modules/dashboardStaff/DashboardStaffContainer";
 import DashboardTrongDongContainer from "../modules/dashboardTrongDong/DashboardTrongDongContainer";
 import LogRegisterRoom from "../modules/logRegisterRoom/LogRegisterRoom";
@@ -9,6 +8,10 @@ import DashboardMarketingContainer from "../modules/dashboard/dashboardMarketing
 import DashboardLeadsComponent from "../modules/dashboard/dashboardMarketing/DashboardLeadsComponent";
 import DashboardSourceCampaignComponent from "../modules/dashboard/dashboardMarketing/DashboardSourceCampaignComponent";
 import DashboardPicComponent from "../modules/dashboard/dashboardMarketing/DashboardPicComponent";
+import DashboardRegisterComponent from "../modules/dashboard/dashboardSale/DashboardRegisterComponent";
+import DashboardKpiComponent from "../modules/dashboard/dashboardSale/DashboardKpiComponent";
+import DashboardClassComponent from "../modules/dashboard/dashboardSale/DashboardClassComponent";
+import DashboardSaleContainer from "../modules/dashboard/dashboardSale/DashboardSaleContainer";
 
 
 /**
@@ -16,12 +19,22 @@ import DashboardPicComponent from "../modules/dashboard/dashboardMarketing/Dashb
  */
 export default [
     {
-        path: "/",
-        component: TypeDashboard
-    },
-    {
         path: "/dashboard",
-        component: TypeDashboard
+        component: DashboardSaleContainer,
+        children: [
+            {
+                path: "sale",
+                component: DashboardRegisterComponent,
+            },
+            {
+                path: "kpi",
+                component: DashboardKpiComponent,
+            },
+            {
+                path: "class",
+                component: DashboardClassComponent,
+            },
+        ]
     },
     {
         path: "/dashboard/it",
@@ -65,4 +78,5 @@ export default [
             },
         ]
     },
+
 ];

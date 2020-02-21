@@ -117,9 +117,10 @@ class LessonsContainer extends React.Component {
                                         <div className="card" mask="blue">
                                             <div className="card-content flex flex-col">
                                                 <div className="flex flex-justify-content-center">
+
                                                     <div className="img father"
                                                          style={{
-                                                             backgroundImage: `url(${helper.validateLinkImage(course.icon_url)})`
+                                                             backgroundImage: `url(${helper.validateLinkImage(course ? course.icon_url : "")})`
                                                          }}/>
                                                 </div>
                                                 <div
@@ -218,9 +219,9 @@ class LessonsContainer extends React.Component {
                                                             name="detail_content"
                                                             updateEditor={this.updateDetailContent}
                                                             value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
-                                                        />
+                                                             />
 
-                                                    </div>
+                                                             </div>
                                                     <div className="flex flex-end">
                                                         {this.props.isCommitting ?
                                                             <button className="btn btn-success btn-fill disabled"

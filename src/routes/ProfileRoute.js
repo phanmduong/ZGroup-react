@@ -6,7 +6,7 @@ import EditProfileContainer from "../modules/profile/EditProfileContainer";
  */
 export default [
     {
-        path: "/profile/my-profile",
+        path: "/",
         component: ProfileContainer
     },
     {

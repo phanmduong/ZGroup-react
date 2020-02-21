@@ -64,7 +64,7 @@ class ProfileContainer extends React.Component {
         let literacyName = LITERACY.filter(item => item.id === literacy)[0];
         let maritalName = MARITAL.filter(item => item.id === marital)[0];
         return (
-            <div>
+            <div className="margin-top-20">
                 <div className="col-lg-12">
                     <TabProfile url="my-profile"/>
                     <div className="card-content">

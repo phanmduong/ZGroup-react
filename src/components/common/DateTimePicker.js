@@ -23,6 +23,19 @@ class DateRangePicker extends React.Component {
         this.applyCallback = this.applyCallback.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.start != this.props.start) {
+            this.setState({
+                start: nextProps.start,
+            });
+        }
+        if (nextProps.end != this.props.end) {
+            this.setState({
+                end: nextProps.end,
+            });
+        }
+    }
+
     applyCallback(startDate, endDate) {
         console.log("ok");
         this.setState({
@@ -98,7 +111,7 @@ class DateRangePicker extends React.Component {
         let value = `${this.state.start.format(
             "DD/MM/YYYY"
         )} - ${this.state.end.format("DD/MM/YYYY")}`;
-        let {className,style} = this.props;
+        let {className, style} = this.props;
         className = className ? (` ${className}`) : '';
         return (
             <DateTimeRangeContainer
@@ -112,11 +125,12 @@ class DateRangePicker extends React.Component {
                 descendingYears={false}
                 years={[2015, 2025]}
                 pastSearchFriendly
-                style={{betweenDates: {color: 'rgb(0,0,0)', backgroundColor: 'rgb(232,232,232)'},
+                style={{
+                    betweenDates: {color: 'rgb(0,0,0)', backgroundColor: 'rgb(232,232,232)'},
                     fromDate: {color: 'rgb(255,255,255)', backgroundColor: 'rgb(168,168,168)'},
                     toDate: {color: 'rgb(255,255,255)', backgroundColor: 'rgb(168,168,168)'},
-                    customRangeButtons: {backgroundColor: 'rgb(241,241,241)', color:'black'},
-                    customRangeSelected: {backgroundColor: 'rgb(168,168,168)', color:'white'},
+                    customRangeButtons: {backgroundColor: 'rgb(241,241,241)', color: 'black'},
+                    customRangeSelected: {backgroundColor: 'rgb(168,168,168)', color: 'white'},
                 }}
             >
                 <div className={"date-range-picker" + className} style={style}>

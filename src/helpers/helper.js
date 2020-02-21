@@ -1330,6 +1330,7 @@ export function shortString(str, maxLength) {
 }
 
 export function convertDotMoneyToK(data) {
+    data = data + "";
     if (data && data.length > 3) {
         if (data[data.length - 4] === '.' || data[data.length - 4] === ',') {
             return data.substring(0, data.length - 4) + 'K';
@@ -1510,7 +1511,7 @@ export function searchASCII(strOriginal, strSearch) {
 
 
 export function sortCoupon(coupons) {
-    if(!coupons) return [];
+    if (!coupons) return [];
     coupons = coupons.sort((a, b) => {
         if ((a.expired && !b.expired)
             || (a.discount_type != 'percentage' && b.discount_type == 'percentage' && a.expired == b.expired)

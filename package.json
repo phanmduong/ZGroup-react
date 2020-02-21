@@ -155,6 +155,7 @@
     "react-router-redux": "4.0.8",
     "react-select": "^1.2.1",
     "react-sidebar": "^3.0.2",
+    "react-table-v6": "^6.8.6",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
     "slate": "^0.33.5",

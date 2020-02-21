@@ -8,14 +8,15 @@ class Loading extends React.Component {
 
     render() {
         return (
-            <h3 style={{width: '100%', textAlign: 'center'}}>
+            <h3 style={{width: '100%', textAlign: 'center', ...this.props.style}}>
                 <i className="fa fa-refresh fa-spin"/> {this.props.text || "Loading"}</h3>
         );
     }
 }
 
 Loading.propTypes = {
-    text: PropTypes.string
+    text: PropTypes.string,
+    style: PropTypes.object,
 };
 
 export default Loading;

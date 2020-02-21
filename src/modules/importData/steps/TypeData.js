@@ -116,7 +116,18 @@ const types = [
             },
             {
                 key: "user.city",
-                name: "Tỉnh/Thành Phố"
+                name: "Tỉnh/Thành Phố",
+                reformat: (data) => {
+                    if (data.toLowerCase().includes("hcm") || data.toLowerCase().includes("SG") || data.toLowerCase().includes("Sài Gòn")) {
+                        return "Hồ Chí Minh";
+                    }
+                    if (data.toLowerCase().includes("hn")) {
+                        return "Hà Nội";
+                    }
+
+                    return data;
+
+                }
             },
             {
                 key: "user.university",

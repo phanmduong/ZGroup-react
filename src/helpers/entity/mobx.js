@@ -11,7 +11,7 @@ function isNotValue(data) {
 }
 
 export function isEmpty(data) {
-    return isUndefined(data) || isNull(data) || isNotValue(data);
+    return isUndefined(data) || isNull(data) || isNotValue(data) || (Object.keys(data).length === 0 && data.constructor === Object);
 }
 
 export function removeObservable(dataInput) {

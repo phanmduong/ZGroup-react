@@ -119,6 +119,7 @@ class AppContainer extends React.Component {
     }
 
     render() {
+
         return (
             <div>
                 {this.props.user && !isEmptyInput(this.props.user.id) &&
@@ -128,7 +129,9 @@ class AppContainer extends React.Component {
                     onSetOpen={this.onSetSidebarOpen}
                     styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
                     pullRight
-                />
+                >
+                    <div></div>
+                </Sidebar>
                 }
 
                 <GlobalLoadingContainer/>

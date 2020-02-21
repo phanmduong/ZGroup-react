@@ -7,15 +7,44 @@ import {Link} from "react-router";
 import * as helper from "../helpers/helper";
 import NotificationContainer from "../modules/notification/NotificationContainer";
 import Select from "./common/Select";
+// import Select from "./common/Select";
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
 class App extends React.Component {
+    componentDidMount() {
+        helper.initMaterial();
+    }
+
+    onOpenNav = () => {
+        let main_panel_height = $('.main-panel')[0].scrollHeight;
+        let $layer = $('<div class="close-layer"></div>');
+        $layer.css('height', main_panel_height + 'px');
+        $layer.appendTo(".main-panel");
+
+        setTimeout(function () {
+            $layer.addClass('visible');
+        }, 100);
+
+        $layer.click(function () {
+            $('html').removeClass('nav-open');
+
+            $layer.removeClass('visible');
+
+            setTimeout(function () {
+                $layer.remove();
+            }, 400);
+        });
+
+        $('html').addClass('nav-open');
+    }
+
     render() {
         let avatar = helper.avatarEmpty(this.props.user ? this.props.user.avatar_url : "")
             ? NO_AVATAR
             : this.props.user.avatar_url;
+
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {key: province.id, value: province.name};
         }) : [];
@@ -31,7 +60,6 @@ class App extends React.Component {
             return {key: base.id, value: base.name};
         }) : [];
         bases = [{key: 0, value: "Tất cả"}, ...bases];
-
 
         return (
             <div className="wrapper">
@@ -98,17 +126,18 @@ class App extends React.Component {
                                 </button>
                             </div>
                             <div className="navbar-header flex-wrap">
-                                <button type="button" className="navbar-toggle" data-toggle="collapse">
-                                    <span className="sr-only">Toggle navigation</span>
-                                    <span className="icon-bar" />
-                                    <span className="icon-bar" />
-                                    <span className="icon-bar" />
-                                </button>
                                 {/*<Link className="navbar-brand" to="/">*/}
                                 {/*    {" "}*/}
                                 {/*    {NAME_COMPANY}{" "}*/}
                                 {/*</Link>*/}
+
+
                                 <div className="flex flex-row flex-align-items-center custom-dropdown">
+                                    <div className="menu-nav-bar" onClick={this.onOpenNav}>
+                                        <i className="material-icons">
+                                            menu
+                                        </i>
+                                    </div>
                                     <div
                                         style={{width: 130}}
                                     >
@@ -131,6 +160,7 @@ class App extends React.Component {
                                         />
                                     </div>
                                 </div>
+
                             </div>
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">

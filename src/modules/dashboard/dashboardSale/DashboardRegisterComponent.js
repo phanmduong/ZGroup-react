@@ -36,7 +36,7 @@ class DashboardRegisterComponent extends React.Component {
                 <Filter loadData={this.loadData}/>
                 <CardRevenue/>
                 {isLoading ? <Loading/> :
-                    <div className="row">
+                    <div className="row gutter-20">
                         <div className="col-md-12">
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">

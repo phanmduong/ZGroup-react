@@ -15,7 +15,7 @@ const columns = [
         accessor: 'course.icon_url',
         Cell: props => <img className="circle"
                             src={props.value} alt="" style={{height: 40, width: 40}}/>, // Custom cell components!
-        minWidth: 50
+        minWidth: 65
     },
     {
         Header: 'Tên lớp',
@@ -46,7 +46,7 @@ const columns = [
                         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
                              aria-valuemin="0"
                              aria-valuemax="100"
-                             style={{width: (percent) + '%', maxWidth: '100%'}}>
+                             style={{width: (percent) + '%', maxWidth: '100%!important'}}>
                                                 <span
                                                     className="sr-only">{percent}%</span>
                         </div>
@@ -69,7 +69,7 @@ const columns = [
                         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
                              aria-valuemin="0"
                              aria-valuemax="100"
-                             style={{width: (percent) + '%', maxWidth: '100%'}}>
+                             style={{width: (percent) + '%', maxWidth: '100%!important'}}>
                                                 <span
                                                     className="sr-only">{percent}%</span>
                         </div>
