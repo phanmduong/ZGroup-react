@@ -767,6 +767,9 @@ export const HISTORY_CARE_TYPES = {
         study_history: {name: 'Học tập trước đó', icon: 'hourglass_empty', color: '#fe874e'},
         note: {name: 'Ghi chú', icon: 'notes', color: '#4855d1'},
         appointment: {name: 'Hẹn gặp mặt', icon: 'face', color: '#4e9fb4'},
+        email: {name: 'Đã gửi Email tự động', icon: 'mail_outline', color: '#E25241'},
+        sms: {name: 'Đã gửi SMS tự động', icon: 'chat', color: '#32CA41'},
+        notification: {name: 'Đã gửi Notification tự động', icon: 'notifications', color: '#FFDB5A'},
         null: {name: 'Thông tin', icon: 'info', color: 'grey'}
     }
 };
