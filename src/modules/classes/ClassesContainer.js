@@ -53,7 +53,8 @@ class ClassesContainer extends React.Component {
         this.props.classActions.loadCourses();
         this.props.classActions.loadGensData(() => {
             this.props.classActions.loadClasses({
-                page: 1, teacherId: this.search.teacherId, selectGenId: this.state.selectGenId
+                page: 1, teacherId: this.search.teacherId, selectGenId: this.state.selectGenId,
+                selectedBaseId: this.props.selectedBaseId,
             });
         });
     }
@@ -105,13 +106,18 @@ class ClassesContainer extends React.Component {
             this.loadClasses(1, '');
         }
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            this.setState({
+                selectedBaseId:nextProps.selectedBaseId,
+                baseId:nextProps.selectedBaseId,
+            });
             this.props.classActions.loadClasses({
                 ...this.state,
                 search: this.state.query,
                 page: this.state.page,
                 teacherId: this.search.teacherId,
                 selectGenId: this.state.selectGenId,
-                selectedBaseId: this.props.selectedBaseId
+                selectedBaseId: nextProps.selectedBaseId,
+                baseId: nextProps.selectedBaseId,
             });
         }
     }

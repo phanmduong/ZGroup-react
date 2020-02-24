@@ -40,7 +40,7 @@ class DashboardComponent extends React.Component {
     }
 
     getCourse(courses, course_id) {
-        return courses.filter((course) => course.id == course_id)[0];
+        return courses.filter((course) => course.id == course_id)[0] || {};
     }
 
     openModalDetailTotalRegisterByGen = (total) => {

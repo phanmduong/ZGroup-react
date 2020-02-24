@@ -18,7 +18,7 @@ class DashboardContainer extends React.Component {
         super(props, context);
         this.state = {
             selectGenId: 0,
-            selectBaseId: 0,
+            selectedBaseId: 0,
             gens: [],
             bases: [],
             filter: {
@@ -49,18 +49,25 @@ class DashboardContainer extends React.Component {
                 bases: this.getBases(nextProps.bases),
             });
         }
+        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            this.setState({
+                selectedBaseId:nextProps.selectedBaseId,
+            });
+            this.loadDashboard(this.state.selectGenId,nextProps.selectedBaseId,);
+
+        }
     }
 
     detailTotalRegisterByGen = (total) => {
-        this.props.dashboardActions.loadDetailTotalRegister(total, this.state.selectBaseId, this.state.selectGenId, "gen");
+        this.props.dashboardActions.loadDetailTotalRegister(total, this.state.selectedBaseId, this.state.selectGenId, "gen");
     }
 
     detailTotalRegisterByCourse = (courseId) => {
-        this.props.dashboardActions.loadDetailTotalRegister(courseId, this.state.selectBaseId, this.state.selectGenId, "course");
+        this.props.dashboardActions.loadDetailTotalRegister(courseId, this.state.selectedBaseId, this.state.selectGenId, "course");
     }
 
     loadStudyPackRegisters = (search = '', filter = '', filter_status = 1, page = 1) => {
-        this.props.dashboardActions.loadStudyPackRegister(this.state.selectGenId, this.state.selectBaseId, search, filter, filter_status, page);
+        this.props.dashboardActions.loadStudyPackRegister(this.state.selectGenId, this.state.selectedBaseId, search, filter, filter_status, page);
     }
 
     getGens(gens) {
@@ -79,7 +86,7 @@ class DashboardContainer extends React.Component {
                 value: base.name
             };
         });
-        this.setState({selectBaseId: 0});
+        this.setState({selectedBaseId: 0});
         return [{
             key: 0,
             value: 'Tất cả'
@@ -87,7 +94,7 @@ class DashboardContainer extends React.Component {
     }
 
     loadInitDashboard() {
-        this.loadDashboard(this.state.selectGenId, this.state.selectBaseId);
+        this.loadDashboard(this.state.selectGenId, this.state.selectedBaseId);
     }
 
     loadDashboard(genId, baseId, startTime, endTime) {
@@ -102,11 +109,11 @@ class DashboardContainer extends React.Component {
 
     onChangeGen(value) {
         this.setState({selectGenId: value});
-        this.loadDashboard(value, this.state.selectBaseId);
+        this.loadDashboard(value, this.state.selectedBaseId);
     }
 
     onChangeBase(value) {
-        this.setState({selectBaseId: value});
+        this.setState({selectedBaseId: value});
         this.loadDashboard(this.state.selectGenId, value);
     }
 
@@ -116,7 +123,7 @@ class DashboardContainer extends React.Component {
         filter[field] = event.target.value;
 
         if (!helper.isEmptyInput(filter.startTime) && !helper.isEmptyInput(filter.endTime)) {
-            this.loadDashboard(this.state.selectGenId, this.state.selectBaseId, filter.startTime, filter.endTime);
+            this.loadDashboard(this.state.selectGenId, this.state.selectedBaseId, filter.startTime, filter.endTime);
         }
         this.setState({filter: filter});
     }
@@ -141,7 +148,7 @@ class DashboardContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        value={this.state.selectBaseId}
+                                        value={this.state.selectedBaseId}
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
@@ -235,6 +242,8 @@ function mapStateToProps(state) {
         studyPack: state.dashboardStudyPack.studyPack,
         isLoadingUserSP: state.dashboardStudyPack.studyPack.isLoadingUserSP,
         users: state.dashboardStudyPack.studyPack.users,
+        selectedBaseId: state.global.selectedBaseId,
+
     };
 }
 
