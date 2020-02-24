@@ -20,7 +20,7 @@ class Select extends React.Component {
                 <select
                     value={this.props.value}
                     onChange={event => this.props.onChange(event.target.value)}
-                    className="selectpicker"
+                    className={`selectpicker ${this.props.className}`}
                     data-style={(this.props.disableRound ? "btn btn-rose" : "btn btn-rose btn-round")}>
                     <option selected disabled>
                         {this.props.defaultMessage || "Please select"}

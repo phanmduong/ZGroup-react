@@ -341,10 +341,10 @@ class ClassesContainer extends React.Component {
                 <Modal
                     show={this.state.showModalClass}
                     onHide={this.closeModalClass}
-                    bsSize="lg"
+                    // bsSize="lg"
                 >
                     <Modal.Header closeButton>
-                        {this.state.editClass ? "Chỉnh sửa lớp " + this.state.classSelected.name : "Tạo lớp học"}
+                        <b>{this.state.editClass ? "Chỉnh sửa lớp " + this.state.classSelected.name : "Tạo lớp học"}</b>
                     </Modal.Header>
                     <Modal.Body>
                         <AddClassContainer

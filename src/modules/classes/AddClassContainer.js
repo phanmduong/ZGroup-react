@@ -302,27 +302,58 @@ class AddClassContainer extends React.Component {
         } else {
             let {name, link_drive,description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
             return (
-                <div>
-                    <form id="form-add-class" onSubmit={(e) => {
+                <div className="">
+                    <form id="form-add-class" className="form-grey" onSubmit={(e) => {
                         e.preventDefault();
                     }}>
+                        <label>Môn học</label>
+                        <Select
+                            name="form-field-name"
+                            value={course_id}
+                            options={this.state.optionsSelectCourse}
+                            onChange={this.changeCourse}
+                            placeholder="Chọn môn học"
+                            className="form-grey-select"
+                            optionRenderer={(option) => {
+                                return (
+                                    <ItemReactSelect label={option.label} url={option.icon_url}/>
+                                );
+                            }}
+                            valueRenderer={(option) => {
+                                return (
+                                    <ItemReactSelect label={option.label} url={option.icon_url}/>
+                                );
+                            }}
+                        />
+                        <label>Chọn phòng học</label>
+                        <SelectDropdown
+                            options={this.state.optionsSelectRoom}
+                            onChange={(value) => this.changeRoom(value)}
+                            defaultMessage="Chọn phòng học"
+                            value={room_id}
+                            isPaddingLeft
+                            className="form-grey-select"
+                        />
+                        <label>Tên lớp</label>
                         <FormInputText
-                            label="Tên lớp"
+
                             name="name"
                             updateFormData={this.updateFormData}
                             value={name}
                             required={true}
                             type="text"
                         />
+                        <label>Mô tả</label>
                         <FormInputText
-                            label="Mô tả"
+                            label=""
                             name="description"
                             updateFormData={this.updateFormData}
                             value={description}
                             type="text"
                         />
+                        <label>Chỉ tiêu nộp tiền</label>
                         <FormInputText
-                            label="Chỉ tiêu nộp tiền"
+                            label=""
                             name="target"
                             updateFormData={(event) => {
                                 if (!isNaN(Number(event.target.value))) {
@@ -333,8 +364,9 @@ class AddClassContainer extends React.Component {
                             required={true}
                             type="text"
                         />
+                        <label>Chỉ tiêu đăng kí</label>
                         <FormInputText
-                            label="Chỉ tiêu đăng kí"
+                            label=""
                             name="regis_target"
                             updateFormData={(event) => {
                                 if (!isNaN(Number(event.target.value))) {
@@ -345,15 +377,17 @@ class AddClassContainer extends React.Component {
                             required={true}
                             type="text"
                         />
+                        <label>Link Driver</label>
                         <FormInputText
-                            label="Link Driver"
+                            label=""
                             name="link_drive"
                             updateFormData={this.updateFormData}
                             value={link_drive}
                             type="text"
                         />
+                        <label>Giờ học</label>
                         <FormInputText
-                            label="Giờ học"
+                            label=""
                             name="study_time"
                             updateFormData={(event) => {
                                 this.updateFormData(event);
@@ -362,92 +396,51 @@ class AddClassContainer extends React.Component {
                             required={true}
                             type="text"
                         />
+                        <label>Ngày khai giảng</label>
                         <FormInputDate
-                            label="Ngày khai giảng"
+                            label=""
                             name="datestart"
                             updateFormData={this.updateFormData}
                             value={datestart ? datestart.slice(0, 10) : new Date().toISOString().slice(0, 10)}
                             id="form-date-datestart"
                         />
-                        <SelectDropdown
-                            options={this.state.optionsSelectRoom}
-                            onChange={(value) => this.changeRoom(value)}
-                            defaultMessage={"Chọn phòng học"}
-                            value={room_id}
-                            isPaddingLeft
-                        />
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label-control">Lịch học</label>
-                                    <div style={{display: "flex", alignItems: "center"}}>
-                                        <div style={{width: "100%"}}
-                                        >
-                                            <Select
-                                                name="form-field-name"
-                                                value={schedule_id}
-                                                options={this.state.optionsSelectSchedule}
-                                                onChange={this.changeSchedule}
-                                                placeholder="Chọn lịch học"
-                                            />
-                                        </div>
-                                        <TooltipButton text="Thêm lịch học" placement="top">
-                                            <div onClick={this.onOpenScheduleModal}
-                                                 className="btn btn-rose btn-round btn-xs button-add none-margin">
-                                                <strong>+</strong>
-                                            </div>
-                                        </TooltipButton>
-                                    </div>
-                                </div>
+                        <label>Lịch học</label>
+                        <div style={{display: "flex", alignItems: "center"}}>
+                            <div style={{width: "100%"}}
+                            >
+                                <Select
+                                    name="form-field-name"
+                                    value={schedule_id}
+                                    options={this.state.optionsSelectSchedule}
+                                    onChange={this.changeSchedule}
+                                    placeholder="Chọn lịch học"
+                                    clearable={false}
+                                />
                             </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label-control">Thể loại lớp</label>
-                                    <Select
-                                        name="form-field-name"
-                                        value={type}
-                                        options={TYPE_CLASSES}
-                                        onChange={this.changeType}
-                                        placeholder="Chọn thể loại"
-                                    />
+                            <TooltipButton text="Thêm lịch học" placement="top">
+                                <div onClick={this.onOpenScheduleModal}
+                                     className="btn btn-rose btn-round btn-xs button-add none-margin">
+                                    <strong>+</strong>
                                 </div>
-                            </div>
+                            </TooltipButton>
                         </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label-control">Môn học</label>
-                                    <Select
-                                        name="form-field-name"
-                                        value={course_id}
-                                        options={this.state.optionsSelectCourse}
-                                        onChange={this.changeCourse}
-                                        placeholder="Chọn môn học"
-                                        optionRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label} url={option.icon_url}/>
-                                            );
-                                        }}
-                                        valueRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label} url={option.icon_url}/>
-                                            );
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label-control">Khóa học</label>
-                                    <Select
-                                        name="form-field-name"
-                                        value={gen_id}
-                                        options={this.state.optionsSelectGen}
-                                        onChange={this.changeGen}
-                                        placeholder="Chọn khóa học"
-                                    />
-                                </div>
-                            </div>
+                        <label className="label-control">Thể loại lớp</label>
+                        <Select
+                            name="form-field-name"
+                            value={type}
+                            options={TYPE_CLASSES}
+                            onChange={this.changeType}
+                            placeholder="Chọn thể loại"
+                        />
+                        <div className="form-group">
+                            <label className="label-control">Khóa học</label>
+                            <Select
+                                name="form-field-name"
+                                value={gen_id}
+                                options={this.state.optionsSelectGen}
+                                onChange={this.changeGen}
+                                placeholder="Chọn khóa học"
+                            />
                         </div>
                         <div className="row">
                             <div className="col-md-6">
