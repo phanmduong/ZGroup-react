@@ -36,14 +36,17 @@ function getSelectCampaign(items) {
 }
 
 
-
 class CreateLeadOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.statusRef = STATUS_REFS.leads;
         this.initState = {
             show: false,
-            lead: {carer_id: this.props.user && this.props.user.id, rate: 5},
+            lead: {
+                carer_id: this.props.user && this.props.user.id,
+                rate: 5,
+                city: this.props.user.choice_province_id,
+            },
         };
         this.state = this.initState;
     }
@@ -95,6 +98,11 @@ class CreateLeadOverlay extends React.Component {
         lead["source_id"] = e ? e.value : null;
         this.setState({lead});
     };
+    updateCity = (e) => {
+        let lead = {...this.state.lead};
+        lead["city"] = e ? e.value : null;
+        this.setState({lead});
+    };
     updateStatus = (e) => {
         let lead = {...this.state.lead};
         lead["status_id"] = e ? e.value : null;
@@ -135,6 +143,10 @@ class CreateLeadOverlay extends React.Component {
             helper.showTypeNotification("Đánh giá chỉ từ 1 -> 5", 'warning');
             return;
         }
+        if (this.props.provinces) {
+            let city = this.props.provinces.filter(p => p.id == lead.city)[0];
+            lead.city = city ? city.name : '';
+        }
         this.props.leadActions.editInfoLead(
             lead,
             this.close
@@ -149,14 +161,17 @@ class CreateLeadOverlay extends React.Component {
 
 
     close = (shouldClose) => {
-        if ( shouldClose) this.setState(this.initState);
+        if (shouldClose) this.setState(this.initState);
     };
 
     render() {
         let {lead} = this.state;
         let {isEditing, salers, sources, statuses, className} = this.props;
         statuses = statuses[this.statusRef];
-
+        let provinces = this.props.provinces ? this.props.provinces.map((province) => {
+            return {value: province.id, label: province.name};
+        }) : [];
+        provinces = [{value: '0', label: "Không có"}, ...provinces];
         return (
 
             <div style={{position: "relative"}} ref="target">
@@ -183,7 +198,7 @@ class CreateLeadOverlay extends React.Component {
                                 <span className="sr-only">Close</span>
                             </button>
                         </div>
-                        {( this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}
+                        {(this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}
                         {!isEditing && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
                         <form role="form" id="form-info-student">
 
@@ -214,6 +229,16 @@ class CreateLeadOverlay extends React.Component {
                                     value={lead.phone}
                                     updateFormData={this.updateFormData}
                                 /></div>
+                            <div>
+                                <label>Thành phố</label>
+                                <ReactSelect
+                                    options={provinces}
+                                    onChange={this.updateCity}
+                                    value={lead.city}
+                                    placeholder="Chọn thành phố"
+                                    name="city"
+                                />
+                            </div>
 
                             <div>
                                 <label>Đánh giá</label>
