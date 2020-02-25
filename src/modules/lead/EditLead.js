@@ -23,7 +23,13 @@ class EditLead extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({lead: this.props.lead});
+        let lead = {...this.props.lead};
+        if (this.props.provinces) {
+            let city = this.props.provinces.filter(p => p.name == lead.city)[0];
+            lead.city = city ? city.id : '';
+
+        }
+        this.setState({lead});
     }
 
     updateFormData(event) {
