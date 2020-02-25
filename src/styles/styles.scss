@@ -4654,6 +4654,13 @@ input[type=search], .form-control {
     margin-top: 10px;
   }
 
+  .Select-value, .Select-placeholder{
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    font-size: 12px;
+    padding: 0px 15px;
+  }
   .Select-control {
     border: none;
     background-color: #f3f4f3;
@@ -4661,8 +4668,10 @@ input[type=search], .form-control {
     box-shadow: none !important;
   }
 
-  .Select-input input,.Select-placeholder {
-    padding: 11.5px 15px !important;
+  .Select-input input {
+    padding: 11px !important;
+    font-size: 12px;
+
   }
 
   .Select-placeholder {
@@ -4676,6 +4685,10 @@ input[type=search], .form-control {
 
   .Select-arrow-zone{
     padding-right: 15px;
+  }
+
+  .Select-option{
+    padding-left: 15px;
   }
 
   .form-grey-select {

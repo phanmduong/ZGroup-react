@@ -26,10 +26,15 @@ class ListClass extends React.Component {
 
     render() {
         return (
-            <div className="col-md-12">
+
                 <div className="table-responsive table-split">
-                    <table className="table"  cellSpacing="0">
-                        <thead className="text-rose">
+                    <table id="datatables"
+                           className="table table-no-bordered table-hover"
+                           cellSpacing="0" width="100%" style={{width: "100%"}}>
+
+                {/*<div className="table-responsive table-split">*/}
+                {/*    <table className="table"  cellSpacing="0">*/}
+                        <thead>
                         <tr>
                             <th/>
                             <th>Tên</th>
@@ -61,7 +66,7 @@ class ListClass extends React.Component {
                                                 <img src={classItem.course ? classItem.course.icon_url : ''} alt=""/>
                                             </button>
                                         </td>
-                                        <td><Link to={`/teaching/class/${classItem.id}`}>{classItem.name}</Link></td>
+                                        <td><Link to={`/teaching/class/${classItem.id}`} target="_blank">{classItem.name}</Link></td>
                                         <td>{classItem.datestart}</td>
                                         <td>{classItem.study_time}</td>
                                         <td className="text-center">{classItem.gen ? classItem.gen.name : ''}</td>
@@ -188,7 +193,7 @@ class ListClass extends React.Component {
                         </tbody>
                     </table>
                 </div>
-            </div>
+
         );
     }
 }

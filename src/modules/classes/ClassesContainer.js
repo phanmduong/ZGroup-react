@@ -107,8 +107,8 @@ class ClassesContainer extends React.Component {
         }
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
             this.setState({
-                selectedBaseId:nextProps.selectedBaseId,
-                baseId:nextProps.selectedBaseId,
+                selectedBaseId: nextProps.selectedBaseId,
+                baseId: nextProps.selectedBaseId,
             });
             this.props.classActions.loadClasses({
                 ...this.state,
@@ -176,6 +176,7 @@ class ClassesContainer extends React.Component {
                 name: classData.name,
                 description: classData.description,
                 target: classData.target,
+                link_drive: classData.link_drive,
                 regis_target: classData.regis_target,
                 study_time: classData.study_time,
                 gen_id: classData.gen ? classData.gen.id : '',
@@ -186,6 +187,9 @@ class ClassesContainer extends React.Component {
                 type: classData.type,
                 status: classData.status,
                 datestart: classData.datestart_en,
+                date_end: classData.date_end,
+                enroll_start_date: classData.enroll_start_date,
+                enroll_end_date: classData.enroll_end_date,
                 room_id: classData.room ? classData.room.id : '',
                 teachers: classData.teachers,
                 teaching_assistants: classData.teaching_assistants,
@@ -232,7 +236,7 @@ class ClassesContainer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="">
                 <Modal
                     show={this.state.openLoadingModal}
                     onHide={() => {
@@ -242,102 +246,91 @@ class ClassesContainer extends React.Component {
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
 
-
-                <div>
-                    {
-                        this.props.isLoadingGens
-                            ?
-                            <Loading/>
-                            :
-                            <div className="">
+                {(this.props.isLoadingGens || this.props.isLoading) && <Loading/>}
 
 
-                                <div className="card" mask="purple">
-                                    <img className="img-absolute"/>
+                {!this.props.isLoadingGens && !this.props.isLoading && <div className="card" mask="purple">
+                    <img className="img-absolute"/>
 
-                                    <div className="card-content">
-                                        <div className="row">
-                                            <div className="col-sm-12">
-                                                <div className="flex-row flex">
-                                                    <h4 className="card-title">
-                                                        <strong>Danh sách lớp học</strong>
-                                                    </h4>
-                                                </div>
-                                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-                                                    <Search
-                                                        onChange={this.classesSearchChange}
-                                                        value={this.state.query}
-                                                        placeholder="Tìm kiếm lớp học"
-                                                        className="round-white-seacrh"
-                                                    />
-                                                    <Select
-                                                        options={this.state.gens}
-                                                        onChange={this.changeGens}
-                                                        value={this.state.selectGenId}
-                                                        defaultMessage="Chọn khóa học"
-                                                        name="gens"
-                                                    />
-                                                    <Select
-                                                        options={this.state.courses}
-                                                        onChange={this.changeCourses}
-                                                        value={this.state.courseId}
-                                                        defaultMessage="Chọn môn học"
-                                                        name="courses"
-                                                        style={{width:150}}
-                                                    />
-                                                    <button
-                                                        className="btn btn-white btn-round btn-icon"
-                                                        type="button" onClick={() => {
-                                                        this.openModalClass();
-                                                    }}>
-                                                        Thêm lớp học&nbsp;&nbsp;<i className="material-icons">
-                                                        add
-                                                    </i>
-                                                    </button>
-                                                </div>
-
-
-                                            </div>
-
-                                        </div>
-                                    </div>
+                    <div className="card-content">
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Danh sách lớp học</strong>
+                                    </h4>
+                                </div>
+                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+                                    <Search
+                                        onChange={this.classesSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm lớp học"
+                                        className="round-white-seacrh"
+                                    />
+                                    <Select
+                                        options={this.state.gens}
+                                        onChange={this.changeGens}
+                                        value={this.state.selectGenId}
+                                        defaultMessage="Chọn khóa học"
+                                        name="gens"
+                                    />
+                                    <Select
+                                        options={this.state.courses}
+                                        onChange={this.changeCourses}
+                                        value={this.state.courseId}
+                                        defaultMessage="Chọn môn học"
+                                        name="courses"
+                                        style={{width: 150}}
+                                    />
+                                    <button
+                                        className="btn btn-white btn-round btn-icon"
+                                        type="button" onClick={() => {
+                                        this.openModalClass();
+                                    }}>
+                                        Thêm lớp học&nbsp;&nbsp;<i className="material-icons">
+                                        add
+                                    </i>
+                                    </button>
                                 </div>
 
 
-                                {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
-                                    <div className="row">
-
-
-                                        <ListClass
-                                            classes={this.props.classes}
-                                            deleteClass={this.deleteClass}
-                                            duplicateClass={this.duplicateClass}
-                                            changeClassStatus={this.changeClassStatus}
-                                            openModalClass={this.openModalClass}
-                                        />
-
-                                        <br/>
-
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                             style={{textAlign: 'right', paddingTop: 20}}>
-
-                                            <b style={{marginRight: '15px'}}>
-                                                Hiển thị kêt quả
-                                                từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
-                                                - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
-                                            <Pagination
-                                                totalPages={this.props.totalPages}
-                                                currentPage={this.props.currentPage}
-                                                loadDataPage={this.loadClasses || 0}
-                                            />
-
-                                        </div>
-
-                                    </div>
-                                }
                             </div>
-                    }
+
+                        </div>
+                    </div>
+                </div>}
+
+
+                {(!this.props.isLoading && !this.props.isLoadingGens) &&
+                <ListClass
+                        classes={this.props.classes}
+                        deleteClass={this.deleteClass}
+                        duplicateClass={this.duplicateClass}
+                        changeClassStatus={this.changeClassStatus}
+                        openModalClass={this.openModalClass}
+                    />}
+
+                <br/>
+
+                {(!this.props.isLoading && !this.props.isLoadingGens) &&
+                <div
+                    style={{textAlign: 'right', paddingTop: 20}}>
+
+                    <b style={{marginRight: '15px'}}>
+                        Hiển thị kêt quả
+                        từ {this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0}
+                        - {this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount}/{this.props.totalCount}</b><br/>
+                    <Pagination
+                        totalPages={this.props.totalPages}
+                        currentPage={this.props.currentPage}
+                        loadDataPage={this.loadClasses || 0}
+                    />
+
                 </div>
+
+
+                }
+
                 <Modal
                     show={this.state.showModalClass}
                     onHide={this.closeModalClass}

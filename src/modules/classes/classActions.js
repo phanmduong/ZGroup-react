@@ -192,11 +192,13 @@ export function createClass(classData, closeModal) {
         classApi.addClass(classData)
             .then((res) => {
                 closeModal();
+                helper.showNotification('Lưu thành công');
                 dispatch({
                     type: types.LOAD_CREATE_CLASS_SUCCESS,
                     class: res.data.data.class
                 });
             }).catch(() => {
+                helper.showErrorNotification('Có lỗi xảy ra!');
             dispatch({
                 type: types.LOAD_CREATE_CLASS_ERROR
             });
@@ -212,11 +214,13 @@ export function editClass(classData, closeModal) {
         classApi.addClass(classData)
             .then((res) => {
                 closeModal();
+                helper.showNotification('Lưu thành công');
                 dispatch({
                     type: types.LOAD_EDIT_CLASS_SUCCESS,
                     class: res.data.data.class
                 });
             }).catch(() => {
+            helper.showErrorNotification('Có lỗi xảy ra!');
             dispatch({
                 type: types.LOAD_EDIT_CLASS_ERROR
             });

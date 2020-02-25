@@ -17,7 +17,7 @@ import {TYPE_CLASSES} from "../../constants/constants";
 import SelectTeacher from "./SelectTeacher";
 import TooltipButton from "../../components/common/TooltipButton";
 import CreateScheduleModal from "./schedule/CreateScheduleModal";
-
+import moment from "moment";
 
 class AddClassContainer extends React.Component {
     constructor(props, context) {
@@ -131,6 +131,10 @@ class AddClassContainer extends React.Component {
     changeCourse(value) {
         let classData = {...this.props.class};
         classData.course_id = value && value.id ? value.id : '';
+        if (value && !classData.id) {
+            let {duration} = value;
+            classData.date_end = moment(classData.datestart).add(duration, 'days').toISOString();
+        }
         this.props.classActions.updateFormCreateClass(classData);
     }
 
@@ -289,24 +293,27 @@ class AddClassContainer extends React.Component {
             });
             this.changeSchedule(schedule);
         }
-    }
+    };
 
     onOpenScheduleModal = () => {
         this.setState({showScheduleModal: true});
-    }
+    };
 
     render() {
         console.log(this.props);
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {
-            let {name, link_drive,description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
+            let {
+                name, link_drive, description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id,
+                datestart, date_end, enroll_start_date, enroll_end_date, room_id, type
+            } = this.props.class;
             return (
                 <div className="">
                     <form id="form-add-class" className="form-grey" onSubmit={(e) => {
                         e.preventDefault();
                     }}>
-                        <label>Môn học</label>
+                        <label>Chọn môn</label>
                         <Select
                             name="form-field-name"
                             value={course_id}
@@ -334,7 +341,7 @@ class AddClassContainer extends React.Component {
                             isPaddingLeft
                             className="form-grey-select"
                         />
-                        <label>Tên lớp</label>
+                        <label>Tên lớp học</label>
                         <FormInputText
 
                             name="name"
@@ -343,7 +350,7 @@ class AddClassContainer extends React.Component {
                             required={true}
                             type="text"
                         />
-                        <label>Mô tả</label>
+                        <label>Mô tả ngắn</label>
                         <FormInputText
                             label=""
                             name="description"
@@ -351,7 +358,7 @@ class AddClassContainer extends React.Component {
                             value={description}
                             type="text"
                         />
-                        <label>Chỉ tiêu nộp tiền</label>
+                        <label>Số học viên tối đa</label>
                         <FormInputText
                             label=""
                             name="target"
@@ -364,7 +371,7 @@ class AddClassContainer extends React.Component {
                             required={true}
                             type="text"
                         />
-                        <label>Chỉ tiêu đăng kí</label>
+                        <label>Số đăng kí tối đa</label>
                         <FormInputText
                             label=""
                             name="regis_target"
@@ -376,33 +383,6 @@ class AddClassContainer extends React.Component {
                             value={regis_target}
                             required={true}
                             type="text"
-                        />
-                        <label>Link Driver</label>
-                        <FormInputText
-                            label=""
-                            name="link_drive"
-                            updateFormData={this.updateFormData}
-                            value={link_drive}
-                            type="text"
-                        />
-                        <label>Giờ học</label>
-                        <FormInputText
-                            label=""
-                            name="study_time"
-                            updateFormData={(event) => {
-                                this.updateFormData(event);
-                            }}
-                            value={study_time}
-                            required={true}
-                            type="text"
-                        />
-                        <label>Ngày khai giảng</label>
-                        <FormInputDate
-                            label=""
-                            name="datestart"
-                            updateFormData={this.updateFormData}
-                            value={datestart ? datestart.slice(0, 10) : new Date().toISOString().slice(0, 10)}
-                            id="form-date-datestart"
                         />
                         <label>Lịch học</label>
                         <div style={{display: "flex", alignItems: "center"}}>
@@ -424,16 +404,24 @@ class AddClassContainer extends React.Component {
                                 </div>
                             </TooltipButton>
                         </div>
-                        <label className="label-control">Thể loại lớp</label>
-                        <Select
-                            name="form-field-name"
-                            value={type}
-                            options={TYPE_CLASSES}
-                            onChange={this.changeType}
-                            placeholder="Chọn thể loại"
+                        <label>Ngày khai giảng</label>
+                        <FormInputDate
+                            label=""
+                            name="datestart"
+                            updateFormData={this.updateFormData}
+                            value={datestart ? datestart.slice(0, 10) : new Date().toISOString().slice(0, 10)}
+                            id="form-date-datestart"
+                        />
+                        <label>Ngày bế giảng(dự kiến)</label>
+                        <FormInputDate
+                            label=""
+                            name="date_end"
+                            updateFormData={this.updateFormData}
+                            value={date_end ? date_end.slice(0, 10) : new Date().toISOString().slice(0, 10)}
+                            id="form-date-date-end"
                         />
                         <div className="form-group">
-                            <label className="label-control">Khóa học</label>
+                            <label className="label-control">Chọn khóa(không bắt buộc)</label>
                             <Select
                                 name="form-field-name"
                                 value={gen_id}
@@ -442,11 +430,87 @@ class AddClassContainer extends React.Component {
                                 placeholder="Chọn khóa học"
                             />
                         </div>
+
+                        <label>Bắt đầu tuyển sinh từ</label>
+                        <FormInputDate
+                            label=""
+                            name="enroll_start_date"
+                            updateFormData={this.updateFormData}
+                            value={enroll_start_date ? enroll_start_date.slice(0, 10) : new Date().toISOString().slice(0, 10)}
+                            id="form-enroll-date-start"
+                        />
+                        <label>Kết thúc tuyển sinh sau</label>
+                        <FormInputDate
+                            label=""
+                            name="enroll_end_date"
+                            updateFormData={this.updateFormData}
+                            value={enroll_end_date ? enroll_end_date.slice(0, 10) : new Date().toISOString().slice(0, 10)}
+                            id="form-enroll-date-end"
+                        />
+
+                        <label className="label-control">Thể loại lớp</label>
+                        <Select
+                            name="form-field-name"
+                            value={type}
+                            options={TYPE_CLASSES}
+                            onChange={this.changeType}
+                            placeholder="Chọn thể loại"
+                        />
+                        <label>Link Driver</label>
+                        <FormInputText
+                            label=""
+                            name="link_drive"
+                            updateFormData={this.updateFormData}
+                            value={link_drive}
+                            type="text"
+                        />
+                        <label>Giờ học</label>
+                        <FormInputText
+                            label=""
+                            name="study_time"
+                            updateFormData={(event) => {
+                                this.updateFormData(event);
+                            }}
+                            value={study_time}
+                            required={true}
+                            type="text"
+                        />
+
                         <div className="row">
                             <div className="col-md-6">
+                                {/*<div className="flex-align-items-center flex flex-space-between">*/}
+                                {/*    <label>{teachers && teachers.length > 0 ? "Giảng viên 1" : "Giảng viên"}*/}
+                                {/*        <TooltipButton text="Thêm lịch học" placement="top">*/}
+                                {/*            <div onClick={this.onOpenScheduleModal}*/}
+                                {/*                 className="btn btn-rose btn-round btn-xs button-add none-margin" style={{transform: 'scale(0.6)'}}>*/}
+                                {/*                <strong>+</strong>*/}
+                                {/*            </div>*/}
+                                {/*        </TooltipButton>*/}
+                                {/*    </label>*/}
+
+                                {/*</div>*/}
+
                                 <SelectTeacher
                                     optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_id, teachers, teacher_id)}
-                                    label={teachers && teachers.length > 0 ? "Giảng viên 1" : "Giảng viên"}
+                                    // label={teachers && teachers.length > 0 ? "Giảng viên 1" : "Giảng viên"}
+                                    placeholder={teachers && teachers.length > 0 ? "giảng viên 1" : "giảng viên"}
+                                    label={<label
+                                        className="flex flex-align-items-center margin-bottom-10">{teachers && teachers.length > 0 ? "Giảng viên 1" : "Giảng viên"}
+                                        <TooltipButton text="Thêm giảng viên" placement="top">
+                                            <div onClick={() => {
+                                                let classData = {...this.props.class};
+                                                classData.teachers = classData.teachers ? classData.teachers.concat("") : [""];
+                                                this.props.classActions.updateFormCreateClass(classData);
+                                            }}
+                                                 className="btn btn-rose btn-round btn-xs none-margin" style={{
+                                                transform: 'scale(0.7)',
+                                                "padding": "0px 8px",
+                                                "fontSize": "16px"
+                                            }}>
+                                                <strong>+</strong>
+                                            </div>
+                                        </TooltipButton>
+                                    </label>}
                                     value={teacher_id}
                                     onChange={(value) => this.changeTeacher(value)}
                                 />
@@ -461,20 +525,43 @@ class AddClassContainer extends React.Component {
                                         />
                                     );
                                 })}
-                                <button type="button"
-                                        className="btn btn-rose btn-sm"
-                                        onClick={() => {
-                                            let classData = {...this.props.class};
-                                            classData.teachers = classData.teachers ? classData.teachers.concat("") : [""];
-                                            this.props.classActions.updateFormCreateClass(classData);
-                                        }}
-                                >
-                                    <i className="material-icons">control_point</i></button>
+                                {/*<TooltipButton text="Thêm giảng viên" placement="top">*/}
+
+                                {/*    <button type="button"*/}
+                                {/*            className="btn btn-rose btn-sm"*/}
+                                {/*            onClick={() => {*/}
+                                {/*                let classData = {...this.props.class};*/}
+                                {/*                classData.teachers = classData.teachers ? classData.teachers.concat("") : [""];*/}
+                                {/*                this.props.classActions.updateFormCreateClass(classData);*/}
+                                {/*            }}*/}
+                                {/*    >*/}
+                                {/*        <i className="material-icons">control_point</i></button>*/}
+                                {/*</TooltipButton>*/}
                             </div>
                             <div className="col-md-6">
                                 <SelectTeacher
                                     optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_assis_id, teaching_assistants, teacher_assis_id)}
-                                    label={teaching_assistants && teaching_assistants.length > 0 ? "Trợ giảng 1" : "Trợ giảng"}
+                                    // label={teaching_assistants && teaching_assistants.length > 0 ? "Trợ giảng 1" : "Trợ giảng"}
+                                    placeholder={teachers && teachers.length > 0 ? "trợ giảng 1" : "trợ giảng"}
+
+                                    label={<label className="flex flex-align-items-center margin-bottom-10">
+                                        {teaching_assistants && teaching_assistants.length > 0 ? "Trợ giảng 1" : "Trợ giảng"}
+                                        <TooltipButton text="Thêm trợ giảng" placement="top">
+                                            <div
+                                                onClick={() => {
+                                                    let classData = {...this.props.class};
+                                                    classData.teaching_assistants = classData.teaching_assistants ? classData.teaching_assistants.concat("") : [""];
+                                                    this.props.classActions.updateFormCreateClass(classData);
+                                                }}
+                                                className="btn btn-rose btn-round btn-xs none-margin" style={{
+                                                transform: 'scale(0.7)',
+                                                "padding": "0px 8px",
+                                                "fontSize": "16px"
+                                            }}>
+                                                <strong>+</strong>
+                                            </div>
+                                        </TooltipButton>
+                                    </label>}
                                     value={teacher_assis_id}
                                     onChange={(value) => this.changeTeachAssis(value)}
                                 />
@@ -489,36 +576,44 @@ class AddClassContainer extends React.Component {
                                         />
                                     );
                                 })}
-                                <button type="button"
-                                        className="btn btn-rose btn-sm"
-                                        onClick={() => {
-                                            let classData = {...this.props.class};
-                                            classData.teaching_assistants = classData.teaching_assistants ? classData.teaching_assistants.concat("") : [""];
-                                            this.props.classActions.updateFormCreateClass(classData);
-                                        }}
-                                >
-                                    <i className="material-icons">control_point</i></button>
+                                {/*<button type="button"*/}
+                                {/*        className="btn btn-rose btn-sm"*/}
+                                {/*        onClick={() => {*/}
+                                {/*            let classData = {...this.props.class};*/}
+                                {/*            classData.teaching_assistants = classData.teaching_assistants ? classData.teaching_assistants.concat("") : [""];*/}
+                                {/*            this.props.classActions.updateFormCreateClass(classData);*/}
+                                {/*        }}*/}
+                                {/*>*/}
+                                {/*    <i className="material-icons">control_point</i></button>*/}
                             </div>
                         </div>
-                        {this.props.isStoringClass ?
-                            (
-                                <button
-                                    className="btn btn-fill btn-rose disabled"
-                                >
-                                    <i className="fa fa-spinner fa-spin"/>
-                                    {this.props.edit ? ' Đang cập nhật' : ' Đang thêm'}
-                                </button>
-                            )
-                            :
-                            (
-                                <button
-                                    className="btn btn-fill btn-rose"
-                                    onClick={this.props.edit ? this.editClass : this.createClass}
-                                >
-                                    {this.props.edit ? 'Cập nhật' : 'Thêm'}
-                                </button>
-                            )
-                        }
+                        <div className="flex flex-end margin-top-10">
+                            <button
+                                className="btn btn-white"
+                                onClick={this.props.closeModal}
+                            >
+                                Hủy
+                            </button>
+                            {this.props.isStoringClass ?
+                                (
+                                    <button
+                                        className="btn button-green disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/>
+                                        {this.props.edit ? ' Đang sửa' : ' Đang tạo'}
+                                    </button>
+                                )
+                                :
+                                (
+                                    <button
+                                        className="btn button-green"
+                                        onClick={this.props.edit ? this.editClass : this.createClass}
+                                    >
+                                        {this.props.edit ? 'Sửa' : 'Tạo'}
+                                    </button>
+                                )
+                            }
+                        </div>
                     </form>
                     {this.state.showScheduleModal &&
                     <CreateScheduleModal showScheduleModal={this.state.showScheduleModal}

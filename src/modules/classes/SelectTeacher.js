@@ -17,7 +17,7 @@ class SelectTeacher extends React.Component {
                     value={this.props.value}
                     options={this.props.optionsSelectStaff}
                     onChange={this.props.onChange}
-                    placeholder={"Chọn " + this.props.label}
+                    placeholder={"Chọn " + this.props.placeholder}
                     optionRenderer={(option) => {
                         return (
                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
