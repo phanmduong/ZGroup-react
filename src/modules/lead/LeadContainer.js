@@ -85,7 +85,7 @@ class LeadContainer extends React.Component {
             this.props.leadActions.getLeads({
                 ...this.state,
                 page: 1,
-                staffId: -2
+                staffId: ''
             });
         } else {
             // if (this.props.route.type === "my-leads") {
@@ -123,7 +123,7 @@ class LeadContainer extends React.Component {
                 staff: "",
                 rate: 0
             });
-            this.props.leadActions.getLeads({page: 1, staffId: this.isAdmin ? -2 : this.props.user.id,});
+            this.props.leadActions.getLeads({page: 1, staffId: this.isAdmin ? '' : this.props.user.id,});
         }
         // if (this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
         //     this.setState({
