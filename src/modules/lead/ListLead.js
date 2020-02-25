@@ -107,7 +107,7 @@ class ListLead extends React.Component {
                             </thead>
                             <tbody>
                             {
-                                this.props.leads.map((lead) => {
+                                this.props.leads.filter(l=>this.props.isDistribution ? isEmptyInput(l.staff_id) : true).map((lead) => {
                                     const avatar = !avatarEmpty(lead.avatar_url) ?
                                         lead.avatar_url : NO_AVATAR;
                                     let rowClassName = '';

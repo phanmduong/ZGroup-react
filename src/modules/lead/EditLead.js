@@ -8,6 +8,8 @@ import {setFormValidation} from "../../helpers/helper";
 import * as leadActions from './leadActions';
 import {CirclePicker} from "react-color";
 import {LEAD_COLORS} from "../../constants/constants";
+import * as createRegisterActions from "../registerStudents/createRegisterActions";
+import ReactSelect from "react-select";
 
 class EditLead extends React.Component {
     constructor(props, context) {
@@ -31,15 +33,28 @@ class EditLead extends React.Component {
         lead[field] = value;
         this.setState({lead: lead});
     }
-
+    updateCity = (e) => {
+        let lead = {...this.state.lead};
+        lead["city"] = e ? e.value : null;
+        this.setState({lead});
+    }
     editInfoLead() {
         setFormValidation("#form-edit-lead");
         if ($("#form-edit-lead").valid()) {
-            this.props.leadActions.editInfoLead(this.state.lead, this.props.closeModal);
+            let lead = {...this.state.lead};
+            if (this.props.provinces) {
+                let city = this.props.provinces.filter(p => p.id == lead.city)[0];
+                lead.city = city ? city.name : '';
+            }
+            this.props.leadActions.editInfoLead(lead, this.props.closeModal);
         }
     }
 
     render() {
+        let provinces = this.props.provinces ? this.props.provinces.map((province) => {
+            return {value: province.id, label: province.name};
+        }) : [];
+        provinces = [{value: '0', label: "Không có"}, ...provinces];
         return (
             <div>
                 <form id="form-edit-lead">
@@ -70,6 +85,16 @@ class EditLead extends React.Component {
                             this.updateFormData
                         }
                         value={this.state.lead.phone}
+                    />
+                    <label>Thành phố</label>
+
+                    <ReactSelect
+                        options={provinces}
+                        onChange={this.updateCity}
+                        value={this.state.lead.city}
+                        label="Chọn thành phố"
+                        placeholder="Chọn thành phố"
+                        name="city"
                     />
                     <FormInputText
                         label="Ghi chú"
@@ -135,13 +160,15 @@ EditLead.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isEditing: state.lead.isEditing
+        isEditing: state.lead.isEditing,
+        provinces: state.createRegister.provinces,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        leadActions: bindActionCreators(leadActions, dispatch)
+        createRegisterActions: bindActionCreators(createRegisterActions, dispatch),
+        leadActions: bindActionCreators(leadActions, dispatch),
     };
 }
 

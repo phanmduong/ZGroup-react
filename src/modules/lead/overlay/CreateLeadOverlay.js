@@ -46,6 +46,7 @@ class CreateLeadOverlay extends React.Component {
                 carer_id: this.props.user && this.props.user.id,
                 rate: 5,
                 city: this.props.user.choice_province_id,
+                name:'Không có tên'
             },
         };
         this.state = this.initState;
