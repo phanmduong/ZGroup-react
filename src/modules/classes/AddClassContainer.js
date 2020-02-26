@@ -124,7 +124,12 @@ class AddClassContainer extends React.Component {
 
     changeGen(value) {
         let classData = {...this.props.class};
+        // let {enroll_start_date, enroll_end_date } = classData;
         classData.gen_id = value && value.id ? value.id : '';
+        // if(isEmptyInput(enroll_start_date) && isEmptyInput(enroll_end_date)){
+        classData.enroll_start_date = value.start_time;
+        classData.enroll_end_date = value.end_time;
+        // }
         this.props.classActions.updateFormCreateClass(classData);
     }
 
@@ -300,6 +305,7 @@ class AddClassContainer extends React.Component {
     };
 
     render() {
+        console.log(this.props.class);
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {

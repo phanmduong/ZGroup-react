@@ -12,7 +12,7 @@ import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValu
 import {GENDER} from "../../../constants/constants";
 import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
-import {dotNumber, showTypeNotification, sortCoupon} from "../../../helpers/helper";
+import {dotNumber, isEmptyInput, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as discountActions from "../../discount/discountActions";
@@ -211,16 +211,15 @@ class CreateRegisterOverlay extends React.Component {
 
     createRegister = (e) => {
         let {register} = this.state;
-        if (register.name === null || register.name === undefined || register.name === "") {
+        let emptyName = isEmptyInput(register.name);
+        let emptyPhone = isEmptyInput(register.phone);
+        let emptyEmail = isEmptyInput(register.email);
+        if (emptyName) {
             showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
         }
-        if (register.phone === null || register.phone === undefined || register.phone === "") {
-            showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
-            return;
-        }
-        if (register.email === null || register.email === undefined || register.email === "") {
-            showTypeNotification("Vui lòng nhập email", 'warning');
+        if (emptyPhone || emptyEmail) {
+            showTypeNotification("Vui lòng nhập số điện thoại hoặc email", 'warning');
             return;
         }
         if (!register.base_id && !register.class_id) {

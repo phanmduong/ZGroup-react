@@ -163,6 +163,7 @@ export function editStudent(student) {
         facebook: student.facebook,
         description: student.description,
         address: student.address,
+        father_name: student.father_name,
     });
 }
 export function changePassword(studentId, newPassword) {

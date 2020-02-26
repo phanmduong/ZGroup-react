@@ -175,7 +175,8 @@ export function loadProgress(studentId) {
                     progress: res.data.data.progress
                 });
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e);
                 dispatch({type: types.LOAD_PROGRESS_INFO_STUDENT_ERROR});
             });
     };

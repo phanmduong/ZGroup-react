@@ -521,6 +521,13 @@ class InfoStudentContainer extends React.Component {
                                     placeholder="Địa chỉ"
                                 />
                                 <FormInputText
+                                    name="father_name"
+                                    label="Tên phụ huynh"
+                                    placeholder="Tên phụ huynh"
+                                    value={this.state.student.father_name}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <FormInputText
                                     name="university"
                                     label="Trường học"
                                     value={this.state.student.university}

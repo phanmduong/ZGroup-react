@@ -70,7 +70,7 @@ class ListClass extends React.Component {
                                         <td>{classItem.datestart}</td>
                                         <td>{classItem.study_time}</td>
                                         <td className="text-center">{classItem.gen ? classItem.gen.name : ''}</td>
-                                        <td>
+                                        <td className="text-center">
                                             {
                                                 classItem.teacher ?
                                                     (
@@ -92,7 +92,7 @@ class ListClass extends React.Component {
                                             }
 
                                         </td>
-                                        <td>
+                                        <td className="text-center">
                                             {
                                                 classItem.teacher_assistant ?
                                                     (
