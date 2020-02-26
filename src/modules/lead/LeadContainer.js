@@ -24,6 +24,29 @@ import Checkbox from "../../components/common/Checkbox";
 class LeadContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.picFilters  =[
+            // {text:'Tất cả', operator: ()=>true},
+            // {text:'Đã phân P.I.C', operator: (lead)=>!isEmptyInput(lead.staff_id)},
+            // {text:'Chưa phân P.I.C', operator: (lead)=>isEmptyInput(lead.staff_id)},
+            {
+                text:'Tất cả',
+                avatar_url: NO_AVATAR,
+                value: "",
+                label: "Tất cả"
+            },
+            {
+                avatar_url: NO_AVATAR,
+                value: "-1",
+                label: "Có nhân viên",
+                text:'Đã phân P.I.C',
+            },
+            {
+                avatar_url: NO_AVATAR,
+                value: "-2",
+                label: "Không có nhân viên",
+                text:'Chưa phân P.I.C',
+            },
+        ];
         this.state = {
             page: 1,
             query: "",
@@ -50,6 +73,7 @@ class LeadContainer extends React.Component {
 
             staffs: [],
             staff: "",
+            staffId: "",
             isDistribution: false,
             top: "",
             rate: "",
@@ -312,6 +336,11 @@ class LeadContainer extends React.Component {
 
     };
 
+    changePicFilter = (tab)=>{
+        this.changeStaff(tab);
+        this.onDirectFilterChange(tab.value,'staffId');
+    }
+
     changeCarer = value => {
         let staff;
         staff = value ? value : "";
@@ -347,12 +376,13 @@ class LeadContainer extends React.Component {
     };
 
     onDirectFilterChange = (value, name) => {
+        console.log(value, name);
         let newState = this.onFilterChange(value, name);
         this.props.leadActions.getLeads({
             ...newState,
             page: 1,
-            startTime: newState.filter.startTime,
-            endTime: newState.filter.endTime,
+            startTime: newState.filter  ? newState.filter.startTime : '',
+            endTime: newState.filter ? newState.filter.endTime : '',
             // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
     };
@@ -411,19 +441,19 @@ class LeadContainer extends React.Component {
                 let staffs = [];
 
                 if (isCarer) {
-                    staffs = [{
-                        avatar_url: NO_AVATAR,
-                        value: "",
-                        label: "Tất cả"
-                    }, {
-                        avatar_url: NO_AVATAR,
-                        value: "-2",
-                        label: "Không có nhân viên",
-                    }, {
-                        avatar_url: NO_AVATAR,
-                        value: "-1",
-                        label: "Có nhân viên",
-                    }];
+                //     staffs = [{
+                //         avatar_url: NO_AVATAR,
+                //         value: "",
+                //         label: "Tất cả"
+                //     }, {
+                //         avatar_url: NO_AVATAR,
+                //         value: "-2",
+                //         label: "Không có nhân viên",
+                //     }, {
+                //         avatar_url: NO_AVATAR,
+                //         value: "-1",
+                //         label: "Có nhân viên",
+                //     }];
                 }
                 res.data.staffs.map((staff) => {
                     staffs.push({
@@ -740,6 +770,16 @@ class LeadContainer extends React.Component {
 
                 </div>
                 }
+                {!this.props.isLoading &&
+                <ul className="nav nav-pills nav-pills-dark margin-bottom-10" data-tabs="tabs">
+                    {this.picFilters.map((tab,key)=>{
+                        let className = tab.value == this.state.staffId ? 'active' :'';
+                        return(<li className={className} key={key} onClick={()=>this.changePicFilter(tab)}>
+                            <a>{tab.text}</a>
+                        </li>);
+                    })}
+                </ul>
+                }
                 <Panel collapsible className="none-margin"
                        expanded={this.state.openFilterPanel&&!(this.props.isLoading)}>
                     <div className="card card-filter margin-top-0">
@@ -962,7 +1002,7 @@ class LeadContainer extends React.Component {
                     // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
                     removeLead={!this.isAdmin ? null : this.removeLead}
                 />
-                {this.state.isDistribution &&
+                {this.state.isDistribution && !this.props.isLoading &&
                 <div className="import-data-container" mask="leadContainer">
                     <div className="import-footer">
                         <div>
