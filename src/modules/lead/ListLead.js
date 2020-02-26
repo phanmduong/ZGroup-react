@@ -26,10 +26,17 @@ import * as leadActions from "./leadActions";
 class ListLead extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.picFilters  =[
+            {text:'Tất cả', operator: ()=>true},
+            {text:'Đã phân P.I.C', operator: (lead)=>!isEmptyInput(lead.staff_id)},
+            {text:'Chưa phân P.I.C', operator: (lead)=>isEmptyInput(lead.staff_id)},
+        ];
         this.state = {
             isOpenModalEdit: false,
-            lead: {}
+            lead: {},
+            currentPicFilter: this.picFilters[0],
         };
+
     }
 
     openEditModal = (lead) =>{
@@ -60,6 +67,17 @@ class ListLead extends React.Component {
     render() {
         return (
             <div>
+                {!this.props.isLoading &&
+                    <ul className="nav nav-pills nav-pills-dark margin-bottom-10" data-tabs="tabs">
+                        {this.picFilters.map((tab,key)=>{
+                            let className = tab == this.state.currentPicFilter ? 'active' :'';
+                            return(<li className={className} key={key} onClick={()=>this.setState({currentPicFilter:tab})}>
+                                    <a>{tab.text}</a>
+                                </li>);
+                        })}
+                    </ul>
+                }
+
                 {this.props.isLoading ?
                     <Loading/>
                     :
@@ -107,7 +125,7 @@ class ListLead extends React.Component {
                             </thead>
                             <tbody>
                             {
-                                this.props.leads.filter(l=>this.props.isDistribution ? isEmptyInput(l.staff_id) : true).map((lead) => {
+                                this.props.leads.filter(l=>this.state.currentPicFilter.operator(l)).map((lead) => {
                                     const avatar = !avatarEmpty(lead.avatar_url) ?
                                         lead.avatar_url : NO_AVATAR;
                                     let rowClassName = '';

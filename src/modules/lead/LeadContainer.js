@@ -740,12 +740,9 @@ class LeadContainer extends React.Component {
 
                 </div>
                 }
-                <Panel collapsible expanded={
-                    this.state.openFilterPanel
-                    &&
-                    !(this.props.isLoading)
-                }>
-                    <div className="card card-filter">
+                <Panel collapsible className="none-margin"
+                       expanded={this.state.openFilterPanel&&!(this.props.isLoading)}>
+                    <div className="card card-filter margin-top-0">
                         <div className="card-content">
                             <div className="row">
 
