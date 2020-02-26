@@ -4,10 +4,10 @@ import {observer} from 'mobx-react';
 import Loading from "../../../components/common/Loading";
 import filterStore from "./filterStore";
 
-const routePrefix = "/dashboard";
+const routePrefix = "/dashboard/sale";
 const routes = [
     {
-        path: `${routePrefix}/sale`, text: 'Doanh thu và đăng kí',
+        path: `${routePrefix}/`, text: 'Doanh thu và đăng kí',
     },
     {
         path: `${routePrefix}/kpi`, text: 'KPI',

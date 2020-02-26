@@ -4,6 +4,7 @@ import SettingStore from "./SettingStore";
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import FormInputText from "../../components/common/FormInputText";
+import ReactSelect from "react-select";
 
 @observer
 class SettingContainer extends React.Component {
@@ -49,6 +50,10 @@ class SettingContainer extends React.Component {
 
     updateFormData = (setting, e) => {
         setting.value = e.target.value;
+    }
+
+    updateSelect = (setting, e) => {
+        setting.value = e ? e.value : "";
     }
 
     saveSettings = () => {
@@ -115,7 +120,7 @@ class SettingContainer extends React.Component {
                                         <div>
                                             <form className="form-modal" id="form-setting">
                                                 {
-                                                    this.getSettingsByGroup(currentTab).map((setting) => {
+                                                    this.getSettingsByGroup(currentTab).filter(setting => setting.type == "text").map((setting) => {
                                                         return (
                                                             <div>
                                                                 <label>{setting.name}</label>
@@ -129,17 +134,34 @@ class SettingContainer extends React.Component {
                                                         )
                                                     })
                                                 }
-                                                <div className="flex flex-end">
+                                                {
+                                                    this.getSettingsByGroup(currentTab).filter(setting => setting.type == "select").map((setting) => {
+                                                        return (
+                                                            <div>
+                                                                <label>{setting.name}</label>
+                                                                <ReactSelect
+                                                                    options={JSON.parse(setting.data)}
+                                                                    onChange={(e) => this.updateSelect(setting, e)}
+                                                                    value={setting.value}
+                                                                    placeholder={setting.name}
+                                                                    name={setting.key}
+                                                                    clearable={false}
+                                                                />
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                                <div className=" flex flex-end">
                                                     {isSaving ?
-                                                        <button className="btn btn-success btn-fill disabled"
-                                                                type="button">
-                                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                        <button className=" btn btn-success btn-fill disabled"
+                                                                type=" button">
+                                                            <i className=" fa fa-spinner fa-spin"/> Đang tải lên
                                                         </button>
                                                         :
                                                         <div>
                                                             <button
-                                                                className="btn btn-fill btn-success"
-                                                                type="button"
+                                                                className=" btn btn-fill btn-success"
+                                                                type=" button"
                                                                 onClick={this.saveSettings}
                                                                 disabled={isSaving}
                                                             > Lưu

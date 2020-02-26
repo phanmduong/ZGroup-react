@@ -107,7 +107,7 @@ class DateRangePicker extends React.Component {
             cancel: 'Đóng',
 
         };
-        let maxDate = moment(end).add(24, "hour");
+        // let maxDate = moment(end).add(24, "hour");
         let value = `${this.state.start.format(
             "DD/MM/YYYY"
         )} - ${this.state.end.format("DD/MM/YYYY")}`;
@@ -119,7 +119,7 @@ class DateRangePicker extends React.Component {
                 start={this.state.start}
                 end={this.state.end}
                 local={local}
-                maxDate={maxDate}
+                // maxDate={maxDate}
                 applyCallback={this.applyCallback}
                 rangeCallback={this.rangeCallback}
                 descendingYears={false}

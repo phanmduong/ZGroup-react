@@ -12,6 +12,7 @@ import DashboardRegisterComponent from "../modules/dashboard/dashboardSale/Dashb
 import DashboardKpiComponent from "../modules/dashboard/dashboardSale/DashboardKpiComponent";
 import DashboardClassComponent from "../modules/dashboard/dashboardSale/DashboardClassComponent";
 import DashboardSaleContainer from "../modules/dashboard/dashboardSale/DashboardSaleContainer";
+import DashboardCourseComponent from "../modules/dashboard/dashboardSale/DashboardCourseComponent";
 
 
 /**
@@ -19,11 +20,11 @@ import DashboardSaleContainer from "../modules/dashboard/dashboardSale/Dashboard
  */
 export default [
     {
-        path: "/dashboard",
+        path: "/dashboard/sale",
         component: DashboardSaleContainer,
         children: [
             {
-                path: "sale",
+                path: "/",
                 component: DashboardRegisterComponent,
             },
             {
@@ -33,6 +34,10 @@ export default [
             {
                 path: "class",
                 component: DashboardClassComponent,
+            },
+            {
+                path: "course",
+                component: DashboardCourseComponent,
             },
         ]
     },

@@ -31,11 +31,35 @@ export const loadStaffs = () => {
 };
 
 export const loadClassesApi = (filter) => {
-    let fields = ['start_time', 'end_time', 'staff_id', 'base_id'];
+    let fields = ['start_date', 'end_date', 'staff_id', 'base_id', "enroll_start_date", "enroll_end_date"];
     let url = `${NEW_MANAGE_API_URL}/class/all?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
     });
     url += "&include=course,base,target,register_target,schedule";
     return axios.get(url);
+};
+
+export const loadCoursesApi = (filter) => {
+    let fields = ['start_time', 'end_time', 'staff_id', 'base_id'];
+    let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-register-by-course?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    // url += "&include=course,base,target,register_target,schedule";
+    return axios.get(url);
+};
+
+export const analyticsKpiApi = (filter) => {
+    let fields = ['start_time', 'end_time', 'base_id'];
+    let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-kpi?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    url += "&include=base,base.district.province";
+    return axios.get(url);
+};
+export const setKpiApi = (kpi) => {
+    let url = `${NEW_MANAGE_API_URL}/sale-kpi/create?token=${localStorage.getItem('token')}`;
+    return axios.post(url, kpi);
 };
