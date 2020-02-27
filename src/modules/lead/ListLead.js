@@ -148,7 +148,7 @@ class ListLead extends React.Component {
                                                         <a className="text-name-student-register"
                                                            onClick={() => openModalRegisterDetail(`/sales/info-student/${lead.id}`)}>
                                                             {lead.name}
-                                                            {!lead.staff_id &&
+                                                            {(!lead.lead_status || !lead.lead_status['id']) &&
                                                             <span className="btn-danger btn-xs margin-left-5"
                                                                   style={{fontSize: 10, padding: '3px'}}>MỚI</span>}
                                                         </a>

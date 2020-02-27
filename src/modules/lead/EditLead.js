@@ -6,8 +6,6 @@ import FormInputText from "../../components/common/FormInputText";
 import Star from "../../components/common/Star";
 import {setFormValidation} from "../../helpers/helper";
 import * as leadActions from './leadActions';
-import {CirclePicker} from "react-color";
-import {LEAD_COLORS} from "../../constants/constants";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
 import ReactSelect from "react-select";
 
@@ -27,7 +25,6 @@ class EditLead extends React.Component {
         if (this.props.provinces) {
             let city = this.props.provinces.filter(p => p.name == lead.city)[0];
             lead.city = city ? city.id : '';
-
         }
         this.setState({lead});
     }
@@ -39,11 +36,13 @@ class EditLead extends React.Component {
         lead[field] = value;
         this.setState({lead: lead});
     }
+
     updateCity = (e) => {
         let lead = {...this.state.lead};
         lead["city"] = e ? e.value : null;
         this.setState({lead});
-    }
+    };
+
     editInfoLead() {
         setFormValidation("#form-edit-lead");
         if ($("#form-edit-lead").valid()) {
@@ -64,34 +63,34 @@ class EditLead extends React.Component {
         return (
             <div>
                 <form id="form-edit-lead">
-                    <FormInputText
-                        label="Họ tên"
-                        required
-                        name="name"
-                        updateFormData={
-                            this.updateFormData
-                        }
-                        value={this.state.lead.name}
-                    />
-                    <FormInputText
-                        label="Email"
-                        required
-                        type="email"
-                        name="email"
-                        updateFormData={
-                            this.updateFormData
-                        }
-                        value={this.state.lead.email}
-                    />
-                    <FormInputText
-                        label="Số điện thoại"
-                        required
-                        name="phone"
-                        updateFormData={
-                            this.updateFormData
-                        }
-                        value={this.state.lead.phone}
-                    />
+                    {/*<FormInputText*/}
+                    {/*    label="Họ tên"*/}
+                    {/*    required*/}
+                    {/*    name="name"*/}
+                    {/*    updateFormData={*/}
+                    {/*        this.updateFormData*/}
+                    {/*    }*/}
+                    {/*    value={this.state.lead.name}*/}
+                    {/*/>*/}
+                    {/*<FormInputText*/}
+                    {/*    label="Email"*/}
+                    {/*    required*/}
+                    {/*    type="email"*/}
+                    {/*    name="email"*/}
+                    {/*    updateFormData={*/}
+                    {/*        this.updateFormData*/}
+                    {/*    }*/}
+                    {/*    value={this.state.lead.email}*/}
+                    {/*/>*/}
+                    {/*<FormInputText*/}
+                    {/*    label="Số điện thoại"*/}
+                    {/*    required*/}
+                    {/*    name="phone"*/}
+                    {/*    updateFormData={*/}
+                    {/*        this.updateFormData*/}
+                    {/*    }*/}
+                    {/*    value={this.state.lead.phone}*/}
+                    {/*/>*/}
                     <label>Thành phố</label>
 
                     <ReactSelect
@@ -110,15 +109,15 @@ class EditLead extends React.Component {
                         }
                         value={this.state.lead.note}
                     />
-                    <div className="form-group">
-                        <label className="label-control">Chọn màu</label>
-                        <CirclePicker
-                            width="100%"
-                            color={this.state.lead.status ? this.state.lead.status : ''}
-                            colors={LEAD_COLORS}
-                            onChangeComplete={(color) => this.setState({lead: {...this.state.lead, status: color.hex}})}
-                        />
-                    </div>
+                    {/*<div className="form-group">*/}
+                    {/*    <label className="label-control">Chọn màu</label>*/}
+                    {/*    <CirclePicker*/}
+                    {/*        width="100%"*/}
+                    {/*        color={this.state.lead.status ? this.state.lead.status : ''}*/}
+                    {/*        colors={LEAD_COLORS}*/}
+                    {/*        onChangeComplete={(color) => this.setState({lead: {...this.state.lead, status: color.hex}})}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                     <div className="form-group">
                         <label className="label-control">Chọn đánh giá</label>
                         <div className="flex flex-row-center flex-justify-content-center">
