@@ -1,7 +1,8 @@
 /* eslint-disable no-case-declarations */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
-
+import {DATE_VN_FORMAT} from "../../constants/constants";
+import moment from 'moment';
 let classes;
 export default function classesReducer(state = initialState.classes, action) {
     switch (action.type) {
@@ -248,7 +249,8 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorChangeClassLesson: false,
                     class: {
                         ...state.class,
-                        attendances: changeDataClassLesson(action.classLesson, state.class.attendances)
+                        attendances: changeDataClassLesson(action.classLesson, state.class.attendances),
+                        lessons: changeDataLesson(action.classLesson, state.class.lessons),
                     }
                 }
             };
@@ -587,6 +589,23 @@ function changeDataClassLesson(classLesson, attendances) {
     }
 
     return attendances;
+}
+
+function changeDataLesson(classLesson, lessons) {
+    if (lessons) {
+        lessons = lessons.map(lesson => {
+                if (lesson.lesson_id === classLesson.lesson_id) {
+                    return {
+                        ...lesson,
+                        time: moment(classLesson.time).format(DATE_VN_FORMAT),
+                    };
+                }
+                return lesson;
+            }
+        );
+    }
+
+    return lessons;
 }
 
 function changeDataTeach(classLesson, attendances) {
