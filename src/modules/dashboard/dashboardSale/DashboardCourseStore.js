@@ -13,7 +13,7 @@ export default class DashboardCourseStore {
         loadCoursesApi(filter).then((res) => {
             this.courses = res.data.courses;
         }).catch(() => {
-            showErrorNotification("Có lỗi xảy ra")
+            showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isLoading = false;
         });
@@ -37,7 +37,7 @@ export default class DashboardCourseStore {
                     "total_class_full": a.total_class.total_class_full + b.total_class.total_class_full,
                     "total": a.total_class.total + b.total_class.total,
                 }
-            }
+            };
         }) : {
             "name": "Tất cả",
             "revenue": 0,

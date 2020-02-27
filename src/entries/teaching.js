@@ -28,7 +28,7 @@ const store = configureStore({}, rootReducer);
 const Route = [
     ...TeachingRoute,
     ...BaseRoute,
-]
+];
 
 render(
     <Provider store={store}>

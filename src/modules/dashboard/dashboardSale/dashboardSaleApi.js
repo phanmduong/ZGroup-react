@@ -63,3 +63,12 @@ export const setKpiApi = (kpi) => {
     let url = `${NEW_MANAGE_API_URL}/sale-kpi/create?token=${localStorage.getItem('token')}`;
     return axios.post(url, kpi);
 };
+
+export const getHistoryKpiApi = (filter) => {
+    let fields = ['start_time', 'end_time', 'base_id', "user_ids"];
+    let url = `${NEW_MANAGE_API_URL}/sale-kpi/by-dates?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    return axios.get(url);
+};

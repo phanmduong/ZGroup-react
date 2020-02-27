@@ -547,7 +547,7 @@ class ScoreClassContainer extends React.Component {
                     score: obj.score[exam.id] || 0,
                     // score: obj.score || Math.floor(Math.random() * 10) + 1,
                     // comment: obj.comment || ('Day la comment: ' + Math.floor(Math.random() * 10) + 1),
-                }
+                };
                 scores.push(res);
             });
         });

@@ -29,10 +29,10 @@ const columns = [
         Cell: props => <div><strong>{props.value}</strong></div>
     },
     {
-        Header: <Sort title='Số lớp tuyển sinh'/>,
+        Header: <Sort title="Số lớp tuyển sinh"/>,
         accessor: 'total_class.total_class_full',
         Cell: props => {
-            const value = props.original.total_class
+            const value = props.original.total_class;
             let percent = value.total ? value.total_class_full * 100 / value.total : 0;
             percent = percent >= 100 ? 100 : percent;
             return (
@@ -50,7 +50,7 @@ const columns = [
                     </div>
                 </div>
 
-            )
+            );
         }
     },
     {
@@ -75,7 +75,7 @@ const columns = [
                     </div>
                 </div>
 
-            )
+            );
         }
     },
     {
@@ -100,7 +100,7 @@ const columns = [
                     </div>
                 </div>
 
-            )
+            );
         }
     },
     {
@@ -125,23 +125,23 @@ const columns = [
                     </div>
                 </div>
 
-            )
+            );
         }
     },
     {
         sortable: false,
         Header: "",
         accessor: 'id',
-        Cell: props => <div
+        Cell: props => (<div
             className="padding-vertical-10px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer"
             onClick={() => {
                 window.open("/teaching/courses/edit/" + props.value, "_blank");
             }}
-        >Xem chi tiết</div>
+        >Xem chi tiết</div>)
     },
 
 
-]
+];
 
 
 @observer
@@ -170,8 +170,8 @@ class DashboardCourseComponent extends React.Component {
             return {
                 ...course,
                 total_revenue: totalCourse.revenue
-            }
-        })
+            };
+        });
         return (
             <div>
                 <Filter loadData={this.loadData}/>

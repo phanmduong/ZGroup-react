@@ -135,7 +135,7 @@ class DateRangePicker extends React.Component {
             >
                 <div className={"date-range-picker" + className} style={style}>
                     <span className="date-picker">{value}</span>
-                    <span className="Select-arrow-zone"><span className="Select-arrow"></span></span>
+                    <span className="Select-arrow-zone"><span className="Select-arrow" /></span>
                 </div>
             </DateTimeRangeContainer>
         );

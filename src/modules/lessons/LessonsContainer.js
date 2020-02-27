@@ -84,13 +84,13 @@ class LessonsContainer extends React.Component {
             //     return false;
             // }
 
-            if (helper.isEmptyInput(this.props.data.term_id)) {
-                if (this.props.terms.length <= 0)
-                    helper.showWarningNotification("Vui lòng tạo học phần");
-                else
-                    helper.showWarningNotification("Vui lòng chọn học phần");
-                return false;
-            }
+            // if (helper.isEmptyInput(this.props.data.term_id)) {
+            //     if (this.props.terms.length <= 0)
+            //         helper.showWarningNotification("Vui lòng tạo học phần");
+            //     else
+            //         helper.showWarningNotification("Vui lòng chọn học phần");
+            //     return false;
+            // }
             return true;
         }
         return false;

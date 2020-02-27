@@ -32,7 +32,7 @@ class SettingContainer extends React.Component {
 
         this.state = {
             currentTab: "info"
-        }
+        };
     }
 
     componentWillMount() {
@@ -97,7 +97,7 @@ class SettingContainer extends React.Component {
                                                 {this.getSettingsByGroup("info").map((setting) => {
                                                     return (
                                                         <p>{setting.name} <strong>{setting.value}</strong></p>
-                                                    )
+                                                    );
                                                 })}
                                             </div>
                                         </div>
@@ -114,7 +114,7 @@ class SettingContainer extends React.Component {
                                                             <div className="ripple-container"/>
                                                         </a>
                                                     </li>
-                                                )
+                                                );
                                             })}
                                         </ul>
                                         <div>
@@ -131,7 +131,7 @@ class SettingContainer extends React.Component {
                                                                     value={setting.value}
                                                                 />
                                                             </div>
-                                                        )
+                                                        );
                                                     })
                                                 }
                                                 {
@@ -148,7 +148,7 @@ class SettingContainer extends React.Component {
                                                                     clearable={false}
                                                                 />
                                                             </div>
-                                                        )
+                                                        );
                                                     })
                                                 }
                                                 <div className=" flex flex-end">

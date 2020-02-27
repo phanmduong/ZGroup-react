@@ -136,8 +136,7 @@ export default class DashboardLeadsComponent extends React.Component {
                                                              aria-valuenow="60"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100"
-                                                             style={{width: Math.max(val/total*100,0.1) + '%', opacity:(1-key/5)}}>
-                                                        </div>
+                                                             style={{width: Math.max(val/total*100,0.1) + '%', opacity:(1-key/5)}} />
                                                     </div>
                                                 </div>
                                             </div>

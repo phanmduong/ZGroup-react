@@ -10,12 +10,12 @@ class CardRevenueStore {
     analyticsRevenue = (filter) => {
         this.isLoading = true;
         analyticsRevenueApi(filter).then((res) => {
-            this.data = res.data.analytics
+            this.data = res.data.analytics;
         }).catch(() => {
-            showErrorNotification("Có lỗi xảy ra")
+            showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isLoading = false;
-        })
+        });
     };
 
 }

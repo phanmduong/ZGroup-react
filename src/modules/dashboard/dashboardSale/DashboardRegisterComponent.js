@@ -4,10 +4,44 @@ import Filter from "./Filter";
 import CardRevenue from "./CardRevenue";
 import filterStore from "./filterStore";
 import cardRevenueStore from "./cardRevenueStore";
-import Barchart from "../Barchart";
-import {DATE_FORMAT_SQL} from "../../../constants/constants";
+import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
 import DashboardRegisterStore from "./DashboardRegisterStore";
 import Loading from "../../../components/common/Loading";
+import BarChartFilterDate from "../BarChartFilterDate";
+import moment from "moment";
+import {dotNumber} from "../../../helpers/helper";
+
+const optionsBarMoney = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}đ`;
+                return label;
+            }
+        }
+    }
+};
+
+const optionsBarRegister = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)} đơn`;
+                return label;
+            }
+        }
+    }
+};
 
 @observer
 class DashboardRegisterComponent extends React.Component {
@@ -28,6 +62,12 @@ class DashboardRegisterComponent extends React.Component {
         this.store.analyticsRegister(filter);
     }
 
+    formatDates = (dates) => {
+        return dates && dates.map((date) => {
+            return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
+        })
+    }
+
     render() {
         const {isLoading, data} = this.store;
         console.log(data);
@@ -44,14 +84,25 @@ class DashboardRegisterComponent extends React.Component {
                                         <h4 className="card-title">
                                             <strong>Số lượng đăng kí theo ngày</strong>
                                         </h4>
-                                        <br/>
-                                        <br/>
                                         {
                                             data.dates && data.dates.length > 0 &&
-                                            <Barchart
-                                                label={data.dates}
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
                                                 data={[data.registers_by_date, data.paid_by_date]}
-                                                id="barchar_register_by_date"
+                                                optionsBar={optionsBarRegister}
+                                                labels={[
+                                                    {
+                                                        label: "Đơn đăng kí",
+                                                        backgroundColor: '#ffaa00',
+                                                        borderColor: '#ffaa00',
+                                                    },
+                                                    {
+                                                        label: "Đơn đã nộp tiền",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                    }]}
                                             />
                                         }
                                         <br/>
@@ -68,15 +119,22 @@ class DashboardRegisterComponent extends React.Component {
                                         <h4 className="card-title">
                                             <strong>Doanh thu theo ngày</strong>
                                         </h4>
-                                        <br/>
-                                        <br/>
                                         {
                                             data.dates && data.dates.length > 0 &&
-                                            <Barchart
-                                                label={data.dates}
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
                                                 data={[data.money_by_date]}
-                                                id="barchar_money_by_date"
+                                                optionsBar={optionsBarMoney}
+                                                labels={[
+                                                    {
+                                                        label: "Doanh thu",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                    }]}
                                             />
+
                                         }
                                         <br/>
 

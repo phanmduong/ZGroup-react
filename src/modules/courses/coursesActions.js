@@ -60,14 +60,14 @@ export function addTermSuccess(term) {
     return {
         type: types.CREATE_TERM_SUCCESS,
         data: term
-    }
+    };
 }
 
 export function editTermSuccess(term) {
     return {
         type: types.EDIT_TERM_SUCCESS,
         data: term
-    }
+    };
 }
 
 export function commitEditLink(link, func) {

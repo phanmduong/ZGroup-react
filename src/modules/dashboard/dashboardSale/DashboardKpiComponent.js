@@ -48,7 +48,7 @@ class DashboardKpiComponent extends React.Component {
                 Cell: props => <div>{props.value}</div>
             },
             {
-                Header: <Sort title='Tiến độ'/>,
+                Header: <Sort title="Tiến độ"/>,
                 accessor: 'revenue',
                 Cell: props => {
                     const value = props.original;
@@ -69,11 +69,11 @@ class DashboardKpiComponent extends React.Component {
                             </div>
                         </div>
 
-                    )
+                    );
                 }
             },
             {
-                Header: <Sort title='Tỉ lệ chốt đơn'/>,
+                Header: <Sort title="Tỉ lệ chốt đơn"/>,
                 accessor: 'total_paid_register',
                 Cell: props => {
                     const value = props.original;
@@ -94,14 +94,14 @@ class DashboardKpiComponent extends React.Component {
                             </div>
                         </div>
 
-                    )
+                    );
                 }
             },
             {
                 sortable: false,
                 Header: "",
                 accessor: 'id',
-                Cell: props => <div className="flex flex-row flex-align-items-center">
+                Cell: props => (<div className="flex flex-row flex-align-items-center">
                     <div
                         className="padding-vertical-10px padding-horizontal-20px white-light-round margin-right-10 btn-grey text-center font-weight-400 cursor-pointer"
                         style={{width: 120}}
@@ -111,7 +111,7 @@ class DashboardKpiComponent extends React.Component {
                     <div
                         className="padding-vertical-10px padding-horizontal-20px white-light-round margin-right-10 btn-grey text-center font-weight-400 cursor-pointer"
                         style={{width: 120}}
-
+                        onClick={() => this.openModalSetKpi(props.original, true)}
                     >Lịch sử KPI
                     </div>
                     <div
@@ -120,11 +120,11 @@ class DashboardKpiComponent extends React.Component {
                         onClick={() => this.openModalSetKpi(props.original)}
                     >Set KPI
                     </div>
-                </div>,
+                </div>),
                 maxWidth: 400,
                 width: 400
             },
-        ]
+        ];
     }
 
     componentDidMount() {
@@ -136,7 +136,7 @@ class DashboardKpiComponent extends React.Component {
         this.store.analyticsKpi(filter);
     }
 
-    openModalSetKpi = (saler) => {
+    openModalSetKpi = (saler, openHistoryPanel) => {
         const filter = {...filterStore.filter};
 
         let salerIds = [];
@@ -152,8 +152,10 @@ class DashboardKpiComponent extends React.Component {
             end_time: filter.end_time,
             gen_id: filter.gen_id,
             user_ids: salerIds
-        }
+        };
+        setKpiStore.historyKpi({...setKpiStore.setKpi, base_id: filterStore.base_id});
         setKpiStore.showModal = true;
+        setKpiStore.openHistoryPanel = openHistoryPanel;
     }
 
     load = () => {

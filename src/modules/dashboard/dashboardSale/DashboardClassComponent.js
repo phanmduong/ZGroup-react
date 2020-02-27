@@ -16,24 +16,24 @@ const columns = [
         Header: '',
         sortable: false,
         accessor: 'course.icon_url',
-        Cell: props => <img className="circle"
-                            src={props.value} alt="" style={{height: 40, width: 40}}/>, // Custom cell components!
+        Cell: props => (<img className="circle"
+                            src={props.value} alt="" style={{height: 40, width: 40}}/>), // Custom cell components!
         minWidth: 65,
         maxWidth: 65
     },
     {
         Header: <Sort title="Tên lớp"/>,
         accessor: 'name',
-        Cell: props => <div style={{color: 'red', cursor: "pointer"}} onClick={() => {
-            window.open("/teaching/class/" + props.original.id, "_blank")
-        }}>{props.value}</div>
+        Cell: props => (<div style={{color: 'red', cursor: "pointer"}} onClick={() => {
+            window.open("/teaching/class/" + props.original.id, "_blank");
+        }}>{props.value}</div>)
     },
     {
         Header: <Sort title="Môn học"/>,
         accessor: 'course.name',
-        Cell: props => <div style={{cursor: "pointer"}} onClick={() => {
+        Cell: props => (<div style={{cursor: "pointer"}} onClick={() => {
             window.open("/teaching/courses/edit/" + props.original.course.id, "_blank");
-        }}><strong>{props.value}</strong></div>
+        }}><strong>{props.value}</strong></div>)
     },
     {
         Header: <Sort title="Cơ sở"/>,
@@ -62,7 +62,7 @@ const columns = [
                     </div>
                 </div>
 
-            )
+            );
         }
     },
     {
@@ -87,7 +87,7 @@ const columns = [
                     </div>
                 </div>
 
-            )
+            );
         }
     },
     {
@@ -102,13 +102,13 @@ const columns = [
     {
         Header: <Sort title="T.Thái"/>,
         accessor: 'status',
-        Cell: props => <Switch
+        Cell: props => (<Switch
             bsSize="mini"
             onText="Bật" offText="Tắt"
-            value={(props.value === 1)}/>
+            value={(props.value === 1)}/>)
     },
 
-]
+];
 
 
 @observer

@@ -130,7 +130,7 @@ class AppContainer extends React.Component {
                     styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
                     pullRight
                 >
-                    <div></div>
+                    <div />
                 </Sidebar>
                 }
 

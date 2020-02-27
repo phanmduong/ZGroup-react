@@ -1,26 +1,37 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import filterStore from "./filterStore";
-import {Modal} from "react-bootstrap";
+import {Modal, Panel} from "react-bootstrap";
 import setKpiStore from "./setKpiStore";
 import {getValueFromKey} from "../../../helpers/entity/object";
 import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from "react-select";
 import moment from "moment";
 import DateRangePicker from "../../../components/common/DateTimePicker";
+import {dotNumber} from "../../../helpers/helper";
+import BarChartFilterDate from "../BarChartFilterDate";
+import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
+
+const optionsBar = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}đ`;
+                return label;
+            }
+        }
+    }
+};
 
 @observer
-class DashboardKpiComponent extends React.Component {
+class SetKpiModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-    }
-
-    componentDidMount() {
-
-    }
-
-    loadData = () => {
-
     }
 
     toggleModal = () => {
@@ -40,18 +51,32 @@ class DashboardKpiComponent extends React.Component {
 
     changeDateRangePicker = (start_time, end_time) => {
         setKpiStore.setKpi = {...setKpiStore.setKpi, start_time, end_time, gen_id: 0};
+        this.loadHistoryKpi({...setKpiStore.setKpi, base_id: filterStore.base_id});
     }
 
     submitKpi = () => {
-        setKpiStore.storeKpi(() => {
+        if (setKpiStore.setKpi.money > 0) {
+            setKpiStore.storeKpi(() => {
+                this.toggleModal();
+                this.props.reload();
+            });
+        } else {
             this.toggleModal();
-            this.props.reload();
-        });
+        }
 
     }
 
+    loadHistoryKpi = (filter) => {
+        setKpiStore.historyKpi(filter);
+    }
+    formatDates = (dates) => {
+        return dates && dates.map((date) => {
+            return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
+        })
+    }
+
     render() {
-        let {isStoring, setKpi, selectedSaler, showModal} = setKpiStore;
+        let {isStoring, setKpi, selectedSaler, showModal, isLoading, data, openHistoryPanel} = setKpiStore;
         return (
 
             <Modal show={showModal} bsSize="large" onHide={this.toggleModal}>
@@ -106,12 +131,52 @@ class DashboardKpiComponent extends React.Component {
                                         required
                                         value={setKpiStore.setKpi.money}
                                         updateFormData={(e) => {
-                                            setKpiStore.setKpi = {...setKpiStore.setKpi, money: e.target.value}
+                                            setKpiStore.setKpi = {...setKpiStore.setKpi, money: e.target.value};
                                         }}
                                     />
                                 </div>
                             </div>
                         </div>
+                        <div className="panel panel-default">
+                            <div className="panel-heading"
+                                 style={{width: 110, border: "none"}}
+                                 onClick={() => {
+                                     setKpiStore.openHistoryPanel = !openHistoryPanel
+                                 }}
+                            >
+                                <a aria-expanded={openHistoryPanel}
+                                   style={{
+                                       color: "black"
+                                   }}
+                                >
+                                    <h4 className="panel-title" style={{fontWeight: "bold"}}>
+                                        Lịch sử kpi
+                                        <i className="material-icons">arrow_drop_down</i>
+                                    </h4>
+                                </a>
+                            </div>
+                        </div>
+                        <Panel collapsible className="none-margin"
+                               expanded={openHistoryPanel}>
+                            <BarChartFilterDate
+                                isLoading={isLoading}
+                                dates={this.formatDates(data.dates)}
+                                dateFormat={DATE_FORMAT}
+                                data={[data.kpi, data.revenue]}
+                                optionsBar={optionsBar}
+                                labels={[
+                                    {
+                                        label: "KPI",
+                                        backgroundColor: '#ffaa00',
+                                        borderColor: '#ffaa00',
+                                    },
+                                    {
+                                        label: "Doanh thu",
+                                        backgroundColor: '#4caa00',
+                                        borderColor: '#4caa00',
+                                    }]}
+                            />
+                        </Panel>
                         {isStoring ?
                             <div className="flex flex-align-items-center flex-end">
                                 <div className="btn btn-white">
@@ -139,4 +204,4 @@ class DashboardKpiComponent extends React.Component {
 }
 
 
-export default DashboardKpiComponent;
+export default SetKpiModal;

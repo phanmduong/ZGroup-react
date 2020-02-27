@@ -145,8 +145,7 @@ export default class DashboardLeadsComponent extends React.Component {
                                                              style={{
                                                                  width: Math.max(val / total * 100, 0.1) + '%',
                                                                  opacity: (1 - key / 5)
-                                                             }}>
-                                                        </div>
+                                                             }} />
                                                     </div>
                                                 </div>
                                             </div>

@@ -7,7 +7,7 @@ import filterStore from "./filterStore";
 const routePrefix = "/dashboard/sale";
 const routes = [
     {
-        path: `${routePrefix}/`, text: 'Doanh thu và đăng kí',
+        path: `${routePrefix}`, text: 'Doanh thu và đăng kí',
     },
     {
         path: `${routePrefix}/kpi`, text: 'KPI',
@@ -19,7 +19,7 @@ const routes = [
         path: `${routePrefix}/course`, text: 'Môn học',
     },
 
-]
+];
 
 @observer
 export default class DashboardSaleContainer extends React.Component {

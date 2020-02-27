@@ -517,9 +517,9 @@ export default function courseReducer(state = initialState.courses, action) {
                         ...state.data,
                         terms: state.data.terms.map((item) => {
                             if (item.id == action.data.id) {
-                                return {...action.data}
+                                return {...action.data};
                             } else {
-                                return item
+                                return item;
                             }
                         })
                     }

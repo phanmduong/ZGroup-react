@@ -12,9 +12,9 @@ export default class DashboardKpiStore {
     analyticsKpi = (filter) => {
         this.isLoading = true;
         analyticsKpiApi(filter).then((res) => {
-            this.data = res.data.analytics
+            this.data = res.data.analytics;
         }).catch(() => {
-            showErrorNotification("Có lỗi xảy ra")
+            showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isLoading = false;
         });
@@ -30,7 +30,7 @@ export default class DashboardKpiStore {
                 "total_paid_register": a.total_paid_register + b.total_paid_register,
                 "kpi": a.kpi + b.kpi,
                 "revenue": a.revenue + b.revenue,
-            }
+            };
         }) : {
             "name": "Tất cả nhân viên",
             "avatar_url": NO_AVATAR,

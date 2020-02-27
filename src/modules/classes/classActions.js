@@ -545,7 +545,7 @@ export function confirmChangeClass(register, classId, currentClassId, closeModal
 
 export function updateClassLesson(classId) {
     return function (dispath) {
-        showTypeNotification("Đang cập nhật", "info")
+        showTypeNotification("Đang cập nhật", "info");
         classApi.updateClassLesson(classId)
             .then(() => {
                 showTypeNotification("Cập nhật thành công");
