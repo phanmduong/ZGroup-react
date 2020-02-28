@@ -17,7 +17,7 @@ const columns = [
         sortable: false,
         accessor: 'course.icon_url',
         Cell: props => (<img className="circle"
-                            src={props.value} alt="" style={{height: 40, width: 40}}/>), // Custom cell components!
+                             src={props.value} alt="" style={{height: 40, width: 40}}/>), // Custom cell components!
         minWidth: 65,
         maxWidth: 65
     },
@@ -104,6 +104,7 @@ const columns = [
         accessor: 'status',
         Cell: props => (<Switch
             bsSize="mini"
+            onColor={"success"}
             onText="Bật" offText="Tắt"
             value={(props.value === 1)}/>)
     },

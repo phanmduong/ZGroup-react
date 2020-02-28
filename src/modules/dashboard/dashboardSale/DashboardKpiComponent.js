@@ -153,7 +153,11 @@ class DashboardKpiComponent extends React.Component {
             gen_id: filter.gen_id,
             user_ids: salerIds
         };
-        setKpiStore.historyKpi({...setKpiStore.setKpi, base_id: filterStore.base_id});
+        setKpiStore.historyFilter = {
+            start_time: filter.start_time,
+            end_time: filter.end_time,
+        };
+        setKpiStore.historyKpi({...setKpiStore.historyFilter, base_id: filterStore.base_id});
         setKpiStore.showModal = true;
         setKpiStore.openHistoryPanel = openHistoryPanel;
     }

@@ -24,6 +24,10 @@ const optionsBarMoney = {
                 return label;
             }
         }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
     }
 };
 
@@ -40,6 +44,10 @@ const optionsBarRegister = {
                 return label;
             }
         }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
     }
 };
 

@@ -75,7 +75,7 @@ class BarChartFilterDate extends React.Component {
                     let firstIndex = 0;
                     return Object.keys(groupDates).map((key) => {
                         const newData = _.sumBy(dataArray.slice(firstIndex, firstIndex + groupDates[key].length), (item) => Number.parseInt(item));
-                        firstIndex = groupDates[key].length;
+                        firstIndex = groupDates[key].length + firstIndex;
                         return newData;
                     });
                 });
@@ -93,29 +93,39 @@ class BarChartFilterDate extends React.Component {
         })
     }
 
-    render() {
+    renderFilter = () => {
         const {currentFilter} = this.state;
+
+        return (
+            <div className="flex flex-wrap flex-space-between flex-row flex-align-items-center">
+                <div>
+                    {this.props.children}
+                </div>
+                <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs"
+                    style={{marginTop: 15, marginBottom: "15"}}>
+                    {filter.map((item, index) => {
+                        let className = currentFilter === item.key ? 'active' : '';
+                        return (
+                            <li className={className} key={index}>
+                                <a onClick={() => this.onChangeFilter(item.key)}>
+                                    {item.value}
+                                </a>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        )
+    }
+
+    render() {
         const {dateFormat, optionsBar, isLoading} = this.props;
+        const {currentFilter} = this.state;
 
         if (isLoading) {
             return (
                 <div>
-                    <div className="flex flex-end">
-                        <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
-                            <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
-                                {filter.map((item, index) => {
-                                    let className = currentFilter === item.key ? 'active' : '';
-                                    return (
-                                        <li className={className} key={index}>
-                                            <a onClick={() => this.onChangeFilter(item.key)}>
-                                                {item.value}
-                                            </a>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </ul>
-                    </div>
+                    {this.renderFilter()}
                     <Loading/>
                 </div>);
         }
@@ -129,22 +139,7 @@ class BarChartFilterDate extends React.Component {
 
         return (
             <div>
-                <div className="flex flex-end">
-                    <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
-                        <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
-                            {filter.map((item, index) => {
-                                let className = currentFilter === item.key ? 'active' : '';
-                                return (
-                                    <li className={className} key={index}>
-                                        <a onClick={() => this.onChangeFilter(item.key)}>
-                                            {item.value}
-                                        </a>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </ul>
-                </div>
+                {this.renderFilter()}
                 <Bar
                     data={dataSet}
                     options={optionsBar}

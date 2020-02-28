@@ -25,6 +25,10 @@ const optionsBar = {
                 return label;
             }
         }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
     }
 };
 
@@ -51,7 +55,11 @@ class SetKpiModal extends React.Component {
 
     changeDateRangePicker = (start_time, end_time) => {
         setKpiStore.setKpi = {...setKpiStore.setKpi, start_time, end_time, gen_id: 0};
-        this.loadHistoryKpi({...setKpiStore.setKpi, base_id: filterStore.base_id});
+    }
+
+    changeDateRangePickerHistory = (start_time, end_time) => {
+        setKpiStore.historyFilter = {...setKpiStore.historyFilter, start_time, end_time, gen_id: 0};
+        this.loadHistoryKpi({...setKpiStore.historyFilter, base_id: filterStore.base_id});
     }
 
     submitKpi = () => {
@@ -76,7 +84,7 @@ class SetKpiModal extends React.Component {
     }
 
     render() {
-        let {isStoring, setKpi, selectedSaler, showModal, isLoading, data, openHistoryPanel} = setKpiStore;
+        let {isStoring, setKpi, selectedSaler, showModal, isLoading, data, openHistoryPanel, historyFilter} = setKpiStore;
         return (
 
             <Modal show={showModal} bsSize="large" onHide={this.toggleModal}>
@@ -175,7 +183,14 @@ class SetKpiModal extends React.Component {
                                         backgroundColor: '#4caa00',
                                         borderColor: '#4caa00',
                                     }]}
-                            />
+                            >
+                                <DateRangePicker
+                                    className="padding-vertical-10px cursor-pointer margin-vertical-15"
+                                    start={historyFilter.start_time} end={historyFilter.end_time}
+                                    style={{padding: '5px 10px 5px 20px', lineHeight: '34px', marginBottom: 18}}
+                                    onChange={this.changeDateRangePickerHistory}
+                                />
+                            </BarChartFilterDate>
                         </Panel>
                         {isStoring ?
                             <div className="flex flex-align-items-center flex-end">

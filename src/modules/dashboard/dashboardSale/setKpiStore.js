@@ -15,6 +15,10 @@ export default new class SetKpiStore {
         user_ids: [],
         money: 0
     };
+    @observable historyFilter = {
+        start_time: '',
+        end_time: '',
+    };
 
     @observable openHistoryPanel = false;
 
