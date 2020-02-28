@@ -618,6 +618,14 @@ class LeadContainer extends React.Component {
         });
     };
 
+    resetLoad = ()=>{
+        this.setState({staff: "", page: 1,isDistribution: false,selectedLeads:[]});
+        this.props.leadActions.getLeads({
+            ...this.state,
+            page: 1,
+            staffId: '',
+        });
+    };
 
     distributionLeads = () => {
 
@@ -625,7 +633,10 @@ class LeadContainer extends React.Component {
             return lead.id;
         });
         this.props.leadActions.uploadDistributionLead(leadIds, this.state.carer.id, this.state.isAll, this.state.query,
-            this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, this.closeModalSelectedLeadsModal);
+            this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, ()=>{
+                this.closeModalSelectedLeadsModal();
+                this.resetLoad();
+            });
     };
 
     renderButtonDistribution = () => (
@@ -722,11 +733,7 @@ class LeadContainer extends React.Component {
                                 className="btn btn-white btn-round btn-icon"
                                 onSuccess={()=>{
                                     this.setState({staff: "", page: 1});
-                                    this.props.leadActions.getLeads({
-                                        ...this.state,
-                                        page: 1,
-                                        staffId: ''
-                                    });
+                                    this.resetLoad();
                                 }}
                             />
                             {this.isAdmin && !this.state.isDistribution &&
