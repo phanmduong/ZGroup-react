@@ -100,13 +100,13 @@ table tr td .avatar-list-staff {
   display: inline;
 }
 
-@media screen and (max-width: 768px) {
-  .navbar-header {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-}
+//@media screen and (max-width: 768px) {
+//  .navbar-header {
+//    display: flex;
+//    justify-content: center;
+//    align-content: center;
+//  }
+//}
 
 .btn-main {
   width: 100%;
@@ -1066,6 +1066,7 @@ a.btn-seat.active {
 .padding-left-0 {
   padding-left: 0;
 }
+
 .padding-left-15 {
   padding-left: 15px;
 }
@@ -4661,13 +4662,14 @@ input[type=search], .form-control {
     margin-top: 10px;
   }
 
-  .Select-value, .Select-placeholder{
+  .Select-value, .Select-placeholder {
     display: flex;
     align-items: center;
     margin-left: 5px;
     font-size: 12px;
     padding: 0px 15px;
   }
+
   .Select-control {
     border: none;
     background-color: #f3f4f3;
@@ -4690,22 +4692,23 @@ input[type=search], .form-control {
     z-index: 2;
   }
 
-  .Select-arrow-zone{
+  .Select-arrow-zone {
     padding-right: 15px;
   }
 
-  .Select-option{
+  .Select-option {
     padding-left: 15px;
   }
 
   .form-grey-select {
-    margin: 0!important;
+    margin: 0 !important;
+
     button, button:hover {
-      background-color: #f3f4f3!important;
+      background-color: #f3f4f3 !important;
       border-radius: 5px;
-      color: black!important;
+      color: black !important;
       padding: 11.5px 15px;
-      box-shadow: none!important;
+      box-shadow: none !important;
     }
   }
   .form-control-static{
@@ -4748,3 +4751,24 @@ input[type=search], .form-control {
   display: -ms-flexbox;
   display: flex
 }
+
+.select-transparent {
+  button {
+    background-color: transparent !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+  }
+}
+
+
+.nav-mobile-menu {
+  a button {
+    width: 100%;
+  }
+}
+
+.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header{
+  margin-left: auto;
+  margin-right: auto;
+}
+

@@ -6,6 +6,7 @@ import Loading from '../../../components/common/Loading';
 import {HISTORY_CARE_TYPES} from "../../../constants/constants";
 import CreateRegisterHistoryCareOverlay from "../overlays/CreateRegisterHistoryCareOverlay";
 import {isEmptyInput} from "../../../helpers/helper";
+import EmptyData from "../../../components/common/EmptyData";
 
 class HistoryCareContainer extends React.Component {
     constructor(props, context) {
@@ -45,7 +46,7 @@ class HistoryCareContainer extends React.Component {
                             </div>
                         </li>
 
-                        {this.props.historyCares.map((log, index) => {
+                        {this.props.historyCares && this.props.historyCares.length > 0 ? this.props.historyCares.map((log, index) => {
                             let type = HISTORY_CARE_TYPES.OBJECT_OPTIONS[log.type];
                             return (
                                 <li className="timeline-inverted" key={index}>
@@ -61,7 +62,7 @@ class HistoryCareContainer extends React.Component {
                                                     <i className="material-icons">access_time</i>
                                                     &nbsp; &nbsp;{log.date}
                                                     {log.creator && ' - Người nhập:'}
-                                                    {log.creator && <b>&nbsp;&nbsp;{ log.creator.name }</b>}
+                                                    {log.creator && <b>&nbsp;&nbsp;{log.creator.name}</b>}
                                                 </div>
                                                 {!isEmptyInput(log.title) && <div className="">
                                                     <i className="material-icons font-size-14px">info</i>
@@ -85,7 +86,9 @@ class HistoryCareContainer extends React.Component {
                                     </div>
                                 </li>
                             );
-                        })}
+                        }) : <EmptyData/>
+
+                        }
 
                     </ul>
                 }

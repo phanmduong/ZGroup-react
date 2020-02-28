@@ -22,6 +22,7 @@ import Pagination from "../../components/common/Pagination";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 import * as studentActions from "../infoStudent/studentActions";
+import EmptyData from "../../components/common/EmptyData";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -441,7 +442,7 @@ class RegisterListContainer extends React.Component {
         time[field] = event.target.value;
 
         if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
-            this.setState({time: time, page: 1,startTime:time.startTime,endTime:time.endTime});
+            this.setState({time: time, page: 1, startTime: time.startTime, endTime: time.endTime});
             // this.props.registerActions.loadRegisterStudent(
             //     {
             //         ...this.state, page: 1,
@@ -456,7 +457,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getFilter = (arr, base_id) => {
-        if(!arr) return [];
+        if (!arr) return [];
         if (!helper.isEmptyInput(base_id)) {
             arr = arr.filter((classItem) => classItem.base_id == base_id);
         }
@@ -475,7 +476,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getSalerFilter = (arr) => {
-        if(!arr) return [];
+        if (!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 value: obj.id,
@@ -494,7 +495,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getBaseFilter = (arr) => {
-        if(!arr) return [];
+        if (!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -510,7 +511,7 @@ class RegisterListContainer extends React.Component {
     };
 
     getSourceFilter = (arr) => {
-        if(!arr) return [];
+        if (!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -525,7 +526,7 @@ class RegisterListContainer extends React.Component {
         }, ...data];
     };
     getStatusFilter = (arr) => {
-        if(!arr) return [];
+        if (!arr) return [];
         let data = arr.map(function (obj) {
             return {
                 ...obj,
@@ -622,7 +623,7 @@ class RegisterListContainer extends React.Component {
         });
     };
 
-    searchByText = (value,name) => {
+    searchByText = (value, name) => {
         this.setState({
             page: 1,
             [name]: value,
@@ -657,8 +658,8 @@ class RegisterListContainer extends React.Component {
         // this.props.registerActions.loadRegisterStudent({...this.state, page: 1, [field]: obj ? obj.id : ''});
     };
 
-    applyFilter = ()=>{
-        if(!this.props.isLoading) this.props.registerActions.loadRegisterStudent({
+    applyFilter = () => {
+        if (!this.props.isLoading) this.props.registerActions.loadRegisterStudent({
             ...this.state,
         });
     }
@@ -871,7 +872,7 @@ class RegisterListContainer extends React.Component {
                                             {/*</button>*/}
                                             <CreateRegisterOverlay
                                                 className="btn btn-white btn-round btn-icon"
-                                                onSuccess={()=>this.loadRegisterStudent(1)}
+                                                onSuccess={() => this.loadRegisterStudent(1)}
                                             />
 
                                         </div>
@@ -1006,7 +1007,7 @@ class RegisterListContainer extends React.Component {
                                     </div>
                                     <div className="col-md-3">
                                         <Search
-                                            onChange={e=>this.searchByText(e,'query_coupon')}
+                                            onChange={e => this.searchByText(e, 'query_coupon')}
                                             value={this.state.query_coupon}
                                             label="Tìm kiếm theo coupon"
                                             placeholder="Nhập coupon"
@@ -1014,7 +1015,7 @@ class RegisterListContainer extends React.Component {
                                     </div>
                                     <div className="col-md-3">
                                         <Search
-                                            onChange={e=>this.searchByText(e,'query_note')}
+                                            onChange={e => this.searchByText(e, 'query_note')}
                                             value={this.state.query_note}
                                             label="Tìm kiếm theo note"
                                             placeholder="Nhập note"
@@ -1063,7 +1064,9 @@ class RegisterListContainer extends React.Component {
 
                                     <div className="col-md-6">
                                         <div className="float-right">
-                                            <div className="btn button-green" style={{marginTop:20}} onClick={this.applyFilter}>Áp dụng</div>
+                                            <div className="btn button-green" style={{marginTop: 20}}
+                                                 onClick={this.applyFilter}>Áp dụng
+                                            </div>
                                         </div>
                                     </div>
 
@@ -1148,38 +1151,48 @@ class RegisterListContainer extends React.Component {
                             this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
                             this.props.isLoading ?
                                 <Loading/> :
-                                <ListRegister
-                                    genId={this.state.selectGenId}
-                                    registers={this.props.registers}
-                                    isChangingBookmark={this.props.isChangingBookmark}
-                                    viewCall={this.viewCall}
-                                    deleteRegister={this.deleteRegister}
-                                    loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
-                                    loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
-                                    openModalChangeClass={this.openModalChangeClass}
-                                    openModalChangeInfoStudent={this.openModalChangeInfoStudent}
-                                    openModalRegisterDetail={this.openModalRegisterDetail}
-                                    changeStatusPause={this.changeStatusPause}
-                                    changeMarkRegister={this.changeMarkRegister}
-                                    addMyLead={this.addMyLead}
-                                />
+                                (
+                                    this.props.registers && this.props.registers.length > 0 ?
+                                        <ListRegister
+                                            genId={this.state.selectGenId}
+                                            registers={this.props.registers}
+                                            isChangingBookmark={this.props.isChangingBookmark}
+                                            viewCall={this.viewCall}
+                                            deleteRegister={this.deleteRegister}
+                                            loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
+                                            loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
+                                            openModalChangeClass={this.openModalChangeClass}
+                                            openModalChangeInfoStudent={this.openModalChangeInfoStudent}
+                                            openModalRegisterDetail={this.openModalRegisterDetail}
+                                            changeStatusPause={this.changeStatusPause}
+                                            changeMarkRegister={this.changeMarkRegister}
+                                            addMyLead={this.addMyLead}
+                                        />
+                                        :
+                                        <EmptyData title={"Không có dữ liệu đăng kí học"}/>
+                                )
+
                         }
-                        <div className="row float-right">
-                            <div
-                                className="col-md-12"
-                                style={{textAlign: "right"}}
-                            >
-                                <Pagination
-                                    totalPages={
-                                        this.props.totalPages
-                                    }
-                                    currentPage={
-                                        this.state.page
-                                    }
-                                    loadDataPage={this.loadRegisterStudent}
-                                />
+                        {
+                            this.props.registers && this.props.registers.length > 0 &&
+                            <div className="row float-right">
+                                <div
+                                    className="col-md-12"
+                                    style={{textAlign: "right"}}
+                                >
+                                    <Pagination
+                                        totalPages={
+                                            this.props.totalPages
+                                        }
+                                        currentPage={
+                                            this.state.page
+                                        }
+                                        loadDataPage={this.loadRegisterStudent}
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        }
+
 
                     </div>
                     }
@@ -1544,12 +1557,12 @@ class RegisterListContainer extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
 
-                            <ListClass
-                                classes={this.props.classes}
-                                registerId={this.state.selectRegisterId}
-                                confirmChangeClass={this.confirmChangeClass}
-                                isChangingClass={this.props.isChangingClass}
-                            />
+                        <ListClass
+                            classes={this.props.classes}
+                            registerId={this.state.selectRegisterId}
+                            confirmChangeClass={this.confirmChangeClass}
+                            isChangingClass={this.props.isChangingClass}
+                        />
 
 
                     </Modal.Body>

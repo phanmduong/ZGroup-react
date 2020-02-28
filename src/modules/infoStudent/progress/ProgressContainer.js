@@ -13,6 +13,7 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Topics from "./Topics";
 import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
 import {isEmptyInput} from "../../../helpers/helper";
+import EmptyData from "../../../components/common/EmptyData";
 
 class ProgressContainer extends React.Component {
     constructor(props, context) {
@@ -104,8 +105,8 @@ class ProgressContainer extends React.Component {
                         </li>
 
                         {
-                            this.props.progress.map((progressClass, index) => {
-                                let noneGroup = progressClass.exams.filter(e=>isEmptyInput(e.group_exam_id));
+                            this.props.progress && this.props.progress.length > 0 ? this.props.progress.map((progressClass, index) => {
+                                let noneGroup = progressClass.exams.filter(e => isEmptyInput(e.group_exam_id));
                                 return (
                                     <li className="timeline-inverted" key={index}>
                                         <div className="timeline-badge">
@@ -185,43 +186,50 @@ class ProgressContainer extends React.Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <div className="margin-top-10">
-                                                            {progressClass.group_exams.map(group=>{
-                                                                return(
+                                                            {progressClass.group_exams.map(group => {
+                                                                return (
                                                                     <div className="margin-bottom-10">
                                                                         <div><b>{group.name}</b></div>
                                                                         <div className="padding-left-15">
                                                                             <table id="datatables"
                                                                                    className="table table-hover table-split"
-                                                                                   cellSpacing="0" width="100%" style={{width: "100%"}}>
-                                                                            <tbody>
-                                                                                {progressClass.exams.filter(e=>e.group_exam_id == group.id).map(exam=>{
-                                                                                return(<tr>
-                                                                                    <td>{exam.title}</td>
-                                                                                    <td>{exam.score}</td>
-                                                                                    <td>{exam.comment}</td>
-                                                                                    {exam.inputTeacher ? <td>Nhập bởi <b>{exam.inputTeacher.name}</b></td> : <td/>}
-                                                                                    <td>{exam.created_at}</td>
-                                                                                </tr>);
-                                                                            })}
-                                                                            </tbody>
+                                                                                   cellSpacing="0" width="100%"
+                                                                                   style={{width: "100%"}}>
+                                                                                <tbody>
+                                                                                {progressClass.exams.filter(e => e.group_exam_id == group.id).map(exam => {
+                                                                                    return (<tr>
+                                                                                        <td>{exam.title}</td>
+                                                                                        <td>{exam.score}</td>
+                                                                                        <td>{exam.comment}</td>
+                                                                                        {exam.inputTeacher ? <td>Nhập
+                                                                                            bởi <b>{exam.inputTeacher.name}</b>
+                                                                                        </td> : <td/>}
+                                                                                        <td>{exam.created_at}</td>
+                                                                                    </tr>);
+                                                                                })}
+                                                                                </tbody>
                                                                             </table>
                                                                         </div>
                                                                     </div>
                                                                 );
                                                             })}
-                                                            {noneGroup && noneGroup.length > 0 &&<div className="margin-bottom-10">
+                                                            {noneGroup && noneGroup.length > 0 &&
+                                                            <div className="margin-bottom-10">
                                                                 <div><b>Không có nhóm</b></div>
                                                                 <div className="padding-left-15">
                                                                     <table id="datatables"
                                                                            className="table table-hover table-split"
-                                                                           cellSpacing="0" width="100%" style={{width: "100%"}}>
+                                                                           cellSpacing="0" width="100%"
+                                                                           style={{width: "100%"}}>
                                                                         <tbody>
-                                                                        {noneGroup.map(exam=>{
-                                                                            return(<tr>
+                                                                        {noneGroup.map(exam => {
+                                                                            return (<tr>
                                                                                 <td>{exam.title}</td>
                                                                                 <td>{exam.score}</td>
                                                                                 <td>{exam.comment}</td>
-                                                                                {exam.inputTeacher ? <td>Nhập bởi <b>{exam.inputTeacher.name}</b></td> : <td/>}
+                                                                                {exam.inputTeacher ? <td>Nhập
+                                                                                    bởi <b>{exam.inputTeacher.name}</b>
+                                                                                </td> : <td/>}
                                                                                 <td>{exam.created_at}</td>
                                                                             </tr>);
                                                                         })}
@@ -236,7 +244,7 @@ class ProgressContainer extends React.Component {
                                         </div>
                                     </li>
                                 );
-                            })
+                            }) : <EmptyData title={"Không có dữ liệu học tập"}/>
                         }
                     </ul>
                 }

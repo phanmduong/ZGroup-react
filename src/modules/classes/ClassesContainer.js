@@ -303,16 +303,16 @@ class ClassesContainer extends React.Component {
 
                 {(!this.props.isLoading && !this.props.isLoadingGens) &&
                 <ListClass
-                        classes={this.props.classes}
-                        deleteClass={this.deleteClass}
-                        duplicateClass={this.duplicateClass}
-                        changeClassStatus={this.changeClassStatus}
-                        openModalClass={this.openModalClass}
-                    />}
+                    classes={this.props.classes}
+                    deleteClass={this.deleteClass}
+                    duplicateClass={this.duplicateClass}
+                    changeClassStatus={this.changeClassStatus}
+                    openModalClass={this.openModalClass}
+                />}
 
                 <br/>
 
-                {(!this.props.isLoading && !this.props.isLoadingGens) &&
+                {(!this.props.isLoading && !this.props.isLoadingGens) && this.props.classes && this.props.classes.length > 0 &&
                 <div
                     style={{textAlign: 'right', paddingTop: 20}}>
 

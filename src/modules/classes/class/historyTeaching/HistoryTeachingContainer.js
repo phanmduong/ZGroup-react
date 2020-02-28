@@ -18,6 +18,7 @@ import TimePicker from "../../../../components/common/TimePicker";
 import Select from 'react-select';
 import moment from 'moment';
 import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../../../constants/constants";
+import EmptyData from "../../../../components/common/EmptyData";
 
 class HistoryTeachingContainer extends React.Component {
     constructor(props, context) {
@@ -60,7 +61,7 @@ class HistoryTeachingContainer extends React.Component {
             showModalAddCheckinCheckout: false,
             showModalDelayLessons: false,
             delayLessonIndex: 0,
-            delayData: {note:''},
+            delayData: {note: ''},
         };
         this.state = this.initState;
     }
@@ -267,140 +268,142 @@ class HistoryTeachingContainer extends React.Component {
                     {/*</thead>*/}
                     <tbody>
                     {
-                        !isLoading && classData.lessons && classData.lessons.map((lesson, key) => {
-                            let color = lesson.studied ? 'success' : '';
-                            let minWidth = 120, margin = '5px 3px';
-                            return (
-                                <tr key={key} className={color}>
-                                    <td style={{minWidth: '100px'}}>
-                                        <a target="_blank"
-                                           href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
+                        !isLoading && classData.lessons && classData.lessons.length > 0 ? classData.lessons.map((lesson, key) => {
+                                let color = lesson.studied ? 'success' : '';
+                                let minWidth = 120, margin = '5px 3px';
+                                return (
+                                    <tr key={key} className={color}>
+                                        <td style={{minWidth: '100px'}}>
+                                            <a target="_blank"
+                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
 
-                                    </td>
-                                    <td><a
-                                        style={{fontWeight: 400}}
-                                        target="_blank"
-                                        href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <div>{lesson.start_time}-{lesson.end_time}</div>
-                                            <div>{lesson.time}</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="flex flex-wrap">
+                                        </td>
+                                        <td><a
+                                            style={{fontWeight: 400}}
+                                            target="_blank"
+                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <div>{lesson.start_time}-{lesson.end_time}</div>
+                                                <div>{lesson.time}</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="flex flex-wrap">
 
-                                            {
-                                                lesson.teacher ?
-                                                    <TooltipButton text="Giảng viên"
-                                                                   placement="top"
-                                                    >
-                                                        <button className="btn btn-xs"
-                                                                style={{
-                                                                    background: '#' + lesson.teacher.color,
-                                                                    minWidth,
-                                                                    margin
-                                                                }}>
-                                                            {getShortName(lesson.teacher.name)}
-                                                            <div className="ripple-container"/>
-                                                        </button>
-                                                    </TooltipButton>
-                                                    :
-                                                    <TooltipButton text="Giảng viên"
-                                                                   placement="top"
-                                                    >
-                                                        <button className="btn btn-xs"
-                                                                style={{minWidth, margin}}>
-                                                            NONE
-                                                            <div className="ripple-container"/>
-                                                        </button>
-                                                    </TooltipButton>
+                                                {
+                                                    lesson.teacher ?
+                                                        <TooltipButton text="Giảng viên"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{
+                                                                        background: '#' + lesson.teacher.color,
+                                                                        minWidth,
+                                                                        margin
+                                                                    }}>
+                                                                {getShortName(lesson.teacher.name)}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+                                                        :
+                                                        <TooltipButton text="Giảng viên"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{minWidth, margin}}>
+                                                                NONE
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
 
-                                            }
-                                            {
-                                                lesson.teacher_assistant ?
-                                                    <TooltipButton text="Trơ giảng"
-                                                                   placement="top"
-                                                    >
-                                                        <button className="btn btn-xs"
-                                                                style={{
-                                                                    background: '#' + lesson.teacher_assistant.color,
-                                                                    minWidth, margin
-                                                                }}>
-                                                            {getShortName(lesson.teacher_assistant.name)}
-                                                            <div className="ripple-container"/>
-                                                        </button>
-                                                    </TooltipButton>
-                                                    :
-                                                    <TooltipButton text="Trợ giảng"
-                                                                   placement="top"
-                                                    >
-                                                        <button className="btn btn-xs"
-                                                                style={{minWidth, margin}}>
-                                                            NONE
-                                                            <div className="ripple-container"/>
-                                                        </button>
-                                                    </TooltipButton>
-                                            }
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style={{position: "relative"}} className="">
-                                            <button className="btn btn-actions" mask="extra-table"
-                                                    ref={"target" + key} onClick={() => this.toggle(key)}>
+                                                }
+                                                {
+                                                    lesson.teacher_assistant ?
+                                                        <TooltipButton text="Trơ giảng"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{
+                                                                        background: '#' + lesson.teacher_assistant.color,
+                                                                        minWidth, margin
+                                                                    }}>
+                                                                {getShortName(lesson.teacher_assistant.name)}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+                                                        :
+                                                        <TooltipButton text="Trợ giảng"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{minWidth, margin}}>
+                                                                NONE
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style={{position: "relative"}} className="">
+                                                <button className="btn btn-actions" mask="extra-table"
+                                                        ref={"target" + key} onClick={() => this.toggle(key)}>
 
-                                                <i className="material-icons">arrow_drop_down</i>
-                                            </button>
-                                            <Overlay
-                                                rootClose={true}
-                                                show={show[key]}
-                                                onHide={() => this.close(key)}
-                                                placement="bottom"
-                                                container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
-                                                target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
-                                                <div className="kt-overlay overlay-container" mask="extra-table"
-                                                     style={{
-                                                         width: 150,
-                                                     }}>
-                                                    {(lesson.is_change || user.role == 2) &&
-                                                    <button className="btn btn-white width-100"
-                                                            onClick={() => this.openModalDelayLessons(key + '')}>
-                                                        Dời lịch học
-                                                    </button>}
-                                                    {(lesson.is_change || user.role == 2) &&
-                                                    <button className="btn btn-white width-100"
-                                                            onClick={() => this.openModalClassLesson(lesson)}>
-                                                        Đổi lịch dạy
-                                                    </button>}
-                                                    {(lesson.is_change || user.role == 2) && lesson.teacher &&
-                                                    <button className="btn btn-white width-100"
-                                                            onClick={() => this.openModalChangeTeacher(lesson)}>
-                                                        Đổi giảng viên
-                                                    </button>}
-                                                    {(lesson.is_change || user.role == 2) && lesson.teacher_assistant &&
-                                                    <button className="btn btn-white width-100"
-                                                            onClick={() => this.openModalTeachAssis(lesson)}>
-                                                        Đổi trợ giảng
-                                                    </button>}
-                                                    {/*{(lesson.is_change || user.role == 2) &&*/}
-                                                    {/*<button className="btn btn-white width-100"*/}
-                                                    {/*        onClick={() => this.openModalTeachingLesson(lesson, 1)}>*/}
-                                                    {/*    Danh sách giảng viên*/}
-                                                    {/*</button>}*/}
-                                                    {/*{(lesson.is_change || user.role == 2) &&*/}
-                                                    {/*<button className="btn btn-white width-100"*/}
-                                                    {/*        onClick={() => this.openModalTeachingLesson(lesson, 2)}>*/}
-                                                    {/*    Danh sách trợ giảng*/}
-                                                    {/*</button>}*/}
+                                                    <i className="material-icons">arrow_drop_down</i>
+                                                </button>
+                                                <Overlay
+                                                    rootClose={true}
+                                                    show={show[key]}
+                                                    onHide={() => this.close(key)}
+                                                    placement="bottom"
+                                                    container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
+                                                    target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
+                                                    <div className="kt-overlay overlay-container" mask="extra-table"
+                                                         style={{
+                                                             width: 150,
+                                                         }}>
+                                                        {(lesson.is_change || user.role == 2) &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalDelayLessons(key + '')}>
+                                                            Dời lịch học
+                                                        </button>}
+                                                        {(lesson.is_change || user.role == 2) &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalClassLesson(lesson)}>
+                                                            Đổi lịch dạy
+                                                        </button>}
+                                                        {(lesson.is_change || user.role == 2) && lesson.teacher &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalChangeTeacher(lesson)}>
+                                                            Đổi giảng viên
+                                                        </button>}
+                                                        {(lesson.is_change || user.role == 2) && lesson.teacher_assistant &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalTeachAssis(lesson)}>
+                                                            Đổi trợ giảng
+                                                        </button>}
+                                                        {/*{(lesson.is_change || user.role == 2) &&*/}
+                                                        {/*<button className="btn btn-white width-100"*/}
+                                                        {/*        onClick={() => this.openModalTeachingLesson(lesson, 1)}>*/}
+                                                        {/*    Danh sách giảng viên*/}
+                                                        {/*</button>}*/}
+                                                        {/*{(lesson.is_change || user.role == 2) &&*/}
+                                                        {/*<button className="btn btn-white width-100"*/}
+                                                        {/*        onClick={() => this.openModalTeachingLesson(lesson, 2)}>*/}
+                                                        {/*    Danh sách trợ giảng*/}
+                                                        {/*</button>}*/}
 
-                                                </div>
-                                            </Overlay>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })
+                                                    </div>
+                                                </Overlay>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                            :
+                            <EmptyData/>
                     }
                     </tbody>
                 </table>

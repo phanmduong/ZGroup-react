@@ -10,6 +10,7 @@ import FormInputText from '../../../components/common/FormInputText';
 import {NO_IMAGE} from '../../../constants/env';
 import * as helper from '../../../helpers/helper';
 import CreateDocumentOverlay from "../overlays/CreateDocumentOverlay";
+import EmptyData from "../../../components/common/EmptyData";
 
 function validateLink(link) {
     if (helper.isEmptyInput(link)) return NO_IMAGE;
@@ -180,7 +181,7 @@ class coursesCreateEditDocuments extends React.Component {
                            className="table white-table table-striped table-no-bordered table-hover"
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
                         <tbody>
-                        {this.props.data.links.map((link) => {
+                        {this.props.data.links && this.props.data.links.length > 0 ? this.props.data.links.map((link) => {
                             return (
                                 <tr key={link.id}>
                                     <td><strong>{link.link_name}</strong></td>
@@ -211,7 +212,7 @@ class coursesCreateEditDocuments extends React.Component {
                                 </tr>
                             );
 
-                        })}
+                        }) : <EmptyData/>}
                         </tbody>
                     </table>
                 </div>

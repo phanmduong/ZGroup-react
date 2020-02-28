@@ -117,14 +117,14 @@ class App extends React.Component {
                 <div className="main-panel">
                     <nav className="navbar navbar-transparent navbar-absolute">
                         <div className="container-fluid">
-                            <div className="navbar-minimize">
-                                <button
-                                    id="minimizeSidebar"
-                                    className="btn btn-round btn-white btn-fill btn-just-icon">
-                                    <i className="material-icons visible-on-sidebar-regular">more_vert</i>
-                                    <i className="material-icons visible-on-sidebar-mini">view_list</i>
-                                </button>
-                            </div>
+                            {/*<div className="navbar-minimize">*/}
+                            {/*    <button*/}
+                            {/*        id="minimizeSidebar"*/}
+                            {/*        className="btn btn-round btn-white btn-fill btn-just-icon">*/}
+                            {/*        <i className="material-icons visible-on-sidebar-regular">more_vert</i>*/}
+                            {/*        <i className="material-icons visible-on-sidebar-mini">view_list</i>*/}
+                            {/*    </button>*/}
+                            {/*</div>*/}
                             <div className="navbar-header flex-wrap">
                                 {/*<Link className="navbar-brand" to="/">*/}
                                 {/*    {" "}*/}
@@ -133,17 +133,21 @@ class App extends React.Component {
 
 
                                 <div className="flex flex-row flex-align-items-center custom-dropdown">
-                                    <div className="menu-nav-bar" onClick={this.onOpenNav}>
+                                    <div className="menu-nav-bar cursor-pointer" onClick={this.onOpenNav}
+                                         style={{paddingLeft: 10}}>
                                         <i className="material-icons">
                                             menu
                                         </i>
+                                        <div className="ripple-container" />
                                     </div>
                                     <div
-                                        style={{width: 130}}
+                                        style={{width: 150}}
+
                                     >
                                         <Select
                                             defaultMessage={'Chọn thành phố'}
                                             options={provinces}
+                                            className="select-transparent"
                                             value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}
                                             onChange={this.props.onChangeProvince}
                                         />
@@ -154,6 +158,7 @@ class App extends React.Component {
                                         <Select
                                             defaultMessage={'Chọn cơ sở'}
                                             options={bases}
+                                            className="select-transparent"
                                             value={this.props.selectedBaseId}
                                             onChange={this.props.onChangeBase}
                                             // onChange={this.onChangeGen}
@@ -165,6 +170,44 @@ class App extends React.Component {
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
+                                        <a target="_blank"
+                                           href="https://www.youtube.com/channel/UCHxuI0u_YL4J-0OwC3ToOQA"
+                                           style={{padding: "3px 4px"}}>
+                                            <button className="btn btn-round"
+                                                    style={{backgroundColor: "#E25241", padding: "8px 17px"}}>
+                                                <div
+                                                    className="flex flex-row flex-align-items-center flex-space-between width-100">
+                                                    <div>
+                                                        Hướng dẫn
+                                                    </div>
+                                                    <img
+                                                        src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1582861051ke9kRRG27sknRkU.png"
+                                                        style={{height: 25, width: 'auto', marginLeft: 10}}/>
+
+                                                </div>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank"
+                                           href={"http://m.me/edutosupport"}
+                                           style={{padding: "3px 4px"}}>
+                                            <button className="btn btn-round"
+                                                    style={{backgroundColor: "#0084FF", padding: "8px 17px"}}>
+                                                <div
+                                                    className="flex flex-row flex-align-items-center flex-space-between width-100">
+                                                    <div>
+                                                        Hỗ trợ
+                                                    </div>
+                                                    <img
+                                                        src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1582862490iGYJTJn7HyGpeRB.png"
+                                                        style={{height: 25, width: 'auto', marginLeft: 10}}/>
+
+                                                </div>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a onClick={() => this.props.onSetSidebarOpen(true)}>
                                             <i className="material-icons">chrome_reader_mode</i>
                                             {
@@ -174,12 +217,12 @@ class App extends React.Component {
                                             <p className="hidden-lg hidden-md">Công việc</p>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a onClick={this.props.openModalRule}>
-                                            <i className="material-icons">info</i>
-                                            <p className="hidden-lg hidden-md">Quy định</p>
-                                        </a>
-                                    </li>
+                                    {/*<li>*/}
+                                    {/*    <a onClick={this.props.openModalRule}>*/}
+                                    {/*        <i className="material-icons">info</i>*/}
+                                    {/*        <p className="hidden-lg hidden-md">Quy định</p>*/}
+                                    {/*    </a>*/}
+                                    {/*</li>*/}
                                     <NotificationContainer/>
                                     <li>
                                         <a

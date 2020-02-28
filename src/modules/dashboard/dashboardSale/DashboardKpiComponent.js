@@ -12,6 +12,7 @@ import ReactTable from "react-table-v6";
 import Sort from "../../../components/common/ReactTable/Sort";
 import {convertDotMoneyToK, dotNumber} from "../../../helpers/helper";
 import SetKpiModal from "./SetKpiModal";
+import EmptyData from "../../../components/common/EmptyData";
 
 @observer
 class DashboardKpiComponent extends React.Component {
@@ -156,6 +157,7 @@ class DashboardKpiComponent extends React.Component {
         setKpiStore.historyFilter = {
             start_time: filter.start_time,
             end_time: filter.end_time,
+            user_ids: salerIds
         };
         setKpiStore.historyKpi({...setKpiStore.historyFilter, base_id: filterStore.base_id});
         setKpiStore.showModal = true;
@@ -200,6 +202,7 @@ class DashboardKpiComponent extends React.Component {
                     </div>
                 }
                 <SetKpiModal reload={this.load}/>
+                <EmptyData size={500}/>
             </div>
 
         );

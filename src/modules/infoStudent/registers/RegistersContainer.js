@@ -19,6 +19,7 @@ import StatusesOverlay from "../overlays/StatusesOverlay";
 import SourceOverlay from "../overlays/SourceOverlay";
 import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
 import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
+import EmptyData from "../../../components/common/EmptyData";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -90,7 +91,7 @@ class RegistersContainer extends React.Component {
                                     <div className="flex flex-align-items-center margin-top-5">
                                         <CreateRegisterOverlay
                                             className="btn btn-actions"
-                                            onSuccess={()=>this.props.studentActions.loadRegisters(this.props.student.id)}
+                                            onSuccess={() => this.props.studentActions.loadRegisters(this.props.student.id)}
                                         />
                                         <CreateCouponOverlay
                                             className="btn btn-actions"
@@ -106,7 +107,7 @@ class RegistersContainer extends React.Component {
                             </div>
                         </li>
                         {
-                            this.props.registers.map((register, index) => {
+                            this.props.registers && this.props.registers.length > 0 ? this.props.registers.map((register, index) => {
 
                                 return (
                                     <li className="timeline-inverted" key={index}>
@@ -258,7 +259,7 @@ class RegistersContainer extends React.Component {
                                         </div>
                                     </li>
                                 );
-                            })
+                            }) : <EmptyData title={"Không có dữ liệu đăng kí học"}/>
                         }
                     </ul>
                 }

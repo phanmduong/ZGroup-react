@@ -10,6 +10,7 @@ import Search from "../../components/common/Search";
 import * as helper from '../../helpers/helper';
 import Pagination from "../../components/common/Pagination";
 import CreateCourseOverlay from "./overlays/CreateCourseOverlay";
+import EmptyData from "../../components/common/EmptyData";
 
 class CoursesContainer extends React.Component {
     constructor(props, context) {
@@ -125,31 +126,38 @@ class CoursesContainer extends React.Component {
 
 
                         {this.props.isLoading ? <Loading/> :
-                            <ListCourse
-                                courses={this.props.coursesList}
-                                isDuplicating={this.props.isDuplicating}
-                                deleteCourse={this.deleteCourse}
-                                changeStatusCourse={this.changeStatusCourse}
-                                duplicateCourse={this.duplicateCourse}
-                                query={this.state.query}
-                            />
+                            (
+                                this.props.coursesList && this.props.coursesList.length > 0 ? <ListCourse
+                                        courses={this.props.coursesList}
+                                        isDuplicating={this.props.isDuplicating}
+                                        deleteCourse={this.deleteCourse}
+                                        changeStatusCourse={this.changeStatusCourse}
+                                        duplicateCourse={this.duplicateCourse}
+                                        query={this.state.query}
+                                    />
+                                    :
+                                    <div className="col-md-12">
+                                        <EmptyData title={"Không có dữ liệu môn học"}/>
+                                    </div>
+                            )
+
                         }
 
                         <br/>
-
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
-                            <b style={{marginRight: '15px'}}>
-                                Hiển thị kêt quả
-                                từ {this.props.paginator.total_count ? (this.props.paginator.current_page - 1) * this.props.paginator.limit + 1 : 0}
-                                - {this.props.paginator.current_page < this.props.paginator.total_pages ? this.props.paginator.current_page * this.props.paginator.limit : this.props.paginator.total_count}/{this.props.paginator.total_count}</b><br/>
-                            <Pagination
-                                totalPages={this.props.paginator.total_pages}
-                                currentPage={this.props.paginator.current_page}
-                                loadDataPage={this.loadCourses || 0}
-                            />
-                        </div>
-
-
+                        {
+                            this.props.coursesList && this.props.coursesList.length > 0 &&
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
+                                <b style={{marginRight: '15px'}}>
+                                    Hiển thị kêt quả
+                                    từ {this.props.paginator.total_count ? (this.props.paginator.current_page - 1) * this.props.paginator.limit + 1 : 0}
+                                    - {this.props.paginator.current_page < this.props.paginator.total_pages ? this.props.paginator.current_page * this.props.paginator.limit : this.props.paginator.total_count}/{this.props.paginator.total_count}</b><br/>
+                                <Pagination
+                                    totalPages={this.props.paginator.total_pages}
+                                    currentPage={this.props.paginator.current_page}
+                                    loadDataPage={this.loadCourses || 0}
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

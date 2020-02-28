@@ -16,6 +16,7 @@ import {
     renderExcelColumnArray,
     saveWorkBookToExcel, showErrorNotification,
 } from "../../helpers/helper";
+import EmptyData from "../../components/common/EmptyData";
 
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
@@ -71,25 +72,26 @@ class ManageStaffsComponent extends React.Component {
 
         this.setState({showLoadingModal: false});
     };
-    setAdmin = (staff)=>{
-        if(this.props.user.role != 2) {
+    setAdmin = (staff) => {
+        if (this.props.user.role != 2) {
             showErrorNotification("Chỉ admin mới có thể phân quyền!");
-            return ;
+            return;
         }
-        if(staff.id == this.props.user.id){
+        if (staff.id == this.props.user.id) {
             showErrorNotification("Bạn không thể phân quyền cho bản thân!");
             return;
         }
         let message = (staff && staff.role == 2 ? "Bạn có chắc chắn muốn xóa quyền admin của " : "Bạn có chắc chắn muốn phân quyền admin cho ") + `<br><b>${staff.name}</b>`;
         confirm("warning", "Phân quyền admin", message,
             () => {
-                this.props.staffActions.setAdmin(staff.id,()=>{
+                this.props.staffActions.setAdmin(staff.id, () => {
                     this.props.loadStaffs(this.props.currentPage);
                 });
             });
 
 
     }
+
     render() {
         return (
             <div>
@@ -147,8 +149,8 @@ class ManageStaffsComponent extends React.Component {
                                             className="btn btn-white btn-round margin-right-10"
                                             onClick={this.openLoadingModal}
                                         ><i className="material-icons"
-                                               style={{height: 5, width: 5, marginLeft: -11, marginTop: -10}}
-                                            >file_download</i>
+                                            style={{height: 5, width: 5, marginLeft: -11, marginTop: -10}}
+                                        >file_download</i>
                                         </button>
                                     </TooltipButton>
                                 </div>
@@ -157,42 +159,52 @@ class ManageStaffsComponent extends React.Component {
                         </div>
                     </div>
                     <div className="row">
-                        {this.props.isLoadingStaffs ? <Loading/> : (
-                            <ListStaff
-                                staffs={this.props.staffListData}
-                                roles={this.props.roleListData}
-                                bases={this.props.baseListData}
-                                departments={this.props.departments}
-                                changeRoleStaff={this.props.changeRoleStaff}
-                                changeBaseStaff={this.props.changeBaseStaff}
-                                changeDepartmentStaff={this.props.changeDepartmentStaff}
-                                deleteStaff={this.props.deleteStaff}
-                                setAdmin={this.setAdmin}
-                                disableActions={this.props.user.role != 2}
-                                titleList="Danh sách nhân viên"
-                            />
-                        )
+                        {this.props.isLoadingStaffs ?
+                            <Loading/> : (
+                                this.props.staffListData && this.props.staffListData.length > 0 ?
+                                    <ListStaff
+                                        staffs={this.props.staffListData}
+                                        roles={this.props.roleListData}
+                                        bases={this.props.baseListData}
+                                        departments={this.props.departments}
+                                        changeRoleStaff={this.props.changeRoleStaff}
+                                        changeBaseStaff={this.props.changeBaseStaff}
+                                        changeDepartmentStaff={this.props.changeDepartmentStaff}
+                                        deleteStaff={this.props.deleteStaff}
+                                        setAdmin={this.setAdmin}
+                                        disableActions={this.props.user.role != 2}
+                                        titleList="Danh sách nhân viên"
+                                    />
+                                    :
+                                    <div className="col-md-12">
+                                        <EmptyData title={"Không có dữ liệu nhân viên"}/>
+                                    </div>
+                            )
                         }
                     </div>
-                    <ul className="pagination pagination-primary" style={{float: "right"}}>
-                        {_.range(1, this.props.totalPages + 1).map(page => {
-                            if (Number(this.props.currentPage) === page) {
-                                return (
-                                    <li key={page}>
-                                        <a style={{color: "white"}} className="btn-rose"
-                                           onClick={() => this.props.loadStaffs(page)}>{page}</a>
-                                    </li>
-                                );
-                            } else {
-                                return (
-                                    <li key={page}>
-                                        <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
-                                    </li>
-                                );
-                            }
+                    {
+                        this.props.staffListData && this.props.staffListData.length > 0 &&
+                        <ul className="pagination pagination-primary" style={{float: "right"}}>
+                            {_.range(1, this.props.totalPages + 1).map(page => {
+                                if (Number(this.props.currentPage) === page) {
+                                    return (
+                                        <li key={page}>
+                                            <a style={{color: "white"}} className="btn-rose"
+                                               onClick={() => this.props.loadStaffs(page)}>{page}</a>
+                                        </li>
+                                    );
+                                } else {
+                                    return (
+                                        <li key={page}>
+                                            <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
+                                        </li>
+                                    );
+                                }
 
-                        })}
-                    </ul>
+                            })}
+                        </ul>
+                    }
+
                 </div>
                 <Modal show={this.state.showModalAddUserToStaff} bsSize="large" onHide={this.closeModalAddUserToStaff}>
                     <Modal.Header closeButton>

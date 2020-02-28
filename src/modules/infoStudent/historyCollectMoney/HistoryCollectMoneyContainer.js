@@ -7,6 +7,7 @@ import Loading from "../../../components/common/Loading";
 import {dotNumber} from "../../../helpers/helper";
 import {DISCOUNTYPE, PAYMENT_METHODS_OBJECT} from "../../../constants/constants";
 import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
+import EmptyData from "../../../components/common/EmptyData";
 
 class HistoryCollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -44,70 +45,71 @@ class HistoryCollectMoneyContainer extends React.Component {
                             </div>
                         </li>
                         {
-                            this.props.historyCollectMoney.map(function (register, index) {
-                                return (
-                                    <li className="timeline-inverted" key={index}>
-                                        <div className="timeline-badge">
-                                            <img className="circle" src={register.class.icon_url} alt=""/>
-                                        </div>
-                                        <div className="timeline-panel">
-                                            <h4>
-                                                <b>{register.class.name}</b>
-                                            </h4>
-                                            <div className="timeline-body">
-                                                <div className="flex-row-center">
-                                                    <i className="material-icons">access_time</i>
-                                                    <b>&nbsp; &nbsp; {register.paid_time} </b>
-                                                </div>
-                                                <div className="flex-row-center">
-                                                    <i className="material-icons">create</i>&nbsp; &nbsp;
-                                                    Ghi chú: {register.note}
-                                                </div>
-                                                {
-                                                    register.collector &&
+                            this.props.historyCollectMoney && this.props.historyCollectMoney.length > 0 ? this.props.historyCollectMoney.map(function (register, index) {
+                                    return (
+                                        <li className="timeline-inverted" key={index}>
+                                            <div className="timeline-badge">
+                                                <img className="circle" src={register.class.icon_url} alt=""/>
+                                            </div>
+                                            <div className="timeline-panel">
+                                                <h4>
+                                                    <b>{register.class.name}</b>
+                                                </h4>
+                                                <div className="timeline-body">
                                                     <div className="flex-row-center">
-                                                        <i className="material-icons">account_box
-                                                        </i>&nbsp; &nbsp; Người thu: {register.collector.name}
+                                                        <i className="material-icons">access_time</i>
+                                                        <b>&nbsp; &nbsp; {register.paid_time} </b>
                                                     </div>
-                                                }
-                                                {register.coupons && register.coupons.map((coupon, i) => {
-                                                    let type = DISCOUNTYPE.filter(t => t.id == coupon.discount_type)[0] || {};
-                                                    let text = `${coupon.name}  (-${coupon.discount_value}${type.suffix})`;
-                                                    return (
-                                                        <div className="flex-row-center flex-align-items-center"
-                                                             key={i}>
-                                                            <i className="material-icons">monetization_on
-                                                            </i>&nbsp; &nbsp;
-                                                            <button className="btn btn-xs"
-                                                                    style={{margin: '5px 0', background: coupon.color}}
-                                                            >
-                                                                {text}
-                                                            </button>
+                                                    <div className="flex-row-center">
+                                                        <i className="material-icons">create</i>&nbsp; &nbsp;
+                                                        Ghi chú: {register.note}
+                                                    </div>
+                                                    {
+                                                        register.collector &&
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">account_box
+                                                            </i>&nbsp; &nbsp; Người thu: {register.collector.name}
                                                         </div>
-                                                    );
-                                                })}
-                                            </div>
-                                            <div className="timeline-heading margin-top-10">
-                                                <div className="flex-row-center">
-                                                    <button className="btn btn-xs btn-rose"
-                                                            style={{width: '70px'}}
-                                                    >
-                                                        {dotNumber(register.money)}
-                                                        <div className="ripple-container"/>
-                                                    </button>
-                                                    <button className="btn btn-xs btn-success"
-                                                        // style={{width: '70px'}}
-                                                    >
-                                                        {PAYMENT_METHODS_OBJECT[register.payment_method]}
-                                                        <div className="ripple-container"/>
-                                                    </button>
+                                                    }
+                                                    {register.coupons && register.coupons.map((coupon, i) => {
+                                                        let type = DISCOUNTYPE.filter(t => t.id == coupon.discount_type)[0] || {};
+                                                        let text = `${coupon.name}  (-${coupon.discount_value}${type.suffix})`;
+                                                        return (
+                                                            <div className="flex-row-center flex-align-items-center"
+                                                                 key={i}>
+                                                                <i className="material-icons">monetization_on
+                                                                </i>&nbsp; &nbsp;
+                                                                <button className="btn btn-xs"
+                                                                        style={{margin: '5px 0', background: coupon.color}}
+                                                                >
+                                                                    {text}
+                                                                </button>
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
-                                            </div>
+                                                <div className="timeline-heading margin-top-10">
+                                                    <div className="flex-row-center">
+                                                        <button className="btn btn-xs btn-rose"
+                                                                style={{width: '70px'}}
+                                                        >
+                                                            {dotNumber(register.money)}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                        <button className="btn btn-xs btn-success"
+                                                            // style={{width: '70px'}}
+                                                        >
+                                                            {PAYMENT_METHODS_OBJECT[register.payment_method]}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </div>
+                                                </div>
 
-                                        </div>
-                                    </li>
-                                );
-                            })
+                                            </div>
+                                        </li>
+                                    );
+                                }) :
+                                <EmptyData/>
                         }
                     </ul>
                 }

@@ -27,7 +27,7 @@ const filter = [
         key: "year",
         value: "Năm",
     }
-]
+];
 
 
 class BarChartFilterDate extends React.Component {
@@ -35,13 +35,13 @@ class BarChartFilterDate extends React.Component {
         super(props, context);
         this.state = {
             currentFilter: "date"
-        }
+        };
     }
 
     onChangeFilter = (filter) => {
         this.setState({
             currentFilter: filter
-        })
+        });
     };
 
     getLabels = (groupDates) => {
@@ -62,7 +62,7 @@ class BarChartFilterDate extends React.Component {
     };
 
     getDataSet = (groupDates) => {
-        let data = []
+        let data = [];
         switch (this.state.currentFilter) {
             case "date":
                 data = this.props.data;
@@ -89,8 +89,8 @@ class BarChartFilterDate extends React.Component {
             return {
                 ...value,
                 data: [...data[index]]
-            }
-        })
+            };
+        });
     }
 
     renderFilter = () => {
@@ -115,7 +115,7 @@ class BarChartFilterDate extends React.Component {
                     })}
                 </ul>
             </div>
-        )
+        );
     }
 
     render() {
@@ -135,7 +135,7 @@ class BarChartFilterDate extends React.Component {
         const dataSet = {
             labels: this.getLabels(groupDates),
             datasets: this.getDataSet(groupDates)
-        }
+        };
 
         return (
             <div>
@@ -151,7 +151,7 @@ class BarChartFilterDate extends React.Component {
 
 BarChartFilterDate.defaultProps = {
     dateFilterFormat: DATE_FORMAT
-}
+};
 
 BarChartFilterDate.propTypes = {
     dates: PropTypes.array.isRequired,

@@ -15,6 +15,7 @@ import SelectGroupExamOverlay from "../overlays/SelectGroupExamOverlay";
 import {confirm} from "../../../helpers/helper";
 import TooltipButton from "../../../components/common/TooltipButton";
 import AnalyticExamModal from "./AnalyticExamModal";
+import EmptyData from "../../../components/common/EmptyData";
 
 const DEADLINE = Array.from(Array(45).keys()).map((item) => {
     return {
@@ -211,33 +212,43 @@ class coursesCreateEditExamTemplate extends React.Component {
                         Thêm bài kiểm tra
                     </div>
                 </div>
-                <div>
-                    <div className="flex flex-row flex-align-items-center" style={{
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        marginTop: 30,
-                        marginBottom: 10,
-                    }}>Không có nhóm
-                        <TooltipButton text={"Thống kê"} placement={"top"}>
-                            <div onClick={() => this.analyticExam()}
-                                 style={{marginLeft: 15, fontWeight: 300, cursor: 'pointer'}}><i
-                                style={{fontSize: 28}} className="material-icons">
-                                assessment
-                            </i></div>
-                        </TooltipButton>
+                {
+                    (!this.props.course.exam_templates || this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id)).length == 0) &&
+                    (!this.props.course.group_exams || this.props.course.group_exams.length == 0) &&
+                    <EmptyData/>
+                }
+                {
+                    this.props.course.exam_templates && this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id)).length > 0 &&
 
+                    <div>
+
+                        <div className="flex flex-row flex-align-items-center" style={{
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                            marginTop: 30,
+                            marginBottom: 10,
+                        }}>Không có nhóm
+                            <TooltipButton text={"Thống kê"} placement={"top"}>
+                                <div onClick={() => this.analyticExam()}
+                                     style={{marginLeft: 15, fontWeight: 300, cursor: 'pointer'}}><i
+                                    style={{fontSize: 28}} className="material-icons">
+                                    assessment
+                                </i></div>
+                            </TooltipButton>
+
+                        </div>
+                        <div className="div-table">
+                            {
+                                this.props.course.exam_templates && this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
+                                    .map((template) => {
+                                            return this.renderItem(template);
+                                        }
+                                    )
+                            }
+                        </div>
                     </div>
-                    <div className="div-table">
-                        {
-                            this.props.course.exam_templates && this.props.course.exam_templates.filter((template) => isEmptyInput(template.group_exam_id))
-                                .map((template) => {
-                                        return this.renderItem(template);
-                                    }
-                                )
-                        }
-                    </div>
-                </div>
-                {this.props.course.group_exams && this.props.course.group_exams.map((group) => {
+                }
+                {this.props.course.group_exams && this.props.course.group_exams.length > 0 && this.props.course.group_exams.map((group) => {
                     return (
                         <div>
                             <div className="flex flex-row flex-align-items-center" style={{

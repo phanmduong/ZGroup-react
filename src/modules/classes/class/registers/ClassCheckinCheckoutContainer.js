@@ -7,6 +7,7 @@ import AttendanceTeacher from "../AttendanceTeacher";
 import TimePicker from "../../../../components/common/TimePicker";
 import FormInputText from "../../../../components/common/FormInputText";
 import {Modal} from 'react-bootstrap';
+import EmptyData from "../../../../components/common/EmptyData";
 
 class ClassCheckinCheckoutContainer extends React.Component {
     constructor(props, context) {
@@ -77,33 +78,36 @@ class ClassCheckinCheckoutContainer extends React.Component {
                     <div className="margin-top-10 margin-bottom-10"><b>Giảng viên</b></div>
                     <table className="table" cellSpacing="0" id="list_register">
                         <tbody>
-                        {!isLoading && classData.teacher &&
-                        classData.teacher.attendances.map((attendance, key) => {
-                            let className = attendance.attendance && attendance.attendance.check_in_time && attendance.attendance.check_out_time ? "success" : "";
-                            return (
+                        {!isLoading && classData.teacher && classData.teacher.attendances && classData.teacher.attendances.length > 0 ?
+                            classData.teacher.attendances.map((attendance, key) => {
+                                let className = attendance.attendance && attendance.attendance.check_in_time && attendance.attendance.check_out_time ? "success" : "";
+                                return (
 
-                                <tr key={key} className={className}>
-                                    <td>
-                                        <b>Buổi {attendance.order}</b>
-                                    </td>
-                                    <td style={{minWidth: 100}}>{attendance.staff && attendance.staff.name}</td>
-                                    <td>
-                                        <div>
-                                            {attendance.start_teaching_time} - {attendance.end_teaching_time}
+                                    <tr key={key} className={className}>
+                                        <td>
+                                            <b>Buổi {attendance.order}</b>
+                                        </td>
+                                        <td style={{minWidth: 100}}>{attendance.staff && attendance.staff.name}</td>
+                                        <td>
+                                            <div>
+                                                {attendance.start_teaching_time} - {attendance.end_teaching_time}
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <AttendanceTeacher
-                                            attendance={attendance}
-                                            addCheckinCheckout={this.addCheckinCheckout}
-                                            type={"teacher"}
-                                        />
-                                    </td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <AttendanceTeacher
+                                                attendance={attendance}
+                                                addCheckinCheckout={this.addCheckinCheckout}
+                                                type={"teacher"}
+                                            />
+                                        </td>
+                                    </tr>
 
-                            );
-                        })}
+                                );
+                            })
+                            :
+                            <EmptyData title={"Không có dữ liệu checkin/checkout của giảng viên"}/>
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -111,33 +115,37 @@ class ClassCheckinCheckoutContainer extends React.Component {
                     <div className="margin-top-10 margin-bottom-10"><b>Trợ giảng</b></div>
                     <table className="table" cellSpacing="0" id="list_register">
                         <tbody>
-                        {!isLoading && classData.teacher_assistant &&
-                        classData.teacher_assistant.attendances.map((attendance, key) => {
-                            let className = attendance.attendance && attendance.attendance.check_in_time && attendance.attendance.check_out_time ? "success" : "";
-                            return (
+                        {!isLoading && classData.teacher_assistant && classData.teacher_assistant.attendances && classData.teacher_assistant.attendances.length > 0 ?
+                            classData.teacher_assistant.attendances.map((attendance, key) => {
+                                let className = attendance.attendance && attendance.attendance.check_in_time && attendance.attendance.check_out_time ? "success" : "";
+                                return (
 
-                                <tr key={key} className={className}>
-                                    <td>
-                                        <b>Buổi {attendance.order}</b>
-                                    </td>
-                                    <td style={{minWidth: 100}}>{attendance.staff && attendance.staff.name}</td>
-                                    <td>
-                                        <div>
-                                            {attendance.start_teaching_time} - {attendance.end_teaching_time}
+                                    <tr key={key} className={className}>
+                                        <td>
+                                            <b>Buổi {attendance.order}</b>
+                                        </td>
+                                        <td style={{minWidth: 100}}>{attendance.staff && attendance.staff.name}</td>
+                                        <td>
+                                            <div>
+                                                {attendance.start_teaching_time} - {attendance.end_teaching_time}
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <AttendanceTeacher
-                                            attendance={attendance}
-                                            addCheckinCheckout={this.addCheckinCheckout}
-                                            type={"teaching_assistant"}
-                                        />
-                                    </td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <AttendanceTeacher
+                                                attendance={attendance}
+                                                addCheckinCheckout={this.addCheckinCheckout}
+                                                type={"teaching_assistant"}
+                                            />
+                                        </td>
+                                    </tr>
 
-                            );
-                        })}
+                                );
+                            })
+
+                            :
+                            <EmptyData title={"Không có dữ liệu checkin/checkout của trợ giảng"}/>
+                        }
                         </tbody>
                     </table>
                 </div>

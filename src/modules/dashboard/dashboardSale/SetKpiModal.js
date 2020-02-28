@@ -80,7 +80,7 @@ class SetKpiModal extends React.Component {
     formatDates = (dates) => {
         return dates && dates.map((date) => {
             return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
-        })
+        });
     }
 
     render() {
@@ -137,9 +137,13 @@ class SetKpiModal extends React.Component {
                                         placeholder="KPI"
                                         name="number"
                                         required
-                                        value={setKpiStore.setKpi.money}
-                                        updateFormData={(e) => {
-                                            setKpiStore.setKpi = {...setKpiStore.setKpi, money: e.target.value};
+                                        value={dotNumber(setKpiStore.setKpi.money)}
+                                        updateFormData={(event) => {
+                                            if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
+                                                const money = Number(event.target.value.toString().replace(/\./g, ""));
+                                                setKpiStore.setKpi = {...setKpiStore.setKpi, money};
+
+                                            }
                                         }}
                                     />
                                 </div>
@@ -149,7 +153,7 @@ class SetKpiModal extends React.Component {
                             <div className="panel-heading"
                                  style={{width: 110, border: "none"}}
                                  onClick={() => {
-                                     setKpiStore.openHistoryPanel = !openHistoryPanel
+                                     setKpiStore.openHistoryPanel = !openHistoryPanel;
                                  }}
                             >
                                 <a aria-expanded={openHistoryPanel}

@@ -73,7 +73,7 @@ class DashboardRegisterComponent extends React.Component {
     formatDates = (dates) => {
         return dates && dates.map((date) => {
             return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
-        })
+        });
     }
 
     render() {

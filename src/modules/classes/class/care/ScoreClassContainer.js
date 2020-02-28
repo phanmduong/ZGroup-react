@@ -8,6 +8,7 @@ import FormInputText from "../../../../components/common/FormInputText";
 import {inputExamScore} from "../../classApi";
 import {showErrorNotification, showNotification, showWarningNotification} from "../../../../helpers/helper";
 import Loading from "../../../../components/common/Loading";
+import EmptyData from "../../../../components/common/EmptyData";
 
 class ScoreClassContainer extends React.Component {
     constructor(props, context) {
@@ -78,6 +79,11 @@ class ScoreClassContainer extends React.Component {
         let {classData, isLoading} = this.props;
         let {currentExams, currentRegisters, isSavingScore, currentGroup, isTotalScore} = this.state;
         let noGroup = classData.exams.filter(e => !e.group_exam_id);
+
+        if (!isLoading && (!classData.group_exams || classData.group_exams.length == 0) && (!noGroup || noGroup.length == 0))
+            return (
+                <EmptyData/>
+            );
 
         return (
             <div>

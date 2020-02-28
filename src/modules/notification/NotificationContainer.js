@@ -9,6 +9,7 @@ import socket from '../../services/socketio';
 import "./notification.css";
 import {CHANNEL, MANAGE_BASE_URL} from '../../constants/env';
 import {showNotificationMessage} from "../../helpers/helper";
+import Avatar from "../../components/common/Avatar";
 
 class NotificationContainer extends React.Component {
     constructor(props, context) {
@@ -89,9 +90,17 @@ class NotificationContainer extends React.Component {
                             const backgroundColor = notification.seen === 2 ? "#fff" : "#f5f5f5";
                             return (
                                 <li key={index} style={{backgroundColor}}>
-                                    <a href={MANAGE_BASE_URL + "/notification/" + notification.id + "/redirect"}>
-                                        {//eslint-disable-next-line
-                                        }<div className="notification-item" dangerouslySetInnerHTML={{__html: notification.message}}/>
+                                    <a href={MANAGE_BASE_URL + "/notification/" + notification.id + "/redirect"}
+                                       className="flex flex-row">
+                                        <Avatar size={50} url={notification.image_url} style={{borderRadius: "50%"}}/>
+                                        <div style={{marginLeft: 10}}>
+                                            <div className="notification-item"
+                                                 dangerouslySetInnerHTML={{__html: notification.message}}/>
+                                            <div>
+                                                {notification.created_at}
+                                            </div>
+                                        </div>
+
                                     </a>
                                 </li>
                             );

@@ -11,6 +11,7 @@ import FormInputText from '../../../components/common/FormInputText';
 import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
 import CreateMultiLessonOverlay from "../overlays/CreateMultiLessonOverlay";
 import TermOverlay from "../overlays/TermOverlay";
+import EmptyData from "../../../components/common/EmptyData";
 
 let id;
 
@@ -349,7 +350,7 @@ class coursesCreateEditCurriculum extends React.Component {
                            className="table white-table table-striped table-no-bordered table-hover"
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
                         <tbody>
-                        {this.props.data.lessons.map((lesson, index) => {
+                        {this.props.data.lessons && this.props.data.lessons.length > 0 ? this.props.data.lessons.map((lesson, index) => {
                             return (
                                 <tr key={lesson.id}>
                                     <td><strong>Buổi {lesson.order}</strong></td>
@@ -425,7 +426,9 @@ class coursesCreateEditCurriculum extends React.Component {
                                 </tr>
                             );
 
-                        })}
+                        }) : <EmptyData/>
+
+                        }
                         </tbody>
                     </table>
                 </div>
