@@ -4708,6 +4708,17 @@ input[type=search], .form-control {
       box-shadow: none!important;
     }
   }
+  .form-control-static{
+    &, &::placeholder {
+      font-size: 12px;
+    }
+    padding: 8px 15px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
+    color: #AAAAAA;
+    cursor: not-allowed;
+  }
 }
 
 .set-kpi-form {

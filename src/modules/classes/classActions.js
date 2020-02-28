@@ -292,6 +292,32 @@ export function changeClassLesson(classLesson, classModal) {
     };
 }
 
+export function changeClassLessons(classLesson, callback) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_CLASS_LESSONS_DATA
+        });
+        helper.showWarningNotification('Đang lưu...');
+        classApi.changeClassLessons(classLesson)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.message);
+                    if(callback) callback();
+                    dispatch({
+                        type: types.CHANGE_CLASS_LESSONS_SUCCESS,
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+            }).catch(() => {
+                showErrorNotification('Có lỗi xảy ra!');
+            dispatch({
+                type: types.CHANGE_CLASS_LESSONS_ERROR
+            });
+        });
+    };
+}
+
 export function changeTeacher(classLesson, modal) {
     return function (dispatch) {
         dispatch({

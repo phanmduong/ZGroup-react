@@ -16,6 +16,8 @@ import Loading from "../../../../components/common/Loading";
 import {NO_AVATAR} from "../../../../constants/env";
 import TimePicker from "../../../../components/common/TimePicker";
 import Select from 'react-select';
+import moment from 'moment';
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../../../constants/constants";
 
 class HistoryTeachingContainer extends React.Component {
     constructor(props, context) {
@@ -55,7 +57,10 @@ class HistoryTeachingContainer extends React.Component {
             attendanceSelected: {},
             oldTeachingId: '',
             attendance: {},
-            showModalAddCheckinCheckout: false
+            showModalAddCheckinCheckout: false,
+            showModalDelayLessons: false,
+            delayLessonIndex: 0,
+            delayData: {note:''},
         };
         this.state = this.initState;
     }
@@ -113,6 +118,41 @@ class HistoryTeachingContainer extends React.Component {
 
     closeModalChangeTeachingLesson = () => {
         this.setState({showModalChangeTeachingLesson: false});
+    };
+
+    openModalDelayLessons = (lessonIndex) => {
+        this.setState(
+            {
+                showModalDelayLessons: true,
+                delayLessonIndex: lessonIndex,
+                delayData: {
+                    newDate: this.props.classData.lessons[lessonIndex].time
+                }
+            }
+        );
+    };
+    closeModalDelayLessons = () => {
+        this.setState({showModalDelayLessons: false});
+    };
+
+    saveDelayLessons = () => {
+        let {classData, params, classActions} = this.props;
+        let {delayLessonIndex, delayData} = this.state;
+        let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
+        console.log(delayLessonIndex, delayLesson);
+        let lessons = [];
+        classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson) => {
+            let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
+            let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_FORMAT_SQL);
+            lessons.push({
+                time: newDate,
+                class_lesson_id: lesson.class_lesson_id,
+                note: delayData.note || ''
+            });
+        });
+        classActions.changeClassLessons(lessons, () => {
+            classActions.loadClass(params.classId);
+        });
     };
 
     openModalChangeTeachingLesson = (teachingLesson) => {
@@ -212,8 +252,9 @@ class HistoryTeachingContainer extends React.Component {
 
     render() {
         let {classData, isLoading, user} = this.props;
-        let {openModalClassLesson, openModalChangeTeacher, openModalTeachAssis, openModalTeachingLesson} = this;
-        let {show,} = this.state;
+        let {show, showModalDelayLessons, delayLessonIndex, delayData} = this.state;
+        let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
+
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">
@@ -232,12 +273,14 @@ class HistoryTeachingContainer extends React.Component {
                             return (
                                 <tr key={key} className={color}>
                                     <td style={{minWidth: '100px'}}>
-                                        <a target="_blank" href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
+                                        <a target="_blank"
+                                           href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
 
                                     </td>
                                     <td><a
                                         style={{fontWeight: 400}}
-                                        target="_blank" href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                        target="_blank"
+                                        href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
                                     </td>
                                     <td>
                                         <div>
@@ -322,29 +365,34 @@ class HistoryTeachingContainer extends React.Component {
                                                      }}>
                                                     {(lesson.is_change || user.role == 2) &&
                                                     <button className="btn btn-white width-100"
-                                                            onClick={() => openModalClassLesson(lesson)}>
+                                                            onClick={() => this.openModalDelayLessons(key + '')}>
+                                                        Dời lịch học
+                                                    </button>}
+                                                    {(lesson.is_change || user.role == 2) &&
+                                                    <button className="btn btn-white width-100"
+                                                            onClick={() => this.openModalClassLesson(lesson)}>
                                                         Đổi lịch dạy
                                                     </button>}
                                                     {(lesson.is_change || user.role == 2) && lesson.teacher &&
                                                     <button className="btn btn-white width-100"
-                                                            onClick={() => openModalChangeTeacher(lesson)}>
+                                                            onClick={() => this.openModalChangeTeacher(lesson)}>
                                                         Đổi giảng viên
                                                     </button>}
                                                     {(lesson.is_change || user.role == 2) && lesson.teacher_assistant &&
                                                     <button className="btn btn-white width-100"
-                                                            onClick={() => openModalTeachAssis(lesson)}>
+                                                            onClick={() => this.openModalTeachAssis(lesson)}>
                                                         Đổi trợ giảng
                                                     </button>}
-                                                    {(lesson.is_change || user.role == 2) &&
-                                                    <button className="btn btn-white width-100"
-                                                            onClick={() => openModalTeachingLesson(lesson, 1)}>
-                                                        Danh sách giảng viên
-                                                    </button>}
-                                                    {(lesson.is_change || user.role == 2) &&
-                                                    <button className="btn btn-white width-100"
-                                                            onClick={() => openModalTeachingLesson(lesson, 2)}>
-                                                        Danh sách trợ giảng
-                                                    </button>}
+                                                    {/*{(lesson.is_change || user.role == 2) &&*/}
+                                                    {/*<button className="btn btn-white width-100"*/}
+                                                    {/*        onClick={() => this.openModalTeachingLesson(lesson, 1)}>*/}
+                                                    {/*    Danh sách giảng viên*/}
+                                                    {/*</button>}*/}
+                                                    {/*{(lesson.is_change || user.role == 2) &&*/}
+                                                    {/*<button className="btn btn-white width-100"*/}
+                                                    {/*        onClick={() => this.openModalTeachingLesson(lesson, 2)}>*/}
+                                                    {/*    Danh sách trợ giảng*/}
+                                                    {/*</button>}*/}
 
                                                 </div>
                                             </Overlay>
@@ -356,6 +404,77 @@ class HistoryTeachingContainer extends React.Component {
                     }
                     </tbody>
                 </table>
+
+                <Modal show={showModalDelayLessons} onHide={this.closeModalDelayLessons} bsSize="small">
+                    <Modal.Header closeButton>
+                        <h4 className="modal-title text-center">Dời lịch học</h4>
+                        {showModalDelayLessons &&
+                        <p className="text-center">Tất cả các buổi sau Buổi {delayLesson.order}</p>}
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="form-grey">
+                            <label>Lịch học hiện tại</label>
+                            <FormInputText
+                                value={classData.study_time}
+                                disabled
+                            />
+                            <label>Ngày hiện tại</label>
+                            <FormInputText
+                                value={delayLesson.time}
+                                disabled
+                            />
+                            <label>Ngày mới</label>
+                            <FormInputDate name="newDate" id="form-delay-new-date"
+                                           value={delayData.newDate}
+                                           format={DATE_VN_FORMAT}
+                                           minDate={moment(delayLesson.time, DATE_VN_FORMAT).add(1, 'days')}
+                                           updateFormData={(e) => this.setState({
+                                               delayData: {...delayData, newDate: e.target.value}
+                                           })}/>
+                            <label>Ghi chú</label>
+                            <FormInputText name="note"
+                                           value={delayData.note}
+                                           updateFormData={(e) => this.setState({
+                                               delayData: {...delayData, note: e.target.value}
+                                           })}
+                            />
+                            <div className="table-responsive">
+                                <table className="margin-top-20">
+                                    <thead>
+                                    <tr>
+                                        <th/>
+                                        <th>Ngày cũ</th>
+                                        <th/>
+                                        <th>Ngày mới</th>
+                                    </tr>
+                                    </thead>
+                                    <br/>
+                                    <tbody>
+                                    {classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson, key) => {
+                                        let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
+                                        let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_VN_FORMAT);
+                                        return (
+                                            <tr key={key}>
+                                                <td style={{width: 80}}><b>Buổi {lesson.order}</b></td>
+                                                <td style={{width: 80}}>{lesson.time}</td>
+                                                <td style={{width: 25}}><b>→</b></td>
+                                                <td style={{width: 80}}>{newDate}</td>
+                                            </tr>);
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="flex-end margin-top-10">
+                                <div className="btn btn-white">Hủy</div>
+                                <div className="btn button-green"
+                                     onClick={this.saveDelayLessons}
+                                >Xác nhận
+                                </div>
+                            </div>
+
+                        </div>
+                    </Modal.Body>
+                </Modal>
 
                 <Modal
                     show={this.state.showModalClassLesson}

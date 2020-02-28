@@ -14,6 +14,7 @@ import * as studentActions from "../../infoStudent/studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as leadActions from "../leadActions";
 import {GENDER, STATUS_REFS} from "../../../constants/constants";
+import {isEmptyInput} from "../../../helpers/helper";
 
 
 function getSelectSaler(items) {
@@ -128,15 +129,18 @@ class CreateLeadOverlay extends React.Component {
 
     create = (e) => {
         let {lead} = this.state;
-        if (lead.name === null || lead.name === undefined || lead.name === "") {
+        let isEmptyName = isEmptyInput(lead.name);
+        let isEmptyPhone = isEmptyInput(lead.phone);
+        let isEmptyEmail = isEmptyInput(lead.email);
+        if (isEmptyName) {
             helper.showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
         }
-        if (lead.phone === null || lead.phone === undefined || lead.phone === "") {
+        if (isEmptyPhone) {
             helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             return;
         }
-        if (lead.email === null || lead.email === undefined || lead.email === "") {
+        if (isEmptyEmail) {
             helper.showTypeNotification("Vui lòng nhập email", 'warning');
             return;
         }
@@ -150,7 +154,12 @@ class CreateLeadOverlay extends React.Component {
         }
         this.props.leadActions.editInfoLead(
             lead,
-            this.close
+            ()=>{
+                this.close;
+                if(this.props.onSuccess){
+                    this.props.onSuccess();
+                }
+            }
         );
 
         e.preventDefault();

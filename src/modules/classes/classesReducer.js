@@ -262,6 +262,30 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorChangeClassLesson: true
                 }
             };
+        case types.BEGIN_CHANGE_CLASS_LESSONS_DATA:
+            return {
+                ...state,
+                ...{
+                    isChangingClassLesson: true,
+
+                }
+            };
+        case types.CHANGE_CLASS_LESSONS_SUCCESS:
+
+            return {
+                ...state,
+                ...{
+                    isChangingClassLesson: false,
+
+                }
+            };
+        case types.CHANGE_CLASS_LESSONS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingClassLesson: false,
+                }
+            };
         case types.BEGIN_CHANGE_TEACHER_DATA:
             return {
                 ...state,

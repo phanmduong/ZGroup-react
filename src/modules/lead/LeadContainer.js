@@ -720,6 +720,14 @@ class LeadContainer extends React.Component {
                             {/*</button>*/}
                             <CreateLeadOverlay
                                 className="btn btn-white btn-round btn-icon"
+                                onSuccess={()=>{
+                                    this.setState({staff: "", page: 1});
+                                    this.props.leadActions.getLeads({
+                                        ...this.state,
+                                        page: 1,
+                                        staffId: ''
+                                    });
+                                }}
                             />
                             {this.isAdmin && !this.state.isDistribution &&
                             <div className="btn btn-white btn-round btn-icon"

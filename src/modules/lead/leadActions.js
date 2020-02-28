@@ -67,8 +67,6 @@ export function editInfoLead(lead, closeModal) {
                     });
                     showNotification("Lưu thành công");
                 } else {
-                    if(closeModal)closeModal(false);
-
                     showErrorNotification(res.data.message);
                     dispatch({type: types.EDIT_INFO_LEAD_ERROR});
                 }

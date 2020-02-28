@@ -184,6 +184,17 @@ export function changeClassLesson(classLesson) {
         'time': classLesson.time,
     });
 }
+export function changeClassLessons(classLessons) {
+    let url = env.MANAGE_API_URL + `/class/change-class-lessons`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+
+    return axios.put(url, {classLessons});
+}
 
 export function changeTeacher(classLesson) {
     let url = env.MANAGE_API_URL + `/class/change-teacher`;
