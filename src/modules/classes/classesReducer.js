@@ -279,9 +279,10 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorChangeTeacher: false,
                     class: {
                         ...state.class,
+                        lessons: changeDataTeachLesson('teacher',action.classLesson, state.class.lessons),
                         teacher: {
                             ...state.class.teacher,
-                            attendances: changeDataTeach(action.classLesson, state.class.teacher.attendances)
+                            attendances: changeDataTeach(action.classLesson, state.class.teacher.attendances),
                         }
                     }
                 }
@@ -311,9 +312,11 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorChangeTeachingAssis: false,
                     class: {
                         ...state.class,
+                        lessons: changeDataTeachLesson('teacher_assistant',action.classLesson, state.class.lessons),
                         teacher_assistant: {
                             ...state.class.teacher_assistant,
-                            attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant.attendances)
+                            attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant.attendances),
+
                         }
                     }
                 }
@@ -598,6 +601,23 @@ function changeDataLesson(classLesson, lessons) {
                     return {
                         ...lesson,
                         time: moment(classLesson.time).format(DATE_VN_FORMAT),
+                    };
+                }
+                return lesson;
+            }
+        );
+    }
+
+    return lessons;
+}
+
+function changeDataTeachLesson(type,classLesson, lessons) {
+    if (lessons) {
+        lessons = lessons.map(lesson => {
+                if (lesson.id === classLesson.id) {
+                    return {
+                        ...lesson,
+                        [type]: classLesson.staff,
                     };
                 }
                 return lesson;
