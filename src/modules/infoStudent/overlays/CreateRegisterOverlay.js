@@ -134,6 +134,7 @@ class CreateRegisterOverlay extends React.Component {
     };
     updateFormData = (event) => {
         const {name, value} = event.target;
+        console.log((name, value));
         let register = {...this.state.register};
         register[name] = value;
         this.setState({register});
@@ -522,13 +523,22 @@ class CreateRegisterOverlay extends React.Component {
                                             /></div>
                                         <div>
                                             <label>Ngày sinh</label>
-                                            <FormInputDate
-                                                placeholder="Chọn ngày sinh"
+                                            <FormInputText
+                                                placeholder="dd/mm/yyyy"
                                                 value={register.dob}
                                                 updateFormData={this.updateFormData}
                                                 id="form-change-dob"
                                                 name="dob"
-                                            /></div>
+                                                type="date"
+                                            />
+                                            {/*<FormInputDate*/}
+                                            {/*    placeholder="Chọn ngày sinh"*/}
+                                            {/*    value={register.dob}*/}
+                                            {/*    updateFormData={this.updateFormData}*/}
+                                            {/*    id="form-change-dob"*/}
+                                            {/*    name="dob"*/}
+                                            {/*/>*/}
+                                        </div>
                                         <div>
                                             <label>Địa chỉ</label>
                                             <ReactSelect

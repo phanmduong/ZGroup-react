@@ -4772,3 +4772,9 @@ input[type=search], .form-control {
   margin-right: auto;
 }
 
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
