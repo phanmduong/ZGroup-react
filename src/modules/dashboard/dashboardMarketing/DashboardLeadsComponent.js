@@ -3,13 +3,10 @@ import {observer} from 'mobx-react';
 import {store} from "./DashBoardMarketingStore";
 import BarChartFilterDate from '../BarChartFilterDate';
 
-
-import DateRangePicker from "../../../components/common/DateTimePicker";
-import ItemReactSelect from "../../../components/common/ItemReactSelect";
-import ReactSelect from "react-select";
 import moment from "moment";
 import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
-import {dotNumber} from "../../../helpers/helper";
+import {dotNumber, isEmptyInput} from "../../../helpers/helper";
+import DashboardLeadFilter from "./DashboardLeadFilter";
 
 
 const optionsBarLead = {
@@ -80,6 +77,9 @@ export default class DashboardLeadsComponent extends React.Component {
         store.pathname = this.props.location.pathname;
     }
 
+    checkColor = (color) => {
+        return isEmptyInput(color) ? '#eeeeee' : color;
+    }
 
     formatDates = (dates) => {
         return dates && dates.map((date) => {
@@ -88,93 +88,42 @@ export default class DashboardLeadsComponent extends React.Component {
     };
 
     statusLabels = ()=>{
-        return store.data.analytics.leadStatuses.map(stt=>{
+        return store.data.analytics.leadStatuses.map(obj=>{
+            let color = this.checkColor( obj.color);
             return {
-                label: stt.name,
-                backgroundColor: stt.color,
-                borderColor: stt.color,
+                label: obj.name,
+                backgroundColor: color,
+                borderColor: color,
             };
         });
     }
     sourceLabels = ()=>{
         return store.data.analytics.leadSources.map(obj=>{
+            let color = this.checkColor( obj.color);
             return {
                 label: obj.name,
-                backgroundColor: obj.color,
-                borderColor: obj.color,
+                backgroundColor: color,
+                borderColor: color,
             };
         });
     }
     campaignLabels = ()=>{
         return store.data.analytics.leadCampaigns.map(obj=>{
+            let color = this.checkColor( `#${obj.color}`);
             return {
                 label: obj.name,
-                backgroundColor: `#${obj.color}`,
-                borderColor: `#${obj.color}`,
+                backgroundColor: color,
+                borderColor: color,
             };
         });
     }
 
     render() {
         this.path = this.props.location.pathname;
-        let {isLoading, filter} = store;
+        let {isLoading} = store;
         return (
             <div className="row gutter-20 margin-top-20">
-
-
-                <div className="col-md-3">
-                    <DateRangePicker className="background-white padding-vertical-10px cursor-pointer margin-bottom-20"
-                                     start={moment(filter.start_time)} end={moment(filter.end_time)}
-                                     style={{padding: '5px 10px 5px 20px', lineHeight: '34px'}}
-                                     onChange={store.changeDateRangePicker}
-
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={store.filter.gen_id}
-                        options={store.getFilterOptions.gens}
-                        onChange={(e) => store.onChangeFilter('gen_id', e)}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn khóa"
-                        clearable={false}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={store.filter.base_id}
-                        options={store.getFilterOptions.bases}
-                        onChange={(e) => store.onChangeFilter('base_id', e)}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn cơ sở"
-                        clearable={false}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect.Async
-                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2, true)}
-                        loadingPlaceholder="Đang tải..."
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn nhân viên"
-                        searchPromptText="Không có dữ liệu nhân viên"
-                        onChange={(e) => store.onChangeFilter('carer_id', e)}
-                        value={store.filter.carer}
-                        optionRenderer={(option) => {
-                            return (
-                                <ItemReactSelect label={option.label}
-                                                 url={option.avatar_url}/>
-                            );
-                        }}
-                        valueRenderer={(option) => {
-                            return (
-                                <ItemReactSelect label={option.label}
-                                                 url={option.avatar_url}/>
-                            );
-                        }}
-                    />
-                </div>
-
-
+                <DashboardLeadFilter/>
                 {!isLoading &&
                 this.cardDatas.map((card) => {
                     return (
@@ -331,7 +280,7 @@ export default class DashboardLeadsComponent extends React.Component {
                                     isLoading={isLoading}
                                     dates={this.formatDates(store.data.analytics.dates)}
                                     data={store.data.analytics.leadsByStatuses}
-                                    id="barchar_lead_by_stt"
+                                    id="barchar_lead_by_obj"
                                     dateFormat={DATE_FORMAT}
                                     optionsBar={optionsStackedBarLead}
                                     labels={this.statusLabels()}

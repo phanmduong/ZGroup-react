@@ -10,7 +10,6 @@ import FormInputText from "../../../components/common/FormInputText";
 import MemberReactSelectOption from "../../registerStudents/MemberReactSelectOption";
 import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValue";
 import {GENDER} from "../../../constants/constants";
-import FormInputDate from "../../../components/common/FormInputDate";
 import ReactSelect from "react-select";
 import {dotNumber, isEmptyInput, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
