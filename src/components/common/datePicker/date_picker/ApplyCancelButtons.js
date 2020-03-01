@@ -179,13 +179,13 @@ function (_React$Component) {
       return _react.default.createElement("div", {
         className: className,
         role: "button",
-        onMouseEnter: onMouseEnter,
-        onMouseLeave: onMouseLeave,
+        // onMouseEnter: onMouseEnter,
+        // onMouseLeave: onMouseLeave,
         onClick: onClick,
         style: styleLocal,
         onKeyDown: onKeyDown,
         tabIndex: 0,
-        onFocus: onFocus,
+        // onFocus: onFocus,
         onBlur: onBlur
       }, text);
     }

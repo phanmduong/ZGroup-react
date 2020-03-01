@@ -42,7 +42,7 @@ export const store = new class Store {
 
     ];
     @observable filter = {
-        start_time: moment().subtract(30, 'days'),
+        start_time: moment().subtract(35, 'days'),
         end_time: moment().subtract(0, 'days'),
         base_id: 0,
         carer_id: '',
