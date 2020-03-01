@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import moment from "moment";
 import Loading from "../../../components/common/Loading";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
+import * as userActions from "../../../actions/userActions";
 
 @observer
 class Filter extends React.Component {
@@ -38,10 +39,39 @@ class Filter extends React.Component {
         this.load();
     }
 
+    onChangeCourse = (value) => {
+        const course_id = value ? value.value : 0;
+
+        filterStore.filter = {...filterStore.filter, course_id};
+        this.load();
+    }
+
+    onChangeSource = (value) => {
+        const source_id = value ? value.value : 0;
+
+        filterStore.filter = {...filterStore.filter, source_id};
+        this.load();
+    }
+
+    onChangeCampaign = (value) => {
+        const campaign_id = value ? value.value : 0;
+
+        filterStore.filter = {...filterStore.filter, campaign_id};
+        this.load();
+    }
+
     onChangeBase = (value) => {
         const base_id = value ? value.value : 0;
         filterStore.filter = {...filterStore.filter, base_id};
         this.props.baseActions.selectedBase(base_id);
+    }
+
+    onChangeProvince = (value) => {
+        const provinceId = value ? value.value : 0;
+        let user = {...this.props.user};
+        user.choice_province_id = provinceId;
+        localStorage.setItem("user", JSON.stringify(user));
+        userActions.choiceProvince(provinceId, false);
     }
 
     onChangeStaff = (value) => {
@@ -68,8 +98,15 @@ class Filter extends React.Component {
         }).map((base) => {
             return {value: base.id, label: base.name};
         }) : [];
-        basesData = [{value: 0, label: "Tất cả"}, ...basesData];
+        basesData = [{value: 0, label: "Tất cả cơ sở"}, ...basesData];
         return basesData;
+    }
+
+    getProvincesData = () => {
+        let {provinces} = this.props;
+        return [{value: 0, label: "Tất cả thành phố"}, ...provinces.map((province) => {
+            return {value: province.id, label: province.name}
+        })];
     }
 
     load = () => {
@@ -81,8 +118,8 @@ class Filter extends React.Component {
 
 
     render() {
-        let {filter, gensData, isLoading} = filterStore;
-        let {selectedBaseId} = this.props;
+        let {filter, gensData, isLoading, coursesData, sourcesData, marketingCampaignData} = filterStore;
+        let {selectedBaseId, user} = this.props;
         if (isLoading) return (
             <div className="row gutter-20 margin-top-20">
                 <Loading/>
@@ -110,11 +147,11 @@ class Filter extends React.Component {
                 </div>
                 <div className="col-md-3">
                     <ReactSelect
-                        value={selectedBaseId}
-                        options={this.getBasesData()}
-                        onChange={this.onChangeBase}
+                        value={filter.course_id}
+                        options={coursesData}
+                        onChange={this.onChangeCourse}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn cơ sở"
+                        placeholder="Chọn khóa học"
                         clearable={false}
                     />
                 </div>
@@ -141,13 +178,52 @@ class Filter extends React.Component {
                         }}
                     />
                 </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={user && user.choice_province_id ? user.choice_province_id : 0}
+                        options={this.getProvincesData()}
+                        onChange={this.onChangeProvince}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn thành phồ"
+                        clearable={false}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={selectedBaseId}
+                        options={this.getBasesData()}
+                        onChange={this.onChangeBase}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn cơ sở"
+                        clearable={false}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={filter.source_id}
+                        options={sourcesData}
+                        onChange={this.onChangeSource}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn nguồn"
+                        clearable={false}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={filter.campaign_id}
+                        options={marketingCampaignData}
+                        onChange={this.onChangeCampaign}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn chiến dịch"
+                        clearable={false}
+                    />
+                </div>
             </div>
         );
     }
 }
 
-Filter
-    .propTypes = {
+Filter.propTypes = {
     selectedBaseId: PropTypes.number,
     baseActions: PropTypes.object,
     loadData: PropTypes.func.render,
@@ -160,6 +236,7 @@ mapStateToProps(state) {
     return {
         selectedBaseId: state.global.selectedBaseId,
         bases: state.global.bases,
+        provinces: state.global.provinces,
         user: state.login.user,
     };
 }

@@ -28,7 +28,7 @@ export default class DashboardSaleContainer extends React.Component {
     }
 
     componentDidMount() {
-        filterStore.loadGensData();
+        filterStore.loadData();
     }
 
     render() {

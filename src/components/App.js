@@ -48,7 +48,7 @@ class App extends React.Component {
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {key: province.id, value: province.name};
         }) : [];
-        provinces = [{key: 0, value: "Tất cả"}, ...provinces];
+        provinces = [{key: 0, value: "T.cả t.phố"}, ...provinces];
 
         let bases = this.props.bases ? this.props.bases.filter((base) => {
             if (this.props.user && this.props.user.choice_province_id > 0) {
@@ -59,7 +59,7 @@ class App extends React.Component {
         }).map((base) => {
             return {key: base.id, value: base.name};
         }) : [];
-        bases = [{key: 0, value: "Tất cả"}, ...bases];
+        bases = [{key: 0, value: "Tất cả cơ sở"}, ...bases];
 
         return (
             <div className="wrapper">
@@ -138,7 +138,7 @@ class App extends React.Component {
                                         <i className="material-icons">
                                             menu
                                         </i>
-                                        <div className="ripple-container" />
+                                        <div className="ripple-container"/>
                                     </div>
                                     <div
                                         style={{width: 150}}
@@ -153,7 +153,7 @@ class App extends React.Component {
                                         />
                                     </div>
                                     <div
-                                        style={{width: 130}}
+                                        style={{width: 150}}
                                     >
                                         <Select
                                             defaultMessage={'Chọn cơ sở'}
