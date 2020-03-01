@@ -1,11 +1,63 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {store} from "./DashBoardMarketingStore";
-import Barchart from "../Barchart";
+import BarChartFilterDate from '../BarChartFilterDate';
+
+
 import DateRangePicker from "../../../components/common/DateTimePicker";
 import ItemReactSelect from "../../../components/common/ItemReactSelect";
 import ReactSelect from "react-select";
 import moment from "moment";
+import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
+import {dotNumber} from "../../../helpers/helper";
+
+
+const optionsBarLead = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
+const optionsStackedBarLead = {
+    scales: {
+        xAxes: [{
+            stacked: true
+        }],
+        yAxes: [{
+            stacked: true
+        }]
+    },
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
 
 @observer
 export default class DashboardLeadsComponent extends React.Component {
@@ -29,10 +81,43 @@ export default class DashboardLeadsComponent extends React.Component {
     }
 
 
+    formatDates = (dates) => {
+        return dates && dates.map((date) => {
+            return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
+        });
+    };
+
+    statusLabels = ()=>{
+        return store.data.analytics.leadStatuses.map(stt=>{
+            return {
+                label: stt.name,
+                backgroundColor: stt.color,
+                borderColor: stt.color,
+            };
+        });
+    }
+    sourceLabels = ()=>{
+        return store.data.analytics.leadSources.map(obj=>{
+            return {
+                label: obj.name,
+                backgroundColor: obj.color,
+                borderColor: obj.color,
+            };
+        });
+    }
+    campaignLabels = ()=>{
+        return store.data.analytics.leadCampaigns.map(obj=>{
+            return {
+                label: obj.name,
+                backgroundColor: `#${obj.color}`,
+                borderColor: `#${obj.color}`,
+            };
+        });
+    }
+
     render() {
         this.path = this.props.location.pathname;
         let {isLoading, filter} = store;
-
         return (
             <div className="row gutter-20 margin-top-20">
 
@@ -115,7 +200,7 @@ export default class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
-                                    <strong>Số lượng đăng kí theo ngày</strong>
+                                    <strong>Phễu chuyển đổi</strong>
                                 </h4>
                                 <br/>
                                 <br/>
@@ -145,7 +230,7 @@ export default class DashboardLeadsComponent extends React.Component {
                                                              style={{
                                                                  width: Math.max(val / total * 100, 0.1) + '%',
                                                                  opacity: (1 - key / 5)
-                                                             }} />
+                                                             }}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -161,20 +246,33 @@ export default class DashboardLeadsComponent extends React.Component {
 
                     </div>
                 </div>}
-                {!isLoading &&
                 <div className="col-md-12">
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
-                                    <strong>Số lượng đăng kí theo ngày</strong>
+                                    <strong>Số Lead mới theo ngày tạo</strong>
                                 </h4>
                                 <br/>
                                 <br/>
-                                <Barchart
-                                    label={store.data.analytics.dates}
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
                                     data={[store.data.analytics.leadsCountByDates, store.data.analytics.leadsReachedCountByDates]}
+                                    dateFormat={DATE_FORMAT}
                                     id="barchar_lead_by_date"
+                                    optionsBar={optionsBarLead}
+                                    labels={[
+                                        {
+                                            label: "Số lead mới",
+                                            backgroundColor: '#ffaa00',
+                                            borderColor: '#ffaa00',
+                                        },
+                                        {
+                                            label: "Số lead đã tiếp cận",
+                                            backgroundColor: '#4caa00',
+                                            borderColor: '#4caa00',
+                                        }]}
                                 />
                                 <br/>
 
@@ -183,21 +281,35 @@ export default class DashboardLeadsComponent extends React.Component {
 
                     </div>
                 </div>
-                }
-                {!isLoading &&
+
+
                 <div className="col-md-12">
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
-                                    <strong>Số Lead chuyển đổi theo ngày</strong>
+                                    <strong>Số Lead chuyển đổi(Lead to Deal)</strong>
                                 </h4>
                                 <br/>
                                 <br/>
-                                <Barchart
-                                    label={store.data.analytics.dates}
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
                                     data={[store.data.analytics.leadsComebackCountByDates, store.data.analytics.leadsComebackTwiceCountByDates]}
                                     id="barchar_lead_transfer_by_date"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsBarLead}
+                                    labels={[
+                                        {
+                                            label: "Số lead đăng kí mới",
+                                            backgroundColor: '#ffaa00',
+                                            borderColor: '#ffaa00',
+                                        },
+                                        {
+                                            label: "Số lead tái đăng kí",
+                                            backgroundColor: '#4caa00',
+                                            borderColor: '#4caa00',
+                                        }]}
                                 />
                                 <br/>
 
@@ -206,7 +318,82 @@ export default class DashboardLeadsComponent extends React.Component {
 
                     </div>
                 </div>
-                }
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Tỉ lệ Lead theo trạng thái</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
+                                    data={store.data.analytics.leadsByStatuses}
+                                    id="barchar_lead_by_stt"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsStackedBarLead}
+                                    labels={this.statusLabels()}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Tỉ lệ Lead theo nguồn</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
+                                    data={store.data.analytics.leadsBySources}
+                                    id="barchar_lead_by_source"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsStackedBarLead}
+                                    labels={this.sourceLabels()}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Tỉ lệ Lead theo chiến dịch</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
+                                    data={store.data.analytics.leadsByCampaigns}
+                                    id="barchar_lead_by_campaign"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsStackedBarLead}
+                                    labels={this.campaignLabels()}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         );
     }

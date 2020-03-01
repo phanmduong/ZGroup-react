@@ -21,6 +21,12 @@ export const store = new class Store {
             leadsReachedCountByDates: [],
             leadsComebackCountByDates: [],
             leadsComebackTwiceCountByDates: [],
+            leadStatuses: [],
+            leadsByStatuses: [],
+            leadSources: [],
+            leadsBySources: [],
+            leadCampaigns: [],
+            leadsByCampaigns: [],
         }
     };
     @observable routes = [
@@ -36,7 +42,7 @@ export const store = new class Store {
 
     ];
     @observable filter = {
-        start_time: moment().subtract(30, 'days'),
+        start_time: moment().subtract(300, 'days'),
         end_time: moment().subtract(0, 'days'),
         base_id: 0,
         carer_id: '',
@@ -135,24 +141,23 @@ export const store = new class Store {
         loadGens().then((res) => {
             this.data.gens = res.data.data.gens;
             this.filter.gen_id = res.data.data.current_gen.id;
-            this.load();
+
         }).catch((e) => {
             showErrorNotification('Có lỗi xảy ra!');
             console.log(e);
         });
-
-
+        this.load();
     };
     @action
     load = () => {
 
         switch (this.pathname) {
             case `${this.routePrefix}/sources-campaigns`:{
-                this.loadAnalyticsSourceCampaign();
+                this.loadAnalyticsLead();
                 break;
             }
             case `${this.routePrefix}/pic`:{
-                this.loadAnalyticsSourceCampaign();
+                this.loadAnalyticsLead();
                 break;
             }
             default:{

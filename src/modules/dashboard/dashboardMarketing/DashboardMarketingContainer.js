@@ -17,8 +17,8 @@ export default class DashboardMarketingContainer extends React.Component {
     }
 
     componentDidMount() {
-        store.initLoad();
         store.pathname = this.props.location.pathname;
+        store.initLoad();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -29,10 +29,11 @@ export default class DashboardMarketingContainer extends React.Component {
 
     }
 
+
     render() {
         this.path = this.props.location.pathname;
         let {isLoading} = store;
-        console.log({...store}.pathname);
+        console.log(isLoading);
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -59,64 +60,10 @@ export default class DashboardMarketingContainer extends React.Component {
 
                     </div>
                 </div>
+
+
                 {isLoading && <Loading/>}
-
                 {!isLoading && this.props.children}
-                {/*{!isLoading && <div className="row margin-top-20 gutter-20">*/}
-
-                {/*    <div className="col-md-3">*/}
-                {/*        <DateRangePicker className="background-white padding-vertical-10px cursor-pointer"*/}
-                {/*                         start={moment(filter.start_time)} end={moment(filter.end_time)}*/}
-                {/*                         style={{padding: '5px 10px 5px 20px', lineHeight: '34px'}}*/}
-                {/*                         onChange={store.changeDateRangePicker}*/}
-
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*    <div className="col-md-3">*/}
-                {/*        <ReactSelect*/}
-                {/*            value={store.filter.gen_id}*/}
-                {/*            options={store.getFilterOptions.gens}*/}
-                {/*            onChange={(e) => store.onChangeFilter('gen_id',e)}*/}
-                {/*            className="react-select-white-light-round cursor-pointer"*/}
-                {/*            placeholder="Chọn khóa"*/}
-                {/*            clearable={false}*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*    <div className="col-md-3">*/}
-                {/*        <ReactSelect*/}
-                {/*            value={store.filter.base_id}*/}
-                {/*            options={store.getFilterOptions.bases}*/}
-                {/*            onChange={(e) => store.onChangeFilter('base_id',e)}*/}
-                {/*            className="react-select-white-light-round cursor-pointer"*/}
-                {/*            placeholder="Chọn cơ sở"*/}
-                {/*            clearable={false}*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*    <div className="col-md-3">*/}
-                {/*        <ReactSelect.Async*/}
-                {/*            loadOptions={(p1, p2) => store.loadStaffs(p1, p2, true)}*/}
-                {/*            loadingPlaceholder="Đang tải..."*/}
-                {/*            className="react-select-white-light-round cursor-pointer"*/}
-                {/*            placeholder="Chọn nhân viên"*/}
-                {/*            searchPromptText="Không có dữ liệu nhân viên"*/}
-                {/*            onChange={(e) => store.onChangeFilter('carer_id',e)}*/}
-                {/*            value={store.filter.carer}*/}
-                {/*            optionRenderer={(option) => {*/}
-                {/*                return (*/}
-                {/*                    <ItemReactSelect label={option.label}*/}
-                {/*                                     url={option.avatar_url}/>*/}
-                {/*                );*/}
-                {/*            }}*/}
-                {/*            valueRenderer={(option) => {*/}
-                {/*                return (*/}
-                {/*                    <ItemReactSelect label={option.label}*/}
-                {/*                                     url={option.avatar_url}/>*/}
-                {/*                );*/}
-                {/*            }}*/}
-                {/*        />*/}
-                {/*    </div>*/}
-
-                {/*</div>}*/}
 
 
             </div>
