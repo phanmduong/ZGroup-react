@@ -8,6 +8,7 @@ import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import Search from "../../../components/common/Search";
 import * as staffActions from "../../manageStaff/staffActions";
+import {getShortName} from "../../../helpers/helper";
 
 class PicOverlay extends React.Component {
     constructor(props, context) {
@@ -73,7 +74,7 @@ class PicOverlay extends React.Component {
     staffName = () => {
         let{staffs } = this.props;
         let s = staffs && staffs.filter(i => i.id == this.state.student.staff_id)[0];
-        return s ? s.name : "No P.I.C";
+        return s ? getShortName(s.name) : "No P.I.C";
     };
 
     render() {

@@ -18,17 +18,20 @@ class DashboardLeadFilter extends React.Component {
 
     onChangeProvince = (value) => {
         const provinceId = value ? value.value : 0;
+        userActions.choiceProvince(provinceId, false);
         let user = {...this.props.user};
         user.choice_province_id = provinceId;
-        store.filter.province_id = provinceId;
+        store.filter.choice_province_id = provinceId;
         localStorage.setItem("user", JSON.stringify(user));
-        userActions.choiceProvince(provinceId, false);
+        store.load();
+
     };
 
     onChangeBase = (value) => {
         const base_id = value ? value.value : 0;
         store.filter.base_id = base_id;
         this.props.baseActions.selectedBase(base_id);
+        store.load();
     };
 
     getBasesData = () => {
@@ -54,8 +57,7 @@ class DashboardLeadFilter extends React.Component {
 
     render() {
         let {filter} = store;
-        let {selectedBaseId, user} = this.props;
-        let {gens, bases, campaigns, sources} = store.getFilterOptions;
+        let {selectedBaseId} = this.props;
         return (
 
             <div className="gutter-20">
@@ -71,32 +73,57 @@ class DashboardLeadFilter extends React.Component {
                 <div className="col-md-3">
                     <ReactSelect
                         value={store.filter.gen_id}
-                        options={gens}
+                        options={store.getFilterOptions.gens}
                         onChange={(e) => store.onChangeFilter('gen_id', e)}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn khóa"
                         clearable={false}
                     />
                 </div>
+                {/*<div className="col-md-3">*/}
+                {/*    <ReactSelect*/}
+                {/*        value={store.filter.base_id}*/}
+                {/*        options={bases}*/}
+                {/*        onChange={(e) => store.onChangeFilter('base_id', e)}*/}
+                {/*        className="react-select-white-light-round cursor-pointer margin-bottom-20"*/}
+                {/*        placeholder="Chọn cơ sở"*/}
+                {/*        clearable={false}*/}
+                {/*    />*/}
+                {/*</div>*/}
                 <div className="col-md-3">
-                    <ReactSelect
-                        value={store.filter.base_id}
-                        options={bases}
-                        onChange={(e) => store.onChangeFilter('base_id', e)}
+                    <ReactSelect.Async
+                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2, 'importers')}
+                        loadingPlaceholder="Đang tải..."
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn cơ sở"
-                        clearable={false}
+                        placeholder="Chọn nhân viên"
+                        searchPromptText="Không có dữ liệu nhân viên"
+                        onChange={(e) => store.onChangeFilter('imported_by', e)}
+                        value={store.filter.importer}
+                        id="select-async-importer"
+                        optionRenderer={(option) => {
+                            return (
+                                <ItemReactSelect label={option.label}
+                                                 url={option.avatar_url}/>
+                            );
+                        }}
+                        valueRenderer={(option) => {
+                            return (
+                                <ItemReactSelect label={option.label}
+                                                 url={option.avatar_url}/>
+                            );
+                        }}
                     />
                 </div>
                 <div className="col-md-3">
                     <ReactSelect.Async
-                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2, true)}
+                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2, 'staffs')}
                         loadingPlaceholder="Đang tải..."
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn nhân viên"
                         searchPromptText="Không có dữ liệu nhân viên"
                         onChange={(e) => store.onChangeFilter('carer_id', e)}
                         value={store.filter.carer}
+                        id="select-async-carer"
                         optionRenderer={(option) => {
                             return (
                                 <ItemReactSelect label={option.label}
@@ -114,7 +141,7 @@ class DashboardLeadFilter extends React.Component {
 
                 <div className="col-md-3">
                     <ReactSelect
-                        value={user && user.choice_province_id ? user.choice_province_id : 0}
+                        value={store.filter.choice_province_id}
                         options={this.getProvincesData()}
                         onChange={this.onChangeProvince}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
@@ -135,7 +162,7 @@ class DashboardLeadFilter extends React.Component {
                 <div className="col-md-3">
                     <ReactSelect
                         value={filter.source_id}
-                        options={sources}
+                        options={store.getFilterOptions.sources}
                         onChange={(e) => store.onChangeFilter('source_id', e)}
                         // onChange={this.onChangeSource}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
@@ -146,7 +173,7 @@ class DashboardLeadFilter extends React.Component {
                 <div className="col-md-3">
                     <ReactSelect
                         value={filter.campaign_id}
-                        options={campaigns}
+                        options={store.getFilterOptions.campaigns}
                         // onChange={this.onChangeCampaign}
                         onChange={(e) => store.onChangeFilter('campaign_id', e)}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"

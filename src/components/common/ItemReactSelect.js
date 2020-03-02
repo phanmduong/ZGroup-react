@@ -1,12 +1,13 @@
 import React from 'react';
 import Avatar from './Avatar';
 import PropTypes from 'prop-types';
+import {isEmptyInput} from "../../helpers/helper";
 
 const ItemReactSelect = ({url, label}) => {
 
     return (
         <div className="flex-row-center">
-            <Avatar size={30} url={url}/>
+            {!isEmptyInput(url) && <Avatar size={30} url={url}/>}
             <div className="text-h6">{label}</div>
         </div>
     );

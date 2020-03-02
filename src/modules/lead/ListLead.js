@@ -75,13 +75,12 @@ class ListLead extends React.Component {
                                 {this.props.isDistribution && <th/>}
                                 <th/>
                                 <th>Họ tên</th>
-                                <th>Quan tâm</th>
                                 <th>Nguồn</th>
                                 <th>Trạng thái</th>
                                 <th>Đã đóng tiền</th>
                                 <th>Đánh giá</th>
                                 <th>Ghi chú</th>
-
+                                <th>Quan tâm</th>
                                 {
                                     !this.props.showSelectedLead && <th>Thời gian</th>
                                 }
@@ -159,7 +158,6 @@ class ListLead extends React.Component {
                                                     {!isEmptyInput(lead.city) && <div>TP. {lead.city}</div>}
                                                 </div>
                                             </td>
-                                            <td>{lead.interest}</td>
                                             <td>
                                                 {lead.campaign ? (
                                                     <button className="btn btn-xs btn-main width-100"
@@ -250,6 +248,7 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>{lead.note}</td>
+                                            <td>{lead.interest}</td>
 
                                             {
                                                 !this.props.showSelectedLead && <td>{lead.created_at}</td>

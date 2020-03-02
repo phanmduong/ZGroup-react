@@ -1,7 +1,7 @@
 import {action, computed, observable} from "mobx";
 import {analyticsLead,analyticsSourceCampaign} from "./DashboardMarketingApi";
 import {loadGens} from "../dashboardApi";
-import {showErrorNotification} from "../../../helpers/helper";
+import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 import moment from 'moment';
 import {searchStaffs} from "../../lead/leadApi";
@@ -16,6 +16,7 @@ export const store = new class Store {
     @observable data = {
         bases: [],
         staffs: [],
+        importers: [],
         gens: [],
         sources: [],
         marketing_campaigns: [],
@@ -50,12 +51,14 @@ export const store = new class Store {
         end_time: moment().subtract(0, 'days'),
         base_id: 0,
         carer_id: '',
-        // carer: {value: 0, label: "Tất cả nhân viên",avatar_url: NO_AVATAR},
-        carer: null,
+        carer: {value: 0, label: "Person In Charge",avatar_url: ''},
+        importer: {value: 0, label:"Người nhập" ,avatar_url: ''},
+        imported_by: '',
+        // carer: null,
         gen_id: 0,
         campaign_id: 0,
         source_id: 0,
-        province_id: 0,
+        choice_province_id: 0,
     };
 
     @computed
@@ -95,6 +98,11 @@ export const store = new class Store {
                 this.filter.carer = value;
                 break;
             }
+            case 'imported_by': {
+                res = value ? value.id : 0;
+                this.filter.importer = value;
+                break;
+            }
             case 'gen_id':{
                 res = value ? value.value : 0;
                 this.filter.start_time = moment(value.start_time);
@@ -118,19 +126,20 @@ export const store = new class Store {
     };
 
     @action
-    loadStaffs = (input, callback) => {
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
+    loadStaffs = (input, callback, field) => {
+        if(isEmptyInput(this.timeOut)) this.timeOut = {};
+        if (this.timeOut[field] !== null) {
+            clearTimeout(this.timeOut[field]);
         }
-        this.timeOut = setTimeout(function () {
+        this.timeOut[field] = setTimeout(function () {
             searchStaffs(input).then(res => {
-                let staffs = [{
+                let data = [{
                     avatar_url: NO_AVATAR,
                     value: 0,
                     label: "Tất cả nhân viên"
                 }];
                 res.data.staffs.map((staff) => {
-                    staffs.push({
+                    data.push({
                         ...staff,
                         ...{
                             value: staff.id,
@@ -138,8 +147,9 @@ export const store = new class Store {
                         }
                     });
                 });
-                this.data.staffs = staffs;
-                callback(null, {options: staffs, complete: true});
+                this.data[field] = data;
+                console.log(field,data);
+                callback(null, {options: data, complete: true});
             });
         }.bind(this), 500);
     };

@@ -7,7 +7,10 @@ import moment from "moment";
 import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
 import {dotNumber, isEmptyInput} from "../../../helpers/helper";
 import DashboardLeadFilter from "./DashboardLeadFilter";
+import * as baseActions from "../../../actions/baseActions";
 
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 const optionsBarLead = {
     tooltips: {
@@ -57,7 +60,7 @@ const optionsStackedBarLead = {
 };
 
 @observer
-export default class DashboardLeadsComponent extends React.Component {
+class DashboardLeadsComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -75,6 +78,7 @@ export default class DashboardLeadsComponent extends React.Component {
 
     componentDidMount() {
         store.pathname = this.props.location.pathname;
+        store.filter.choice_province_id = this.props.user.choice_province_id;
     }
 
     checkColor = (color) => {
@@ -347,3 +351,21 @@ export default class DashboardLeadsComponent extends React.Component {
         );
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        selectedBaseId: state.global.selectedBaseId,
+        bases: state.global.bases,
+        provinces: state.global.provinces,
+        user: state.login.user,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        baseActions: bindActionCreators(baseActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardLeadsComponent);

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export function analyticsLead(filter) {
-    let fields = ['start_time', 'end_time', 'carer_id', 'base_id'];
+    let fields = ['start_time', 'end_time', 'carer_id', 'base_id', 'imported_by','source_id','campaign_id','status_id','choice_province_id',];
     let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-lead?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
