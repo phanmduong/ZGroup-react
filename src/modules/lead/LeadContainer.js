@@ -700,13 +700,13 @@ class LeadContainer extends React.Component {
 
                         <div className="flex-align-items-center flex flex-wrap">
                             {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
-                            {this.isAdmin &&
+
                             <Search
                                 onChange={this.searchChange}
                                 placeholder="Tim kiếm leads"
                                 value={this.state.query}
                                 className="round-white-seacrh"
-                            />}
+                            />
 
                             <button
                                 onClick={this.openFilterPanel}

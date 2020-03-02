@@ -4,32 +4,74 @@ import {store} from "./DashBoardMarketingStore";
 import ItemReactSelect from "../../../components/common/ItemReactSelect";
 import ReactSelect from "react-select";
 import moment from 'moment';
-export default class DashboardLeadFilter extends React.Component {
+import * as baseActions from "../../../actions/baseActions";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import * as userActions from "../../../actions/userActions";
+
+class DashboardLeadFilter extends React.Component {
 
     constructor(props, context) {
         super(props, context);
 
     }
 
+    onChangeProvince = (value) => {
+        const provinceId = value ? value.value : 0;
+        let user = {...this.props.user};
+        user.choice_province_id = provinceId;
+        store.filter.province_id = provinceId;
+        localStorage.setItem("user", JSON.stringify(user));
+        userActions.choiceProvince(provinceId, false);
+    };
+
+    onChangeBase = (value) => {
+        const base_id = value ? value.value : 0;
+        store.filter.base_id = base_id;
+        this.props.baseActions.selectedBase(base_id);
+    };
+
+    getBasesData = () => {
+        let {bases, user} = this.props;
+        let basesData = bases ? bases.filter((base) => {
+            if (user && user.choice_province_id > 0) {
+                return base.district.province.id == user.choice_province_id;
+            } else {
+                return true;
+            }
+        }).map((base) => {
+            return {value: base.id, label: base.name};
+        }) : [];
+        basesData = [{value: 0, label: "Tất cả cơ sở"}, ...basesData];
+        return basesData;
+    };
+    getProvincesData = () => {
+        let {provinces} = this.props;
+        return [{value: 0, label: "Tất cả thành phố"}, ...provinces.map((province) => {
+            return {value: province.id, label: province.name};
+        })];
+    };
+
     render() {
         let {filter} = store;
-
+        let {selectedBaseId, user} = this.props;
+        let {gens, bases, campaigns, sources} = store.getFilterOptions;
         return (
 
             <div className="gutter-20">
 
-            <div className="col-md-3">
-                <DateRangePicker className="background-white padding-vertical-10px cursor-pointer margin-bottom-20"
-                                 start={moment(filter.start_time)} end={moment(filter.end_time)}
-                                 style={{padding: '5px 10px 5px 20px', lineHeight: '34px'}}
-                                 onChange={store.changeDateRangePicker}
+                <div className="col-md-3">
+                    <DateRangePicker className="background-white padding-vertical-10px cursor-pointer margin-bottom-20"
+                                     start={moment(filter.start_time)} end={moment(filter.end_time)}
+                                     style={{padding: '5px 10px 5px 20px', lineHeight: '34px'}}
+                                     onChange={store.changeDateRangePicker}
 
-                />
-            </div>
+                    />
+                </div>
                 <div className="col-md-3">
                     <ReactSelect
                         value={store.filter.gen_id}
-                        options={store.getFilterOptions.gens}
+                        options={gens}
                         onChange={(e) => store.onChangeFilter('gen_id', e)}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn khóa"
@@ -39,7 +81,7 @@ export default class DashboardLeadFilter extends React.Component {
                 <div className="col-md-3">
                     <ReactSelect
                         value={store.filter.base_id}
-                        options={store.getFilterOptions.bases}
+                        options={bases}
                         onChange={(e) => store.onChangeFilter('base_id', e)}
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn cơ sở"
@@ -69,7 +111,68 @@ export default class DashboardLeadFilter extends React.Component {
                         }}
                     />
                 </div>
+
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={user && user.choice_province_id ? user.choice_province_id : 0}
+                        options={this.getProvincesData()}
+                        onChange={this.onChangeProvince}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn thành phồ"
+                        clearable={false}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={selectedBaseId}
+                        options={this.getBasesData()}
+                        onChange={this.onChangeBase}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn cơ sở"
+                        clearable={false}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={filter.source_id}
+                        options={sources}
+                        onChange={(e) => store.onChangeFilter('source_id', e)}
+                        // onChange={this.onChangeSource}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn nguồn"
+                        clearable={false}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <ReactSelect
+                        value={filter.campaign_id}
+                        options={campaigns}
+                        // onChange={this.onChangeCampaign}
+                        onChange={(e) => store.onChangeFilter('campaign_id', e)}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn chiến dịch"
+                        clearable={false}
+                    />
+                </div>
             </div>
         );
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        selectedBaseId: state.global.selectedBaseId,
+        bases: state.global.bases,
+        provinces: state.global.provinces,
+        user: state.login.user,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        baseActions: bindActionCreators(baseActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardLeadFilter);

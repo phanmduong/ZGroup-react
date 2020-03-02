@@ -1,11 +1,13 @@
 import {action, computed, observable} from "mobx";
 import {analyticsLead,analyticsSourceCampaign} from "./DashboardMarketingApi";
-import {loadBases, loadGens} from "../dashboardApi";
+import {loadGens} from "../dashboardApi";
 import {showErrorNotification} from "../../../helpers/helper";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 import moment from 'moment';
 import {searchStaffs} from "../../lead/leadApi";
 import {NO_AVATAR} from "../../../constants/env";
+import {getMarketingCampaignsApi, getSourcesApi} from "../dashboardSale/dashboardSaleApi";
+import {parallel} from "async";
 
 export const store = new class Store {
     @observable isLoading = false;
@@ -15,6 +17,8 @@ export const store = new class Store {
         bases: [],
         staffs: [],
         gens: [],
+        sources: [],
+        marketing_campaigns: [],
         analytics: {
             dates: [],
             leadsCountByDates: [],
@@ -49,6 +53,9 @@ export const store = new class Store {
         // carer: {value: 0, label: "Tất cả nhân viên",avatar_url: NO_AVATAR},
         carer: null,
         gen_id: 0,
+        campaign_id: 0,
+        source_id: 0,
+        province_id: 0,
     };
 
     @computed
@@ -56,16 +63,21 @@ export const store = new class Store {
         let bases = this.data.bases.map(base => {
             return {value: base.id, label: base.name,};
         });
-
         let gens = this.data.gens.map(gen => {
             return {...gen,value: gen.id, label: 'Khóa ' + gen.name, };
         });
         let staffs = this.data.staffs.map(staff => {
             return {value: staff.id, label: staff.name};
         });
+        let sources =  [{value: 0, label: "Tất cả nguồn"}, ...this.data.sources.map(source => {
+            return {...source, value: source.id, label: source.name};
+        })];
+        let campaigns =  [{value: 0, label: "Tất cả chiến dịch"}, ...this.data.marketing_campaigns.map(campaign => {
+            return {...campaign, value: campaign.id, label: campaign.name};
+        })]
         bases.unshift({value: 0, label: "Tất cả cơ sở",});
         staffs.unshift({value: 0, label: "Tất cả nhân viên", avatar_url: NO_AVATAR});
-        return {bases, gens, staffs};
+        return {bases, gens, staffs, sources, campaigns};
     }
 
     @action
@@ -132,20 +144,63 @@ export const store = new class Store {
         }.bind(this), 500);
     };
 
+
     @action
     initLoad = () => {
+        // loadBases().then((res) => {
+        //     this.data.bases = res.data.data.bases;
+        // }).catch(() => showErrorNotification('Có lỗi xảy ra!'));
+        // loadGens().then((res) => {
+        //     this.data.gens = res.data.data.gens;
+        //     this.filter.gen_id = res.data.data.current_gen.id;
+        //
+        // }).catch((e) => {
+        //     showErrorNotification('Có lỗi xảy ra!');
+        //     console.log(e);
+        // });
         this.isLoading = true;
-        loadBases().then((res) => {
-            this.data.bases = res.data.data.bases;
-        }).catch(() => showErrorNotification('Có lỗi xảy ra!'));
-        loadGens().then((res) => {
-            this.data.gens = res.data.data.gens;
-            this.filter.gen_id = res.data.data.current_gen.id;
+        parallel({
+            gens: (callback) => {
+                loadGens().then((res) => {
+                    this.data.gens = res.data.data.gens;
 
-        }).catch((e) => {
-            showErrorNotification('Có lỗi xảy ra!');
-            console.log(e);
-        });
+                    const currentGen = this.data.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
+
+                    this.filter.start_time = moment(currentGen.start_time);
+                    this.filter.end_time = moment(currentGen.end_time);
+
+                    this.filter.gen_id = res.data.data.current_gen.id;
+                    callback(null, {});
+                }).catch((e) => {
+                    showErrorNotification('Có lỗi xảy ra!');
+                    console.log(e);
+                    callback(e, null);
+                });
+            },
+            sources: (callback) => {
+                getSourcesApi().then((res) => {
+                    this.data.sources = res.data.sources;
+                    callback(null, {});
+                }).catch((e) => {
+                    showErrorNotification('Có lỗi xảy ra!');
+                    console.log(e);
+                    callback(e, null);
+                });
+            },
+            marketingCampaigns: (callback) => {
+                getMarketingCampaignsApi().then((res) => {
+                    this.data.marketing_campaigns = res.data.marketing_campaigns;
+                    callback(null, {});
+                }).catch((e) => {
+                    showErrorNotification('Có lỗi xảy ra!');
+                    console.log(e);
+                    callback(e, null);
+                });
+            }
+        }).then(() => {
+        }).finally(() => {
+            this.isLoading = false;
+        })
         this.load();
     };
     @action
@@ -212,5 +267,4 @@ export const store = new class Store {
         // });
         this.isLoading = false;
     }
-
 }();
