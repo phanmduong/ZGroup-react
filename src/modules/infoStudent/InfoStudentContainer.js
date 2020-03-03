@@ -272,7 +272,9 @@ class InfoStudentContainer extends React.Component {
 
                                     </div>
                                 </div>
-                                <div className="card detail-wrap">
+                                <label className="bold color-black">Thông tin cá nhân</label>
+                                <div className="card detail-wrap  margin-top-0">
+
                                     <div className="card-content">
                                         <div className="detail-wrap">
                                             {student.dob &&<p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>}
@@ -303,7 +305,9 @@ class InfoStudentContainer extends React.Component {
                                         }
                                     </div>
                                 </div>
-                                <div className="card source-card">
+                                <label className="bold color-black">Thông tin về lead này</label>
+
+                                <div className="card source-card margin-top-0">
                                     <div className="card-content">
                                         <div className="source-wrap">
                                             <div className="source-name">Nguồn</div>
@@ -358,7 +362,8 @@ class InfoStudentContainer extends React.Component {
                             {!this.props.isLoadingStudent &&
 
                             <div>
-                                <div className="card" mask="transparent">
+                                <label className="bold color-black">Ảnh xác thực</label>
+                                <div className="card  margin-top-0" mask="transparent">
                                     <img className="img-user"
                                         // onClick={() => this.openModalImageView(student.image1)}
                                          onClick={() => this.handleFileUpload('image1')}
@@ -373,6 +378,8 @@ class InfoStudentContainer extends React.Component {
                                 </div>
                             </div>
                             }
+                            {/*<label className="bold color-black">Ảnh project</label>*/}
+
                         </div>
                         <div className="col-md-8">
                             <div className="row">
