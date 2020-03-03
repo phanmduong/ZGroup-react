@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export function analyticsRevenueApi(filter) {
-    let fields = ['start_time', 'end_time', 'staff_id', 'base_id'];
+    let fields = ['start_time', 'end_time', 'staff_id', 'base_id', "course_id", "source_id", "campaign_id"];
     let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-revenue?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
@@ -12,7 +12,7 @@ export function analyticsRevenueApi(filter) {
 }
 
 export function analyticsRegisterApi(filter) {
-    let fields = ['start_time', 'end_time', 'staff_id', 'base_id'];
+    let fields = ['start_time', 'end_time', 'staff_id', 'base_id', "course_id", "source_id", "campaign_id"];
     let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-register?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
@@ -31,7 +31,7 @@ export const loadStaffs = () => {
 };
 
 export const loadClassesApi = (filter) => {
-    let fields = ['start_date', 'end_date', 'staff_id', 'base_id', "enroll_start_date", "enroll_end_date"];
+    let fields = ['start_date', 'end_date', 'staff_id', 'base_id', "enroll_start_date", "enroll_end_date", "course_id", "source_id", "campaign_id"];
     let url = `${NEW_MANAGE_API_URL}/class/all?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
@@ -41,7 +41,7 @@ export const loadClassesApi = (filter) => {
 };
 
 export const loadCoursesApi = (filter) => {
-    let fields = ['start_time', 'end_time', 'staff_id', 'base_id'];
+    let fields = ['start_time', 'end_time', 'staff_id', 'base_id', "course_id", "source_id", "campaign_id"];
     let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-register-by-course?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
@@ -51,7 +51,7 @@ export const loadCoursesApi = (filter) => {
 };
 
 export const analyticsKpiApi = (filter) => {
-    let fields = ['start_time', 'end_time', 'base_id'];
+    let fields = ['start_time', 'end_time', 'base_id', "course_id", "source_id", "campaign_id", "staff_id"];
     let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-kpi?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;
@@ -65,7 +65,7 @@ export const setKpiApi = (kpi) => {
 };
 
 export const getHistoryKpiApi = (filter) => {
-    let fields = ['start_time', 'end_time', 'base_id', "user_ids"];
+    let fields = ['start_time', 'end_time', 'base_id', "user_ids", "course_id", "source_id", "campaign_id"];
     let url = `${NEW_MANAGE_API_URL}/sale-kpi/by-dates?token=${localStorage.getItem('token')}`;
     fields.forEach(field => {
         url += `&${field}=${filter[field] || ''}`;

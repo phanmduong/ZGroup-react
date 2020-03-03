@@ -12,6 +12,8 @@ import moment from "moment";
 import Loading from "../../../components/common/Loading";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 import * as userActions from "../../../actions/userActions";
+import * as loginActions from "../../../modules/login/loginActions";
+import {showTypeNotification} from "../../../helpers/helper";
 
 @observer
 class Filter extends React.Component {
@@ -71,7 +73,10 @@ class Filter extends React.Component {
         let user = {...this.props.user};
         user.choice_province_id = provinceId;
         localStorage.setItem("user", JSON.stringify(user));
-        userActions.choiceProvince(provinceId, false);
+        showTypeNotification("Đang thay đổi thành phố", "info");
+        userActions.choiceProvince(provinceId, false, () => {
+            this.props.loginActions.getUserLocal();
+        });
     }
 
     onChangeStaff = (value) => {
@@ -82,6 +87,10 @@ class Filter extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
+            this.load();
+        }
+        if (nextProps.user.choice_province_id !== this.props.user.choice_province_id) {
             filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
             this.load();
         }
@@ -119,7 +128,7 @@ class Filter extends React.Component {
 
     render() {
         let {filter, gensData, isLoading, coursesData, sourcesData, marketingCampaignData} = filterStore;
-        let {selectedBaseId, user} = this.props;
+        let {selectedBaseId, user, disabledCampaign, disabledSource} = this.props;
         if (isLoading) return (
             <div className="row gutter-20 margin-top-20">
                 <Loading/>
@@ -206,6 +215,7 @@ class Filter extends React.Component {
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn nguồn"
                         clearable={false}
+                        disabled={disabledSource}
                     />
                 </div>
                 <div className="col-md-3">
@@ -216,6 +226,7 @@ class Filter extends React.Component {
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn chiến dịch"
                         clearable={false}
+                        disabled={disabledCampaign}
                     />
                 </div>
             </div>
@@ -226,6 +237,7 @@ class Filter extends React.Component {
 Filter.propTypes = {
     selectedBaseId: PropTypes.number,
     baseActions: PropTypes.object,
+    loginActions: PropTypes.object,
     loadData: PropTypes.func.render,
     user: PropTypes.object,
 };
@@ -245,7 +257,8 @@ function
 
 mapDispatchToProps(dispatch) {
     return {
-        baseActions: bindActionCreators(baseActions, dispatch)
+        baseActions: bindActionCreators(baseActions, dispatch),
+        loginActions: bindActionCreators(loginActions, dispatch)
     };
 }
 

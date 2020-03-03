@@ -79,7 +79,7 @@ const types = [
                 }
             },
             {
-                key: "user.created_at",
+                key: "user.imported_at",
                 name: "Ngày nhập",
                 format: 'date',
                 checkFormat: (data) => {

@@ -22,6 +22,18 @@ export default class DashboardKpiStore {
 
     @get
     get totalKpi() {
+
+        if (this.data && this.data.length == 1) {
+            const data = this.data[0];
+            return {
+                "name": "Tất cả nhân viên",
+                "avatar_url": NO_AVATAR,
+                "total_register": data.total_register,
+                "total_paid_register": data.total_paid_register,
+                "kpi": data.kpi,
+                "revenue": data.revenue,
+            };
+        }
         return this.data && this.data.length > 0 ? this.data.reduce((a, b) => {
             return {
                 "name": "Tất cả nhân viên",

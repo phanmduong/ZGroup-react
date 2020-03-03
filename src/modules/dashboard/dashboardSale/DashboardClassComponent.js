@@ -144,7 +144,7 @@ class DashboardClassComponent extends React.Component {
         const {isLoading, classes, currentTab} = this.store;
         return (
             <div>
-                <Filter loadData={this.loadData}/>
+                <Filter loadData={this.loadData} disabledCampaign disabledSource/>
                 <CardRevenue/>
                 <div className="row gutter-20 margin-bottom-20">
                     <div className="col-md-12">
