@@ -324,10 +324,14 @@ class InfoStudentContainer extends React.Component {
                                                 updateInfoStudent={studentActions.updateInfoStudent}
                                             />
                                         </div>
-                                        <div className="source-wrap">
-                                            <div className="source-name">Người nhập</div>
-                                            <div className="source-value">No Importer</div>
-                                        </div>
+                                        {student.imported_by && <div className="source-wrap">
+                                            <div className="source-name">Import bởi</div>
+                                            <div className="source-value"  style={{background:`#${student.imported_by.color}`}}>{student.imported_by.name}</div>
+                                        </div>}
+                                        {!isEmptyInput(student.imported_at) && <div className="source-wrap">
+                                            <div className="source-name">Import lúc</div>
+                                            <div className="source-value"  style={{background:`#${student.imported_by.color}`}}>{student.imported_at}</div>
+                                        </div>}
                                         <div className="source-wrap">
                                             <div className="source-name">P.I.C</div>
                                             {/*<div className="source-value">Chưa có</div>*/}

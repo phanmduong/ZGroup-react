@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router';
 import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import ListStaff from './ListStaff';
@@ -14,15 +13,18 @@ import {
     confirm,
     newWorkBook,
     renderExcelColumnArray,
-    saveWorkBookToExcel, showErrorNotification,
+    saveWorkBookToExcel,
+    showErrorNotification,
 } from "../../helpers/helper";
 import EmptyData from "../../components/common/EmptyData";
+import AddStaffContainer from "./AddStaffContainer";
 
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             showModalAddUserToStaff: false,
+            showModalAddStaff: false,
             showLoadingModal: false,
         };
         this.closeModalAddUserToStaff = this.closeModalAddUserToStaff.bind(this);
@@ -36,6 +38,14 @@ class ManageStaffsComponent extends React.Component {
     openModalAddUserToStaff() {
         this.setState({showModalAddUserToStaff: true});
     }
+
+    closeModalAddStaff = () => {
+        this.setState({showModalAddStaff: false});
+    };
+
+    showModalAddStaff = () => {
+        this.setState({showModalAddStaff: true});
+    };
 
     openLoadingModal = () => {
         this.setState({showLoadingModal: true});
@@ -90,7 +100,7 @@ class ManageStaffsComponent extends React.Component {
             });
 
 
-    }
+    };
 
     render() {
         return (
@@ -136,7 +146,10 @@ class ManageStaffsComponent extends React.Component {
                                         </TooltipButton>
                                         <ul className="dropdown-menu dropdown-primary">
                                             <li>
-                                                <Link to="/hr/add-staff">Tạo nhân viên</Link>
+                                                {/*<Link to="/hr/add-staff">Tạo nhân viên</Link>*/}
+                                                <a onClick={this.showModalAddStaff}>
+                                                    Tạo nhân viên
+                                                </a>
                                             </li>
                                             <li>
                                                 <a onClick={() => this.openModalAddUserToStaff()}>Thêm từ người
@@ -206,6 +219,17 @@ class ManageStaffsComponent extends React.Component {
                     }
 
                 </div>
+                <Modal show={this.state.showModalAddStaff} bsSize="large" onHide={this.closeModalAddStaff}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="text-center">{this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}</Modal.Title>
+
+                    </Modal.Header>
+                    <Modal.Body>
+                        {
+                            this.state.showModalAddStaff && <AddStaffContainer route={{type:"create"}} isModal/>
+                        }
+                    </Modal.Body>
+                </Modal>
                 <Modal show={this.state.showModalAddUserToStaff} bsSize="large" onHide={this.closeModalAddUserToStaff}>
                     <Modal.Header closeButton>
                         <Modal.Title>Thêm nhân viên từ người dùng</Modal.Title>

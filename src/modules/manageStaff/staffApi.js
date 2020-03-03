@@ -24,7 +24,8 @@ export function addStaff(staff) {
         avatar_url: staff.avatar_url,
         color: staff.color,
         revenue: staff.salary,
-        allowance: staff.salary_allowance
+        weekly_working_hours: staff.weekly_working_hours,
+        allowance: staff.salary_allowance,
     });
 }
 
@@ -149,6 +150,7 @@ export function editStaff(staff) {
         kpis: staff.kpis,
         revenue: staff.salary,
         allowance: staff.salary_allowance,
+        weekly_working_hours: staff.weekly_working_hours,
         bank_number: staff.bank_number,
         bank_name_account: staff.bank_name_account
     });
@@ -182,7 +184,7 @@ export function changeAvatar(file, completeHandler, id) {
 
 
 export function createAvatar(file, completeHandler) {
-    let url = env.API_URL + "/create-avatar";
+    let url = env.MANAGE_API_URL + "/create-avatar";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

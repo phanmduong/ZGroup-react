@@ -122,6 +122,7 @@ class AddStaffContainer extends React.Component {
                 addStaff={this.addStaff}
                 resetPassword={this.resetPassword}
                 type={this.props.route.type}
+                isModal={this.props.isModal}
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
                 bases={[{id: 0, name: '', address: ''}, ...bases]}
@@ -139,6 +140,7 @@ AddStaffContainer.propTypes = {
     isLoadingStaff: PropTypes.bool.isRequired,
     isChangingAvatar: PropTypes.bool.isRequired,
     isLoadingRoles: PropTypes.bool.isRequired,
+    isModal: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
     bases: PropTypes.array.isRequired,

@@ -668,6 +668,7 @@ export default {
                 start_company: new Date().toISOString().slice(0, 10),
                 avatar_url: '',
                 salary: 0,
+                weekly_working_hours: 0,
                 salary_allowance: 0
             },
             isChangingAvatar: false,

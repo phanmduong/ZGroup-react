@@ -62,7 +62,7 @@ class EditLead extends React.Component {
         provinces = [{value: '0', label: "Không có"}, ...provinces];
         return (
             <div>
-                <form id="form-edit-lead">
+                <form id="form-edit-lead" className="form-grey">
                     {/*<FormInputText*/}
                     {/*    label="Họ tên"*/}
                     {/*    required*/}
@@ -101,13 +101,23 @@ class EditLead extends React.Component {
                         placeholder="Chọn thành phố"
                         name="city"
                     />
+                    <label>Ghi chú</label>
                     <FormInputText
-                        label="Ghi chú"
+                        placeholder="Ghi chú"
                         name="note"
                         updateFormData={
                             this.updateFormData
                         }
                         value={this.state.lead.note}
+                    />
+                    <label>Quan tâm</label>
+                    <FormInputText
+                        placeholder="Quan tâm"
+                        name="interest"
+                        updateFormData={
+                            this.updateFormData
+                        }
+                        value={this.state.lead.interest}
                     />
                     {/*<div className="form-group">*/}
                     {/*    <label className="label-control">Chọn màu</label>*/}
@@ -120,7 +130,7 @@ class EditLead extends React.Component {
                     {/*</div>*/}
                     <div className="form-group">
                         <label className="label-control">Chọn đánh giá</label>
-                        <div className="flex flex-row-center flex-justify-content-center">
+                        <div className="flex flex-row-center">
                             <Star
                                 value={this.state.lead.rate}
                                 maxStar={5}
@@ -132,9 +142,10 @@ class EditLead extends React.Component {
                             />
                         </div>
                     </div>
+                    <div className="flex-end">
                     {this.props.isEditing ? (
                         <button
-                            className="btn btn-fill btn-rose disabled"
+                            className="btn button-green disabled"
                             type="button"
                             disabled={true}
                         >
@@ -143,13 +154,14 @@ class EditLead extends React.Component {
                         </button>
                     ) : (
                         <button
-                            className="btn btn-fill btn-rose"
+                            className="btn button-green"
                             type="button"
                             onClick={this.editInfoLead}
                         >
                             Lưu
                         </button>
                     )}
+                    </div>
                 </form>
             </div>
         );

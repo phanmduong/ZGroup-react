@@ -2354,7 +2354,7 @@ ul.nav.nav-pills.nav-pills-dark {
 
       textarea {
         min-height: 100px;
-        background-image: none;
+        background-image: none!important;
         resize: none;
 
         &:focus {
@@ -4670,11 +4670,21 @@ input[type=search], .form-control {
     padding: 0px 15px;
   }
 
-  .Select-control {
+  .Select-control ,select{
     border: none;
-    background-color: #f3f4f3;
+    background-color: #f3f4f3!important;
+    border-radius: 5px!important;
     cursor: pointer;
     box-shadow: none !important;
+  }
+
+  select{
+    appearance: none;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSdibGFjaycgaGVpZ2h0PScyNCcgdmlld0JveD0nMCAwIDI0IDI0JyB3aWR0aD0nMjQnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHBhdGggZD0nTTcgMTBsNSA1IDUtNXonLz48cGF0aCBkPSdNMCAwaDI0djI0SDB6JyBmaWxsPSdub25lJy8+PC9zdmc+) !important;
+    background-position: right!important;
+    background-size: auto!important;
+    padding: 0 15px;
+
   }
 
   .Select-input input {
@@ -4722,6 +4732,23 @@ input[type=search], .form-control {
     color: #AAAAAA;
     cursor: not-allowed;
   }
+  .text-area-grey{
+    border-radius: 5px;
+    background-color: #f3f4f3;
+    padding: 10px 5px 10px 15px;
+    margin-top: 10px;
+
+    textarea {
+      min-height: 100px;
+      background-image: none!important;
+      resize: none;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
 }
 
 .set-kpi-form {

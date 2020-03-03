@@ -105,7 +105,7 @@ class ProfileContainer extends React.Component {
                                             <div className="flex flex-justify-content-center">
                                                 <TooltipButton text="Thay ảnh đại diện" placement="top">
                                                     <div className="img father"
-                                                         onClick={() => this.handleFileUpload('avatar_url')}
+                                                         onClick={this.handleFileUpload}
                                                          style={{
                                                              backgroundImage: `url(${helper.validateLinkImage(avatar_url)})`
                                                          }}>

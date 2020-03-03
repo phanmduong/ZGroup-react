@@ -282,38 +282,42 @@ class EditBaseModalContainer extends React.Component {
                                 }
                             </div>
                         </div>
-                        <form role="form"
+                        <form role="form" className="form-grey"
                               id="form-add-room">
+                            <label>Tên cơ sở</label>
                             <FormInputText
-                                label="Tên cơ sở"
+                                placeholder="Tên cơ sở"
                                 name="name"
                                 updateFormData={this.updateFormData}
                                 value={base.name || ''}
                                 required
                             />
+                            <label>Địa chỉ cơ sở</label>
                             <FormInputText
-                                label="Địa chỉ cơ sở"
+                                placeholder="Địa chỉ cơ sở"
                                 name="address"
                                 updateFormData={this.updateFormData}
                                 value={base.address || ''}
                                 required
                             />
+                            <label>Latitude</label>
                             <FormInputText
-                                label="Latitude"
+                                placeholder="Latitude"
                                 name="latitude"
                                 type="number"
                                 updateFormData={this.updateFormData}
                                 value={base.latitude || ''}
                             />
+                            <label>Longitude</label>
                             <FormInputText
-                                label="Longitude"
+                                placeholder="Longitude"
                                 name="longitude"
                                 type="number"
                                 updateFormData={this.updateFormData}
                                 value={base.longitude || ''}
                             />
-                            <div className="form-group">
-                                <label className="label-control">Thông tin cơ bản</label>
+                            <label className="label-control">Thông tin cơ bản</label>
+                            <div className="form-group text-area-grey">
                                 <textarea
                                     type="text"
                                     rows={5}
@@ -326,8 +330,9 @@ class EditBaseModalContainer extends React.Component {
                                 />
                                 <span className="material-input"/>
                             </div>
-                            <div className="form-group">
-                                <label className="label-control">Mô tả</label>
+                            <label className="label-control">Mô tả</label>
+                            <div className="form-group text-area-grey">
+
                                 <textarea type="text" className="form-control"
                                           rows={10}
                                           value={base.description ? base.description : ''}
@@ -387,12 +392,13 @@ class EditBaseModalContainer extends React.Component {
                                     clearable={false}
                                 />
                             </div>
+                            <div className="flex-end margin-top-10">
                             {
                                 this.props.isSavingBase ?
                                     (
                                         <button
                                             type="button"
-                                            className="btn btn-rose disabled"
+                                            className="btn button-green"
                                         >
                                             <i className="fa fa-spinner fa-spin"/> Đang lưu
                                         </button>
@@ -400,12 +406,13 @@ class EditBaseModalContainer extends React.Component {
                                     (
                                         <button
                                             type="button"
-                                            className="btn btn-rose"
+                                            className="btn button-green"
                                             onClick={this.submit}
                                         >
                                             Lưu
                                         </button>
                                     )}
+                            </div>
                         </form>
                     </div>
                 </Modal.Body>
