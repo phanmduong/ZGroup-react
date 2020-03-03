@@ -21,9 +21,28 @@ export default class DashboardCourseStore {
 
     @get
     get totalCourse() {
+        if (this.courses && this.courses.length == 1) {
+            const data = this.courses[0];
+            return {
+                "name": "Tất cả môn học",
+                "revenue": data.revenue,
+                "target": {
+                    "total_target": data.target.total_target,
+                    "total_paid_register": data.target.total_paid_register,
+                },
+                "register_target": {
+                    "total_register_target": data.register_target.total_register_target,
+                    "total_register": data.register_target.total_register,
+                },
+                "total_class": {
+                    "total_class_full": data.total_class.total_class_full,
+                    "total": data.total_class.total,
+                }
+            }
+        }
         return this.courses && this.courses.length > 0 ? this.courses.reduce((a, b) => {
             return {
-                "name": "Tất cả",
+                "name": "Tất cả môn học",
                 "revenue": a.revenue + b.revenue,
                 "target": {
                     "total_target": a.target.total_target + b.target.total_target,

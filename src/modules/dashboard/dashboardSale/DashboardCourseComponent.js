@@ -188,11 +188,11 @@ class DashboardCourseComponent extends React.Component {
                                 pageText={"Trang"}
                                 rowsText={"dòng"}
                                 showPagination={false}
-                                defaultPageSize={courses.length + 1}
+                                defaultPageSize={courses.length}
                                 defaultSorted={[
                                     {
                                         id: "revenue",
-                                        desc: true
+                                        desc: courses.length > 2
                                     }
                                 ]}
                             />

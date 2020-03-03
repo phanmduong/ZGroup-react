@@ -12,7 +12,6 @@ import ReactTable from "react-table-v6";
 import Sort from "../../../components/common/ReactTable/Sort";
 import {convertDotMoneyToK, dotNumber} from "../../../helpers/helper";
 import SetKpiModal from "./SetKpiModal";
-import EmptyData from "../../../components/common/EmptyData";
 
 @observer
 class DashboardKpiComponent extends React.Component {
@@ -194,7 +193,7 @@ class DashboardKpiComponent extends React.Component {
                                 defaultSorted={[
                                     {
                                         id: "revenue",
-                                        desc: true
+                                        desc: data.length > 2 && totalKpi.revenue > 0
                                     }
                                 ]}
                             />
@@ -202,7 +201,6 @@ class DashboardKpiComponent extends React.Component {
                     </div>
                 }
                 <SetKpiModal reload={this.load}/>
-                <EmptyData size={500}/>
             </div>
 
         );
