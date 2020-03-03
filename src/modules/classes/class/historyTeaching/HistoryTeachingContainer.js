@@ -142,7 +142,7 @@ class HistoryTeachingContainer extends React.Component {
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         console.log(delayLessonIndex, delayLesson);
         let lessons = [];
-        classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson) => {
+        if(classData && classData.lessons )classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson) => {
             let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
             let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_FORMAT_SQL);
             lessons.push({
@@ -453,7 +453,7 @@ class HistoryTeachingContainer extends React.Component {
                                     </thead>
                                     <br/>
                                     <tbody>
-                                    {classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson, key) => {
+                                    {classData && classData.lessons && classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson, key) => {
                                         let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
                                         let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_VN_FORMAT);
                                         return (

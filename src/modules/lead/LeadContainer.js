@@ -49,7 +49,7 @@ class LeadContainer extends React.Component {
         ];
         this.state = {
             page: 1,
-            query: "",
+            search: "",
             address: '',
             filter: {
                 startTime: '',
@@ -139,7 +139,7 @@ class LeadContainer extends React.Component {
         if (this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
             this.setState({
                 page: 1,
-                query: "",
+                search: "",
                 filter: {
                     startTime: '',
                     endTime: '',
@@ -167,7 +167,7 @@ class LeadContainer extends React.Component {
         //     if (nextProps.route.type === "my-leads") {
         //         this.setState({
         //             page: 1,
-        //             query: "",
+        //             search: "",
         //             filter: {
         //                 startTime: '',
         //                 endTime: '',
@@ -188,7 +188,7 @@ class LeadContainer extends React.Component {
         //         if (nextProps.route.type === "distribution") {
         //             this.setState({
         //                 page: 1,
-        //                 query: "",
+        //                 search: "",
         //                 filter: {
         //                     startTime: '',
         //                     endTime: '',
@@ -208,7 +208,7 @@ class LeadContainer extends React.Component {
         //         } else {
         //             this.setState({
         //                 page: 1,
-        //                 query: "",
+        //                 search: "",
         //                 filter: {
         //                     startTime: '',
         //                     endTime: '',
@@ -280,7 +280,7 @@ class LeadContainer extends React.Component {
     searchChange = value => {
         this.setState({
             page: 1,
-            query: value,
+            search: value,
             isAll: false
         });
         if (this.timeOut !== null) {
@@ -369,7 +369,7 @@ class LeadContainer extends React.Component {
                 break;
             }
             default: {
-                newState = {[name]: value};
+                newState[name] =  value;
             }
         }
         return newState;
@@ -404,7 +404,7 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
-            search: this.state.query,
+            search: this.state.search,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
             // staffId: this.isAdmin ? -2 : this.props.user.id,
@@ -632,7 +632,7 @@ class LeadContainer extends React.Component {
         let leadIds = this.state.selectedLeads.map((lead) => {
             return lead.id;
         });
-        this.props.leadActions.uploadDistributionLead(leadIds, this.state.carer.id, this.state.isAll, this.state.query,
+        this.props.leadActions.uploadDistributionLead(leadIds, this.state.carer.id, this.state.isAll, this.state.search,
             this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, ()=>{
                 this.closeModalSelectedLeadsModal();
                 this.resetLoad();
@@ -704,7 +704,7 @@ class LeadContainer extends React.Component {
                             <Search
                                 onChange={this.searchChange}
                                 placeholder="Tim kiếm leads"
-                                value={this.state.query}
+                                value={this.state.search}
                                 className="round-white-seacrh"
                             />
 
