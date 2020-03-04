@@ -16,7 +16,7 @@ const types = [
             {
                 key: "user.name",
                 // required: true,
-                name: 'Họ và tên',
+                name: 'Họ tên học sinh',
                 text_error: 'Họ và tên của leads là bắt buộc',
                 // checkFormat: (data) => {
                 //     return validation.isNotEmpty(data);

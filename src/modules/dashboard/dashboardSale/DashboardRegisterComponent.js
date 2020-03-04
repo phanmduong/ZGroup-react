@@ -51,6 +51,34 @@ const optionsBarRegister = {
     }
 };
 
+const optionsBarStackRegister = {
+    scales: {
+        xAxes: [{
+            stacked: true
+        }],
+        yAxes: [{
+            stacked: true
+        }]
+    },
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)} đơn`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
+
 @observer
 class DashboardRegisterComponent extends React.Component {
     constructor(props, context) {
@@ -79,6 +107,9 @@ class DashboardRegisterComponent extends React.Component {
     render() {
         const {isLoading, data} = this.store;
         console.log(data);
+        if (!isLoading && data.campaigns) {
+            console.log()
+        }
         return (
             <div>
                 <Filter loadData={this.loadData}/>
@@ -141,6 +172,132 @@ class DashboardRegisterComponent extends React.Component {
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
                                                     }]}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ học viên mới - cũ</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={[data.old_register_by_date, data.new_register_by_date]}
+                                                optionsBar={optionsBarStackRegister}
+                                                labels={[
+                                                    {
+                                                        label: "Đơn từ học viên cũ",
+                                                        backgroundColor: '#ffaa00',
+                                                        borderColor: '#ffaa00',
+                                                    },
+                                                    {
+                                                        label: "Đơn từ học viên mới",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                    }]}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ trạng thái theo ngày</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={data.statuses.map((status) => status.register_by_date).reverse()}
+                                                optionsBar={optionsBarStackRegister}
+                                                labels={data.statuses.map((status) => ({
+                                                    label: status.name,
+                                                    backgroundColor: (status.color ? status.color : "#ddd"),
+                                                    borderColor: (status.color ? status.color : "#ddd")
+                                                })).reverse()}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ đăng kí theo nguồn</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={data.sources.map((source) => source.register_by_date).reverse()}
+                                                optionsBar={optionsBarStackRegister}
+                                                labels={data.sources.map((source) => ({
+                                                    label: source.name,
+                                                    backgroundColor: (source.color ? source.color : "#ddd"),
+                                                    borderColor: (source.color ? source.color : "#ddd")
+                                                })).reverse()}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ đăng kí theo chiến dịch</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={data.campaigns.map((campaign) => campaign.register_by_date).reverse()}
+                                                optionsBar={optionsBarStackRegister}
+                                                labels={data.campaigns.map((campaign) => ({
+                                                    label: campaign.name,
+                                                    backgroundColor: (campaign.color ? "#" + campaign.color : "#ddd"),
+                                                    borderColor: (campaign.color ? "#" + campaign.color : "#ddd")
+                                                })).reverse()}
                                             />
 
                                         }
