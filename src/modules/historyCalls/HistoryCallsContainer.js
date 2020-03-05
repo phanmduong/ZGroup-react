@@ -75,42 +75,47 @@ class HistoryCallsContainer extends React.Component {
 
 		return (
 			<div className="container-fluid">
-				<div className="card">
+				<div className="card" mask="purple">
+					<img className="img-absolute"/>
 					<div className="card-content">
-						<div className="tab-content">
-							<h4 className="card-title">
+
+							<h5 className="card-title">
 								<strong style={{ marginLeft: 6 }}>Lịch sử gọi</strong>
-							</h4>
-							<Search
+							</h5>
+						<div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+
+						<Search
 								onChange={this.customersSearchChange}
 								value={this.state.query}
-								placeholder="Nhập tên, số điện thoại, email khách hàng hoặc nội dung ghi chú để tìm"
+								className="round-white-seacrh"
+								placeholder="Tên, phone, email, note"
 							/>
-							<br />
-							{this.props.isLoading ? (
-								<Loading />
-							) : (
-								<div>
-									<ListCall teleCalls={this.props.teleCalls} />
-								</div>
-							)}
-							<div className="row float-right">
-								<div
-									className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-									style={{ textAlign: 'right' }}>
-									<b style={{ marginRight: '15px' }}>
-										Hiển thị kêt quả từ {first}
-										- {end}/{this.props.totalCount}
-									</b>
-									<br />
-									<Pagination
-										totalPages={this.props.totalPages}
-										currentPage={this.props.currentPage}
-										loadDataPage={this.loadOrders}
-									/>
-								</div>
-							</div>
 						</div>
+
+
+					</div>
+				</div>
+				{this.props.isLoading ? (
+					<Loading />
+				) : (
+					<div>
+						<ListCall teleCalls={this.props.teleCalls} />
+					</div>
+				)}
+				<div className="row float-right">
+					<div
+						className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+						style={{ textAlign: 'right' }}>
+						<b style={{ marginRight: '15px' }}>
+							Hiển thị kêt quả từ {first}
+							- {end}/{this.props.totalCount}
+						</b>
+						<br />
+						<Pagination
+							totalPages={this.props.totalPages}
+							currentPage={this.props.currentPage}
+							loadDataPage={this.loadOrders}
+						/>
 					</div>
 				</div>
 			</div>

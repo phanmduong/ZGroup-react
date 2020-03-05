@@ -58,7 +58,7 @@ class ListTab extends React.Component {
     renderTab(tabParent) {
         tabParent.parent = tabParent.parent ? tabParent.parent : [];
         return (
-            <div style={{marginLeft: '20px', marginRight: '20px'}}>
+            <div style={{marginLeft: '30px'}}>
                 {
                     tabParent.children.map((tab) => {
                         tab.parent = [...tabParent.parent, tabParent];
@@ -90,9 +90,9 @@ class ListTab extends React.Component {
                         } else {
                             return (
                                 <div className="panel panel-default">
-                                    <div className="panel-heading" role="tab" id={'heading-tab' + tab.id}
-                                         style={{display: 'flex'}}>
-                                        <div className="checkbox none-margin" style={{flex: '0 1 auto'}}>
+                                    <div className="panel-heading flex flex-space-between" role="tab" id={'heading-tab' + tab.id}
+                                         >
+                                        <div className="checkbox none-margin">
                                             <label>
                                                 <input type="checkbox" checked={tab.checked}
                                                        onChange={() => this.changeDataTab(tab)}/>
@@ -103,7 +103,7 @@ class ListTab extends React.Component {
                                            aria-expanded="false"
                                            aria-controls={'tab-role' + tab.id}
                                            href={'#tab-role' + tab.id}
-                                           style={{flex: 1}}
+                                           style={{marginTop:12}}
                                         >
                                             <h4 className="panel-title" style={{width: '100%'}}>
                                                 <i className="material-icons">keyboard_arrow_down</i>

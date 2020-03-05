@@ -178,7 +178,7 @@ class HistoryTeachingContainer extends React.Component {
                 showModalChangeTeacher: true,
                 teacherSelected: data,
                 changeTeacher: {
-                    id: data.teacher.id
+                    id: data.teacher ? data.teacher.id :''
                 }
             }
         );
@@ -194,7 +194,7 @@ class HistoryTeachingContainer extends React.Component {
                 showModalChangeTeachAssis: true,
                 teachAssisSelected: data,
                 changeTeachAssis: {
-                    id: data.teacher_assistant.id
+                    id: data.teacher_assistant ? data.teacher_assistant.id : ''
                 }
             }
         );
@@ -374,12 +374,12 @@ class HistoryTeachingContainer extends React.Component {
                                                                 onClick={() => this.openModalClassLesson(lesson)}>
                                                             Đổi lịch dạy
                                                         </button>}
-                                                        {(lesson.is_change || user.role == 2) && lesson.teacher &&
+                                                        {(lesson.is_change || user.role == 2) &&
                                                         <button className="btn btn-white width-100"
                                                                 onClick={() => this.openModalChangeTeacher(lesson)}>
                                                             Đổi giảng viên
                                                         </button>}
-                                                        {(lesson.is_change || user.role == 2) && lesson.teacher_assistant &&
+                                                        {(lesson.is_change || user.role == 2)  &&
                                                         <button className="btn btn-white width-100"
                                                                 onClick={() => this.openModalTeachAssis(lesson)}>
                                                             Đổi trợ giảng

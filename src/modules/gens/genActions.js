@@ -97,15 +97,17 @@ export function updateGenFormData(gen) {
     };
 }
 
-export function addGen(gen) {
+export function addGen(gen, callback) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_GEN,
         });
+        helper.showWarningNotification('Đang lưu...');
         gensApi.addGen(gen)
             .then((res) => {
                 if (res.data.status === 1) {
                     helper.showNotification("Tạo khóa học thành công");
+                    callback();
                     dispatch({
                         type: types.ADD_GEN_SUCCESS,
                         gen: res.data.data.gen,
@@ -131,6 +133,7 @@ export function editGen(gen, closeModal) {
         dispatch({
             type: types.BEGIN_EDIT_GEN,
         });
+        helper.showWarningNotification('Đang lưu...');
         gensApi.editGen(gen)
             .then((res) => {
                 if (res.data.status === 1) {

@@ -28,34 +28,34 @@ class EditRoleComponent extends React.Component {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
-                            <form id="form-edit-role" onSubmit={(e) => {
+                            <form id="form-edit-role" className="form-grey" onSubmit={(e) => {
                                 e.preventDefault();
                             }}>
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">assignment_turned_in</i>
-                                </div>
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Sửa chức vụ</h4>
+                                    <h4 className="text-center bold">Sửa chức vụ</h4>
                                     {(this.props.isLoadingRole) ? <Loading/> :
                                         <div>
+                                            <label>Tên chức vụ</label>
+
                                             <FormInputText
-                                                label="Tên chức vụ"
+                                                placeholder="Tên chức vụ"
                                                 name="role_title"
                                                 updateFormData={this.props.updateFormData}
                                                 value={role_title}
                                                 required={true}
                                                 type="text"
                                             />
-                                            <div className="panel-group" id="accordion" role="tablist"
+                                            <div className="panel-group padding-top-20" id="accordion" role="tablist"
                                                  aria-multiselectable="true">
-                                                <ListTab />
+                                                <ListTab/>
                                             </div>
+                                            <div className="flex-end">
                                             {this.props.isLoadingUpdateRole ?
                                                 (
                                                     <button
                                                         type="button"
-                                                        className="btn btn-rose disabled"
+                                                        className="btn button-green disabled"
                                                     >
                                                         <i className="fa fa-spinner fa-spin"/> Đang cập nhật
                                                     </button>
@@ -64,12 +64,13 @@ class EditRoleComponent extends React.Component {
                                                 (
                                                     <button
                                                         type="button"
-                                                        className="btn btn-rose"
+                                                        className="btn button-green"
                                                         onClick={this.checkValidate}
                                                     >
                                                         Cập nhật
                                                     </button>
                                                 )}
+                                        </div>
                                         </div>
                                     }
                                 </div>

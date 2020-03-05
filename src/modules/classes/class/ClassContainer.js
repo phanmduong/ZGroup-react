@@ -416,7 +416,7 @@ class ClassContainer extends React.Component {
 
     render() {
         this.path = this.props.location.pathname;
-        let classData = this.props.class;
+        let classData = {...this.props.class};
         let {isLoadingClass} = this.props;
 
         return (
@@ -518,9 +518,9 @@ class ClassContainer extends React.Component {
 
                                     {classData.attendances &&
                                     <div><h4><strong>Tình trạng điểm danh</strong></h4>
-                                        {classData.attendances.map(attendance => {
+                                        {classData.attendances.map((attendance,key) => {
                                             return (
-                                                <div key={attendance.order}>
+                                                <div key={'attendance-'+ key}>
                                                     <div
                                                         className="flex flex-row-center flex-space-between">
                                                         <h6>
@@ -566,7 +566,7 @@ class ClassContainer extends React.Component {
                                     <div><h4><strong>Điểm danh giảng viên</strong></h4>
                                         {classData.teacher.attendances.map((attendance, index) => {
                                                 return (
-                                                    <div key={index}>
+                                                    <div key={'teacher-attendances' + index}>
                                                         <div
                                                             className="flex flex-row-center flex-space-between">
                                                             <div>
@@ -625,7 +625,7 @@ class ClassContainer extends React.Component {
                                     <div><h4><strong>Điểm danh trợ giảng</strong></h4>
                                         {classData.teacher_assistant.attendances.map((attendance, index) => {
                                                 return (
-                                                    <div key={index}>
+                                                    <div key={'teacher_assistant' + index}>
                                                         <div
                                                             className="flex flex-row-center flex-space-between">
                                                             <div>
@@ -1273,7 +1273,7 @@ class ClassContainer extends React.Component {
                                                 let avatar = helper.avatarEmpty(teacher.avatar_url) ?
                                                     NO_AVATAR : teacher.avatar_url;
                                                 return (
-                                                    <tr key={index}>
+                                                    <tr key={'teachingLessons-'+ index}>
                                                         <td>
                                                             <div className="avatar-list-staff"
                                                                  style={{

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+import {isEmptyInput} from "../../helpers/helper";
 
 export function loadLeads(page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "",address='',leadStatusId='',orderBy='',orderByType='',source_id='' ,campaign_id='') {
 
@@ -8,19 +9,22 @@ export function loadLeads(page = 1, search = "", startTime = "", endTime = "", s
     if (token) {
         url += "?token=" + token;
     }
+    console.log(page, search, startTime, endTime, staffId, rate, top, address,leadStatusId, orderBy,orderByType,source_id ,campaign_id);
+
     url += "&page=" + page;
     url += "&search=" + search;
     url += "&start_time=" + startTime;
     url += "&end_time=" + endTime;
-    url += "&carer_id=" + staffId;
-    url += "&leadStatusId=" + leadStatusId;
+    url += "&carer_id=" + (isEmptyInput(staffId) ? '' : staffId);
+    url += "&leadStatusId=" + (isEmptyInput(leadStatusId) ? '' : leadStatusId);
     url += "&rate=" + rate;
     url += "&top=" + top;
-    url += "&address=" + address;
-    url += "&orderBy=" + orderBy;
-    url += "&orderByType=" + orderByType;
-    url += "&source_id=" + source_id;
-    url += "&campaign_id=" + campaign_id;
+    url += "&address=" + (isEmptyInput(address) ? '' : address);
+    url += "&orderBy=" + (isEmptyInput(orderBy) ? '' : orderBy);
+    url += "&orderByType=" + (isEmptyInput(orderByType) ? '' : orderByType);
+    url += "&source_id=" + (isEmptyInput(source_id) ? '' : source_id);
+    url += "&campaign_id=" + (isEmptyInput(campaign_id) ? '' : campaign_id);
+    console.log(url);
     return axios.get(url);
 }
 

@@ -305,14 +305,14 @@ class AddClassContainer extends React.Component {
     };
 
     render() {
-        console.log(this.props.class);
+        console.log({...this.props.class});
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {
             let {
                 name, link_drive, description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id,
                 datestart, date_end, enroll_start_date, enroll_end_date, room_id, type
-            } = this.props.class;
+            } = {...this.props.class};
             return (
                 <div className="">
                     <form id="form-add-class" className="form-grey" onSubmit={(e) => {
@@ -522,7 +522,7 @@ class AddClassContainer extends React.Component {
                                 {teachers && teachers.map((teach, index) => {
                                     return (
                                         <SelectTeacher
-                                            key={index}
+                                            key={'SelectTeacher2-'+index}
                                             optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_id, teachers, teach)}
                                             label={"Giảng viên " + (index + 2)}
                                             value={teach}
@@ -573,7 +573,7 @@ class AddClassContainer extends React.Component {
                                 {teaching_assistants && teaching_assistants.map((teach, index) => {
                                     return (
                                         <SelectTeacher
-                                            key={index}
+                                            key={'SelectTeacher-' + index}
                                             optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_assis_id, teaching_assistants, teach)}
                                             label={"Trợ giảng " + (index + 2)}
                                             value={teach}

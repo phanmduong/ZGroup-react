@@ -12,9 +12,11 @@ class ListGen extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
-                <table className="table table-striped">
-                    <thead className="text-rose">
+            <div className="table-responsive table-split">
+                <table id="datatables-score" className="table table-no-bordered table-hover"
+                       cellSpacing="0" width="100%" style={{width: "100%"}}>
+                {/*<table className="table">*/}
+                    <thead>
                     <tr>
                         <th>Tên</th>
                         <th>Bắt đầu</th>
@@ -66,7 +68,7 @@ class ListGen extends React.Component {
                                                             }}>pie_chart</i>
                                                         </button>
                                                     </TooltipButton>
-                                                    <ul className="dropdown-menu dropdown-primary">
+                                                    <ul className="dropdown-menu dropdown-primary dropdown-menu-left">
                                                         <li>
                                                             <a onClick={() => this.props.loadOverview(gen,'')}>Tất cả</a>
                                                         </li>

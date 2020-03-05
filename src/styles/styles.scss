@@ -1078,6 +1078,9 @@ a.btn-seat.active {
 .padding-right-30 {
   padding-right: 30px;
 }
+.padding-top-20 {
+  padding-top: 20px;
+}
 
 .bar {
   height: 10px;
@@ -1473,6 +1476,10 @@ table tr td .avatar-honor {
 
 .tooltip-inner {
   max-width: unset;
+}
+
+.no-overflow{
+  overflow: unset!important;
 }
 
 .table-split {
@@ -4659,9 +4666,9 @@ input[type=search], .form-control {
   }
 
   label {
-    color: #000;
-    font-size: 13px;
-    font-weight: 500;
+    color: #000!important;
+    font-size: 13px!important;
+    font-weight: 500!important;
     margin-bottom: -5px;
     margin-top: 10px;
   }
@@ -4754,7 +4761,14 @@ input[type=search], .form-control {
       }
     }
   }
-
+  .panel-group .panel-heading{
+    padding: 0px 15px 10px 15px !important;
+    background-color: #f3f4f3 !important;
+    border-radius: 5px !important;
+    background-image: none !important;
+    border: none;
+    margin-bottom: 10px;
+  }
 }
 
 .set-kpi-form {

@@ -83,7 +83,7 @@ class DashboardLeadsComponent extends React.Component {
 
     checkColor = (color) => {
         return isEmptyInput(color) ? '#eeeeee' : color;
-    }
+    };
 
     formatDates = (dates) => {
         return dates && dates.map((date) => {
@@ -91,42 +91,43 @@ class DashboardLeadsComponent extends React.Component {
         });
     };
 
-    statusLabels = ()=>{
-        return store.data.analytics.leadStatuses.map(obj=>{
-            let color = this.checkColor( obj.color);
+    statusLabels = () => {
+        return store.data.analytics.leadStatuses.map(obj => {
+            let color = this.checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
                 borderColor: color,
             };
         });
-    }
-    sourceLabels = ()=>{
-        return store.data.analytics.leadSources.map(obj=>{
-            let color = this.checkColor( obj.color);
+    };
+    sourceLabels = () => {
+        return store.data.analytics.leadSources.map(obj => {
+            let color = this.checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
                 borderColor: color,
             };
         });
-    }
-    campaignLabels = ()=>{
-        return store.data.analytics.leadCampaigns.map(obj=>{
-            let color = this.checkColor( `#${obj.color}`);
+    };
+    campaignLabels = () => {
+        return store.data.analytics.leadCampaigns.map(obj => {
+            let color = this.checkColor(`#${obj.color}`);
             return {
                 label: obj.name,
                 backgroundColor: color,
                 borderColor: color,
             };
         });
-    }
+    };
 
     render() {
         this.path = this.props.location.pathname;
         let {isLoading} = store;
         return (
             <div className="row gutter-20 margin-top-20">
+
                 <DashboardLeadFilter/>
                 {!isLoading &&
                 this.cardDatas.map((card) => {
@@ -147,58 +148,58 @@ class DashboardLeadsComponent extends React.Component {
                     );
                 })
                 }
-                {!isLoading &&
-                <div className="col-md-12">
-                    <div className="card margin-bottom-20 margin-top-0">
-                        <div className="card-content text-align-left">
-                            <div className="tab-content">
-                                <h4 className="card-title">
-                                    <strong>Phễu chuyển đổi</strong>
-                                </h4>
-                                <br/>
-                                <br/>
-                                {this.cardDatas.map((card, key) => {
-                                    let val = store.getSumArray(card.field) || 0;
-                                    let total = store.getSumArray('leadsCountByDates') || 0;
-                                    return (
-                                        <div className="margin-top-20 margin-bottom-20" key={key}>
-                                            <div className="row">
-                                                <div className="col-md-3">
-                                                    <div className="text-align-left">
-                                                        <div>{card.title}</div>
-                                                        <h3 className="card-title">{val}</h3>
-                                                        <div
-                                                            className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
-                                                            Xem chi tiết
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-9">
-                                                    <div className="progress  progress-bar-dashboard-marketing">
-                                                        <div className="progress-bar progress-bar-success"
-                                                             role="progressbar"
-                                                             aria-valuenow="60"
-                                                             aria-valuemin="0"
-                                                             aria-valuemax="100"
-                                                             style={{
-                                                                 width: Math.max(val / total * 100, 0.1) + '%',
-                                                                 opacity: (1 - key / 5)
-                                                             }}/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                {/*{!isLoading &&*/}
+                {/*<div className="col-md-12">*/}
+                {/*    <div className="card margin-bottom-20 margin-top-0">*/}
+                {/*        <div className="card-content text-align-left">*/}
+                {/*            <div className="tab-content">*/}
+                {/*                <h4 className="card-title">*/}
+                {/*                    <strong>Phễu chuyển đổi</strong>*/}
+                {/*                </h4>*/}
+                {/*                <br/>*/}
+                {/*                <br/>*/}
+                {/*                {this.cardDatas.map((card, key) => {*/}
+                {/*                    let val = store.getSumArray(card.field) || 0;*/}
+                {/*                    let total = store.getSumArray('leadsCountByDates') || 0;*/}
+                {/*                    return (*/}
+                {/*                        <div className="margin-top-20 margin-bottom-20" key={key}>*/}
+                {/*                            <div className="row">*/}
+                {/*                                <div className="col-md-3">*/}
+                {/*                                    <div className="text-align-left">*/}
+                {/*                                        <div>{card.title}</div>*/}
+                {/*                                        <h3 className="card-title">{val}</h3>*/}
+                {/*                                        <div*/}
+                {/*                                            className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">*/}
+                {/*                                            Xem chi tiết*/}
+                {/*                                        </div>*/}
+                {/*                                    </div>*/}
+                {/*                                </div>*/}
+                {/*                                <div className="col-md-9">*/}
+                {/*                                    <div className="progress  progress-bar-dashboard-marketing">*/}
+                {/*                                        <div className="progress-bar progress-bar-success"*/}
+                {/*                                             role="progressbar"*/}
+                {/*                                             aria-valuenow="60"*/}
+                {/*                                             aria-valuemin="0"*/}
+                {/*                                             aria-valuemax="100"*/}
+                {/*                                             style={{*/}
+                {/*                                                 width: Math.max(val / total * 100, 0.1) + '%',*/}
+                {/*                                                 opacity: (1 - key / 5)*/}
+                {/*                                             }}/>*/}
+                {/*                                    </div>*/}
+                {/*                                </div>*/}
+                {/*                            </div>*/}
+                {/*                        </div>*/}
 
 
-                                    );
-                                })}
-                                <br/>
+                {/*                    );*/}
+                {/*                })}*/}
+                {/*                <br/>*/}
 
-                            </div>
-                        </div>
+                {/*            </div>*/}
+                {/*        </div>*/}
 
-                    </div>
-                </div>}
+                {/*    </div>*/}
+                {/*</div>}*/}
                 <div className="col-md-12">
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
@@ -217,12 +218,12 @@ class DashboardLeadsComponent extends React.Component {
                                     optionsBar={optionsBarLead}
                                     labels={[
                                         {
-                                            label: "Số lead mới",
+                                            label: "Số Lead mới",
                                             backgroundColor: '#ffaa00',
                                             borderColor: '#ffaa00',
                                         },
                                         {
-                                            label: "Số lead đã tiếp cận",
+                                            label: "Số Lead đã tiếp cận",
                                             backgroundColor: '#4caa00',
                                             borderColor: '#4caa00',
                                         }]}
@@ -241,7 +242,7 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
-                                    <strong>Số Lead chuyển đổi(Lead to Deal)</strong>
+                                    <strong>Số Lead chuyển đổi (Lead to Deal)</strong>
                                 </h4>
                                 <br/>
                                 <br/>
@@ -254,12 +255,12 @@ class DashboardLeadsComponent extends React.Component {
                                     optionsBar={optionsBarLead}
                                     labels={[
                                         {
-                                            label: "Số lead đăng kí mới",
+                                            label: "Số Lead đăng kí mới",
                                             backgroundColor: '#ffaa00',
                                             borderColor: '#ffaa00',
                                         },
                                         {
-                                            label: "Số lead tái đăng kí",
+                                            label: "Số Lead tái đăng kí",
                                             backgroundColor: '#4caa00',
                                             borderColor: '#4caa00',
                                         }]}

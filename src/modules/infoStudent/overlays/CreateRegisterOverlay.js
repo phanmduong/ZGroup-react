@@ -112,7 +112,7 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.register);
+        // console.log(this.state.register);
         if (this.state.register.class_id) {
             this.props.createRegisterActions.loadClassesByCourse(this.state.register.course_id);
         }
@@ -133,7 +133,7 @@ class CreateRegisterOverlay extends React.Component {
     };
     updateFormData = (event) => {
         const {name, value} = event.target;
-        console.log((name, value));
+        // console.log((name, value));
         let register = {...this.state.register};
         register[name] = value;
         this.setState({register});

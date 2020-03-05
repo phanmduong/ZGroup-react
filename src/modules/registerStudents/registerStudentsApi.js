@@ -17,6 +17,10 @@ export function getAllRegisterStudent(data) {
         selectedBaseId,
         appointmentPayment,
         query_coupon,
+        query_note,
+        selectedTeleCallStatus,
+        registerStatusId,
+        registerSourceId,
         bookmark
     } = data;
 
@@ -26,6 +30,7 @@ export function getAllRegisterStudent(data) {
         "page=" + page +
         "&gen_id=" + selectGenId +
         "&search=" + query +
+        "&query_note=" + query_note +
         "&saler_id=" + selectedSalerId +
         '&campaign_id=' + campaignId +
         "&class_id=" + selectedClassId +
@@ -35,6 +40,9 @@ export function getAllRegisterStudent(data) {
         "&appointment_payment=" + appointmentPayment +
         "&query_coupon=" + query_coupon +
         "&bookmark=" + bookmark +
+        "&registerStatusId=" + registerStatusId +
+        "&registerSourceId=" + registerSourceId +
+        "&tele_call_status=" + selectedTeleCallStatus +
         "&type=" + selectedClassStatus;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
