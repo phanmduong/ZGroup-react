@@ -78,7 +78,7 @@ class ScoreClassContainer extends React.Component {
     render() {
         let {classData, isLoading} = this.props;
         let {currentExams, currentRegisters, isSavingScore, currentGroup, isTotalScore} = this.state;
-        let noGroup = classData.exams.filter(e => !e.group_exam_id);
+        let noGroup = classData.exams ? classData.exams.filter(e => !e.group_exam_id) : [];
 
         if (!isLoading && (!classData.group_exams || classData.group_exams.length == 0) && (!noGroup || noGroup.length == 0))
             return (

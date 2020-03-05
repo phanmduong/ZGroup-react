@@ -323,15 +323,15 @@ class LeadContainer extends React.Component {
     };
 
     changeStaff = value => {
-        let staff;
-        staff = value && value.value ? value.value : "";
+        // let staff;
+        // staff = value && value.value ? value.value : "";
         // this.props.leadActions.getLeads({
         //     ...this.state,
         //     page: 1,
         //     staffId: staff,
         // });
-        this.onFilterChange(staff, 'staffId');
-        this.onFilterChange(staff, 'staff');
+        // this.onFilterChange(staff, 'staffId');
+        this.onFilterChange(value, 'staff');
         // this.setState({staff: staff, page: 1});
 
     };
@@ -356,6 +356,11 @@ class LeadContainer extends React.Component {
                 newState.orderBy = value.value;
                 break;
             }
+            case 'staff': {
+                newState.staff = isEmptyInput(value) ? '' : value;
+                newState.staffId = value ? (isEmptyInput(value.id) ? '' : value.id) : value;
+                break;
+            }
             case 'leadStatusId': {
                 newState.leadStatusId = value ? value.id : value;
                 break;
@@ -372,6 +377,8 @@ class LeadContainer extends React.Component {
                 newState[name] =  value;
             }
         }
+        console.log('getNewState',value, name, newState);
+
         return newState;
     };
 
@@ -390,6 +397,7 @@ class LeadContainer extends React.Component {
     onFilterChange = (value, name) => {
 
         let newState = this.getNewState(value, name);
+        console.log('onFilterChange',value, name,newState);
         this.setState({...newState});
         return newState;
         // this.props.leadActions.getLeads({
@@ -401,6 +409,7 @@ class LeadContainer extends React.Component {
     };
 
     applyFilter = () => {
+        console.log('applyFilter',this.state);
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
@@ -673,7 +682,7 @@ class LeadContainer extends React.Component {
     };
 
     render() {
-        console.log(this.props);
+        console.log('render',this.state);
         return (
             <div>
                 <CreateRegisterModalContainer/>
