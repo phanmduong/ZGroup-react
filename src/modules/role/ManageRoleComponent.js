@@ -1,58 +1,91 @@
 import React from 'react';
-import {browserHistory} from 'react-router';
 import Loading from '../../components/common/Loading';
 import ListRole from './ListRole';
 import PropTypes from 'prop-types';
 import HRTab from "../manageDepartment/HRTab";
+import {Modal} from 'react-bootstrap';
+import CreateRoleContainer from "./CreateRoleContainer";
+import EditRoleContainer from "./EditRoleContainer";
 
 class ManageRoleComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showModalCreate: false,
+            showModalEdit: false,
+            roleId:''
+        };
     }
 
-    redirectCreateRole() {
-        browserHistory.push('/hr/create-role');
+    componentWillReceiveProps(nextProps) {
+        if((this.props.isLoadingUpdateRole && !nextProps.isLoadingUpdateRole) || (this.props.isLoadingCreateRole && !nextProps.isLoadingCreateRole)){
+            this.setState({showModalCreate: false,showModalEdit: false,});
+        }
+    }
+
+    // redirectCreateRole() {
+    //     browserHistory.push('/hr/create-role');
+    // }
+
+    openModalEdit = (roleId)=>{
+        this.setState({roleId, showModalEdit:true, showModalCreate: false,})
     }
 
     render() {
         return (
             <div>
-                <div className="col-lg-12">
-                    <HRTab path="manage-role"/>
-                </div>
-                <div className="col-lg-12">
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div className="flex-row flex">
-                                    <h5 className="card-title"><strong>&#160;&#160;Danh sách chức vụ</strong></h5>
-                                    {/*{this.props.user.role == 2 &&  <div>*/}
-                                    {<div>
-                                        <button className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                                onClick={() => this.redirectCreateRole()}>
-                                            <strong>+</strong>
-                                        </button>
-                                    </div>}
-                                </div>
-                                <br/>
+
+                <HRTab path="manage-role"/>
 
 
-                                <div className="row">
-                                    {this.props.isLoadingRoles ? <Loading/> : (
-                                        <ListRole
-                                            roles={this.props.roleListData}
-                                            deleteRole={this.props.deleteRole}
-                                            disableActions={false}
-                                            // disableActions={this.props.user.role == 2}
+                <div className="card" mask="purple">
+                    <img className="img-absolute"/>
+                    <div className="card-content">
 
-                                        />
-                                    )
-                                    }
-                                </div>
-                            </div>
+                        <div className="flex-row flex">
+                            <h5 className="card-title"><strong>&#160;&#160;Danh sách chức vụ</strong></h5>
+                            {/*{this.props.user.role == 2 &&  <div>*/}
+
                         </div>
+                        <br/>
+                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+                            <button
+                                className="btn btn-white btn-round margin-right-10"
+                                onClick={() => this.setState({showModalCreate: true})}
+                            >Thêm chức vụ
+                            </button>
+                        </div>
+
+
+
+
                     </div>
                 </div>
+
+                {this.props.isLoadingRoles ? <Loading/> :
+                    <ListRole
+                        roles={this.props.roleListData}
+                        deleteRole={this.props.deleteRole}
+                        openModalEdit={this.openModalEdit}
+                        disableActions={false}
+                        // disableActions={this.props.user.role == 2}
+
+                    />
+
+                }
+                <Modal
+                    show={this.state.showModalCreate}
+                    onHide={() => this.setState({showModalCreate: false})}
+                >
+                    {this.state.showModalCreate && <CreateRoleContainer/>}
+                </Modal>
+                <Modal
+                    show={this.state.showModalEdit}
+                    onHide={() => this.setState({showModalEdit: false})}
+                >
+                    {this.state.showModalEdit && <EditRoleContainer params={{roleId:this.state.roleId}}/>}
+                </Modal>
+
             </div>
         );
     }

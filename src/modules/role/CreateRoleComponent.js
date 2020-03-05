@@ -20,34 +20,33 @@ class CreateRoleComponent extends React.Component {
         let {role_title} = this.props.roleForm;
         return (
             <div>
-                <div className="row">
-                    <div className="col-md-12">
-                        {(this.props.isLoadingTab) ? <Loading/> :
+                        {(this.props.isLoadingTab) ? <Loading style={{padding:'50px 0px'}}/> :
                             <div className="card">
-                                <form id="form-add-role" onSubmit={(e) => {
+                                <form id="form-add-role" className="form-grey" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">assignment_turned_in</i>
-                                    </div>
+
                                     <div className="card-content">
-                                        <h4 className="card-title">Tạo chức vụ</h4>
+                                        <h4 className="text-center bold">Tạo chức vụ</h4>
+                                        <label>Tên chức vụ</label>
                                         <FormInputText
-                                            label="Tên chức vụ"
+                                            placeholder="Tên chức vụ"
                                             name="role_title"
                                             updateFormData={this.props.updateFormData}
                                             value={role_title}
                                             required={true}
                                             type="text"
                                         />
-                                        <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                                        <div className="panel-group padding-top-20" id="accordion" role="tablist" aria-multiselectable="true">
                                             <ListTab/>
                                         </div>
+                                        <div className="flex-end">
                                         {this.props.isLoadingCreateRole ?
                                             (
                                                 <button
                                                     type="submit"
-                                                    className="btn btn-rose disabled"
+                                                    className="btn button-green disabled"
                                                 >
                                                     <i className="fa fa-spinner fa-spin"/> Đang thêm chức vụ
                                                 </button>
@@ -56,18 +55,18 @@ class CreateRoleComponent extends React.Component {
                                             (
                                                 <button
                                                     type="submit"
-                                                    className="btn btn-rose"
+                                                    className="btn button-green"
                                                     onClick={this.checkValidate}
                                                 >
                                                     Thêm chức vụ
                                                 </button>
                                             )}
                                     </div>
+                                    </div>
                                 </form>
                             </div>
                         }
-                    </div>
-                </div>
+
             </div>
         );
     }

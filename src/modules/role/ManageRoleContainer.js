@@ -18,6 +18,13 @@ class ManageRoleContainer extends React.Component {
         this.props.roleActions.loadRolesData();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(this.props.isLoadingCreateRole && !nextProps.isLoadingCreateRole){
+            this.props.roleActions.loadRolesData();
+
+        }
+    }
+
     deleteRole(roleId) {
         this.props.roleActions.deleteRoleData(roleId);
     }
@@ -51,6 +58,9 @@ function mapStateToProps(state) {
         isLoadingDeleteRole: state.roles.isLoadingDeleteRole,
         errorDeleteRole: state.roles.errorDeleteRole,
         user: state.login.user,
+        isLoadingUpdateRole: state.roles.editRole.isLoadingUpdateRole,
+        isLoadingCreateRole: state.roles.createRole.isLoading,
+
     };
 }
 

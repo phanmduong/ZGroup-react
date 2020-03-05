@@ -12,8 +12,8 @@ class ListDepartments extends React.Component {
 
     render(){
         return(
-            <div className="col-md-12">
-                <div className="table-responsive">
+
+                <div className="table-responsive table-split">
                     {!this.props.isLoading && this.props.departments ?
                         <div>
                             { (this.props.departments && this.props.departments.length === 0) ?
@@ -25,7 +25,7 @@ class ListDepartments extends React.Component {
                                         <tr>
                                             <th>Bộ phận</th>
                                             <th>Số nhân viên</th>
-                                            {this.props.disableActions && <th style={{textAlign:"right"}}>Sửa</th>}
+                                            {!this.props.disableActions && <th style={{textAlign:"right"}}>Sửa</th>}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -46,7 +46,7 @@ class ListDepartments extends React.Component {
                                                                     </TooltipButton>
                                                                 </td>
                                                                 <td>{obj.employees ? obj.employees.length : 0}</td>
-                                                                {this.props.disableActions &&<td>
+                                                                {!this.props.disableActions &&<td>
                                                                  <div style={{float:"right"}}>
                                                                         <ButtonGroupAction
 
@@ -70,7 +70,7 @@ class ListDepartments extends React.Component {
                         <Loading/>
                     }
                 </div>
-            </div>
+
             
 
 

@@ -3,12 +3,12 @@ import {browserHistory} from 'react-router';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 
-let self;
+
 
 class ListRole extends React.Component {
     constructor(props, context) {
         super(props, context);
-        self = this;
+
     }
 
     editRole(roleId) {
@@ -18,14 +18,14 @@ class ListRole extends React.Component {
     render() {
         let {roles} = this.props;
         return (
-            <div className="col-md-12">
-                <div className="table-responsive">
+            <div >
+                <div className="table-responsive table-split">
                     <table className="table">
                         <thead className="text-rose">
                         <tr>
                             <th>Chức vụ</th>
                             <th>Số quyền</th>
-                            {this.props.disableActions && <th>Sửa</th>}
+                            {!this.props.disableActions && <th>Sửa</th>}
                         </tr>
                         </thead>
                         <tbody>
@@ -37,8 +37,9 @@ class ListRole extends React.Component {
                                         <td>{role.num_tabs}</td>
                                         <td>
                                             {!this.props.disableActions && <ButtonGroupAction
-                                                delete={self.props.deleteRole}
-                                                editUrl={`/hr/role/${role.id}/edit`}
+                                                delete={this.props.deleteRole}
+                                                // editUrl={`/hr/role/${role.id}/edit`}
+                                                edit={this.props.openModalEdit}
                                                 object={role.id}
                                             />}
                                         </td>
@@ -57,6 +58,7 @@ class ListRole extends React.Component {
 ListRole.propTypes = {
     roles: PropTypes.array.isRequired,
     deleteRole: PropTypes.func.isRequired,
+    openModalEdit: PropTypes.func.isRequired,
     disableActions: PropTypes.bool.isRequired,
 };
 

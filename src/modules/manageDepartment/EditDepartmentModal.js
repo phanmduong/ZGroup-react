@@ -61,31 +61,34 @@ class EditDepartmentModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.onHide}
+                 bsSize="small"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm bộ phận</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form role="form" id="form-department-edit" onSubmit={null}>
+                    <form role="form" id="form-department-edit"  className="form-grey" onSubmit={null}>
+                        <label>Tên bộ phận</label>
                         <FormInputText
-                            label="Tên bộ phận"
+                            placeholder="Tên bộ phận"
                             required
                             name="name"
                             updateFormData={this.updateFormData}
                             value={this.state.data.name}
                         />
-                        <h4 className="card-title">Chọn màu</h4>
-                        <CirclePicker width="50%"
+                        <label className="margin-bottom-10">Chọn màu</label>
+                        <CirclePicker width="100%"
                                       color={this.state.data.color || ''}
                                       onChangeComplete={this.changeColor}
                         />
+                        <div className="flex-end margin-top-10">
                         {this.props.isEditingDepartment ?
-                            <button className="btn btn-rose btn-fill disabled" type="button">
+                            <button className="btn button-green disabled" type="button">
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                             </button>
                             :
                             <button
-                                className="btn btn-fill btn-rose"
+                                className="btn button-green"
                                 type="button"
                                 onClick={() => {
                                     if ($('#form-department-edit').valid())
@@ -93,6 +96,7 @@ class EditDepartmentModal extends React.Component {
                                 }}
                             > Lưu </button>
                         }
+                        </div>
                     </form>
                 </Modal.Body>
             </Modal>
