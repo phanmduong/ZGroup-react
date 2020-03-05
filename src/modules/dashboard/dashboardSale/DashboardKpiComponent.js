@@ -105,7 +105,7 @@ class DashboardKpiComponent extends React.Component {
                     <div
                         className="padding-vertical-10px padding-horizontal-20px white-light-round margin-right-10 btn-grey text-center font-weight-400 cursor-pointer"
                         style={{width: 120}}
-
+                        onClick={() => this.openLinkRegister({saler_id: props.value}, true)}
                     >Chi tiết đơn
                     </div>
                     <div
@@ -168,6 +168,19 @@ class DashboardKpiComponent extends React.Component {
         filter.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
         filter.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
         this.store.analyticsKpi(filter);
+    }
+
+    openLinkRegister = (filter) => {
+        let link = "/sales/registerlist?";
+        const filter2 = {...filterStore.filter};
+        filter2.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
+        filter2.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
+        const data = {...filter2, saler_id: filter2.staff_id, ...filter}
+        Object.keys(data).forEach((key) => {
+            const value = data[key] ? data[key] : "";
+            link += `&${key}=${value}`;
+        });
+        window.open(link, "_blank");
     }
 
     render() {

@@ -42,6 +42,9 @@ class AppContainer extends React.Component {
         this.props.loginActions.getUserLocal();
         this.props.provinceActions.loadAllProvinces();
         this.props.baseActions.loadAllBases();
+        if (this.props.location.query && this.props.location.query) {
+            this.onChangeBase(this.props.location.query.base_id);
+        }
     }
 
     componentDidUpdate() {
@@ -130,7 +133,7 @@ class AppContainer extends React.Component {
                     styles={{sidebar: {background: "white"}, root: {zIndex: this.state.sidebarOpen ? 1040 : 0}}}
                     pullRight
                 >
-                    <div />
+                    <div/>
                 </Sidebar>
                 }
 

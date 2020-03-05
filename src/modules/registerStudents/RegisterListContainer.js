@@ -103,51 +103,75 @@ class RegisterListContainer extends React.Component {
         this.props.createRegisterActions.loadSources();
         this.props.studentActions.loadStatuses('registers');
 
-
-        if (this.props.location.query && this.props.location.query.call_status) {
-            this.setState({selectedTeleCallStatus: this.props.location.query.call_status});
+        if (this.props.location.query) {
+            const filter = {
+                selectedClassId: this.props.location.query.class_id ? this.props.location.query.class_id : '',
+                selectedSalerId: this.props.location.query.saler_id ? this.props.location.query.saler_id : '',
+                registerSourceId: this.props.location.query.source_id ? this.props.location.query.source_id : '',
+                registerStatusId: this.props.location.query.status_id ? this.props.location.query.status_id : '',
+                selectedMoneyFilter: this.props.location.query.money_filter ? this.props.location.query.money_filter : '',
+                selectedClassStatus: this.props.location.query.class_status ? this.props.location.query.class_status : '',
+                selectedBookmarkStatus: this.props.location.query.bookmark_status ? this.props.location.query.bookmark_status : '',
+                selectedTeleCallStatus: this.props.location.query.call_status ? this.props.location.query.call_status : '',
+                selectedStudentId: this.props.location.query.student_id ? this.props.location.query.student_id : '',
+                campaignId: this.props.location.query.campaign_id ? this.props.location.query.campaign_id : '',
+                selectGenId: this.props.location.query.gen_id ? this.props.location.query.gen_id : '',
+                selectedBaseId: this.props.location.query.base_id ? this.props.location.query.base_id : '',
+                query: this.props.location.query.query ? this.props.location.query.query : '',
+                page: 1,
+                time: {
+                    startTime: this.props.location.query.start_time ? this.props.location.query.start_time : '',
+                    endTime: this.props.location.query.end_time ? this.props.location.query.end_time : ''
+                },
+            };
+            this.setState(filter);
         }
         if (this.props.route.path === '/sales/waitlist') {
             this.isWaitListPage = true;
             this.setState({selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: ''});
         }
-        if (this.props.params.salerId) {
-            this.props.registerActions.loadRegisterStudent({
-                page: 1,
-                query: '',
-                campaignId: '',
-                selectGenId: '',
-                selectedSalerId: Number(this.props.params.salerId),
-            });
-            this.setState({
-                page: 1,
-                query: '',
-                campaignId: '',
-                selectGenId: '',
-                selectedSalerId: Number(this.props.params.salerId),
-            });
-
-        } else {
-            if (this.props.params.genId && this.props.params.campaignId) {
-                this.props.registerActions.loadRegisterStudent({
-                    page: 1,
-                    query: '',
-                    campaignId: Number(this.props.params.campaignId),
-                    selectGenId: Number(this.props.params.genId),
-                });
-                this.setState({
-                    page: 1,
-                    query: '',
-                    campaignId: Number(this.props.params.campaignId),
-                    selectGenId: Number(this.props.params.genId),
-                });
-
-            } else {
-                if (this.props.route.path === '/sales/waitlist') {
-                    // this.onClassStatusFilterChange({value: 'waiting'});
-                }
-            }
+        if (this.state.selectGenId) {
+            this.props.registerActions.loadRegisterStudent(
+                this.state
+            );
         }
+        // if (this.props.params.salerId) {
+        //     this.props.registerActions.loadRegisterStudent({
+        //         page: 1,
+        //         query: '',
+        //         campaignId: '',
+        //         selectGenId: '',
+        //         selectedSalerId: Number(this.props.params.salerId),
+        //     });
+        //     this.setState({
+        //         page: 1,
+        //         query: '',
+        //         campaignId: '',
+        //         selectGenId: '',
+        //         selectedSalerId: Number(this.props.params.salerId),
+        //     });
+        //
+        // } else {
+        //     if (this.props.params.genId && this.props.params.campaignId) {
+        //         this.props.registerActions.loadRegisterStudent({
+        //             page: 1,
+        //             query: '',
+        //             campaignId: Number(this.props.params.campaignId),
+        //             selectGenId: Number(this.props.params.genId),
+        //         });
+        //         this.setState({
+        //             page: 1,
+        //             query: '',
+        //             campaignId: Number(this.props.params.campaignId),
+        //             selectGenId: Number(this.props.params.genId),
+        //         });
+        //
+        //     } else {
+        //         if (this.props.route.path === '/sales/waitlist') {
+        //             // this.onClassStatusFilterChange({value: 'waiting'});
+        //         }
+        //     }
+        // }
 
     }
 
@@ -160,7 +184,8 @@ class RegisterListContainer extends React.Component {
             this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
             this.props.registerActions.loadRegisterStudent(
                 {
-                    ...this.state, page: 1,
+                    ...this.state,
+                    page: 1,
                     selectedClassId: '',
                     selectedClassStatus: this.state.selectedClassStatus,
                 },
@@ -200,10 +225,10 @@ class RegisterListContainer extends React.Component {
                 return parseInt(o.name);
             }]);
             gens = _.reverse(gens);
-            const genId = nextProps.params.genId ? nextProps.params.genId : nextProps.currentGen.id;
+            const genId = this.state.selectGenId ? this.state.selectGenId : nextProps.currentGen.id;
             this.setState({
                 gens: [{id: 0, name: ''}, ...gens],
-                selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
+                selectGenId: genId
             });
 
             this.props.registerActions.loadClassFilter(genId);
@@ -228,104 +253,122 @@ class RegisterListContainer extends React.Component {
             // this.loadDashboard(this.state.selectGenId, nextProps.selectedBaseId);
         }
 
-        if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, selectedSalerId: Number(nextProps.params.salerId),},
-                1,//page
-                this.state.limit,
-                this.state.selectGenId,
-                this.state.query,
-                Number(nextProps.params.salerId),
-                this.state.campaignId,
-                this.state.selectedClassId,
-                this.state.selectedMoneyFilter,
-                this.state.selectedClassStatus,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.props.selectedBaseId,
-                this.state.time.appointmentPayment,
-                this.state.query_coupon,
-                this.state.selectedTeleCallStatus,
-                this.state.selectedBookmarkStatus
-            );
-            this.setState({
-                page: 1,
-                selectedSalerId: Number(nextProps.params.salerId),
-            });
-        } else if (nextProps.location.pathname != this.props.location.pathname) {
-            this.setState({
-                query: '',
-                showModal: false,
-                showModalChangeClass: false,
-                campaignId: '',
-                selectRegisterId: 0,
-                selectedClassId: '',
-                selectedSalerId: '',
-                selectedMoneyFilter: '',
-                time: {
-                    startTime: '',
-                    endTime: '',
-                    appointmentPayment: ''
-                },
-            });
-            if (nextProps.route.path == '/sales/waitlist') {
-                this.isWaitListPage = true;
-                this.props.registerActions.loadRegisterStudent({
-                    page: 1,
-                    selectedClassStatus: 'waiting',
-                });
-                this.changeClassStatusFilter({value: 'waiting'});
-                this.setState({
-                    page: 1,
-                    selectedClassStatus: 'waiting',
-                    cardTitle: 'Danh sách chờ',
-                });
-            } else {
-                this.changeClassStatusFilter({value: ''});
-                this.isWaitListPage = false;
-                this.setState({
-                    page: 1,
-                    selectedClassStatus: '',
-                    cardTitle: 'Danh sách đăng kí học'
-                });
-                if (nextProps.params.salerId) {//1
-                    this.props.registerActions.loadRegisterStudent({
-                        page: 1,
-                        campaignId: '',
-                        selectGenId: '',
-                        selectedClassStatus: '',
-                        selectedSalerId: nextProps.params.salerId,
-                    });
-                    this.setState({
-                        page: 1,
-                        campaignId: '',
-                        selectGenId: '',
-                        selectedClassStatus: '',
-                        selectedSalerId: nextProps.params.salerId,
-                    });
-                } else {//2
-                    if (nextProps.params.genId && nextProps.params.campaignId) {
-                        this.props.registerActions.loadRegisterStudent({
-                            page: 1,
-                            campaignId: Number(nextProps.params.campaignId),
-                            selectGenId: Number(nextProps.params.genId)
-                        });
-                        this.setState({
-                            page: 1,
-                            campaignId: Number(nextProps.params.campaignId),
-                            selectGenId: Number(nextProps.params.genId)
-                        });
-                    } else {//3
-                        this.props.registerActions.loadRegisterStudent({
-                            page: 1,
-                        });
-                        this.setState({
-                            page: 1,
-                        });
-                    }
-                }
-            }
+        if (nextProps.route.path != this.props.route.path) {
+            location.reload();
         }
+
+        // if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
+        //     this.props.registerActions.loadRegisterStudent(
+        //         {...this.state, page: 1, selectedSalerId: Number(nextProps.params.salerId),},
+        //         1,//page
+        //         this.state.limit,
+        //         this.state.selectGenId,
+        //         this.state.query,
+        //         Number(nextProps.params.salerId),
+        //         this.state.campaignId,
+        //         this.state.selectedClassId,
+        //         this.state.selectedMoneyFilter,
+        //         this.state.selectedClassStatus,
+        //         this.state.time.startTime,
+        //         this.state.time.endTime,
+        //         this.props.selectedBaseId,
+        //         this.state.time.appointmentPayment,
+        //         this.state.query_coupon,
+        //         this.state.selectedTeleCallStatus,
+        //         this.state.selectedBookmarkStatus
+        //     );
+        //     this.setState({
+        //         page: 1,
+        //         selectedSalerId: Number(nextProps.params.salerId),
+        //     });
+        // } else if (nextProps.location.pathname != this.props.location.pathname) {
+        //     this.setState({
+        //         query: '',
+        //         showModal: false,
+        //         showModalChangeClass: false,
+        //         campaignId: '',
+        //         selectRegisterId: 0,
+        //         selectedClassId: '',
+        //         selectedSalerId: '',
+        //         selectedMoneyFilter: '',
+        //         time: {
+        //             startTime: '',
+        //             endTime: '',
+        //             appointmentPayment: ''
+        //         },
+        //     });
+        //     if (nextProps.route.path == '/sales/waitlist') {
+        //         this.isWaitListPage = true;
+        //         this.props.registerActions.loadRegisterStudent({
+        //             page: 1,
+        //             selectedClassStatus: 'waiting',
+        //         });
+        //         this.changeClassStatusFilter({value: 'waiting'});
+        //         this.setState({
+        //             page: 1,
+        //             selectedClassStatus: 'waiting',
+        //             cardTitle: 'Danh sách chờ',
+        //         });
+        //     } else {
+        //         this.changeClassStatusFilter({value: ''});
+        //         this.isWaitListPage = false;
+        //         this.setState({
+        //             page: 1,
+        //             selectedClassStatus: '',
+        //             cardTitle: 'Danh sách đăng kí học'
+        //         });
+        //         if (nextProps.params.salerId) {//1
+        //             this.props.registerActions.loadRegisterStudent({
+        //                 page: 1,
+        //                 campaignId: '',
+        //                 selectGenId: '',
+        //                 selectedClassStatus: '',
+        //                 selectedSalerId: nextProps.params.salerId,
+        //             });
+        //             this.setState({
+        //                 page: 1,
+        //                 campaignId: '',
+        //                 selectGenId: '',
+        //                 selectedClassStatus: '',
+        //                 selectedSalerId: nextProps.params.salerId,
+        //             });
+        //         } else {//2
+        //             if (nextProps.params.genId && nextProps.params.campaignId) {
+        //                 this.props.registerActions.loadRegisterStudent({
+        //                     page: 1,
+        //                     campaignId: Number(nextProps.params.campaignId),
+        //                     selectGenId: Number(nextProps.params.genId)
+        //                 });
+        //                 this.setState({
+        //                     page: 1,
+        //                     campaignId: Number(nextProps.params.campaignId),
+        //                     selectGenId: Number(nextProps.params.genId)
+        //                 });
+        //             } else {//3
+        //                 this.props.registerActions.loadRegisterStudent({
+        //                     page: 1,
+        //                 });
+        //                 this.setState({
+        //                     page: 1,
+        //                 });
+        //             }
+        //         }
+        //     }
+        // }
+    }
+
+    openLinkWithFilter = (newFilter = {}) => {
+        let current_link = window.location.href.split('?')[0];
+        let {
+            selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
+            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, time
+        } = this.state;
+        current_link += `?class_id=${selectedClassId}&saler_id=${newFilter.saler_id ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
+            `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
+            `&call_status=${selectedTeleCallStatus}&student_id=${selectedStudentId}&campaign_id=${campaignId}&gen_id=${selectGenId}` +
+            `&base_id=${selectedBaseId}&query=${query}&start_time=${time.startTime}&end_time=${time.endTime}`;
+
+        window.open(current_link, "_self");
     }
 
     onClassFilterChange = (obj) => {
@@ -1154,6 +1197,7 @@ class RegisterListContainer extends React.Component {
                                 (
                                     this.props.registers && this.props.registers.length > 0 ?
                                         <ListRegister
+                                            openLinkWithFilter={this.openLinkWithFilter}
                                             genId={this.state.selectGenId}
                                             registers={this.props.registers}
                                             isChangingBookmark={this.props.isChangingBookmark}

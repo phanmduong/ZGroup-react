@@ -129,22 +129,22 @@ class ListRegister extends React.Component {
                                         {
                                             register.saler ?
                                                 (
-                                                    <Link className="btn btn-xs btn-main"
-                                                          style={{backgroundColor: '#' + register.saler.color}}
-                                                          to={`/sales/registerlist/${register.saler.id}`}
+                                                    <a className="btn btn-xs btn-main"
+                                                       style={{backgroundColor: '#' + register.saler.color}}
+                                                       onClick={() => this.props.openLinkWithFilter({"saler_id": register.saler.id})}
                                                     >
                                                         {helper.getShortName(register.saler.name)}
                                                         <div className="ripple-container"/>
-                                                    </Link>
+                                                    </a>
                                                 )
                                                 :
                                                 (
-                                                    <Link className="btn btn-xs btn-main"
-                                                          to={`/sales/registerlist/-1`}
+                                                    <a className="btn btn-xs btn-main"
+                                                       onClick={() => this.props.openLinkWithFilter({"saler_id": -1})}
                                                     >
                                                         No saler
                                                         <div className="ripple-container"/>
-                                                    </Link>
+                                                    </a>
                                                 )
 
                                         }
@@ -247,11 +247,11 @@ class ListRegister extends React.Component {
                                         disabledDelete={!register.is_delete}>
                                         <div className={"flex"}>
                                             {
-                                                register.status  < 3  &&
+                                                register.status < 3 &&
                                                 <TooltipButton text="Đổi lớp"
                                                                placement="top">
                                                     <a type="button"
-                                                        onClick={() => this.props.openModalChangeClass(register.id)}>
+                                                       onClick={() => this.props.openModalChangeClass(register.id)}>
                                                         <i className="material-icons">swap_vertical_circle</i>
                                                     </a>
                                                 </TooltipButton>

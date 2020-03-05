@@ -21,6 +21,32 @@ class CardRevenue extends React.Component {
             cardRevenueStore.analyticsRevenue(filter);
     }
 
+    openLinkRegister = (filter) => {
+        let link = "/sales/registerlist?";
+        const filter2 = {...filterStore.filter};
+        filter2.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
+        filter2.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
+        const data = {...filter2, saler_id: filter2.staff_id, ...filter}
+        Object.keys(data).forEach((key) => {
+            const value = data[key] ? data[key] : "";
+            link += `&${key}=${value}`;
+        });
+        window.open(link, "_blank");
+    }
+
+    openLinkStaff = (filter) => {
+        const filter2 = {...filterStore.filter};
+        filter2.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
+        filter2.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
+        let link = "/hr/manage/quan-li-nhan-su?";
+        const data = {...filter2, saler_id: filterStore.filter.staff_id, ...filter}
+        Object.keys(data).forEach((key) => {
+            const value = data[key] ? data[key] : "";
+            link += `&${key}=${value}`;
+        });
+        window.open(link, "_blank");
+    }
+
     render() {
         const {isLoading, data} = cardRevenueStore;
         const {totalSaler, totalMoney, totalKpi} = this.props;
@@ -36,6 +62,7 @@ class CardRevenue extends React.Component {
                                 </div>
                             }
                             <div
+                                onClick={() => this.openLinkRegister({money_filter: 1})}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>
@@ -56,6 +83,7 @@ class CardRevenue extends React.Component {
                                 </div>
                             }
                             <div
+                                onClick={() => this.openLinkRegister({money_filter: 1})}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>
@@ -73,6 +101,7 @@ class CardRevenue extends React.Component {
                                 </div>
                             }
                             <div
+                                onClick={() => this.openLinkStaff({})}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>
@@ -93,6 +122,7 @@ class CardRevenue extends React.Component {
                                 </div>
                             }
                             <div
+                                onClick={() => this.openLinkRegister({money_filter: 1})}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>
