@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
-import {STATUS_REFS} from "../../constants/constants";
+import {STATUS_REFS, TYPE_CLASSES_OBJECT} from "../../constants/constants";
 import EmptyData from "../../components/common/EmptyData";
 
 class ListClass extends React.Component {
@@ -15,14 +15,15 @@ class ListClass extends React.Component {
     }
 
     typeClass(type) {
-        switch (type) {
-            case 'active':
-                return 'Hoạt động';
-            case 'waiting':
-                return 'Chờ';
-            default:
-                return 'Chưa xét';
-        }
+        // switch (type) {
+        //     case 'active':
+        //         return 'Hoạt động';
+        //     case 'waiting':
+        //         return 'Chờ';
+        //     default:
+        //         return 'Chưa xét';
+        // }
+        return TYPE_CLASSES_OBJECT[type] || '';
     }
 
     render() {
