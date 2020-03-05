@@ -366,8 +366,26 @@ export const TYPE_CLASSES = [
     {
         label: "Chờ",
         value: "waiting"
-    }
+    },
+    {
+        label: "Kèm 1-1",
+        value: "solo"
+    },
+    {
+        label: "Doanh nghiệp",
+        value: "business"
+    },
 ];
+export const TYPE_CLASSES_OBJECT =
+    {
+        "active": "Hoạt động",
+        "waiting": "Chờ",
+        "solo": "Kèm 1-1",
+        "business": "Doanh nghiệp",
+    }
+;
+
+
 export const STATUS_WORK = [
     {
         //0

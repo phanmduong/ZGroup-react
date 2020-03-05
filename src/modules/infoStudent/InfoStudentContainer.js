@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
+import {isEmptyInput} from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
@@ -24,7 +25,7 @@ import StarInput from "../../components/common/StarInput";
 import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
-import {isEmptyInput} from "../../helpers/helper";
+import UploadManyImages from "../../components/common/UploadManyImages";
 
 
 class InfoStudentContainer extends React.Component {
@@ -213,6 +214,17 @@ class InfoStudentContainer extends React.Component {
             }));
     };
 
+    handleImages = (image_urls, isUploadedAll) => {
+        if (isUploadedAll)
+            this.props.studentActions.editInfoStudent(
+                {...this.props.student, image_urls},
+                () => this.props.studentActions.loadInfoStudent(this.studentId)
+            );
+        else
+            this.props.studentActions.setInfoStudent({...this.props.student, image_urls});
+
+    };
+
     render() {
 
 
@@ -277,17 +289,23 @@ class InfoStudentContainer extends React.Component {
 
                                     <div className="card-content">
                                         <div className="detail-wrap">
-                                            {student.dob &&<p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>}
+                                            {student.dob && <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>}
                                             {student.age && <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>}
-                                            {student.address &&<p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>}
-                                            {student.father_name &&<p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>}
-                                            {student.work &&<p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>}
-                                            {GENDER[student.gender] &&<p>Giới
+                                            {student.address &&
+                                            <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>}
+                                            {student.father_name &&
+                                            <p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>}
+                                            {student.work &&
+                                            <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>}
+                                            {GENDER[student.gender] && <p>Giới
                                                 tính<strong>{GENDER[student.gender] == null ? "Khác" : GENDER[student.gender].name}</strong>
                                             </p>}
-                                            {student.university &&<p>Trường học<strong>{student.university || "Chưa có"}</strong></p>}
-                                            {student.description &&<p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>}
-                                            {student.facebook &&<p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>}
+                                            {student.university &&
+                                            <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>}
+                                            {student.description &&
+                                            <p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>}
+                                            {student.facebook &&
+                                            <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>}
                                         </div>
                                         {this.props.isEditingStudent ?
                                             (
@@ -330,11 +348,13 @@ class InfoStudentContainer extends React.Component {
                                         </div>
                                         {student.imported_by && <div className="source-wrap">
                                             <div className="source-name">Import bởi</div>
-                                            <div className="source-value"  style={{background:`#${student.imported_by.color}`}}>{student.imported_by.name}</div>
+                                            <div className="source-value"
+                                                 style={{background: `#${student.imported_by.color}`}}>{student.imported_by.name}</div>
                                         </div>}
                                         {!isEmptyInput(student.imported_at) && <div className="source-wrap">
                                             <div className="source-name">Import lúc</div>
-                                            <div className="source-value"  style={{background:`#${student.imported_by.color}`}}>{student.imported_at}</div>
+                                            <div className="source-value"
+                                                 style={{background: `#${student.imported_by.color}`}}>{student.imported_at}</div>
                                         </div>}
                                         <div className="source-wrap">
                                             <div className="source-name">P.I.C</div>
@@ -378,8 +398,19 @@ class InfoStudentContainer extends React.Component {
                                 </div>
                             </div>
                             }
-                            {/*<label className="bold color-black">Ảnh project</label>*/}
 
+                            {!this.props.isLoadingStudent &&
+                            <div>
+                                <label className="bold color-black">Ảnh project</label>
+                                <div className="form-group">
+
+                                    <UploadManyImages images_url={student.image_urls}
+                                                      handleFileUpload={this.handleImages}
+                                                      imageContainerStyle={{width: 100}}
+                                                      box="box"/>
+                                </div>
+                            </div>
+                            }
                         </div>
                         <div className="col-md-8">
                             <div className="row">
@@ -403,22 +434,22 @@ class InfoStudentContainer extends React.Component {
                                                 </div>
                                                 {/*<div className="timeline-body">*/}
                                                 {/*    <div className="flex flex-wrap">*/}
-                                                        {/*<CallRegisterOverlay*/}
-                                                        {/*    studentId={student.id}*/}
-                                                        {/*/>*/}
-                                                        {/*<CreateRegisterOverlay*/}
-                                                        {/*    className="btn btn-actions"*/}
-                                                        {/*/>*/}
-                                                        {/*<CreateCouponOverlay*/}
-                                                        {/*    className="btn btn-actions"*/}
-                                                        {/*/>*/}
-                                                        {/*<CreateRegisterHistoryCareOverlay*/}
-                                                        {/*    className="btn btn-actions"*/}
-                                                        {/*/>*/}
-                                                        {/*<ExtraRegisterOverlay*/}
-                                                        {/*    openModalChangePassword={this.openModalChangePassword}*/}
-                                                        {/*    studentId={student.id}*/}
-                                                        {/*/>*/}
+                                                {/*<CallRegisterOverlay*/}
+                                                {/*    studentId={student.id}*/}
+                                                {/*/>*/}
+                                                {/*<CreateRegisterOverlay*/}
+                                                {/*    className="btn btn-actions"*/}
+                                                {/*/>*/}
+                                                {/*<CreateCouponOverlay*/}
+                                                {/*    className="btn btn-actions"*/}
+                                                {/*/>*/}
+                                                {/*<CreateRegisterHistoryCareOverlay*/}
+                                                {/*    className="btn btn-actions"*/}
+                                                {/*/>*/}
+                                                {/*<ExtraRegisterOverlay*/}
+                                                {/*    openModalChangePassword={this.openModalChangePassword}*/}
+                                                {/*    studentId={student.id}*/}
+                                                {/*/>*/}
                                                 {/*    </div>*/}
                                                 {/*</div>*/}
 
@@ -451,7 +482,7 @@ class InfoStudentContainer extends React.Component {
                     <Modal show={this.state.showModalChangePassword}>
                         <Modal.Header closeButton={!this.props.isChangingPassword}
                                       onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}
-                                      closeLabel="Đóng">
+                                      closeplaceholder="Đóng">
                             <Modal.Title>Thay đổi mật khẩu</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -466,7 +497,7 @@ class InfoStudentContainer extends React.Component {
                                       onHide={() => {
                                           this.setState({showModalViewImage: false});
                                       }}
-                                      closeLabel="Đóng">
+                                      closeplaceholder="Đóng">
                             <Modal.Title>Ảnh</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -487,87 +518,99 @@ class InfoStudentContainer extends React.Component {
                             <Modal.Title>Chỉnh sửa thông tin học viên</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <form id="form-edit-student" onSubmit={(e) => {
+                            <form id="form-edit-student" className="form-grey" onSubmit={(e) => {
                                 e.preventDefault();
                             }}>
+                                <label>Họ và tên</label>
                                 <FormInputText
-                                    label="Họ và tên"
+                                    placeholder="Họ và tên"
                                     name="name"
                                     updateFormData={this.updateFormData}
                                     value={this.state.student.name}
                                     type="text"
                                 />
+                                <label>Email</label>
                                 <FormInputText
-                                    label="Email"
+                                    placeholder="Email"
                                     name="email"
                                     updateFormData={this.updateFormData}
                                     value={this.state.student.email}
                                     required={true}
                                     type="email"
                                 />
+                                <label>Số điện thoại</label>
                                 <FormInputText
-                                    label="Số điện thoại"
+                                    placeholder="Số điện thoại"
                                     name="phone"
                                     value={this.state.student.phone}
                                     type="text"
                                     updateFormData={this.updateFormData}
                                 />
+                                <label>Chọn giới tính</label>
                                 <ReactSelect
                                     value={this.state.student.gender}
                                     options={GENDER}
                                     onChange={this.updateGender}
                                     placeholder="Chọn giới tính"
                                 />
+                                <label>Chọn ngày sinh</label>
                                 <FormInputDate
-                                    label="Chọn ngày sinh"
+                                    placeholder="Chọn ngày sinh"
                                     value={this.state.student.dob}
                                     updateFormData={this.updateFormData}
                                     id="form-change-dob"
                                     name="dob"
                                 />
+                                <label>Địa chỉ</label>
                                 <ReactSelect
                                     value={this.state.student.address}
                                     options={this.getDataAddress()}
                                     onChange={this.updateAddress}
                                     placeholder="Địa chỉ"
                                 />
+                                <label>Tên phụ huynh</label>
                                 <FormInputText
                                     name="father_name"
-                                    label="Tên phụ huynh"
+                                    placeholder="Tên phụ huynh"
                                     placeholder="Tên phụ huynh"
                                     value={this.state.student.father_name}
                                     updateFormData={this.updateFormData}
                                 />
+                                <label>Trường học</label>
                                 <FormInputText
                                     name="university"
-                                    label="Trường học"
+                                    placeholder="Trường học"
                                     value={this.state.student.university}
                                     updateFormData={this.updateFormData}
                                 />
+                                <label>Nơi làm việc</label>
                                 <FormInputText
                                     name="work"
-                                    label="Nơi làm việc"
+                                    placeholder="Nơi làm việc"
                                     value={this.state.student.work}
                                     updateFormData={this.updateFormData}
                                 />
+                                <label>Lý do biết đến</label>
                                 <FormInputText
                                     name="how_know"
-                                    label="Lý do biết đến"
+                                    placeholder="Lý do biết đến"
                                     value={this.state.student.how_know}
                                     updateFormData={this.updateFormData}
                                 />
+                                <label>Link Facebook</label>
                                 <FormInputText
                                     name="facebook"
-                                    label="Link Facebook"
+                                    placeholder="Link Facebook"
                                     value={this.state.student.facebook}
                                     updateFormData={this.updateFormData}
                                 />
-                                <div className="form-group">
-                                    <label className="label-control">Mô tả</label>
+                                <label className="label-control">Mô tả</label>
+                                <div className="form-group text-area-grey">
+
                                     <textarea
                                         type="text"
                                         rows={5}
-                                        className="form-control"
+                                        className="form-control "
                                         value={
                                             this.state.student.description ? this.state.student.description : ""
                                         }
@@ -576,20 +619,21 @@ class InfoStudentContainer extends React.Component {
                                     />
                                     <span className="material-input"/>
                                 </div>
-                                {this.props.isEditingStudent ?
-                                    (
-                                        <button
-                                            className="btn btn-fill btn-rose disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                <div className="flex flex-end margin-top-10">
+                                    {this.props.isEditingStudent ?
+                                        (
+                                            <button
+                                                className="btn button-green disabled"
+                                            >
+                                                <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                            </button>
+                                        )
+                                        :
+                                        <button className="btn button-green"
+                                                onClick={this.editInfoStudent}
+                                        > Cập nhật
                                         </button>
-                                    )
-                                    :
-                                    <button className="btn btn-rose"
-                                            onClick={this.editInfoStudent}
-                                    > Cập nhật
-                                    </button>
-                                }
+                                    }</div>
 
                             </form>
                         </Modal.Body>

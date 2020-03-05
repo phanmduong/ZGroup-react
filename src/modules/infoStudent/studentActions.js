@@ -2,6 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as studentApi from './studentApi';
 import * as helper from '../../helpers/helper';
 import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
+import {showWarningNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
@@ -185,6 +186,7 @@ export function loadProgress(studentId) {
 export function editInfoStudent(student, closeModal) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_EDIT_INFO_STUDENT});
+        showWarningNotification('Đang cập nhật...');
         studentApi.editStudent(student)
             .then(res => {
                 if (res.data.status === 1) {

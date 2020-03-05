@@ -14,7 +14,7 @@ import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, TYPE_CLASSES_OBJECT} from '../../constants/constants';
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
@@ -681,6 +681,7 @@ class RegisterListContainer extends React.Component {
 
     showLoadingModal = () => {
         this.props.registerActions.loadAllRegisterStudent({
+            ...this.state,
             page: '',//page
             selectGenId: this.state.selectGenId,
             query: this.state.query,
@@ -706,7 +707,7 @@ class RegisterListContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 25}, {"wch": 12}, {"wch": 8}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},];//độ rộng cột
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22},{"wch": 22},{"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22},{"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},{"wch": 22},{"wch": 22},{"wch": 22},{"wch": 22},];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.registers.map((item, index) => {
             if (item) {
@@ -721,17 +722,24 @@ class RegisterListContainer extends React.Component {
                 }
                 let res = {
                     'STT': index + 1,
-                    'Lớp': item.class ? item.class.name : '',
+                    'Lớp': item.class ? item.class.name : 'Không có',
+                    'Loại lớp': item.class ? TYPE_CLASSES_OBJECT[item.class.type] : 'Không có',
+                    'Môn học': item.class ? item.class.course_name : 'Không có',
                     'Gọi': titleCall,
                     'Họ tên': item.name,
                     'Email': item.email,
                     'Phone': item.phone,
+                    'Thành phố': item.city,
                     'Mã thẻ': item.code,
                     'Học phí': item.money,
                     'Saler': item.saler ? item.saler.name : "Không có",
                     'Chiến dịch': item.campaign ? item.campaign.name : "Không có",
-                    'Cách tiếp cận': item.how_know ? item.how_know : "",
+                    'Cơ sở': (item.class && item.class.base_name) ? item.class.base_name : 'Không có',
+                    'Nguồn': item.source ? item.source.name : "Không có",
+                    'Cách tiếp cận': item.how_know ? item.how_know : "Không có",
                     'Ngày đăng kí': item.created_at,
+                    'Ngày': item.created_at_date,
+                    'Giờ': item.created_at_time,
                 };
                 /* eslint-enable */
                 return res;

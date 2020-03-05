@@ -184,8 +184,9 @@ class GensContainer extends React.Component {
 
                             <br/>
 
+                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
 
-                        <div className="flex-align-items-center flex flex-wrap">
+
                             <div className="btn btn-white btn-round btn-icon"
                                  onClick={() => this.setState({showModal: true, gen: {}})}>
                                 Thêm khóa học

@@ -42,7 +42,8 @@ class UploadManyImages extends React.Component {
         const data = JSON.parse(event.currentTarget.responseText);
         showNotification("Tải lên thành công");
         let uploaded_image_quantity = 1 + this.state.uploaded_image_quantity;
-        this.props.handleFileUpload([...this.props.images_url, data.url]);
+        let isUploadedAll = uploaded_image_quantity === this.state.files_length;
+        this.props.handleFileUpload([...this.props.images_url, data.url], isUploadedAll);
         this.setState({
             percent: 0,
             isUploading: !(uploaded_image_quantity === this.state.files_length),
@@ -80,6 +81,7 @@ class UploadManyImages extends React.Component {
 
     render() {
         const images_url = this.props.images_url;
+        let {imageStyle,imageContainerStyle} = this.props;
         return (
             <div className={this.props.box}>
                 {
@@ -89,14 +91,15 @@ class UploadManyImages extends React.Component {
                                  style={{
                                      padding: "3px"
                                  }}>
-                                <div className="container-for-images">
+                                <div className="container-for-images" style={imageContainerStyle}>
                                     <img style={{
                                         width: "100%",
                                         height: "100%",
                                         background: "url(" + image + ") center center / cover",
                                         position: "absolute",
                                         left: "0",
-                                        borderRadius: "5px"
+                                        borderRadius: "5px",
+                                        ...imageStyle
                                     }}
                                          data-original-title=""/>
                                     <div className="overlay-for-images"/>
@@ -127,8 +130,10 @@ class UploadManyImages extends React.Component {
                                  position: "relative",
                                  borderRadius: '5px',
                                  cursor: "pointer",
-                                 marginTop: '10px',
-                                 marginBottom: '10px'
+                                 ...imageContainerStyle
+
+                                 // marginTop: '10px',
+                                 // marginBottom: '10px'
                              }}>
                             <TooltipButton text="Tải ảnh" placement="top">
                                 <label>
@@ -151,7 +156,10 @@ class UploadManyImages extends React.Component {
                                                width: "100%",
                                                height: "100%",
                                            }}
-                                           type={this.state.isUploading ? 'text' : 'file'}/>
+                                           // type={this.state.isUploading ? 'text' : 'file'}
+                                           type={'file'}
+                                           disabled={this.state.isUploading}
+                                    />
                                 </label>
                             </TooltipButton>
                             {

@@ -58,7 +58,10 @@ export default function studentReducer(state = initialState.infoStudent, action)
                 ...{
                     isLoadingStudent: false,
                     errorStudent: false,
-                    student: action.student
+                    student: {
+                        ...action.student,
+                        image_urls: action.student && action.student.image_urls ? JSON.parse(action.student.image_urls) : []
+                    }
                 }
             };
         case types.LOAD_INFO_STUDENT_ERROR:
