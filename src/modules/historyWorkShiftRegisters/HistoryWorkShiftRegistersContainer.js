@@ -5,10 +5,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as historyWorkShiftRegisterActions from './historyWorkShiftRegisterActions';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Loading from '../../components/common/Loading';
 import ListShiftPick from './ListShiftPick';
 import {bindActionCreators} from 'redux';
+import Pagination from "../../components/common/Pagination";
 
 class HistoryWorkShiftRegistersContainer extends React.Component {
     constructor(props, context) {
@@ -22,45 +22,47 @@ class HistoryWorkShiftRegistersContainer extends React.Component {
         this.loadHistoryShiftRegisters();
     }
 
-    loadHistoryShiftRegisters(page = 1) {
+    loadHistoryShiftRegisters = (page = 1) => {
         this.setState({page: page});
         this.props.historyWorkShiftRegisterActions.historyShiftRegisters(page);
-    }
+    };
 
     render() {
         return (
             <div className="container-fluid">
-                <div className="card">
+                <div className="card" mask="purple">
+                    <img className="img-absolute"/>
                     <div className="card-content">
-                        <div className="tab-content">
-                            <h4 className="card-title">
-                                <strong>Lịch sử đăng kí lịch làm việc</strong>
-                            </h4>
-                            <br/>
-                            {this.props.isLoading ? <Loading/> :
-                                <div>
-                                    <ListShiftPick shiftPicks = {this.props.shiftPicks}/>
-                                </div>
-                            }
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                    if (Number(this.state.page) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.loadHistoryShiftRegisters(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.loadHistoryShiftRegisters(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    }
 
-                                })}
-                            </ul>
-                        </div>    
+                        <h5 className="card-title">
+                            <strong>Lịch sử đăng kí lịch làm việc</strong>
+                        </h5>
+                        <br/>
+                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+
+
+                        </div>
+                    </div>
+                </div>
+                {this.props.isLoading ? <Loading/> :
+                    <div>
+                        <ListShiftPick shiftPicks={this.props.shiftPicks}/>
+                    </div>
+                }
+                <div className="row float-right">
+                    <div
+                        className="col-md-12"
+                        style={{textAlign: "right"}}
+                    >
+                        <Pagination
+                            totalPages={
+                                this.props.totalPages
+                            }
+                            currentPage={
+                                this.state.page
+                            }
+                            loadDataPage={this.loadHistoryShiftRegisters}
+                        />
                     </div>
                 </div>
             </div>

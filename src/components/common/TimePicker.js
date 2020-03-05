@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {isEmptyInput} from "../../helpers/helper";
 
 class TimePicker extends React.Component {
     constructor(props, context) {
@@ -28,7 +29,7 @@ class TimePicker extends React.Component {
     render() {
         return (
             <div className="form-group">
-                <label className="label-control">{this.props.label}</label>
+                {!isEmptyInput(this.props.label) && <label className="label-control">{this.props.label}</label>}
                 <input type="text" className="form-control timepicker"
                        value={this.props.value}
                        name={this.props.name}

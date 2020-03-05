@@ -2,7 +2,6 @@ import React from 'react';
 import {IndexLink, Link} from 'react-router';
 import {observer} from 'mobx-react';
 import {store} from "./DashBoardMarketingStore";
-import Loading from "../../../components/common/Loading";
 
 
 @observer
@@ -62,8 +61,7 @@ export default class DashboardMarketingContainer extends React.Component {
                 </div>
 
 
-                {isLoading && <Loading/>}
-                {!isLoading && this.props.children}
+                {this.props.children}
 
 
             </div>

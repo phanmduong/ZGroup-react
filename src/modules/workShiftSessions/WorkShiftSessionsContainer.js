@@ -102,33 +102,32 @@ class WorkShiftSessionsContainer extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <div className="card">
+                <div className="card" mask="purple">
+                    <img className="img-absolute"/>
                     <div className="card-content">
-                        <div className="tab-content">
-                            <div className="flex-row flex">
                                 <h5 className="card-title">
                                     <strong style={{marginLeft:6}}>Danh sách ca làm việc</strong>
                                 </h5>
-                                <div>
+                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                     <button
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                        className="btn btn-white btn-round"
                                         type="button" onClick={() => this.openModalStore()}>
-                                        <strong>+</strong>
+                                        Thêm ca làm việc
                                     </button>
                                 </div>
-                            </div>
-                        </div>
+
                         <br/>
                         
-                        {this.props.isLoading ? <Loading/> :
-                            <ListShiftSession
-                                workShiftSessions={this.props.workShiftSessions}
-                                openModalStore={this.openModalStore}
-                                deleteShiftSession={this.deleteShiftSession}
-                            />
-                        }
+
                     </div>
                 </div>
+                {this.props.isLoading ? <Loading/> :
+                    <ListShiftSession
+                        workShiftSessions={this.props.workShiftSessions}
+                        openModalStore={this.openModalStore}
+                        deleteShiftSession={this.deleteShiftSession}
+                    />
+                }
                 <Modal show={this.state.showModalStore} onHide={this.closeModalStore}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.state.edit ? "Chỉnh sửa ca làm việc" : "Tạo ca làm việc"}</Modal.Title>

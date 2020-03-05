@@ -102,64 +102,70 @@ class ShiftSessionsContainer extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <div className="card">
+                <div className="card" mask="purple">
+                    <img className="img-absolute"/>
                     <div className="card-content">
-                        <div className="tab-content">
-                            <div className="flex-row flex">
+
+
                                 <h5 className="card-title">
                                     <strong style={{marginLeft:6}}>Danh sách ca trực</strong>
                                 </h5>
-                                <div>
-                                    <button
-                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
+                                <button
+                                        className="btn btn-white btn-round"
                                         type="button" onClick={() => this.openModalStore()}>
-                                        <strong>+</strong>
+                                        Tạo ca trực
                                     </button>
                                 </div>
-                            </div>
-                        </div>
+
+
                         <br/>
                         
-                        {this.props.isLoading ? <Loading/> :
-                            <ListShiftSession
-                                shiftSessions={this.props.shiftSessions}
-                                openModalStore={this.openModalStore}
-                                deleteShiftSession={this.deleteShiftSession}
-                            />
-                        }
+
                     </div>
                 </div>
-                <Modal show={this.state.showModalStore} onHide={this.closeModalStore}>
+                {this.props.isLoading ? <Loading/> :
+                    <ListShiftSession
+                        shiftSessions={this.props.shiftSessions}
+                        openModalStore={this.openModalStore}
+                        deleteShiftSession={this.deleteShiftSession}
+                    />
+                }
+                <Modal show={this.state.showModalStore} onHide={this.closeModalStore} bsSize="small">
                     <Modal.Header closeButton>
-                        <Modal.Title>{this.state.edit ? "Chỉnh sửa ca trực" : "Tạo ca trực"}</Modal.Title>
+                        <Modal.Title className="text-center">{this.state.edit ? "Chỉnh sửa ca trực" : "Tạo ca trực"}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form id="form-store-shift-session" onSubmit={(e) => {
+                        <form id="form-store-shift-session" className="form-grey" onSubmit={(e) => {
                             e.preventDefault();
                         }}>
+                            <label>Tên</label>
                             <FormInputText
-                                label="Tên"
+                                placeholder="Tên"
                                 name="name"
                                 updateFormData={this.updateFormDataState}
                                 value={this.state.shiftSession.name}
                                 required={true}
                                 type="text"
                             />
+                            <label>Thời gian bắt đầu</label>
                             <TimePicker
-                                label="Thời gian bắt đầu"
+                                placeholder="Thời gian bắt đầu"
                                 value={this.state.shiftSession.start_time}
                                 onChange={this.updateFormDataState}
                                 name="start_time"
                                 id="start_time"
                             />
+                            <label>Thời gian kết thúc</label>
                             <TimePicker
-                                label="Thời gian kết thúc"
+                                placeholder="Thời gian kết thúc"
                                 value={this.state.shiftSession.end_time}
                                 onChange={this.updateFormDataState}
                                 name="end_time"
                                 id="end_time"
                             />
                             <div className="form-group label-floating">
+
                                 <Checkbox
                                     label="Kích hoạt    "
                                     name="active"
@@ -167,23 +173,24 @@ class ShiftSessionsContainer extends React.Component {
                                     onChange={this.updateFormDataState}
                                 />
                             </div>
+                            <div className="flex flex-end">
                             {
                                 this.props.isStoring ?
                                     (
                                         <button
-                                            className="btn btn-fill btn-rose disabled"
+                                            className="btn button-green disabled"
                                         >
                                             <i className="fa fa-spinner fa-spin"/>{this.state.edit ? " Đang cập nhật" : " Đang tạo"}
                                         </button>
                                     )
                                     :
                                     <button
-                                        className="btn btn-fill btn-rose"
+                                        className="btn button-green"
                                         onClick={this.storeShiftSession}
                                     >
                                         {this.state.edit ? "Cập nhật" : "Tạo"}
                                     </button>
-                            }
+                            }</div>
                         </form>
                     </Modal.Body>
                 </Modal>

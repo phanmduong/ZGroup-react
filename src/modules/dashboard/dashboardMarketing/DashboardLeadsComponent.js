@@ -83,7 +83,7 @@ class DashboardLeadsComponent extends React.Component {
 
     checkColor = (color) => {
         return isEmptyInput(color) ? '#eeeeee' : color;
-    }
+    };
 
     formatDates = (dates) => {
         return dates && dates.map((date) => {
@@ -91,42 +91,43 @@ class DashboardLeadsComponent extends React.Component {
         });
     };
 
-    statusLabels = ()=>{
-        return store.data.analytics.leadStatuses.map(obj=>{
-            let color = this.checkColor( obj.color);
+    statusLabels = () => {
+        return store.data.analytics.leadStatuses.map(obj => {
+            let color = this.checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
                 borderColor: color,
             };
         });
-    }
-    sourceLabels = ()=>{
-        return store.data.analytics.leadSources.map(obj=>{
-            let color = this.checkColor( obj.color);
+    };
+    sourceLabels = () => {
+        return store.data.analytics.leadSources.map(obj => {
+            let color = this.checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
                 borderColor: color,
             };
         });
-    }
-    campaignLabels = ()=>{
-        return store.data.analytics.leadCampaigns.map(obj=>{
-            let color = this.checkColor( `#${obj.color}`);
+    };
+    campaignLabels = () => {
+        return store.data.analytics.leadCampaigns.map(obj => {
+            let color = this.checkColor(`#${obj.color}`);
             return {
                 label: obj.name,
                 backgroundColor: color,
                 borderColor: color,
             };
         });
-    }
+    };
 
     render() {
         this.path = this.props.location.pathname;
         let {isLoading} = store;
         return (
             <div className="row gutter-20 margin-top-20">
+
                 <DashboardLeadFilter/>
                 {!isLoading &&
                 this.cardDatas.map((card) => {

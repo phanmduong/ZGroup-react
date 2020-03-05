@@ -11,9 +11,9 @@ class ListShiftPick extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
+            <div className="table-responsive table-split">
                 <table className="table">
-                    <thead className="text-rose">
+                    <thead>
                     <tr>
                         <th/>
                         <th>Người trực</th>
