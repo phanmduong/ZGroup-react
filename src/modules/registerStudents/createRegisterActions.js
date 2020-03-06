@@ -114,8 +114,9 @@ export function createRegister(register, hide) {
                 }
             )
             .catch((e) => {
-                console.log(e.message, e.data);
-                helper.showErrorNotification(e.data.message);
+                 console.log(e);
+                // helper.showErrorNotification(e.data.message);
+                helper.showErrorNotification('Có lỗi xảy ra!');
                 dispatch({
                     type: SAVED_REGISTER_ERROR,
                 });

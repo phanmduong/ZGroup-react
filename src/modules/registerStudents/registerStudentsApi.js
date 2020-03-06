@@ -4,30 +4,30 @@ import * as helper from '../../helpers/helper';
 
 export function getAllRegisterStudent(data) {
     let {
-        page,
-        selectGenId,
-        query,
-        selectedSalerId,
-        campaignId,
-        selectedClassId,
-        selectedMoneyFilter,
-        selectedClassStatus,
-        startTime,
-        endTime,
-        selectedBaseId,
-        appointmentPayment,
-        query_coupon,
-        query_note,
-        selectedTeleCallStatus,
-        registerStatusId,
-        registerSourceId,
-        bookmark
+        // page,
+        selectGenId = '',
+        query = '',
+        selectedSalerId = '',
+        campaignId = '',
+        selectedClassId = '',
+        selectedMoneyFilter = '',
+        selectedClassStatus = '',
+        startTime = '',
+        endTime = '',
+        selectedBaseId = '',
+        appointmentPayment = '',
+        query_coupon = '',
+        query_note = '',
+        selectedTeleCallStatus = '',
+        registerStatusId = '',
+        registerSourceId = '',
+        bookmark = '',
     } = data;
 
     let base_id = selectedBaseId;
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
-        "page=" + page +
+        // "page=" + page +
         "&gen_id=" + selectGenId +
         "&search=" + query +
         "&query_note=" + query_note +
