@@ -137,7 +137,7 @@ class MoneyRegisterOverlay extends React.Component {
             if (!register.paid_status && register.appointment_payment) {
                 text = `Hẹn nộp: ${register.appointment_payment}`;
                 style = {backgroundColor: '#c50000', color: 'white'};
-            } else if (register.status > 0 || register.paid_status) {
+            } else if (register.paid_status) {
                 text = dotNumber(register.money) + ` vnđ`;
                 style = {backgroundColor: '#c50000', color: 'white'};
             } else {
