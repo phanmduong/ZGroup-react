@@ -40,6 +40,7 @@ class ListClass extends React.Component {
                             <thead className="text-rose">
                             <tr>
                                 <th>Tên</th>
+                                <th>Khóa</th>
                                 <th>Thời gian</th>
                                 <th>Giảng viên</th>
                                 <th>Trợ giảng</th>
@@ -55,6 +56,7 @@ class ListClass extends React.Component {
                                     return (
                                         <tr key={index}>
                                             <td>{classItem.name}</td>
+                                            <td>{classItem.gen_name}</td>
                                             <td>
 
                                                 <div>Thời gian học: {classItem.study_time}</div>
