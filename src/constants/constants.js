@@ -818,3 +818,8 @@ export const CIRCLE_PICKER_COLORS = [
     "#795548",
     "#607d8b",
 ];
+
+export const LESSON_EVENT_TYPES_OBJECT ={
+    book:{name:'Kiểm tra sách', type:'book', modalText:'KIỂM TRA SÁCH',placeholder:'Nhập nhận xét'},
+    comment:{name:'Nhận xét', type:'comment', modalText: 'NHẬN XÉT',placeholder:'Nhập nhận xét'},
+};

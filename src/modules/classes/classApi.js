@@ -184,6 +184,17 @@ export function changeClassLesson(classLesson) {
         'time': classLesson.time,
     });
 }
+export function saveStudentLessonEvent(lessonEventStudent) {
+    let url = env.MANAGE_API_URL + `/class/save-student-lesson-event`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+
+    return axios.post(url, {lessonEventStudent});
+}
 export function changeClassLessons(classLessons) {
     let url = env.MANAGE_API_URL + `/class/change-class-lessons`;
 
@@ -193,7 +204,7 @@ export function changeClassLessons(classLessons) {
     }
 
 
-    return axios.put(url, {classLessons});
+    return axios.post(url, {classLessons});
 }
 
 export function changeTeacher(classLesson) {

@@ -222,6 +222,19 @@ class RegistersContainer extends React.Component {
                                                 </div>
                                                 }
 
+
+                                                <div>
+                                                    <div className="flex-row-center flex-align-items-center">
+                                                        <i className="material-icons">book</i>&nbsp; &nbsp;{
+                                                        register.received_book_at ?
+                                                            `Đã nhận giáo trình ngày ${register.received_book_at}`
+                                                            :
+                                                            'Chưa nhận giáo trình'
+                                                    }
+                                                    </div>
+                                                </div>
+
+
                                                 {
                                                     register.class.teach &&
                                                     <div className="flex-row-center">

@@ -342,6 +342,23 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingLink: false,
                 }
             };
+        case types.BEGIN_CREATE_LESSON_EVENT:
+            return {
+                ...state,
+                isChangingLessonEvent: true,
+            };
+        case types.CREATE_LESSON_EVENT_SUCCESS:
+            return {
+                ...state,
+                isChangingLessonEvent: false,
+                data: {
+                    ...state.data,
+                    lessons: state.data.lessons.map(l => {
+                        return l.id == action.lesson.id ?
+                            action.lesson : l;
+                    }),
+                },
+            };
         case types.BEGIN_CREATE_PIXEL:
             return {
                 ...state,

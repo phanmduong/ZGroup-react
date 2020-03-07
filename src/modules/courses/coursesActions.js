@@ -1,8 +1,29 @@
 import * as types from '../../constants/actionTypes';
 import * as courseApi from './courseApi';
 import * as helper from '../../helpers/helper';
+import {showWarningNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
+export function createLessonEvent(lesson_id, type) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_LESSON_EVENT});
+        showWarningNotification('Đang thay đổi sự kiện...')
+        courseApi.createLessonEvent(lesson_id, type)
+            .then(res => {
+                helper.showNotification("Lưu thành công!");
+                console.log(res.data);
+                dispatch({
+                    type: types.CREATE_LESSON_EVENT_SUCCESS,
+                    lesson: res.data.data.lesson
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_LESSON_EVENT_ERROR});
+            });
+    };
+}
+
 export function createLink(link, func) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LINK});

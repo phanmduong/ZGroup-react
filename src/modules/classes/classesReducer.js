@@ -286,6 +286,30 @@ export default function classesReducer(state = initialState.classes, action) {
                     isChangingClassLesson: false,
                 }
             };
+        case types.BEGIN_SAVE_STUDENT_LESSON_EVENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingSavingClassLessonEvents: true,
+
+                }
+            };
+        case types.SAVE_STUDENT_LESSON_EVENT_SUCCESS:
+
+            return {
+                ...state,
+                ...{
+                    isLoadingSavingClassLessonEvents: false,
+
+                }
+            };
+        case types.SAVE_STUDENT_LESSON_EVENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingSavingClassLessonEvents: false,
+                }
+            };
         case types.BEGIN_CHANGE_TEACHER_DATA:
             return {
                 ...state,

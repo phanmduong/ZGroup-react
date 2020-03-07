@@ -1303,6 +1303,7 @@ export default {
     },
     classes: {
         isLoadingChangeClasses: false,
+        isLoadingSavingClassLessonEvents: false,
         errorChangeClasses: false,
         changeClasses: [],
         isChangingTeachingLesson: false,
@@ -1747,6 +1748,7 @@ export default {
         updateCoverError: false,
         isCommitting: false,
         isCommittingLesson: false,
+        isChangingLessonEvent: false,
         commitSuccess: false,
         data: {
             id: null,

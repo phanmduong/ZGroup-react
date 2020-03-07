@@ -17,7 +17,7 @@ import {NO_AVATAR} from "../../../../constants/env";
 import TimePicker from "../../../../components/common/TimePicker";
 import Select from 'react-select';
 import moment from 'moment';
-import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../../../constants/constants";
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT, LESSON_EVENT_TYPES_OBJECT} from "../../../../constants/constants";
 import EmptyData from "../../../../components/common/EmptyData";
 
 class HistoryTeachingContainer extends React.Component {
@@ -31,11 +31,15 @@ class HistoryTeachingContainer extends React.Component {
             showModalChangeTeachAssis: false,
             showModalTeachingLesson: false,
             showModalChangeTeachingLesson: false,
+            showModalLessonEvent: false,
             showModalClass: false,
             classSelected: {...this.props.class},
             classLessonSelected: {},
             teacherSelected: {},
             teachAssisSelected: {},
+            lessonEvent: {},
+            lessonEventStudent: [],
+            lessonEventType: '',
             changeDate: {
                 date: '',
                 note: '',
@@ -135,6 +139,51 @@ class HistoryTeachingContainer extends React.Component {
     closeModalDelayLessons = () => {
         this.setState({showModalDelayLessons: false});
     };
+    openModalLessonEvent = (lessonEvent, lessonEventType, classLessonEvent) => {
+
+        let lessonEventStudent = this.props.classData.registers.map((r) => {
+            console.log(r.events);
+            let {student} = r;
+            let student_class_lesson_event  = r.events.filter(e=>e.event_type == lessonEventType)[0]||{};
+
+            return {
+                student_class_lesson_event_id: student_class_lesson_event ? student_class_lesson_event.id : null,
+                student_id: student.id,
+                class_lesson_event_id: student_class_lesson_event.class_lesson_event_id,
+                lesson_event_id: classLessonEvent.lesson_event_id,
+                class_lesson_id: lessonEvent.id,
+                comment: student_class_lesson_event ? student_class_lesson_event.data : ''
+            };
+        });
+        this.setState(
+            {
+                showModalLessonEvent: true,
+                lessonEvent,
+                lessonEventStudent,
+                lessonEventType,
+
+            }
+        );
+    };
+    closeModalLessonEvent = () => {
+        this.setState({showModalLessonEvent: false});
+    };
+
+    submitModalLessonEvent = ()=>{
+        let lessonEventStudent = {...this.state.lessonEventStudent};
+        let { params, classActions} = this.props;
+        console.log(lessonEventStudent);
+        classActions.saveStudentLessonEvent(lessonEventStudent, () => {
+            classActions.loadClass(params.classId);
+        });
+    }
+
+    updateFormInputEvent = (e, index) => {
+        let {name,value} = e.target;
+        let lessonEventStudent = {...this.state.lessonEventStudent};
+        lessonEventStudent[index][name] = value;
+        this.setState({lessonEventStudent});
+    };
 
     saveDelayLessons = () => {
         let {classData, params, classActions} = this.props;
@@ -142,7 +191,7 @@ class HistoryTeachingContainer extends React.Component {
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         console.log(delayLessonIndex, delayLesson);
         let lessons = [];
-        if(classData && classData.lessons )classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson) => {
+        if (classData && classData.lessons) classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson) => {
             let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
             let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_FORMAT_SQL);
             lessons.push({
@@ -178,7 +227,7 @@ class HistoryTeachingContainer extends React.Component {
                 showModalChangeTeacher: true,
                 teacherSelected: data,
                 changeTeacher: {
-                    id: data.teacher ? data.teacher.id :''
+                    id: data.teacher ? data.teacher.id : ''
                 }
             }
         );
@@ -252,10 +301,10 @@ class HistoryTeachingContainer extends React.Component {
     };
 
     render() {
-        let {classData, isLoading, user} = this.props;
-        let {show, showModalDelayLessons, delayLessonIndex, delayData} = this.state;
+        let {classData, isLoading, user,isLoadingSavingClassLessonEvents} = this.props;
+        let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent ,lessonEventType} = this.state;
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
-
+        let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">
@@ -271,8 +320,40 @@ class HistoryTeachingContainer extends React.Component {
                         !isLoading && classData.lessons && classData.lessons.length > 0 ? classData.lessons.map((lesson, key) => {
                                 let color = lesson.studied ? 'success' : '';
                                 let minWidth = 120, margin = '5px 3px';
+                                let eventBook = null, eventComment = null;
+                                if (lesson.events) {
+                                    eventBook = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.book.type)[0];
+                                    eventComment = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.comment.type)[0];
+                                }
                                 return (
                                     <tr key={key} className={color}>
+
+                                        <td>
+                                            <div className="flex flex-align-items-center">
+                                                {eventComment &&
+                                                <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.comment.name}
+                                                               placement="top">
+                                                    <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
+                                                         mask="on"
+                                                         icon={LESSON_EVENT_TYPES_OBJECT.comment.type}
+                                                         onClick={() => this.openModalLessonEvent(lesson, LESSON_EVENT_TYPES_OBJECT.comment.type,eventComment)}
+                                                    >
+                                                        <div className="icon"/>
+                                                    </div>
+                                                </TooltipButton>}
+                                                {eventBook &&
+                                                <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.book.name} placement="top">
+
+                                                    <div className="icon8 icon8-wrap cursor-pointer"
+                                                         icon={LESSON_EVENT_TYPES_OBJECT.book.type}
+                                                         mask="on"
+                                                         onClick={() => this.openModalLessonEvent(lesson, LESSON_EVENT_TYPES_OBJECT.book.type,eventBook)}
+                                                    >
+                                                        <div className="icon"/>
+                                                    </div>
+                                                </TooltipButton>}
+                                            </div>
+                                        </td>
                                         <td style={{minWidth: '100px'}}>
                                             <a target="_blank"
                                                href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
@@ -379,7 +460,7 @@ class HistoryTeachingContainer extends React.Component {
                                                                 onClick={() => this.openModalChangeTeacher(lesson)}>
                                                             Đổi giảng viên
                                                         </button>}
-                                                        {(lesson.is_change || user.role == 2)  &&
+                                                        {(lesson.is_change || user.role == 2) &&
                                                         <button className="btn btn-white width-100"
                                                                 onClick={() => this.openModalTeachAssis(lesson)}>
                                                             Đổi trợ giảng
@@ -408,6 +489,57 @@ class HistoryTeachingContainer extends React.Component {
                     </tbody>
                 </table>
 
+                <Modal show={showModalLessonEvent} onHide={this.closeModalLessonEvent} bsSize="large">
+                    <Modal.Header closeButton>
+                        <h4 className="modal-title text-center">{modalEvent.modalText}</h4>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="table-responsive table-no-border">
+                            <table className="table" cellSpacing="0" id="list_score">
+                                <tbody>
+                                {classData && classData.registers && classData.registers.map((register, key) => {
+                                    let {student} = register;
+                                    let currentObj = lessonEventStudent[key] || {};
+                                    return (
+                                        <tr key={key}>
+                                            <td style={{maxWidth:130}}>
+                                                <div className="flex flex-align-items-center">
+                                                    <div className="avatar-list-staff"
+                                                         style={{
+                                                             background: 'url(' + student.avatar_url + ') center center / cover',
+                                                             display: 'inline-block', marginRight: 10
+                                                         }}
+                                                    />
+                                                    <div><b>{student.name}</b></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <FormInputText name="comment"
+                                                               value={currentObj.comment}
+                                                               disabled={isLoadingSavingClassLessonEvents}
+                                                               placeholder={modalEvent.placeholder}
+                                                               className="form-grey"
+                                                               updateFormData={(e) => this.updateFormInputEvent(e, key)}
+                                                />
+                                            </td>
+                                        </tr>);
+                                })}
+                                </tbody>
+                            </table>
+                            <div className="flex flex-align-items-center flex-end">
+                                <div className="btn btn-white" onClick={this.closeModalLessonEvent}>Hủy</div>
+                                {isLoadingSavingClassLessonEvents ?
+                                    <div className="btn button-green disabled">
+                                        <i className="fa fa-spinner fa-spin"/> Đang lưu</div>
+                                    :
+                                    <div className="btn button-green" onClick={this.submitModalLessonEvent}>Hoàn
+                                        tất</div>
+                                }
+                            </div>
+                        </div>
+
+                    </Modal.Body>
+                </Modal>
                 <Modal show={showModalDelayLessons} onHide={this.closeModalDelayLessons} bsSize="small">
                     <Modal.Header closeButton>
                         <h4 className="modal-title text-center">Dời lịch học</h4>
@@ -883,6 +1015,7 @@ function mapStateToProps(state) {
         staffs: state.classes.staffs,
         isChangingTeachingLesson: state.classes.isChangingTeachingLesson,
         isAddingCheckinCheckout: state.classes.isAddingCheckinCheckout,
+        isLoadingSavingClassLessonEvents: state.classes.isLoadingSavingClassLessonEvents,
     };
 }
 

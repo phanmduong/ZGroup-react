@@ -12,6 +12,10 @@ import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
 import CreateMultiLessonOverlay from "../overlays/CreateMultiLessonOverlay";
 import TermOverlay from "../overlays/TermOverlay";
 import EmptyData from "../../../components/common/EmptyData";
+import {LESSON_EVENT_TYPES_OBJECT} from "../../../constants/constants";
+import TooltipButton from "../../../components/common/TooltipButton";
+
+
 
 let id;
 
@@ -164,7 +168,7 @@ class coursesCreateEditCurriculum extends React.Component {
                 label: item.name,
             };
         });
-    }
+    };
 
     selectedTerm = (lesson, term) => {
         this.props.coursesActions.changeTermLesson(lesson.id, term ? term.id : null);
@@ -179,6 +183,11 @@ class coursesCreateEditCurriculum extends React.Component {
 
     };
 
+    createLessonEvent = (lesson_id, type)=>{
+        if(!this.props.isChangingLessonEvent)
+            this.props.coursesActions.createLessonEvent(lesson_id, type);
+
+    }
 
     render() {
         return (
@@ -351,8 +360,34 @@ class coursesCreateEditCurriculum extends React.Component {
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
                         <tbody>
                         {this.props.data.lessons && this.props.data.lessons.length > 0 ? this.props.data.lessons.map((lesson, index) => {
+                            let eventBook = null, eventComment = null;
+                            if (lesson.events) {
+                                eventBook = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.book.type)[0];
+                                eventComment = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.comment.type)[0];
+                            }
                             return (
                                 <tr key={lesson.id}>
+                                    <td>
+                                        <div className="flex flex-align-items-center">
+                                            <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.comment.name} placement="top">
+                                                <div className="icon8 icon8-wrap cursor-pointer margin-right-5" mask={eventComment ? 'on' : 'off'}
+                                                     icon={LESSON_EVENT_TYPES_OBJECT.comment.type}
+                                                     onClick={()=>this.createLessonEvent(lesson.id,LESSON_EVENT_TYPES_OBJECT.comment.type)}
+                                                >
+                                                    <div className="icon"/>
+                                                </div>
+                                            </TooltipButton>
+                                            <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.book.name} placement="top">
+
+                                            <div className="icon8 icon8-wrap cursor-pointer" icon={LESSON_EVENT_TYPES_OBJECT.book.type}
+                                                 mask={eventBook ? 'on' : 'off'}
+                                                 onClick={()=>this.createLessonEvent(lesson.id,LESSON_EVENT_TYPES_OBJECT.book.type)}
+                                            >
+                                                <div className="icon"/>
+                                            </div>
+                                            </TooltipButton>
+                                        </div>
+                                    </td>
                                     <td><strong>Buổi {lesson.order}</strong></td>
                                     {/*<td data-toggle="tooltip"*/}
                                     {/*data-original-title={lesson.description}*/}
@@ -519,6 +554,7 @@ coursesCreateEditCurriculum.propTypes = {
     isDuplicating: PropTypes.bool,
     isUploadingTerm: PropTypes.bool.isRequired,
     isUploadingTermIcon: PropTypes.bool.isRequired,
+    isChangingLessonEvent: PropTypes.bool.isRequired,
     term: PropTypes.object,
 };
 
@@ -529,6 +565,7 @@ function mapStateToProps(state) {
         isDuplicating: state.courses.isDuplicating,
         isUploadingTerm: state.courses.isUploadingTerm,
         isUploadingTermIcon: state.courses.isUploadingTermIcon,
+        isChangingLessonEvent: state.courses.isChangingLessonEvent,
         term: state.courses.term,
     };
 }

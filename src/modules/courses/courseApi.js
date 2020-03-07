@@ -55,6 +55,15 @@ export function deleteLesson(id) {
     //manageapi.keetool.tk/v2/lesson/delete-lesson/{lessonId}?token=
 }
 
+export function createLessonEvent(lesson_id, type) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/create-lesson-event";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,{lesson_id, type});
+}
+
 export function deleteLink(id) {
     let url = env.MANAGE_API_URL + "/v2/course/delete-link/";
     let token = localStorage.getItem('token');

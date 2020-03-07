@@ -318,6 +318,32 @@ export function changeClassLessons(classLesson, callback) {
     };
 }
 
+export function saveStudentLessonEvent(lessonEventStudent, callback) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_STUDENT_LESSON_EVENT
+        });
+        helper.showWarningNotification('Đang lưu...');
+        classApi.saveStudentLessonEvent(lessonEventStudent)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.message);
+                    if(callback) callback();
+                    dispatch({
+                        type: types.SAVE_STUDENT_LESSON_EVENT_SUCCESS,
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+            }).catch(() => {
+                showErrorNotification('Có lỗi xảy ra!');
+            dispatch({
+                type: types.SAVE_STUDENT_LESSON_EVENT_ERROR
+            });
+        });
+    };
+}
+
 export function changeTeacher(classLesson, modal) {
     return function (dispatch) {
         dispatch({

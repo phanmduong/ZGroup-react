@@ -21,7 +21,8 @@ export function payMoney(register) {
         money: "" + register.money,
         code: register.code,
         note: register.note,
-        payment_method: register.payment_method
+        payment_method: register.payment_method,
+        received_book_at: register.received_book_at,
     });
 }
 

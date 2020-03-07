@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
 import {payMoney} from "../../collectMoney/collectMoneyApi";
-import {PAYMENT_METHODS} from "../../../constants/constants";
+import {DATE_FORMAT_SQL, PAYMENT_METHODS} from "../../../constants/constants";
 import ReactSelect from 'react-select';
 import {
     dotNumber,
@@ -14,6 +14,8 @@ import {
     showTypeNotification,
     sortCoupon
 } from "../../../helpers/helper";
+import Checkbox from "../../../components/common/Checkbox";
+import moment from "moment";
 
 class MoneyRegisterOverlay extends React.Component {
     constructor(props, context) {
@@ -24,6 +26,7 @@ class MoneyRegisterOverlay extends React.Component {
             register: {
                 ...this.props.register,
                 code: this.props.register.class.type == 'active' ? this.props.register.next_code : this.props.register.next_waiting_code,
+                received_book: 0,
                 money: 0,
                 note: '',
                 payment_method: ''
@@ -48,6 +51,7 @@ class MoneyRegisterOverlay extends React.Component {
     };
     updateFormData = (event) => {
         const {name, value} = event.target;
+        console.log(name, value);
         let register = {...this.state.register};
 
         if (name == "money") {
@@ -85,12 +89,19 @@ class MoneyRegisterOverlay extends React.Component {
                 return;
             }
             this.setState({isLoading: true});
+            let {received_book} = register;
+            let received_book_at = null;
+            if(received_book){
+                received_book_at = moment().format(DATE_FORMAT_SQL);
+            }
+            // console.log(received_book_at);
             payMoney({
                 id: register.id,
                 money: "" + register.money,
                 code: register.code,
                 note: register.note,
-                payment_method: register.payment_method
+                payment_method: register.payment_method,
+                received_book_at,
             }).then((res) => {
                 if (res.data.status == 1) {
                     showNotification('Nộp tiền thành công!');
@@ -246,6 +257,14 @@ class MoneyRegisterOverlay extends React.Component {
                                         value={this.state.register.payment_method}
                                         placeholder="Phương thức thanh toán"
                                         name="payment_method"
+                                    />
+                                </div>
+                                <div>
+                                    <Checkbox checked={this.state.register.received_book}
+                                              label="  Đã nhận giáo trình"
+                                              checkBoxLeft
+                                              name="received_book"
+                                              onChange={()=>this.updateFormData({target:{name:'received_book',value:!this.state.register.received_book}})}
                                     />
                                 </div>
                             </form>
