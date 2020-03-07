@@ -772,7 +772,7 @@ class RegisterListContainer extends React.Component {
                     'Họ tên': item.name,
                     'Email': item.email,
                     'Phone': item.phone,
-                    'Thành phố': item.city,
+                    'Thành phố': (item.class && item.class.base_province) ? item.class.base_province : 'Không có',
                     'Mã thẻ': item.code,
                     'Học phí': item.money,
                     'Saler': item.saler ? item.saler.name : "Không có",
